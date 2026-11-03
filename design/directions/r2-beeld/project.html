@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="en" data-direction="beeld" data-option="kobalt" data-type="a" data-copy-voice="nuchter">
+<html lang="en" data-direction="beeld" data-option="nacht" data-type="a" data-copy-voice="nuchter">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Homelab &amp; home automation · Guus Ekkelenkamp</title>
 <meta name="description" content="A small home server that runs my apps and my home automation.">
-<script>(function(){var h=document.documentElement;function pick(k,o){var v=null;try{v=new URLSearchParams(location.search).get(k)}catch(e){}if(o.indexOf(v)<0){try{v=localStorage.getItem("r2-beeld:"+k)}catch(e){}}return o.indexOf(v)<0?o[0]:v}h.setAttribute("data-option",pick("option",["kobalt","signaal","nacht"]));h.setAttribute("data-type",pick("type",["a","b"]))})();</script>
+<script>(function(){var h=document.documentElement;function pick(k,o){var v=null;try{v=new URLSearchParams(location.search).get(k)}catch(e){}if(o.indexOf(v)<0){try{v=localStorage.getItem("r2-beeld:"+k)}catch(e){}}return o.indexOf(v)<0?o[0]:v}h.setAttribute("data-option",pick("option",["nacht","kobalt","signaal"]));h.setAttribute("data-type",pick("type",["a","b"]))})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Schibsted+Grotesk:ital,wght@0,400..700;1,400..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -14,6 +14,7 @@
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
+<div class="site">
 
 <header class="site-header">
   <div class="page site-header__inner">
@@ -74,7 +75,7 @@
 <span class="k">metadata:</span> { <span class="k">name:</span> <span class="v">rules-of-99</span> }
 <span class="k">spec:</span>
   <span class="k">source:</span>
-    <span class="k">repoURL:</span> <span class="v">https://github.com/guuse/homeserver</span>
+    <span class="k">repoURL:</span> <span class="v">https://github.com/&lt;you&gt;/homeserver.git</span>
     <span class="k">path:</span> <span class="v">apps/rules-of-99</span>
   <span class="k">syncPolicy:</span>
     <span class="c"># fix drift, remove what's gone</span>
@@ -159,6 +160,8 @@
     <a href="#main">Back to top</a>
   </div>
 </footer>
+
+</div>
 
 <script src="../../system/copy.js"></script>
 <script src="review.js"></script>

@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="en" data-direction="beeld" data-option="kobalt" data-type="a" data-copy-voice="nuchter">
+<html lang="en" data-direction="beeld" data-option="nacht" data-type="a" data-copy-voice="nuchter">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Beeld voorop · system</title>
 <meta name="description" content="Style guide for the Beeld voorop direction: colours, type, spacing and components.">
-<script>(function(){var h=document.documentElement;function pick(k,o){var v=null;try{v=new URLSearchParams(location.search).get(k)}catch(e){}if(o.indexOf(v)<0){try{v=localStorage.getItem("r2-beeld:"+k)}catch(e){}}return o.indexOf(v)<0?o[0]:v}h.setAttribute("data-option",pick("option",["kobalt","signaal","nacht"]));h.setAttribute("data-type",pick("type",["a","b"]))})();</script>
+<script>(function(){var h=document.documentElement;function pick(k,o){var v=null;try{v=new URLSearchParams(location.search).get(k)}catch(e){}if(o.indexOf(v)<0){try{v=localStorage.getItem("r2-beeld:"+k)}catch(e){}}return o.indexOf(v)<0?o[0]:v}h.setAttribute("data-option",pick("option",["nacht","kobalt","signaal"]));h.setAttribute("data-type",pick("type",["a","b"]))})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Schibsted+Grotesk:ital,wght@0,400..700;1,400..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -63,6 +63,7 @@
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
+<div class="site">
 
 <header class="site-header">
   <div class="page site-header__inner">
@@ -85,9 +86,9 @@
       <h2 class="h2" id="colour-title">Colour</h2>
       <p class="sg-note">Three options, tokens only. Each project keeps its own tone, re-derived per option, plus a deeper <em>project ink</em> for its caption dot, hover colour and label chip. All ratios below are measured live in the browser from the computed tokens (WCAG 2.x). Targets: body ink &ge; 7, muted &ge; 4.5, accent-as-text &ge; 4.5, subtle labels, lines and focus &ge; 3. Photo labels sit on a paper chip, so they read on any tone.</p>
       <div class="panels">
-        <div class="panel" data-option="kobalt" data-panel><h3>Kobalt</h3><p class="panel__sub">Default. Crisp cool white, near-black ink, an ultramarine accent.</p><p class="panel__em">Things that <em>keep running</em></p></div>
+        <div class="panel" data-option="nacht" data-panel><h3>Nacht</h3><p class="panel__sub">Default (round 4, the chosen option). Deep ink-blue with a sodium-amber accent. The prints pop.</p><p class="panel__em">Things that <em>keep running</em></p></div>
+        <div class="panel" data-option="kobalt" data-panel><h3>Kobalt</h3><p class="panel__sub">Crisp cool white, near-black ink, an ultramarine accent.</p><p class="panel__em">Things that <em>keep running</em></p></div>
         <div class="panel" data-option="signaal" data-panel><h3>Signaal</h3><p class="panel__sub">Warm-grey paper, deep ink, tangerine as a highlight block (never as text). Links and focus in signal navy.</p><p class="panel__em">Things that <em>keep running</em></p></div>
-        <div class="panel" data-option="nacht" data-panel><h3>Nacht</h3><p class="panel__sub">Deep ink-blue with a sodium-amber accent. The prints pop.</p><p class="panel__em">Things that <em>keep running</em></p></div>
       </div>
     </div>
   </section>
@@ -140,6 +141,12 @@
       <p class="sg-label">project feature · image bleeds right, title card overlaps</p>
       <div class="demo-box" id="feature-demo" style="padding: var(--space-m) 0"></div>
 
+      <p class="sg-label">project illustrations · HTML/SVG, per-project tone, labelled "illustration"</p>
+      <div class="demo-box"><div id="illo-demo" style="display: grid; gap: var(--gutter); grid-template-columns: repeat(auto-fill, minmax(240px, 1fr))"></div></div>
+
+      <p class="sg-label">detail view · opens in-page at #&lt;id&gt; · Esc, close, backdrop or back closes · prev/next inside</p>
+      <div class="demo-box" style="padding: 0; max-height: 640px; overflow: hidden"><div class="detail__panel" id="detail-demo" style="position: relative; width: 100%; height: auto; opacity: 1; transform: none; box-shadow: none; border: 0"></div></div>
+
       <p class="sg-label">index + project list item · hover a line or an image: its partner lights up</p>
       <div class="demo-box"><div class="demo-projects"><nav class="index" aria-label="Example index"><div class="index__head"><span class="eyebrow">More projects</span><span class="meta">05 total</span></div><ol id="index-demo"></ol></nav><ul class="project-grid" id="items-demo"></ul></div></div>
 
@@ -190,7 +197,10 @@
   <div class="page site-footer__inner"><p class="meta">Beeld voorop &middot; r2-beeld &middot; round 3</p><a href="index.html">Homepage</a></div>
 </footer>
 
+</div>
+
 <script src="projects.js"></script>
+<script src="site.js"></script>
 <script>
 (function () {
   "use strict";
@@ -202,6 +212,10 @@
   demo.innerHTML = demote(r.grid).replace(/id="p-[^"]+"/g, "");
   while (demo.children.length > 2) demo.removeChild(demo.lastElementChild);
   demo.children[1].classList.add("is-hot");
+  document.getElementById("illo-demo").innerHTML = P.PROJECTS.map(function (p) { return '<div style="--p: var(--tone-' + p.id + '); --p-ink: var(--pink-' + p.id + ')">' + P.visualHTML(p) + '<p class="meta" style="margin-top: 6px">' + p.id + "</p></div>"; }).join("");
+  var dd = document.getElementById("detail-demo");
+  dd.innerHTML = P.detailHTML(P.byId("finds")).replace('id="detail-title"', "").replace(/<h2/, "<p").replace(/<\/h2>/, "</p>");
+  dd.setAttribute("style", dd.getAttribute("style") + "; --p: var(--tone-finds); --p-ink: var(--pink-finds)");
   var idx = document.getElementById("index-demo");
   idx.innerHTML = r.index;
   idx.querySelector('[data-project="finds"]').classList.add("is-hot");
