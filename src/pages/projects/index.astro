@@ -1,5 +1,4 @@
 ---
-// The layout first: its global.css declares the cascade layer order before any component CSS.
 import CaseStudy from "~/layouts/CaseStudy.astro";
 import AlsoList from "~/components/projects/AlsoList.astro";
 import ProjectCard from "~/components/projects/ProjectCard.astro";
@@ -11,6 +10,7 @@ const projects = await list("projects");
 
 <CaseStudy
   title="Projects · Guus Ekkelenkamp"
+  og="projects"
   description="Projects by Guus Ekkelenkamp: a Kubernetes hosting platform, a homelab and a suite of Magic: The Gathering tools."
 >
   <header class="plist-head">

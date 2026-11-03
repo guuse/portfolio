@@ -8,6 +8,7 @@ test-results/
 .lighthouseci/
 src/styles/tokens.css
 src/styles/tokens.ts
+src/styles/tokens-preview.css
 src/assets/
 public/
 .claude/

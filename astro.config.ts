@@ -1,5 +1,6 @@
 import { defineConfig, fontProviders } from "astro/config";
 import sitemap from "@astrojs/sitemap";
+import { layerOrder } from "./integrations/layer-order";
 
 /**
  * Static site. Every page is pre-rendered; the only client code is a handful of small,
@@ -10,7 +11,9 @@ export default defineConfig({
   site: "https://ekkelenkamp.dev",
   output: "static",
   trailingSlash: "always",
-  build: { format: "directory", inlineStylesheets: "auto" },
+  // Stylesheets stay files (cached, and no inline style hashes in the CSP); see layer-order.
+  build: { format: "directory", inlineStylesheets: "never" },
+  vite: { plugins: [layerOrder()] },
   compressHTML: true,
   // Shiki writes inline styles, which the CSP would block; the site has no highlighted code.
   markdown: { syntaxHighlight: false },

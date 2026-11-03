@@ -1,5 +1,4 @@
 ---
-// The layout first: its global.css declares the cascade layer order before any component CSS.
 import CaseStudy from "~/layouts/CaseStudy.astro";
 import CaseHero from "~/components/case/CaseHero.astro";
 import CaseLead from "~/components/case/CaseLead.astro";
@@ -21,6 +20,7 @@ const icons = ["si-argo", "si-tailscale", "si-cloudflare", "si-traefikproxy", "s
 
 <CaseStudy
   title="Homelab · Guus Ekkelenkamp"
+  og="homelab"
   description="Case study: a single-node k3s platform with Argo CD and Home Assistant, with no open ports."
   icons={icons}
 >
