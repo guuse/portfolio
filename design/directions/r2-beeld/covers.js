@@ -140,6 +140,7 @@ async function render(dir) {
     const [w, h] = shape === "wide" ? [1600, 1000] : [800, 1000];
     for (const [id, fn] of [["platform", (sh) => art("platform", sh, dir)], ["homelab", (sh) => art("homelab", sh, dir)], ["mtg", mtg]]) jobs.push({ id, shape, w, h, html: fn(shape, shots) });
   }
+  jobs.push({ id: "mtg-hero", shape: "wide", w: 1600, h: 1000, html: art("mtg-hero", "wide", dir) });
   const ctx = await browser.newContext({ deviceScaleFactor: 2 });
   for (const j of jobs) {
     const p = await ctx.newPage();

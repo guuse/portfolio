@@ -592,6 +592,10 @@ function cardLoop() {
 }
 function cover(id, shape) {
   // Static stills for the projects page and the case-study heroes (rendered by covers.js).
+  if (id === "mtg-hero") {
+    const inner = require("./art-mtg.js").scenes.table().replace(/^<svg[^>]*>/, "").replace(/<\/svg>$/, "").replace(/<g class="pk-still">/, '<g class="pk-still" style="display:none">');
+    return svg(id, "0 0 1600 1000", "", '<rect class="k-cardbg" width="1600" height="1000"/>' + g({ transform: "translate(690 70) scale(1.42)" }, inner), { decorative: true, cls: "scene-svg--cover" });
+  }
   if (shape === "wide") {
     const art = id === "platform" ? g({ transform: "translate(730 30) scale(1.42)" }, scene2({ inner: true, nolabels: true })) :
       g({ transform: "translate(720 120) scale(1.45)" }, homelabScene({ inner: true, nolabels: true, nogate: true }));
@@ -623,4 +627,5 @@ function sketch() {
   return svg("sketch", "0 0 1200 330", "sketch", b);
 }
 
-module.exports = { scene: (id) => ({ standard: scene1, scale: scene2, regions: scene3, ipv6: scene4, learned: scene5, loop: homelabScene })[id](), card, cover, sketch, packetAt, pointAt, S1, S2, S3, S4, S5, H, CL };
+const kit = { n, tag, g, rect, path, circle, text, esc, shadow, slab, unitFace, server, nodeBody, podSlot, pod, rack, appWin, laptop, database, tower, appliance, gate, phone, miniLaptop, packet, packetAt, pointAt, commit, svg, shelf, crate, chip };
+module.exports = { kit, scene: (id) => (({ standard: scene1, scale: scene2, regions: scene3, ipv6: scene4, learned: scene5, loop: homelabScene })[id] || require("./art-mtg.js").scenes[id])(), card, cover, sketch, packetAt, pointAt, S1, S2, S3, S4, S5, H, CL };

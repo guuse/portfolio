@@ -48,7 +48,7 @@ const SHOT = {
   "tutor-insights": ["Tutor listing staple cards the deck is missing", "Staples the deck is missing."],
   "tutor-mobile": ["Tutor on a phone", "On a phone.", true],
   "tutor-mobile-deck": ["A Tutor deck on a phone", "A deck on a phone.", true],
-  "scryfall-home": ["Scryfall in plain words: a search box with a plain-language request and suggestion chips", "Describe the cards; Claude writes and checks the Scryfall search."],
+  "scryfall-home": ["Scryfall in plain words: a search box with a plain-language request and suggestion chips", "Describe the cards in normal words; the query is written and checked for you."],
   "scryfall-home-mobile": ["Scryfall in plain words on a phone", "On a phone.", true],
   "scryfall-result": ["Scryfall in plain words: a request turned into a query, with a breakdown of each part", "A request in plain words, the query it became, and what each part means."],
   "scryfall-mobile": ["Scryfall in plain words on a phone", "On a phone.", true],
@@ -101,6 +101,7 @@ function grid(slot) {
     s = s.replace(/<!-- stack:mtg -->[\s\S]*?<!-- \/stack -->/g, () => "<!-- stack:mtg -->" + S.mtgStack((id) => img(id, true)) + "<!-- /stack -->");
     s = s.replace(/<!-- shots:([a-z0-9]+) -->[\s\S]*?<!-- \/shots -->/g, (m, slot) => "<!-- shots:" + slot + " -->" + grid(slot) + "<!-- /shots -->");
     s = s.replace(/<!-- shot:hero -->[\s\S]*?<!-- \/shot -->/g, () => { const id = pick("hero")[0]; return "<!-- shot:hero -->" + (id ? '<figure class="hero-shot">' + img(id, false) + "</figure>" : "") + "<!-- /shot -->"; });
+    s = s.replace(/<!-- shotfig:([a-z0-9-]+) -->[\s\S]*?<!-- \/shotfig -->/g, (m, id) => "<!-- shotfig:" + id + " -->" + '<figure class="step-shot' + (SHOT[id][2] ? " is-phone" : "") + '"><button type="button" data-lb aria-label="Enlarge: ' + esc(SHOT[id][1]) + '">' + img(id, true) + "</button><figcaption>" + SHOT[id][1] + "</figcaption></figure><!-- /shotfig -->");
     s = s.replace(/<!-- scene:([a-z0-9]+) -->[\s\S]*?<!-- \/scene -->/g, (m, id) => "<!-- scene:" + id + " -->" + ART.scene(id) + "<!-- /scene -->");
     s = s.replace(/<!-- dg:([a-z]+) -->[\s\S]*?<!-- \/dg -->/g, (m, id) => "<!-- dg:" + id + " -->" + D.html(id) + "<!-- /dg -->");
     write(f, s);
