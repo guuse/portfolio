@@ -96,13 +96,9 @@
       steps.forEach(function (st) {
         var mini = st.querySelector(".scrolly__mini");
         if (!mini) return;
-        var c = fig.cloneNode(true);
+        var compact = sc.querySelector(".scrolly__compact .story");
+        var c = (compact || fig).cloneNode(true);
         c.removeAttribute("role"); c.setAttribute("aria-hidden", "true");
-        var vb = st.getAttribute("data-vb");
-        if (vb && c.tagName.toLowerCase() === "svg") {
-          c.setAttribute("viewBox", vb);
-          c.style.width = Math.max(340, Math.round(+vb.split(" ")[2] * 0.78)) + "px";
-        }
         mini.appendChild(c);
         setState(c, +st.getAttribute("data-state"));
         c.classList.remove("is-live");

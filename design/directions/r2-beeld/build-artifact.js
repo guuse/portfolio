@@ -96,7 +96,7 @@ function grid(slot) {
     let s = read(f);
     const S = require(path.join(dir, "stories.js"));
     s = s.replace(/<!-- sprite -->[\s\S]*?<!-- \/sprite -->/g, () => "<!-- sprite -->" + S.sprite(dir) + "<!-- /sprite -->");
-    s = s.replace(/<!-- story:([a-z]+) -->[\s\S]*?<!-- \/story -->/g, (m, id) => "<!-- story:" + id + " -->" + S[id + "SVG"]() + "<!-- /story -->");
+    s = s.replace(/<!-- story:([a-zA-Z]+) -->[\s\S]*?<!-- \/story -->/g, (m, id) => "<!-- story:" + id + " -->" + S[id + "SVG"]() + "<!-- /story -->");
     s = s.replace(/<!-- stack:mtg -->[\s\S]*?<!-- \/stack -->/g, () => "<!-- stack:mtg -->" + S.mtgStack((id) => img(id, true)) + "<!-- /stack -->");
     s = s.replace(/<!-- shots:([a-z0-9]+) -->[\s\S]*?<!-- \/shots -->/g, (m, slot) => "<!-- shots:" + slot + " -->" + grid(slot) + "<!-- /shots -->");
     s = s.replace(/<!-- shot:hero -->[\s\S]*?<!-- \/shot -->/g, () => { const id = pick("hero")[0]; return "<!-- shot:hero -->" + (id ? '<figure class="hero-shot">' + img(id, false) + "</figure>" : "") + "<!-- /shot -->"; });
