@@ -1333,3 +1333,80 @@
   .pointer { display: block; padding-inline-start: 1.6em; position: relative; max-width: 60ch; }
   .pointer__dot { position: absolute; inset-inline-start: 0; inset-block-start: 0.55em; transform: none; }
 }
+
+/* ============================================================ round 7 */
+@layer components {
+  /* 2. Feature visuals stay inside the page, border on every side */
+  .pf__media .dg, .pf__media .shotstack, .pf__media .dgtabs { margin-inline: 0 !important; }
+  .pf--right .pf__media, .pf--left .pf__media { margin-inline: 0 !important; }
+  .pf__media .dg { border-radius: 18px !important; border: 1px solid oklch(34% 0.05 266) !important; }
+
+  /* 3. Diagram tabs */
+  .dgtabs { display: grid; gap: 12px; }
+  .dgtabs__list { display: flex; flex-wrap: wrap; gap: 6px; }
+  .dgtabs__tab { all: unset; position: relative; overflow: hidden; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 14px;
+                 border-radius: 999px; border: 1px solid var(--line-strong); font-family: var(--font-mono); font-size: var(--step-meta); color: var(--ink-muted);
+                 transition: color var(--dur-quick) var(--ease-out), border-color var(--dur-quick) var(--ease-out), background-color var(--dur-quick) var(--ease-out); }
+  .dgtabs__n { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; border: 1px solid currentColor; font-size: 11px; }
+  .dgtabs__tab:hover { color: var(--ink); border-color: var(--p, var(--accent)); }
+  .dgtabs__tab[aria-selected="true"] { color: var(--ink); border-color: var(--p, var(--accent)); background: color-mix(in oklch, var(--p, var(--accent)) 14%, transparent); }
+  .dgtabs__tab[aria-selected="true"] .dgtabs__n { background: var(--p, var(--accent)); border-color: var(--p, var(--accent)); color: var(--surface); }
+  .dgtabs__tab:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .dgtabs__bar { position: absolute; inset-inline: 0; inset-block-end: 0; height: 2px; background: var(--p, var(--accent)); transform: scaleX(0); transform-origin: left; }
+  .dgtabs__tab.is-timing .dgtabs__bar { animation: dgtab var(--dur, 12s) linear forwards; }
+  .dgtabs.is-paused .dgtabs__bar { animation-play-state: paused; }
+  @keyframes dgtab { to { transform: scaleX(1); } }
+  .dgtabs__panel[hidden] { display: none; }
+  .dgtabs__panel .dg { animation: dgin 420ms var(--ease-out); }
+  @keyframes dgin { from { opacity: 0; transform: translateY(6px); } }
+
+  /* 1. a version label that just changed flashes once */
+  .dg-v.is-new { animation: dgflash 900ms var(--ease-out) 1; }
+  @keyframes dgflash { 0% { fill: oklch(98% 0.05 82); } 30% { fill: oklch(92% 0.17 82); } 100% { fill: oklch(84% 0.15 82); } }
+
+  /* 4. MTG collage: Grimoire overlaps only the deck strip, tilted, lifts on hover */
+  .shotstack { aspect-ratio: 16 / 11; padding: 0; }
+  .shotstack__back { position: absolute; inset: 0 8% 14% 0; }
+  .shotstack__front, .pf--left .shotstack__front { position: absolute; width: 38%; aspect-ratio: 1 / 0.72; inset: auto 0 0 auto; transform: rotate(3deg);
+    transition: transform var(--dur-slow) var(--ease-spring), box-shadow var(--dur-base); }
+  .shotstack__front img { box-shadow: 0 0 0 5px var(--paper), 0 24px 50px oklch(5% 0.03 266 / 0.6); border-radius: 6px; }
+  .shotstack:hover .shotstack__front, .pf:hover .shotstack__front { transform: rotate(0deg) translateY(-10px) scale(1.03); }
+
+  /* 5. photo chips in the interest cards */
+  .otc__title { display: flex; align-items: center; gap: 12px; }
+  .otc__photo { width: 52px; height: 52px; flex: none; border-radius: 14px; object-fit: cover; object-position: center 30%; border: 2px solid var(--paper); transform: rotate(-3deg); box-shadow: var(--shadow-2);
+                transition: transform var(--dur-base) var(--ease-spring); }
+  .otc__item:hover .otc__photo, .otc__item:focus-within .otc__photo, .otc__item:focus-visible .otc__photo { transform: rotate(0deg) scale(1.08); }
+  @media (max-width: 599px) { .otc__photo { width: 64px; height: 64px; } }
+
+  /* 6. counters: tabular figures */
+  .numbers__list dd, .pf__nums dd, .case__nums dd { font-variant-numeric: lining-nums tabular-nums; }
+
+  /* 7. equal skill cards, chips at the bottom */
+  .skills { align-items: stretch; }
+  .skill .chips { margin-block-start: auto; }
+
+  /* 8. Detail: sticky table of contents in the bar; text left, diagram right */
+  .detail__bar { flex-wrap: wrap; }
+  .toc { flex: 1 1 100%; order: 3; overflow-x: auto; scrollbar-width: none; margin-inline: -4px; }
+  .toc ol { list-style: none; display: flex; gap: 4px; padding: 2px 4px 0; margin: 0; }
+  .toc a { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; padding: 6px 10px; border-radius: 999px; text-decoration: none; font-family: var(--font-mono); font-size: var(--step-meta); color: var(--ink-muted); }
+  .toc a span { display: inline-grid; place-items: center; min-width: 20px; height: 20px; border-radius: 999px; border: 1px solid var(--line-strong); font-size: 11px; }
+  .toc a:hover { color: var(--ink); background: var(--surface-raised); }
+  .toc a[aria-current] { color: var(--ink); background: color-mix(in oklch, var(--p, var(--accent)) 16%, transparent); }
+  .toc a[aria-current] span { border-color: var(--p, var(--accent)); color: var(--p-ink, var(--accent-text)); }
+  .cs__title { scroll-margin-block-start: 140px; }
+  .cs__title:focus { outline: none; }
+  @media (min-width: 1100px) {
+    .cs--dg { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); column-gap: var(--space-xl); align-items: start; }
+    .cs--dg .cs__list { grid-template-columns: 1fr !important; }
+    .cs--dg .cs__visual { position: sticky; top: 132px; }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dgtabs__bar, .dgtabs__panel .dg, .dg-v.is-new { animation: none !important; }
+  .shotstack__front, .otc__photo { transition: none; }
+}
+@layer components {
+  @media (min-width: 1100px) { .cs--dg .dg__svg--compact { max-height: calc(100svh - 240px); width: auto; max-width: 100%; margin-inline: auto; } }
+}

@@ -132,8 +132,9 @@
     seq: [
       ["lit", "commit"], ["go", "c2ci", 900], ["lit", "ci"], ["text", "ci", "builds v2.4.0-rc.1"], ["wait", 600], ["text", "ci", "pushed v2.4.0-rc.1"],
       ["go", "ci2iu", 700], ["lit", "iu"], ["text", "iu", "new tag found"], ["go", "iu2git", 900], ["lit", "tagged"], ["text", "iu", "wrote tag to git"],
-      ["go", "git2argo", 600], ["lit", "argo"], ["text", "argo", "syncing"], ["go", "argo2acc", 900], ["roll", "acc", "v2.4.0-rc.1"], ["lit", "acc"], ["text", "argo", "acceptance ok"],
-      ["wait", 900], ["text", "ci", "pushed v2.4.0"], ["text", "argo", "stable release"], ["go", "argo2prod", 800], ["roll", "prod", "v2.4.0"], ["lit", "prod"], ["text", "argo", "in sync"], ["wait", 2600]
+      ["go", "git2argo", 600], ["lit", "argo"], ["text", "argo", "syncing"], ["go", "argo2acc", 900], ["roll", "acc", "v2.4.0-rc.1"], ["lit", "acc"], ["text", "argo", "rc.1 in acceptance"],
+      ["wait", 2200], ["text", "ci", "release v2.4.0 cut"], ["wait", 700], ["text", "ci", "pushed v2.4.0"], ["text", "iu", "stable tag found"], ["text", "argo", "promoting v2.4.0"],
+      ["go", "argo2prod", 900], ["roll", "prod", "v2.4.0"], ["lit", "prod"], ["text", "argo", "in sync"], ["wait", 2800]
     ]
   };
 
@@ -444,7 +445,7 @@
     return svgs[0];
   };
   Player.prototype.reset = function (s) {
-    Array.prototype.forEach.call(s.querySelectorAll(".is-lit, .is-done, .is-on, .is-bad, .is-ok, .is-run"), function (el) { el.classList.remove("is-lit", "is-done", "is-on", "is-bad", "is-ok", "is-run"); });
+    Array.prototype.forEach.call(s.querySelectorAll(".is-lit, .is-done, .is-on, .is-bad, .is-ok, .is-run, .is-new"), function (el) { el.classList.remove("is-lit", "is-done", "is-on", "is-bad", "is-ok", "is-run", "is-new"); });
     Array.prototype.forEach.call(s.querySelectorAll("[data-s]"), function (t) { if (t.__orig === undefined) t.__orig = t.textContent; t.textContent = t.__orig; });
     Array.prototype.forEach.call(s.querySelectorAll("[data-sts]"), function (t) { t.textContent = "waiting"; });
     var pr = s.querySelector("[data-pr]");
@@ -474,7 +475,7 @@
         var i = 0;
         (function next() {
           if (self.run !== run) return res();
-          if (i >= ps.length) { if (v) v.textContent = st[2]; return res(); }
+          if (i >= ps.length) { if (v) { v.textContent = st[2]; v.classList.remove("is-new"); void v.getBBox(); v.classList.add("is-new"); } return res(); }
           ps[i].classList.add("is-run"); var p = ps[i];
           setTimeout(function () { p.classList.remove("is-run"); p.classList.add("is-on"); i++; next(); }, 260);
         })();
@@ -530,7 +531,8 @@
     (function next() {
       if (self.run !== run) return;
       if (i >= d.seq.length) {
-        if (once || !self.visible) { self.idle = true; return; }
+        try { self.fig.dispatchEvent(new CustomEvent("dgdone", { bubbles: true })); } catch (e) {}
+        if (once || !self.visible || self.fig.hasAttribute("data-noloop")) { self.idle = true; return; }
         setTimeout(function () { if (self.run === run && self.visible) self.play(); }, 400);
         return;
       }
@@ -559,7 +561,14 @@
     return io;
   }
 
-  var api = { html: html, mount: mount, ids: Object.keys(D), D: D };
+  // Rough running time of one play, used for the tab progress bar.
+  function est(id) {
+    return D[id].seq.reduce(function (t, st) {
+      var k = st[0];
+      return t + (k === "wait" ? st[1] : k === "go" ? (st[2] || 800) : k === "roll" ? 1500 : k === "pr" ? 520 : k === "mem" ? 500 : 160);
+    }, 0);
+  }
+  var api = { html: html, mount: mount, est: est, ids: Object.keys(D), D: D };
   if (typeof module !== "undefined" && module.exports) { module.exports = api; return; }
   root.BeeldDiagrams = api;
 })(this);

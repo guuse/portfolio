@@ -297,3 +297,25 @@ Source: `design/CONTENT-v6.md`, including its addendum.
 
 Previews: `design/previews/r6-beeld--*.png` (desktop, full, mobile, mobile-full, anim-*,
 detail-*-N, mobile-detail-*, lightbox, reduced-motion, lift, system).
+
+## Round 7 (polish pass)
+1. **Delivery story:** rc.1 lands in acceptance and is held there while production stays on
+   v2.3.0. Then v2.4.0 is cut and promoted to production. Version labels flash when they change.
+   Verified with frame captures: rc.1/v2.3.0 → rc.1/v2.4.0.
+2. **Feature visuals stay inside the page** with all four borders. No more viewport bleed.
+3. **Diagram tabs:** platform (delivery, infra pipeline, logging, regions) and homelab (git push
+   → running, ways in, inside the box). They advance when a diagram finishes, after at least 6 s,
+   with a progress bar. They pause on hover or focus and use ARIA tabs with arrow, Home and End
+   keys. They stay static under reduced motion.
+4. **MTG collage:** Grimoire sits bottom-right over the deck strip, with a paper border and a
+   tilt, and lifts on hover.
+5. **Interest cards:** photo chips on Bouldering and Travel replace the "photo up top" hints.
+6. **Numbers** count up once in view (strip, features, case studies), in tabular figures; the
+   final value is server-rendered.
+7. **Experience:** each card has one line, 2 bullets and chips at the bottom; card 07 got chips.
+8. **Detail views:** a sticky table of contents sits in the panel bar (a–g + timeline, tracks
+   scroll, jumps in-panel without touching the URL hash). On ≥1100px each section has its text
+   on the left and a sticky diagram on the right.
+9. The footer status line has `title="Illustrative for now: filled in at build time"`.
+10. Re-checked with the hostile reset at 1440, 390 and 320px: no errors, no horizontal scroll,
+    no label overflow. Previews: `design/previews/r7-beeld--*.png`.
