@@ -1,5 +1,17 @@
 # Design brief: ekkelenkamp.dev
 
+> **Round 2 (current).** Round 1 explored five concept-driven directions (datasheet, floor
+> plan, poster, zine, wall panel). They're archived in `archive/round-1/`. Feedback: *"I don't
+> really feel any of them. It doesn't need to be that tech-savvy or cringy. Just a normal
+> website and portfolio."*
+>
+> Round 2 explores three **normal, well-made portfolio** directions, one per mood Guus picked:
+> **Licht & rustig**, **Donker & strak**, **Beeld voorop**. There's no metaphor and no in-jokes.
+> Quality comes from typography, spacing, images and restraint. The featured project
+> **rotates on every page load**; the other projects are listed below it.
+> Sections 3 (the "not AI built" test), 5 and 7 below still apply. Where the rest conflicts
+> with this note, this note wins.
+
 > Phase 1: design directions and design system. Nothing is built for production yet. This
 > document is the contract every direction in `design/directions/` is judged against.
 
