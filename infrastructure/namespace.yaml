@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: portfolio
+  labels:
+    # The pod is built to pass the strictest Pod Security level; say so and
+    # let the API server hold us to it.
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/enforce-version: latest

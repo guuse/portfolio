@@ -1,0 +1,36 @@
+# Traefik routes both hostnames to the same pods; nginx answers www with a 301
+# to the apex. No secretName: the cluster's default TLSStore serves a wildcard
+# certificate that covers ekkelenkamp.dev and *.ekkelenkamp.dev.
+#
+# Public traffic arrives through a Cloudflare Tunnel that forwards each
+# hostname to Traefik inside the cluster (README, "Out-of-band setup"), so this
+# Ingress is the single routing rule for every path in.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: portfolio
+  labels:
+    app.kubernetes.io/name: portfolio
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts: [ekkelenkamp.dev, www.ekkelenkamp.dev]
+  rules:
+    - host: ekkelenkamp.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: portfolio
+                port: { name: http }
+    - host: www.ekkelenkamp.dev
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: portfolio
+                port: { name: http }

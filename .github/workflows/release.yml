@@ -1,0 +1,102 @@
+# Build the site image on every push to main and push it to GHCR, tagged with
+# the full commit SHA. Argo CD Image Updater on the homelab follows the newest
+# SHA tag and commits the pin into infrastructure/kustomization.yaml, which
+# Argo CD then syncs. Nothing here touches the cluster.
+name: release
+
+on:
+  push:
+    branches: [main]
+    # Loop breaker, not an optimisation: Image Updater writes its tag pin back
+    # into infrastructure/ on main. If that commit built a new image, the
+    # updater would see a new tag and write again, forever. Manifests, the
+    # design archive and docs never change what is in the image.
+    paths-ignore:
+      - "infrastructure/**"
+      - "design/**"
+      - "**/*.md"
+  workflow_dispatch:
+
+permissions: {}
+
+concurrency:
+  # One release at a time, in order: a newer push queues behind a running one
+  # instead of cancelling it halfway through a push to the registry.
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  IMAGE: ghcr.io/${{ github.repository }}
+
+jobs:
+  image:
+    name: Build and push image
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read # checkout
+      packages: write # push to ghcr.io
+    steps:
+      - name: Check out
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Buildx
+        uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+
+      - name: Log in to GHCR
+        uses: docker/login-action@dbcb813823bdd20940b903addbd779551569679f # v4.6.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Image metadata
+        id: meta
+        uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302 # v6.2.0
+        with:
+          images: ${{ env.IMAGE }}
+          # Immutable full-SHA tags only; no :latest for anything to drift onto.
+          tags: |
+            type=sha,format=long,prefix=
+          labels: |
+            org.opencontainers.image.title=ekkelenkamp.dev
+            org.opencontainers.image.description=Guus Ekkelenkamp's portfolio: a static Astro site on an unprivileged nginx
+            org.opencontainers.image.url=https://ekkelenkamp.dev
+            org.opencontainers.image.licenses=MIT
+          annotations: |
+            org.opencontainers.image.title=ekkelenkamp.dev
+            org.opencontainers.image.description=Guus Ekkelenkamp's portfolio: a static Astro site on an unprivileged nginx
+            org.opencontainers.image.licenses=MIT
+
+      - name: Build and push
+        id: build
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: .
+          platforms: linux/amd64 # the cluster node is amd64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          annotations: ${{ steps.meta.outputs.annotations }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          provenance: mode=max
+          sbom: true
+
+      - name: Summary
+        env:
+          DIGEST: ${{ steps.build.outputs.digest }}
+          TAGS: ${{ steps.meta.outputs.tags }}
+        run: |
+          {
+            echo "### Image pushed"
+            echo
+            echo "| | |"
+            echo "|---|---|"
+            echo "| Tag | \`${TAGS}\` |"
+            echo "| Digest | \`${DIGEST}\` |"
+            echo
+            echo "Argo CD Image Updater picks this up and pins it in \`infrastructure/kustomization.yaml\`."
+          } >> "$GITHUB_STEP_SUMMARY"

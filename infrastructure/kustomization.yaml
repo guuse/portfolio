@@ -1,0 +1,21 @@
+# Argo CD syncs this directory from main (Application: homeserver/portfolio.yaml).
+#
+# The images: pin below is OWNED BY Argo CD Image Updater: it follows the newest
+# commit-SHA tag on GHCR and commits the bump here. Don't edit the tag by hand;
+# ship code by merging to main. The release workflow ignores infrastructure/**,
+# so that write-back commit never triggers another build.
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: portfolio
+resources:
+  - namespace.yaml
+  - deployment.yaml
+  - service.yaml
+  - pdb.yaml
+  - ingress.yaml
+  - networkpolicy.yaml
+images:
+  - name: ghcr.io/guuse/portfolio
+    newName: ghcr.io/guuse/portfolio
+    # Placeholder until the first release; Image Updater replaces it within minutes.
+    newTag: "0000000000000000000000000000000000000000"
