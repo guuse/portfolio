@@ -1,0 +1,16 @@
+# Smaller things on the projects page. `lang` marks a title that isn't English.
+- id: uren-assistent
+  order: 1
+  title: Uren-assistent
+  lang: nl
+  line: A desktop app that reads my calendar, browser and GitHub activity and turns the day into hours I can book in our time-tracking system with one click.
+  href: https://github.com/guuse/uren-assistent
+- id: ux-testing
+  order: 2
+  title: ux-testing skill
+  line: A Claude Code skill that clicks through every flow of a web app in a real browser, tries to break it, then fixes what it finds and tests it again.
+  href: https://github.com/guuse/claude-marketplace
+- id: scouting
+  order: 3
+  title: Scouting agents
+  line: Claude routines that watch Marktplaats, Vinted and Funda for things I’m after and mail me what’s worth a look.

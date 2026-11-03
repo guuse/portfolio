@@ -1,0 +1,41 @@
+# The three case studies, in the order they're shown. `card` is the homepage card line,
+# `line` the one on the projects page (the copy differs on purpose).
+- id: hosting-platform
+  order: 1
+  title: Hosting platform
+  meta: Work · 2022 to now
+  card: The AWS platform every client project runs on, with the same setup, adapted, on Azure.
+  line: The AWS platform our client projects run on, with the same setup, adapted, on Azure where a client lives there.
+  why: Every client project used to get its own hand-built setup, so every upgrade and every incident was a one-off. I started one standard platform that every client runs on, built from the same modules, on AWS or Azure. It’s the multi-year project I’ve learned the most from.
+  facts:
+    - EKS on a dual-stack VPC across three availability zones
+    - A second region in Tokyo, with CloudFront routing by path
+    - 8 Kubernetes clusters, the largest above 1,500 pods
+    - "Delivered as code: Pulumi for infrastructure, Argo CD for apps"
+  stack: AWS (EKS, Aurora, Redis, OpenSearch, CloudFront), Azure (AKS), Karpenter, cert-manager, Velero, Pulumi, Terraform, Argo CD
+- id: homelab
+  order: 2
+  title: Homelab
+  meta: Personal · 2026
+  card: The patterns I use at work, on one old laptop under the TV.
+  line: The patterns I use at work, on one old laptop at home.
+  why: "I like tinkering, and I wanted somewhere to try things before I suggest them at work. So an old laptop runs the same git-driven delivery we use for clients: I push, and a few minutes later the new version is running. It also hosts my side projects, including the MTG tools."
+  facts:
+    - From git push to running with no manual step, through Argo CD Image Updater
+    - 15 apps, all managed from one repo
+    - Private over Tailscale by default; public only per app, on purpose
+    - Proxmox on 16 GB, with Home Assistant in its own VM
+  stack: Proxmox, k3s, Argo CD, GitHub Actions, GHCR, Traefik, cert-manager, Tailscale, Cloudflare, Home Assistant
+- id: mtg-suite
+  order: 3
+  title: MTG suite
+  meta: Personal · 2026
+  card: Magic tools I build for my friends, and then play with them.
+  line: The Magic tools I build for my friends, to learn the game together and play it from home.
+  why: My friends and I play Commander, and we wanted an easier way to learn it and to play on the evenings we can’t meet up. So I built us a table in the browser, with a place for our decks next to it. The people using it are people I know, which keeps the feedback quick and honest, and that’s the part I enjoy most.
+  facts:
+    - "Rules of 99: Commander in the browser for up to four players"
+    - "Tutor: our deck library, with shared playgroup collections"
+    - Decks go from Tutor straight to a seat in Rules of 99
+    - "Scryfall, in plain words: card search without the syntax"
+  stack: Java, React, TypeScript, Node, SQLite, MCP, the Claude Agent SDK

@@ -1,0 +1,13 @@
+# What I've learned: three principles.
+- id: teaching
+  order: 1
+  title: Teaching beats fixing
+  text: If I fix something myself, it’s fixed once. If I teach someone how, through a review, mentoring or a knowledge session, the team handles it next time without me.
+- id: standardise
+  order: 2
+  title: Standardise first
+  text: One platform for every client means one way to deploy, upgrade and debug. A custom setup per project turns every upgrade and every incident into a one-off.
+- id: as-code
+  order: 3
+  title: Everything as code
+  text: Jenkins, the infrastructure and the deployments all live in git, so every change is reviewable, repeatable and easy to trace.

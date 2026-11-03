@@ -28,6 +28,9 @@ export default tseslint.config(
     rules: {
       "@typescript-eslint/consistent-type-imports": "error",
       "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+      // noUncheckedIndexedAccess is on; the drawings index fixed-shape layout tables, where `!`
+      // says "this index exists" more honestly than a fallback value would.
+      "@typescript-eslint/no-non-null-assertion": "off",
       eqeqeq: ["error", "smart"],
       // `role="list"` restores list semantics that Safari drops when list-style is none.
       "astro/jsx-a11y/no-redundant-roles": ["error", { ul: ["list"], ol: ["list"] }],

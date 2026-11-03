@@ -1,0 +1,362 @@
+---
+import { Picture } from "astro:assets";
+import CopyButton from "~/components/ui/CopyButton.astro";
+import TextLink from "~/components/ui/TextLink.astro";
+import { site } from "~/lib/site";
+import bouldering from "~/assets/photos/bouldering.webp";
+import portrait from "~/assets/photos/portrait.webp";
+import sunset from "~/assets/photos/sunset.webp";
+
+/** Real numbers only; they're repeated in the experience and project copy. */
+const stats = [
+  ["10+", "years"],
+  ["8", "clusters"],
+  ["1,500+", "pods"],
+  ["CKA", "certified"],
+] as const;
+---
+
+<section class="stage" aria-labelledby="hero-title">
+  <div class="stage__bg" data-print="bouldering">
+    <Picture
+      src={bouldering}
+      alt=""
+      formats={["avif", "webp"]}
+      widths={[600, 900]}
+      sizes="100vw"
+      loading="eager"
+      fetchpriority="high"
+    />
+  </div>
+  <div class="wrap stage__inner">
+    <div class="stage__text">
+      <p class="stage__kicker">
+        {site.name} · {site.city}
+      </p>
+      <h1 class="stage__title" id="hero-title">
+        I like building things that keep running.
+      </h1>
+      <p class="stage__role">Tech lead infrastructure &amp; platform engineering at Harborn</p>
+      <p class="stage__intro">
+        I’m Guus. I lead the infrastructure team at Harborn, a digital agency in Rotterdam, where I build and
+        run the platform our client projects live on: Kubernetes, GitOps and infrastructure as code on AWS and
+        Azure. Ten years in, and I still write code most days.
+      </p>
+      <dl class="stats">
+        {stats.map(([value, label]) => (
+          <div>
+            <dt>{label}</dt>
+            <dd>{value}</dd>
+          </div>
+        ))}
+      </dl>
+      <div class="actions">
+        <TextLink variant="outline" href="/projects/">
+          See projects <span aria-hidden="true">&rarr;</span>
+        </TextLink>
+        <span class="actions__mail">
+          <span class="email" id="mail-top">
+            {site.email}
+          </span>
+          <CopyButton target="mail-top" label="Copy email" />
+        </span>
+        <TextLink variant="underline" href={site.linkedin} external>
+          LinkedIn
+        </TextLink>
+        <TextLink variant="underline" href={site.github} external>
+          GitHub
+        </TextLink>
+      </div>
+    </div>
+    <div class="stage__prints">
+      <figure class="print print--portrait" data-print="me">
+        <Picture
+          src={portrait}
+          alt="Guus Ekkelenkamp"
+          formats={["avif", "webp"]}
+          widths={[340, 680]}
+          sizes="(width < 1000px) 220px, 340px"
+          loading="eager"
+        />
+      </figure>
+      <figure class="print print--a" data-print="travel">
+        <Picture
+          src={sunset}
+          alt="Guus at a railing at sunset over the water"
+          formats={["avif", "webp"]}
+          widths={[170, 340]}
+          sizes="(width < 1000px) 108px, 170px"
+          loading="eager"
+        />
+      </figure>
+    </div>
+  </div>
+</section>
+
+<style>
+  @layer components {
+    /* Full-bleed: the hero reaches past the page gutter and slides under the header. */
+    .stage {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      min-height: min(92svh, 900px);
+      display: grid;
+      align-items: center;
+      margin: calc(-1 * var(--space-header)) calc(-1 * var(--space-edge-end)) 0 calc(-1 * var(--space-edge));
+      padding: var(--space-header) var(--space-edge-end) 0 var(--space-edge);
+    }
+
+    .stage__bg {
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+    }
+
+    .stage__bg :global(img) {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: 50% 40%;
+    }
+
+    .stage__bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(
+          90deg,
+          var(--surface) 0%,
+          color-mix(in oklch, var(--surface) 90%, transparent) 40%,
+          color-mix(in oklch, var(--surface) 45%, transparent) 72%,
+          color-mix(in oklch, var(--surface) 60%, transparent) 100%
+        ),
+        linear-gradient(180deg, transparent 55%, var(--surface) 100%);
+      transition: opacity var(--duration-slow) var(--ease-out);
+    }
+
+    /* hovering "Bouldering" brightens the backdrop */
+    .stage__bg:global(.is-lifted)::after {
+      opacity: 0.45;
+    }
+
+    .stage__inner {
+      display: grid;
+      gap: 2.5rem var(--space-gutter);
+      align-items: center;
+      padding-block: clamp(2rem, 1rem + 5vw, 5rem);
+    }
+
+    .stage__kicker {
+      color: var(--ink-subtle);
+      font-size: var(--text-small);
+    }
+
+    .stage__title {
+      margin-top: 1rem;
+      font-family: var(--font-heading);
+      font-size: var(--text-display);
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      max-width: 10.5em;
+    }
+
+    .stage__role {
+      margin-top: 1.2rem;
+      font-size: var(--text-lead);
+      font-weight: 500;
+    }
+
+    .stage__intro {
+      margin-top: 0.8rem;
+      max-width: 36em;
+      color: var(--ink-muted);
+    }
+
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem 2.4rem;
+      margin-top: 1.8rem;
+    }
+
+    .stats div {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .stats div + div {
+      padding-left: 2.4rem;
+      border-left: 1px solid var(--line);
+    }
+
+    .stats dd {
+      font-family: var(--font-heading);
+      font-size: var(--text-stat);
+      line-height: 1;
+      font-variant-numeric: lining-nums;
+    }
+
+    .stats dt {
+      font-size: var(--text-small);
+      color: var(--ink-subtle);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px 18px;
+      margin-top: 2rem;
+      width: fit-content;
+      max-width: 100%;
+    }
+
+    .actions__mail {
+      display: inline-flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .email {
+      user-select: all;
+      font-weight: 500;
+      overflow-wrap: anywhere;
+    }
+
+    /* the prints: loose photos, tilted, that straighten when lifted */
+    .stage__prints {
+      position: relative;
+      aspect-ratio: 1;
+      width: min(100%, 460px);
+      justify-self: center;
+    }
+
+    .print {
+      --tilt: 0deg;
+
+      position: absolute;
+      margin: 0;
+      padding: clamp(5px, 0.7vw, 9px);
+      background: var(--paper);
+      cursor: grab;
+      user-select: none;
+      touch-action: pan-y;
+      box-shadow: 0 10px 30px var(--shadow-print);
+      transform: translate(var(--dx, 0), var(--dy, 0)) rotate(var(--tilt));
+      transition:
+        transform var(--duration-slow) var(--ease-spring),
+        box-shadow var(--duration-base) var(--ease-out);
+      animation: settle 900ms var(--ease-out) both;
+    }
+
+    .print :global(img) {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+      -webkit-user-drag: none;
+    }
+
+    .print--portrait {
+      --tilt: 2deg;
+
+      left: 18%;
+      top: 4%;
+      width: 74%;
+      aspect-ratio: 1;
+      z-index: 2;
+    }
+
+    .print--a {
+      --tilt: -7deg;
+
+      left: 0;
+      top: 46%;
+      width: 36%;
+      aspect-ratio: 3 / 4;
+      z-index: 3;
+      animation-delay: 220ms;
+    }
+
+    .print:hover,
+    .print:global(.is-lifted) {
+      transform: translate(var(--dx, 0), var(--dy, 0)) rotate(0deg) translateY(-8px) scale(1.04);
+      z-index: 5;
+      box-shadow: 0 18px 44px var(--shadow-print-lifted);
+      animation: none;
+    }
+
+    .print:global(.is-lifted) {
+      box-shadow:
+        0 18px 44px var(--shadow-print-lifted),
+        0 0 0 1px var(--accent);
+    }
+
+    .print:global(.is-dragging) {
+      transition: none;
+      cursor: grabbing;
+      z-index: 6;
+      animation: none;
+    }
+
+    @keyframes settle {
+      from {
+        opacity: 0;
+        transform: translate3d(0, -18px, 0) rotate(calc(var(--tilt) + 5deg)) scale(1.04);
+      }
+
+      to {
+        opacity: 1;
+        transform: translate(var(--dx, 0), var(--dy, 0)) rotate(var(--tilt));
+      }
+    }
+
+    @media (width >= 1000px) {
+      .stage__inner {
+        grid-template-columns: minmax(0, 7.5fr) minmax(0, 3.5fr);
+      }
+    }
+
+    @media (width < 1000px) {
+      .stage {
+        min-height: 0;
+      }
+
+      .stage__bg::after {
+        background: linear-gradient(
+          180deg,
+          color-mix(in oklch, var(--surface) 35%, transparent) 0%,
+          color-mix(in oklch, var(--surface) 85%, transparent) 38%,
+          var(--surface) 70%
+        );
+      }
+
+      .stage__prints {
+        order: -1;
+        width: min(100%, 300px);
+        justify-self: start;
+      }
+    }
+
+    @media (width < 600px) {
+      .stats {
+        gap: 1rem 1.4rem;
+      }
+
+      .stats div + div {
+        padding-left: 1.4rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .print {
+        transition: none;
+        animation: none;
+      }
+    }
+  }
+</style>

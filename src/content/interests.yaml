@@ -1,0 +1,21 @@
+# About me: the four things outside work. `lift` names the hero print it lifts on hover.
+- id: bouldering
+  order: 1
+  name: Bouldering
+  line: Usually at Neoliet, my climbing gym in Rotterdam.
+  lift: bouldering
+- id: travelling
+  order: 2
+  name: Travelling
+  line: Mostly Asia; Japan and South Korea are my favourites so far.
+  lift: travel
+- id: games
+  order: 3
+  name: Card and board games
+  line: One card game most of all, but anything goes with friends.
+  lift: me
+- id: tinkering
+  order: 4
+  name: Tinkering
+  line: My home server and a small Kubernetes setup.
+  lift: me

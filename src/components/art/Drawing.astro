@@ -1,0 +1,14 @@
+---
+/**
+ * Inlines a drawing from the illustration kit, rendered at build time. Importing the kit's
+ * stylesheet here means only pages with drawings load it.
+ */
+import "~/styles/art.css";
+
+interface Props {
+  /** SVG markup from src/lib/art. */
+  svg: string;
+}
+---
+
+<Fragment set:html={Astro.props.svg} />

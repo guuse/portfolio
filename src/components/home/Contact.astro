@@ -1,0 +1,32 @@
+---
+import CopyButton from "~/components/ui/CopyButton.astro";
+import Section from "~/components/ui/Section.astro";
+import { site } from "~/lib/site";
+---
+
+<Section id="contact" title="Contact">
+  <p class="contact__mail" id="mail-address">
+    {site.email}
+  </p>
+  <p>
+    <CopyButton target="mail-address" label="Copy address" />
+  </p>
+  <p class="contact__line">Mail me about anything on this page, or just to say hi. I do reply, eventually.</p>
+</Section>
+
+<style>
+  @layer components {
+    .contact__mail {
+      font-family: var(--font-heading);
+      font-size: var(--text-mail);
+      line-height: 1.05;
+      letter-spacing: -0.015em;
+      overflow-wrap: anywhere;
+      user-select: all;
+    }
+
+    .contact__line {
+      color: var(--ink-muted);
+    }
+  }
+</style>

@@ -1,4 +1,3 @@
-// @ts-check
 import { defineConfig, fontProviders } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 
@@ -13,7 +12,32 @@ export default defineConfig({
   trailingSlash: "always",
   build: { format: "directory", inlineStylesheets: "auto" },
   compressHTML: true,
-  prefetch: { prefetchAll: false, defaultStrategy: "hover" },
+  // Shiki writes inline styles, which the CSP would block; the site has no highlighted code.
+  markdown: { syntaxHighlight: false },
+  /*
+   * Astro writes this policy into every page as a <meta>, with a SHA-256 hash for each inline
+   * script and style it emits. nginx adds what a meta can't (frame-ancestors) as a header.
+   * Hence: no style="" attributes, no innerHTML (Trusted Types), scripts only through Astro.
+   * The contract is in infrastructure/README.md ("CSP").
+   */
+  security: {
+    csp: {
+      algorithm: "SHA-256",
+      directives: [
+        "default-src 'none'",
+        "img-src 'self' data:",
+        "font-src 'self'",
+        "connect-src 'self'",
+        "manifest-src 'self'",
+        "base-uri 'none'",
+        "form-action 'none'",
+        "object-src 'none'",
+        "require-trusted-types-for 'script'",
+        "trusted-types 'none'",
+        "upgrade-insecure-requests",
+      ],
+    },
+  },
   integrations: [
     sitemap({
       filter: (page) => !page.includes("/404"),

@@ -1,0 +1,102 @@
+---
+import { list } from "~/lib/content";
+import Section from "~/components/ui/Section.astro";
+
+const interests = await list("interests");
+---
+
+<Section id="about" title="About me" variant="about">
+  <div class="about__prose">
+    <p>
+      I’m a real Rotterdammer, which mostly means I say what I think and skip the formalities. I’m an open
+      person and I like bringing out the best in people. Put me in the right setting and I have energy to
+      spare. With friends I’m usually the one who plans the outing and chases everyone in the group chat for a
+      date. I do the same at work, because someone has to and I quite like being that person.
+    </p>
+    <p>
+      Gaming got me into tech and work got me stuck, though I barely game anymore. What I enjoy most hasn’t
+      changed since my first year: digging into a difficult problem until it’s fixed, then making sure people
+      have the tools to fix the next one themselves.
+    </p>
+  </div>
+  <ul class="likes" role="list">
+    {interests.map((data) => (
+      <li class="like" data-lift={data.lift}>
+        <span class="like__mark" aria-hidden="true" />
+        <span class="like__name">{data.name}</span>
+        <span class="like__line">{data.line}</span>
+      </li>
+    ))}
+  </ul>
+</Section>
+
+<style>
+  @layer components {
+    .about__prose {
+      max-width: var(--size-measure);
+      display: grid;
+      gap: 1rem;
+    }
+
+    .about__prose p {
+      font-size: var(--text-lead);
+      line-height: 1.55;
+      color: var(--ink-muted);
+    }
+
+    .about__prose p:first-child {
+      color: var(--ink);
+    }
+
+    .likes {
+      display: grid;
+      gap: 1rem 2.5rem;
+      grid-template-columns: minmax(0, 1fr);
+      margin-top: 0.75rem;
+      max-width: 46em;
+    }
+
+    @media (width >= 700px) {
+      .likes {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    /* Each interest lifts a hero print on hover (src/scripts/prints.ts). */
+    .like {
+      display: grid;
+      grid-template-columns: 14px 1fr;
+      align-items: start;
+      gap: 2px 12px;
+      min-width: 0;
+      cursor: default;
+    }
+
+    .like__mark {
+      grid-row: 1 / span 2;
+      width: 8px;
+      height: 8px;
+      margin: 0.7em 2px 0;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .like__name {
+      grid-column: 2;
+      font-family: var(--font-heading);
+      font-size: var(--text-h3);
+      line-height: 1.15;
+    }
+
+    .like__line {
+      grid-column: 2;
+      color: var(--ink-muted);
+      font-size: var(--text-small);
+      line-height: 1.45;
+    }
+
+    .like:hover .like__name {
+      color: var(--accent);
+    }
+  }
+</style>

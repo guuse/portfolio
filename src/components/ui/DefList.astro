@@ -1,0 +1,50 @@
+---
+/** A typeset definition list: term on the left, description on the right from 640px. */
+interface Props {
+  items: { term: string; detail: string }[];
+}
+const { items } = Astro.props;
+---
+
+<dl class="deflist">
+  {items.map((it) => (
+    <div>
+      <dt>{it.term}</dt>
+      <dd>{it.detail}</dd>
+    </div>
+  ))}
+</dl>
+
+<style>
+  @layer components {
+    .deflist {
+      display: grid;
+    }
+
+    .deflist > div {
+      display: grid;
+      gap: 2px 24px;
+      padding-block: 0.8rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .deflist > div:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    @media (width >= 640px) {
+      .deflist > div {
+        grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
+      }
+    }
+
+    .deflist dt {
+      font-weight: 600;
+    }
+
+    .deflist dd {
+      color: var(--ink-muted);
+    }
+  }
+</style>

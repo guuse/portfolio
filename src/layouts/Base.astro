@@ -4,6 +4,7 @@ import "~/styles/global.css";
 import SkipLink from "~/components/layout/SkipLink.astro";
 import SiteHeader from "~/components/layout/SiteHeader.astro";
 import SiteFooter from "~/components/layout/SiteFooter.astro";
+import KeyboardSheet from "~/components/layout/KeyboardSheet.astro";
 import { site } from "~/lib/site";
 
 export interface Props {
@@ -44,5 +45,9 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
       <SiteFooter />
     </div>
     <slot name="after-site" />
+    <KeyboardSheet />
+    <script>
+      import "~/scripts/site";
+    </script>
   </body>
 </html>

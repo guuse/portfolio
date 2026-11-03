@@ -14,10 +14,14 @@
   }
 
   img,
-  svg,
-  picture {
+  svg {
     display: block;
     max-width: 100%;
+  }
+
+  /* <Picture> wraps images; let the image be styled as if the wrapper weren't there */
+  picture {
+    display: contents;
   }
 
   button,
