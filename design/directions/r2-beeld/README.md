@@ -8,12 +8,8 @@ underneath. Work and About are short text sections between those image moments. 
 or theme. The quality comes from scale contrast, generous space and calm type.
 
 ## Options (tokens only)
-- **`wit`** (default): a near-white, slightly cool gallery background with near-black ink and one
-  quiet ink-blue accent for hover and focus.
-- **`donker`**: a deep, neutral dark gallery wall. The photo tones stay identical (a real photo
-  doesn't change with the background), so the images stand out more.
-
-Switch with the review bar, `?option=wit|donker`, or localStorage (`r2-beeld:option`).
+Round 3 replaced the round-2 `wit`/`donker` options with `kobalt`, `signaal` and `nacht`; see
+"Round 3" below. Switch with the review bar, `?option=`, or localStorage (`r2-beeld:option`).
 
 ## Type
 - **Instrument Serif** (display, used sparingly): the intro headline, section titles, project
@@ -86,3 +82,41 @@ show the intended mood: muted slate, moss, sand, rose and sea-grey, never satura
 - **Review bar:** Kleur · Tekst · Koppen, from `?option=`, `?copy=`, `?type=`, then localStorage;
   changes update the URL with `replaceState`. Below 600px the groups fold behind "Opties".
 - Shoot two extra hero photos: the wall panel (4:5) and a game night on the table (3:2).
+
+## Round 3: chosen direction, developed further
+Guus picked Beeld voorop but not its colours, and found it "too standard". It can be a little
+nerdier, "but really not too much".
+
+### Colours: three new options (`data-option`)
+| Option | Surface | Ink | Accent | Character |
+|---|---|---|---|---|
+| `kobalt` (default) | `#f9fbfe` crisp cool white | `#090f1c` | `#1045d9` ultramarine | bright, clean, confident |
+| `signaal` | `#edebe7` warm-grey paper | `#10171f` | `#ff7716` tangerine, as a highlight block only; links/focus in navy `#1c3e81` | printed matter, safety signage |
+| `nacht` | `#0a1328` deep ink-blue | near-white | `#fbc044` sodium amber | night, the prints pop |
+
+Each project has a vivid tone per option (sky/cobalt, jade, sun yellow, coral, lilac, plus portrait
+and About tones) and a deeper *project ink* for text. Every pair is measured live in `system.html`.
+All pass: body text 15 to 18:1, muted text 7.4:1 or more, UI lines 3.5:1 or more, project inks 6.6:1
+or more. Photo labels sit on a paper chip (15:1 or more on every tone). `<em>` follows the option:
+cobalt or amber italic with a hand-drawn line, or ink on a tangerine marker block in Signaal.
+
+### Structural moves (less "standard")
+1. **Cutting mat in the hero.** The portrait and two loose prints lie on a faint grid with a small
+   ruler, bleeding off the right edge. They're tilted and straighten on hover.
+2. **The featured image bleeds off the right edge** and a title card overlaps it like a magazine
+   spread.
+3. **Projects as an index.** A sticky, numbered index (01 to 05) sits beside a nine-column image grid.
+   Hovering or focusing a line lights up its image and dims the others, and the other way round.
+   Every image is a contact-sheet frame with corner crop marks and a numbered label chip.
+
+### The nerdy layer (subtle, meta only)
+1. **Geist Mono** for metadata only: kicker, frame numbers, captions, index numbers, footer.
+   Headlines and body text never use it.
+2. **Figure captions as file metadata:** `fig.03 — finds/overview.png · 4:5`.
+3. **Tags as code chips:** `proxmox`, `k8s`, `home-assistant`.
+4. **Footer status line:** `● all systems normal · last deploy a1c9e2f · 3 Nov 2026`. These are
+   illustrative values (see the HTML comment); a build step should fill `data-build="commit|date"`.
+5. **Project page:** a short Argo CD `Application` snippet next to "How it works", plus the diagram.
+   Confirm that the repo path (`guuse/homeserver`, `apps/rules-of-99`) may be shown.
+
+Fonts: Instrument Serif, Schibsted Grotesk and Geist Mono (the allowed third family, for meta only).

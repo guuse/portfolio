@@ -1,58 +1,63 @@
 <!doctype html>
-<html lang="en" data-direction="beeld" data-option="wit" data-type="a" data-copy-voice="nuchter">
+<html lang="en" data-direction="beeld" data-option="kobalt" data-type="a" data-copy-voice="nuchter">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Beeld voorop · system</title>
 <meta name="description" content="Style guide for the Beeld voorop direction: colours, type, spacing and components.">
-<script>(function(){var h=document.documentElement;function pick(k,o){var v=null;try{v=new URLSearchParams(location.search).get(k)}catch(e){}if(o.indexOf(v)<0){try{v=localStorage.getItem("r2-beeld:"+k)}catch(e){}}return o.indexOf(v)<0?o[0]:v}h.setAttribute("data-option",pick("option",["wit","donker"]));h.setAttribute("data-type",pick("type",["a","b"]))})();</script>
+<script>(function(){var h=document.documentElement;function pick(k,o){var v=null;try{v=new URLSearchParams(location.search).get(k)}catch(e){}if(o.indexOf(v)<0){try{v=localStorage.getItem("r2-beeld:"+k)}catch(e){}}return o.indexOf(v)<0?o[0]:v}h.setAttribute("data-option",pick("option",["kobalt","signaal","nacht"]));h.setAttribute("data-type",pick("type",["a","b"]))})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Schibsted+Grotesk:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Schibsted+Grotesk:ital,wght@0,400..700;1,400..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../system/base.css">
 <link rel="stylesheet" href="beeld.css">
 <style>
   @layer components {
     .sg-section { padding-block: var(--space-3xl) 0; }
     .sg-section > .page > h2 { margin-block-end: var(--space-l); }
-    .sg-note { color: var(--ink-muted); max-width: 60ch; margin-block-end: var(--space-l); }
-    .sg-label { font-size: var(--step--2); color: var(--ink-subtle); letter-spacing: 0.06em; text-transform: uppercase; margin-block-end: var(--space-xs); }
+    .sg-note { color: var(--ink-muted); max-width: 64ch; margin-block-end: var(--space-l); }
+    .sg-label { font-family: var(--font-mono); font-size: var(--step--2); color: var(--ink-subtle); margin-block: var(--space-xl) var(--space-xs); }
     .panels { display: grid; gap: var(--gutter); }
-    @media (min-width: 960px) { .panels { grid-template-columns: 1fr 1fr; } }
-    .panel { background: var(--surface); color: var(--ink); padding: var(--space-l); border: 1px solid var(--line); }
-    .panel h3 { font-family: var(--font-display); font-size: var(--step-2); margin-block-end: var(--space-m); }
-    .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: var(--space-s); margin-block-end: var(--space-l); }
-    .sw { font-size: var(--step--2); }
-    .sw i { display: block; height: 56px; border: 1px solid var(--line); margin-block-end: var(--space-3xs); }
-    .sw code { font-family: var(--font-mono); color: var(--ink-muted); }
-    .ratios { width: 100%; border-collapse: collapse; font-size: var(--step--1); }
-    .ratios th, .ratios td { text-align: start; padding: var(--space-2xs) 0; border-block-end: 1px solid var(--line); vertical-align: middle; }
-    .ratios td:last-child, .ratios th:last-child { text-align: end; }
-    .ratios .demo { display: inline-block; padding: 2px 8px; border: 1px solid var(--line); }
-    .pass { color: var(--ink-muted); }
-    .tones { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--gutter); }
-    .tones .ph { --ratio: 4 / 5; }
-    .tones .ph[data-r="1"] { --ratio: 3 / 2; }
+    @media (min-width: 1200px) { .panels { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    .panel { background: var(--surface); color: var(--ink); padding: var(--space-m); border: 1px solid var(--line); min-width: 0; }
+    .panel h3 { font-family: var(--font-display); font-size: var(--step-3); line-height: 1; }
+    .panel__sub { color: var(--ink-muted); font-size: var(--step--1); margin-block: var(--space-2xs) var(--space-m); }
+    .panel__em { font-family: var(--font-display); font-size: var(--step-3); line-height: 1.1; margin-block-end: var(--space-m); }
+    .panel__em em { font-style: italic; color: var(--em-ink); background: var(--em-bg) no-repeat 0 var(--em-y) / 100% var(--em-h); padding-inline: 0.02em 0.06em; }
+    .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(92px, 1fr)); gap: var(--space-xs); margin-block-end: var(--space-m); }
+    .sw { font-size: var(--step--2); line-height: 1.35; min-width: 0; }
+    .sw i { display: block; height: 40px; border: 1px solid var(--line); margin-block-end: 4px; }
+    .sw code { display: block; color: var(--ink-muted); overflow-wrap: anywhere; }
+    .ratios { width: 100%; border-collapse: collapse; font-size: var(--step--1); margin-block-end: var(--space-m); }
+    .ratios th, .ratios td { text-align: start; padding: 6px 0; border-block-end: 1px solid var(--line); vertical-align: middle; }
+    .ratios td:last-child, .ratios th:last-child { text-align: end; white-space: nowrap; }
+    .ratios .demo { display: inline-block; padding: 1px 6px; border: 1px solid var(--line); }
+    .ratios small { display: block; color: var(--ink-subtle); font-family: var(--font-mono); font-size: var(--step--2); }
+    .tones { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: var(--space-xs); }
+    .tones .ph { --ratio: 1 / 1; }
+    .tones .ph__label { font-size: 10px; inset-inline-start: 8px; inset-block-end: 8px; max-width: calc(100% - 16px); }
+    .tones .ph::before { inset: 5px; }
+    .tones figcaption { font-family: var(--font-mono); font-size: 10px; line-height: 1.4; color: var(--ink-muted); margin-block-start: 4px; }
     .type-row { display: grid; gap: var(--space-2xs) var(--gutter); padding-block: var(--space-s); border-block-end: 1px solid var(--line); align-items: baseline; }
-    @media (min-width: 760px) { .type-row { grid-template-columns: 12rem 1fr; } }
-    .type-row code { font-family: var(--font-mono); font-size: var(--step--2); color: var(--ink-subtle); }
+    @media (min-width: 760px) { .type-row { grid-template-columns: 13rem 1fr; } }
     .space-row { display: flex; align-items: center; gap: var(--space-s); font-size: var(--step--1); padding-block: 4px; }
-    .space-row code { font-family: var(--font-mono); width: 9rem; color: var(--ink-muted); font-size: var(--step--2); }
+    .space-row code { width: 9rem; color: var(--ink-muted); font-size: var(--step--2); }
     .space-row i { display: block; height: 12px; background: var(--tone-homelab); }
-    .demo-box { border: 1px dashed var(--line-strong); padding: var(--space-m); margin-block-end: var(--space-l); overflow: hidden; }
+    .demo-box { border: 1px dashed var(--line-strong); padding: var(--space-m); overflow: hidden; }
     .states { display: flex; flex-wrap: wrap; gap: var(--space-l); align-items: center; }
     .states figure { display: grid; gap: var(--space-2xs); }
-    .states figcaption { font-size: var(--step--2); color: var(--ink-subtle); }
-    .is-hover.arrow-link { border-color: currentColor; color: var(--accent); }
-    .is-hover.arrow-link span[aria-hidden] { transform: translateX(4px); }
+    .states figcaption { font-family: var(--font-mono); font-size: var(--step--2); color: var(--ink-subtle); }
+    .is-hover.arrow-link { border-color: currentColor; color: var(--accent-text); }
+    .is-hover.button { background: var(--accent); color: var(--accent-ink); }
     .is-focus { outline: 2px solid var(--focus); outline-offset: 3px; border-radius: var(--radius-s); }
+    .button.is-focus { border-radius: 999px; }
     .nav a.is-hover { color: var(--ink); background-size: 100% 1px; }
-    .item.is-hover .item__title a { background-size: 100% 1px; }
-    .item.is-hover .ph__inner { transform: scale(1.025); }
-    .mini-grid { display: grid; gap: var(--gutter); }
-    @media (min-width: 760px) { .mini-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-    .mini-grid .project-grid { margin: 0; display: contents; }
-    .mini-grid .item { grid-column: auto !important; margin: 0 !important; }
+    .demo-projects { display: grid; gap: var(--gutter); }
+    @media (min-width: 760px) { .demo-projects { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+    .demo-projects .project-grid { display: grid; grid-template-columns: 1fr; margin: 0; }
+    .demo-projects .item { grid-column: auto !important; margin: 0 !important; --ratio: 3 / 2 !important; }
+    .demo-projects .index { position: static; }
+    .demo-mat { margin: 0 !important; }
   }
 </style>
 </head>
@@ -69,48 +74,43 @@
 <main id="main">
   <section class="intro">
     <div class="page">
-      <p class="eyebrow">Direction r2-beeld</p>
-      <h1 class="display" style="font-size: var(--step-6); margin-block: var(--space-2xs) var(--space-m)">Beeld voorop</h1>
-      <p class="lead lead--wide">Image first. Big photography carries the page and the text supports it. Two typefaces, one neutral ramp, one quiet accent, and a calm tone per photo.</p>
+      <p class="meta">direction r2-beeld &middot; round 3</p>
+      <h1 class="display" style="font-size: calc(var(--step-6) * var(--heading-scale)); margin-block: var(--space-2xs) var(--space-m)">Beeld <em>voorop</em></h1>
+      <p class="lead lead--wide">Image first. Vivid photo slots laid out like a contact sheet, an index you can scan, and a thin layer of dev detail in the metadata: mono for meta only, never for reading text.</p>
     </div>
   </section>
 
   <section class="sg-section" id="colour" aria-labelledby="colour-title">
     <div class="page">
       <h2 class="h2" id="colour-title">Colour</h2>
-      <p class="sg-note">Options only swap tokens. The ratios below are measured live in the browser from the computed token values (WCAG 2.x relative luminance). Targets: body ink ≥ 7, muted ≥ 4.5, subtle and UI lines ≥ 3.</p>
+      <p class="sg-note">Three options, tokens only. Each project keeps its own tone, re-derived per option, plus a deeper <em>project ink</em> for its caption dot, hover colour and label chip. All ratios below are measured live in the browser from the computed tokens (WCAG 2.x). Targets: body ink &ge; 7, muted &ge; 4.5, accent-as-text &ge; 4.5, subtle labels, lines and focus &ge; 3. Photo labels sit on a paper chip, so they read on any tone.</p>
       <div class="panels">
-        <div class="panel" data-option="wit" data-panel><h3>Wit <span class="muted" style="font-family: var(--font-body); font-size: var(--step--1)">default, gallery white</span></h3></div>
-        <div class="panel" data-option="donker" data-panel><h3>Donker <span class="muted" style="font-family: var(--font-body); font-size: var(--step--1)">dark gallery, images pop</span></h3></div>
+        <div class="panel" data-option="kobalt" data-panel><h3>Kobalt</h3><p class="panel__sub">Default. Crisp cool white, near-black ink, an ultramarine accent.</p><p class="panel__em">Things that <em>keep running</em></p></div>
+        <div class="panel" data-option="signaal" data-panel><h3>Signaal</h3><p class="panel__sub">Warm-grey paper, deep ink, tangerine as a highlight block (never as text). Links and focus in signal navy.</p><p class="panel__em">Things that <em>keep running</em></p></div>
+        <div class="panel" data-option="nacht" data-panel><h3>Nacht</h3><p class="panel__sub">Deep ink-blue with a sodium-amber accent. The prints pop.</p><p class="panel__em">Things that <em>keep running</em></p></div>
       </div>
-
-      <h3 class="h3" style="margin-block: var(--space-2xl) var(--space-xs)">Photo tones</h3>
-      <p class="sg-note">Each project also has its own <em>ink</em> (its tone, deepened per option) for the caption dot, hover colour and the image-label chip. One muted colour per image, the same in both options, because a real photo doesn&rsquo;t change with the background. Each placeholder gets a soft light fall-off and a faint grain so it reads as a photo slot, not a grey box. Label ink on each tone is measured too.</p>
-      <div class="tones" id="tones"></div>
     </div>
   </section>
 
   <section class="sg-section" aria-labelledby="type-title">
     <div class="page">
       <h2 class="h2" id="type-title">Type</h2>
-      <p class="sg-note"><strong>Instrument Serif</strong> for big moments only: the intro headline, section titles, project titles, numbers and the email address. It&rsquo;s condensed and elegant, so a large headline sits calmly next to a portrait like a magazine cover line. <strong>Schibsted Grotesk</strong> for everything else: a newspaper-born sans with sturdy, slightly quirky shapes that keeps captions and body text clear without feeling like a default UI font.</p>
-      <p class="sg-note"><strong>Koppen</strong> (<code>data-type</code>, tokens only): <em>Serif</em> (a) sets headings in Instrument Serif 400, big and tight; <em>Sans</em> (b) sets them in Schibsted Grotesk 600 at 0.8&times; the scale with tighter tracking (&minus;0.045em). In both, the one <code>&lt;em&gt;</code> phrase per headline stays an italic Instrument Serif in the accent, with a hand-drawn line that draws itself in once (instant under reduced motion).</p>
-      <div class="type-row"><code>--step-hero · heading + em</code><p class="display" style="font-size: calc(var(--step-hero) * var(--heading-scale))">Builds things. <em>Usually</em> finishes them.</p></div>
-      <div class="type-row"><code>--step-giant · heading</code><p class="display" style="font-size: var(--step-giant)">Homelab &amp; home</p></div>
-      <div class="type-row"><code>--step-5 · heading · h2</code><p class="h2">Projects</p></div>
-      <div class="type-row"><code>--step-3 · heading · case h2</code><p class="display" style="font-size: var(--step-3)">What I learned</p></div>
-      <div class="type-row"><code>--step-1 · heading · item title</code><p class="item__title">Scryfall, in plain words</p></div>
-      <div class="type-row"><code>--step-1 · sans · lead</code><p class="lead">I live in Rotterdam and build things at home.</p></div>
-      <div class="type-row"><code>--step-0 · sans · body</code><p>I make sure the platforms our clients run on are secure, reliable and well thought out.</p></div>
-      <div class="type-row"><code>--step-0 · sans 600 · h3</code><p class="h3">Cloud &amp; platform</p></div>
-      <div class="type-row"><code>--step--1 · sans · caption</code><p class="item__line">A tool that keeps an eye on <span lang="nl">Marktplaats</span> and Vinted for me.</p></div>
+      <p class="sg-note"><strong>Instrument Serif</strong> for the big moments, <strong>Schibsted Grotesk</strong> for everything you read, and <strong>Geist Mono</strong> for metadata only: kicker, figure captions, frame numbers, code chips, the index numbers, the status line and the config snippet. <strong>Koppen</strong> (<code>data-type</code>): <em>Serif</em> (a) is Instrument Serif 400, big and tight; <em>Sans</em> (b) is Schibsted Grotesk 600 at 0.8&times; with &minus;0.045em tracking. The one <code>&lt;em&gt;</code> per headline stays italic Instrument Serif, styled per colour option.</p>
+      <div class="type-row"><code class="meta">--step-hero · heading + em</code><p class="display" style="font-size: calc(var(--step-hero) * var(--heading-scale))">Builds things. <em>Usually</em> finishes them.</p></div>
+      <div class="type-row"><code class="meta">--step-giant · heading</code><p class="display" style="font-size: calc(var(--step-giant) * var(--heading-scale))">Homelab &amp; home</p></div>
+      <div class="type-row"><code class="meta">--step-5 · heading · h2</code><p class="h2">Projects</p></div>
+      <div class="type-row"><code class="meta">--step-1 · heading · item title</code><p class="item__title">Scryfall, in plain words</p></div>
+      <div class="type-row"><code class="meta">--step-1 · sans · lead</code><p class="lead">I live in Rotterdam and build things at home.</p></div>
+      <div class="type-row"><code class="meta">--step-0 · sans · body</code><p>I make sure the platforms our clients run on are secure, reliable and well thought out.</p></div>
+      <div class="type-row"><code class="meta">--step--1 · sans · caption</code><p class="item__line">A tool that keeps an eye on <span lang="nl">Marktplaats</span> and Vinted for me.</p></div>
+      <div class="type-row"><code class="meta">--step--2 · mono · meta</code><p class="meta">fig.03 &mdash; finds/overview.png &middot; 4:5</p></div>
     </div>
   </section>
 
   <section class="sg-section" aria-labelledby="space-title">
     <div class="page">
       <h2 class="h2" id="space-title">Space &amp; images</h2>
-      <p class="sg-note">The shared 4px scale. Sections are separated by <code>--space-section</code>; inside the project grid items stagger by <code>--space-3xl</code> and <code>--space-4xl</code>. Image ratios: portrait 4:5, featured full-bleed (16:9 on tablet, viewport-capped on desktop), grid slots repeat wide 3:2, tall 4:5, square 1:1, 4:3. A trailing single item spans the full width at 21:9.</p>
+      <p class="sg-note">The shared 4px scale. Image ratios: portrait 4:5; featured bleeds off the right edge (16:10 tablet, viewport-capped on desktop) with the title card overlapping it; the grid repeats 3:2, 4:5, 1:1, 4:3 in nine columns beside the index, and a lone last item spans 21:9. Every image has corner crop marks, a numbered label chip and a mono figure caption.</p>
       <div id="spaces"></div>
     </div>
   </section>
@@ -119,7 +119,7 @@
     <div class="page">
       <h2 class="h2" id="comp-title">Components</h2>
 
-      <p class="sg-label">Header · nav link default / hover / focus</p>
+      <p class="sg-label">header · nav link default / hover / focus</p>
       <div class="demo-box">
         <div class="site-header__inner">
           <span class="site-header__name">Guus Ekkelenkamp</span>
@@ -127,55 +127,67 @@
         </div>
       </div>
 
-      <p class="sg-label">Intro</p>
+      <p class="sg-label">intro · prints on the cutting mat (hover a print: it straightens)</p>
+      <div class="demo-box" style="padding: 0"><div style="max-width: 560px">
+        <div class="mat demo-mat">
+          <div class="mat__ruler" aria-hidden="true"><span>5</span><span>10</span><span>15</span><span>20</span></div>
+          <figure class="print print--portrait"><div class="ph ph--portrait" role="img" aria-label="Portrait placeholder"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true"><span class="ph__no">00</span>Portrait 4:5</span></div></figure>
+          <figure class="print print--a"><div class="ph" role="img" aria-label="Print placeholder"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true">4:5</span></div></figure>
+          <figure class="print print--b"><div class="ph" role="img" aria-label="Print placeholder"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true">3:2</span></div></figure>
+        </div>
+      </div></div>
+
+      <p class="sg-label">project feature · image bleeds right, title card overlaps</p>
+      <div class="demo-box" id="feature-demo" style="padding: var(--space-m) 0"></div>
+
+      <p class="sg-label">index + project list item · hover a line or an image: its partner lights up</p>
+      <div class="demo-box"><div class="demo-projects"><nav class="index" aria-label="Example index"><div class="index__head"><span class="eyebrow">More projects</span><span class="meta">05 total</span></div><ol id="index-demo"></ol></nav><ul class="project-grid" id="items-demo"></ul></div></div>
+
+      <p class="sg-label">caption / metadata · code chip · status line</p>
       <div class="demo-box">
-        <div class="grid" style="align-items: end">
-          <p class="display" style="grid-column: 1 / 8; font-size: var(--step-4); line-height: .95">I&rsquo;m Guus. I lead the infra team at Harborn in <em>Rotterdam.</em></p>
-          <div class="ph ph--portrait" style="grid-column: 9 / -1" role="img" aria-label="Photo: portrait of Guus"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true">Portrait 4:5</span></div>
+        <div class="states" style="align-items: start">
+          <figure><p class="meta">fig.02 &mdash; rules-of-99/four-players.png &middot; 3:2</p><figcaption>figure caption: number, file, ratio</figcaption></figure>
+          <figure><ul class="chips"><li>proxmox</li><li>k8s</li><li>home-assistant</li><li>zigbee</li></ul><figcaption>code chips (tags as slugs)</figcaption></figure>
+          <figure><p class="status"><span class="status__dot" aria-hidden="true"></span><span>all systems normal</span><span aria-hidden="true">&middot;</span><span>last deploy a1c9e2f</span><span aria-hidden="true">&middot;</span><span>3 Nov 2026</span></p><figcaption>footer status (values filled at build)</figcaption></figure>
+          <figure><p class="now" style="margin: 0"><span class="now__dot" aria-hidden="true"></span><span><strong style="font-weight: 600; color: var(--ink)">Now:</strong> building a 3-node cluster.</span></p><figcaption>now line: live dot, still under reduced motion</figcaption></figure>
         </div>
       </div>
 
-      <p class="sg-label">Loose prints (hero) · tilted / straightened on hover</p>
-      <div class="demo-box" style="padding-block: var(--space-xl)">
-        <div class="states" style="gap: var(--space-2xl)">
-          <figure style="width: 180px"><div class="print" style="position: relative; --tilt: -6deg"><div class="ph" style="--tone: var(--tone-homelab); --ratio: 4 / 5" role="img" aria-label="Example print"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true">Photo</span></div></div><figcaption style="margin-top: var(--space-m)">rest: rotate(var(--tilt))</figcaption></figure>
-          <figure style="width: 180px"><div class="print" style="position: relative; --tilt: 0deg; transform: translateY(-6px) scale(1.03)"><div class="ph" style="--tone: var(--tone-rules-of-99); --ratio: 4 / 5" role="img" aria-label="Example print, hover"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true">Photo</span></div></div><figcaption style="margin-top: var(--space-m)">hover: straight, lifted (spring ease)</figcaption></figure>
-          <figure><p class="now" style="margin: 0"><span class="now__dot" aria-hidden="true"></span><span><strong style="font-weight: 600; color: var(--ink)">Now:</strong> building a 3-node cluster.</span></p><figcaption>Now line: live dot, pulse off under reduced motion</figcaption></figure>
-        </div>
+      <p class="sg-label">config snippet (project page)</p>
+      <div class="demo-box" style="max-width: 560px">
+        <figure class="snippet">
+          <figcaption><span class="meta"><b>apps/rules-of-99.yaml</b></span><span class="meta">Argo CD</span></figcaption>
+<pre tabindex="0" aria-label="Example Argo CD Application file"><code><span class="k">kind:</span> <span class="v">Application</span>
+<span class="k">metadata:</span> { <span class="k">name:</span> <span class="v">rules-of-99</span> }
+<span class="k">spec:</span>
+  <span class="k">syncPolicy:</span>
+    <span class="c"># fix drift, remove what's gone</span>
+    <span class="k">automated:</span> { <span class="k">prune:</span> <span class="v">true</span>, <span class="k">selfHeal:</span> <span class="v">true</span> }</code></pre>
+        </figure>
       </div>
 
-      <p class="sg-label">Project feature (full-bleed image, title set below)</p>
-      <div class="demo-box" id="feature-demo" style="padding: 0"></div>
-
-      <p class="sg-label">Project list item · default / hover</p>
-      <div class="demo-box"><div class="mini-grid"><ul class="project-grid" id="items-demo"></ul></div></div>
-
-      <p class="sg-label">Tag</p>
-      <div class="demo-box"><ul class="tags"><li>Java</li><li>React</li><li>TypeScript</li><li>WebSockets</li></ul>
-        <p class="sg-note" style="margin: var(--space-s) 0 0">Plain text separated by a thin dot. No pills, no icons.</p></div>
-
-      <p class="sg-label">Link &amp; button · default / hover / focus</p>
+      <p class="sg-label">button &amp; link · default / hover / focus</p>
       <div class="demo-box">
         <div class="states">
-          <figure><a class="button" href="#colour">Get in touch <span aria-hidden="true">&rarr;</span></a><figcaption>button (primary CTA): ink pill, accent on hover, arrow bounces once</figcaption></figure>
-          <figure><a class="button is-focus" href="#colour">Get in touch <span aria-hidden="true">&rarr;</span></a><figcaption>button focus-visible</figcaption></figure>
-          <figure><a class="arrow-link" href="#colour">Read the project <span aria-hidden="true">&rarr;</span></a><figcaption>default</figcaption></figure>
-          <figure><a class="arrow-link is-hover" href="#colour">Read the project <span aria-hidden="true">&rarr;</span></a><figcaption>hover</figcaption></figure>
-          <figure><a class="arrow-link is-focus" href="#colour">Read the project <span aria-hidden="true">&rarr;</span></a><figcaption>focus-visible</figcaption></figure>
+          <figure><a class="button" href="#colour">Get in touch <span aria-hidden="true">&rarr;</span></a><figcaption>button</figcaption></figure>
+          <figure><a class="button is-hover" href="#colour">Get in touch <span aria-hidden="true">&rarr;</span></a><figcaption>button hover (arrow bounces once)</figcaption></figure>
+          <figure><a class="button is-focus" href="#colour">Get in touch <span aria-hidden="true">&rarr;</span></a><figcaption>button focus</figcaption></figure>
+          <figure><a class="arrow-link" href="#colour">Read the project <span aria-hidden="true">&rarr;</span></a><figcaption>arrow link</figcaption></figure>
+          <figure><a class="arrow-link is-hover" href="#colour">Read the project <span aria-hidden="true">&rarr;</span></a><figcaption>arrow link hover</figcaption></figure>
           <figure><p>Body text with <a href="#colour">an inline link</a>.</p><figcaption>inline link: always underlined</figcaption></figure>
         </div>
       </div>
 
-      <p class="sg-label">Footer</p>
+      <p class="sg-label">footer</p>
       <div class="demo-box" style="padding: 0">
-        <footer class="site-footer" style="margin: 0; padding: var(--space-m)"><div class="site-footer__inner"><p>&copy; 2026 Guus Ekkelenkamp</p><a href="#main">Back to top</a></div></footer>
+        <footer class="site-footer" style="margin: 0; padding: var(--space-m)"><div class="site-footer__inner"><p>&copy; 2026 Guus Ekkelenkamp</p><p class="status"><span class="status__dot" aria-hidden="true"></span><span>all systems normal</span><span aria-hidden="true">&middot;</span><span>last deploy a1c9e2f</span></p><a href="#main">Back to top</a></div></footer>
       </div>
     </div>
   </section>
 </main>
 
 <footer class="site-footer">
-  <div class="page site-footer__inner"><p>Beeld voorop · r2-beeld</p><a href="index.html">Homepage</a></div>
+  <div class="page site-footer__inner"><p class="meta">Beeld voorop &middot; r2-beeld &middot; round 3</p><a href="index.html">Homepage</a></div>
 </footer>
 
 <script src="projects.js"></script>
@@ -183,15 +195,17 @@
 (function () {
   "use strict";
   var P = window.BeeldProjects;
-  // Components rendered from the same templates as the homepage
   var r = P.render("homelab");
-  document.getElementById("feature-demo").innerHTML = r.featured.replace('id="feature-title"', 'id="feature-demo-title"').replace('aria-labelledby="feature-title"', 'aria-labelledby="feature-demo-title"').replace(/<h3/g, '<p').replace(/<\/h3>/g, '</p>').replace('class="page grid feature__body"', 'class="grid feature__body" style="padding: 0 var(--space-m) var(--space-m)"');
+  function demote(h) { return h.replace(/<h3/g, "<p").replace(/<\/h3>/g, "</p>"); }
+  document.getElementById("feature-demo").innerHTML = demote(r.featured).replace(/id="p-[^"]+"/g, "").replace('id="feature-title"', "").replace('aria-labelledby="feature-title"', 'aria-label="Example feature"');
   var demo = document.getElementById("items-demo");
-  demo.innerHTML = r.grid.replace(/<h3/g, '<p').replace(/<\/h3>/g, '</p>');
-  while (demo.children.length > 3) demo.removeChild(demo.lastElementChild);
-  demo.children[1].classList.add("is-hover");
+  demo.innerHTML = demote(r.grid).replace(/id="p-[^"]+"/g, "");
+  while (demo.children.length > 2) demo.removeChild(demo.lastElementChild);
+  demo.children[1].classList.add("is-hot");
+  var idx = document.getElementById("index-demo");
+  idx.innerHTML = r.index;
+  idx.querySelector('[data-project="finds"]').classList.add("is-hot");
 
-  // Spacing scale
   var sp = ["3xs","2xs","xs","s","m","l","xl","2xl","3xl","4xl"];
   document.getElementById("spaces").innerHTML = sp.map(function (k) {
     return '<div class="space-row"><code>--space-' + k + '</code><i style="width: var(--space-' + k + ')"></i><span class="px" data-k="' + k + '"></span></div>';
@@ -204,40 +218,42 @@
   var cv = document.createElement("canvas"); cv.width = cv.height = 1;
   var cx = cv.getContext("2d", { willReadFrequently: true });
   function rgb(c) { cx.clearRect(0, 0, 1, 1); cx.fillStyle = "#000"; cx.fillStyle = c; cx.fillRect(0, 0, 1, 1); return cx.getImageData(0, 0, 1, 1).data; }
+  function hex(c) { var d = rgb(c); return "#" + [d[0], d[1], d[2]].map(function (v) { return v.toString(16).padStart(2, "0"); }).join(""); }
   function lum(d) { var a = [d[0], d[1], d[2]].map(function (v) { v /= 255; return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }); return 0.2126 * a[0] + 0.7152 * a[1] + 0.0722 * a[2]; }
   function ratio(a, b) { var x = lum(rgb(a)), y = lum(rgb(b)); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); }
   function tok(el, n) { return getComputedStyle(el).getPropertyValue(n).trim(); }
+  // Chip colour is semi-transparent: flatten it over the tone before measuring.
+  function over(top, base) { var t = rgb(top), b = rgb(base), a = t[3] / 255; return "rgb(" + [0, 1, 2].map(function (i) { return Math.round(t[i] * a + b[i] * (1 - a)); }).join(",") + ")"; }
 
-  var SW = ["--surface","--surface-raised","--surface-sunken","--surface-inverse","--ink","--ink-muted","--ink-subtle","--accent","--accent-soft","--line","--line-strong"];
+  var SW = ["--surface","--surface-raised","--surface-sunken","--surface-inverse","--ink","--ink-muted","--ink-subtle","--accent","--accent-text","--accent-soft","--line","--line-strong","--mat"];
   var PAIRS = [
     ["--ink","--surface","Body text", 7], ["--ink","--surface-raised","Body on raised", 7],
-    ["--ink-muted","--surface","Muted text", 4.5], ["--ink-subtle","--surface","Subtle labels", 3],
-    ["--accent","--surface","Accent as text / hover", 4.5], ["--accent-ink","--accent","Text on accent", 4.5],
-    ["--ink-inverse","--surface-inverse","Inverse", 7], ["--focus","--surface","Focus ring", 3],
-    ["--line-strong","--surface","UI boundary", 3]
+    ["--ink-muted","--surface","Muted text", 4.5], ["--ink-subtle","--surface","Subtle labels, meta", 3],
+    ["--accent-text","--surface","Accent as text / hover", 4.5], ["--accent-ink","--accent","Text on accent", 4.5],
+    ["--ink","--accent","em ink on accent block", 4.5], ["--ink-inverse","--surface-inverse","Inverse", 7],
+    ["--focus","--surface","Focus ring", 3], ["--line-strong","--surface","UI boundary", 3],
+    ["--ink-muted","--surface-sunken","Code chip text", 4.5]
   ];
+  var TONES = [["portrait","Portrait"],["homelab","Homelab"],["rules-of-99","Rules of 99"],["finds","Finds"],["quizmaster","Quiz"],["scryfall","Scryfall"],["friends","About"]];
   Array.prototype.forEach.call(document.querySelectorAll("[data-panel]"), function (panel) {
-    var s = '<div class="swatches">' + SW.map(function (n) { return '<div class="sw"><i style="background: var(' + n + ')"></i>' + n.slice(2) + '<br><code>' + tok(panel, n) + '</code></div>'; }).join("") + "</div>";
-    s += '<table class="ratios"><thead><tr><th scope="col">Pair</th><th scope="col">Sample</th><th scope="col">Ratio</th></tr></thead><tbody>';
+    var s = '<div class="swatches">' + SW.map(function (n) { return '<div class="sw"><i style="background: var(' + n + ')"></i>' + n.slice(2) + '<code>' + hex(tok(panel, n)) + '</code></div>'; }).join("") + "</div>";
+    s += '<table class="ratios"><thead><tr><th scope="col">Pair</th><th scope="col">Aa</th><th scope="col">Ratio</th></tr></thead><tbody>';
     PAIRS.forEach(function (p) {
+      if (p[2].indexOf("em ink") === 0 && panel.dataset.option !== "signaal") return;
       var v = ratio(tok(panel, p[0]), tok(panel, p[1]));
-      s += "<tr><td>" + p[2] + '<br><span class="muted">' + p[0].slice(2) + " on " + p[1].slice(2) + '</span></td><td><span class="demo" style="color: var(' + p[0] + "); background: var(" + p[1] + ')">Aa</span></td><td class="tnum">' + v.toFixed(2) + ':1 <span class="pass">' + (v >= p[3] ? "pass ≥ " + p[3] : "below " + p[3]) + "</span></td></tr>";
+      s += "<tr><td>" + p[2] + "<small>" + p[0].slice(2) + " / " + p[1].slice(2) + '</small></td><td><span class="demo" style="color: var(' + p[0] + "); background: var(" + p[1] + ')">Aa</span></td><td class="tnum">' + v.toFixed(2) + ":1 " + (v >= p[3] ? "✓" : "✗ &lt; " + p[3]) + "</td></tr>";
     });
-    panel.insertAdjacentHTML("beforeend", s + "</tbody></table>");
+    s += "</tbody></table>";
+    s += '<div class="tones">' + TONES.map(function (t) {
+      var tone = tok(panel, "--tone-" + t[0]);
+      var chip = over(tok(panel, "--ph-chip"), tone);
+      var lab = ratio(tok(panel, "--ph-ink"), chip);
+      var ink = tok(panel, "--pink-" + t[0]);
+      var vi = ink ? ratio(ink, tok(panel, "--surface")) : 0;
+      return '<figure><div class="ph" style="--tone: var(--tone-' + t[0] + ')" role="img" aria-label="Tone for ' + t[1] + '"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true">' + t[1] + "</span></div><figcaption>" + hex(tone) + "<br>label " + lab.toFixed(1) + ":1" + (vi ? '<br><span style="color: var(--pink-' + t[0] + ')">ink</span> ' + vi.toFixed(1) + ":1" : "") + "</figcaption></figure>";
+    }).join("") + "</div>";
+    panel.insertAdjacentHTML("beforeend", s);
   });
-
-  var TONES = [["portrait","Portrait"],["homelab","Homelab"],["rules-of-99","Rules of 99"],["finds","2nd-hand finds"],["quizmaster","Quizmaster"],["scryfall","Scryfall"],["friends","About"]];
-  var root = document.documentElement;
-  function renderTones() {
-  document.getElementById("tones").innerHTML = TONES.map(function (t, i) {
-    var v = ratio(tok(root, "--ph-ink"), tok(root, "--tone-" + t[0]));
-    var ink = tok(root, "--pink-" + t[0]);
-    var vi = ink ? ratio(ink, tok(root, "--surface")) : 0;
-    return '<figure><div class="ph" data-r="' + (i % 2) + '" style="--tone: var(--tone-' + t[0] + ')" role="img" aria-label="Tone for ' + t[1] + '"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true">' + t[1] + '</span></div><figcaption class="caption tnum">--tone-' + t[0] + "<br>label " + v.toFixed(2) + ":1" + (vi ? '<br><span style="color: var(--pink-' + t[0] + ')">project ink</span> ' + vi.toFixed(2) + ":1 on surface" : "") + "</figcaption></figure>";
-  }).join("");
-  }
-  renderTones();
-  new MutationObserver(renderTones).observe(root, { attributes: true, attributeFilter: ["data-option"] });
 })();
 </script>
 <script src="review.js"></script>

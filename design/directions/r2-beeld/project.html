@@ -1,14 +1,14 @@
 <!doctype html>
-<html lang="en" data-direction="beeld" data-option="wit" data-type="a" data-copy-voice="nuchter">
+<html lang="en" data-direction="beeld" data-option="kobalt" data-type="a" data-copy-voice="nuchter">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Homelab &amp; home automation · Guus Ekkelenkamp</title>
 <meta name="description" content="A small home server that runs my apps and my home automation.">
-<script>(function(){var h=document.documentElement;function pick(k,o){var v=null;try{v=new URLSearchParams(location.search).get(k)}catch(e){}if(o.indexOf(v)<0){try{v=localStorage.getItem("r2-beeld:"+k)}catch(e){}}return o.indexOf(v)<0?o[0]:v}h.setAttribute("data-option",pick("option",["wit","donker"]));h.setAttribute("data-type",pick("type",["a","b"]))})();</script>
+<script>(function(){var h=document.documentElement;function pick(k,o){var v=null;try{v=new URLSearchParams(location.search).get(k)}catch(e){}if(o.indexOf(v)<0){try{v=localStorage.getItem("r2-beeld:"+k)}catch(e){}}return o.indexOf(v)<0?o[0]:v}h.setAttribute("data-option",pick("option",["kobalt","signaal","nacht"]));h.setAttribute("data-type",pick("type",["a","b"]))})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Schibsted+Grotesk:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Schibsted+Grotesk:ital,wght@0,400..700;1,400..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../system/base.css">
 <link rel="stylesheet" href="beeld.css">
 </head>
@@ -36,13 +36,15 @@
       <h1 class="case-head__title display" id="case-title">Homelab &amp; home automation</h1>
       <p class="case-head__line">A small home server that runs my apps and my home automation.</p>
       <dl class="case-meta">
-        <dt>Year</dt><dd>2026</dd>
-        <dt>Built with</dt><dd><ul class="tags" style="color: var(--ink)"><li>Proxmox</li><li>Kubernetes</li><li>Home Assistant</li><li>Zigbee</li></ul></dd>
+        <dt>project</dt><dd>01 of 05</dd>
+        <dt>year</dt><dd>2026</dd>
+        <dt>built with</dt><dd><ul class="chips"><li>proxmox</li><li>k8s</li><li>home-assistant</li><li>zigbee</li></ul></dd>
       </dl>
     </header>
 
     <figure class="case-hero">
-      <div class="ph" role="img" aria-label="Photo: the setup under the TV"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true">Photo: the setup under the TV</span></div>
+      <div class="ph" role="img" aria-label="Photo: the setup under the TV"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true"><span class="ph__no">01</span>Photo: the setup under the TV</span></div>
+      <figcaption class="page"><span class="meta">fig.01 &mdash; homelab/under-the-tv.jpg &middot; 16:9</span><span class="caption" style="margin: 0">The whole setup, under the TV.</span></figcaption>
     </figure>
 
     <section class="page grid case-section" aria-labelledby="s-what">
@@ -63,10 +65,25 @@
     <section class="page grid case-section" aria-labelledby="s-how">
       <h2 class="split__title" id="s-how">How it works</h2>
       <div class="split__body split__body--wide">
-        <p class="prose" id="how-text" style="max-width: 62ch">The laptop runs two virtual machines. One runs Kubernetes with my apps; the other runs Home Assistant with a Zigbee stick for the lights and sensors. Nothing is open to the internet; I connect through a private network (Tailscale). When I push code to GitHub, it&rsquo;s built and deployed automatically (Argo CD).</p>
+        <div class="how">
+          <p class="prose" id="how-text">The laptop runs two virtual machines. One runs Kubernetes with my apps; the other runs Home Assistant with a Zigbee stick for the lights and sensors. Nothing is open to the internet; I connect through a private network (Tailscale). When I push code to GitHub, it&rsquo;s built and deployed automatically (Argo CD). Each app is described by a small file like the one here; Argo CD keeps the cluster in line with it.</p>
+          <figure class="snippet">
+            <figcaption><span class="meta"><b>apps/rules-of-99.yaml</b></span><span class="meta">Argo CD</span></figcaption>
+<pre tabindex="0" aria-label="Example Argo CD Application file"><code><span class="k">apiVersion:</span> <span class="v">argoproj.io/v1alpha1</span>
+<span class="k">kind:</span> <span class="v">Application</span>
+<span class="k">metadata:</span> { <span class="k">name:</span> <span class="v">rules-of-99</span> }
+<span class="k">spec:</span>
+  <span class="k">source:</span>
+    <span class="k">repoURL:</span> <span class="v">https://github.com/guuse/homeserver</span>
+    <span class="k">path:</span> <span class="v">apps/rules-of-99</span>
+  <span class="k">syncPolicy:</span>
+    <span class="c"># fix drift, remove what's gone</span>
+    <span class="k">automated:</span> { <span class="k">prune:</span> <span class="v">true</span>, <span class="k">selfHeal:</span> <span class="v">true</span> }</code></pre>
+          </figure>
+        </div>
         <figure class="diagram" aria-describedby="how-text">
           <div class="diagram__box"><h4>Me</h4><p>Phone or laptop, anywhere</p></div>
-          <div class="diagram__arrow">Tailscale <span aria-hidden="true"><span class="arr-h">&rarr;</span><span class="arr-v">&darr;</span></span><br><span class="visually-hidden">private network to the laptop</span></div>
+          <div class="diagram__arrow">tailscale <span aria-hidden="true"><span class="arr-h">&rarr;</span><span class="arr-v">&darr;</span></span><span class="visually-hidden"> private network to the laptop</span></div>
           <div class="diagram__box diagram__host">
             <h4>The laptop under the TV</h4>
             <div class="diagram__vms">
@@ -74,7 +91,7 @@
               <div class="diagram__box diagram__vm"><h4>VM 2 · Home Assistant</h4><p>Zigbee stick for the lights and sensors</p></div>
             </div>
           </div>
-          <div class="diagram__arrow"><span aria-hidden="true"><span class="arr-h">&larr;</span><span class="arr-v">&uarr;</span></span> deploys<br><span class="visually-hidden">from GitHub</span></div>
+          <div class="diagram__arrow"><span aria-hidden="true"><span class="arr-h">&larr;</span><span class="arr-v">&uarr;</span></span> argo cd<span class="visually-hidden"> deploys from GitHub</span></div>
           <div class="diagram__box"><h4>GitHub</h4><p>I push code, it gets built</p></div>
         </figure>
       </div>
@@ -82,12 +99,12 @@
 
     <div class="page grid pair">
       <figure class="pair__a">
-        <div class="ph" style="--tone: var(--tone-homelab); --ratio: 4 / 5" role="img" aria-label="Photo: the wall panel"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true">Photo: the wall panel</span></div>
-        <figcaption class="caption">The wall panel, where the house gets switched on and off.</figcaption>
+        <div class="ph" style="--tone: var(--tone-homelab); --ratio: 4 / 5" role="img" aria-label="Photo: the wall panel"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true"><span class="ph__no">02</span>Photo: the wall panel</span></div>
+        <figcaption><p class="meta" style="margin-block-start: var(--space-xs)">fig.02 &mdash; homelab/wall-panel.jpg &middot; 4:5</p><p class="caption">The wall panel, where the house gets switched on and off.</p></figcaption>
       </figure>
       <figure class="pair__b">
-        <div class="ph" style="--tone: var(--tone-scryfall); --ratio: 1 / 1" role="img" aria-label="Photo: the Zigbee stick on its cable"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true">Photo: the Zigbee stick on its cable</span></div>
-        <figcaption class="caption">The Zigbee stick that talks to the lights and sensors.</figcaption>
+        <div class="ph" style="--tone: var(--tone-scryfall); --ratio: 1 / 1" role="img" aria-label="Photo: the Zigbee stick on its cable"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true"><span class="ph__no">03</span>Photo: the Zigbee stick on its cable</span></div>
+        <figcaption><p class="meta" style="margin-block-start: var(--space-xs)">fig.03 &mdash; homelab/zigbee-stick.jpg &middot; 1:1</p><p class="caption">The Zigbee stick that talks to the lights and sensors.</p></figcaption>
       </figure>
     </div>
 
@@ -125,11 +142,11 @@
   <nav class="page next" aria-label="Next project">
     <a class="next__link" href="project.html" style="--p: var(--tone-rules-of-99); --p-ink: var(--pink-rules-of-99)">
       <div class="next__text">
-        <p class="eyebrow">Next project</p>
+        <p class="meta">next &middot; 02 of 05</p>
         <p class="next__title">Rules of 99</p>
         <p class="muted" style="margin-block-start: var(--space-2xs)">Play Commander (Magic: The Gathering) with friends in the browser.</p>
       </div>
-      <div class="next__media"><div class="ph" style="--tone: var(--tone-rules-of-99)" role="img" aria-label="Screenshot: a 4-player game"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true">Screenshot: a 4-player game</span></div></div>
+      <div class="next__media"><div class="ph" style="--tone: var(--tone-rules-of-99)" role="img" aria-label="Screenshot: a 4-player game"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true"><span class="ph__no">02</span>Screenshot: a 4-player game</span></div></div>
     </a>
   </nav>
 </main>
@@ -137,6 +154,8 @@
 <footer class="site-footer">
   <div class="page site-footer__inner">
     <p data-copy="footer.note">&copy; 2026 Guus Ekkelenkamp</p>
+    <!-- Status line: illustrative values. A build step fills in the real commit and date. -->
+    <p class="status"><span class="status__dot" aria-hidden="true"></span><span>all systems normal</span><span aria-hidden="true">&middot;</span><span>last deploy <span data-build="commit">a1c9e2f</span></span><span aria-hidden="true">&middot;</span><span data-build="date">3 Nov 2026</span></p>
     <a href="#main">Back to top</a>
   </div>
 </footer>

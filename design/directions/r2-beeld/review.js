@@ -7,7 +7,7 @@
   var page = (location.pathname.split("/").pop() || "index.html");
   var Copy = window.EkkCopy;
   var GROUPS = [
-    { key: "option", label: "Kleur", values: [["wit", "Wit"], ["donker", "Donker"]] },
+    { key: "option", label: "Kleur", values: [["kobalt", "Kobalt"], ["signaal", "Signaal"], ["nacht", "Nacht"]] },
     { key: "copy", label: "Tekst", values: [["nuchter", "Nuchter"], ["speels", "Speels"], ["persoonlijk", "Persoonlijk"], ["kort", "Kort"]] },
     { key: "type", label: "Koppen", values: [["a", "Serif"], ["b", "Sans"]] }
   ];
