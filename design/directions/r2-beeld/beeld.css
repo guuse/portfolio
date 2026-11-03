@@ -995,3 +995,62 @@
   .numbers__list dt { font-variant-numeric: normal; }
 }
 @layer components { .numbers__list dd { font-variant-numeric: lining-nums tabular-nums; } }
+
+/* ============================================================ round 5b */
+@layer components {
+  /* 1. Real screenshots fill their frame: no mat, no crop marks */
+  .stage { background: var(--surface-sunken); background-image: none; border-radius: var(--radius-m); box-shadow: 0 0 0 1px var(--line); }
+  .stage::before, .stage::after { display: none; }
+  .stage img, .stage--tall img, .feature__media .stage img { position: absolute; inset: 0; margin: 0; width: 100%; height: 100%; max-width: none; max-height: none;
+    object-fit: cover; object-position: top left; transform: none; border-radius: inherit; box-shadow: none; }
+  .item__media:hover .stage img, .item.is-hot .stage img, .feature__media:hover .stage img { transform: scale(1.015); transform-origin: top left; }
+  @media (max-width: 959px) { .feature__media .stage img { transform: none; max-height: none; } }
+  .stage .il__label { inset-block-end: 10px; inset-inline-end: 10px; }
+  .case__visual .stage { --ratio: 16 / 10; }
+  .feature__media .stage { border-radius: 0; box-shadow: none; }
+
+  /* 2. Calm project grid: 2 equal columns, 16:10, no stagger */
+  .project-grid .item:nth-child(n) { grid-column: auto; margin-block-start: 0; --ratio: 16 / 10; }
+  @media (min-width: 600px) {
+    .project-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: var(--space-2xl); }
+  }
+  @media (min-width: 960px) {
+    .project-grid { grid-column: 4 / 13; grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: var(--space-2xl); }
+  }
+
+  /* 3. Featured illustrations: draw clear of the overlapping title card */
+  @media (min-width: 960px) {
+    .feature__media .il__svg--full { inset: 5% 3% 18% 34%; width: 63%; height: 77%; }
+  }
+  @media (min-width: 600px) and (max-width: 959px) {
+    .feature__media .il__svg--full, .feature__media .il__svg--compact { inset: 4% 4% 30% 24%; width: 72%; height: 66%; }
+  }
+  @media (max-width: 599px) {
+    .feature__media .il__svg--compact { inset: 10% 6% 20%; width: 88%; height: 70%; }
+  }
+
+  /* 4. Hero prints: portrait plus two project screenshots */
+  .print--shot { padding-block-end: 0; }
+  .print--shot img { aspect-ratio: var(--crop); object-fit: cover; object-position: top left; }
+  .print--a { --crop: 4 / 5; }
+  .print--b { --crop: 16 / 10; width: 38%; }
+  .print figcaption { font-family: var(--font-mono); font-size: var(--step-meta); color: oklch(30% 0.03 266); padding: 6px 2px 4px; }
+
+  /* 5. Highlight: what every project gets, plus two small facts */
+  .hl-gets { display: grid; gap: var(--space-xs); width: 100%; }
+  .hl-gets ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .hl-gets li { padding: 8px 12px; border-radius: var(--radius-s); border: 1px solid var(--line-strong); background: var(--surface); font-size: var(--step-small); }
+  .hl-gets li::before { content: "\2713"; color: var(--accent-text); margin-inline-end: 0.5em; }
+  .hl-small { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+  .hl-small span { font-family: var(--font-mono); font-size: var(--step-meta); color: var(--ink-muted); }
+  .hl-small span::before { content: "\25CF"; color: var(--accent); margin-inline-end: 0.5em; font-size: 0.8em; }
+
+  /* 7. A face on the first screen on phones */
+  .intro__kicker { display: flex; align-items: center; gap: 12px; }
+  .intro__avatar { width: 52px; height: 52px; border-radius: 50%; object-fit: cover; border: 2px solid var(--paper); box-shadow: var(--shadow-2); }
+  @media (min-width: 960px) { .intro__avatar { display: none; } }
+
+  /* 8. Detail panel width */
+  @media (min-width: 1280px) { .detail__panel { width: min(100%, 1120px); } }
+}
+@layer components { .stage .il__label { display: none; } }

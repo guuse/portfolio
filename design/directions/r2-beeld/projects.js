@@ -235,7 +235,7 @@
         var blocks = [["standup", 24, 78, "s-tone-3"], ["PR review", 102, 108, "s-tone"], ["Linear issue", 210, 138, "s-tone-2"], ["call", 348, 54, "s-tone-3"], ["deploy", 402, 54, "s-tone"]];
         var hours = ["09", "10", "11", "12", "13", "14", "15", "16", "17"];
         return T(24, 30, "uren-assistent · one day", "s-m") +
-          blocks.map(function (b) { return R(b[1] + 2, 44, b[2] - 4, 46, 6, b[3]) + T(b[1] + b[2] / 2, 72, b[0], "s-s s-ink", "middle"); }).join("") +
+          blocks.map(function (b) { return R(b[1] + 2, 44, b[2] - 4, 46, 6, b[3]) + T(b[1] + b[2] / 2, 72, b[0], b[3] === "s-tone-3" ? "s-s s-ink" : "s-s s-on", "middle"); }).join("") +
           '<line x1="24" y1="102" x2="456" y2="102" class="s-line"/>' +
           hours.map(function (h, i) { return T(24 + i * 54, 122, h, "s-m", i === 0 ? null : i === 8 ? "end" : "middle"); }).join("") +
           '<path class="s-line" d="M240 130 V148 M234 142 L240 148 L246 142"/>' +
@@ -252,7 +252,7 @@
       compact: function () {
         return T(16, 26, "hours, booked", "s-c") +
           R(16, 38, 84, 48, 6, "s-tone-3") + R(106, 38, 112, 48, 6, "s-tone") + R(224, 38, 80, 48, 6, "s-tone-2") +
-          T(24, 68, "standup", "s-c s-ink") + T(114, 68, "PR review", "s-c s-ink") + T(232, 68, "issue", "s-c s-ink") +
+          T(24, 68, "standup", "s-c s-ink") + T(114, 68, "PR review", "s-c s-on") + T(232, 68, "issue", "s-c s-on") +
           R(16, 98, 288, 44, 8, "s-box") + T(30, 126, "7.5 h", "s-t s-lg") + R(194, 108, 98, 26, 13, "s-verdict") + T(243, 126, "submitted", "s-c s-on", "middle") +
           T(16, 176, "flows, tested", "s-c") +
           [["sign-up", "passes", 0], ["checkout", "fixed", 1], ["settings", "passes", 0]].map(function (r, i) {
@@ -296,14 +296,14 @@
       return '<div class="ph il" style="--tone: var(--tone-' + p.id + ')">' + illoHTML(p) +
         '<span class="ph__label il__label" aria-hidden="true"><span class="ph__no">' + p.no + "</span>illustration</span></div>";
     }
-    var tall = shape === "tall" && p.cover.tall;
+    var tall = false; // round 5b: cards always use the desktop screenshot
     var s = shot(tall ? p.cover.tall : p.cover.shot);
     return '<div class="ph stage' + (tall ? " stage--tall" : "") + '" style="--tone: var(--tone-' + p.id + ')">' + imgHTML(s, eager) +
       '<span class="ph__label il__label" aria-hidden="true"><span class="ph__no">' + p.no + "</span>screenshot</span></div>";
   }
   function coverFile(p, shape) {
     if (p.cover.illo) return p.id + "/illustration.svg";
-    return (shape === "tall" && p.cover.tall ? p.cover.tall : p.cover.shot) + ".webp";
+    return p.cover.shot + ".webp";
   }
   function metaHTML(p, ratio, shape) { return '<p class="meta">fig.' + p.no + " — " + coverFile(p, shape) + " · " + ratio + "</p>"; }
   function openAttrs(p) { return 'href="#' + p.id + '" data-open="' + p.id + '"'; }
@@ -326,7 +326,7 @@
   }
 
   function itemHTML(p, i, n) {
-    var ratio = slotRatio(i, n), shape = ratio === "4:5" ? "tall" : "wide";
+    var ratio = "16:10", shape = "wide";
     return '<li class="item" id="p-' + p.id + '" data-project="' + p.id + '" style="' + vars(p) + '">' +
       '<a class="item__media" ' + openAttrs(p) + ' tabindex="-1" aria-hidden="true">' + visualHTML(p, shape) + "</a>" +
       '<div class="item__caption">' +
