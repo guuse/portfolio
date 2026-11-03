@@ -15,7 +15,7 @@ model, and no links to private repositories.
 - Competencies should line up with what infra/DevOps/platform job posts ask for: production
   Kubernetes, GitOps (Argo CD), Terraform/IaC, AWS/Azure, CI/CD, observability
   (Prometheus/Grafana/Loki), security and compliance, and technical leadership.
-- Contact: **ekkelenkampguus@gmail.com**, GitHub `guuse`, LinkedIn `[CONFIRM url]`.
+- Contact: **ekkelenkampguus@gmail.com**, GitHub `guuse`, LinkedIn https://www.linkedin.com/in/guus-ekkelenkamp/.
 
 ---
 
@@ -46,8 +46,8 @@ model, and no links to private repositories.
 |---|---|
 | 10+ | years in development agencies |
 | 8+ | years in infrastructure |
-| 1 | cloud-agnostic Kubernetes platform, running for multiple clients |
-| 2 | clouds day to day: AWS and Azure |
+| 8 | Kubernetes clusters on one cloud-agnostic platform, NL and abroad |
+| 1,500+ | pods on the largest of them |
 
 ## 4. Experience
 **Title:** Experience
@@ -59,16 +59,19 @@ projects ship without each one reinventing them. Today I lead the infra team.*
 ### 4.1 Highlight (one larger block)
 **A standardised, cloud-agnostic Kubernetes hosting platform.** *I designed and built the
 hosting platform our client projects run on. It's the same setup on every cloud, driven from
-git, and it's been rolled out for multiple clients. New projects get a namespace, a pipeline and
-monitoring on day one instead of in week six.* `[CONFIRM: any numbers you want to add, e.g.
-number of clients/apps/clusters]`
+git, and it now runs **8 clusters**, from small to large: the biggest runs **more than 1,500
+pods**. They're in the Netherlands and abroad, including a cluster in **Japan**. The focus is
+automation and scaling: new projects get a namespace, a pipeline and monitoring on day one, and
+the platform grows without hand work. I also run **training programmes with clients**, so their
+own teams can work on it.*
+Mini facts row: `8 clusters` · `1,500+ pods on the largest` · `NL, EU and Japan` · `client training`
 
 ### 4.2 What I work on (8 competency blocks: title, one line, 3 bullets, tool chips)
 1. **Kubernetes platform engineering**: *Production clusters, and the custom parts that make
    them fit.*
-   - Custom operators and CRDs for the things off-the-shelf charts don't cover
+   - Custom operators and CRDs (written in Python) for the things off-the-shelf charts don't cover
    - Helm charts and Kustomize overlays, standardised across projects
-   - Upgrades, multi-tenancy and capacity, run in production
+   - Upgrades, multi-tenancy, autoscaling and capacity across 8 production clusters
    Chips: `kubernetes` `operators` `crds` `helm` `kustomize`
 2. **GitOps & delivery**: *Git is the source of truth; the cluster follows.*
    - Argo CD for every environment, with app-of-apps
@@ -96,6 +99,7 @@ number of clients/apps/clusters]`
    Chips: `iso-27001` `rbac` `least-privilege`
 7. **Architecture & leadership**: *Decide early, write it down, bring the team along.*
    - Tech lead of the infra team: priorities, reviews and mentoring
+   - Training programmes with clients, so their teams can run what we build
    - Architecture for client systems: where it runs, how it connects, who gets access
    - Decision records, so the reasoning outlives the meeting
 8. **AI tooling**: *Let agents do the boring parts, with guardrails.*
@@ -115,7 +119,7 @@ number of clients/apps/clusters]`
 - **Delivery:** GitHub Actions, Docker, GHCR
 - **Observability:** Prometheus, Grafana, Loki
 - **Network & security:** Tailscale, Cloudflare (DNS, Tunnel, Access), ISO 27001
-- **Code:** TypeScript, Python, Go `[CONFIRM: Go? since operators]`, Java, Bash
+- **Code:** Python (incl. Kubernetes operators), TypeScript, Java, Bash
 - **AI:** Claude Code, MCP, Claude Agent SDK
 
 ---
@@ -263,6 +267,6 @@ screenshots where they exist, otherwise one illustration), "how it works" bullet
 ## 7. Contact
 - Title: **Contact** · Big address: **ekkelenkampguus@gmail.com** (selectable + copy button)
 - Line: *Want to work together, or talk Kubernetes? Send me an email.*
-- Links: GitHub (https://github.com/guuse) · LinkedIn `[CONFIRM url]`
+- Links: GitHub (https://github.com/guuse) · LinkedIn (https://www.linkedin.com/in/guus-ekkelenkamp/)
 - Footer: `© 2026 Guus Ekkelenkamp` · status line (illustrative: `all systems normal · last
   deploy <sha> · <date>`, filled at build time) · Back to top
