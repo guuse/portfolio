@@ -18,7 +18,10 @@ import type { Scheduler } from "./scheduler";
 import type { Animator } from "./types";
 
 interface Player {
-  run: Animator;
+  /** Built on the first frame the drawing is on screen, so a page doesn't pay for them all up front. */
+  run: Animator | null;
+  svg: SVGSVGElement;
+  factory: (svg: SVGSVGElement) => Animator;
   /** Smoothed progress (-1 before the first frame). */
   ps: number;
   t: number;
@@ -55,11 +58,12 @@ function player(root: Element, id: string): Player | null {
   const svg = root.querySelector<SVGSVGElement>("svg.scene-svg");
   const factory = animators[id];
   if (!svg || !factory) return null;
-  return { run: factory(svg), ps: -1, t: 0, speed: 1, speedTarget: 1 };
+  return { run: null, svg, factory, ps: -1, t: 0, speed: 1, speedTarget: 1 };
 }
 
 /** Advances a player one frame. Scroll progress is smoothed so a jumpy wheel reads as one motion. */
 function tick(a: Player, p: number, dt: number): void {
+  a.run ??= a.factory(a.svg);
   if (a.ps < 0) a.ps = p;
   else a.ps += (p - a.ps) * approach(dt, 7);
   if (Math.abs(a.ps - p) < 0.0005) a.ps = p;

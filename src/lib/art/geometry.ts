@@ -19,7 +19,7 @@ export interface PathPoint {
 
 /** Samples an absolute path that only uses M, L, H, V and C (all the kit draws). */
 export function samplePath(d: string): PathSample {
-  const tok = d.match(/[MLHVC]|-?\d*\.?\d+/g) ?? [];
+  const tok = d.match(/[A-Za-z]|-?\d*\.?\d+/g) ?? [];
   const pts: [number, number][] = [];
   let i = 0;
   let cmd = "";
@@ -28,7 +28,7 @@ export function samplePath(d: string): PathSample {
   const num = (): number => +(tok[i++] ?? 0);
   while (i < tok.length) {
     const t = tok[i] ?? "";
-    if (/[MLHVC]/.test(t)) {
+    if (/[A-Za-z]/.test(t)) {
       cmd = t;
       i++;
     }

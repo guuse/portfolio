@@ -23,7 +23,10 @@
     "410": { "$value": "oklch(41% 0.052 {hue.navy})" },
     "430": { "$value": "oklch(43% 0.05 {hue.navy})" },
     "470": { "$value": "oklch(47% 0.05 {hue.navy})" },
-    "480": { "$value": "oklch(48% 0.05 {hue.navy})" }
+    "480": {
+      "$value": "oklch(50% 0.05 {hue.navy})",
+      "$description": "48% in the mock; 50% gives strong lines 3:1 on the page"
+    }
   },
   "cloud": {
     "$type": "color",

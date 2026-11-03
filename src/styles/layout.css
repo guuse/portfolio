@@ -33,7 +33,8 @@
     color: var(--ink-subtle);
   }
 
-  .prose code {
+  /* inline code only: code blocks keep their own size */
+  .prose :not(pre) > code {
     font-size: 0.88em;
     padding: 1px 5px;
     border-radius: var(--radius-xs);

@@ -1,0 +1,44 @@
+# Weekly, grouped, and only releases that are at least 14 days old (supply-chain cooling-off).
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    cooldown:
+      default-days: 14
+    groups:
+      npm:
+        patterns: ["*"]
+    commit-message:
+      prefix: chore
+      include: scope
+    open-pull-requests-limit: 5
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    cooldown:
+      default-days: 14
+    groups:
+      github-actions:
+        patterns: ["*"]
+    commit-message:
+      prefix: ci
+
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    cooldown:
+      default-days: 14
+    groups:
+      docker:
+        patterns: ["*"]
+    commit-message:
+      prefix: chore
+      include: scope

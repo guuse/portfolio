@@ -90,23 +90,9 @@ export const cardLoop: SceneFactory = (svg) => {
     blink = blinker(svg);
   hideStill(svg);
   const loopPath = K["loop"] as Path,
-    put = courier(K["pk"] as SVGGElement),
-    L = loopPath.getTotalLength();
-  const near = ({ x, y }: { x: number; y: number }): number => {
-    let best = 0,
-      bd = Infinity;
-    for (let d = 0; d < L; d += 2) {
-      const q = loopPath.getPointAtLength(d),
-        dd = (q.x - x) ** 2 + (q.y - y) ** 2;
-      if (dd < bd) {
-        bd = dd;
-        best = d;
-      }
-    }
-    return best / L;
-  };
-  const fBuild = near(CL.buildAt),
-    fLap = near(CL.laptopAt);
+    put = courier(K["pk"] as SVGGElement);
+  const fBuild = CL.buildAt,
+    fLap = CL.laptopAt;
   let phase = 0;
   return (_p, dt, t, speed) => {
     blink(dt);

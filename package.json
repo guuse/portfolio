@@ -20,7 +20,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "npm run tokens && astro check",
-    "test": "vitest run --passWithNoTests",
+    "test": "npm run tokens && vitest run",
     "test:e2e": "playwright test --project=e2e",
     "test:a11y": "playwright test --project=a11y",
     "check": "npm run lint && npm run lint:css && npm run format:check && npm run typecheck && npm run test",
