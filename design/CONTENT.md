@@ -1,11 +1,21 @@
-# Content inventory & copy deck
+# Content & copy (round 2)
 
-Every direction uses **this copy**. Directions may shorten or restructure it, but must not
-invent facts. Items marked `[CONFIRM]` are assumptions Guus needs to check before launch.
+Round 1 leaned on concepts and tech in-jokes (datasheets, floor plans, "rover clogs: 0").
+Guus's feedback: **it doesn't need to be that tech-savvy or cringy. Just a normal, good
+website and portfolio.** This copy deck replaces the round-1 copy (archived in
+`archive/round-1/CONTENT.md`).
 
-Facts are taken from Guus's own repos (homeserver, rules-of-99, 2nd-hand-finds, huisjes and
-the Argo CD application manifests), as of November 2026. **Public-safe:** no IPs, tailnet names,
-LAN addresses, device IDs or internal hostnames.
+## Tone
+
+- Plain, friendly, first person. Write it the way you'd explain it to someone at a party who
+  asked, "So what do you do?"
+- Short sentences, few jargon words. Tech terms only where they're the actual name of the thing
+  (Kubernetes, Home Assistant).
+- **No jokes as a device.** At most one light line per page, and only if it would also work
+  spoken out loud.
+- One title: **Tech lead, infra team at Harborn**. Security, cloud and architecture are what
+  the work covers, never separate titles.
+- Never name the laptop's brand or model. No IPs, hostnames or internal names.
 
 ---
 
@@ -13,305 +23,135 @@ LAN addresses, device IDs or internal hostnames.
 
 | Field | Value |
 |---|---|
-| Name | Guus Ekkelenkamp |
-| Handle | `guuse` (GitHub) |
-| Domain | ekkelenkamp.dev |
-| City | Rotterdam, NL |
-| Role | Tech lead of the infra team at Harborn `[CONFIRM since when]` |
-| Contact | `hello@ekkelenkamp.dev` `[CONFIRM: mailbox doesn't exist yet]` · github.com/guuse · LinkedIn `[CONFIRM url]` |
-| Page title | Guus Ekkelenkamp, tech lead infra, Rotterdam |
-| Meta description | Tech lead of the infra team at Harborn in Rotterdam. Security, cloud and architecture by day; a GitOps homelab on an old laptop by night. |
+| Page title | Guus Ekkelenkamp |
+| Meta description | Tech lead of the infra team at Harborn in Rotterdam. Security, cloud and architecture, plus a few side projects. |
+| Contact | `hello@ekkelenkamp.dev` `[CONFIRM]` · GitHub `guuse` · LinkedIn `[CONFIRM url]` |
 
-> **Naming rule:** never name the homelab laptop's brand or model. It's "an old laptop" /
-> "a second-hand laptop". Same goes for the CPU model.
+## 1. Header
 
----
+`Guus Ekkelenkamp` · nav: **Work · Projects · About · Contact**
 
-## 1. Hero
+## 2. Intro (hero)
 
-**Name:** Guus Ekkelenkamp
+**Headline (pick one):**
+- A. *I'm Guus. I lead the infra team at Harborn in Rotterdam.*
+- B. *Guus Ekkelenkamp. Tech lead, infrastructure, Rotterdam.*
 
-**One-liner options** (directions pick one, or rotate them):
+**Intro paragraph:**
+> I make sure the platforms our clients run on are secure, reliable and well thought out. At
+> home I build things too: a small server setup, some web apps, and more automation than one
+> apartment needs.
 
-- A. *By day I make sure client platforms are secure and keep running. By night I do the same for a laptop behind the TV.*
-- B. *Tech lead infra at Harborn. Fifteen services on a laptop with the lid shut at home.*
-- C. *I decide how things get built, where they run, and who's allowed in. Also at home.*
+**Photo:** a portrait of Guus `[TODO photo]`.
 
-**Sub-line:** Tech lead of the infra team at Harborn, Rotterdam.
+## 3. Work
 
-**Tone note for the day job:** there is ONE title: *tech lead, infra team*. Security, cloud and
-architecture are **what the job covers**, never presented as job titles (no "security officer",
-"cloud specialist", "solution architect"). The title goes in small type as a plain fact; the copy around them
-describes *what the work actually is*. No "passionate about security", no "architecting
-solutions", no "guardian of the cloud". State the responsibility, give one concrete example, move on.
+**Heading:** Work
 
-**Status chip:** `Currently: moving my infra to ekkelenkamp.dev & hunting mini PCs for node #2`
+> I'm tech lead of the infra team at Harborn, a digital agency in Rotterdam and Amsterdam.
+> Before a client project gets built, we decide where it runs, how it's set up and who gets
+> access to what.
 
----
+Three short columns (heading + one sentence):
 
-## 2. Now *(a short "now page" block)*
+- **Security**: Policies people actually follow, access reviews, and deciding which tools are allowed near client data.
+- **Cloud & platform**: The Kubernetes platform our projects run on, set up so it can be rebuilt from code.
+- **Architecture**: How client systems connect, and writing down why we chose what we chose.
 
-- Building a **3-node homelab** out of ex-office 1-litre mini PCs (€50–100 each) for a
-  3D-printed rack. A bot I wrote scouts Marktplaats for them every two hours.
-- Shipping **Rules of 99** 2.0: Commander in the browser, now on phones too.
-- Moving everything from `guuse.online` to `ekkelenkamp.dev`.
-- Searching for a first home. Yes, there's a repo for that too.
+Optional line: *Before Harborn: `[CONFIRM: previous roles/education]`*
 
----
+## 4. Projects
 
-## 3. Work (day job) ⟵ co-lead with the homelab, same weight
+**Heading:** Projects · **Sub:** *Things I build outside work.*
 
-**Harborn**: digital agency in Rotterdam & Amsterdam, part of Boer & Croon.
-**Title (small print, as a fact):** Tech lead · Infra team
+### Rotation rule (mandatory)
 
-**Intro:**
+On every page load, **one project is picked at random as the featured project** and shown
+big (image, title, short story, link). **The other projects appear in a regular list/grid
+below it**, in their normal order, without the featured one. Without JS, the Homelab is
+featured. Store nothing; it's a plain random pick per load. The featured slot and the list item
+are the same data with two layouts.
 
-> I lead the infra team at Harborn. Before a client project gets built, someone has to decide
-> what it looks like, where it runs, and who gets access to what. That's us, and it's usually
-> me holding the pen. I still write code, mostly where those decisions meet the code.
+### The projects (same fields for each)
 
-### 3.1 What the job covers (three areas, each a block: area, one line, 3 concrete bullets; these are areas, not titles)
+**1. Homelab & home automation** · `homelab`
+- One-liner: *A small home server that runs my apps and my home automation.*
+- Story (featured, 2–3 sentences): *An old laptop under the TV runs everything: my side
+  projects, Home Assistant and the lights. It's only reachable through my own private
+  network, and every change goes through git, so I can rebuild it in an afternoon. Next up:
+  three small second-hand PCs to turn it into a proper cluster.*
+- Tags: Proxmox · Kubernetes · Home Assistant · Zigbee
+- Image: *PHOTO: the setup under the TV / the wall panel*
 
-**Security** — *Keeping the agency and its clients out of the news.*
-- Looks after the security policy and makes it something people actually follow `[CONFIRM: ISO 27001 / NEN 7510 / other framework]`
-- Access reviews, secrets handling, and the security questionnaires clients send before signing
-- Decides which AI tools and vendors are allowed near client data, and on what terms
+**2. Rules of 99** · `rules-of-99`
+- One-liner: *Play Commander (Magic: The Gathering) with friends in the browser.*
+- Story: *Import a deck, share a room code, and play with up to four people. An open-source
+  rules engine handles the rules, so nobody has to argue about them. Works on phones too.*
+- Tags: Java · React · TypeScript · WebSockets
+- Image: *SCREENSHOT: a 4-player game*
 
-**Cloud & platform** — *The layer every client project lands on.*
-- Kubernetes on Haven (the Dutch government's standard for Kubernetes platforms), GitOps with Argo CD
-- Shared base images, CI with GitHub Actions, monitoring that tells you something before the client does
-- Environments that can be rebuilt from git, not from someone's memory
+**3. 2nd-hand finds** · `finds`
+- One-liner: *A tool that keeps an eye on Marktplaats and Vinted for me.*
+- Story: *Every two hours it checks for things I'm looking for, like Magic card collections or
+  cheap mini PCs, and uses AI to filter out the noise. The good ones arrive in a short email.*
+- Tags: Python · Claude · Astro
+- Image: *SCREENSHOT: the finds overview*
 
-**Architecture** — *Turning "we need a portal" into a system that survives year three.*
-- Designs the integrations between client systems: ERP, PLM, data platforms, customer portals, configurators
-- Writes the decision down (ADRs), including the options we didn't pick and why
-- Keeps it boring where it can be, so the budget goes to the part that's actually hard
+**4. Quizmaster** · `quizmaster`
+- One-liner: *A live party quiz with questions generated on the spot.*
+- Story: *Everyone joins on their phone, pick a theme, and the questions are made up as you
+  play. Built for one birthday, used at every party since.* `[CONFIRM the story]`
+- Tags: `[CONFIRM stack]`
+- Image: *SCREENSHOT: the quiz on a phone*
 
-Clients (public Harborn cases): Holmatro, Santos Bikes, De Wit Transport.
-`[CONFIRM: OK to name? Otherwise "industrial manufacturers, a bike brand, a logistics company"]`
+**5. Scryfall, in plain words** · `scryfall`
+- One-liner: *Search Magic cards by describing what you want.*
+- Story: *Type "cheap green cards that ramp" and it turns that into a proper Scryfall search,
+  checks that it returns results, and sends you there.*
+- Tags: Claude · TypeScript `[CONFIRM]`
+- Image: *SCREENSHOT: search box + results*
 
-### 3.2 The bridge to the homelab (one line, use it as a transition)
+## 5. About
 
-> The homelab is where I try things before I recommend them at work. Zero open ports,
-> everything in git, access only where it's explicitly granted. Same rules, smaller blast radius.
+**Heading:** About
 
-### 3.3 Also
+> I live in Rotterdam. When I'm not working I'm usually tinkering with something at home,
+> playing Magic with friends, or scrolling Marktplaats for things I don't need.
+> `[CONFIRM / personalise]`
 
-- **AI tooling**: internal Claude-based agents, skills and plugins for the team, with
-  guardrails on what they can touch
-- Still hands-on: TypeScript, Python, a bit of everything client projects need `[CONFIRM]`
+Small "Tools I use a lot" line (plain text, no logos):
+*Kubernetes, Argo CD, Terraform `[CONFIRM]`, Cloudflare, Tailscale, TypeScript, Python, Home Assistant.*
 
----
+## 6. Contact
 
-## 4. Featured project: The homelab ⟵ the centrepiece
+**Heading:** Contact
 
-**Title:** *A data centre with the lid shut*
-**Kicker:** Homelab · Home automation · GitOps · 2026–ongoing
+> Want to work together or just say hi? Send me an email.
+> **hello@ekkelenkamp.dev** · GitHub · LinkedIn
 
-### 4.1 Intro
-
-> One second-hand laptop, lid closed, behind the TV. It runs a hypervisor, a Kubernetes
-> cluster, Home Assistant with a Zigbee radio, and every side project I've shipped this year.
-> Nothing on it is reachable from the internet unless I explicitly say so. Every change goes
-> through git.
-
-### 4.2 Spec sheet (numbers are real)
-
-| Spec | Value |
-|---|---|
-| Hardware | Second-hand laptop · 11th-gen Intel, 4 cores / 8 threads · 16 GB · ~512 GB SSD |
-| UPS | The laptop battery |
-| Hypervisor | Proxmox VE 9.2 (Debian 13 "Trixie") |
-| VM 100 | `k3s-01`: Ubuntu 26.04, 4 vCPU, 10 GB RAM, 360 GiB thin disk, single-node k3s |
-| VM 101 | `haos-01`: Home Assistant OS, 2 vCPU, 3 GB RAM, Zigbee stick passed through |
-| Network | Tailscale only. Zero open ports on the router |
-| TLS | Wildcard Let's Encrypt via Cloudflare DNS-01 → Traefik default TLSStore |
-| GitOps | Argo CD app-of-apps, self-managed root, 16 Application manifests |
-| Apps deployed | 7 of my own + 8 platform components |
-| Deploy flow | push → GitHub Actions builds `ghcr.io/…:<sha>` → Image Updater commits the tag → Argo syncs |
-| Backups | VM snapshots. No RAID, no off-box backup, *by choice* |
-
-### 4.3 The RAM budget *(great visual moment)*
-
-```
-16 GB total
-├─ 10 GB  k3s-01     (real use 2–4 GB; Argo CD is the only heavyweight)
-├─  3 GB  haos-01    (Home Assistant + ZHA)
-├─ ~2 GB  Proxmox host
-└─ ~1 GB  cushion    (10 + 4 would have tipped into OOM territory)
-```
-
-### 4.4 Architecture (layers, for a diagram)
-
-```
-Old laptop (bare metal, lid shut, battery = UPS)
-└─ Proxmox VE 9.2 ── Tailscale (mgmt), firewall: tailnet-only
-   ├─ VM k3s-01 ── k3s
-   │   ├─ Traefik + wildcard TLS (cert-manager, DNS-01)
-   │   ├─ Argo CD ◀── github.com/guuse/homeserver (app-of-apps)
-   │   │   └─ Image Updater ◀── GHCR commit-SHA tags
-   │   ├─ Headlamp (cluster dashboard)
-   │   ├─ Tailscale operator → Funnel (public, opt-in per app)
-   │   ├─ cloudflared → Cloudflare Tunnel + Access (public, opt-in per app)
-   │   └─ apps: rules-of-99 · quizmaster · grimoire · scryfall · 2nd-hand-finds · huisjes · home-dashboard
-   └─ VM haos-01 ── Home Assistant OS
-       ├─ Zigbee coordinator (USB passthrough, on a USB2 extension cable)
-       ├─ NGINX SSL proxy (TLS) → HA Core on plain HTTP (LAN fallback)
-       └─ Tailscale add-on
-```
-
-**Three ways in, all opt-in:**
-
-1. **Tailnet** (default): `*.domain` → Tailscale IP, valid public cert, only my devices.
-2. **Cloudflare Tunnel**: a friendly public hostname with Cloudflare Access in front, no inbound port.
-3. **Tailscale Funnel**: public `*.ts.net` URL for things like the quiz game at a party.
-
-### 4.5 Decisions (short, punchy, each one a card/row)
-
-1. **k3s in a VM, not LXC.** Kubernetes in a container needs privileged mode and cgroup
-   hacks, and breaks on upgrades. A VM snapshots as one unit.
-2. **Home Assistant next to the cluster, not in it.** USB passthrough to a VM is one line.
-   Into a pod it means a device plugin and node pinning, and it breaks on reschedule.
-3. **TLS at the proxy, plain HTTP in HA Core.** So there's always a LAN fallback that works with
-   no cert, no tailnet, no proxy.
-4. **One flat `applications/` folder.** The root app manages itself. No
-   bootstrap/projects/apps sprawl.
-5. **No backups beyond snapshots.** A conscious trade-off: everything is rebuildable from git,
-   and the guide is good enough to do it in an afternoon.
-
-### 4.6 Gotchas: "learned the hard way"
-
-- **Disk-pressure at 30 GiB on a 500 GB SSD.** Ubuntu's guided LVM install allocated half the
-  disk and parked the rest as free space. Kubelet panicked. Fix: one `lvextend`, zero downtime.
-- **`lvextend` on the host does nothing for the guest.** QEMU never hears about it. Resize
-  through Proxmox or `qm resize`. *July 2026.*
-- **Public DNS broke on every Linux node.** MagicDNS had no global nameserver, so `*.ts.net`
-  resolved and nothing else did. My Mac kept working because macOS ignores `resolv.conf`.
-- **Home Assistant doesn't renew its own certs.** A monthly automation restarts the Let's
-  Encrypt add-on, then NGINX. HA Core itself never restarts.
-- **The Zigbee mesh survived the Pi → VM move with zero re-pairing.** Same stick, full backup,
-  "Restore backup" on the scary ZHA dialog, *never* "keep new settings".
-
-### 4.7 Home automation, the human side `[CONFIRM: add real automations/devices]`
-
-> The Zigbee network used to live on a Raspberry Pi. Now it lives in a VM with the radio on an
-> extension cable, because USB3 ports scream at 2.4 GHz. A wall panel shows what the house is
-> doing, and the companion app (`home-dashboard`: Go, embedded React, SQLite) keeps the build
-> guides and the parts inventory.
-
-Placeholder automations for the design (replace with real ones):
-`Hallway lights at 20% after sunset` · `Washing machine done → phone ping` ·
-`Everything off when the last phone leaves` · `Monthly cert renewal (yes, really)`
-
-### 4.8 What's next
-
-Three ex-office 1-litre mini PCs (8th gen+, ~16 GB each) in a
-3D-printed rack, turning the single node into a real cluster. The laptop retires to backup duty.
+Footer: *© 2026 Guus Ekkelenkamp*
 
 ---
 
-## 5. Side projects
+## 7. Project page (one example: the Homelab)
 
-Order = priority. Each has: name · one-liner · 2–3 detail bullets · stack · status · link.
+Normal case-study page, readable by non-tech friends **and** interesting for tech people.
 
-### 5.1 Rules of 99
-*Commander in the browser, with full rules enforcement.*
-- Wraps **Forge's** open-source Java rules engine headless behind a WebSocket/JSON gateway.
-  All ~33k cards are data, and commander tax and 21 commander damage are engine-native.
-- **Per-viewer state redaction**: opponents' hands never cross the wire. Rooms via 6-char codes,
-  2–4 seats, reconnect-safe seat tokens, host migration.
-- Six table layouts on desktop. Below 1280px it turns into a phone shell. Installable as a PWA.
-  The card database syncs itself every night.
-- Stack: Java 17 · Maven · React · TypeScript · SQLite · WebSockets
-- Status: live, 2.0 `[CONFIRM public URL]`
-
-### 5.2 2nd-hand-finds
-*A bot that reads Marktplaats so I don't have to.*
-- Every two hours (08:00–23:00) it searches Marktplaats and Vinted, applies hard filters,
-  then has **Claude judge each listing** against a per-category rubric.
-- Hunting: bulk Magic: The Gathering lots (priced via Scryfall), mini PCs for the homelab rack,
-  and **one pair of brown New Balance Rover clogs, EU 40, max €180 all-in.**
-- Email digest, price-drop alerts, a "something broke" alarm, and a small UI to mark finds
-  loved / hidden / bought. 280+ finds recorded so far.
-- Stack: Python · Claude · Astro SSR · Resend · k3s
-
-### 5.3 Quizmaster
-*A live multiplayer quiz where the questions are generated on the spot.*
-- Party game, made public for the evening through Tailscale Funnel.
-- Stack: `[CONFIRM]`
-
-### 5.4 Scryfall, in plain words
-*Ask for cards like a human. Get a real Scryfall query back.*
-- Claude turns "cheap green ramp that isn't a land" into Scryfall syntax, verifies the query
-  actually returns results, and links you to Scryfall.
-
-### 5.5 Grimoire
-*An MTG deck-builder I run for myself and my playgroup.*
-- Fork, self-hosted, single pod + PVC, deployed via the same Image Updater flow.
-
-### 5.6 huisjes *(optional, personal)*
-*Our search for a first home, run like a software project.*
-- The git repo is the source of truth: one folder per house, ADRs for decisions, a Funda
-  routine that scores new listings against our criteria and emails a digest.
-- A read-only web app so my (non-technical) partner sees everything without touching git.
-
----
-
-## 6. How I work *(principles, 3–5 items)*
-
-1. **Write it down where the code lives.** Every repo of mine has a context file and ADRs. Future
-   me and the AI agents both start by reading.
-2. **Git is the source of truth.** For infrastructure, for side projects, even for house hunting.
-3. **Boring tech, sharp edges filed off.** k3s, Postgres-or-SQLite, Astro. The interesting part
-   is the problem.
-4. **Automate the second time.** Not the first, not the third.
-5. **Let Claude do the boring part.** Judging 200 listings, writing the tag bump, drafting the
-   runbook. I review.
-
----
-
-## 7. Toolbox *(no skill bars, ever)*
-
-Grouped plainly:
-
-- **Daily:** TypeScript, React, Astro, Python, Git, Claude Code
-- **Often:** Java, Flutter/Dart, Rails, PHP, FastAPI, SQLite, Postgres `[CONFIRM]`
-- **Security:** policy & risk, access reviews, secrets management, Cloudflare Access, Tailscale ACLs `[CONFIRM add frameworks/tools]`
-- **Platform:** Kubernetes (k3s, Haven), Argo CD, Helm, Kustomize, Traefik, cert-manager,
-  GitHub Actions, GHCR, Docker
-- **Home:** Proxmox, Tailscale, Cloudflare (DNS, Tunnel, Access), Home Assistant, Zigbee (ZHA)
-
----
-
-## 8. Contact / footer
-
-> **Say hoi.** `hello@ekkelenkamp.dev`
-> Code on GitHub: `@guuse`. This site is open source, so poke around.
-
-Footer microcopy options:
-- *Built with Astro. Hosted somewhere more reliable than my laptop.*
-- *Last deploy: {sha} · {date}* (real values at build time)
-- *© 2026 Guus Ekkelenkamp · No cookies, no trackers, no newsletter.*
-
----
-
-## 9. Data snippets directions may visualise
-
-```json
-{
-  "ram_gb": { "total": 16, "k3s": 10, "haos": 3, "host": 2, "cushion": 1 },
-  "vms": [
-    { "id": 100, "name": "k3s-01", "os": "Ubuntu 26.04", "vcpu": 4, "ram_gb": 10, "disk_gib": 360 },
-    { "id": 101, "name": "haos-01", "os": "Home Assistant OS", "vcpu": 2, "ram_gb": 3, "disk_gib": 32 }
-  ],
-  "argo_apps": {
-    "platform": ["argocd", "argocd-image-updater", "cert-manager", "cluster-config", "headlamp", "tailscale-operator", "cloudflared", "root"],
-    "mine": ["rules-of-99", "quizmaster", "grimoire", "nl-scryfall-se", "2nd-hand-finds", "huisjes", "home-dashboard"]
-  },
-  "finds_recorded": { "mtg": 253, "homeserver": 30, "rover_clogs": 0 },
-  "finder_schedule": "every 2h, 08:00–23:00",
-  "rules_of_99": { "cards": 33000, "seats": "2–4", "room_code_len": 6, "mobile_breakpoint_px": 1280 }
-}
-```
-
-> `rover_clogs: 0` is the funniest number on the site. Use it.
+- Back link · Title: **Homelab & home automation** · one-liner · tags · year: 2026
+- Big image
+- **What it is**: the story paragraph, slightly longer
+- **Why I built it**: *I wanted one place for my side projects, and to try things at home
+  before recommending them at work.*
+- **How it works** (plain words, with a simple diagram):
+  *The laptop runs two virtual machines. One runs Kubernetes with my apps; the other runs Home
+  Assistant with a Zigbee stick for the lights and sensors. Nothing is open to the internet;
+  I connect through a private network (Tailscale). When I push code to GitHub, it's built and
+  deployed automatically (Argo CD).*
+- **A few numbers** (3–4 simple stats): *16 GB memory · 2 virtual machines · 7 of my own apps
+  · 0 open ports*
+- **What I learned** (3 bullets, plain):
+  - *Small mistakes in disk setup add up. Check how much space the installer really gave you.*
+  - *Keep a simple way in that works when everything else breaks.*
+  - *Writing everything down makes rebuilding boring, which is exactly what you want.*
+- **What's next**: *Three small second-hand PCs in a 3D-printed rack.*
+- Next project link (picks the next one)
