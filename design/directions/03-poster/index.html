@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Guus Ekkelenkamp, developer, Rotterdam</title>
-<meta name="description" content="Developer at Harborn in Rotterdam. Builds web platforms by day and a GitOps homelab on a lid-shut laptop by night.">
+<title>Guus Ekkelenkamp, security, cloud &amp; architecture, Rotterdam</title>
+<meta name="description" content="Security officer, cloud specialist and solution architect at Harborn in Rotterdam. Runs a GitOps homelab on an old laptop with the lid shut.">
 <meta name="color-scheme" content="light dark">
 <script>(()=>{const O=['rotterdam','polder','nachtdruk'];let o=new URLSearchParams(location.search).get('option');if(!O.includes(o)){try{o=localStorage.getItem('affiche-option')}catch(e){}}if(!O.includes(o))o=matchMedia('(prefers-color-scheme: dark)').matches?'nachtdruk':'rotterdam';document.documentElement.dataset.option=o})()</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,7 +40,7 @@
   <div class="page">
     <div class="gridlines" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
     <div class="grid hero__grid">
-      <p class="hero__meta label"><span>Nº 01 · Portfolio</span><span>Developer, Rotterdam</span><span>Edition November 2026</span></p>
+      <p class="hero__meta label"><span>Nº 01 · Portfolio</span><span>Security · Cloud · Architecture</span><span>Edition November 2026</span></p>
 
       <h1 class="hero__name fit-box" id="hero-name">
         <span class="fit hero__first">Guus</span>
@@ -49,12 +49,12 @@
 
       <div class="hero__field" aria-hidden="true">
         <span class="hero__fifteen">15</span>
-        <span class="hero__fifteen-cap">services. 7 of mine, 8 platform. One laptop, lid shut.</span>
+        <span class="hero__fifteen-cap">services at home. 7 of mine, 8 platform. One laptop, lid shut.</span>
         <span class="hero__vert">ekkelenkamp.dev · Nº 01 · Rotterdam</span>
       </div>
 
-      <p class="hero__line">Developer in Rotterdam. Runs <mark>fifteen services</mark> on a laptop with the lid shut.</p>
-      <p class="hero__sub">Developer at Harborn, Rotterdam. Product work, platforms, and the plumbing in between.</p>
+      <p class="hero__line">By day I make sure client platforms are <mark>secure and keep running</mark>. By night I do the same for a laptop behind the TV.</p>
+      <p class="hero__sub">Security officer, cloud specialist and solution architect at Harborn, Rotterdam.</p>
       <p class="hero__status"><span class="status"><span class="status__dot" aria-hidden="true"></span><span class="status__label">Currently</span><span>moving my infra to ekkelenkamp.dev &amp; hunting mini PCs for node #2</span></span></p>
     </div>
   </div>
@@ -90,35 +90,73 @@
   </div>
 </section>
 
-<!-- ============ 02 WORK ============ -->
-<section class="sec" id="work" aria-labelledby="work-title">
-  <div class="page">
-    <p class="runhead" aria-hidden="true">02 — Work — By day at Harborn</p>
-    <header class="sec-head">
-      <span class="sec-head__num" aria-hidden="true">02</span>
-      <h2 class="sec-head__title" id="work-title">Work</h2>
-      <p class="sec-head__kicker label">The day job</p>
-    </header>
-    <div class="grid work">
-      <div class="work__lede">
-        <p class="work__by">By day</p>
-        <h3 class="work__co">Harborn</h3>
-        <p class="work__org">Digital agency in Rotterdam &amp; Amsterdam, part of Boer &amp; Croon.</p>
-        <p class="work__body">I work on the stuff clients actually run: web platforms, customer portals, product configurators, integrations with ERP and data systems, and the occasional Flutter app. I also work on the layer underneath: GitOps, Kubernetes, and the internal AI-agent tooling we use to ship faster.</p>
+<!-- ============ 02 WORK (co-lead with the homelab) ============ -->
+<section id="work" aria-labelledby="work-title">
+  <div class="band band--inverse feature work-feature">
+    <div class="page">
+      <p class="runhead" aria-hidden="true" style="color:inherit">02 — Work — By day at Harborn</p>
+      <div class="grid feature__grid">
+        <div class="feature__top">
+          <span class="feature__num" aria-hidden="true">02</span>
+          <p class="feature__kicker label">Work · the day job · Harborn, Rotterdam &amp; Amsterdam</p>
+        </div>
+        <h2 class="feature__title fit-box work__title" id="work-title">
+          <span class="visually-hidden">Work: </span>
+          <span class="fit work__t1">How it’s built.</span>
+          <span class="fit work__t2">Where it runs.</span>
+          <span class="fit work__t3">Who gets in.</span>
+        </h2>
+        <dl class="roles">
+          <div><dt class="label">Roles</dt><dd>Security officer · Cloud specialist · Solution architect</dd></div>
+          <div><dt class="label">At</dt><dd>Harborn, digital agency in Rotterdam &amp; Amsterdam, part of Boer &amp; Croon</dd></div>
+        </dl>
+        <p class="feature__intro work__intro">Before a client project gets built, someone has to decide what it looks like, where it runs, and who gets access to what. At Harborn that’s usually me. I still write code, mostly where those decisions meet the code.</p>
       </div>
-      <div class="work__clients">
-        <p class="label">Clients I’ve worked for · public Harborn cases</p>
-        <ul class="clients">
-          <li>a client <span aria-hidden="true">A</span></li>
-          <li>a client <span aria-hidden="true">B</span></li>
-          <li>a client <span aria-hidden="true">C</span></li>
-        </ul>
+
+      <ol class="jobs">
+        <li class="job job--a">
+          <p class="job__n label" aria-hidden="true">Job 1 of 3</p>
+          <h3 class="job__title">Security</h3>
+          <p class="job__line">Keeping the agency and its clients out of the news.</p>
+          <ul class="job__bullets">
+            <li>Owns the security policy and makes it something people actually follow.</li>
+            <li>Access reviews, secrets handling, and the security questionnaires clients send before signing.</li>
+            <li>Decides which AI tools and vendors are allowed near client data, and on what terms.</li>
+          </ul>
+        </li>
+        <li class="job job--b">
+          <p class="job__n label" aria-hidden="true">Job 2 of 3</p>
+          <h3 class="job__title">Cloud &amp; platform</h3>
+          <p class="job__line">The layer every client project lands on.</p>
+          <ul class="job__bullets">
+            <li>Kubernetes on Haven (the Dutch government’s standard for Kubernetes platforms), GitOps with Argo CD.</li>
+            <li>Shared base images, CI with GitHub Actions, monitoring that tells you something before the client does.</li>
+            <li>Environments that can be rebuilt from git, not from someone’s memory.</li>
+          </ul>
+        </li>
+        <li class="job job--c">
+          <p class="job__n label" aria-hidden="true">Job 3 of 3</p>
+          <h3 class="job__title">Architecture</h3>
+          <p class="job__line">Turning “we need a portal” into a system that survives year three.</p>
+          <ul class="job__bullets">
+            <li>Designs the integrations between client systems: ERP, PLM, data platforms, customer portals, configurators.</li>
+            <li>Writes the decision down (ADRs), including the options we didn’t pick and why.</li>
+            <li>Keeps it boring where it can be, so the budget goes to the part that’s actually hard.</li>
+          </ul>
+        </li>
+      </ol>
+
+      <div class="grid work__also">
+        <dl class="also">
+          <div><dt class="label">Also</dt><dd><strong>AI tooling</strong>: internal Claude-based agents, skills and plugins for the team, with guardrails on what they can touch.</dd></div>
+          <div><dt class="label">Hands-on</dt><dd>TypeScript, Python, a bit of everything client projects need.</dd></div>
+          <div><dt class="label">Clients</dt><dd>Public Harborn cases: a client, a client, a client.</dd></div>
+        </dl>
+        <blockquote class="bridge">
+          <p>The homelab is where I try things before I recommend them at work.</p>
+          <p class="bridge__small">Zero open ports, everything in git, access only where it’s explicitly granted. Same rules, smaller blast radius. <a href="#homelab">On to the homelab ↓</a></p>
+        </blockquote>
       </div>
-      <dl class="work__stack">
-        <div><dt>Product</dt><dd><ul class="tags"><li>Astro</li><li>React/TypeScript</li><li>Flutter</li><li>Rails</li><li>PHP</li><li>Python/FastAPI</li></ul></dd></div>
-        <div><dt>Platform</dt><dd><ul class="tags"><li>Kubernetes (Haven)</li><li>Argo CD</li><li>GitHub Actions</li><li>Docker base images</li></ul></dd></div>
-        <div><dt>AI tooling</dt><dd><ul class="tags"><li>Claude-based agents</li><li>skills and plugins</li><li>for the team’s daily work</li></ul></dd></div>
-      </dl>
     </div>
   </div>
 </section>
@@ -170,7 +208,7 @@
           <table class="spec-table">
             <caption class="visually-hidden">Homelab specifications</caption>
             <tbody>
-              <tr><th scope="row">Hardware</th><td>old laptop · Intel laptop CPU (4c/8t) · 16 GB · ~512 GB SSD</td></tr>
+              <tr><th scope="row">Hardware</th><td>Second-hand laptop · 11th-gen Intel, 4 cores / 8 threads · 16 GB · ~512 GB SSD</td></tr>
               <tr><th scope="row">UPS</th><td>The laptop battery</td></tr>
               <tr><th scope="row">Hypervisor</th><td>Proxmox VE 9.2 (Debian 13 “Trixie”)</td></tr>
               <tr><th scope="row">VM 100</th><td><code>k3s-01</code>: Ubuntu 26.04, 4 vCPU, 10 GB RAM, 360 GiB thin disk, single-node k3s</td></tr>
@@ -231,7 +269,7 @@
           </div>
 
           <div class="metal">
-            <span class="metal__lbl">old laptop <small>bare metal · lid shut · battery = UPS</small></span>
+            <span class="metal__lbl">Old laptop <small>bare metal · lid shut · battery = UPS</small></span>
             <div class="pve">
               <div class="pve__head"><b>Proxmox VE 9.2</b><span class="arch__lbl">Tailscale (mgmt) · firewall: tailnet-only</span></div>
               <div class="vms">
@@ -266,7 +304,7 @@
         <details class="arch__alt">
           <summary>Read the diagram as a list</summary>
           <ul>
-            <li>old laptop (bare metal, lid shut, battery = UPS)
+            <li>Old laptop (bare metal, lid shut, battery = UPS)
               <ul>
                 <li>Proxmox VE 9.2, managed over Tailscale, firewall: tailnet-only
                   <ul>
@@ -376,7 +414,7 @@
         </p>
         <div class="next__text">
           <h3>What’s next</h3>
-          <p>Three ex-office mini PCs (laptop Tiny / Dell Micro / HP Mini, 8th gen+, ~16 GB) in a 3D-printed rack, turning the single node into a real cluster. The laptop retires to backup duty.</p>
+          <p>Three ex-office 1-litre mini PCs (8th gen+, ~16 GB each) in a 3D-printed rack, turning the single node into a real cluster. The laptop retires to backup duty.</p>
         </div>
       </div>
     </div>
@@ -498,7 +536,7 @@
 </section>
 
 <!-- ============ 06 TOOLBOX ============ -->
-<section class="sec" id="toolbox" aria-labelledby="tools-title">
+<section class="sec sec--end" id="toolbox" aria-labelledby="tools-title">
   <div class="page">
     <p class="runhead" aria-hidden="true">06 — Toolbox</p>
     <header class="sec-head">
@@ -509,6 +547,7 @@
     <div class="toolbox">
       <div class="tools tools--daily"><h3>Daily</h3><ul><li>TypeScript</li><li>React</li><li>Astro</li><li>Python</li><li>Git</li><li>Claude Code</li></ul></div>
       <div class="tools"><h3>Often</h3><ul><li>Java</li><li>Flutter/Dart</li><li>Rails</li><li>PHP</li><li>FastAPI</li><li>SQLite</li><li>Postgres</li></ul></div>
+      <div class="tools"><h3>Security</h3><ul><li>Policy &amp; risk</li><li>Access reviews</li><li>Secrets management</li><li>Cloudflare Access</li><li>Tailscale ACLs</li></ul></div>
       <div class="tools"><h3>Platform</h3><ul><li>Kubernetes <small>k3s, Haven</small></li><li>Argo CD</li><li>Helm</li><li>Kustomize</li><li>Traefik</li><li>cert-manager</li><li>GitHub Actions</li><li>GHCR</li><li>Docker</li></ul></div>
       <div class="tools"><h3>Home</h3><ul><li>Proxmox</li><li>Tailscale</li><li>Cloudflare <small>DNS, Tunnel, Access</small></li><li>Home Assistant</li><li>Zigbee <small>ZHA</small></li></ul></div>
     </div>
@@ -518,7 +557,7 @@
 <!-- ============ 07 CONTACT ============ -->
 <section class="band--accent contact" id="contact" aria-labelledby="contact-title">
   <div class="page">
-    <p class="runhead" aria-hidden="true" style="color:inherit; inset-block-start: var(--space-xl)">07 — Contact</p>
+    <p class="runhead" aria-hidden="true" style="color:inherit; top: var(--space-xl)">07 — Contact</p>
     <div class="sec-head" style="margin-block-end: var(--space-m)">
       <span class="sec-head__num" aria-hidden="true">07</span>
       <p class="sec-head__kicker label" style="align-self:end">Contact · Rotterdam, NL</p>
@@ -554,9 +593,9 @@
   <span class="review-bar__name"><span>03</span><b>Affiche</b></span>
   <fieldset>
     <legend>Option</legend>
-    <label><input type="radio" name="option" value="rotterdam"><span class="swatch" aria-hidden="true"><i style="background:#d32224"></i><i style="background:#141010"></i><i style="background:#f6f1e7"></i></span><span class="opt-name">rotterdam</span></label>
-    <label><input type="radio" name="option" value="polder"><span class="swatch" aria-hidden="true"><i style="background:#2c8a3a"></i><i style="background:#8fd0f0"></i><i style="background:#f08a3a"></i></span><span class="opt-name">polder</span></label>
-    <label><input type="radio" name="option" value="nachtdruk"><span class="swatch" aria-hidden="true"><i style="background:#0b090c"></i><i style="background:#f0ebe2"></i><i style="background:#ff4fa3"></i></span><span class="opt-name">nachtdruk</span></label>
+    <label><input type="radio" name="option" value="rotterdam"><span class="swatch" aria-hidden="true"><i style="background:#c91c15"></i><i style="background:#100c0b"></i><i style="background:#f8f3e9"></i></span><span class="opt-name">rotterdam</span></label>
+    <label><input type="radio" name="option" value="polder"><span class="swatch" aria-hidden="true"><i style="background:#077826"></i><i style="background:#6fc7f2"></i><i style="background:#f7721a"></i></span><span class="opt-name">polder</span></label>
+    <label><input type="radio" name="option" value="nachtdruk"><span class="swatch" aria-hidden="true"><i style="background:#0b090c"></i><i style="background:#efebe2"></i><i style="background:#ff55a3"></i></span><span class="opt-name">nachtdruk</span></label>
   </fieldset>
   <a href="system.html">System</a>
   <a href="../../../index.html">Hub</a>

@@ -464,17 +464,62 @@
   .sig--ink { color: var(--ink); }
   .sig--accent { color: var(--accent-ink); background: var(--accent); border-color: var(--c-bar-edge); }
 
-  /* ── Work ───────────────────────────── */
+  /* ── Work: roles, flow, function sheets, bridge ── */
   .lead { font-size: var(--step-1); line-height: 1.4; font-stretch: 96%; max-width: 46ch; }
-  .func { display: grid; grid-template-columns: minmax(0, 1fr); border-top: 2px solid var(--line-strong); }
-  @media (min-width: 720px) { .func { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-  .func > div { padding: var(--space-s) 0 var(--space-m); border-bottom: 1px solid var(--line); }
-  @media (min-width: 720px) { .func > div { padding: var(--space-s) var(--space-m) var(--space-m) 0; border-bottom: 0; border-right: 1px solid var(--line); } .func > div + div { padding-left: var(--space-m); } .func > div:last-child { border-right: 0; } }
-  .func h3 { font-size: var(--step-1); font-stretch: 112%; margin: 0.4rem 0 0.5rem; letter-spacing: -0.01em; }
-  .func p { font-stretch: 90%; color: var(--ink-muted); }
-  .refs { display: flex; flex-wrap: wrap; gap: var(--space-xs) var(--space-s); align-items: center; margin-top: var(--space-s); }
-  .refs__name { font-family: var(--font-display); font-weight: 750; font-stretch: 125%; font-size: var(--step-1); letter-spacing: -0.02em; }
-  .refs__sep { color: var(--ink-subtle); }
+  .roles td { font-weight: 650; font-stretch: 100%; }
+  .roles th[scope="row"] { color: var(--accent-text); }
+
+  .flow__steps { list-style: none; padding: 0; margin-top: var(--space-s); display: grid; gap: 1.75rem; grid-template-columns: minmax(0, 1fr); counter-reset: none; }
+  @media (min-width: 960px) { .flow__steps { grid-template-columns: 0.8fr 1fr 1fr 1fr 0.9fr; gap: 2.25rem; } }
+  .flow__steps > li { position: relative; display: flex; flex-direction: column; gap: 0.35rem; padding: 0.8rem 0.9rem; border: 1.5px solid var(--line-strong); border-radius: var(--radius-s); background: var(--surface-raised); }
+  .flow__steps b { font-family: var(--font-display); font-size: var(--step-1); font-stretch: 100%; font-weight: 700; line-height: 1.15; letter-spacing: -0.01em; }
+  .flow__q { box-shadow: var(--shadow-2); }
+  .flow__in { border-style: dashed !important; background: transparent !important; }
+  .flow__in b { font-weight: 560; color: var(--ink-muted); }
+  .flow__out { font-family: var(--font-mono); font-stretch: 87.5%; font-size: var(--step--2); color: var(--ink-muted); letter-spacing: 0.02em; }
+  .flow__steps > li + li::before { /* connector, vertical on mobile */
+    content: ""; position: absolute; left: 1.4rem; top: calc(-1.75rem - 1.5px); height: 1.75rem; border-left: 1.5px solid var(--line-strong);
+  }
+  .flow__steps > li + li::after { content: ""; position: absolute; left: calc(1.4rem - 4.5px); top: -8px; border-inline: 5px solid transparent; border-top: 7px solid var(--line-strong); }
+  @media (min-width: 960px) {
+    .flow__steps > li + li::before { left: calc(-2.25rem - 1.5px); top: 50%; height: 0; width: 2.25rem; border-left: 0; border-top: 1.5px solid var(--line-strong); }
+    .flow__steps > li + li::after { left: -8px; top: calc(50% - 4.5px); border-block: 5px solid transparent; border-inline: 0; border-left: 7px solid var(--line-strong); }
+  }
+
+  .fns { display: grid; grid-template-columns: minmax(0, 1fr); border-top: 2px solid var(--line-strong); border-bottom: 2px solid var(--line-strong); }
+  @media (min-width: 960px) { .fns { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .fn { padding: var(--space-s) 0 var(--space-l); border-bottom: 1px solid var(--line); }
+  .fn:last-child { border-bottom: 0; }
+  @media (min-width: 960px) {
+    .fn { padding: var(--space-s) var(--space-m) var(--space-l); border-bottom: 0; border-right: 1px solid var(--line); }
+    .fn:first-child { padding-left: 0; } .fn:last-child { border-right: 0; padding-right: 0; }
+  }
+  .fn__head { display: flex; justify-content: space-between; gap: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--line); }
+  .fn h3 { font-size: var(--step-4); font-stretch: 118%; font-weight: 800; letter-spacing: -0.035em; line-height: 0.95; margin-top: var(--space-m); }
+  .fn__line { font-size: var(--step-1); line-height: 1.3; font-stretch: 96%; margin-top: var(--space-s); max-width: 30ch; }
+  .fn__list { list-style: none; padding: 0; margin-top: var(--space-m); counter-reset: fn; }
+  .fn__list li { counter-increment: fn; display: grid; grid-template-columns: 2.2rem minmax(0, 1fr); padding: 0.6rem 0; border-top: 1px solid var(--line); color: var(--ink-muted); font-stretch: 94%; }
+  .fn__list li::before { content: "." counter(fn, decimal-leading-zero); font-family: var(--font-mono); font-size: var(--step--2); font-weight: 600; color: var(--ink-subtle); padding-top: 0.3em; }
+
+  .bridge {
+    position: relative; display: grid; gap: var(--space-l) var(--gutter); grid-template-columns: minmax(0, 1fr);
+    padding: var(--space-xl) var(--space-m); background: var(--surface-sunken);
+    border: 1.5px solid var(--line-strong); border-radius: var(--radius-m);
+  }
+  @media (min-width: 960px) {
+    .bridge { grid-template-columns: repeat(12, minmax(0, 1fr)); padding: var(--space-2xl) var(--space-xl); }
+    .bridge__tag { grid-column: 1 / -1; }
+    .bridge__quote { grid-column: 1 / span 7; }
+    .bridge__map { grid-column: 8 / span 5; align-self: end; }
+    .bridge__next { grid-column: 1 / -1; }
+  }
+  .bridge__quote { font-family: var(--font-display); font-size: var(--step-3); font-stretch: 108%; font-weight: 650; letter-spacing: -0.025em; line-height: 1.1; max-width: 26ch; }
+  .bridge__map td:first-child { font-weight: 650; white-space: nowrap; padding-right: var(--space-s); }
+  .bridge__next { justify-self: start; font-family: var(--font-mono); font-stretch: 87.5%; font-size: var(--step--1); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; text-decoration-color: var(--accent); text-decoration-thickness: 2px; }
+  .bridge::after { /* coupling line down into §03 */
+    content: ""; position: absolute; left: var(--space-xl); top: 100%; height: calc(var(--space-section) - 1rem); border-left: 1.5px dashed var(--ink-subtle);
+  }
+  @media (max-width: 959px) { .bridge::after { left: var(--space-m); } }
 
   /* ── Photo placeholder ──────────────── */
   .photo {

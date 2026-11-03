@@ -1,0 +1,726 @@
+<!doctype html>
+<html lang="en" data-direction="plattegrond" data-option="daylight" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guus Ekkelenkamp, security, cloud &amp; architecture, Rotterdam</title>
+<meta name="description" content="Security officer, cloud specialist and solution architect at Harborn in Rotterdam. Runs a GitOps homelab on an old laptop with the lid shut.">
+<script>
+  (function () {
+    var d = document.documentElement, o = null, ok = ['daylight', 'blueprint', 'lights-out'];
+    d.className = d.className.replace('no-js', 'js');
+    try { o = new URLSearchParams(location.search).get('option'); } catch (e) {}
+    if (ok.indexOf(o) < 0) { try { o = localStorage.getItem('pg-option'); } catch (e) {} }
+    if (ok.indexOf(o) < 0) o = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'lights-out' : 'daylight';
+    d.setAttribute('data-option', o);
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Fragment+Mono:ital@0;1&display=swap">
+<link rel="stylesheet" href="../../system/base.css">
+<link rel="stylesheet" href="plattegrond.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<!--KP--><svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="kp" viewBox="-10 -165 1360 975"><rect class="kp-out" x="60" y="-150" width="560" height="150"/><rect class="kp-wall" x="0" y="0" width="1000" height="800"/><rect class="kp-wall" x="1100" y="450" width="240" height="320"/><polygon class="kp-room" style="fill:var(--kp-woon, var(--c-kp-room))" points="30,30 640,30 640,440 30,440"/><polygon class="kp-room" style="fill:var(--kp-werk, var(--c-kp-room))" points="650,30 970,30 970,440 650,440"/><polygon class="kp-room" style="fill:var(--kp-keuken, var(--c-kp-room))" points="30,450 300,450 300,770 30,770"/><polygon class="kp-room" style="fill:var(--kp-slaap, var(--c-kp-room))" points="310,450 540,450 540,770 310,770"/><polygon class="kp-room" style="fill:var(--kp-hal, var(--c-kp-room))" points="550,450 760,450 760,770 650,770 650,650 550,650"/><polygon class="kp-room" style="fill:var(--kp-meter, var(--c-kp-room))" points="550,660 640,660 640,770 550,770"/><polygon class="kp-room" style="fill:var(--kp-bad, var(--c-kp-room))" points="770,450 970,450 970,620 770,620"/><polygon class="kp-room" style="fill:var(--kp-toilet, var(--c-kp-room))" points="770,630 880,630 880,770 770,770"/><polygon class="kp-room" style="fill:var(--kp-cv, var(--c-kp-room))" points="890,630 970,630 970,770 890,770"/><polygon class="kp-room" style="fill:var(--kp-berg, var(--c-kp-room))" points="1120,470 1320,470 1320,750 1120,750"/></symbol></svg><!--/KP-->
+
+<header class="site-header">
+  <div class="page site-header__in">
+    <a class="mark" href="#hal">Guus Ekkelenkamp <span class="mark__sheet">plattegrond · blad 01</span></a>
+    <a class="hoi-small" href="#voordeur">Say hoi →</a>
+    <nav class="site-nav" aria-label="Rooms">
+      <ul>
+        <li><a href="#werkplek"><span class="n">02</span><span class="nl" lang="nl">Werkplek</span><span class="en">work</span></a></li>
+        <li><a href="#meterkast"><span class="n">03</span><span class="nl" lang="nl">Meterkast</span><span class="en">homelab</span></a></li>
+        <li><a href="#woonkamer"><span class="n">04</span><span class="nl" lang="nl">Woonkamer</span><span class="en">home automation</span></a></li>
+        <li><a href="#berging"><span class="n">05</span><span class="nl" lang="nl">Berging</span><span class="en">side projects</span></a></li>
+        <li><a href="#keuken"><span class="n">06</span><span class="nl" lang="nl">Keuken</span><span class="en">how I work</span></a></li>
+        <li class="say-hoi"><a href="#voordeur"><span class="nl">Say <span lang="nl">hoi</span></span></a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- 01 HAL ============================================================== -->
+<section id="hal" class="hero" aria-labelledby="hero-title">
+  <div class="page hero__grid">
+    <div class="hero__text">
+      <p class="hero__sheet"><span class="room-tag" aria-hidden="true">01</span><span class="label-caps"><span lang="nl">Hal</span> · hallway · 5,5 m² · start here</span></p>
+      <h1 id="hero-title"><span>Guus</span> <span>Ekkelenkamp</span></h1>
+      <p class="hero__line">By day I make sure client platforms are secure and keep running. By night I do the same for a laptop behind the TV.</p>
+      <p class="hero__sub">Security officer, cloud specialist and solution architect at Harborn, Rotterdam.</p>
+      <p class="status-chip"><span class="status-chip__dot" aria-hidden="true"></span><span><b>Currently</b> moving my infra to ekkelenkamp.dev &amp; hunting mini PCs for node #2</span></p>
+
+      <div class="roomlist">
+        <div class="roomlist__head"><span class="label-caps"><span lang="nl">Ruimtestaat</span> · room schedule</span><span class="label-caps js-only">light</span></div>
+        <ol>
+          <li data-room="werk"><a href="#werkplek"><span class="n">02</span><span><span class="nl" lang="nl">Werkplek</span> <span class="en">work at Harborn</span></span><span class="m2">13,1 m²</span></a><button class="lightswitch" type="button" data-light="werk" aria-pressed="true" aria-label="Werkplek light"><svg viewBox="0 0 26 18" aria-hidden="true"><rect class="sw-plate" x="0.6" y="0.6" width="24.8" height="16.8" rx="8.4"/><circle class="sw-rocker" cx="7" cy="9" r="5"/></svg></button></li>
+          <li data-room="meter"><a href="#meterkast"><span class="n">03</span><span><span class="nl" lang="nl">Meterkast</span> <span class="en">the homelab</span></span><span class="m2">1,0 m²</span></a><button class="lightswitch" type="button" data-light="meter" aria-pressed="false" aria-label="Meterkast light"><svg viewBox="0 0 26 18" aria-hidden="true"><rect class="sw-plate" x="0.6" y="0.6" width="24.8" height="16.8" rx="8.4"/><circle class="sw-rocker" cx="7" cy="9" r="5"/></svg></button></li>
+          <li data-room="woon"><a href="#woonkamer"><span class="n">04</span><span><span class="nl" lang="nl">Woonkamer</span> <span class="en">home automation</span></span><span class="m2">25,0 m²</span></a><button class="lightswitch" type="button" data-light="woon" aria-pressed="true" aria-label="Woonkamer light"><svg viewBox="0 0 26 18" aria-hidden="true"><rect class="sw-plate" x="0.6" y="0.6" width="24.8" height="16.8" rx="8.4"/><circle class="sw-rocker" cx="7" cy="9" r="5"/></svg></button></li>
+          <li data-room="berg"><a href="#berging"><span class="n">05</span><span><span class="nl" lang="nl">Berging</span> <span class="en">side projects</span></span><span class="m2">5,6 m²</span></a><button class="lightswitch" type="button" data-light="berg" aria-pressed="false" aria-label="Berging light"><svg viewBox="0 0 26 18" aria-hidden="true"><rect class="sw-plate" x="0.6" y="0.6" width="24.8" height="16.8" rx="8.4"/><circle class="sw-rocker" cx="7" cy="9" r="5"/></svg></button></li>
+          <li data-room="keuken"><a href="#keuken"><span class="n">06</span><span><span class="nl" lang="nl">Keuken</span> <span class="en">how I work</span></span><span class="m2">8,6 m²</span></a><button class="lightswitch" type="button" data-light="keuken" aria-pressed="false" aria-label="Keuken light"><svg viewBox="0 0 26 18" aria-hidden="true"><rect class="sw-plate" x="0.6" y="0.6" width="24.8" height="16.8" rx="8.4"/><circle class="sw-rocker" cx="7" cy="9" r="5"/></svg></button></li>
+          <li data-room="hal"><a href="#voordeur"><span class="n">07</span><span><span class="nl" lang="nl">Voordeur</span> <span class="en">say hoi</span></span><span class="m2">hal light</span></a><button class="lightswitch" type="button" data-light="hal" aria-pressed="true" aria-label="Hal light"><svg viewBox="0 0 26 18" aria-hidden="true"><rect class="sw-plate" x="0.6" y="0.6" width="24.8" height="16.8" rx="8.4"/><circle class="sw-rocker" cx="7" cy="9" r="5"/></svg></button></li>
+        </ol>
+        <p class="roomlist__phone js-only"><button class="btn" type="button" data-scene="away"><svg viewBox="0 0 18 18" aria-hidden="true"><rect x="5" y="1.5" width="8" height="15" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 13.5h2" stroke="currentColor" stroke-width="1.5"/></svg><span>Last phone leaves</span></button> <span class="lights-status" data-lights-status aria-live="polite"></span></p>
+      </div>
+    </div>
+
+    <figure class="hero__plan planfig">
+<!--PLAN--><svg class="plan" viewBox="-110 -250 1480 1190" data-viewbox-compact="-14 -170 1040 1090" role="group" aria-labelledby="plan-title plan-desc" xmlns="http://www.w3.org/2000/svg">
+<title id="plan-title">Floor plan of a small apartment, used as this site's navigation</title>
+<desc id="plan-desc">Illustrative, not to scale, not my actual address. Each named room links to a section: hal (start), werkplek (work), meterkast (the homelab), woonkamer (home automation), berging (side projects) and keuken (how I work). Zigbee devices are drawn in the rooms with a dashed mesh back to the coordinator behind the TV.</desc>
+<defs>
+<radialGradient id="glow" cx="50%" cy="50%" r="62%"><stop offset="0" class="glow-0"/><stop offset=".55" class="glow-1"/><stop offset="1" class="glow-2"/></radialGradient>
+<pattern id="hatch" width="12" height="12" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="12" class="hatch-line"/></pattern>
+</defs>
+<g id="plan-art">
+<g class="balcony" aria-hidden="true"><rect x="60" y="-150" width="560" height="150" class="balcony-floor"/><path class="rail" d="M60 0V-150H620V0"/><path class="rail-in" d="M68 0V-142H612V0"/>
+<circle class="furn" cx="110" cy="-100" r="28"/><path class="furn-thin" d="M110 -128v56M82 -100h56M90 -120l40 40M130 -120l-40 40"/>
+<rect x="420" y="-120" width="130" height="70" class="furn"/><circle class="furn" cx="440" cy="-35" r="0"/>
+<text class="anno" x="190" y="-62">balkon · balcony</text></g>
+<g class="walls" aria-hidden="true"><rect x="0" y="0" width="1000" height="800" class="wall"/><rect x="1100" y="450" width="240" height="320" class="wall"/></g>
+<g class="rooms">
+<a href="#woonkamer" class="room is-lit" data-room="woon" aria-label="04 woonkamer, living room, 25,0 square metres: go to home automation"><rect x="30" y="30" width="610" height="410" class="room-fill"/><rect x="30" y="30" width="610" height="410" class="room-glow"/></a>
+<a href="#werkplek" class="room is-lit" data-room="werk" aria-label="02 werkplek, the study · day job, 13,1 square metres: go to work at Harborn"><rect x="650" y="30" width="320" height="410" class="room-fill"/><rect x="650" y="30" width="320" height="410" class="room-glow"/></a>
+<a href="#keuken" class="room" data-room="keuken" aria-label="06 keuken, kitchen, 8,6 square metres: go to how I work"><rect x="30" y="450" width="270" height="320" class="room-fill"/><rect x="30" y="450" width="270" height="320" class="room-glow"/></a>
+<g class="room room--private" data-room="slaap" aria-hidden="true"><rect x="310" y="450" width="230" height="320" class="room-fill"/><rect x="310" y="450" width="230" height="320" class="room-glow"/></g>
+<a href="#hal" class="room is-lit" data-room="hal" aria-label="01 hal, hallway, 5,5 square metres: go to start here"><polygon class="room-fill" points="550,450 760,450 760,770 650,770 650,650 550,650"/><polygon class="room-glow" points="550,450 760,450 760,770 650,770 650,650 550,650"/></a>
+<a href="#meterkast" class="room" data-room="meter" aria-label="03 meterkast, utility cupboard, 1,0 square metres: go to the homelab"><rect x="550" y="660" width="90" height="110" class="room-fill"/><rect x="550" y="660" width="90" height="110" class="room-glow"/></a>
+<g class="room room--private" data-room="bad" aria-hidden="true"><rect x="770" y="450" width="200" height="170" class="room-fill"/><rect x="770" y="450" width="200" height="170" class="room-glow"/></g>
+<g class="room room--private" data-room="toilet" aria-hidden="true"><rect x="770" y="630" width="110" height="140" class="room-fill"/><rect x="770" y="630" width="110" height="140" class="room-glow"/></g>
+<g class="room room--private" data-room="cv" aria-hidden="true"><rect x="890" y="630" width="80" height="140" class="room-fill"/><rect x="890" y="630" width="80" height="140" class="room-glow"/></g>
+<a href="#berging" class="room" data-room="berg" aria-label="05 berging, storage, 5,6 square metres: go to side projects"><rect x="1120" y="470" width="200" height="280" class="room-fill"/><rect x="1120" y="470" width="200" height="280" class="room-glow"/></a>
+</g>
+<g class="openings" aria-hidden="true">
+<rect x="60" y="440" width="240" height="10" class="cut cut--keuken"/>
+<path class="overhead" d="M60 445H300"/>
+<g class="door"><rect x="555" y="440" width="80" height="10" class="cut"/><path class="door-arc" d="M635 360A80 80 0 0 0 555 440"/><line x1="635" y1="440" x2="635" y2="360" class="door-leaf"/></g>
+<g class="door"><rect x="665" y="440" width="80" height="10" class="cut"/><path class="door-arc" d="M665 360A80 80 0 0 1 745 440"/><line x1="665" y1="440" x2="665" y2="360" class="door-leaf"/></g>
+<g class="door"><rect x="540" y="470" width="10" height="80" class="cut"/><path class="door-arc" d="M460 470A80 80 0 0 0 540 550"/><line x1="540" y1="470" x2="460" y2="470" class="door-leaf"/></g>
+<g class="door"><rect x="760" y="465" width="10" height="70" class="cut"/><path class="door-arc" d="M840 465A70 70 0 0 1 770 535"/><line x1="770" y1="465" x2="840" y2="465" class="door-leaf"/></g>
+<g class="door"><rect x="760" y="640" width="10" height="70" class="cut"/><path class="door-arc" d="M690 640A70 70 0 0 0 760 710"/><line x1="760" y1="640" x2="690" y2="640" class="door-leaf"/></g>
+<g class="door"><rect x="560" y="650" width="70" height="10" class="cut"/><path class="door-arc" d="M560 580A70 70 0 0 1 630 650"/><line x1="560" y1="650" x2="560" y2="580" class="door-leaf"/></g>
+<g class="door"><rect x="900" y="620" width="60" height="10" class="cut"/><path class="door-arc" d="M960 690A60 60 0 0 1 900 630"/><line x1="960" y1="630" x2="960" y2="690" class="door-leaf"/></g>
+<g class="door"><rect x="665" y="770" width="90" height="30" class="cut"/><path class="door-arc" d="M665 680A90 90 0 0 1 755 770"/><line x1="665" y1="770" x2="665" y2="680" class="door-leaf"/></g>
+<g class="door"><rect x="1232" y="750" width="78" height="20" class="cut"/><path class="door-arc" d="M1310 672A78 78 0 0 0 1232 750"/><line x1="1310" y1="750" x2="1310" y2="672" class="door-leaf"/></g>
+</g>
+<g class="windows" aria-hidden="true">
+<g class="window"><rect x="80" y="0" width="250" height="30" class="glass"/><line x1="80" y1="13" x2="330" y2="13" class="pane"/><line x1="80" y1="17" x2="330" y2="17" class="pane"/></g>
+<g class="window"><rect x="360" y="0" width="240" height="30" class="glass"/><line x1="360" y1="13" x2="600" y2="13" class="pane"/><line x1="360" y1="17" x2="600" y2="17" class="pane"/><line x1="360" y1="10" x2="490" y2="10" class="pane-strong"/><line x1="470" y1="20" x2="600" y2="20" class="pane-strong"/></g>
+<g class="window"><rect x="0" y="110" width="30" height="260" class="glass"/><line x1="13" y1="110" x2="13" y2="370" class="pane"/><line x1="17" y1="110" x2="17" y2="370" class="pane"/></g>
+<g class="window"><rect x="700" y="0" width="230" height="30" class="glass"/><line x1="700" y1="13" x2="930" y2="13" class="pane"/><line x1="700" y1="17" x2="930" y2="17" class="pane"/></g>
+<g class="window"><rect x="970" y="110" width="30" height="250" class="glass"/><line x1="983" y1="110" x2="983" y2="360" class="pane"/><line x1="987" y1="110" x2="987" y2="360" class="pane"/></g>
+<g class="window"><rect x="0" y="520" width="30" height="190" class="glass"/><line x1="13" y1="520" x2="13" y2="710" class="pane"/><line x1="17" y1="520" x2="17" y2="710" class="pane"/></g>
+<g class="window"><rect x="60" y="770" width="190" height="30" class="glass"/><line x1="60" y1="783" x2="250" y2="783" class="pane"/><line x1="60" y1="787" x2="250" y2="787" class="pane"/></g>
+<g class="window"><rect x="345" y="770" width="160" height="30" class="glass"/><line x1="345" y1="783" x2="505" y2="783" class="pane"/><line x1="345" y1="787" x2="505" y2="787" class="pane"/></g>
+<g class="window"><rect x="970" y="480" width="30" height="110" class="glass"/><line x1="983" y1="480" x2="983" y2="590" class="pane"/><line x1="987" y1="480" x2="987" y2="590" class="pane"/></g>
+</g>
+<g class="furniture" aria-hidden="true"><rect x="320" y="120" width="92" height="220" class="furn"/><rect x="320" y="120" width="22" height="220" class="furn-thin-fill"/><rect x="342" y="120" width="70" height="20" class="furn-thin-fill"/><rect x="342" y="320" width="70" height="20" class="furn-thin-fill"/><line x1="342" y1="230" x2="412" y2="230" class="furn-thin"/><rect class="furn" x="455" y="185" width="64" height="90" rx="6"/><rect class="furn-dash" x="300" y="100" width="250" height="260" rx="2"/><rect x="598" y="120" width="40" height="240" class="furn"/><line x1="592" y1="165" x2="592" y2="315" class="tv"/><rect x="589" y="165" width="6" height="150" class="furn-solid"/><rect x="606" y="195" width="24" height="36" class="laptop"/><path class="cable" d="M618 195C618 170 600 160 600 140"/><rect x="594" y="128" width="12" height="12" class="stick"/><rect x="90" y="285" width="170" height="85" class="furn"/><rect x="105" y="255" width="40" height="26" class="furn-thin-fill"/><rect x="105" y="374" width="40" height="26" class="furn-thin-fill"/><rect x="160" y="255" width="40" height="26" class="furn-thin-fill"/><rect x="160" y="374" width="40" height="26" class="furn-thin-fill"/><rect x="215" y="255" width="40" height="26" class="furn-thin-fill"/><rect x="215" y="374" width="40" height="26" class="furn-thin-fill"/><circle class="furn" cx="72" cy="402" r="20"/><path class="furn-thin" d="M72 384v36M54 402h36"/><rect x="470" y="433" width="46" height="7" class="panel"/><rect x="30" y="450" width="62" height="320" class="counter"/><rect x="92" y="708" width="208" height="62" class="counter"/><rect class="furn" x="38" y="560" width="46" height="40" rx="6"/><rect class="furn" x="38" y="605" width="46" height="30" rx="6"/><circle class="furn-thin" cx="61" cy="580" r="4"/><circle class="furn" cx="148" cy="726" r="10"/><circle class="furn" cx="178" cy="726" r="10"/><circle class="furn" cx="148" cy="752" r="10"/><circle class="furn" cx="178" cy="752" r="10"/><rect x="236" y="706" width="64" height="64" class="furn"/><line x1="236" y1="706" x2="300" y2="770" class="furn-thin"/><line x1="300" y1="706" x2="236" y2="770" class="furn-thin"/><rect x="690" y="30" width="250" height="72" class="furn"/><rect x="735" y="40" width="70" height="6" class="furn-solid"/><rect x="820" y="40" width="70" height="6" class="furn-solid"/><circle class="furn" cx="812" cy="138" r="24"/><path class="furn-thin" d="M790 156a28 28 0 0 0 44 0"/><rect x="934" y="130" width="36" height="230" class="furn"/><line x1="934" y1="152" x2="970" y2="152" class="furn-thin"/><line x1="934" y1="175" x2="970" y2="175" class="furn-thin"/><line x1="934" y1="198" x2="970" y2="198" class="furn-thin"/><line x1="934" y1="221" x2="970" y2="221" class="furn-thin"/><line x1="934" y1="244" x2="970" y2="244" class="furn-thin"/><line x1="934" y1="267" x2="970" y2="267" class="furn-thin"/><line x1="934" y1="290" x2="970" y2="290" class="furn-thin"/><line x1="934" y1="313" x2="970" y2="313" class="furn-thin"/><line x1="934" y1="336" x2="970" y2="336" class="furn-thin"/><line x1="934" y1="359" x2="970" y2="359" class="furn-thin"/><rect x="650" y="120" width="8" height="150" class="furn-solid"/><rect class="furn" x="840" y="300" width="70" height="70" rx="10"/><rect class="furn-thin-fill" x="848" y="300" width="54" height="14" rx="4"/><circle class="furn" cx="770" cy="330" r="30"/><rect x="320" y="600" width="200" height="160" class="furn"/><rect class="furn-thin-fill" x="328" y="610" width="40" height="66" rx="8"/><rect class="furn-thin-fill" x="328" y="684" width="40" height="66" rx="8"/><line x1="388" y1="600" x2="388" y2="760" class="furn-thin"/><rect x="310" y="450" width="60" height="130" class="furn"/><rect x="310" y="450" width="60" height="130" class="hatch"/><rect x="880" y="450" width="90" height="90" class="furn"/><line x1="880" y1="450" x2="970" y2="540" class="furn-thin"/><line x1="970" y1="450" x2="880" y2="540" class="furn-thin"/><circle class="furn-thin" cx="925" cy="495" r="5"/><rect class="furn" x="926" y="552" width="40" height="56" rx="10"/><rect x="780" y="556" width="60" height="60" class="furn"/><circle class="furn-thin" cx="810" cy="586" r="20"/><text class="sym-text" x="810" y="590">WM</text><rect x="805" y="738" width="40" height="22" class="furn"/><path class="furn" d="M810 738c0-38 30-38 30 0"/><ellipse class="furn" cx="825" cy="712" rx="17" ry="24"/><rect class="furn" x="852" y="660" width="24" height="32" rx="6"/><rect class="furn" x="904" y="700" width="56" height="62"/><text class="sym-text" x="932" y="736">CV</text><rect x="556" y="742" width="78" height="22" class="furn"/><line x1="582" y1="742" x2="582" y2="764" class="furn-thin"/><line x1="608" y1="742" x2="608" y2="764" class="furn-thin"/><rect x="560" y="700" width="34" height="24" class="router"/><circle class="led" cx="567" cy="712" r="2.5"/><circle class="led" cx="575" cy="712" r="2.5"/><rect x="675" y="700" width="70" height="40" class="furn-dash"/><line x1="556" y1="470" x2="556" y2="540" class="furn-thin"/><circle class="furn-thin" cx="562" cy="476" r="3"/><circle class="furn-thin" cx="562" cy="490" r="3"/><circle class="furn-thin" cx="562" cy="504" r="3"/><circle class="furn-thin" cx="562" cy="518" r="3"/><circle class="furn-thin" cx="562" cy="532" r="3"/><g class="bike"><line class="furn" x1="1135" y1="612" x2="1300" y2="612"/><line class="furn" x1="1157" y1="590" x2="1157" y2="634"/><rect class="furn-thin-fill" x="1215" y="607" width="26" height="10" rx="4"/></g><g class="bike"><line class="furn" x1="1150" y1="652" x2="1315" y2="652"/><line class="furn" x1="1172" y1="630" x2="1172" y2="674"/><rect class="furn-thin-fill" x="1230" y="647" width="26" height="10" rx="4"/></g><rect x="1120" y="470" width="200" height="44" class="furn"/><rect x="1124" y="474" width="29" height="36" class="box"/><text class="box-num" x="1138.5" y="499">1</text><rect x="1156.5" y="474" width="29" height="36" class="box"/><text class="box-num" x="1171" y="499">2</text><rect x="1189" y="474" width="29" height="36" class="box"/><text class="box-num" x="1203.5" y="499">3</text><rect x="1221.5" y="474" width="29" height="36" class="box"/><text class="box-num" x="1236" y="499">4</text><rect x="1254" y="474" width="29" height="36" class="box"/><text class="box-num" x="1268.5" y="499">5</text><rect x="1286.5" y="474" width="29" height="36" class="box"/><text class="box-num" x="1301" y="499">6</text></g>
+<g class="mesh" aria-hidden="true"><path d="M600 134L456 230"/><path d="M600 134L612 350"/><path d="M456 230L175 328"/><path d="M175 328L175 600"/><path d="M612 350L700 575"/><path d="M700 575L748 462"/><path d="M700 575L748 758"/><path d="M700 575L810 544"/><path d="M810 544L840 530"/><path d="M700 575L440 560"/><path d="M440 560L520 740"/><path d="M612 350L800 236"/><path d="M800 236L930 112"/><path d="M456 230L493 425"/></g>
+<g class="devices" aria-hidden="true"><g class="bulb is-lit" data-room="woon"><circle cx="456" cy="230" r="11"/><path d="M448.2 222.2l15.6 15.6M463.8 222.2l-15.6 15.6"/></g><g class="bulb is-lit" data-room="woon"><circle cx="175" cy="328" r="11"/><path d="M167.2 320.2l15.6 15.6M182.8 320.2l-15.6 15.6"/></g><g class="bulb is-lit" data-room="hal"><circle cx="700" cy="575" r="11"/><path d="M692.2 567.2l15.6 15.6M707.8 567.2l-15.6 15.6"/></g><g class="bulb is-lit" data-room="werk"><circle cx="800" cy="236" r="11"/><path d="M792.2 228.2l15.6 15.6M807.8 228.2l-15.6 15.6"/></g><g class="bulb" data-room="keuken"><circle cx="175" cy="600" r="11"/><path d="M167.2 592.2l15.6 15.6M182.8 592.2l-15.6 15.6"/></g><g class="bulb" data-room="bad"><circle cx="840" cy="530" r="11"/><path d="M832.2 522.2l15.6 15.6M847.8 522.2l-15.6 15.6"/></g><g class="bulb" data-room="slaap"><circle cx="440" cy="560" r="11"/><path d="M432.2 552.2l15.6 15.6M447.8 552.2l-15.6 15.6"/></g><g class="plug"><path d="M601 350a11 11 0 0 1 22 0z"/><path d="M612 339v-7M601 350h22"/></g><g class="plug"><path d="M919 112a11 11 0 0 1 22 0z"/><path d="M930 101v-7M919 112h22"/></g><g class="plug"><path d="M799 544a11 11 0 0 1 22 0z"/><path d="M810 533v-7M799 544h22"/></g><g class="sensor"><rect x="740" y="454" width="16" height="16"/><circle cx="748" cy="462" r="3"/></g><g class="sensor"><rect x="740" y="750" width="16" height="16"/><circle cx="748" cy="758" r="3"/></g><g class="sensor"><rect x="512" y="732" width="16" height="16"/><circle cx="520" cy="740" r="3"/></g><g class="coord"><path d="M600 118l15 26h-30z"/></g></g>
+<g class="switches" aria-hidden="true"><g class="switch is-lit" data-switch="woon"><circle class="switch-hit" cx="548" cy="428" r="26"/><circle class="switch-dot" cx="548" cy="428" r="5.5"/><path class="switch-arm" d="M548 428l-12 -12l-5 5"/></g><g class="switch is-lit" data-switch="hal"><circle class="switch-hit" cx="752" cy="744" r="26"/><circle class="switch-dot" cx="752" cy="744" r="5.5"/><path class="switch-arm" d="M752 744l12 -12l5 5"/></g><g class="switch is-lit" data-switch="werk"><circle class="switch-hit" cx="756" cy="428" r="26"/><circle class="switch-dot" cx="756" cy="428" r="5.5"/><path class="switch-arm" d="M756 428l12 -12l5 5"/></g><g class="switch" data-switch="keuken"><circle class="switch-hit" cx="292" cy="478" r="26"/><circle class="switch-dot" cx="292" cy="478" r="5.5"/><path class="switch-arm" d="M292 478l-12 -12l-5 5"/></g><g class="switch" data-switch="meter"><circle class="switch-hit" cx="632" cy="674" r="26"/><circle class="switch-dot" cx="632" cy="674" r="5.5"/><path class="switch-arm" d="M632 674l-12 -12l-5 5"/></g><g class="switch" data-switch="berg"><circle class="switch-hit" cx="1132" cy="736" r="26"/><circle class="switch-dot" cx="1132" cy="736" r="5.5"/><path class="switch-arm" d="M1132 736l12 -12l5 5"/></g></g>
+<g class="labels" aria-hidden="true"><g class="label" data-room="woon"><circle class="tag-ring" cx="92" cy="70" r="21"/><text class="tag-num" x="92" y="77">04</text>
+<text class="label-name" x="124" y="78">woonkamer</text><text class="label-en" x="124" y="100">living room</text><text class="label-area" x="124" y="122">25,0 m²</text><text class="label-go" x="124" y="146">→ home automation</text></g><g class="label" data-room="werk"><circle class="tag-ring" cx="688" cy="254" r="21"/><text class="tag-num" x="688" y="261">02</text>
+<text class="label-name" x="720" y="262">werkplek</text><text class="label-en" x="720" y="284">the study · day job</text><text class="label-area" x="720" y="306">13,1 m²</text><text class="label-go" x="720" y="330">→ work at Harborn</text></g><g class="label" data-room="keuken"><circle class="tag-ring" cx="112" cy="497" r="21"/><text class="tag-num" x="112" y="504">06</text>
+<text class="label-name" x="144" y="505">keuken</text><text class="label-en" x="144" y="527">kitchen</text><text class="label-area" x="144" y="549">8,6 m²</text><text class="label-go" x="144" y="573">→ how I work</text></g><g class="label label--private" data-room="slaap"><text class="label-name" x="392" y="520">slaapkamer</text><text class="label-area" x="392" y="544">7,4 m²</text></g><g class="label" data-room="hal"><circle class="tag-ring" cx="578" cy="497" r="21"/><text class="tag-num" x="578" y="504">01</text>
+<text class="label-name" x="610" y="505">hal</text><text class="label-en" x="610" y="527">hallway</text><text class="label-area" x="610" y="549">5,5 m²</text><text class="label-go" x="610" y="573">→ start here</text></g><g class="label label--private" data-room="bad"><text class="label-name" x="786" y="496">badkamer</text><text class="label-area" x="786" y="520">3,4 m²</text></g><g class="label" data-room="berg"><circle class="tag-ring" cx="1146" cy="548" r="21"/><text class="tag-num" x="1146" y="555">05</text>
+<text class="label-name" x="1178" y="556">berging</text><text class="label-en" x="1178" y="578">storage</text><text class="label-area" x="1178" y="600">5,6 m²</text><text class="label-go" x="1178" y="624">→ side projects</text></g><g class="label label--leader" data-room="meter"><path class="leader" d="M596 712L560 838H520"/><circle class="leader-dot" cx="596" cy="712" r="4"/><circle class="tag-ring" cx="497" cy="830" r="21"/><text class="tag-num" x="497" y="837">03</text><text class="label-name" x="466" y="828" text-anchor="end">meterkast</text><text class="label-en" x="466" y="850" text-anchor="end">utility cupboard · 1,0 m²</text><text class="label-go" x="466" y="874" text-anchor="end">→ the homelab</text></g></g>
+</g>
+<g class="annotations" aria-hidden="true"><path class="leader" d="M612 196L662 -40H680"/><circle class="leader-dot" cx="612" cy="196" r="4"/><text class="anno anno--head" x="686" y="-86">behind the tv</text><text class="anno" x="686" y="-62">old laptop, lid shut</text><text class="anno" x="686" y="-40">Zigbee stick on USB2</text><text class="anno" x="710" y="830" text-anchor="middle">voordeur</text><path class="gallery-edge" d="M-60 900H1050"/><text class="anno" x="20" y="888">galerij · front gallery</text><text class="anno anno--head" x="1100" y="420">berging · ground floor</text><text class="anno" x="1100" y="440">two flights down, with the bikes</text></g>
+<g class="dims" aria-hidden="true"><g class="dim"><line x1="0" y1="-220" x2="1000" y2="-220"/><line x1="0" y1="-230" x2="0" y2="-210"/><line x1="1000" y1="-230" x2="1000" y2="-210"/><line x1="-6" y1="-214" x2="6" y2="-226" class="tick"/><line x1="994" y1="-214" x2="1006" y2="-226" class="tick"/><text class="dim-text" x="500" y="-230">10 000</text></g><g class="dim"><line x1="0" y1="-180" x2="645" y2="-180"/><line x1="0" y1="-190" x2="0" y2="-170"/><line x1="645" y1="-190" x2="645" y2="-170"/><line x1="-6" y1="-174" x2="6" y2="-186" class="tick"/><line x1="639" y1="-174" x2="651" y2="-186" class="tick"/><text class="dim-text" x="322.5" y="-190">6 450</text></g><g class="dim"><line x1="645" y1="-180" x2="1000" y2="-180"/><line x1="645" y1="-190" x2="645" y2="-170"/><line x1="1000" y1="-190" x2="1000" y2="-170"/><line x1="639" y1="-174" x2="651" y2="-186" class="tick"/><line x1="994" y1="-174" x2="1006" y2="-186" class="tick"/><text class="dim-text" x="822.5" y="-190">3 550</text></g><g class="dim"><line x1="-80" y1="0" x2="-80" y2="800"/><line x1="-90" y1="0" x2="-70" y2="0"/><line x1="-90" y1="800" x2="-70" y2="800"/><line x1="-86" y1="6" x2="-74" y2="-6" class="tick"/><line x1="-86" y1="806" x2="-74" y2="794" class="tick"/><text class="dim-text" transform="translate(-92 400) rotate(-90)">8 000</text></g><g class="dim"><line x1="-40" y1="0" x2="-40" y2="445"/><line x1="-50" y1="0" x2="-30" y2="0"/><line x1="-50" y1="445" x2="-30" y2="445"/><line x1="-46" y1="6" x2="-34" y2="-6" class="tick"/><line x1="-46" y1="451" x2="-34" y2="439" class="tick"/><text class="dim-text" transform="translate(-52 222.5) rotate(-90)">4 450</text></g><g class="dim"><line x1="-40" y1="445" x2="-40" y2="800"/><line x1="-50" y1="445" x2="-30" y2="445"/><line x1="-50" y1="800" x2="-30" y2="800"/><line x1="-46" y1="451" x2="-34" y2="439" class="tick"/><line x1="-46" y1="806" x2="-34" y2="794" class="tick"/><text class="dim-text" transform="translate(-52 622.5) rotate(-90)">3 550</text></g></g>
+<g class="north" aria-hidden="true" transform="translate(1240 -150)"><circle r="44"/><path d="M0 -40L14 24L0 12L-14 24Z"/><text class="north-n" y="-52">N</text></g>
+<g class="sheet-note" aria-hidden="true"><text class="anno anno--head" x="1100" y="-60">plattegrond</text><text class="anno" x="1100" y="-38">2e verdieping</text><text class="anno" x="1100" y="-16">not to scale,</text><text class="anno" x="1100" y="6">not my actual address</text></g>
+</svg><!--/PLAN-->
+      <figcaption>
+        <span><span lang="nl">Plattegrond</span>, 2e verdieping · not to scale, not my actual address · click a room</span>
+        <span class="plan-legend" aria-label="Legend">
+          <span><svg viewBox="0 0 16 16" aria-hidden="true"><circle class="sym" cx="8" cy="8" r="6.5"/><path class="sym" d="M3.4 3.4l9.2 9.2M12.6 3.4l-9.2 9.2"/></svg>bulb</span>
+          <span><svg viewBox="0 0 16 16" aria-hidden="true"><path class="sym" d="M1.5 11a6.5 6.5 0 0 1 13 0z"/><path class="sym" d="M8 4.5V1"/></svg>plug</span>
+          <span><svg viewBox="0 0 16 16" aria-hidden="true"><rect class="sym" x="3" y="3" width="10" height="10"/><circle cx="8" cy="8" r="2" fill="currentColor"/></svg>sensor</span>
+          <span><svg viewBox="0 0 16 16" aria-hidden="true"><path class="sym-coord" d="M8 1.5l7 12.5H1z"/></svg>coordinator</span>
+          <span><svg viewBox="0 0 24 16" aria-hidden="true"><path class="sym-mesh" d="M1 8h22"/></svg>Zigbee mesh</span>
+        </span>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="now" aria-labelledby="now-title">
+  <div class="page now__grid">
+    <div class="now__head">
+      <p class="label-caps"><span lang="nl">Hal</span>, on the doormat</p>
+      <h2 id="now-title">Now</h2>
+      <p class="label-caps">November 2026</p>
+    </div>
+    <ol class="now-list">
+      <li>Building a <strong>3-node homelab</strong> out of ex-office 1-litre mini PCs (€50–100 each) for a 3D-printed rack. A bot I wrote scouts <span lang="nl">Marktplaats</span> for them every two hours.</li>
+      <li>Shipping <strong>Rules of 99</strong> 2.0: Commander in the browser, now on phones too.</li>
+      <li>Moving everything from <code>guuse.online</code> to <code>ekkelenkamp.dev</code>.</li>
+      <li>Searching for a first home. Yes, there's a repo for that too.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- 02 WERKPLEK ========================================================= -->
+<section id="werkplek" class="room-section" aria-labelledby="werk-title">
+  <div class="page">
+    <header class="room-head">
+      <div>
+        <div class="room-head__title">
+          <span class="room-tag" aria-hidden="true">02</span>
+          <h2 id="werk-title"><span lang="nl">Werkplek</span><span class="en">The day job, at Harborn</span></h2>
+          <p class="room-head__meta label-caps"><span>Room 02 · 13,1 m²</span><span>the biggest room after the living room</span></p>
+        </div>
+      </div>
+      <div class="keyplan-wrap"><svg class="keyplan" viewBox="0 0 136 97.5" style="--kp-werk: var(--c-kp-here)" aria-hidden="true"><use href="#kp" width="136" height="97.5"/></svg><span class="label-caps"><span lang="nl">u bent hier</span> · you are here</span></div>
+    </header>
+
+    <div class="split work-intro">
+      <div class="col-7">
+        <dl class="roles">
+          <div><dt>Role</dt><dd>Security officer</dd></div>
+          <div><dt>Role</dt><dd>Cloud specialist</dd></div>
+          <div><dt>Role</dt><dd>Solution architect</dd></div>
+          <div><dt>At</dt><dd>Harborn, Rotterdam &amp; Amsterdam · part of Boer &amp; Croon</dd></div>
+        </dl>
+        <p class="work-lead">Before a client project gets built, someone has to decide what it looks like, where it runs, and who gets access to what. At Harborn that's usually me. I still write code, mostly where those decisions meet the code.</p>
+      </div>
+    </div>
+
+    <div class="programme" role="list" aria-label="The three jobs">
+      <article class="programme__room" role="listitem" aria-labelledby="job-sec">
+        <p class="programme__code">P1 · <span class="label-caps">security</span></p>
+        <h3 id="job-sec">Security</h3>
+        <p class="programme__line">Keeping the agency and its clients out of the news.</p>
+        <ul>
+          <li>Owns the security policy and makes it something people actually follow</li>
+          <li>Access reviews, secrets handling, and the security questionnaires clients send before signing</li>
+          <li>Decides which AI tools and vendors are allowed near client data, and on what terms</li>
+        </ul>
+      </article>
+      <article class="programme__room" role="listitem" aria-labelledby="job-cloud">
+        <p class="programme__code">P2 · <span class="label-caps">cloud &amp; platform</span></p>
+        <h3 id="job-cloud">Cloud &amp; platform</h3>
+        <p class="programme__line">The layer every client project lands on.</p>
+        <ul>
+          <li>Kubernetes on Haven (the Dutch government's standard for Kubernetes platforms), GitOps with Argo CD</li>
+          <li>Shared base images, CI with GitHub Actions, monitoring that tells you something before the client does</li>
+          <li>Environments that can be rebuilt from git, not from someone's memory</li>
+        </ul>
+      </article>
+      <article class="programme__room" role="listitem" aria-labelledby="job-arch">
+        <p class="programme__code">P3 · <span class="label-caps">architecture</span></p>
+        <h3 id="job-arch">Architecture</h3>
+        <p class="programme__line">Turning “we need a portal” into a system that survives year three.</p>
+        <ul>
+          <li>Designs the integrations between client systems: ERP, PLM, data platforms, customer portals, configurators</li>
+          <li>Writes the decision down (ADRs), including the options we didn't pick and why</li>
+          <li>Keeps it boring where it can be, so the budget goes to the part that's actually hard</li>
+        </ul>
+      </article>
+    </div>
+
+    <div class="split work-also">
+      <div class="col-7">
+        <p class="label-caps">Also on the desk</p>
+        <ul class="also-list">
+          <li><strong>AI tooling:</strong> internal Claude-based agents, skills and plugins for the team, with guardrails on what they can touch.</li>
+          <li><strong>Still hands-on:</strong> TypeScript, Python, a bit of everything client projects need.</li>
+        </ul>
+      </div>
+      <div class="col-5">
+        <p class="label-caps">Public cases I worked on</p>
+        <p class="clients-line">a client · a client · a client</p>
+      </div>
+    </div>
+
+    <div class="bridge">
+      <span class="bridge__door" aria-hidden="true"></span>
+      <p class="label-caps">Through the door to 03 · <span lang="nl">meterkast</span></p>
+      <p class="bridge__text">The homelab is where I try things before I recommend them at work. Zero open ports, everything in git, access only where it's explicitly granted. Same rules, smaller blast radius.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 METERKAST ======================================================== -->
+<section id="meterkast" class="room-section" aria-labelledby="meter-title">
+  <div class="page">
+    <header class="room-head">
+      <div>
+        <div class="room-head__title">
+          <span class="room-tag" aria-hidden="true">03</span>
+          <h2 id="meter-title"><span lang="nl">Meterkast</span><span class="en">The homelab</span></h2>
+          <p class="room-head__meta label-caps"><span>Room 03 · 1,0 m²</span><span>utility cupboard</span></p>
+        </div>
+      </div>
+      <div class="keyplan-wrap"><svg class="keyplan" viewBox="0 0 136 97.5" style="--kp-meter: var(--c-kp-here)" aria-hidden="true"><use href="#kp" width="136" height="97.5"/></svg><span class="label-caps"><span lang="nl">u bent hier</span> · you are here</span></div>
+    </header>
+
+    <p class="room-explain">Every Dutch home has a <span lang="nl">meterkast</span>: the cupboard by the front door with the fuses, the meters and the router. This section is mine. The actual hardware lives behind the TV. Close enough.</p>
+
+    <div class="split">
+      <div class="col-7">
+        <p class="kicker">Homelab · Home automation · GitOps · 2026–ongoing</p>
+        <h3 class="feature-title" style="margin-top: var(--space-xs)">A data centre with the lid shut</h3>
+        <p class="lead" style="margin-top: var(--space-m); max-width: 46ch">One second-hand laptop, lid closed, behind the TV. It runs a hypervisor, a Kubernetes cluster, Home Assistant with a Zigbee radio, and every side project I've shipped this year. Nothing on it is reachable from the internet unless I explicitly say so. Every change goes through git.</p>
+      </div>
+      <figure class="photo col-5" style="align-self: end"><span>PHOTO: the laptop behind the TV, lid shut, Zigbee stick on its cable</span></figure>
+    </div>
+
+    <div>
+      <table class="schedule">
+        <caption><span class="label-caps"><span lang="nl">Staat van onderdelen</span> · spec sheet · the numbers are real</span></caption>
+        <thead><tr><th scope="col">Ref</th><th scope="col">Item</th><th scope="col">Value</th></tr></thead>
+        <tbody>
+          <tr><th class="ref" scope="row">S01</th><th scope="row">Hardware</th><td>Second-hand laptop · 11th-gen Intel, 4 cores / 8 threads · 16 GB · ~512 GB SSD</td></tr>
+          <tr><th class="ref" scope="row">S02</th><th scope="row">UPS</th><td>The laptop battery</td></tr>
+          <tr><th class="ref" scope="row">S03</th><th scope="row">Hypervisor</th><td>Proxmox VE 9.2 (Debian 13 “Trixie”)</td></tr>
+          <tr><th class="ref" scope="row">S04</th><th scope="row">VM 100</th><td><code>k3s-01</code>: Ubuntu 26.04, 4 vCPU, 10 GB RAM, 360 GiB thin disk, single-node k3s</td></tr>
+          <tr><th class="ref" scope="row">S05</th><th scope="row">VM 101</th><td><code>haos-01</code>: Home Assistant OS, 2 vCPU, 3 GB RAM, Zigbee stick passed through</td></tr>
+          <tr><th class="ref" scope="row">S06</th><th scope="row">Network</th><td>Tailscale only. Zero open ports on the router</td></tr>
+          <tr><th class="ref" scope="row">S07</th><th scope="row">TLS</th><td>Wildcard Let's Encrypt via Cloudflare DNS-01 → Traefik default TLSStore</td></tr>
+          <tr><th class="ref" scope="row">S08</th><th scope="row">GitOps</th><td>Argo CD app-of-apps, self-managed root, 16 Application manifests</td></tr>
+          <tr><th class="ref" scope="row">S09</th><th scope="row">Apps deployed</th><td>7 of my own + 8 platform components</td></tr>
+          <tr><th class="ref" scope="row">S10</th><th scope="row">Deploy flow</th><td>push → GitHub Actions builds <code>ghcr.io/…:&lt;sha&gt;</code> → Image Updater commits the tag → Argo syncs</td></tr>
+          <tr><th class="ref" scope="row">S11</th><th scope="row">Backups</th><td>VM snapshots. No RAID, no off-box backup, <em>by choice</em></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div>
+      <div class="sub-head"><h3>The RAM budget</h3><span class="label-caps">16 GB, drawn as a 16 m² floor · 1 tile = 1 GB</span></div>
+      <div class="budget">
+        <svg viewBox="0 0 440 440" role="img" aria-labelledby="ram-t">
+          <title id="ram-t">16 GB of RAM drawn as a floor of 16 tiles: k3s-01 10, haos-01 3, Proxmox host about 2, cushion about 1.</title>
+          <defs><pattern id="cush-hatch" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line class="hatch-line" x1="0" y1="0" x2="0" y2="10"/></pattern></defs>
+          <polygon class="b-room b-k3s" points="20,20 420,20 420,220 220,220 220,320 20,320"/>
+          <polygon class="b-room b-haos" points="220,220 420,220 420,420 320,420 320,320 220,320"/>
+          <polygon class="b-room b-host" points="120,320 320,320 320,420 120,420"/>
+          <polygon class="b-room b-cush" points="20,320 120,320 120,420 20,420"/>
+          <g aria-hidden="true">
+            <path class="b-tile" d="M120 20V320M220 20V220M320 20V220M20 120H420M20 220H220M320 320V420M420 320H320M220 320V420"/>
+            <rect class="b-used" x="30" y="30" width="380" height="80"/>
+            <text class="b-acc" x="40" y="100">real use: 2–4 GB, Argo CD is the heavyweight</text>
+            <text class="b-name" x="40" y="170">k3s-01</text><text class="b-val" x="40" y="215">10 GB</text>
+            <text class="b-name" x="232" y="262">haos-01</text><text class="b-val" x="232" y="303">3</text>
+            <text class="b-name" x="135" y="360">host</text><text class="b-val" x="135" y="403">~2</text>
+            <text class="b-note" x="30" y="408">~1 spare</text>
+            <rect class="b-outer" x="20" y="20" width="400" height="400"/>
+          </g>
+        </svg>
+        <ul class="budget-list">
+          <li><span class="gb">10</span><span><span class="what"><span class="swatch" style="background: var(--c-room-werk)"></span>k3s-01</span><span class="why">Real use 2–4 GB. Argo CD is the only heavyweight.</span></span></li>
+          <li><span class="gb">3</span><span><span class="what"><span class="swatch" style="background: var(--c-room-woon)"></span>haos-01</span><span class="why">Home Assistant + ZHA.</span></span></li>
+          <li><span class="gb">~2</span><span><span class="what"><span class="swatch" style="background: var(--c-room-hal)"></span>Proxmox host</span><span class="why">The hypervisor itself.</span></span></li>
+          <li><span class="gb">~1</span><span><span class="what"><span class="swatch" style="background: repeating-linear-gradient(45deg, var(--surface) 0 3px, var(--ink-subtle) 3px 4px)"></span>Cushion</span><span class="why">10 + 4 would have tipped into OOM territory.</span></span></li>
+          <li class="total"><span class="gb">16</span><span><span class="what">Total</span><span class="why">Every gigabyte has a room. None of them are big.</span></span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div>
+      <div class="sub-head"><h3>How it's built</h3><span class="label-caps"><span lang="nl">Doorsnede</span> A–A · building section, read from the ground up</span></div>
+      <figure class="section-drawing" aria-describedby="sd-alt">
+        <div class="sd">
+          <div class="sd__ways">
+            <div class="sd-peil"><b>roof</b>ways in</div>
+            <ol aria-label="Three ways in, all opt-in">
+              <li><svg viewBox="0 0 34 34" aria-hidden="true"><path d="M4 30h26M8 30V6h18v24" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 30L24 22" stroke="var(--accent)" stroke-width="1.5"/></svg><span><b>1 · Tailnet</b> Default. <code>*.domain</code> → Tailscale IP, valid public cert, only my devices.</span></li>
+              <li><svg viewBox="0 0 34 34" aria-hidden="true"><path d="M4 30h26M8 30V6h18v24" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 30L22 18" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 2"/></svg><span><b>2 · Cloudflare Tunnel</b> A friendly public hostname with Cloudflare Access in front, no inbound port.</span></li>
+              <li><svg viewBox="0 0 34 34" aria-hidden="true"><path d="M4 30h26M8 30V6h18v24" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 30L22 18" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3 2"/></svg><span><b>3 · Tailscale Funnel</b> Public <code>*.ts.net</code> URL, for things like the quiz game at a party.</span></li>
+            </ol>
+          </div>
+
+          <div class="sd-level">
+            <div class="sd-peil"><b>+3</b>apps</div>
+            <div class="sd-floor">
+              <div class="sd-units">
+                <ul class="sd-rooms sd-rooms--apps" aria-label="Apps on k3s-01">
+                  <li>rules-of-99</li><li>quizmaster</li><li>grimoire</li><li>scryfall</li><li>2nd-hand-finds</li><li>huisjes</li><li>home-dashboard</li>
+                </ul>
+                <ul class="sd-rooms" aria-label="On haos-01"><li>HA Core<small>plain HTTP, the LAN fallback</small></li></ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="sd-level">
+            <div class="sd-peil"><b>+2</b>platform</div>
+            <div class="sd-floor">
+              <div class="sd-units">
+                <ul class="sd-rooms" aria-label="Platform on k3s-01">
+                  <li>Traefik + wildcard TLS<small>cert-manager, DNS-01</small></li>
+                  <li>Argo CD<small>app-of-apps</small><span class="sd-feed">◀ github.com/guuse/homeserver</span></li>
+                  <li>Image Updater<small>commit-SHA tags</small><span class="sd-feed">◀ GHCR</span></li>
+                  <li>Headlamp<small>cluster dashboard</small></li>
+                  <li>Tailscale operator<small>→ Funnel, opt-in per app</small></li>
+                  <li>cloudflared<small>→ Tunnel + Access, opt-in per app</small></li>
+                </ul>
+                <ul class="sd-rooms" aria-label="On haos-01">
+                  <li>Zigbee coordinator<small>USB passthrough, on a USB2 extension</small></li>
+                  <li>NGINX SSL proxy<small>TLS → HA Core</small></li>
+                  <li>Tailscale add-on</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="sd-level">
+            <div class="sd-peil"><b>+1</b>VMs</div>
+            <div class="sd-floor">
+              <div class="sd-units">
+                <div class="sd-unit sd-unit--k3s"><h4>VM 100 · k3s-01 <small>Ubuntu 26.04 · 4 vCPU · 10 GB · k3s</small></h4></div>
+                <div class="sd-unit sd-unit--haos"><h4>VM 101 · haos-01 <small>HAOS · 2 vCPU · 3 GB</small></h4></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sd-level">
+            <div class="sd-peil"><b>±0</b>hypervisor</div>
+            <div class="sd-floor"><div class="sd-slab"><b>Proxmox VE 9.2</b><span>Tailscale (mgmt) · firewall: tailnet-only</span></div></div>
+          </div>
+
+          <div class="sd-level">
+            <div class="sd-peil"><b>−1</b><span lang="nl">fundering</span></div>
+            <div class="sd-ground"><p><b>Old laptop</b>, bare metal, lid shut. The battery is the UPS.</p></div>
+          </div>
+        </div>
+        <details class="alt-text" id="sd-alt">
+          <summary>Read the section as a plain list</summary>
+<pre>Old laptop (bare metal, lid shut, battery = UPS)
+└─ Proxmox VE 9.2 ── Tailscale (mgmt), firewall: tailnet-only
+   ├─ VM k3s-01 ── k3s
+   │   ├─ Traefik + wildcard TLS (cert-manager, DNS-01)
+   │   ├─ Argo CD ◀── github.com/guuse/homeserver (app-of-apps)
+   │   │   └─ Image Updater ◀── GHCR commit-SHA tags
+   │   ├─ Headlamp (cluster dashboard)
+   │   ├─ Tailscale operator → Funnel (public, opt-in per app)
+   │   ├─ cloudflared → Cloudflare Tunnel + Access (public, opt-in per app)
+   │   └─ apps: rules-of-99 · quizmaster · grimoire · scryfall ·
+   │            2nd-hand-finds · huisjes · home-dashboard
+   └─ VM haos-01 ── Home Assistant OS
+       ├─ Zigbee coordinator (USB passthrough, USB2 extension cable)
+       ├─ NGINX SSL proxy (TLS) → HA Core on plain HTTP (LAN fallback)
+       └─ Tailscale add-on</pre>
+        </details>
+      </figure>
+    </div>
+
+    <div>
+      <div class="sub-head"><h3>Decisions</h3><span class="label-caps"><span lang="nl">Toelichting</span> · keyed notes</span></div>
+      <ol class="notes">
+        <li class="decision"><span class="decision__key">N1</span><div><h4>k3s in a VM, not LXC</h4><p>Kubernetes in a container needs privileged mode and cgroup hacks, and breaks on upgrades. A VM snapshots as one unit.</p></div></li>
+        <li class="decision"><span class="decision__key">N2</span><div><h4>Home Assistant next to the cluster, not in it</h4><p>USB passthrough to a VM is one line. Into a pod it means a device plugin and node pinning, and it breaks on reschedule.</p></div></li>
+        <li class="decision"><span class="decision__key">N3</span><div><h4>TLS at the proxy, plain HTTP in HA Core</h4><p>So there's always a LAN fallback that works with no cert, no tailnet, no proxy.</p></div></li>
+        <li class="decision"><span class="decision__key">N4</span><div><h4>One flat <code>applications/</code> folder</h4><p>The root app manages itself. No bootstrap/projects/apps sprawl.</p></div></li>
+        <li class="decision"><span class="decision__key">N5</span><div><h4>No backups beyond snapshots</h4><p>A conscious trade-off: everything is rebuildable from git, and the guide is good enough to do it in an afternoon.</p></div></li>
+      </ol>
+    </div>
+
+    <div>
+      <div class="sub-head"><h3>Learned the hard way</h3><span class="label-caps">revisions · each one changed the drawing</span></div>
+      <ol class="revisions">
+        <li class="gotcha gotcha--danger"><span class="gotcha__delta" aria-hidden="true"><svg viewBox="0 0 42 37"><path d="M21 2L40 35H2z"/></svg><span>A</span></span><div><p class="label-caps">Rev. A · disk</p><h4>Disk-pressure at 30 GiB on a 500 GB SSD</h4><p>Ubuntu's guided LVM install allocated half the disk and parked the rest as free space. Kubelet panicked. Fix: one <code>lvextend</code>, zero downtime.</p></div></li>
+        <li class="gotcha"><span class="gotcha__delta" aria-hidden="true"><svg viewBox="0 0 42 37"><path d="M21 2L40 35H2z"/></svg><span>B</span></span><div><p class="label-caps">Rev. B · disk, again <span class="gotcha__date">July 2026</span></p><h4><code>lvextend</code> on the host does nothing for the guest</h4><p>QEMU never hears about it. Resize through Proxmox or <code>qm resize</code>.</p></div></li>
+        <li class="gotcha gotcha--danger"><span class="gotcha__delta" aria-hidden="true"><svg viewBox="0 0 42 37"><path d="M21 2L40 35H2z"/></svg><span>C</span></span><div><p class="label-caps">Rev. C · DNS</p><h4>Public DNS broke on every Linux node</h4><p>MagicDNS had no global nameserver, so <code>*.ts.net</code> resolved and nothing else did. My Mac kept working because macOS ignores <code>resolv.conf</code>.</p></div></li>
+        <li class="gotcha"><span class="gotcha__delta" aria-hidden="true"><svg viewBox="0 0 42 37"><path d="M21 2L40 35H2z"/></svg><span>D</span></span><div><p class="label-caps">Rev. D · certificates</p><h4>Home Assistant doesn't renew its own certs</h4><p>A monthly automation restarts the Let's Encrypt add-on, then NGINX. HA Core itself never restarts.</p></div></li>
+        <li class="gotcha"><span class="gotcha__delta" aria-hidden="true"><svg viewBox="0 0 42 37"><path d="M21 2L40 35H2z"/></svg><span>E</span></span><div><p class="label-caps">Rev. E · Zigbee · went fine</p><h4>The mesh survived the Pi → VM move with zero re-pairing</h4><p>Same stick, full backup, “Restore backup” on the scary ZHA dialog, <em>never</em> “keep new settings”.</p></div></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- 04 WOONKAMER ======================================================== -->
+<section id="woonkamer" class="room-section" aria-labelledby="woon-title">
+  <div class="page">
+    <header class="room-head">
+      <div>
+        <div class="room-head__title">
+          <span class="room-tag" aria-hidden="true">04</span>
+          <h2 id="woon-title"><span lang="nl">Woonkamer</span><span class="en">Home automation</span></h2>
+          <p class="room-head__meta label-caps"><span>Room 04 · 25,0 m²</span><span>the laptop behind the TV</span></p>
+        </div>
+      </div>
+      <div class="keyplan-wrap"><svg class="keyplan" viewBox="0 0 136 97.5" style="--kp-woon: var(--c-kp-here)" aria-hidden="true"><use href="#kp" width="136" height="97.5"/></svg><span class="label-caps"><span lang="nl">u bent hier</span> · you are here</span></div>
+    </header>
+
+    <div class="split">
+      <div class="col-6">
+        <p class="lead" style="max-width: 40ch">The Zigbee network used to live on a Raspberry Pi. Now it lives in a VM with the radio on an extension cable, because USB3 ports scream at 2.4 GHz.</p>
+        <p class="prose" style="margin-top: var(--space-s)">A wall panel shows what the house is doing, and the companion app (<code>home-dashboard</code>: Go, embedded React, SQLite) keeps the build guides and the parts inventory.</p>
+        <div style="margin-top: var(--space-l)">
+          <p class="label-caps" style="margin-bottom: var(--space-2xs)"><span lang="nl">Schakelschema</span> · what switches what</p>
+          <ul class="auto-list">
+            <li><svg viewBox="0 0 26 26" aria-hidden="true"><circle class="sym" cx="13" cy="13" r="10"/><path class="sym" d="M5.9 5.9l14.2 14.2M20.1 5.9L5.9 20.1"/></svg><span><span class="trig">After sunset</span><span class="act">Hallway lights at 20%</span></span></li>
+            <li><svg viewBox="0 0 26 26" aria-hidden="true"><path class="sym" d="M3 18a10 10 0 0 1 20 0z"/><path class="sym" d="M13 8V3M3 18h20"/></svg><span><span class="trig">Washing machine done</span><span class="act">Phone ping</span></span></li>
+            <li><svg viewBox="0 0 26 26" aria-hidden="true"><rect class="sym" x="8" y="2.5" width="10" height="21" rx="2"/><path class="sym" d="M11.5 20h3"/></svg><span><span class="trig">The last phone leaves</span><span class="act">Everything off</span></span></li>
+            <li><svg viewBox="0 0 26 26" aria-hidden="true"><circle class="sym" cx="13" cy="13" r="10"/><path class="sym" d="M13 7v6l4 3"/></svg><span><span class="trig">Once a month</span><span class="act">Cert renewal (yes, really)</span></span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-6">
+        <figure class="detail">
+          <span class="detail__tag"><span lang="nl">Detail</span> 04 · TV wall</span>
+          <svg class="plan plan--detail" viewBox="290 20 380 430" role="img" aria-labelledby="detail-t">
+            <title id="detail-t">Enlarged detail of the living room: sofa, coffee table, the TV unit with the laptop behind it, the Zigbee coordinator on its extension cable, two ceiling lights and the wall panel by the door.</title>
+            <!--DETAIL--><g class="plan-art-copy">
+<g class="balcony" aria-hidden="true"><rect x="60" y="-150" width="560" height="150" class="balcony-floor"/><path class="rail" d="M60 0V-150H620V0"/><path class="rail-in" d="M68 0V-142H612V0"/>
+<circle class="furn" cx="110" cy="-100" r="28"/><path class="furn-thin" d="M110 -128v56M82 -100h56M90 -120l40 40M130 -120l-40 40"/>
+<rect x="420" y="-120" width="130" height="70" class="furn"/><circle class="furn" cx="440" cy="-35" r="0"/>
+<text class="anno" x="190" y="-62">balkon · balcony</text></g>
+<g class="walls" aria-hidden="true"><rect x="0" y="0" width="1000" height="800" class="wall"/><rect x="1100" y="450" width="240" height="320" class="wall"/></g>
+<g class="rooms">
+<g class="room is-lit" data-room="woon"><rect x="30" y="30" width="610" height="410" class="room-fill"/><rect x="30" y="30" width="610" height="410" class="room-glow"/></g>
+<g class="room is-lit" data-room="werk"><rect x="650" y="30" width="320" height="410" class="room-fill"/><rect x="650" y="30" width="320" height="410" class="room-glow"/></g>
+<g class="room" data-room="keuken"><rect x="30" y="450" width="270" height="320" class="room-fill"/><rect x="30" y="450" width="270" height="320" class="room-glow"/></g>
+<g class="room room--private" data-room="slaap" aria-hidden="true"><rect x="310" y="450" width="230" height="320" class="room-fill"/><rect x="310" y="450" width="230" height="320" class="room-glow"/></g>
+<g class="room is-lit" data-room="hal"><polygon class="room-fill" points="550,450 760,450 760,770 650,770 650,650 550,650"/><polygon class="room-glow" points="550,450 760,450 760,770 650,770 650,650 550,650"/></g>
+<g class="room" data-room="meter"><rect x="550" y="660" width="90" height="110" class="room-fill"/><rect x="550" y="660" width="90" height="110" class="room-glow"/></g>
+<g class="room room--private" data-room="bad" aria-hidden="true"><rect x="770" y="450" width="200" height="170" class="room-fill"/><rect x="770" y="450" width="200" height="170" class="room-glow"/></g>
+<g class="room room--private" data-room="toilet" aria-hidden="true"><rect x="770" y="630" width="110" height="140" class="room-fill"/><rect x="770" y="630" width="110" height="140" class="room-glow"/></g>
+<g class="room room--private" data-room="cv" aria-hidden="true"><rect x="890" y="630" width="80" height="140" class="room-fill"/><rect x="890" y="630" width="80" height="140" class="room-glow"/></g>
+<g class="room" data-room="berg"><rect x="1120" y="470" width="200" height="280" class="room-fill"/><rect x="1120" y="470" width="200" height="280" class="room-glow"/></g>
+</g>
+<g class="openings" aria-hidden="true">
+<rect x="60" y="440" width="240" height="10" class="cut cut--keuken"/>
+<path class="overhead" d="M60 445H300"/>
+<g class="door"><rect x="555" y="440" width="80" height="10" class="cut"/><path class="door-arc" d="M635 360A80 80 0 0 0 555 440"/><line x1="635" y1="440" x2="635" y2="360" class="door-leaf"/></g>
+<g class="door"><rect x="665" y="440" width="80" height="10" class="cut"/><path class="door-arc" d="M665 360A80 80 0 0 1 745 440"/><line x1="665" y1="440" x2="665" y2="360" class="door-leaf"/></g>
+<g class="door"><rect x="540" y="470" width="10" height="80" class="cut"/><path class="door-arc" d="M460 470A80 80 0 0 0 540 550"/><line x1="540" y1="470" x2="460" y2="470" class="door-leaf"/></g>
+<g class="door"><rect x="760" y="465" width="10" height="70" class="cut"/><path class="door-arc" d="M840 465A70 70 0 0 1 770 535"/><line x1="770" y1="465" x2="840" y2="465" class="door-leaf"/></g>
+<g class="door"><rect x="760" y="640" width="10" height="70" class="cut"/><path class="door-arc" d="M690 640A70 70 0 0 0 760 710"/><line x1="760" y1="640" x2="690" y2="640" class="door-leaf"/></g>
+<g class="door"><rect x="560" y="650" width="70" height="10" class="cut"/><path class="door-arc" d="M560 580A70 70 0 0 1 630 650"/><line x1="560" y1="650" x2="560" y2="580" class="door-leaf"/></g>
+<g class="door"><rect x="900" y="620" width="60" height="10" class="cut"/><path class="door-arc" d="M960 690A60 60 0 0 1 900 630"/><line x1="960" y1="630" x2="960" y2="690" class="door-leaf"/></g>
+<g class="door"><rect x="665" y="770" width="90" height="30" class="cut"/><path class="door-arc" d="M665 680A90 90 0 0 1 755 770"/><line x1="665" y1="770" x2="665" y2="680" class="door-leaf"/></g>
+<g class="door"><rect x="1232" y="750" width="78" height="20" class="cut"/><path class="door-arc" d="M1310 672A78 78 0 0 0 1232 750"/><line x1="1310" y1="750" x2="1310" y2="672" class="door-leaf"/></g>
+</g>
+<g class="windows" aria-hidden="true">
+<g class="window"><rect x="80" y="0" width="250" height="30" class="glass"/><line x1="80" y1="13" x2="330" y2="13" class="pane"/><line x1="80" y1="17" x2="330" y2="17" class="pane"/></g>
+<g class="window"><rect x="360" y="0" width="240" height="30" class="glass"/><line x1="360" y1="13" x2="600" y2="13" class="pane"/><line x1="360" y1="17" x2="600" y2="17" class="pane"/><line x1="360" y1="10" x2="490" y2="10" class="pane-strong"/><line x1="470" y1="20" x2="600" y2="20" class="pane-strong"/></g>
+<g class="window"><rect x="0" y="110" width="30" height="260" class="glass"/><line x1="13" y1="110" x2="13" y2="370" class="pane"/><line x1="17" y1="110" x2="17" y2="370" class="pane"/></g>
+<g class="window"><rect x="700" y="0" width="230" height="30" class="glass"/><line x1="700" y1="13" x2="930" y2="13" class="pane"/><line x1="700" y1="17" x2="930" y2="17" class="pane"/></g>
+<g class="window"><rect x="970" y="110" width="30" height="250" class="glass"/><line x1="983" y1="110" x2="983" y2="360" class="pane"/><line x1="987" y1="110" x2="987" y2="360" class="pane"/></g>
+<g class="window"><rect x="0" y="520" width="30" height="190" class="glass"/><line x1="13" y1="520" x2="13" y2="710" class="pane"/><line x1="17" y1="520" x2="17" y2="710" class="pane"/></g>
+<g class="window"><rect x="60" y="770" width="190" height="30" class="glass"/><line x1="60" y1="783" x2="250" y2="783" class="pane"/><line x1="60" y1="787" x2="250" y2="787" class="pane"/></g>
+<g class="window"><rect x="345" y="770" width="160" height="30" class="glass"/><line x1="345" y1="783" x2="505" y2="783" class="pane"/><line x1="345" y1="787" x2="505" y2="787" class="pane"/></g>
+<g class="window"><rect x="970" y="480" width="30" height="110" class="glass"/><line x1="983" y1="480" x2="983" y2="590" class="pane"/><line x1="987" y1="480" x2="987" y2="590" class="pane"/></g>
+</g>
+<g class="furniture" aria-hidden="true"><rect x="320" y="120" width="92" height="220" class="furn"/><rect x="320" y="120" width="22" height="220" class="furn-thin-fill"/><rect x="342" y="120" width="70" height="20" class="furn-thin-fill"/><rect x="342" y="320" width="70" height="20" class="furn-thin-fill"/><line x1="342" y1="230" x2="412" y2="230" class="furn-thin"/><rect class="furn" x="455" y="185" width="64" height="90" rx="6"/><rect class="furn-dash" x="300" y="100" width="250" height="260" rx="2"/><rect x="598" y="120" width="40" height="240" class="furn"/><line x1="592" y1="165" x2="592" y2="315" class="tv"/><rect x="589" y="165" width="6" height="150" class="furn-solid"/><rect x="606" y="195" width="24" height="36" class="laptop"/><path class="cable" d="M618 195C618 170 600 160 600 140"/><rect x="594" y="128" width="12" height="12" class="stick"/><rect x="90" y="285" width="170" height="85" class="furn"/><rect x="105" y="255" width="40" height="26" class="furn-thin-fill"/><rect x="105" y="374" width="40" height="26" class="furn-thin-fill"/><rect x="160" y="255" width="40" height="26" class="furn-thin-fill"/><rect x="160" y="374" width="40" height="26" class="furn-thin-fill"/><rect x="215" y="255" width="40" height="26" class="furn-thin-fill"/><rect x="215" y="374" width="40" height="26" class="furn-thin-fill"/><circle class="furn" cx="72" cy="402" r="20"/><path class="furn-thin" d="M72 384v36M54 402h36"/><rect x="470" y="433" width="46" height="7" class="panel"/><rect x="30" y="450" width="62" height="320" class="counter"/><rect x="92" y="708" width="208" height="62" class="counter"/><rect class="furn" x="38" y="560" width="46" height="40" rx="6"/><rect class="furn" x="38" y="605" width="46" height="30" rx="6"/><circle class="furn-thin" cx="61" cy="580" r="4"/><circle class="furn" cx="148" cy="726" r="10"/><circle class="furn" cx="178" cy="726" r="10"/><circle class="furn" cx="148" cy="752" r="10"/><circle class="furn" cx="178" cy="752" r="10"/><rect x="236" y="706" width="64" height="64" class="furn"/><line x1="236" y1="706" x2="300" y2="770" class="furn-thin"/><line x1="300" y1="706" x2="236" y2="770" class="furn-thin"/><rect x="690" y="30" width="250" height="72" class="furn"/><rect x="735" y="40" width="70" height="6" class="furn-solid"/><rect x="820" y="40" width="70" height="6" class="furn-solid"/><circle class="furn" cx="812" cy="138" r="24"/><path class="furn-thin" d="M790 156a28 28 0 0 0 44 0"/><rect x="934" y="130" width="36" height="230" class="furn"/><line x1="934" y1="152" x2="970" y2="152" class="furn-thin"/><line x1="934" y1="175" x2="970" y2="175" class="furn-thin"/><line x1="934" y1="198" x2="970" y2="198" class="furn-thin"/><line x1="934" y1="221" x2="970" y2="221" class="furn-thin"/><line x1="934" y1="244" x2="970" y2="244" class="furn-thin"/><line x1="934" y1="267" x2="970" y2="267" class="furn-thin"/><line x1="934" y1="290" x2="970" y2="290" class="furn-thin"/><line x1="934" y1="313" x2="970" y2="313" class="furn-thin"/><line x1="934" y1="336" x2="970" y2="336" class="furn-thin"/><line x1="934" y1="359" x2="970" y2="359" class="furn-thin"/><rect x="650" y="120" width="8" height="150" class="furn-solid"/><rect class="furn" x="840" y="300" width="70" height="70" rx="10"/><rect class="furn-thin-fill" x="848" y="300" width="54" height="14" rx="4"/><circle class="furn" cx="770" cy="330" r="30"/><rect x="320" y="600" width="200" height="160" class="furn"/><rect class="furn-thin-fill" x="328" y="610" width="40" height="66" rx="8"/><rect class="furn-thin-fill" x="328" y="684" width="40" height="66" rx="8"/><line x1="388" y1="600" x2="388" y2="760" class="furn-thin"/><rect x="310" y="450" width="60" height="130" class="furn"/><rect x="310" y="450" width="60" height="130" class="hatch"/><rect x="880" y="450" width="90" height="90" class="furn"/><line x1="880" y1="450" x2="970" y2="540" class="furn-thin"/><line x1="970" y1="450" x2="880" y2="540" class="furn-thin"/><circle class="furn-thin" cx="925" cy="495" r="5"/><rect class="furn" x="926" y="552" width="40" height="56" rx="10"/><rect x="780" y="556" width="60" height="60" class="furn"/><circle class="furn-thin" cx="810" cy="586" r="20"/><text class="sym-text" x="810" y="590">WM</text><rect x="805" y="738" width="40" height="22" class="furn"/><path class="furn" d="M810 738c0-38 30-38 30 0"/><ellipse class="furn" cx="825" cy="712" rx="17" ry="24"/><rect class="furn" x="852" y="660" width="24" height="32" rx="6"/><rect class="furn" x="904" y="700" width="56" height="62"/><text class="sym-text" x="932" y="736">CV</text><rect x="556" y="742" width="78" height="22" class="furn"/><line x1="582" y1="742" x2="582" y2="764" class="furn-thin"/><line x1="608" y1="742" x2="608" y2="764" class="furn-thin"/><rect x="560" y="700" width="34" height="24" class="router"/><circle class="led" cx="567" cy="712" r="2.5"/><circle class="led" cx="575" cy="712" r="2.5"/><rect x="675" y="700" width="70" height="40" class="furn-dash"/><line x1="556" y1="470" x2="556" y2="540" class="furn-thin"/><circle class="furn-thin" cx="562" cy="476" r="3"/><circle class="furn-thin" cx="562" cy="490" r="3"/><circle class="furn-thin" cx="562" cy="504" r="3"/><circle class="furn-thin" cx="562" cy="518" r="3"/><circle class="furn-thin" cx="562" cy="532" r="3"/><g class="bike"><line class="furn" x1="1135" y1="612" x2="1300" y2="612"/><line class="furn" x1="1157" y1="590" x2="1157" y2="634"/><rect class="furn-thin-fill" x="1215" y="607" width="26" height="10" rx="4"/></g><g class="bike"><line class="furn" x1="1150" y1="652" x2="1315" y2="652"/><line class="furn" x1="1172" y1="630" x2="1172" y2="674"/><rect class="furn-thin-fill" x="1230" y="647" width="26" height="10" rx="4"/></g><rect x="1120" y="470" width="200" height="44" class="furn"/><rect x="1124" y="474" width="29" height="36" class="box"/><text class="box-num" x="1138.5" y="499">1</text><rect x="1156.5" y="474" width="29" height="36" class="box"/><text class="box-num" x="1171" y="499">2</text><rect x="1189" y="474" width="29" height="36" class="box"/><text class="box-num" x="1203.5" y="499">3</text><rect x="1221.5" y="474" width="29" height="36" class="box"/><text class="box-num" x="1236" y="499">4</text><rect x="1254" y="474" width="29" height="36" class="box"/><text class="box-num" x="1268.5" y="499">5</text><rect x="1286.5" y="474" width="29" height="36" class="box"/><text class="box-num" x="1301" y="499">6</text></g>
+<g class="mesh" aria-hidden="true"><path d="M600 134L456 230"/><path d="M600 134L612 350"/><path d="M456 230L175 328"/><path d="M175 328L175 600"/><path d="M612 350L700 575"/><path d="M700 575L748 462"/><path d="M700 575L748 758"/><path d="M700 575L810 544"/><path d="M810 544L840 530"/><path d="M700 575L440 560"/><path d="M440 560L520 740"/><path d="M612 350L800 236"/><path d="M800 236L930 112"/><path d="M456 230L493 425"/></g>
+<g class="devices" aria-hidden="true"><g class="bulb is-lit" data-room="woon"><circle cx="456" cy="230" r="11"/><path d="M448.2 222.2l15.6 15.6M463.8 222.2l-15.6 15.6"/></g><g class="bulb is-lit" data-room="woon"><circle cx="175" cy="328" r="11"/><path d="M167.2 320.2l15.6 15.6M182.8 320.2l-15.6 15.6"/></g><g class="bulb is-lit" data-room="hal"><circle cx="700" cy="575" r="11"/><path d="M692.2 567.2l15.6 15.6M707.8 567.2l-15.6 15.6"/></g><g class="bulb is-lit" data-room="werk"><circle cx="800" cy="236" r="11"/><path d="M792.2 228.2l15.6 15.6M807.8 228.2l-15.6 15.6"/></g><g class="bulb" data-room="keuken"><circle cx="175" cy="600" r="11"/><path d="M167.2 592.2l15.6 15.6M182.8 592.2l-15.6 15.6"/></g><g class="bulb" data-room="bad"><circle cx="840" cy="530" r="11"/><path d="M832.2 522.2l15.6 15.6M847.8 522.2l-15.6 15.6"/></g><g class="bulb" data-room="slaap"><circle cx="440" cy="560" r="11"/><path d="M432.2 552.2l15.6 15.6M447.8 552.2l-15.6 15.6"/></g><g class="plug"><path d="M601 350a11 11 0 0 1 22 0z"/><path d="M612 339v-7M601 350h22"/></g><g class="plug"><path d="M919 112a11 11 0 0 1 22 0z"/><path d="M930 101v-7M919 112h22"/></g><g class="plug"><path d="M799 544a11 11 0 0 1 22 0z"/><path d="M810 533v-7M799 544h22"/></g><g class="sensor"><rect x="740" y="454" width="16" height="16"/><circle cx="748" cy="462" r="3"/></g><g class="sensor"><rect x="740" y="750" width="16" height="16"/><circle cx="748" cy="758" r="3"/></g><g class="sensor"><rect x="512" y="732" width="16" height="16"/><circle cx="520" cy="740" r="3"/></g><g class="coord"><path d="M600 118l15 26h-30z"/></g></g>
+<g class="switches" aria-hidden="true"><g class="switch is-lit" data-switch="woon"><circle class="switch-hit" cx="548" cy="428" r="26"/><circle class="switch-dot" cx="548" cy="428" r="5.5"/><path class="switch-arm" d="M548 428l-12 -12l-5 5"/></g><g class="switch is-lit" data-switch="hal"><circle class="switch-hit" cx="752" cy="744" r="26"/><circle class="switch-dot" cx="752" cy="744" r="5.5"/><path class="switch-arm" d="M752 744l12 -12l5 5"/></g><g class="switch is-lit" data-switch="werk"><circle class="switch-hit" cx="756" cy="428" r="26"/><circle class="switch-dot" cx="756" cy="428" r="5.5"/><path class="switch-arm" d="M756 428l12 -12l5 5"/></g><g class="switch" data-switch="keuken"><circle class="switch-hit" cx="292" cy="478" r="26"/><circle class="switch-dot" cx="292" cy="478" r="5.5"/><path class="switch-arm" d="M292 478l-12 -12l-5 5"/></g><g class="switch" data-switch="meter"><circle class="switch-hit" cx="632" cy="674" r="26"/><circle class="switch-dot" cx="632" cy="674" r="5.5"/><path class="switch-arm" d="M632 674l-12 -12l-5 5"/></g><g class="switch" data-switch="berg"><circle class="switch-hit" cx="1132" cy="736" r="26"/><circle class="switch-dot" cx="1132" cy="736" r="5.5"/><path class="switch-arm" d="M1132 736l12 -12l5 5"/></g></g>
+<g class="labels" aria-hidden="true"><g class="label" data-room="woon"><circle class="tag-ring" cx="92" cy="70" r="21"/><text class="tag-num" x="92" y="77">04</text>
+<text class="label-name" x="124" y="78">woonkamer</text><text class="label-en" x="124" y="100">living room</text><text class="label-area" x="124" y="122">25,0 m²</text><text class="label-go" x="124" y="146">→ home automation</text></g><g class="label" data-room="werk"><circle class="tag-ring" cx="688" cy="254" r="21"/><text class="tag-num" x="688" y="261">02</text>
+<text class="label-name" x="720" y="262">werkplek</text><text class="label-en" x="720" y="284">the study · day job</text><text class="label-area" x="720" y="306">13,1 m²</text><text class="label-go" x="720" y="330">→ work at Harborn</text></g><g class="label" data-room="keuken"><circle class="tag-ring" cx="112" cy="497" r="21"/><text class="tag-num" x="112" y="504">06</text>
+<text class="label-name" x="144" y="505">keuken</text><text class="label-en" x="144" y="527">kitchen</text><text class="label-area" x="144" y="549">8,6 m²</text><text class="label-go" x="144" y="573">→ how I work</text></g><g class="label label--private" data-room="slaap"><text class="label-name" x="392" y="520">slaapkamer</text><text class="label-area" x="392" y="544">7,4 m²</text></g><g class="label" data-room="hal"><circle class="tag-ring" cx="578" cy="497" r="21"/><text class="tag-num" x="578" y="504">01</text>
+<text class="label-name" x="610" y="505">hal</text><text class="label-en" x="610" y="527">hallway</text><text class="label-area" x="610" y="549">5,5 m²</text><text class="label-go" x="610" y="573">→ start here</text></g><g class="label label--private" data-room="bad"><text class="label-name" x="786" y="496">badkamer</text><text class="label-area" x="786" y="520">3,4 m²</text></g><g class="label" data-room="berg"><circle class="tag-ring" cx="1146" cy="548" r="21"/><text class="tag-num" x="1146" y="555">05</text>
+<text class="label-name" x="1178" y="556">berging</text><text class="label-en" x="1178" y="578">storage</text><text class="label-area" x="1178" y="600">5,6 m²</text><text class="label-go" x="1178" y="624">→ side projects</text></g><g class="label label--leader" data-room="meter"><path class="leader" d="M596 712L560 838H520"/><circle class="leader-dot" cx="596" cy="712" r="4"/><circle class="tag-ring" cx="497" cy="830" r="21"/><text class="tag-num" x="497" y="837">03</text><text class="label-name" x="466" y="828" text-anchor="end">meterkast</text><text class="label-en" x="466" y="850" text-anchor="end">utility cupboard · 1,0 m²</text><text class="label-go" x="466" y="874" text-anchor="end">→ the homelab</text></g></g>
+</g><!--/DETAIL-->
+            <g class="anno-overlay" aria-hidden="true">
+              <path d="M618 214L560 290H520"/><circle cx="618" cy="214" r="3"/><text x="516" y="294" text-anchor="end">laptop, lid shut</text><text x="516" y="311" text-anchor="end">battery = UPS</text>
+              <path d="M600 134L540 70H520"/><circle cx="600" cy="134" r="3"/><text x="516" y="74" text-anchor="end">Zigbee coordinator</text><text x="516" y="91" text-anchor="end">on a USB2 extension</text>
+              <path d="M493 432L440 405H420"/><circle cx="493" cy="432" r="3"/><text x="416" y="409" text-anchor="end">wall panel</text>
+            </g>
+          </svg>
+          <figcaption><span>scale 1:50-ish, still not my address</span><span class="lights-status" data-lights-status aria-live="off"></span></figcaption>
+        </figure>
+        <p class="js-only" style="margin-top: var(--space-s)"><button class="btn btn--accent" type="button" data-scene="away"><svg viewBox="0 0 18 18" aria-hidden="true"><rect x="5" y="1.5" width="8" height="15" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 13.5h2" stroke="currentColor" stroke-width="1.5"/></svg><span>Last phone leaves</span></button></p>
+      </div>
+    </div>
+
+    <figure class="photo" style="aspect-ratio: 4 / 1; min-height: 160px"><span>PHOTO: the wall panel by the door, showing what the house is doing</span></figure>
+
+    <div>
+      <div class="sub-head"><h3>What's next</h3><span class="label-caps"><span lang="nl">Toekomstige situatie</span> · dashed means not built yet</span></div>
+      <div class="future">
+        <svg viewBox="0 0 360 260" role="img" aria-labelledby="fut-t">
+          <title id="fut-t">Planned: a 3D-printed rack holding three ex-office 1-litre mini PCs, with the old laptop beside it on backup duty.</title>
+          <rect class="f-rack" x="20" y="20" width="200" height="220"/>
+          <rect class="f-new" x="40" y="40" width="160" height="50"/><rect class="f-new" x="40" y="105" width="160" height="50"/><rect class="f-new" x="40" y="170" width="160" height="50"/>
+          <text class="f-label" x="52" y="70">node 1</text><text class="f-label" x="52" y="135">node 2</text><text class="f-label" x="52" y="200">node 3</text>
+          <text x="140" y="70">1 litre</text><text x="140" y="135">1 litre</text><text x="140" y="200">1 litre</text>
+          <rect class="f-old" x="250" y="196" width="96" height="44"/><circle class="f-led" cx="262" cy="208" r="3"/>
+          <text class="f-label" x="250" y="186">laptop</text><text x="250" y="172">backup duty</text>
+          <text x="20" y="14">3D-printed rack</text>
+        </svg>
+        <div>
+          <p class="lead" style="max-width: 38ch">Three ex-office 1-litre mini PCs (8th gen+, ~16 GB each) in a 3D-printed rack, turning the single node into a real cluster.</p>
+          <p style="margin-top: var(--space-s); color: var(--ink-muted)">The laptop retires to backup duty. The bot in the <a href="#berging"><span lang="nl">berging</span></a> is looking for the mini PCs right now.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 BERGING ========================================================== -->
+<section id="berging" class="room-section" aria-labelledby="berg-title">
+  <div class="page">
+    <header class="room-head">
+      <div>
+        <div class="room-head__title">
+          <span class="room-tag" aria-hidden="true">05</span>
+          <h2 id="berg-title"><span lang="nl">Berging</span><span class="en">Side projects: stuff I built and keep around</span></h2>
+          <p class="room-head__meta label-caps"><span>Room 05 · 5,6 m²</span><span>ground floor, next to the bikes</span></p>
+        </div>
+      </div>
+      <div class="keyplan-wrap"><svg class="keyplan" viewBox="0 0 136 97.5" style="--kp-berg: var(--c-kp-here)" aria-hidden="true"><use href="#kp" width="136" height="97.5"/></svg><span class="label-caps"><span lang="nl">u bent hier</span> · you are here</span></div>
+    </header>
+
+    <p class="room-explain">Dutch flats come with a <span lang="nl">berging</span>: a lockable storage room downstairs for bikes and boxes. Six boxes in mine. All of them deployed to the homelab.</p>
+
+    <div class="projects-featured">
+      <article class="project project--featured" aria-labelledby="p-r99">
+        <div class="project__id">
+          <p class="box-label"><span><span lang="nl">Doos</span> 1</span><span>fragile: has rules</span></p>
+          <h3 class="project__name" id="p-r99">Rules of 99</h3>
+          <p class="project__line">Commander in the browser, with full rules enforcement.</p>
+        </div>
+        <div class="project__body">
+          <ul>
+            <li>Wraps <strong>Forge's</strong> open-source Java rules engine headless behind a WebSocket/JSON gateway. All ~33k cards are data, and commander tax and 21 commander damage are engine-native.</li>
+            <li><strong>Per-viewer state redaction</strong>: opponents' hands never cross the wire. Rooms via 6-char codes, 2–4 seats, reconnect-safe seat tokens, host migration.</li>
+            <li>Six table layouts on desktop. Below 1280px it turns into a phone shell. Installable as a PWA. The card database syncs itself every night.</li>
+          </ul>
+          <div class="project__meta">
+            <ul class="tags" aria-label="Stack"><li class="tag">Java 17</li><li class="tag">Maven</li><li class="tag">React</li><li class="tag">TypeScript</li><li class="tag">SQLite</li><li class="tag">WebSockets</li></ul>
+            <p class="project__status">Live · 2.0</p>
+            <a class="link-arrow" href="https://github.com/guuse">guuse on GitHub</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="project project--featured" aria-labelledby="p-2hf">
+        <div class="project__id">
+          <p class="box-label"><span><span lang="nl">Doos</span> 2</span><span>do not open: still hunting</span></p>
+          <h3 class="project__name" id="p-2hf">2nd-hand-finds</h3>
+          <p class="project__line">A bot that reads <span lang="nl">Marktplaats</span> so I don't have to.</p>
+          <div class="finds" role="group" aria-label="Finds recorded so far">
+            <div><b>253</b><span>MTG lots</span></div>
+            <div><b>30</b><span>homelab parts</span></div>
+            <div class="zero"><b>0</b><span>Rover clogs</span></div>
+          </div>
+          <p class="finds-note">One pair of brown New Balance Rover clogs, EU 40, max €180 all-in. The bot checks every two hours. The bot is patient.</p>
+        </div>
+        <div class="project__body">
+          <ul>
+            <li>Every two hours (08:00–23:00) it searches <span lang="nl">Marktplaats</span> and Vinted, applies hard filters, then has <strong>Claude judge each listing</strong> against a per-category rubric.</li>
+            <li>Hunting: bulk Magic: The Gathering lots (priced via Scryfall), mini PCs for the homelab rack, and the clogs.</li>
+            <li>Email digest, price-drop alerts, a “something broke” alarm, and a small UI to mark finds loved / hidden / bought. 280+ finds recorded so far.</li>
+          </ul>
+          <div class="project__meta">
+            <ul class="tags" aria-label="Stack"><li class="tag">Python</li><li class="tag">Claude</li><li class="tag">Astro SSR</li><li class="tag">Resend</li><li class="tag">k3s</li></ul>
+            <p class="project__status">Running · every 2h</p>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <ul class="projects-compact">
+      <li class="project project--compact">
+        <p class="box-label"><span lang="nl">Doos</span> 3</p>
+        <h4>Quizmaster</h4>
+        <p class="project__line">A live multiplayer quiz where the questions are generated on the spot.</p>
+        <p>Party game, made public for the evening through Tailscale Funnel.</p>
+      </li>
+      <li class="project project--compact">
+        <p class="box-label"><span lang="nl">Doos</span> 4</p>
+        <h4>Scryfall, in plain words</h4>
+        <p class="project__line">Ask for cards like a human. Get a real Scryfall query back.</p>
+        <p>Claude turns “cheap green ramp that isn't a land” into Scryfall syntax, checks the query actually returns results, and links you there.</p>
+      </li>
+      <li class="project project--compact">
+        <p class="box-label"><span lang="nl">Doos</span> 5</p>
+        <h4>Grimoire</h4>
+        <p class="project__line">An MTG deck-builder I run for myself and my playgroup.</p>
+        <p>Fork, self-hosted, single pod + PVC, deployed via the same Image Updater flow.</p>
+      </li>
+      <li class="project project--compact">
+        <p class="box-label"><span lang="nl">Doos</span> 6</p>
+        <h4 lang="nl">huisjes</h4>
+        <p class="project__line">Our search for a first home, run like a software project.</p>
+        <p>One folder per house, ADRs for decisions, a Funda routine that scores new listings. Plus a read-only web app so my partner sees everything without touching git.</p>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- 06 KEUKEN =========================================================== -->
+<section id="keuken" class="room-section" aria-labelledby="keuken-title">
+  <div class="page">
+    <header class="room-head">
+      <div>
+        <div class="room-head__title">
+          <span class="room-tag" aria-hidden="true">06</span>
+          <h2 id="keuken-title"><span lang="nl">Keuken</span><span class="en">How I work, and what's in the cupboards</span></h2>
+          <p class="room-head__meta label-caps"><span>Room 06 · 8,6 m²</span><span>recipes and tools</span></p>
+        </div>
+      </div>
+      <div class="keyplan-wrap"><svg class="keyplan" viewBox="0 0 136 97.5" style="--kp-keuken: var(--c-kp-here)" aria-hidden="true"><use href="#kp" width="136" height="97.5"/></svg><span class="label-caps"><span lang="nl">u bent hier</span> · you are here</span></div>
+    </header>
+
+    <div>
+      <div class="sub-head"><h3>How I work</h3><span class="label-caps">five house rules</span></div>
+      <ol class="principles">
+        <li class="principle"><span class="principle__n">1</span><h4>Write it down where the code lives</h4><p>Every repo of mine has a context file and ADRs. Future me and the AI agents both start by reading.</p></li>
+        <li class="principle"><span class="principle__n">2</span><h4>Git is the source of truth</h4><p>For infrastructure, for side projects, even for house hunting.</p></li>
+        <li class="principle"><span class="principle__n">3</span><h4>Boring tech, sharp edges filed off</h4><p>k3s, Postgres-or-SQLite, Astro. The interesting part is the problem.</p></li>
+        <li class="principle"><span class="principle__n">4</span><h4>Automate the second time</h4><p>Not the first, not the third.</p></li>
+        <li class="principle"><span class="principle__n">5</span><h4>Let Claude do the boring part</h4><p>Judging 200 listings, writing the tag bump, drafting the runbook. I review.</p></li>
+      </ol>
+    </div>
+
+    <div>
+      <div class="sub-head"><h3>Toolbox</h3><span class="label-caps"><span lang="nl">Voorraadkast</span> · the pantry, shelf by shelf</span></div>
+      <div class="pantry">
+        <div class="shelf shelf--daily"><h4>Daily</h4><ul><li>TypeScript</li><li>React</li><li>Astro</li><li>Python</li><li>Git</li><li>Claude Code</li></ul></div>
+        <div class="shelf"><h4>Often</h4><ul><li>Java</li><li>Flutter/Dart</li><li>Rails</li><li>PHP</li><li>FastAPI</li><li>SQLite</li><li>Postgres</li></ul></div>
+        <div class="shelf"><h4>Security</h4><ul><li>Policy &amp; risk</li><li>Access reviews</li><li>Secrets management</li><li>Cloudflare Access</li><li>Tailscale ACLs</li></ul></div>
+        <div class="shelf"><h4>Platform</h4><ul><li>Kubernetes (k3s, Haven)</li><li>Argo CD</li><li>Helm</li><li>Kustomize</li><li>Traefik</li><li>cert-manager</li><li>GitHub Actions</li><li>GHCR</li><li>Docker</li></ul></div>
+        <div class="shelf"><h4>Home</h4><ul><li>Proxmox</li><li>Tailscale</li><li>Cloudflare (DNS, Tunnel, Access)</li><li>Home Assistant</li><li>Zigbee (ZHA)</li></ul></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- 07 VOORDEUR ========================================================= -->
+<footer id="voordeur" class="site-footer" aria-labelledby="hoi-title">
+  <div class="page footer__grid">
+    <div class="footer__hoi">
+      <p class="label-caps">07 · <span lang="nl">Voordeur</span> · front door, on your way out</p>
+      <h2 id="hoi-title" style="margin-top: var(--space-s)">Say <span lang="nl">hoi</span>.</h2>
+      <a class="footer__mail" href="mailto:hello@ekkelenkamp.dev">hello@ekkelenkamp.dev</a>
+      <p>Code on GitHub: <a href="https://github.com/guuse">@guuse</a>. This site is open source, so poke around.</p>
+    </div>
+    <dl class="titleblock" aria-label="Drawing title block">
+      <div><dt><span lang="nl">Project</span></dt><dd>ekkelenkamp.dev</dd></div>
+      <div><dt><span lang="nl">Tekening</span></dt><dd><span lang="nl">Plattegrond</span></dd></div>
+      <div><dt><span lang="nl">Schaal</span></dt><dd>n.t.s.</dd></div>
+      <div><dt>Rev.</dt><dd>C · nov 2026</dd></div>
+      <div class="wide"><dt><span lang="nl">Getekend</span> · drawn by</dt><dd>Guus Ekkelenkamp, Rotterdam</dd></div>
+    </dl>
+  </div>
+  <div class="page footer__small">
+    <span>Built with Astro. Hosted somewhere more reliable than my laptop.</span>
+    <span>© 2026 Guus Ekkelenkamp · No cookies, no trackers, no newsletter.</span>
+  </div>
+</footer>
+
+<aside class="review-bar" aria-label="Design review">
+  <span class="review-bar__name">02 Plattegrond</span>
+  <fieldset role="radiogroup">
+    <legend>Option</legend>
+    <label><input type="radio" name="option" value="daylight">daylight</label>
+    <label><input type="radio" name="option" value="blueprint">blueprint</label>
+    <label><input type="radio" name="option" value="lights-out">lights-out</label>
+  </fieldset>
+  <a href="system.html">system</a>
+  <a class="rb-hub" href="../../../index.html">hub ↩</a>
+</aside>
+
+<script src="plattegrond.js" defer></script>
+</body>
+</html>
