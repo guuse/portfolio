@@ -116,6 +116,13 @@ const keys = [
       animation: toast 3.2s var(--ease-out) both;
     }
 
+    /* without motion it simply shows, for as long as it's there (eggs.ts removes it) */
+    @media (prefers-reduced-motion: reduce) {
+      .toast {
+        animation: none;
+      }
+    }
+
     @keyframes toast {
       0%,
       100% {
@@ -130,7 +137,8 @@ const keys = [
       }
     }
 
-    .is-untapping :is(.print, .cover__link, .pcard__media) {
+    /* the prints have their own rule in Hero.astro, which outranks their .is-settled */
+    .is-untapping :is(.cover__link, .pcard__media) {
       animation: untap 1.5s var(--ease-in-out);
     }
 
