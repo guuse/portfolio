@@ -17,6 +17,23 @@ website and portfolio.** This copy deck replaces the round-1 copy (archived in
   the work covers, never separate titles.
 - Never name the laptop's brand or model. No IPs, hostnames or internal names.
 
+## Round 2b: four voices + a bit more playful
+
+Feedback: *"Make it a bit more playful. Right now it's very much 'I lead the infra team'. Also
+make different options for text, headers, etc."*
+
+- The headline no longer states the job. The job title moves to a **small role line**
+  (`hero.role`).
+- The site comes in **four voices**, switchable in every direction:
+  **Nuchter** (calm, default), **Speels** (playful), **Persoonlijk** (warm, personal),
+  **Kort** (short and dry). All strings live in `system/copy.js`; markup uses
+  `data-copy="<key>"`. Each headline marks one phrase with `<em>`, which each direction
+  styles playfully.
+- Section headers change with the voice too (e.g. *Projects* → *Things I made* → *Things I've
+  built*).
+- Project texts (§4) and the project page (§7) stay as they are.
+
+
 ---
 
 ## 0. Meta
