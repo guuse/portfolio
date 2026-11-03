@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ekkelenkamp.dev/design/tokens.schema.json",
+  "title": "ekkelenkamp.dev semantic token contract",
+  "description": "Every direction, and every option within it, must provide a value for each required token. Values are CSS strings. Colours are authored in OKLCH. See FOUNDATIONS.md §1.",
+  "type": "object",
+  "required": ["direction", "options"],
+  "properties": {
+    "direction": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$" },
+    "options": {
+      "type": "object",
+      "minProperties": 2,
+      "additionalProperties": { "$ref": "#/$defs/tokenSet" }
+    }
+  },
+  "$defs": {
+    "css": { "type": "string", "minLength": 1 },
+    "tokenSet": {
+      "type": "object",
+      "required": [
+        "--surface", "--surface-raised", "--surface-sunken", "--surface-inverse",
+        "--ink", "--ink-muted", "--ink-subtle", "--ink-inverse",
+        "--accent", "--accent-ink", "--accent-soft",
+        "--ok", "--warn", "--danger",
+        "--line", "--line-strong", "--focus",
+        "--font-display", "--font-body", "--font-mono",
+        "--radius-s", "--radius-m", "--radius-l",
+        "--shadow-1", "--shadow-2"
+      ],
+      "additionalProperties": { "$ref": "#/$defs/css" },
+      "properties": {
+        "--surface": { "$ref": "#/$defs/css", "description": "Page background" },
+        "--surface-raised": { "$ref": "#/$defs/css", "description": "Cards, panels above the page" },
+        "--surface-sunken": { "$ref": "#/$defs/css", "description": "Code blocks, wells, inputs" },
+        "--surface-inverse": { "$ref": "#/$defs/css", "description": "Inverted bands, footer" },
+        "--ink": { "$ref": "#/$defs/css", "description": "Body text, ≥7:1 on --surface" },
+        "--ink-muted": { "$ref": "#/$defs/css", "description": "Secondary text, ≥4.5:1" },
+        "--ink-subtle": { "$ref": "#/$defs/css", "description": "Labels only, ≥3:1" },
+        "--ink-inverse": { "$ref": "#/$defs/css", "description": "Text on --surface-inverse" },
+        "--accent": { "$ref": "#/$defs/css", "description": "The one brand colour" },
+        "--accent-ink": { "$ref": "#/$defs/css", "description": "Text on --accent, ≥4.5:1" },
+        "--accent-soft": { "$ref": "#/$defs/css", "description": "Tinted backgrounds" },
+        "--focus": { "$ref": "#/$defs/css", "description": "Focus ring, ≥3:1 against adjacent" }
+      }
+    }
+  }
+}

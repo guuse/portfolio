@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Design review · ekkelenkamp.dev</title>
+<meta name="description" content="Phase 1 design review for ekkelenkamp.dev: five directions, three options each, one shared design system.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wdth,wght@0,75..100,400..700;1,75..100,400..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="design/system/base.css">
+<style>
+@layer tokens {
+  :root {
+    --p-paper: oklch(97.5% 0.006 85);
+    --p-paper-2: oklch(94.5% 0.008 85);
+    --p-ink: oklch(21% 0.012 60);
+    --p-ink-2: oklch(42% 0.012 60);
+    --p-ink-3: oklch(55% 0.01 60);
+    --p-line: oklch(86% 0.01 80);
+    --p-signal: oklch(60% 0.2 35);
+
+    --surface: var(--p-paper);
+    --surface-raised: oklch(99.5% 0.003 85);
+    --surface-sunken: var(--p-paper-2);
+    --surface-inverse: var(--p-ink);
+    --ink: var(--p-ink);
+    --ink-muted: var(--p-ink-2);
+    --ink-subtle: var(--p-ink-3);
+    --ink-inverse: var(--p-paper);
+    --accent: var(--p-signal);
+    --line: var(--p-line);
+    --line-strong: var(--p-ink);
+    --focus: var(--p-signal);
+    --font-body: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --surface: oklch(18% 0.008 60);
+      --surface-raised: oklch(22% 0.008 60);
+      --surface-sunken: oklch(15% 0.008 60);
+      --surface-inverse: var(--p-paper);
+      --ink: oklch(95% 0.006 85);
+      --ink-muted: oklch(78% 0.008 85);
+      --ink-subtle: oklch(64% 0.008 85);
+      --ink-inverse: var(--p-ink);
+      --line: oklch(32% 0.008 60);
+      --line-strong: oklch(95% 0.006 85);
+      --accent: oklch(72% 0.17 40);
+      --focus: oklch(72% 0.17 40);
+    }
+  }
+}
+
+@layer components {
+  body { font-stretch: 100%; }
+  a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+  a:hover { text-decoration-color: var(--accent); }
+  .mono { font-family: var(--font-mono); font-size: var(--step--1); letter-spacing: 0; }
+  .label { font-family: var(--font-mono); font-size: var(--step--2); text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-subtle); }
+
+  .masthead { display: grid; gap: var(--space-l); padding-block: var(--space-2xl) var(--space-xl); border-bottom: 1px solid var(--line-strong); }
+  .masthead__top { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-s); }
+  .masthead h1 { font-size: var(--step-6); font-weight: 600; font-stretch: 78%; line-height: 0.92; letter-spacing: -0.035em; max-width: 14ch; }
+  .masthead h1 em { font-style: italic; font-weight: 500; color: var(--accent); }
+  .masthead__intro { display: grid; gap: var(--space-l); grid-template-columns: 1fr; }
+  @media (min-width: 960px) { .masthead__intro { grid-template-columns: 7fr 5fr; align-items: end; } }
+  .masthead__intro p { font-size: var(--step-1); line-height: 1.4; max-width: 44ch; color: var(--ink-muted); }
+  .docs { list-style: none; padding: 0; display: grid; gap: 0; border-top: 1px solid var(--line); }
+  .docs li { border-bottom: 1px solid var(--line); }
+  .docs a { display: grid; grid-template-columns: 2.5rem 1fr auto; gap: var(--space-xs); padding: var(--space-xs) 0; text-decoration: none; align-items: baseline; }
+  .docs a:hover .docs__name { text-decoration: underline; text-decoration-color: var(--accent); }
+  .docs__name { font-weight: 600; }
+
+  .section { padding-block: var(--space-2xl); border-bottom: 1px solid var(--line); }
+  .section > h2 { font-size: var(--step-3); font-stretch: 80%; letter-spacing: -0.02em; line-height: 1.05; margin-bottom: var(--space-l); display: flex; gap: var(--space-s); align-items: baseline; }
+  .section > h2 .label { font-size: var(--step--1); }
+
+  /* Direction rows */
+  .dir { display: grid; gap: var(--space-l); padding-block: var(--space-xl); border-top: 1px solid var(--line); }
+  .dir:first-of-type { border-top: 0; padding-top: 0; }
+  @media (min-width: 960px) { .dir { grid-template-columns: 4fr 8fr; gap: var(--space-xl); } }
+  .dir__num { font-family: var(--font-mono); font-size: var(--step--1); color: var(--accent); }
+  .dir h3 { font-size: var(--step-4); font-stretch: 75%; font-weight: 600; line-height: 0.95; letter-spacing: -0.03em; margin-block: var(--space-2xs) var(--space-xs); }
+  .dir h3 span { display: block; font-size: var(--step-0); font-stretch: 100%; font-weight: 400; letter-spacing: 0; color: var(--ink-muted); margin-top: var(--space-2xs); }
+  .dir p { color: var(--ink-muted); max-width: 52ch; }
+  .dir__meta { display: grid; gap: var(--space-s); margin-top: var(--space-m); }
+  .dir__fonts { font-family: var(--font-mono); font-size: var(--step--1); }
+  .opts { display: flex; flex-wrap: wrap; gap: var(--space-2xs); }
+  .opts a, .opts button { font-family: var(--font-mono); font-size: var(--step--1); padding: 0.35em 0.75em; border: 1px solid var(--line-strong); background: transparent; cursor: pointer; text-decoration: none; display: inline-flex; gap: 0.5em; align-items: center; min-height: 32px; }
+  .opts [aria-pressed="true"] { background: var(--ink); color: var(--surface); }
+  .swatch { width: 0.9em; height: 0.9em; border-radius: 50%; border: 1px solid var(--line-strong); display: inline-block; flex: none; }
+  .dir__links { display: flex; flex-wrap: wrap; gap: var(--space-s); font-weight: 600; }
+  .dir__links a { display: inline-flex; min-height: 32px; align-items: center; }
+  .dir__links a::after { content: " →"; white-space: pre; color: var(--accent); }
+
+  .shots { display: grid; grid-template-columns: 1fr; gap: var(--space-s); align-items: start; }
+  @media (min-width: 600px) { .shots { grid-template-columns: 1fr minmax(0, 0.3fr); } }
+  .shot { margin: 0; display: grid; gap: var(--space-2xs); }
+  .shot a { display: block; border: 1px solid var(--line-strong); background: var(--surface-sunken); overflow: hidden; }
+  .shot img { width: 100%; height: auto; display: block; transition: opacity var(--dur-quick) var(--ease-out); }
+  .shot--desktop img { aspect-ratio: 1440 / 900; object-fit: cover; object-position: top; }
+  .shot--mobile img { aspect-ratio: 390 / 844; object-fit: cover; object-position: top; }
+  .shot--mobile { display: none; }
+  @media (min-width: 600px) { .shot--mobile { display: grid; } }
+  .shot figcaption { font-family: var(--font-mono); font-size: var(--step--2); color: var(--ink-subtle); }
+
+  /* Scorecard */
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line-strong); }
+  table { border-collapse: collapse; width: 100%; min-width: 720px; font-variant-numeric: tabular-nums; }
+  th, td { text-align: left; padding: var(--space-xs) var(--space-s); border-bottom: 1px solid var(--line); vertical-align: top; }
+  thead th { font-family: var(--font-mono); font-size: var(--step--2); text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink-subtle); font-weight: 500; border-bottom-color: var(--line-strong); }
+  tbody th { font-weight: 600; white-space: nowrap; }
+  td.score { font-family: var(--font-mono); white-space: nowrap; }
+  .dots { letter-spacing: 0.1em; color: var(--accent); }
+  .dots span { color: var(--line); }
+  tfoot td { font-size: var(--step--1); color: var(--ink-muted); }
+
+  .cols { display: grid; gap: var(--space-l); }
+  @media (min-width: 960px) { .cols { grid-template-columns: repeat(3, 1fr); } }
+  .cols h3 { font-size: var(--step-1); margin-bottom: var(--space-2xs); font-stretch: 90%; }
+  .cols p, .cols li { color: var(--ink-muted); }
+  .cols ul, .cols ol { padding-left: 1.2em; display: grid; gap: var(--space-3xs); }
+
+  .checklist { list-style: none; padding: 0; display: grid; gap: var(--space-2xs); max-width: 72ch; }
+  .checklist li { display: grid; grid-template-columns: 1.5rem 1fr; gap: var(--space-xs); }
+  .checklist li::before { content: ""; width: 1rem; height: 1rem; border: 1.5px solid var(--line-strong); margin-top: 0.3em; }
+
+  .foot { padding-block: var(--space-xl); display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-s); color: var(--ink-subtle); }
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="page">
+  <header class="masthead">
+    <div class="masthead__top">
+      <span class="label">ekkelenkamp.dev · design review · phase 1</span>
+      <span class="label">November 2026</span>
+    </div>
+    <h1>Five ways to be <em>Guus</em> on the internet.</h1>
+    <div class="masthead__intro">
+      <p>Five directions for one portfolio, each with three options and a full design-system sheet. They share one content model and one token contract, so you can mix the system of one with the hero of another.</p>
+      <ul class="docs" aria-label="Phase 1 documents">
+        <li><a href="design/BRIEF.md"><span class="mono">01</span><span class="docs__name">Brief</span><span class="mono">goals · tone · how to pick</span></a></li>
+        <li><a href="design/CONTENT.md"><span class="mono">02</span><span class="docs__name">Content &amp; copy</span><span class="mono">shared by all</span></a></li>
+        <li><a href="design/system/FOUNDATIONS.md"><span class="mono">03</span><span class="docs__name">System foundations</span><span class="mono">tokens · scales · a11y</span></a></li>
+        <li><a href="design/system/tokens.schema.json"><span class="mono">04</span><span class="docs__name">Token contract</span><span class="mono">JSON schema</span></a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="section" aria-labelledby="dirs-title">
+      <h2 id="dirs-title"><span class="label">§1</span> The directions</h2>
+      <div id="directions"><!-- rendered below; static fallback list for no-JS -->
+        <noscript>
+          <ul>
+            <li><a href="design/directions/01-spec-sheet/index.html">01 · Spec Sheet</a></li>
+            <li><a href="design/directions/02-floor-plan/index.html">02 · Plattegrond</a></li>
+            <li><a href="design/directions/03-poster/index.html">03 · Affiche</a></li>
+            <li><a href="design/directions/04-zine/index.html">04 · Zine</a></li>
+            <li><a href="design/directions/05-wall-panel/index.html">05 · Wandpaneel</a></li>
+          </ul>
+        </noscript>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="score-title">
+      <h2 id="score-title"><span class="label">§2</span> Scorecard</h2>
+      <p style="max-width:68ch;color:var(--ink-muted);margin-bottom:var(--space-m)">My honest first read against the five criteria in the brief (1–5). It's a starting point for the discussion, not a verdict. Fill in your own.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Direction</th><th scope="col">Recognisable</th><th scope="col">Credible</th><th scope="col">Personal</th><th scope="col">Durable</th><th scope="col">Buildable</th><th scope="col">Best for</th></tr></thead>
+          <tbody id="score-body"></tbody>
+          <tfoot><tr><td colspan="7">Recognisable: remembered tomorrow · Credible: makes the depth believable · Personal: only Guus's · Durable: still right in two years, with ten more projects · Buildable: fast static site, no heroics.</td></tr></tfoot>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="mix-title">
+      <h2 id="mix-title"><span class="label">§3</span> Recommendation &amp; mixes</h2>
+      <div class="cols" id="mixes"></div>
+    </section>
+
+    <section class="section" aria-labelledby="next-title">
+      <h2 id="next-title"><span class="label">§4</span> To decide before the build</h2>
+      <ul class="checklist">
+        <li>Pick a direction (or a mix) and an option. Leave dark mode to <code>prefers-color-scheme</code>, or offer a manual switch?</li>
+        <li>Confirm the <code>[CONFIRM]</code> items in CONTENT.md: job title, since when, which clients may be named, Quizmaster's stack, contact address.</li>
+        <li>Pick the hero one-liner: A ("better uptime"), B ("fifteen services, lid shut") or C ("I'll just automate that").</li>
+        <li>Real home automations and devices for §4.7, to replace the placeholders.</li>
+        <li>Photos: the laptop behind the TV, the Zigbee stick on its extension cable, the wall panel, and one of you.</li>
+        <li>Is <em>huisjes</em> (the house hunt) public-OK, or does it stay off the site?</li>
+        <li>Hosting: Cloudflare Pages on the apex (recommended) or self-hosted through the tunnel.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span class="mono">Phase 1 · static mocks · no build step</span>
+    <span class="mono">github.com/guuse/portfolio</span>
+  </footer>
+</div>
+
+<script>
+const DIRS = [
+  { slug: "01-spec-sheet", name: "Spec Sheet", nl: "Industrial datasheet & label tape",
+    blurb: "Guus documented like a well-made piece of hardware: part numbers, ruled spec tables, technical-drawing callouts, crooked label-maker tape. The homelab gets the engineering treatment it deserves.",
+    fonts: "Archivo (wdth) · Martian Mono",
+    options: [["paper","#f3efe6","Paper"],["night-shift","#1c1b19","Night shift"],["hi-vis","#d7f34a","Hi-vis"]] },
+  { slug: "02-floor-plan", name: "Plattegrond", nl: "The site as a floor plan of a smart home",
+    blurb: "The hero is a drawn floor plan. Rooms are the navigation: the meterkast holds the homelab, the living room holds the home automation, and a Zigbee mesh runs through the walls.",
+    fonts: "Bricolage Grotesque · Fragment Mono",
+    options: [["daylight","#f6f1e7","Daylight"],["blueprint","#1f3fae","Blueprint"],["lights-out","#15151a","Lights out"]] },
+  { slug: "03-poster", name: "Affiche", nl: "Rotterdam editorial poster, type as image",
+    blurb: "Dutch graphic-design confidence. Giant variable-width type, numbers as graphics (16 GB as colour fields, a huge 0 clogs found), a strict grid broken on purpose.",
+    fonts: "Anybody (wdth 50–150) · text serif",
+    options: [["rotterdam","#e3261c","Rotterdam"],["polder","#3d9a4a","Polder"],["nachtdruk","#ff3d9a","Nachtdruk"]] },
+  { slug: "04-zine", name: "Zine", nl: "Risograph DIY zine, two-ink overprint",
+    blurb: "A home-printed zine about building things at home: two-ink overprint, stickers, tape, hand-drawn arrows and margin notes, with a disciplined grid underneath.",
+    fonts: "Fat display · Atkinson Hyperlegible · Shantell Sans",
+    options: [["fluor-pink-teal","#ff5ea8","Pink & teal"],["yellow-blue","#ffd23f","Yellow & blue"],["nachtdruk","#1d1b1f","Nachtdruk"]] },
+  { slug: "05-wall-panel", name: "Wandpaneel", nl: "The site as a home-dashboard wall panel",
+    blurb: "A status interface for a person: Rotterdam time, where Guus probably is, Argo sync state, the next finder run, and rover clogs found: 0. Every tile opens into the full story.",
+    fonts: "UI grotesk · mono numerals",
+    options: [["daylight","#f4f2ee","Daylight"],["oled","#000000","OLED"],["e-ink","#e7e6e1","E-ink"]] },
+];
+
+const SCORES = [
+  // [recognisable, credible, personal, durable, buildable, bestFor]
+  [4, 5, 4, 5, 5, "Peers & tech leads; the safest strong choice"],
+  [5, 4, 5, 3, 3, "Maximum memorability; the home-automation story"],
+  [5, 3, 3, 4, 4, "Designers & agencies; a Rotterdam identity"],
+  [4, 3, 5, 3, 3, "Personality first; friends & the homelab crowd"],
+  [5, 4, 5, 3, 3, "Show-don't-tell: a live product feel"],
+];
+
+const MIXES = [
+  { h: "If you pick one", body: "<p><strong>01 Spec Sheet</strong> is the most durable: it scales to any number of projects, makes depth believable, and builds as a fast static site. Push its label-tape humour so it stays young.</p>" },
+  { h: "Best mixes", body: "<ul><li><strong>01 system + 05 hero</strong>: the datasheet discipline, opened by a live wall panel.</li><li><strong>03 type + 01 tables</strong>: poster-scale headlines over precise spec sheets.</li><li><strong>02 plan as the homelab page only</strong>: the floor plan as a case-study visual inside 01 or 03.</li></ul>" },
+  { h: "What every option shares", body: "<ul><li>One copy deck, one token contract, one component inventory</li><li>Fluid type 360→1440, 12/6/4 grid, 4px spacing</li><li>WCAG 2.2 AA (body AAA), reduced motion, no JS needed</li><li>≤ 50 KB HTML+CSS, ≤ 15 KB JS, 0 third parties</li></ul>" },
+];
+
+const root = document.getElementById("directions");
+root.innerHTML = DIRS.map((d, i) => {
+  const base = `design/directions/${d.slug}/`;
+  const first = d.options[0][0];
+  return `
+  <article class="dir" data-slug="${d.slug}">
+    <div>
+      <div class="dir__num">0${i + 1} / 05</div>
+      <h3>${d.name}<span>${d.nl}</span></h3>
+      <p>${d.blurb}</p>
+      <div class="dir__meta">
+        <div class="label">Options</div>
+        <div class="opts" role="group" aria-label="${d.name} options">
+          ${d.options.map(([k, c, l], j) => `<button type="button" data-opt="${k}" aria-pressed="${j === 0}"><span class="swatch" style="background:${c}"></span>${l}</button>`).join("")}
+        </div>
+        <div class="label">Type</div>
+        <div class="dir__fonts">${d.fonts}</div>
+        <div class="dir__links">
+          <a class="open-home" href="${base}index.html?option=${first}">Open homepage</a>
+          <a class="open-sys" href="${base}system.html?option=${first}">Design system</a>
+          <a href="${base}README.md">Rationale</a>
+        </div>
+      </div>
+    </div>
+    <div class="shots">
+      <figure class="shot shot--desktop"><a class="open-home" href="${base}index.html?option=${first}"><img loading="lazy" width="1440" height="900" alt="${d.name} homepage, desktop" src="design/previews/${d.slug}--${first}--desktop.png"></a><figcaption>1440 × 900</figcaption></figure>
+      <figure class="shot shot--mobile"><a class="open-home" href="${base}index.html?option=${first}"><img loading="lazy" width="390" height="844" alt="${d.name} homepage, mobile" src="design/previews/${d.slug}--${first}--mobile.png"></a><figcaption>390 × 844</figcaption></figure>
+    </div>
+  </article>`;
+}).join("");
+
+root.addEventListener("click", (e) => {
+  const btn = e.target.closest("[data-opt]");
+  if (!btn) return;
+  const art = btn.closest(".dir"), slug = art.dataset.slug, opt = btn.dataset.opt;
+  art.querySelectorAll("[data-opt]").forEach(b => b.setAttribute("aria-pressed", b === btn));
+  art.querySelectorAll(".shot--desktop img").forEach(img => img.src = `design/previews/${slug}--${opt}--desktop.png`);
+  art.querySelectorAll(".shot--mobile img").forEach(img => img.src = `design/previews/${slug}--${opt}--mobile.png`);
+  art.querySelectorAll("a.open-home").forEach(a => a.href = `design/directions/${slug}/index.html?option=${opt}`);
+  art.querySelectorAll("a.open-sys").forEach(a => a.href = `design/directions/${slug}/system.html?option=${opt}`);
+});
+
+const dots = n => `<span class="dots">${"●".repeat(n)}<span>${"●".repeat(5 - n)}</span></span> ${n}`;
+document.getElementById("score-body").innerHTML = DIRS.map((d, i) => {
+  const s = SCORES[i];
+  return `<tr><th scope="row">0${i + 1} ${d.name}</th>${s.slice(0, 5).map(n => `<td class="score" aria-label="${n} of 5">${dots(n)}</td>`).join("")}<td>${s[5]}</td></tr>`;
+}).join("");
+document.getElementById("mixes").innerHTML = MIXES.map(m => `<div><h3>${m.h}</h3>${m.body}</div>`).join("");
+</script>
+</body>
+</html>
