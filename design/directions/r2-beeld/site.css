@@ -658,3 +658,23 @@ code, pre { font-family: var(--font-mono); font-variant-ligatures: none; }
 #outside .like__line { align-self: start; }
 .actions { gap: 10px 18px; }
 @media (min-width: 1000px) { .stage__inner { grid-template-columns: minmax(0, 7.5fr) minmax(0, 3.5fr); } }
+
+/* ============================================================ round 13 */
+.about { border-top: 0; padding-top: clamp(2.5rem, 1.5rem + 3vw, 4rem); }
+.about__prose { max-width: 40em; }
+.about__prose p { font-size: var(--t-lead); line-height: 1.55; color: var(--ink-muted); }
+.about__prose p:first-child { color: var(--ink); }
+#about .likes__list { list-style: none; padding: 0; display: grid; gap: 1rem 2.5rem; grid-template-columns: minmax(0, 1fr); margin-top: 0.75rem; max-width: 46em; }
+@media (min-width: 700px) { #about .likes__list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+#about .like { grid-template-columns: 14px 1fr; align-items: start; row-gap: 2px; min-width: 0; }
+#about .like__mark { grid-row: 1 / span 2; margin: 0.7em 0 0; }
+#about .like__name, #about .like__line { grid-column: 2; margin: 0; }
+#about .like:hover .like__name, #about .like:focus-visible .like__name { color: var(--accent); }
+.phase__learned { margin-top: 0.4rem; font-size: var(--t-small); color: var(--ink-subtle); font-style: italic; }
+.phase ul { gap: 0.4rem; }
+.learned-list dd { color: var(--ink-muted); }
+.story { margin-top: 0.5rem; padding: 1rem 1.25rem; border: 1px solid var(--line); border-radius: 4px; max-width: 46em; }
+.story__h { font-weight: 600; margin-bottom: 0.35rem; }
+.story p:not(.story__h) { color: var(--ink-muted); font-size: var(--t-small); line-height: 1.55; }
+#about .like__chip, #about .like[data-lift]::before { display: none; }
+#about .like[data-lift] .like__name { text-decoration: none; }

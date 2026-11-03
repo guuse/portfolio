@@ -50,10 +50,28 @@
     </div>
   </section>
 
+  <section class="wrap sec about" id="about" aria-labelledby="about-title">
+    <h2 class="sec__h" id="about-title">About me</h2>
+    <div class="sec__body">
+      <div class="prose about__prose">
+        <p>I&rsquo;m an open person and I like bringing out the best in people. In the right environment I have a lot of energy, and I love connecting people. I&rsquo;m usually the one organising things, at work and with friends, and I like doing activities together. I don&rsquo;t like things formal. I&rsquo;m a real Rotterdammer.</p>
+        <p>Gaming got me into tech, and work made me stay; I don&rsquo;t game much anymore. What I enjoy most is cracking a hard problem, and then making sure people have the tools to solve the next one themselves.</p>
+      </div>
+      <ul class="likes__list">
+        <li class="like" data-lift="bouldering" tabindex="0"><span class="like__mark" aria-hidden="true"></span><span class="like__name">Bouldering</span><span class="like__line">Mostly at Neoliet in Rotterdam.</span></li>
+        <li class="like" data-lift="travel" tabindex="0"><span class="like__mark" aria-hidden="true"></span><span class="like__name">Travelling</span><span class="like__line">Mostly in Asia; Japan and South Korea stood out.</span></li>
+        <li class="like" data-lift="me" tabindex="0"><span class="like__mark" aria-hidden="true"></span><span class="like__name">Card and board games</span><span class="like__line">Mostly one card game, but I like all kinds of games, usually with friends.</span></li>
+        <li class="like" data-lift="me" tabindex="0"><span class="like__mark" aria-hidden="true"></span><span class="like__name">Tinkering</span><span class="like__line">My home server and a small Kubernetes setup at home.</span></li>
+      </ul>
+    </div>
+  </section>
+
   <section class="wrap strip" id="projects" aria-labelledby="projects-title">
     <div class="strip__head"><h2 class="strip__h" id="projects-title">Projects</h2><a class="strip__all" href="projects.html">All projects <span aria-hidden="true">&rarr;</span></a></div>
     <ul class="covers"><li class="cover"><a class="cover__link" href="platform.html"><picture><source media="(max-width: 699px)" srcset="assets/covers/platform-wide.webp 1x, assets/covers/platform-wide@2x.webp 2x" width="1600" height="1000"><img class="cover__img" src="assets/covers/platform-card.webp" srcset="assets/covers/platform-card.webp 1x, assets/covers/platform-card@2x.webp 2x" width="800" height="1000" alt="" loading="lazy" decoding="async"></picture><span class="cover__text"><span class="cover__meta">Work · 2022 to now</span><span class="cover__title">Hosting platform</span><span class="cover__line">The Kubernetes platform our client projects run on: AWS first, the same setup on Azure.</span></span></a></li><li class="cover"><a class="cover__link" href="homelab.html"><picture><source media="(max-width: 699px)" srcset="assets/covers/homelab-wide.webp 1x, assets/covers/homelab-wide@2x.webp 2x" width="1600" height="1000"><img class="cover__img" src="assets/covers/homelab-card.webp" srcset="assets/covers/homelab-card.webp 1x, assets/covers/homelab-card@2x.webp 2x" width="800" height="1000" alt="" loading="lazy" decoding="async"></picture><span class="cover__text"><span class="cover__meta">Personal · 2026</span><span class="cover__title">Homelab</span><span class="cover__line">The patterns I use at work, on one old laptop at home.</span></span></a></li><li class="cover"><a class="cover__link" href="mtg.html"><picture><source media="(max-width: 699px)" srcset="assets/covers/mtg-wide.webp 1x, assets/covers/mtg-wide@2x.webp 2x" width="1600" height="1000"><img class="cover__img" src="assets/covers/mtg-card.webp" srcset="assets/covers/mtg-card.webp 1x, assets/covers/mtg-card@2x.webp 2x" width="800" height="1000" alt="" loading="lazy" decoding="async"></picture><span class="cover__text"><span class="cover__meta">Personal · 2026</span><span class="cover__title">MTG suite</span><span class="cover__line">Four tools for Magic: The Gathering, all running on the homelab.</span></span></a></li></ul>
   </section>
+
+
 
   <div class="wrap">
   <section class="sec" id="experience" aria-labelledby="experience-title">
@@ -64,58 +82,87 @@
         <li class="phase">
           <h4 class="phase__title">Tech lead infrastructure <span class="phase__years">2024–now</span></h4>
           <ul>
-            <li>Designed and built the <a href="platform.html">hosting platform</a> our client projects run on: 8 Kubernetes clusters on AWS (Ireland and Tokyo) and Azure.</li>
-            <li>Moving infrastructure delivery to Pulumi, so only a reviewed pipeline changes production.</li>
-            <li>Lead the infra team (up to four engineers): priorities, reviews, mentoring, and training programmes with clients.</li>
-            <li>Security officer for our ISO 27001 certification: I built, run and audit the information security management system.</li>
+            <li>I lead the infra team, up to four engineers. A normal week is reviews and architecture decisions, training and mentoring, and client contact, including the escalations.</li>
+            <li>I run the <a href="platform.html">hosting platform</a>: 8 Kubernetes clusters, the largest above 1,500 pods. I&rsquo;m moving its infrastructure delivery to Pulumi.</li>
+            <li>We moved the clusters from IPv4 to IPv6, which didn&rsquo;t go without problems (<a href="#learned">one of them below</a>).</li>
+            <li>Training programmes with clients and internal knowledge sessions, so the knowledge doesn&rsquo;t stay with me.</li>
+            <li>Security officer for our ISO 27001 certification: I maintain the policies, the management system and the audits.</li>
           </ul>
+          <p class="phase__learned">What I learned: how much a team gets done when knowledge is shared instead of held.</p>
         </li>
         <li class="phase">
           <h4 class="phase__title">Infrastructure engineer <span class="phase__years">2020–2024</span></h4>
-          <p>Serverless foundations on AWS as code, plus internal tooling such as a CLI that gets anyone into any environment with the right role. Over time more of the architecture work.</p>
+          <ul>
+            <li>Complex architectures and networking, which I love as a puzzle.</li>
+            <li>Our Jenkins as code, and the company&rsquo;s whole infrastructure as code.</li>
+            <li>Started the custom hosting platform: a multi-year project, and the one I learned the most from.</li>
+            <li>Internal tooling, such as a CLI that gets anyone into any environment with the right role.</li>
+          </ul>
+          <p class="phase__learned">What I learned: the most, from building the hosting platform over several years.</p>
         </li>
         <li class="phase">
           <h4 class="phase__title">Back-end and serverless developer <span class="phase__years">2017–2020</span></h4>
-          <p>Back-end services and serverless applications, with infrastructure as code from day one.</p>
+          <ul>
+            <li>Python, including piloting it as a language at Harborn.</li>
+            <li>Pioneered infrastructure as code and serverless on AWS (Lambda, CloudWatch, S3, Aurora), plus the CI/CD automation around it.</li>
+            <li>Worked on a worldwide B2B ordering platform.</li>
+          </ul>
+          <p class="phase__learned">What I learned: AWS and networking.</p>
         </li>
         <li class="phase">
           <h4 class="phase__title">Front-end developer, intern then junior <span class="phase__years">2016–2017</span></h4>
-          <p>Front-end work on client projects, first as an intern and then as a junior developer.</p>
+          <ul>
+            <li>Mostly Angular, on client projects.</li>
+            <li>My internship was a complete website, from researching headless CMSes to implementing one.</li>
+          </ul>
+          <p class="phase__learned">What I learned: shipping a whole product, end to end.</p>
         </li>
       </ol>
     </div>
   </section>
+
+  <section class="sec" id="learned" aria-labelledby="learned-title">
+    <h2 class="sec__h" id="learned-title">What I&rsquo;ve learned</h2>
+    <div class="sec__body">
+      <dl class="deflist learned-list">
+        <div><dt>Teaching beats fixing</dt><dd>Fixing it myself is quick. Showing someone how to fix it scales.</dd></div>
+        <div><dt>Standardise first</dt><dd>One platform for every client beats a custom setup per project, for the client and for whoever is on call.</dd></div>
+        <div><dt>Everything as code</dt><dd>If it isn&rsquo;t in git, it doesn&rsquo;t exist: infrastructure as code, Jenkins as code, GitOps.</dd></div>
+      </dl>
+      <div class="story">
+        <p class="story__h">From the IPv6 move</p>
+        <p>A database got a dual-stack address, so the apps resolved both an IPv4 and an IPv6 address. The IPv6 connections hung, because the security group only allowed IPv4. On top of that, IPv6-only egress only works with DNS64 and NAT64, so everything around it needs testing too.</p>
+      </div>
+    </div>
+  </section>
+
 
   <section class="sec" id="skills" aria-labelledby="skills-title">
     <h2 class="sec__h" id="skills-title">Skills and certifications</h2>
     <div class="sec__body">
       <dl class="deflist">
         <div><dt>Kubernetes and GitOps</dt><dd>EKS, AKS, k3s, Argo CD, Helm, Kustomize, custom operators in Python</dd></div>
-        <div><dt>Infrastructure as code</dt><dd>Pulumi (Python), Terraform</dd></div>
-        <div><dt>Cloud</dt><dd>AWS (EKS, IAM, VPC, RDS and Aurora), Azure (AKS, Entra ID)</dd></div>
-        <div><dt>Delivery and observability</dt><dd>GitHub Actions, Prometheus, Grafana, Loki</dd></div>
-        <div><dt>Security</dt><dd>ISO 27001, least-privilege IAM, OIDC, policy as code</dd></div>
-        <div><dt>Code</dt><dd>Python, TypeScript, Java</dd></div>
-        <div><dt>Languages</dt><dd>Dutch (native), English (fluent)</dd></div>
+        <div><dt>AWS and networking</dt><dd>EKS, IAM, VPC, RDS and Aurora, Lambda, CloudFront, dual-stack networking; Azure (AKS, Entra ID) where the client lives there</dd></div>
+        <div><dt>Infrastructure as code</dt><dd>Pulumi (Python), Terraform, GitHub Actions, Jenkins as code</dd></div>
+        <div><dt>Security and compliance</dt><dd>ISO 27001, least-privilege IAM, OIDC, policy as code</dd></div>
+        <div><dt>Also</dt><dd>Python, TypeScript and Java; Prometheus, Grafana and Loki</dd></div>
+        <div><dt>Currently exploring</dt><dd>AI agents in ops work (Claude Code skills and agents), and the move to Pulumi</dd></div>
+        <div><dt>Knowledge sharing</dt><dd>Training programmes with clients and internal knowledge sessions</dd></div>
         <div><dt>Certifications</dt><dd>AWS Certified (Professional level), Microsoft Azure (Associate level), Certified Kubernetes Administrator (CKA)</dd></div>
+        <div><dt>Languages</dt><dd>Dutch (native), English (fluent)</dd></div>
       </dl>
     </div>
   </section>
 
 
-  <section class="sec" id="outside" aria-labelledby="outside-title">
-    <h2 class="sec__h" id="outside-title">Outside work</h2>
-    <div class="sec__body">
-      <ul class="likes__list"><li class="like" data-lift="bouldering" tabindex="0"><span class="like__mark" aria-hidden="true"></span><span class="like__name">Bouldering</span><span class="like__line">Indoors after work, outdoors on sandstone when it&rsquo;s dry.</span></li><li class="like" data-lift="travel" tabindex="0"><span class="like__mark" aria-hidden="true"></span><span class="like__name">Travel</span><span class="like__line">Travelling, mostly in Asia; Japan is my favourite.</span></li><li class="like" data-lift="me" tabindex="0"><span class="like__mark" aria-hidden="true"></span><span class="like__name">Games</span><span class="like__line">Card and board games, usually with friends.</span></li><li class="like" data-lift="me" tabindex="0"><span class="like__mark" aria-hidden="true"></span><span class="like__name">Tinkering</span><span class="like__line">Home automation and other nerd projects at home.</span></li></ul>
-    </div>
-  </section>
+
 
   <section class="sec" id="contact" aria-labelledby="contact-title">
     <h2 class="sec__h" id="contact-title">Contact</h2>
     <div class="sec__body">
       <p class="contact__mail" id="mail-address">ekkelenkampguus@gmail.com</p>
       <p><button type="button" class="copy" data-copy-target="mail-address" aria-describedby="copy-status"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="1"/><path d="M16 8V4H4v12h4"/></svg><span class="copy__label">Copy address</span></button><span class="visually-hidden" id="copy-status" role="status" aria-live="polite"></span></p>
-      <p class="contact__line">Email is the quickest way to reach me.</p>
+      <p class="contact__line">Want to talk platforms, homelabs or games? Mail me.</p>
     </div>
   </section>
   </div>
