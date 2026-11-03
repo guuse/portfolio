@@ -1,4 +1,4 @@
-/* r2-beeld · round 8: small page behaviour shared by the CV and the project pages.
+/* r2-beeld · round 8: small page behaviour shared by the homepage and the project pages.
  * Copy-email button, nav tracking, diagram mounting and the screenshot lightbox. */
 (function () {
   "use strict";
@@ -27,7 +27,7 @@
     });
   });
 
-  /* Nav: mark the section in view (CV only; project pages mark their own link). */
+  /* Nav: mark the section in view (homepage only; project pages mark their own link). */
   var links = Array.prototype.slice.call(document.querySelectorAll('.nav a[href^="#"]'));
   var sections = links.map(function (a) { return document.getElementById(a.getAttribute("href").slice(1)); }).filter(Boolean);
   if (sections.length) {
