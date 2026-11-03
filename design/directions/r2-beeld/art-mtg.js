@@ -193,7 +193,7 @@ function scene2() {
   M2.seats.forEach((s, i) => { b += plate(s[0], s[1], "seat" + i, { tone: i + 1, ring: i === 1 }); });
   // the engine
   const F = M2.forge;
-  b += shadow(F.x + F.w / 2, F.y + F.h + 6, F.w + 16) + server(F.x, F.y, F.w, F.h, { bays: 2 }) + text(F.x + F.w / 2, F.y + F.h + 30, "Forge", "lb", "middle");
+  b += shadow(F.x + F.w / 2, F.y + F.h + 6, F.w + 16) + server(F.x, F.y, F.w, F.h, { bays: 2 }) + text(F.x + F.w / 2, F.y + F.h + 30, "the engine", "lb", "middle");
   b += M2.lanes.map((l, i) => path(l.f, "k-route", { "data-k": "lane" + i })).join("") + M2.back.map((l, i) => path(l.f, "k-none", { "data-k": "back" + i })).join("");
   // the stack: three cards, the last one played on top
   M2.plays.forEach((pl, i) => {
@@ -203,7 +203,7 @@ function scene2() {
   b += g({ "data-k": "auto", opacity: 0 }, text(392, 276, "auto", "lb-m", "middle"));
   b += '<g class="pk-layer" data-k="pk"></g>';
   b += g({ class: "pk-still" }, A.packetAt(M2.lanes[1].f, 0.55) + A.packetAt(M2.back[3].f, 0.5, "pk--ink"));
-  return svg("table", "0 0 600 440", "A card table in a browser window, seen from above, with four seats. Three cards sit on the stack in the middle. A box labelled Forge, the rules engine, sends a question to each seat in turn and gets an answer back.", b);
+  return svg("table", "0 0 600 440", "A card table in a browser window, seen from above, with four seats. Three cards sit on the stack in the middle. A box labelled the engine sends a question to each seat in turn and gets an answer back.", b);
 }
 
 /* ================================================================== 3. four players, one game */
