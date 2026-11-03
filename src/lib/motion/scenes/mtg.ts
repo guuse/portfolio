@@ -3,7 +3,7 @@ import { M1, M2, M3, M4, M5 } from "~/lib/art/scenes/mtg.layout";
 import { centre, fade, fadeTowards, hideStill, move, parts } from "../dom";
 import { blinker } from "../leds";
 import { clamp, ease as E, lerp, seg } from "../math";
-import { courier, emitter, packets } from "../packets";
+import { courier, emitter, packets, prime } from "../packets";
 import type { SceneFactory } from "../types";
 
 type Path = SVGPathElement;
@@ -66,6 +66,7 @@ export const table: SceneFactory = (svg) => {
   const P = packets(K["pk"] as SVGGElement),
     emit = emitter(),
     blink = blinker(svg);
+  prime(...[0, 1, 2, 3].flatMap((q) => [K[`lane${q}`], K[`back${q}`]]));
   const to = M2.playedFrom.map(([x, y], i) => {
     const c = centre(K[`st${i}`]!);
     return { dx: x - c.x, dy: y - c.y };
@@ -147,6 +148,7 @@ export const hands: SceneFactory = (svg) => {
     emit = emitter(),
     emit3 = emitter(),
     blink = blinker(svg);
+  prime(...[0, 1, 2, 3].map((q) => K[`lane${q}`]));
   let lane = 0;
   return (p, dt, t) => {
     blink(dt);

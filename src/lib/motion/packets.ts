@@ -1,6 +1,10 @@
 /**
  * Packets: small capsules that travel along routes. Linear on purpose (packets move at line
  * rate), they fade in when they appear and out at the end of their last segment.
+ *
+ * The frame loop never asks the DOM where a path goes: each path is sampled once into a
+ * lookup table (track()), when an animator is built or a packet first uses it, and packets
+ * are placed by interpolating that table.
  */
 import { PACKET_PARTS } from "~/lib/art/packet";
 import { fade, SVG_NS } from "./dom";
@@ -8,40 +12,55 @@ import { clamp } from "./math";
 
 const DEG = 180 / Math.PI;
 
-export interface Segment {
-  el: SVGPathElement | SVGGeometryElement;
-  /** Packet class from this segment on (e.g. "pk--ink" after a reply). */
-  cls?: string;
-  /** Travel this segment invisibly (inside a device). */
-  hide?: boolean;
-  len?: number;
+/** A path sampled every couple of units: points, and the distance between samples. */
+export interface Track {
+  xs: Float32Array;
+  ys: Float32Array;
+  step: number;
+  len: number;
 }
 
-export interface Packet {
-  segs: Segment[];
-  i: number;
-  /** Distance along the current segment. */
-  d: number;
-  v: number;
-  g: SVGGElement;
-  cls: string;
-  age: number;
-  /** A random phase, so waiting packets don't jitter in sync. */
-  ph: number;
-  /** Seconds spent held back by `stop`. */
-  wait: number;
-  stop?: ((k: Packet) => number) | undefined;
-  end?: ((k: Packet) => void) | undefined;
-  autofade?: boolean | undefined;
+/** Sample spacing, in drawing units. Packets are 16 long, so 2 is finer than the eye can tell. */
+const STEP = 2;
+const tracks = new WeakMap<SVGGeometryElement, Track>();
+
+/** The lookup table for a path, sampled on first use. */
+export function track(el: SVGGeometryElement): Track {
+  let t = tracks.get(el);
+  if (t) return t;
+  const len = el.getTotalLength(),
+    n = Math.max(2, Math.ceil(len / STEP) + 1),
+    step = len / (n - 1),
+    xs = new Float32Array(n),
+    ys = new Float32Array(n);
+  for (let i = 0; i < n; i++) {
+    const p = el.getPointAtLength(i * step);
+    xs[i] = p.x;
+    ys[i] = p.y;
+  }
+  tracks.set(el, (t = { xs, ys, step, len }));
+  return t;
 }
 
-export interface SpawnOptions {
-  speed?: number;
-  /** The furthest distance along the current segment the packet may go (a closed gate). */
-  stop?: (k: Packet) => number;
-  end?: (k: Packet) => void;
-  /** Fade out over the first segment instead of at the end (for answers nobody gives). */
-  autofade?: boolean;
+/** Samples the given paths now (an animator calls this while it's built, off the frame loop). */
+export function prime(...els: (Element | undefined)[]): void {
+  for (const el of els) if (el) track(el as SVGGeometryElement);
+}
+
+/** Writes a packet's transform: at distance d along a track, pointing along it, nudged by jitter. */
+function place(g: SVGGElement, t: Track, d: number, jitter = 0): void {
+  const last = t.xs.length - 1,
+    f = clamp(d / t.step, 0, last),
+    i = Math.min(last - 1, Math.floor(f)),
+    u = f - i;
+  const ax = t.xs[i]!,
+    ay = t.ys[i]!,
+    bx = t.xs[i + 1]!,
+    by = t.ys[i + 1]!;
+  const ang = Math.atan2(by - ay, bx - ax);
+  const x = ax + (bx - ax) * u + jitter * Math.cos(ang),
+    y = ay + (by - ay) * u + jitter * Math.sin(ang);
+  g.setAttribute("transform", `translate(${x.toFixed(2)} ${y.toFixed(2)}) rotate(${(ang * DEG).toFixed(1)})`);
 }
 
 function packetEl(): SVGGElement {
@@ -54,31 +73,18 @@ function packetEl(): SVGGElement {
   return g;
 }
 
-/** Positions a packet on a path at distance d, pointing along it. */
-function place(g: SVGGElement, el: SVGGeometryElement, d: number, len: number, jitter = 0): void {
-  const a = el.getPointAtLength(d),
-    b = el.getPointAtLength(Math.min(len, d + 1.5));
-  let ang = Math.atan2(b.y - a.y, b.x - a.x) * DEG;
-  if (d + 1.5 > len && d > 1.5) {
-    const c = el.getPointAtLength(d - 1.5);
-    ang = Math.atan2(a.y - c.y, a.x - c.x) * DEG;
-  }
-  const x = a.x + jitter * Math.cos(ang / DEG),
-    y = a.y + jitter * Math.sin(ang / DEG);
-  g.setAttribute("transform", `translate(${x.toFixed(2)} ${y.toFixed(2)}) rotate(${ang.toFixed(1)})`);
-}
-
 /** A pool of packets flowing through one layer of a drawing. */
 export function packets(layer: SVGGElement) {
   const live: Packet[] = [];
   const pool: SVGGElement[] = [];
 
   function spawn(segs: Segment[], o: SpawnOptions = {}): Packet {
-    for (const s of segs) s.len ??= s.el.getTotalLength();
+    for (const s of segs) s.track ??= track(s.el);
     const g = pool.pop() ?? packetEl();
     const cls = segs[0]?.cls ?? "";
     g.setAttribute("class", `pk ${cls}`);
-    g.style.opacity = "0";
+    // through fade(), so a recycled packet's memo can't skip its first real opacity
+    fade(g, 0);
     layer.appendChild(g);
     const k: Packet = {
       segs,
@@ -110,8 +116,8 @@ export function packets(layer: SVGGElement) {
         k.wait += dt;
       } else k.wait = 0;
       k.d = nd;
-      if (k.d >= s.len!) {
-        k.d -= s.len!;
+      if (k.d >= s.track!.len) {
+        k.d -= s.track!.len;
         k.i++;
         if (k.i >= k.segs.length) {
           k.end?.(k);
@@ -128,10 +134,11 @@ export function packets(layer: SVGGElement) {
       }
       // waiting at a gate: it keeps retrying
       const jitter = k.wait > 0.25 ? Math.sin(t * 22 + k.ph) * 1.3 : 0;
-      place(k.g, s.el, k.d, s.len!, jitter);
+      const len = s.track!.len;
+      place(k.g, s.track!, k.d, jitter);
       const fadeIn = clamp(k.age / 0.18, 0, 1);
-      const fadeOut = k.i === k.segs.length - 1 ? clamp((s.len! - k.d) / 14, 0, 1) : 1;
-      const auto = k.autofade ? clamp(1.7 - 2.2 * (k.d / s.len!), 0, 1) : 1;
+      const fadeOut = k.i === k.segs.length - 1 ? clamp((len - k.d) / 14, 0, 1) : 1;
+      const auto = k.autofade ? clamp(1.7 - 2.2 * (k.d / len), 0, 1) : 1;
       fade(k.g, s.hide ? 0 : fadeIn * fadeOut * auto);
     }
   }
@@ -164,9 +171,8 @@ export function courier(
   layer: SVGGElement,
 ): (el?: SVGGeometryElement, f?: number, cls?: string, opacity?: number) => void {
   const g = packetEl();
-  g.style.opacity = "0";
+  fade(g, 0);
   layer.appendChild(g);
-  const lengths = new WeakMap<SVGGeometryElement, number>();
   let current: string | null = null;
   return (el, f = 0, cls = "", opacity = 1) => {
     if (!el) {
@@ -177,17 +183,8 @@ export function courier(
       g.setAttribute("class", `pk ${cls}`);
       current = cls;
     }
-    let len = lengths.get(el);
-    if (len === undefined) lengths.set(el, (len = el.getTotalLength()));
-    const d = clamp(f, 0, 1) * len;
-    const a = el.getPointAtLength(d),
-      b = el.getPointAtLength(Math.min(len, d + 1.5));
-    let ang = Math.atan2(b.y - a.y, b.x - a.x) * DEG;
-    if (f >= 0.999) {
-      const q = el.getPointAtLength(len - 1.5);
-      ang = Math.atan2(a.y - q.y, a.x - q.x) * DEG;
-    }
-    g.setAttribute("transform", `translate(${a.x.toFixed(2)} ${a.y.toFixed(2)}) rotate(${ang.toFixed(1)})`);
+    const t = track(el);
+    place(g, t, clamp(f, 0, 1) * t.len);
     fade(g, opacity);
   };
 }

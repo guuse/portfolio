@@ -7,10 +7,18 @@ export const SVG_NS = "http://www.w3.org/2000/svg";
 export type Parts = Record<string, SVGGraphicsElement | undefined>;
 
 interface Memo {
-  t?: string;
-  o?: string;
-  /** Smoothed opacity (smoothOpacity). */
+  /** The last transform, as the rounded numbers it was built from (so equal frames build no string). */
+  x?: number;
+  y?: number;
+  sx?: number;
+  sy?: number;
+  r?: number;
+  /** The last opacity, in thousandths. */
+  o?: number;
+  /** Smoothed opacity (fadeTowards). */
   v?: number;
+  /** Attributes set through attr(). */
+  a?: Record<string, number>;
 }
 const memo = new WeakMap<Element, Memo>();
 const memoOf = (el: Element): Memo => {
@@ -18,6 +26,8 @@ const memoOf = (el: Element): Memo => {
   if (!m) memo.set(el, (m = {}));
   return m;
 };
+/** "No scale" in the memo, distinct from every real (rounded) scale. */
+const NONE = -1e9;
 
 /** Every element with a data-k key in a drawing, by key. */
 export function parts(root: Element): Parts {
@@ -27,7 +37,11 @@ export function parts(root: Element): Parts {
   return out;
 }
 
-/** translate, then rotate, then scale (x and y separately; sy defaults to sx). */
+/**
+ * translate, then rotate, then scale (x and y separately; sy defaults to sx). The inputs are
+ * compared, rounded to what the string would show, before any string is built: most parts sit
+ * still most frames, and those frames cost nothing.
+ */
 export function move(
   el: Element | undefined,
   x = 0,
@@ -37,24 +51,43 @@ export function move(
   r?: number,
 ): void {
   if (!el) return;
-  let s = `translate(${x.toFixed(2)}px,${y.toFixed(2)}px)`;
-  if (r) s += ` rotate(${r.toFixed(2)}deg)`;
-  if (sx !== undefined && sx !== null) s += ` scale(${sx.toFixed(3)},${(sy ?? sx).toFixed(3)})`;
+  const qx = Math.round(x * 100),
+    qy = Math.round(y * 100),
+    scaled = sx !== undefined && sx !== null,
+    qsx = scaled ? Math.round(sx * 1000) : NONE,
+    qsy = scaled ? Math.round((sy ?? sx) * 1000) : NONE,
+    qr = r ? Math.round(r * 100) : 0;
   const m = memoOf(el);
-  if (m.t !== s) {
-    (el as SVGElement).style.transform = s;
-    m.t = s;
-  }
+  if (m.x === qx && m.y === qy && m.sx === qsx && m.sy === qsy && m.r === qr) return;
+  m.x = qx;
+  m.y = qy;
+  m.sx = qsx;
+  m.sy = qsy;
+  m.r = qr;
+  let s = `translate(${qx / 100}px,${qy / 100}px)`;
+  if (qr) s += ` rotate(${qr / 100}deg)`;
+  if (scaled) s += ` scale(${qsx / 1000},${qsy / 1000})`;
+  (el as SVGElement).style.transform = s;
 }
 
 export function fade(el: Element | undefined, o: number): void {
   if (!el) return;
-  const v = o.toFixed(3);
+  const q = Math.round(o * 1000);
   const m = memoOf(el);
-  if (m.o !== v) {
-    (el as SVGElement).style.opacity = v;
-    m.o = v;
-  }
+  if (m.o === q) return;
+  m.o = q;
+  (el as SVGElement).style.opacity = String(q / 1000);
+}
+
+/** Sets a numeric attribute (a circle's cx, say), skipping the write when it hasn't changed. */
+export function attr(el: Element | undefined, name: string, v: number): void {
+  if (!el) return;
+  const q = Math.round(v * 100) / 100;
+  const m = memoOf(el);
+  const a = (m.a ??= {});
+  if (a[name] === q) return;
+  a[name] = q;
+  el.setAttribute(name, String(q));
 }
 
 /** Eases an element's opacity towards a target instead of jumping. */

@@ -7,9 +7,13 @@
  *     cross-fade as the steps scroll past; progress is how far the active step has scrolled.
  *   - Below it, each figure stays above its step and plays as it scrolls through the viewport.
  *   Steps can share a drawing (`data-scene` repeats) and play a slice of it (`data-range`).
- * Homepage cards (`[data-card]`) loop on a clock instead, a little faster on hover or focus.
+ * Live drawings (`[data-card]`: the project cards and case-study heroes) loop on a clock
+ * instead, a little faster while their card is hovered or focused.
  *
- * Everything runs on the page's one scheduler, and only while something is on screen.
+ * Everything runs on the page's one scheduler, and only while something is on screen. An
+ * animator is built ahead of time, when its drawing comes within a screen of the viewport, in
+ * idle time and a few at a time, so a scene never stalls the frame it first appears in.
+ * Each frame reads every position first and then writes, and allocates nothing.
  */
 import { breakpoint } from "~/styles/tokens";
 import { animators } from "./registry";
@@ -18,7 +22,7 @@ import type { Scheduler } from "./scheduler";
 import type { Animator } from "./types";
 
 interface Player {
-  /** Built on the first frame the drawing is on screen, so a page doesn't pay for them all up front. */
+  /** Built ahead of time (see build()), or on the first frame it's needed at the latest. */
   run: Animator | null;
   svg: SVGSVGElement;
   factory: (svg: SVGSVGElement) => Animator;
@@ -40,18 +44,25 @@ interface Item {
   home: Node;
   next: Node | null;
   seen: boolean;
+  /** This frame's progress, when it's on screen on a narrow layout (-1: not playing). */
+  p: number;
 }
 
 interface Section {
   el: HTMLElement;
   stage: HTMLElement | null;
   steps: HTMLElement[];
+  /** The item for each step, by index (steps without a drawing have none). */
+  byStep: (Item | undefined)[];
   items: Item[];
   /** The first item per drawing id: its figure is the one that moves to the stage. */
   primary: Map<string, Item>;
   wide: boolean | null;
   visible: boolean;
   active: Item | null;
+  /** This frame's job on a wide layout: which item plays, at what progress. */
+  job: Item | null;
+  jobP: number;
 }
 
 function player(root: Element, id: string): Player | null {
@@ -59,6 +70,33 @@ function player(root: Element, id: string): Player | null {
   const factory = animators[id];
   if (!svg || !factory) return null;
   return { run: null, svg, factory, ps: -1, t: 0, speed: 1, speedTarget: 1 };
+}
+
+/* Building animators in idle time, a few per idle period. */
+const queue: Player[] = [];
+let idleQueued = false;
+const idle: (cb: (d: { timeRemaining: () => number }) => void) => void =
+  "requestIdleCallback" in window
+    ? (cb) => void requestIdleCallback(cb, { timeout: 600 })
+    : (cb) => void setTimeout(() => cb({ timeRemaining: () => 8 }), 50);
+
+function drain(d: { timeRemaining: () => number }): void {
+  idleQueued = false;
+  // at least one per callback, so a busy page still gets there
+  do {
+    const a = queue.shift();
+    if (a) a.run ??= a.factory(a.svg);
+  } while (queue.length && d.timeRemaining() > 6);
+  if (queue.length) build();
+}
+
+/** Queues players to be built in idle time (no-op for those already built or queued). */
+function build(...players: Player[]): void {
+  for (const a of players) if (!a.run && !queue.includes(a)) queue.push(a);
+  if (queue.length && !idleQueued) {
+    idleQueued = true;
+    idle(drain);
+  }
 }
 
 /** Advances a player one frame. Scroll progress is smoothed so a jumpy wheel reads as one motion. */
@@ -78,14 +116,29 @@ function watch(el: Element, margin: string, onChange: (visible: boolean) => void
   }).observe(el);
 }
 
+/** Calls `near` once, when the element first comes within a screen height of the viewport. */
+function approaching(el: Element, near: () => void): void {
+  const io = new IntersectionObserver(
+    (entries) => {
+      if (!entries.some((e) => e.isIntersecting)) return;
+      io.disconnect();
+      near();
+    },
+    { rootMargin: "100% 0px" },
+  );
+  io.observe(el);
+}
+
 function setupSection(el: HTMLElement, wake: () => void): Section | null {
   const steps = [...el.querySelectorAll<HTMLElement>(".scene-step")];
   const primary = new Map<string, Item>();
   const items: Item[] = [];
+  const byStep: (Item | undefined)[] = [];
   for (const step of steps) {
     const id = step.dataset["scene"] ?? "";
     const [from = 0, to = 1] = (step.dataset["range"] ?? "0 1").split(" ").map(Number);
     const fig = step.querySelector<HTMLElement>(".scene");
+    byStep.push(undefined);
     if (!fig) continue;
     // a step that continues an earlier drawing gets its own (decorative) copy for narrow screens
     const first = primary.get(id);
@@ -108,8 +161,10 @@ function setupSection(el: HTMLElement, wake: () => void): Section | null {
       home: fig.parentNode!,
       next: fig.nextSibling,
       seen: false,
+      p: -1,
     };
     items.push(item);
+    byStep[byStep.length - 1] = item;
     if (!first) primary.set(id, item);
   }
   if (!items.length) return null;
@@ -117,11 +172,14 @@ function setupSection(el: HTMLElement, wake: () => void): Section | null {
     el,
     stage: el.querySelector(".scenes__stage"),
     steps,
+    byStep,
     items,
     primary,
     wide: null,
     visible: false,
     active: null,
+    job: null,
+    jobP: 0,
   };
   watch(el, "10% 0px", (v) => {
     S.visible = v;
@@ -133,6 +191,10 @@ function setupSection(el: HTMLElement, wake: () => void): Section | null {
       if (v) wake();
     });
   }
+  // build the animators this layout will use before the section scrolls into view
+  approaching(el, () =>
+    build(...(S.wide ? [...S.primary.values()].map((it) => it.player) : items.map((it) => it.player))),
+  );
   return S;
 }
 
@@ -142,6 +204,7 @@ function layout(S: Section, wide: boolean): void {
   if (staged === S.wide) return;
   S.wide = staged;
   S.el.classList.toggle("is-staged", staged);
+  S.active = null;
   for (const it of S.primary.values()) {
     if (staged) S.stage!.appendChild(it.fig);
     else
@@ -149,28 +212,92 @@ function layout(S: Section, wide: boolean): void {
   }
 }
 
-/** Progress jobs for one frame. All rects are read first, then everything is written. */
-function sectionJobs(S: Section, vh: number): [Section | null, Item, number][] {
+/** Reads one section's positions and decides this frame's progress. No writes. */
+function readSection(S: Section, vh: number): boolean {
+  S.job = null;
   if (S.wide) {
-    if (!S.visible) return [];
-    const rects = S.steps.map((st) => st.getBoundingClientRect());
-    let idx = 0;
-    rects.forEach((r, i) => {
-      if (r.top <= vh * 0.5) idx = i;
-    });
-    const it = S.items.find((x) => x.step === S.steps[idx]) ?? S.items[0]!;
-    const r = rects[S.steps.indexOf(it.step)]!;
+    if (!S.visible) return false;
+    // the step whose top has passed the middle of the window plays
+    let idx = 0,
+      top = 0,
+      height = 1;
+    for (let i = 0; i < S.steps.length; i++) {
+      const r = S.steps[i]!.getBoundingClientRect();
+      if (i === 0 || r.top <= vh * 0.5) {
+        if (S.byStep[i] || i === 0) {
+          idx = i;
+          top = r.top;
+          height = r.height;
+        }
+      } else break;
+    }
+    const it = S.byStep[idx] ?? S.items[0]!;
     // the first step only starts once the stage is pinned (section top at the header)
     const lead = idx === 0 ? Math.max(0, vh * 0.5 - 64) : 0;
-    const local = clamp((vh * 0.5 - lead - r.top) / Math.max(1, r.height - vh * 0.25 - lead), 0, 1);
-    return [[S, it, it.from + (it.to - it.from) * local]];
+    const local = clamp((vh * 0.5 - lead - top) / Math.max(1, height - vh * 0.25 - lead), 0, 1);
+    S.job = it;
+    S.jobP = it.from + (it.to - it.from) * local;
+    return true;
   }
-  return S.items
-    .filter((it) => it.seen)
-    .map((it) => {
-      const r = it.fig.getBoundingClientRect();
-      return [null, it, it.from + (it.to - it.from) * clamp((vh * 0.92 - r.top) / (vh * 0.6), 0, 1)];
-    });
+  let any = false;
+  for (const it of S.items) {
+    if (!it.seen) {
+      it.p = -1;
+      continue;
+    }
+    const r = it.fig.getBoundingClientRect();
+    it.p = it.from + (it.to - it.from) * clamp((vh * 0.92 - r.top) / (vh * 0.6), 0, 1);
+    any = true;
+  }
+  return any;
+}
+
+/** Plays one section's frame: the stage hand-off, then the animators. */
+function writeSection(S: Section, dt: number): void {
+  const it = S.job;
+  if (it) {
+    if (S.active !== it) {
+      for (const st of S.steps) st.classList.toggle("is-active", st === it.step);
+      const fig = S.primary.get(it.id)!.fig;
+      for (const f of S.stage!.children) f.classList.toggle("is-on", f === fig);
+      S.active = it;
+    }
+    tick(S.primary.get(it.id)!.player, S.jobP, dt);
+    return;
+  }
+  for (const x of S.items) if (x.p >= 0) tick(x.player, x.p, dt);
+}
+
+/**
+ * Print shows each figure with its step, in its final frame (the build-time drawing): the
+ * stage gives its figures back and the runtime's inline styles are set aside until printing
+ * is over. Returns whether printing is under way.
+ */
+function printing(sections: Section[], relayout: () => void, wake: () => void): () => boolean {
+  let on = false;
+  const saved = new Map<SVGElement, string>();
+  const start = (): void => {
+    if (on) return;
+    on = true;
+    sections.forEach((S) => layout(S, false));
+    for (const el of document.querySelectorAll<SVGElement>(".scene-svg [style], .scene-svg[style]")) {
+      saved.set(el, el.style.cssText);
+      el.style.cssText = "";
+    }
+  };
+  const end = (): void => {
+    if (!on) return;
+    on = false;
+    for (const [el, css] of saved) el.style.cssText = css;
+    saved.clear();
+    relayout();
+    wake();
+  };
+  addEventListener("beforeprint", start);
+  addEventListener("afterprint", end);
+  const media = matchMedia("print");
+  media.addEventListener("change", () => (media.matches ? start() : end()));
+  return () => on;
 }
 
 export function startMotion(scheduler: Scheduler): void {
@@ -179,28 +306,31 @@ export function startMotion(scheduler: Scheduler): void {
     .map((el) => setupSection(el, wake))
     .filter((s): s is Section => !!s);
 
+  const wide = matchMedia(`(min-width: ${breakpoint.stage}px)`);
+  const relayout = (): void => {
+    sections.forEach((S) => layout(S, wide.matches));
+    wake();
+  };
   if (sections.length) {
-    const wide = matchMedia(`(min-width: ${breakpoint.stage}px)`);
     document.documentElement.classList.add("js-scenes");
-    const relayout = (): void => {
-      sections.forEach((S) => layout(S, wide.matches));
-      wake();
-    };
     relayout();
     wide.addEventListener("change", relayout);
   }
+  const isPrinting = printing(sections, relayout, wake);
 
   const cards = [...document.querySelectorAll<HTMLElement>("[data-card]")].flatMap((box) => {
     const p = player(box, box.dataset["card"] ?? "");
     if (!p) return [];
     const card = { player: p, seen: false };
-    const link = box.closest("a") ?? box;
+    // the card it belongs to: a hover or focus anywhere on it speeds the drawing up
+    const host = box.closest("[data-card-host]") ?? box.closest("a") ?? box;
     const faster = (): void => void (p.speedTarget = 1.7);
     const normal = (): void => void (p.speedTarget = 1);
-    link.addEventListener("pointerenter", faster);
-    link.addEventListener("pointerleave", normal);
-    link.addEventListener("focus", faster);
-    link.addEventListener("blur", normal);
+    host.addEventListener("pointerenter", faster);
+    host.addEventListener("pointerleave", normal);
+    host.addEventListener("focusin", faster);
+    host.addEventListener("focusout", normal);
+    approaching(box, () => build(p));
     watch(box, "0px", (v) => {
       card.seen = v;
       if (v) wake();
@@ -209,22 +339,13 @@ export function startMotion(scheduler: Scheduler): void {
   });
 
   scheduler.add((dt) => {
+    if (isPrinting()) return false;
     const vh = window.innerHeight;
     let busy = false;
-    const jobs = sections.flatMap((S) => {
-      const j = sectionJobs(S, vh);
-      if (S.wide ? S.visible : j.length) busy = true;
-      return j;
-    });
-    for (const [S, it, p] of jobs) {
-      if (S && S.active !== it) {
-        S.steps.forEach((st) => st.classList.toggle("is-active", st === it.step));
-        const fig = S.primary.get(it.id)!.fig;
-        for (const f of S.stage!.children) f.classList.toggle("is-on", f === fig);
-        S.active = it;
-      }
-      tick(S ? S.primary.get(it.id)!.player : it.player, p, dt);
-    }
+    // every read first...
+    for (const S of sections) if (readSection(S, vh)) busy = true;
+    // ...then every write
+    for (const S of sections) writeSection(S, dt);
     for (const c of cards) {
       if (!c.seen) continue;
       busy = true;

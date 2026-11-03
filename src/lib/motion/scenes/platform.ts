@@ -1,22 +1,25 @@
 /** Motion for the hosting platform scenes (drawn by src/lib/art/scenes/platform.ts). */
 import { S1, S2, S3, S4, S5 } from "~/lib/art/scenes/platform.layout";
-import { hiddenPath, hideStill, fade, move, parts, SVG_NS } from "../dom";
+import { attr, hiddenPath, hideStill, fade, move, parts, SVG_NS } from "../dom";
 import { blinker } from "../leds";
 import { approach, clamp, ease as E, lerp, seg } from "../math";
-import { emitter, packets, type Packet } from "../packets";
+import { emitter, packets, prime, type Packet, type Segment } from "../packets";
 import type { SceneFactory } from "../types";
 
 /* 1. Many projects, one platform: old servers sink away, the apps dock on one platform. */
 export const standard: SceneFactory = (svg) => {
   const K = parts(svg),
     blink = blinker(svg);
+  const olds = S1.old.map((_, i) => K[`old${i}`]),
+    wins = S1.old.map((_, i) => K[`win${i}`]),
+    docks = [0, 1, 2, 3, 4].map((d) => K[`dock${d}`]);
   return (p, dt) => {
     blink(dt);
     S1.old.forEach((old, i) => {
       // the old servers sink away first
       const s = seg(p, 0.16 + i * 0.035, 0.28 + i * 0.035);
-      move(K[`old${i}`], 0, 34 * E.inCubic(s));
-      fade(K[`old${i}`], 1 - E.outQuad(s));
+      move(olds[i], 0, 34 * E.inCubic(s));
+      fade(olds[i], 1 - E.outQuad(s));
       // each app lifts off to one shared hover line (a small dip first), then drops into its dock
       const dx = old.cx - S1.docks[i]!,
         dy = old.y - S1.dockY,
@@ -30,7 +33,7 @@ export const standard: SceneFactory = (svg) => {
       const r =
         lerp(old.r, 0, E.inOutCubic(seg(p, 0.2 + i * 0.03, 0.4 + i * 0.03))) +
         (m > 0 && m < 1 ? Math.sin(m * Math.PI) * 3 * (dx > 0 ? -1 : 1) : 0);
-      move(K[`win${i}`], x, y, null, null, r);
+      move(wins[i], x, y, null, null, r);
     });
     // the fifth app is new: it flies in from the right
     const m4 = seg(p, 0.8, 0.97);
@@ -48,8 +51,8 @@ export const standard: SceneFactory = (svg) => {
     fade(K["plat"], seg(p, 0.36, 0.41));
     for (let d = 0; d < 5; d++) {
       const ds = seg(p, 0.48 + d * 0.04, 0.58 + d * 0.04);
-      move(K[`dock${d}`], 0, 0, 1, Math.max(0.001, E.outBack(ds, 2)));
-      fade(K[`dock${d}`], Math.min(1, ds * 4));
+      move(docks[d], 0, 0, 1, Math.max(0.001, E.outBack(ds, 2)));
+      fade(docks[d], Math.min(1, ds * 4));
     }
   };
 };
@@ -70,6 +73,12 @@ interface Zone {
  * rack (pending) until a node is added; when the load drops, pods drain from the top node and
  * the empty node is removed. Pods fill and drain one at a time. `load` maps progress and time
  * to 0..1, so the same machinery serves the scroll scene and the time-based homepage card.
+ *
+ * Capacity follows the load a beat late, about the time a request takes to cross the drawing,
+ * so you see the traffic arrive first and the pods answer it.
+ *
+ * Nothing in the frame loop allocates: zone counts are plain loops and the routes a request
+ * can take are built once.
  */
 export function scaler(svg: SVGSVGElement, load: (p: number, t: number) => number) {
   const K = parts(svg),
@@ -79,6 +88,9 @@ export function scaler(svg: SVGSVGElement, load: (p: number, t: number) => numbe
     emit = emitter();
   const ins = [0, 1, 2].map((i) => K[`in${i}`] as SVGPathElement);
   const outs = [0, 1, 2].map((i) => K[`out${i}`] as SVGPathElement);
+  prime(...ins, ...outs);
+  // every way in, to every zone: [entry][zone]
+  const routes: Segment[][][] = ins.map((el) => outs.map((out) => [{ el, cls: "" }, { el: out }]));
   const bias = [1.1, 1.3, 0.85];
   const Z: Zone[] = S2.racks.map((_, z) => {
     const zone: Zone = { nodes: [], pods: [], cool: 0, pend: K[`pend${z}`], pendA: 0, want: 1 };
@@ -89,9 +101,19 @@ export function scaler(svg: SVGSVGElement, load: (p: number, t: number) => numbe
     return zone;
   });
   let first = true;
+  /** The load capacity has caught up with (it lags the real load, see above). */
+  let capacity = 0;
   const target = (z: number, L: number): number => clamp(Math.round(1 + L * 11.5 * bias[z]!), 1, 16);
-  const ready = (z: Zone): number => z.nodes.filter((x) => x.st === "on").length;
-  const placed = (z: Zone): number => z.pods.filter((x) => x.on).length;
+  const ready = (z: Zone): number => {
+    let n = 0;
+    for (const x of z.nodes) if (x.st === "on") n++;
+    return n;
+  };
+  const placed = (z: Zone): number => {
+    let n = 0;
+    for (const x of z.pods) if (x.on) n++;
+    return n;
+  };
 
   function stepZone(z: Zone, dt: number): void {
     z.cool -= dt;
@@ -101,10 +123,12 @@ export function scaler(svg: SVGSVGElement, load: (p: number, t: number) => numbe
     if (z.cool <= 0) {
       if (P0 < want) {
         if (P0 < R * 4) {
-          const pd = z.pods.find((x, i) => !x.on && z.nodes[i >> 2]!.st === "on");
-          if (pd) {
+          for (let i = 0; i < z.pods.length; i++) {
+            const pd = z.pods[i]!;
+            if (pd.on || z.nodes[i >> 2]!.st !== "on") continue;
             pd.on = true;
             pd.t = 0;
+            break;
           }
           z.cool = 0.07 + Math.random() * 0.08;
         } else {
@@ -118,10 +142,12 @@ export function scaler(svg: SVGSVGElement, load: (p: number, t: number) => numbe
           z.cool = 0.1;
         }
       } else if (P0 > want) {
-        const last = [...z.pods].reverse().find((x) => x.on);
-        if (last) {
+        for (let i = z.pods.length - 1; i >= 0; i--) {
+          const last = z.pods[i]!;
+          if (!last.on) continue;
           last.on = false;
           last.t = 0;
+          break;
         }
         z.cool = 0.1 + Math.random() * 0.1;
       }
@@ -130,7 +156,8 @@ export function scaler(svg: SVGSVGElement, load: (p: number, t: number) => numbe
     for (let q = 3; q >= 1; q--) {
       const nd = z.nodes[q]!;
       if (nd.st !== "on") continue;
-      const empty = [0, 1, 2, 3].every((s) => !z.pods[q * 4 + s]!.on);
+      let empty = true;
+      for (let s = 0; s < 4; s++) if (z.pods[q * 4 + s]!.on) empty = false;
       const above = q < 3 && z.nodes[q + 1]!.st !== "off";
       nd.idle = empty && !above && want <= q * 4 ? nd.idle + dt : 0;
       if (nd.idle > 0.6) {
@@ -194,15 +221,38 @@ export function scaler(svg: SVGSVGElement, load: (p: number, t: number) => numbe
     });
   }
 
+  // a request lands on one of its zone's running pods, which dims for a moment
+  const landed = Z.map((zone) => () => {
+    let on = 0;
+    for (const x of zone.pods) if (x.on) on++;
+    if (!on) return;
+    let pick = (Math.random() * on) | 0;
+    for (const x of zone.pods)
+      if (x.on && pick-- === 0) {
+        x.ack = 0;
+        break;
+      }
+  });
+  // requests go to a zone in proportion to its share of the load
+  const fire = (): void => {
+    const w0 = Z[0]!.want,
+      w1 = Z[1]!.want,
+      r = Math.random() * (w0 + w1 + Z[2]!.want);
+    const zi = r < w0 ? 0 : r < w0 + w1 ? 1 : 2;
+    P.spawn(routes[(Math.random() * 3) | 0]![zi]!, { speed: 190 + Math.random() * 70, end: landed[zi] });
+  };
+
   return (p: number, dt: number, t: number): void => {
     const L = load(p, t);
     if (first) {
       settle(L);
+      capacity = L;
       first = false;
     }
+    capacity += (L - capacity) * approach(dt, 1.5);
     blink(dt);
     Z.forEach((z, zi) => {
-      z.want = target(zi, L);
+      z.want = target(zi, capacity);
       for (const nd of z.nodes) nd.t += dt;
       for (const pd of z.pods) {
         pd.t += dt;
@@ -211,20 +261,7 @@ export function scaler(svg: SVGSVGElement, load: (p: number, t: number) => numbe
       stepZone(z, dt);
       draw(z, t);
     });
-    emit(dt, 1 + 9 * L, () => {
-      // requests go to a zone in proportion to its share of the load
-      const w = Z.map((z) => z.want),
-        sum = w[0]! + w[1]! + w[2]!,
-        r = Math.random() * sum;
-      const zi = r < w[0]! ? 0 : r < w[0]! + w[1]! ? 1 : 2;
-      P.spawn([{ el: ins[(Math.random() * 3) | 0]!, cls: "" }, { el: outs[zi]! }], {
-        speed: 190 + Math.random() * 70,
-        end: () => {
-          const on = Z[zi]!.pods.filter((x) => x.on);
-          if (on.length) on[(Math.random() * on.length) | 0]!.ack = 0;
-        },
-      });
-    });
+    emit(dt, 1 + 9 * L, fire);
     P.update(dt, t);
   };
 }
@@ -249,6 +286,19 @@ export const regions: SceneFactory = (svg) => {
     ie: S3.lanes.map((x) => hiddenPath(layer.parentNode as Element, `M${x} 122C${x} 160 288 162 288 200`)),
     jp: S3.lanes.map((x) => hiddenPath(layer.parentNode as Element, `M${x} 122C${x} 160 312 162 312 200`)),
   };
+  // each lane, to each region (users in Japan go to Tokyo), built once
+  const route = (i: number, jp: boolean): Segment[] => [
+    { el: K[`ri${i}`] as SVGPathElement, cls: jp ? "pk--cool" : "" },
+    { el: (jp ? through.jp : through.ie)[i]! },
+    { el: K[jp ? "rjp" : "rie"] as SVGPathElement },
+  ];
+  const toIE = [0, 1, 2].map((i) => route(i, false)),
+    toJP = [0, 1, 2].map((i) => route(i, true));
+  for (const r of [...toIE, ...toJP]) prime(...r.map((x) => x.el));
+  const fire = (): void => {
+    const i = (Math.random() * 3) | 0;
+    P.spawn((Math.random() < 0.3 ? toJP : toIE)[i]!, { speed: 170 + Math.random() * 60 });
+  };
   return (p, dt, t) => {
     blink(dt);
     const gs = seg(p, 0, 0.3);
@@ -269,20 +319,7 @@ export const regions: SceneFactory = (svg) => {
     fade(K["lblJP"], seg(p, 0.7, 0.82));
     move(K["lblIE"], 6 * (1 - E.outCubic(seg(p, 0.64, 0.76))), 0);
     move(K["lblJP"], -6 * (1 - E.outCubic(seg(p, 0.7, 0.82))), 0);
-    emit(dt, p > 0.56 ? 4.2 * seg(p, 0.56, 0.7) : 0, () => {
-      const i = (Math.random() * 3) | 0,
-        jp = Math.random() < 0.3;
-      P.spawn(
-        [
-          { el: K[`ri${i}`] as SVGPathElement, cls: jp ? "pk--cool" : "" },
-          { el: (jp ? through.jp : through.ie)[i]! },
-          { el: K[jp ? "rjp" : "rie"] as SVGPathElement },
-        ],
-        {
-          speed: 170 + Math.random() * 60,
-        },
-      );
-    });
+    emit(dt, p > 0.56 ? 4.2 * seg(p, 0.56, 0.7) : 0, fire);
     P.update(dt, t);
   };
 };
@@ -298,6 +335,7 @@ export const ipv6: SceneFactory = (svg) => {
     blink = blinker(svg);
   const thruX = hiddenPath(layer.parentNode as Element, S4.thruX);
   const rdb = K["rdb"] as SVGPathElement;
+  prime(K["rx"], thruX, K["rf"], rdb);
   // where the IPv6 path meets the gate
   const dbL = rdb.getTotalLength();
   let gateD = dbL;
@@ -308,8 +346,27 @@ export const ipv6: SceneFactory = (svg) => {
     }
   }
   let open = 0;
-  let queue: Packet[] = [];
+  /** Packets on their way to the database, oldest first. */
+  const queue: Packet[] = [];
   const gateLed = K["bar-led"];
+  const translated: Segment[] = [
+    { el: K["rx"] as SVGPathElement, cls: "" },
+    { el: thruX, hide: true },
+    { el: K["rf"] as SVGPathElement, cls: "pk--ink" },
+  ];
+  const toDb: Segment[] = [{ el: rdb, cls: "" }];
+  const fireA = (): void => void P.spawn(translated, { speed: 150 + Math.random() * 40 });
+  // packets to the database queue up at the closed gate, one behind the other
+  const stop = (me: Packet): number => {
+    if (open > 0.55 || me.d > gateD + 0.5) return Infinity;
+    let ahead = 0;
+    for (const other of queue) {
+      if (other === me) break;
+      if (other.d <= gateD + 0.5) ahead++;
+    }
+    return gateD - ahead * 19;
+  };
+  const fireB = (): void => void queue.push(P.spawn(toDb, { speed: 140 + Math.random() * 40, stop }));
   return (p, dt, t) => {
     blink(dt);
     // the address tag flips over
@@ -346,34 +403,15 @@ export const ipv6: SceneFactory = (svg) => {
       g < 0.18 ? 1 + 0.07 * Math.sin((g / 0.18) * Math.PI) : 1 - 0.9 * E.outBack((g - 0.18) / 0.82, 1.4);
     move(K["bar"], 0, 0, 1, clamp(sy, 0.04, 1.1));
     gateLed?.classList.toggle("is-open", g > 0.6);
-    eA(dt, p > 0.36 ? 1.5 : 0, () => {
-      P.spawn(
-        [
-          { el: K["rx"] as SVGPathElement, cls: "" },
-          { el: thruX, hide: true },
-          { el: K["rf"] as SVGPathElement, cls: "pk--ink" },
-        ],
-        { speed: 150 + Math.random() * 40 },
-      );
-    });
-    // packets to the database queue up at the closed gate, one behind the other
-    queue = queue.filter((k) => P.live.includes(k));
-    const queued = queue.filter((k) => k.d < gateD + 1).length;
-    eB(dt, p > 0.56 && (open > 0.5 || queued < 4) ? 1.3 : 0, () => {
-      const k = P.spawn([{ el: rdb, cls: "" }], {
-        speed: 140 + Math.random() * 40,
-        stop: (me) => {
-          if (open > 0.55 || me.d > gateD + 0.5) return Infinity;
-          let ahead = 0;
-          for (const other of queue) {
-            if (other === me) break;
-            if (other.d <= gateD + 0.5) ahead++;
-          }
-          return gateD - ahead * 19;
-        },
-      });
-      queue.push(k);
-    });
+    eA(dt, p > 0.36 ? 1.5 : 0, fireA);
+    // drop the ones that arrived (in place, oldest first), and count who's still waiting
+    let queued = 0;
+    for (let j = queue.length - 1; j >= 0; j--) {
+      const k = queue[j]!;
+      if (!P.live.includes(k)) queue.splice(j, 1);
+      else if (k.d < gateD + 1) queued++;
+    }
+    eB(dt, p > 0.56 && (open > 0.5 || queued < 4) ? 1.3 : 0, fireB);
     P.update(dt, t);
   };
 };
@@ -394,6 +432,8 @@ export const learned: SceneFactory = (svg) => {
     K["pk"]!.appendChild(c);
     dots.push(c);
   }
+  const lit = [0, 1, 2, 3, 4, 5, 6, 7].map((s) => K[`lit${s}`]),
+    cl = lit.map((_, s) => [K[`c${s}`], K[`c${s}-old`], K[`c${s}-new`]] as const);
   return (p, dt) => {
     blink(dt);
     const cs = seg(p, 0.04, 0.2);
@@ -403,25 +443,26 @@ export const learned: SceneFactory = (svg) => {
     move(K["lit-spine"], 0, 0, Math.max(0.001, clamp(D / (spine + 52), 0, 1)), 1);
     const front = x0 + D,
       head = dots[8]!;
-    head.setAttribute("cx", String(Math.min(front, cols[3]! + cw / 2)));
-    head.setAttribute("cy", String(y));
+    attr(head, "cx", Math.min(front, cols[3]! + cw / 2));
+    attr(head, "cy", y);
     fade(head, D > 0 && D < spine ? 1 : 0);
     for (let s = 0; s < 8; s++) {
       const up = s % 2 === 0,
         len = up ? stubUp : stubDown,
         sx = cols[s >> 1]! + cw / 2;
       const q = clamp((D - (sx - x0)) / len, 0, 1);
-      move(K[`lit${s}`], 0, 0, 1, Math.max(0.001, q));
-      dots[s]!.setAttribute("cx", String(sx));
-      dots[s]!.setAttribute("cy", String(y + (up ? -1 : 1) * q * len));
+      move(lit[s], 0, 0, 1, Math.max(0.001, q));
+      attr(dots[s], "cx", sx);
+      attr(dots[s], "cy", y + (up ? -1 : 1) * q * len);
       fade(dots[s], q > 0 && q < 1 ? 1 : 0);
       // a cluster updates once the pulse reaches it: a small hop and a new flag
       const arrive = 0.22 + ((sx - x0 + len) / total) * 0.58;
       const u = seg(p, arrive, arrive + 0.08);
-      move(K[`c${s}`], 0, -7 * Math.sin(Math.PI * u));
-      fade(K[`c${s}-old`], 1 - u);
-      move(K[`c${s}-new`], 0, 0, 1, Math.max(0.001, E.outBack(u, 2.4)));
-      fade(K[`c${s}-new`], Math.min(1, u * 3));
+      const c = cl[s]!;
+      move(c[0], 0, -7 * Math.sin(Math.PI * u));
+      fade(c[1], 1 - u);
+      move(c[2], 0, 0, 1, Math.max(0.001, E.outBack(u, 2.4)));
+      fade(c[2], Math.min(1, u * 3));
     }
   };
 };
