@@ -1,0 +1,52 @@
+---
+/** Previous / next between case studies. */
+interface Link {
+  href: string;
+  small: string;
+  label: string;
+}
+interface Props {
+  prev: Link;
+  next: Link;
+}
+const { prev, next } = Astro.props;
+---
+
+<nav class="ph-next" aria-label="More projects">
+  {[prev, next].map((l) => (
+    <a href={l.href}>
+      <small>{l.small}</small>
+      <Fragment set:html={l.label} />
+    </a>
+  ))}
+</nav>
+
+<style>
+  @layer components {
+    .ph-next {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-block: 2.5rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .ph-next a {
+      font-family: var(--font-heading);
+      font-size: var(--text-h3);
+      text-decoration: none;
+    }
+
+    .ph-next a:hover {
+      color: var(--accent);
+    }
+
+    .ph-next small {
+      display: block;
+      font-family: var(--font-body);
+      font-size: var(--text-small);
+      color: var(--ink-subtle);
+    }
+  }
+</style>

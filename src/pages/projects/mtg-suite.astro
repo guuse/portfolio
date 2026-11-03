@@ -1,0 +1,158 @@
+---
+// The layout first: its global.css declares the cascade layer order before any component CSS.
+import CaseStudy from "~/layouts/CaseStudy.astro";
+import CaseHero from "~/components/case/CaseHero.astro";
+import Closing from "~/components/case/Closing.astro";
+import Lessons from "~/components/case/Lessons.astro";
+import NextNav from "~/components/case/NextNav.astro";
+import Scenes from "~/components/case/Scenes.astro";
+import SceneStep from "~/components/case/SceneStep.astro";
+import StepShot from "~/components/case/StepShot.astro";
+import StepShots from "~/components/case/StepShots.astro";
+import Section from "~/components/ui/Section.astro";
+import cover from "~/assets/covers/mtg-hero-wide.webp";
+import lobby from "~/assets/shots/r99-lobby.webp";
+import combat from "~/assets/shots/r99-game-combat.webp";
+import library from "~/assets/shots/tutor-library.webp";
+import scryfall from "~/assets/shots/scryfall-home.webp";
+import scryfallPhone from "~/assets/shots/scryfall-home-mobile.webp";
+---
+
+<CaseStudy
+  title="MTG suite · Guus Ekkelenkamp"
+  description="Case study: the Magic: The Gathering tools I build for my friends, from a Commander table in the browser to a shared deck library."
+  lightbox
+>
+  <CaseHero
+    cover={cover}
+    meta="Personal · 2026 · two of the tools are open source"
+    title="MTG suite"
+    line="The Magic tools I build for my friends, so we can learn the game together and play it from our own sofas."
+  />
+  <Scenes id="story" title="The story behind the tools" gallery>
+    <SceneStep scene="itch">
+      <p>
+        Magic: The Gathering is the card game my friends and I play most, usually Commander: four players,
+        each with a 100-card deck built around one legendary creature, the commander. It’s a brilliant game
+        with over 33,000 cards, and plenty of them bend a rule somewhere. We wanted an easier way to learn it,
+        and a way to play on the evenings we can’t sit at one table.
+      </p>
+      <p>
+        The fun part is the audience. My testers are friends, and they tell me exactly what they think, which
+        is how we do it in Rotterdam anyway. A fix can go out in the afternoon and get played that evening.
+      </p>
+    </SceneStep>
+    <SceneStep scene="table">
+      <h3>A table in the browser</h3>
+      <p>
+        Rules of 99 is Commander in the browser for two to four players, joined with a six-character room
+        code. I didn’t write a rules engine, that’s a lifetime’s work. An open-source one already knows the
+        rules and runs headless on my server. My part is carrying each question the engine asks to the right
+        browser, and each answer back.
+      </p>
+      <p>
+        In Magic a spell doesn’t happen right away. It goes on the stack, a pile where the last thing played
+        resolves first, and every player gets priority, a chance to respond. At four players that’s a lot of
+        questions, so I trimmed the stops and added auto-resolve for moments when you have nothing to play. It
+        never skips a spell aimed at you or your cards.
+      </p>
+      <StepShot
+        src={lobby}
+        alt="Rules of 99 home screen after signing in"
+        caption="Home after signing in: your decks and open tables."
+      />
+    </SceneStep>
+    <SceneStep scene="hands">
+      <h3>Four players, one game</h3>
+      <p>
+        The server holds the whole game and sends each player only their own view. The others only see how
+        many cards are in your hand, and libraries never leave the server. You can reload and sit back down,
+        and finished games can be replayed turn by turn.
+      </p>
+      <p>
+        Targeting taught me to trust nothing. The engine numbers players from 0 and cards from 1, and the
+        server looked up card ids first, so picking player 1 quietly picked card 1. Every option now says what
+        kind of thing it is.
+      </p>
+      <StepShot
+        src={combat}
+        alt="Rules of 99 during combat: four attackers, with arrows to the player they attack"
+        caption="Combat: four attackers, each with an arrow to its target."
+      />
+    </SceneStep>
+    <SceneStep scene="decks">
+      <h3>Where our decks live</h3>
+      <p>
+        Tutor is our deck library and builder, and it’s strict about the game. A card only fits a deck when
+        its colours sit inside the commander’s, and banned cards stay out, so the search is exact. Each deck
+        shows its curve and power bracket, so we can pick decks that suit each other.
+      </p>
+      <p>
+        Friends can share their paper collections with the group, so before anyone buys a card you can see who
+        already has one in a binder. When a deck is ready, one click takes it into Rules of 99, which can only
+        read your decks.
+      </p>
+      <StepShot
+        src={library}
+        alt="Tutor deck library with commander art for each deck"
+        caption="The library: every deck at a glance."
+      />
+    </SceneStep>
+    <SceneStep scene="search">
+      <h3>Finding cards in plain words</h3>
+      <p>
+        Scryfall is the card search most players use, and its syntax takes practice. In mine you describe the
+        cards in normal words. A model writes the query, the server tests it against Scryfall first, and you
+        get a stricter and a broader reading, each with a breakdown of what every part does. You get your
+        cards and learn the syntax on the way. For deck building there’s also a set of open-source Claude Code
+        skills, one more tool for the group.
+      </p>
+      <StepShots>
+        <StepShot
+          src={scryfall}
+          alt="Scryfall in plain words: a search box with a plain-language request and suggestion chips"
+          caption="Describe the cards in normal words; the query is written and checked for you."
+        />
+        <StepShot src={scryfallPhone} alt="Scryfall in plain words on a phone" caption="On a phone." phone />
+      </StepShots>
+    </SceneStep>
+    <SceneStep scene="friends">
+      <h3>Building for people you know</h3>
+      <p>
+        My friends can file a bug report straight from the table. One press turns it into a GitHub issue, and
+        closing the issue marks the report fixed. Every merge to main lands on my homelab, so the next game
+        has the fix.
+      </p>
+      <p>
+        New cards arrive overnight. A nightly job pulls in the engine’s latest card data, checks that the
+        engine still starts on it, and opens a pull request. The engine itself only moves when I move it.
+      </p>
+    </SceneStep>
+  </Scenes>
+  <Section id="lessons" title="Lessons">
+    <Lessons
+      items={[
+        {
+          title: "Test against the real thing.",
+          text: "A mock server once hid a bug that made the whole hand unclickable in real games, so I deleted it. Every test now plays against the real server.",
+        },
+        {
+          title: "Faster isn’t always better.",
+          text: "When I removed one more stop to speed games up, the scripted test players interacted less, and one seat died early. Fewer questions meant less Magic, so that stop came back.",
+        },
+        {
+          title: "Keep the rules honest, even for friends.",
+          text: "Turning off the free first mulligan would have meant patching the engine to break a rule, so I left that toggle out.",
+        },
+      ]}
+    />
+  </Section>
+  <Closing
+    line="With my friends I’m usually the one who plans the evening and chases the group chat for a date. These days I bring the table too, and I get the bug reports."
+    stack="Built with: Java, React, TypeScript, WebSockets, Node and SQLite."
+  />
+  <NextNav
+    prev={{ href: "/projects/homelab/", small: "Previous project", label: "&larr; Homelab" }}
+    next={{ href: "/projects/", small: "Back to", label: "all projects" }}
+  />
+</CaseStudy>

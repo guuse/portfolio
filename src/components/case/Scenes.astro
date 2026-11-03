@@ -1,0 +1,77 @@
+---
+/**
+ * A case study told as scroll scenes: a list of <SceneStep>s, plus the sticky stage their
+ * figures move into on wide screens (src/lib/motion/controller.ts). Without JS, or with
+ * reduced motion, each step simply shows its text next to its still.
+ */
+interface Props {
+  id: string;
+  /** A heading for assistive tech; the scenes speak for themselves visually. */
+  title: string;
+  /** Screenshots in the steps form one lightbox group. */
+  gallery?: boolean;
+}
+const { id, title, gallery } = Astro.props;
+---
+
+<section class="scenes" id={id} aria-labelledby={`${id}-h`} data-lb-group={gallery ? "" : undefined}>
+  <h2 class="visually-hidden" id={`${id}-h`}>
+    {title}
+  </h2>
+  <div class="scenes__stage"></div>
+  <div class="scenes__steps">
+    <slot />
+  </div>
+</section>
+
+<style>
+  @layer components {
+    .scenes {
+      border-top: 1px solid var(--line);
+      padding-block: clamp(1.5rem, 1rem + 2vw, 3rem);
+    }
+
+    .scenes__stage {
+      display: none;
+    }
+
+    @media (width >= 900px) {
+      .scenes:global(.is-staged) {
+        display: grid;
+        grid-template-columns: minmax(0, 4.2fr) minmax(0, 7.8fr);
+        gap: 0 var(--space-gutter);
+        padding-top: 0;
+      }
+
+      .scenes:global(.is-staged) .scenes__steps {
+        grid-area: 1 / 1;
+      }
+
+      .scenes:global(.is-staged) .scenes__stage {
+        display: grid;
+        grid-area: 1 / 2;
+        align-self: start;
+        position: sticky;
+        top: var(--space-header);
+        height: calc(100svh - var(--space-header));
+        place-items: center;
+      }
+
+      /* the figures cross-fade in the stage; 600:440 is the drawings' aspect ratio */
+      .scenes:global(.is-staged) .scenes__stage > :global(.scene) {
+        grid-area: 1 / 1;
+        width: min(100%, calc((100svh - 150px) * 600 / 440));
+        opacity: 0;
+        transform: translate3d(0, 14px, 0) scale(0.985);
+        transition:
+          opacity var(--duration-slow) var(--ease-out),
+          transform var(--duration-reveal) var(--ease-out);
+      }
+
+      .scenes:global(.is-staged) .scenes__stage > :global(.scene.is-on) {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  }
+</style>

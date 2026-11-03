@@ -1,0 +1,64 @@
+---
+/** Lessons as symptom → cause → fix. Values may hold inline code. */
+interface Props {
+  items: { symptom: string; cause: string; fix: string }[];
+}
+const { items } = Astro.props;
+const rows = ["Symptom", "Cause", "Fix"] as const;
+---
+
+<ul class="gotchas" role="list">
+  {items.map((it) => (
+    <li>
+      <dl class="gotcha">
+        {rows.map((r) => (
+          <div>
+            <dt>{r}</dt>
+            <dd set:html={it[r.toLowerCase() as "symptom" | "cause" | "fix"]} />
+          </div>
+        ))}
+      </dl>
+    </li>
+  ))}
+</ul>
+
+<style>
+  @layer components {
+    .gotchas {
+      display: grid;
+      gap: 1rem;
+      max-width: 46em;
+    }
+
+    .gotcha {
+      display: grid;
+      padding: 1rem 1.25rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-m);
+    }
+
+    .gotcha div {
+      display: grid;
+      grid-template-columns: 5.5rem 1fr;
+      gap: 12px;
+      padding-block: 4px;
+    }
+
+    .gotcha dt {
+      color: var(--ink-subtle);
+      font-size: var(--text-small);
+    }
+
+    .gotcha dd {
+      color: var(--ink-muted);
+    }
+
+    .gotcha :global(code) {
+      font-size: 0.88em;
+      padding: 1px 5px;
+      border-radius: var(--radius-xs);
+      background: var(--surface-sunken);
+      color: var(--ink);
+    }
+  }
+</style>

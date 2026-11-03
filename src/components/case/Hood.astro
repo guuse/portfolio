@@ -1,0 +1,68 @@
+---
+import type { IconId } from "~/lib/art";
+
+/** "Under the hood": the building blocks, each with an official icon where one exists. */
+interface Props {
+  items: { icon?: IconId; name: string; what: string }[];
+}
+const { items } = Astro.props;
+---
+
+<ul class="hood" role="list">
+  {items.map((it) => (
+    <li>
+      <svg class:list={["hood__icon", !it.icon && "hood__icon--none"]} aria-hidden="true">
+        {it.icon && <use href={`#${it.icon}`} />}
+      </svg>
+      <span class="hood__name">{it.name}</span>
+      <span class="hood__what">{it.what}</span>
+    </li>
+  ))}
+</ul>
+
+<style>
+  @layer components {
+    .hood {
+      display: grid;
+      max-width: 46em;
+      border-top: 1px solid var(--line);
+    }
+
+    .hood li {
+      display: grid;
+      grid-template-columns: 28px minmax(0, 15em) minmax(0, 1fr);
+      gap: 0.25rem 1rem;
+      align-items: center;
+      padding-block: 0.7rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hood__icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    .hood__icon--none {
+      visibility: hidden;
+    }
+
+    .hood__name {
+      font-weight: 500;
+    }
+
+    .hood__what {
+      color: var(--ink-muted);
+      font-size: var(--text-small);
+    }
+
+    @media (width < 600px) {
+      .hood li {
+        grid-template-columns: 28px minmax(0, 1fr);
+      }
+
+      .hood__what {
+        grid-column: 2;
+      }
+    }
+  }
+</style>

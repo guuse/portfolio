@@ -1,0 +1,41 @@
+---
+/** Plain lesson rows: a short heading sentence and what happened. */
+interface Props {
+  items: { title: string; text: string }[];
+}
+const { items } = Astro.props;
+---
+
+<ul class="lessons" role="list">
+  {items.map((it) => (
+    <li>
+      <p class="lessons__h" set:html={it.title} />
+      <p>{it.text}</p>
+    </li>
+  ))}
+</ul>
+
+<style>
+  @layer components {
+    .lessons {
+      display: grid;
+      max-width: 46em;
+      border-top: 1px solid var(--line);
+    }
+
+    .lessons li {
+      display: grid;
+      gap: 0.25rem;
+      padding-block: 1rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .lessons__h {
+      font-weight: 600;
+    }
+
+    .lessons li p:not(.lessons__h) {
+      color: var(--ink-muted);
+    }
+  }
+</style>

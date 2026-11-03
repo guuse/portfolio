@@ -1,0 +1,160 @@
+---
+// The layout first: its global.css declares the cascade layer order before any component CSS.
+import CaseStudy from "~/layouts/CaseStudy.astro";
+import CaseHero from "~/components/case/CaseHero.astro";
+import CaseLead from "~/components/case/CaseLead.astro";
+import Closing from "~/components/case/Closing.astro";
+import Gotchas from "~/components/case/Gotchas.astro";
+import HomelabDiagram from "~/components/case/HomelabDiagram.astro";
+import MemoryBar from "~/components/case/MemoryBar.astro";
+import NextNav from "~/components/case/NextNav.astro";
+import Scenes from "~/components/case/Scenes.astro";
+import SceneStep from "~/components/case/SceneStep.astro";
+import Snippet from "~/components/case/Snippet.astro";
+import Section from "~/components/ui/Section.astro";
+import { apps, ways } from "~/lib/art";
+import cover from "~/assets/covers/homelab-wide.webp";
+import appSnippet from "~/content/snippets/argocd-application.html?raw";
+
+const icons = ["si-argo", "si-tailscale", "si-cloudflare", "si-traefikproxy", "si-letsencrypt"] as const;
+---
+
+<CaseStudy
+  title="Homelab · Guus Ekkelenkamp"
+  description="Case study: a single-node k3s platform with Argo CD and Home Assistant, with no open ports."
+  icons={icons}
+>
+  <CaseHero
+    cover={cover}
+    meta="Personal · 2026"
+    title="Homelab"
+    line="The patterns I use at work, on one old laptop under the TV."
+  />
+  <CaseLead>
+    <p>
+      I like tinkering, and I don’t like recommending things at work that I haven’t run myself. So an old
+      laptop under the TV, lid shut, became the place where I try them first. It also hosts my side projects,
+      like the MTG tools my friends use.
+    </p>
+    <p>
+      What makes it different from most home servers is how things get onto it. It runs the same git-driven
+      delivery we use for client projects: I push to main and the new version shows up without me touching the
+      box. It has its own domain and real certificates, and nothing on it is reachable from the internet
+      unless I open it on purpose.
+    </p>
+  </CaseLead>
+  <Scenes id="deploy" title="From git push to running">
+    <SceneStep scene="loop" range={[0, 0.35]} caption="One change, from git push to a running pod.">
+      <h3>From git push to running</h3>
+      <p>GitHub Actions builds every commit into an image on GHCR, tagged with the commit SHA.</p>
+    </SceneStep>
+    <SceneStep scene="loop" range={[0.35, 0.63]} continues>
+      <p>
+        Argo CD Image Updater notices the new image, commits its version back into the app’s repo, and Argo CD
+        syncs. The commit is the deploy record, so git always says what’s running.
+      </p>
+    </SceneStep>
+    <SceneStep scene="loop" range={[0.63, 0.76]} continues>
+      <p>
+        At work, production only follows release tags. At home, main deploys directly. I skip that step on
+        purpose, because here the only user I can annoy is me.
+      </p>
+    </SceneStep>
+    <SceneStep scene="loop" range={[0.76, 1]} continues>
+      <h3>The loop</h3>
+      <p>
+        That commit back into the repo once caught me out. CI built the commit, made a new image, and Image
+        Updater committed again, in a loop. CI now ignores <code>deploy/</code> with <code>paths-ignore</code>
+        .
+      </p>
+    </SceneStep>
+  </Scenes>
+  <Section id="repo" title="One repo runs it all" bodyClass="prose">
+    <p>
+      One repo holds an app-of-apps root that manages every app, including Argo CD itself. Adding an app is
+      adding one file, and one shared credential lets Argo read all my private repos. It runs 15 applications
+      now.
+    </p>
+    <HomelabDiagram svg={apps()} kind="apps" />
+    <Snippet
+      caption="An Argo CD Application and its Image Updater config"
+      label="Argo CD Application and ImageUpdater for one app"
+      code={appSnippet.trimEnd()}
+    />
+  </Section>
+  <Section id="getting-in" title="Three ways in" bodyClass="prose">
+    <p>
+      The tailnet is the default. My own devices reach Traefik over Tailscale, and DNS for my domain points at
+      the tailnet, so the names only lead somewhere from my devices.
+    </p>
+    <p>
+      Two other ways in are opt-in, per app. A few apps are public through a Cloudflare Tunnel with Access in
+      front, so there’s a login and no open port. For a party, Tailscale Funnel gives a temporary public URL,
+      for example for a quiz. Every app gets TLS from one wildcard Let’s Encrypt certificate, issued through
+      Cloudflare DNS-01.
+    </p>
+    <HomelabDiagram svg={ways()} kind="ways" />
+  </Section>
+  <Section id="box" title="Inside the box" bodyClass="prose">
+    <p>
+      The laptop has 16 GB of memory. Proxmox gives 10 GB to an Ubuntu VM with k3s and 3 GB to Home Assistant;
+      the host keeps about 2 GB. The battery doubles as a UPS, which is the best job that battery has had in
+      years.
+    </p>
+    <MemoryBar
+      label="Memory split: 10 GB k3s, 3 GB Home Assistant, about 2 GB host, about 1 GB spare"
+      parts={["10 GB k3s", "3 GB Home Assistant", "~2 GB host", "~1 GB spare"]}
+    />
+    <p>
+      I run k3s in a VM because Kubernetes in an LXC container needs privileged mode and tends to break on
+      upgrades. I take a snapshot before every upgrade, and everything else can be rebuilt from git. One node
+      means no redundancy, so the next step is three second-hand mini PCs.
+    </p>
+  </Section>
+  <Section id="home-assistant" title="Home Assistant" bodyClass="prose">
+    <p>
+      Home Assistant runs in its own VM next to the cluster, because passing the Zigbee USB stick through to a
+      VM is one line of config. HTTPS goes through an NGINX proxy, with plain HTTP on the home network as a
+      fallback.
+    </p>
+    <p>
+      I moved it from a Raspberry Pi with a full backup restore, and the whole Zigbee mesh came across without
+      re-pairing a single device. The dashboards and automations live in git, and a tablet on the wall shows
+      the dashboard.
+    </p>
+  </Section>
+  <Section id="lessons" title="Lessons" bodyClass="prose">
+    <Gotchas
+      items={[
+        {
+          symptom: "Builds kept running in a loop, each one producing a new image (August 2026).",
+          cause:
+            "Image Updater commits the new version back into the same repo, so CI built that commit, made a new image, and Image Updater committed again.",
+          fix: "CI ignores <code>deploy/</code> with <code>paths-ignore</code>.",
+        },
+        {
+          symptom: "The k3s node hit disk pressure at about 30 GiB, on a 64 GiB virtual disk.",
+          cause: "The Ubuntu installer gave root only about half of the disk.",
+          fix: "Extend the root volume into the free space with <code>lvextend</code> and <code>resize2fs</code>; if the volume group has no free space left, grow the disk in Proxmox (<code>qm resize</code>) first, then <code>growpart</code> and <code>pvresize</code> inside the guest.",
+        },
+        {
+          symptom: "Public DNS stopped resolving on the Linux VMs on my tailnet.",
+          cause: "Tailscale MagicDNS was on without a global nameserver.",
+          fix: "Set a global nameserver in Tailscale’s DNS settings.",
+        },
+      ]}
+    />
+  </Section>
+  <Closing
+    line="Most of what I’ve learned here started with me breaking it at home first, which is exactly what it’s for."
+    stack="Built with: Proxmox, k3s, Argo CD and Image Updater, GitHub Actions, GHCR, cert-manager, Traefik, Tailscale, Cloudflare and Home Assistant."
+  />
+  <NextNav
+    prev={{
+      href: "/projects/hosting-platform/",
+      small: "Previous project",
+      label: "&larr; Hosting platform",
+    }}
+    next={{ href: "/projects/mtg-suite/", small: "Next project", label: "MTG suite &rarr;" }}
+  />
+</CaseStudy>
