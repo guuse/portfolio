@@ -115,7 +115,7 @@ const home = path === "/";
       text-decoration: none;
     }
 
-    .nav:global(.has-mark) a[aria-current]:not(:global(.is-marked)):not(:hover) {
+    .nav:global(.has-mark) a[aria-current]:not(:global(.is-marked), :hover) {
       color: var(--ink-muted);
       text-decoration: none;
     }
