@@ -13,22 +13,18 @@ const FONTS = '<link href="https://fonts.googleapis.com/css2?family=Instrument+S
 const BASE = `
 *{box-sizing:border-box;margin:0}
 html,body{width:100%;height:100%}
-body{font-family:"Schibsted Grotesk",system-ui,sans-serif;color:#f3efe6;overflow:hidden;
-  background:radial-gradient(70% 60% at 70% 20%, rgba(232,180,90,.16), transparent 70%),
-             radial-gradient(60% 60% at 10% 100%, rgba(90,110,180,.14), transparent 70%),
-             linear-gradient(160deg,#16161d 0%,#0c0c11 60%,#08080b 100%)}
-body::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 220px rgba(0,0,0,.65);pointer-events:none}
+body{font-family:"Schibsted Grotesk",system-ui,sans-serif;color:#f0f3fa;overflow:hidden;
+  background:radial-gradient(70% 60% at 70% 15%, rgba(60,90,170,.22), transparent 70%), linear-gradient(170deg,#0f1b36 0%,#0a1328 60%,#081022 100%)}
 .serif{font-family:"Instrument Serif",Georgia,serif;font-weight:400}
-.node{border:2px solid rgba(243,239,230,.22);background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02));border-radius:22px;padding:22px 30px;
-  box-shadow:0 20px 50px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.08)}
+.node{border:1.5px solid rgba(240,243,250,.22);background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02));border-radius:10px;padding:22px 30px;background:#121f3d}
 .node b{display:block;font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:54px;line-height:1}
-.node span{display:block;margin-top:8px;font-size:22px;color:rgba(243,239,230,.62)}
-.gold{border-color:#e8b45a;background:linear-gradient(180deg,rgba(232,180,90,.22),rgba(232,180,90,.06))}
-.gold b{color:#f6cf82}
-.foot{position:absolute;left:64px;bottom:52px;font-size:24px;letter-spacing:.06em;text-transform:uppercase;color:rgba(243,239,230,.55)}
+.node span{display:block;margin-top:8px;font-size:22px;color:rgba(240,243,250,.62)}
+.gold{border-color:#fbc044;background:linear-gradient(180deg,rgba(251,192,68,.14),rgba(251,192,68,.04))}
+.gold b{color:#fbc044}
+.foot{position:absolute;left:64px;bottom:52px;font-size:24px;letter-spacing:.06em;text-transform:uppercase;color:rgba(240,243,250,.55)}
 svg.lines{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-svg.lines path{fill:none;stroke:#e8b45a;stroke-width:3;stroke-linecap:round;opacity:.85}
-svg.lines path.dim{stroke:rgba(243,239,230,.35);stroke-dasharray:4 10}
+svg.lines path{fill:none;stroke:#fbc044;stroke-width:3;stroke-linecap:round;opacity:.85}
+svg.lines path.dim{stroke:rgba(240,243,250,.35);stroke-dasharray:4 10}
 `;
 
 function doc(body, css) {
@@ -41,8 +37,8 @@ const FLOW = `.wrap{position:absolute;inset:64px 64px 64px;display:flex;flex-dir
 .title{font-size:104px;line-height:.95}
 .row{display:flex;align-items:center}
 .col{display:flex;flex-direction:column;align-items:stretch}
-.c-h{flex:1;height:3px;min-width:40px;background:#e8b45a;opacity:.85}
-.c-v{width:3px;height:36px;background:#e8b45a;opacity:.85;align-self:center}
+.c-h{flex:1;height:3px;min-width:40px;background:#fbc044;opacity:.85}
+.c-v{width:3px;height:36px;background:#fbc044;opacity:.85;align-self:center}
 .node b{font-size:64px}
 .node span{font-size:24px}`;
 function platform(shape) {
@@ -52,7 +48,7 @@ function platform(shape) {
 <div class="row"><div class="node"><b>Commit</b><span>to the app repo</span></div><i class="c-h"></i><div class="node"><b>CI</b><span>build and test</span></div><i class="c-h"></i><div class="node"><b>Registry</b><span>immutable image</span></div><i class="c-h"></i><div class="node gold"><b>Argo CD</b><span>syncs from git</span></div></div>
 <div class="row" style="justify-content:flex-end;gap:40px;margin-top:56px"><div class="node"><b>Acceptance</b><span>release candidates</span></div><div class="node gold"><b>Production</b><span>stable releases</span></div></div>
 </div>
-<p style="font-size:26px;letter-spacing:.08em;text-transform:uppercase;color:rgba(243,239,230,.55)">8 clusters · AWS and Azure · GitOps</p>
+<p style="font-size:26px;letter-spacing:.08em;text-transform:uppercase;color:rgba(240,243,250,.55)">8 clusters · AWS and Azure · GitOps</p>
 </div>`, FLOW + ".foot{display:none}");
   }
   return doc(`<div class="wrap">
@@ -64,15 +60,15 @@ function platform(shape) {
 }
 
 /* --- homelab: three ways in → the laptop (k3s + Home Assistant), no open ports */
-const LAB = FLOW + `.laptop{border:3px solid rgba(243,239,230,.3);border-radius:30px;padding:36px;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.01));box-shadow:0 30px 80px rgba(0,0,0,.5);position:relative}
-.laptop::after{content:"";position:absolute;left:-5%;right:-5%;bottom:-24px;height:14px;border-radius:0 0 18px 18px;background:rgba(243,239,230,.22)}
-.lab{font-size:24px;color:rgba(243,239,230,.6);margin-bottom:22px}
+const LAB = FLOW + `.laptop{border:3px solid rgba(240,243,250,.3);border-radius:12px;padding:36px;background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.01));box-shadow:0 30px 80px rgba(0,0,0,.5);position:relative}
+.laptop::after{content:"";position:absolute;left:-5%;right:-5%;bottom:-24px;height:14px;border-radius:0 0 18px 18px;background:rgba(240,243,250,.22)}
+.lab{font-size:24px;color:rgba(240,243,250,.6);margin-bottom:22px}
 .laptop .node+.node{margin-top:20px}
 .way{font-family:"Instrument Serif",Georgia,serif;font-size:56px;line-height:1}
-.way small{display:block;font-family:"Schibsted Grotesk",sans-serif;font-size:24px;color:rgba(243,239,230,.58);margin-top:8px}
+.way small{display:block;font-family:"Schibsted Grotesk",sans-serif;font-size:24px;color:rgba(240,243,250,.58);margin-top:8px}
 .ways{display:flex;flex-direction:column;gap:46px}
 .shield{display:flex;align-items:center;gap:16px;font-size:30px}
-.shield i{width:46px;height:52px;display:block;background:#e8b45a;clip-path:path("M23 0 46 9v17c0 14-10 22-23 26C10 48 0 40 0 26V9z")}`;
+.shield i{width:46px;height:52px;display:block;background:#fbc044;clip-path:path("M23 0 46 9v17c0 14-10 22-23 26C10 48 0 40 0 26V9z")}`;
 function homelab(shape) {
   const box = `<div class="laptop"><p class="lab">One old laptop · Proxmox</p><div class="node gold"><b>k3s</b><span>15 apps, deployed by Argo CD</span></div><div class="node"><b>Home Assistant</b><span>Zigbee stick passed through</span></div></div>`;
   if (shape === "wide") {
@@ -94,7 +90,7 @@ ${box}
 /* --- MTG: Tutor library behind, Rules of 99 home in front, Scryfall on a phone */
 function mtg(shape, shots) {
   const s = (f) => "file://" + path.join(shots, f);
-  const css = `.shot{position:absolute;border-radius:16px;overflow:hidden;box-shadow:0 40px 90px rgba(0,0,0,.65),0 0 0 2px rgba(255,255,255,.08)}
+  const css = `.shot{position:absolute;border-radius:6px;overflow:hidden;box-shadow:0 40px 90px rgba(0,0,0,.65),0 0 0 2px rgba(255,255,255,.08)}
 .shot img{display:block;width:100%;height:100%;object-fit:cover;object-position:top left}
 .phone{position:absolute;border-radius:44px;padding:12px;background:#111;box-shadow:0 40px 90px rgba(0,0,0,.7),0 0 0 2px rgba(255,255,255,.12)}
 .phone img{display:block;width:100%;height:100%;object-fit:cover;object-position:top;border-radius:34px}`;

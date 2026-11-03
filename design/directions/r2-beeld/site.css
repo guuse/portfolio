@@ -506,27 +506,6 @@ code, pre { font-family: var(--font-mono); font-variant-ligatures: none; }
 .shotgrid .is-phone img { max-width: 220px; }
 
 /* ============================================================ round 11: the Rules of 99 home, translated */
-:root {
-  --surface: oklch(13.5% 0.012 270);         /* near-black with a breath of blue */
-  --surface-raised: oklch(18% 0.014 270);
-  --surface-sunken: oklch(11% 0.01 270);
-  --ink: oklch(95% 0.012 85);                /* warm white */
-  --ink-muted: oklch(78% 0.015 80);
-  --ink-subtle: oklch(64% 0.015 80);
-  --accent: oklch(81% 0.13 78);              /* the gold of the Play button */
-  --accent-ink: oklch(16% 0.02 70);
-  --line: oklch(26% 0.014 270);
-  --line-strong: oklch(44% 0.015 270);
-  --focus: oklch(81% 0.13 78);
-  --dg-bg-1: oklch(17% 0.014 270); --dg-bg-2: oklch(14% 0.012 270);
-  --dg-card: oklch(20% 0.016 270); --dg-card-2: oklch(18% 0.014 270);
-  --dg-stroke: oklch(36% 0.016 270); --dg-dim: oklch(42% 0.016 270);
-}
-html, body { background: var(--surface); }
-body { background: radial-gradient(120% 60% at 50% 0%, oklch(16% 0.014 270), var(--surface) 60%) var(--surface); }
-.dg-card { fill: oklch(19% 0.016 270); }
-.site-header { background: color-mix(in oklch, var(--surface) 80%, transparent); }
-
 /* Buttons */
 .btn-gold { display: inline-flex; align-items: center; gap: 0.5em; min-height: 52px; padding: 0 1.6rem; border-radius: 14px; font-weight: 600; text-decoration: none;
   background: linear-gradient(180deg, oklch(85% 0.12 80), oklch(76% 0.14 72)); color: var(--accent-ink); box-shadow: 0 8px 30px oklch(70% 0.14 72 / 0.28), inset 0 1px 0 oklch(95% 0.06 85 / 0.6);
@@ -633,3 +612,40 @@ body { background: radial-gradient(120% 60% at 50% 0%, oklch(16% 0.014 270), var
   .stage__bg::after { background: linear-gradient(180deg, color-mix(in oklch, var(--surface) 30%, transparent) 0%, color-mix(in oklch, var(--surface) 82%, transparent) 38%, var(--surface) 70%); }
   .stage__kicker::before { display: none; }
 }
+
+/* ============================================================ round 12: round-11 structure, round-10 styling */
+/* Quiet actions */
+.btn-gold, .btn-gold--sm { display: inline-flex; align-items: center; gap: 0.45em; min-height: 44px; padding: 0 1rem; border-radius: 4px; border: 1px solid var(--line-strong);
+  background: transparent; color: var(--ink); font-weight: 500; font-size: var(--t-body); box-shadow: none; text-decoration: none; transition: border-color var(--dur-quick), color var(--dur-quick); }
+.btn-gold:hover, .btn-gold--sm:hover { color: var(--ink); border-color: var(--accent); transform: none; box-shadow: none; }
+.pcard .btn-gold, .btn-gold--sm { border: 0; padding: 0; min-height: 40px; text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 0.25em; }
+.pcard .btn-gold:hover { color: var(--accent); text-decoration-color: currentColor; }
+.btn-ghost { min-height: 40px; padding: 0; border: 0; background: none; border-radius: 0; text-decoration: underline; text-decoration-color: var(--line-strong); text-underline-offset: 0.22em; }
+.btn-ghost:hover { color: var(--accent); }
+.actions { padding: 0; border: 0; background: none; backdrop-filter: none; border-radius: 0; gap: 10px 22px; }
+.actions__mail { padding: 0; }
+.actions__mail .email__addr { font-weight: 500; }
+
+/* Hero, toned down */
+.stage__kicker { color: var(--ink-subtle); font-weight: 400; letter-spacing: 0; text-transform: none; font-size: var(--t-small); }
+.stage__kicker::before { display: none; }
+.stage__title { text-shadow: none; }
+.stage__role { font-style: normal; font-family: var(--font-sans); font-size: var(--t-lead); font-weight: 500; color: var(--ink); }
+.stage__bg::after { background: linear-gradient(90deg, var(--surface) 0%, color-mix(in oklch, var(--surface) 90%, transparent) 40%, color-mix(in oklch, var(--surface) 45%, transparent) 72%, color-mix(in oklch, var(--surface) 60%, transparent) 100%),
+                                linear-gradient(180deg, transparent 55%, var(--surface) 100%); }
+@media (max-width: 999px) { .stage__bg::after { background: linear-gradient(180deg, color-mix(in oklch, var(--surface) 35%, transparent) 0%, color-mix(in oklch, var(--surface) 85%, transparent) 38%, var(--surface) 70%); } }
+.stats dt { font-size: var(--t-small); font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--ink-subtle); }
+.stats div + div { border-left-color: var(--line); }
+.print { box-shadow: 0 10px 30px oklch(8% 0.04 266 / 0.55); }
+.print:hover, .print.is-lifted { box-shadow: 0 18px 44px oklch(8% 0.04 266 / 0.65); }
+.print.is-lifted { box-shadow: 0 18px 44px oklch(8% 0.04 266 / 0.65), 0 0 0 1px var(--accent); }
+
+/* Cards: small radii, hairlines */
+.cover__link { border-radius: 4px; box-shadow: none; border: 1px solid var(--line); }
+.cover__link::after { background: linear-gradient(180deg, transparent 50%, color-mix(in oklch, var(--surface) 94%, transparent) 86%); }
+.cover__link:hover { transform: none; box-shadow: none; border-color: var(--line-strong); }
+.cover__meta, .pcard__meta, .ph-hero .ph-meta { font-size: var(--t-small); font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--ink-subtle); }
+.pcard__media, .ph-hero { border-radius: 4px; box-shadow: none; border: 1px solid var(--line); }
+.pcard__facts li::marker { color: var(--ink-subtle); }
+.ph-hero__bg::after { background: linear-gradient(0deg, color-mix(in oklch, var(--surface) 96%, transparent) 0%, color-mix(in oklch, var(--surface) 65%, transparent) 38%, transparent 70%); }
+.shotgrid img, .hero-shot img { border-radius: 4px; }
