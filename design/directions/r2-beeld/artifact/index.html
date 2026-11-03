@@ -1,0 +1,164 @@
+<title>Guus Ekkelenkamp, tech lead infrastructure</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Tech lead infrastructure at Harborn in Rotterdam: Kubernetes, GitOps and infrastructure as code on AWS and Azure.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Schibsted+Grotesk:ital,wght@0,400..700;1,400..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="site">
+<header class="site-header">
+  <div class="wrap">
+    <a class="site-header__name" href="index.html">Guus Ekkelenkamp</a>
+    <nav class="nav" aria-label="Main">
+      <ul>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+  <section class="intro" aria-labelledby="name">
+    <div>
+      <h1 class="intro__name" id="name">Guus Ekkelenkamp</h1>
+      <p class="intro__role">Tech lead infrastructure · Harborn · Rotterdam</p>
+      <p class="intro__text">I build and run the platforms our client projects run on: Kubernetes, GitOps and infrastructure as code on AWS and Azure. Ten years at the same agency, from front-end intern to leading the infra team, and I still write code most days.</p>
+      <ul class="contact-row">
+        <li class="email"><span class="email__addr" id="mail-top">ekkelenkampguus@gmail.com</span><button type="button" class="copy" data-copy-target="mail-top" aria-describedby="copy-status-top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="1"/><path d="M16 8V4H4v12h4"/></svg><span class="copy__label">Copy</span></button><span class="visually-hidden" id="copy-status-top" role="status" aria-live="polite"></span></li>
+        <li><a href="https://www.linkedin.com/in/guus-ekkelenkamp/" target="_blank" rel="noopener">LinkedIn</a></li>
+        <li><a href="https://github.com/guuse" target="_blank" rel="noopener">GitHub</a></li>
+      </ul>
+    </div>
+    <figure class="intro__photo">
+      <img src="assets/photos/portrait.webp" width="800" height="800" alt="Guus Ekkelenkamp" fetchpriority="high" decoding="async">
+    </figure>
+  </section>
+
+  <section class="sec" id="experience" aria-labelledby="experience-title">
+    <h2 class="sec__h" id="experience-title">Experience</h2>
+    <div class="sec__body">
+      <div class="org"><h3 class="org__name">Harborn</h3><p class="org__where">Digital agency, Rotterdam and Amsterdam</p></div>
+      <ol class="phases">
+        <li class="phase">
+          <h4 class="phase__title">Tech lead, infrastructure <span class="phase__now">current role</span></h4>
+          <ul>
+            <li>Designed and built the hosting platform our client projects run on: 8 Kubernetes clusters in the Netherlands, elsewhere in Europe and Japan, the largest above 1,500 pods. <a href="platform.html">Hosting platform case study</a></li>
+            <li>Moved infrastructure delivery to Pulumi, with policy checks, review and drift gates, so only the pipeline changes production. <a href="platform.html#infra">How the pipeline works</a></li>
+            <li>Lead the infra team: priorities, reviews, mentoring, and training programmes with clients.</li>
+            <li>Part of our ISO 27001 work: policies, controls and audits.</li>
+          </ul>
+        </li>
+        <li class="phase">
+          <h4 class="phase__title">Infrastructure engineer</h4>
+          <p>Cloud foundations and serverless architecture on AWS, all as code. Over time more architecture work, while still building the tools and automation that make developers&rsquo; lives easier.</p>
+        </li>
+        <li class="phase">
+          <h4 class="phase__title">Back-end and serverless developer</h4>
+          <p>Back-end services and serverless applications, with infrastructure as code from day one.</p>
+        </li>
+        <li class="phase">
+          <h4 class="phase__title">Front-end developer</h4>
+          <p>Started as an intern, then joined as a junior developer.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="sec" id="skills" aria-labelledby="skills-title">
+    <h2 class="sec__h" id="skills-title">Skills</h2>
+    <div class="sec__body">
+      <dl class="deflist">
+        <div><dt>Kubernetes and GitOps</dt><dd>EKS, AKS, k3s, Argo CD, Helm, Kustomize, custom operators in Python</dd></div>
+        <div><dt>Infrastructure as code</dt><dd>Pulumi (Python), Terraform</dd></div>
+        <div><dt>Cloud</dt><dd>AWS (EKS, IAM, VPC, RDS and Aurora), Azure (AKS, Entra ID)</dd></div>
+        <div><dt>Delivery and observability</dt><dd>GitHub Actions, Prometheus, Grafana, Loki</dd></div>
+        <div><dt>Security</dt><dd>ISO 27001, least-privilege IAM, OIDC, policy as code</dd></div>
+        <div><dt>Code</dt><dd>Python, TypeScript, Java</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="sec" id="projects" aria-labelledby="projects-title">
+    <h2 class="sec__h" id="projects-title">Selected work</h2>
+    <div class="sec__body">
+      <ul class="work">
+        <li class="work__row">
+          <a class="work__thumb" href="platform.html" tabindex="-1" aria-hidden="true"><!-- thumb:delivery --><div class="dg dg--static" aria-hidden="true"><svg class="dg__svg dg__svg--full dg-still" viewBox="10 92 740 290" preserveAspectRatio="xMinYMin slice" aria-hidden="true"><g class="dg-root"><rect class="dg-rail" x="20" y="20" width="720" height="48" rx="12"></rect><g class="dg-g" transform="translate(34 34)" aria-hidden="true"><circle cx="6" cy="5" r="2"></circle><circle cx="6" cy="15" r="2"></circle><circle cx="14" cy="8" r="2"></circle><path d="M6 7v6M14 10c0 3-4 3-8 3"></path></g><text class="dg-l" x="62" y="49">Git</text><text class="dg-m" x="104" y="49">source of truth</text><g class="dg-n dg-mark is-lit" data-n="commit"><circle cx="300" cy="44" r="6"></circle><text class="dg-m dg-m--ink" x="312" y="49">code commit</text></g><g class="dg-n dg-mark is-lit" data-n="tagged"><circle cx="500" cy="44" r="6"></circle><text class="dg-m dg-m--ink" x="512" y="49">new image version</text></g><g class="dg-e is-done" data-e="c2ci"><path class="dg-e__base" d="M300 68 V90 H100 V112"></path><path class="dg-e__hot" pathLength="100" d="M300 68 V90 H100 V112"></path></g><g class="dg-e is-done" data-e="ci2reg"><path class="dg-e__base" d="M180 146 H206"></path><path class="dg-e__hot" pathLength="100" d="M180 146 H206"></path></g><g class="dg-e is-done" data-e="reg2iu"><path class="dg-e__base" d="M356 146 H382"></path><path class="dg-e__hot" pathLength="100" d="M356 146 H382"></path></g><g class="dg-e is-done" data-e="iu2git"><path class="dg-e__base" d="M467 112 V90 H500 V68"></path><path class="dg-e__hot" pathLength="100" d="M467 112 V90 H500 V68"></path></g><g class="dg-e is-done" data-e="git2argo"><path class="dg-e__base" d="M659 68 V112"></path><path class="dg-e__hot" pathLength="100" d="M659 68 V112"></path></g><g class="dg-n is-lit" data-n="ci"><rect class="dg-card" x="20" y="112" width="160" height="68" rx="12"></rect><rect class="dg-sheen" x="21" y="113" width="158" height="22" rx="11"></rect><g class="dg-g" transform="translate(36 136)" aria-hidden="true"><path d="M3 6.5 10 3l7 3.5v7L10 17l-7-3.5z"></path><path d="M3 6.5 10 10l7-3.5M10 10v7"></path></g><text class="dg-l" x="68" y="143">CI</text><text class="dg-s" data-s="" x="68" y="162">release 2.4.0 cut</text></g><g class="dg-n is-lit" data-n="reg"><rect class="dg-card" x="206" y="112" width="150" height="68" rx="12"></rect><rect class="dg-sheen" x="207" y="113" width="148" height="22" rx="11"></rect><g class="dg-g" transform="translate(222 136)" aria-hidden="true"><path d="M3 3h7l7 7-7 7-7-7z"></path><circle cx="7" cy="7" r="1.3"></circle></g><text class="dg-l" x="254" y="143">Registry</text><text class="dg-s" data-s="" x="254" y="162">2.4.0 pushed</text></g><g class="dg-n is-lit" data-n="iu"><rect class="dg-card" x="382" y="112" width="170" height="68" rx="12"></rect><rect class="dg-sheen" x="383" y="113" width="168" height="22" rx="11"></rect><g class="dg-g" transform="translate(398 136)" aria-hidden="true"><path d="M2 10c4-6 12-6 16 0-4 6-12 6-16 0z"></path><circle cx="10" cy="10" r="2.5"></circle></g><text class="dg-l" x="430" y="143">Image Updater</text><text class="dg-s" data-s="" x="430" y="162">committed to git</text></g><g class="dg-n is-lit" data-n="argo"><rect class="dg-card" x="578" y="112" width="162" height="68" rx="12"></rect><rect class="dg-sheen" x="579" y="113" width="160" height="22" rx="11"></rect><g class="dg-g" transform="translate(594 136)" aria-hidden="true"><path d="M16 7a7 7 0 0 0-12 1M4 13a7 7 0 0 0 12-1M16 3v4h-4M4 17v-4h4"></path></g><text class="dg-l" x="626" y="143">Argo CD</text><text class="dg-s" data-s="" x="626" y="162">in sync</text></g><g class="dg-e is-done" data-e="argo2acc"><path class="dg-e__base" d="M620 180 V204 H185 V226"></path><path class="dg-e__hot" pathLength="100" d="M620 180 V204 H185 V226"></path></g><g class="dg-e is-done" data-e="argo2prod"><path class="dg-e__base" d="M700 180 V226"></path><path class="dg-e__hot" pathLength="100" d="M700 180 V226"></path></g><g class="dg-n dg-env is-lit" data-n="acc"><rect class="dg-card" x="20" y="226" width="345" height="132" rx="14"></rect><rect class="dg-sheen" x="21" y="227" width="343" height="22" rx="13"></rect><text class="dg-l" x="38" y="256">Acceptance</text><text class="dg-s" x="38" y="276">follows release candidates</text><g class="dg-pods" data-pods="acc"><g class="dg-pod is-on" transform="translate(38 314)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"></path></g><g class="dg-pod is-on" transform="translate(70 314)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"></path></g><g class="dg-pod is-on" transform="translate(102 314)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"></path></g><g class="dg-pod is-on" transform="translate(134 314)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"></path></g><g class="dg-pod is-on" transform="translate(166 314)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"></path></g></g><text class="dg-v" data-s="" x="349" y="334" text-anchor="end">v2.4.0-rc.1</text></g><g class="dg-n dg-env is-lit" data-n="prod"><rect class="dg-card" x="395" y="226" width="345" height="132" rx="14"></rect><rect class="dg-sheen" x="396" y="227" width="343" height="22" rx="13"></rect><text class="dg-l" x="413" y="256">Production</text><text class="dg-s" x="413" y="276">follows stable releases</text><g class="dg-pods" data-pods="prod"><g class="dg-pod is-on" transform="translate(413 314)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"></path></g><g class="dg-pod is-on" transform="translate(445 314)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"></path></g><g class="dg-pod is-on" transform="translate(477 314)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"></path></g><g class="dg-pod is-on" transform="translate(509 314)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"></path></g><g class="dg-pod is-on" transform="translate(541 314)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"></path></g></g><text class="dg-v" data-s="" x="724" y="334" text-anchor="end">v2.4.0</text></g></g></svg></div><!-- /thumb --></a>
+          <div>
+            <h3 class="work__title"><a href="platform.html">Hosting platform</a></h3>
+            <p class="work__type">Work · 2022 to now</p>
+            <p class="work__line">The platform our client projects run on: eight clusters on AWS and Azure, with one way of building, deploying and monitoring every app.</p>
+            <a class="work__link" href="platform.html">Read the case study<span class="visually-hidden">: hosting platform</span></a>
+          </div>
+        </li>
+        <li class="work__row">
+          <a class="work__thumb" href="homelab.html" tabindex="-1" aria-hidden="true"><!-- thumb:push --><div class="dg dg--static" aria-hidden="true"><svg class="dg__svg dg__svg--full dg-still" viewBox="10 10 740 360" preserveAspectRatio="xMinYMin slice" aria-hidden="true"><g class="dg-root"><g class="dg-grp"><rect x="16" y="16" width="300" height="344" rx="16"></rect><g class="dg-g dg-g--grp" transform="translate(30 28)" aria-hidden="true"><path d="M10 2.5a7.5 7.5 0 0 0-2.4 14.6c.4 0 .5-.2.5-.4v-1.4c-2.1.5-2.5-1-2.5-1-.4-.9-.9-1.1-.9-1.1-.7-.5 0-.5 0-.5.8.1 1.2.8 1.2.8.7 1.2 1.8.8 2.2.6 0-.5.3-.8.5-1-1.7-.2-3.4-.8-3.4-3.7 0-.8.3-1.5.8-2-.1-.2-.3-1 .1-2 0 0 .6-.2 2 .8a7 7 0 0 1 3.8 0c1.4-1 2-.8 2-.8.4 1 .2 1.8.1 2 .5.5.8 1.2.8 2 0 2.9-1.8 3.5-3.4 3.7.3.2.5.7.5 1.4v2.1c0 .2.1.4.5.4A7.5 7.5 0 0 0 10 2.5z"></path></g><text class="dg-gl" x="58" y="43">GitHub</text></g><g class="dg-n is-lit" data-n="push"><rect class="dg-card" x="40" y="64" width="252" height="66" rx="12"></rect><rect class="dg-sheen" x="41" y="65" width="250" height="22" rx="11"></rect><g class="dg-g" transform="translate(56 87)" aria-hidden="true"><circle cx="6" cy="5" r="2"></circle><circle cx="6" cy="15" r="2"></circle><circle cx="14" cy="8" r="2"></circle><path d="M6 7v6M14 10c0 3-4 3-8 3"></path></g><text class="dg-l" x="88" y="94">git push</text><text class="dg-s" data-s="" x="88" y="113">commit a1c9e2f</text></g><g class="dg-n is-lit" data-n="actions"><rect class="dg-card" x="40" y="166" width="252" height="66" rx="12"></rect><rect class="dg-sheen" x="41" y="167" width="250" height="22" rx="11"></rect><g class="dg-g" transform="translate(56 189)" aria-hidden="true"><path d="M3 6.5 10 3l7 3.5v7L10 17l-7-3.5z"></path><path d="M3 6.5 10 10l7-3.5M10 10v7"></path></g><text class="dg-l" x="88" y="196">GitHub Actions</text><text class="dg-s" data-s="" x="88" y="215">tests pass, image built</text></g><g class="dg-n is-lit" data-n="ghcr"><rect class="dg-card" x="40" y="268" width="252" height="66" rx="12"></rect><rect class="dg-sheen" x="41" y="269" width="250" height="22" rx="11"></rect><g class="dg-g" transform="translate(56 291)" aria-hidden="true"><path d="M3 3h7l7 7-7 7-7-7z"></path><circle cx="7" cy="7" r="1.3"></circle></g><text class="dg-l" x="88" y="298">GHCR</text><text class="dg-s" data-s="" x="88" y="317">image a1c9e2f</text></g><g class="dg-e is-done" data-e="p2a"><path class="dg-e__base" d="M166 130 V166"></path><path class="dg-e__hot" pathLength="100" d="M166 130 V166"></path></g><g class="dg-e is-done" data-e="a2g"><path class="dg-e__base" d="M166 232 V268"></path><path class="dg-e__hot" pathLength="100" d="M166 232 V268"></path></g><g class="dg-grp dg-grp--host"><rect x="350" y="16" width="394" height="344" rx="16"></rect><g class="dg-g dg-g--grp" transform="translate(364 28)" aria-hidden="true"><rect x="4" y="5" width="12" height="8" rx="1"></rect><path d="M2 15.5h16"></path></g><text class="dg-gl" x="392" y="43">the laptop under the TV</text></g><g class="dg-badge"><rect x="594" y="30" width="136" height="26" rx="13"></rect><g class="dg-g dg-g--sm" transform="translate(602 33)" aria-hidden="true"><rect x="2" y="6" width="14" height="8" rx="1.5"></rect><path d="M17.5 9v2"></path><path d="M5 9h6v2H5z"></path></g><text x="628" y="48">battery = UPS</text></g><g class="dg-n is-lit" data-n="iu"><rect class="dg-card" x="374" y="76" width="220" height="66" rx="12"></rect><rect class="dg-sheen" x="375" y="77" width="218" height="22" rx="11"></rect><g class="dg-g" transform="translate(390 99)" aria-hidden="true"><path d="M2 10c4-6 12-6 16 0-4 6-12 6-16 0z"></path><circle cx="10" cy="10" r="2.5"></circle></g><text class="dg-l" x="422" y="106">Image Updater</text><text class="dg-s" data-s="" x="422" y="125">committed to git</text></g><g class="dg-n is-lit" data-n="argo"><rect class="dg-card" x="374" y="176" width="220" height="66" rx="12"></rect><rect class="dg-sheen" x="375" y="177" width="218" height="22" rx="11"></rect><g class="dg-g" transform="translate(390 199)" aria-hidden="true"><path d="M16 7a7 7 0 0 0-12 1M4 13a7 7 0 0 0 12-1M16 3v4h-4M4 17v-4h4"></path></g><text class="dg-l" x="422" y="206">Argo CD</text><text class="dg-s" data-s="" x="422" y="225">in sync</text></g><g class="dg-e is-done" data-e="g2iu"><path class="dg-e__base" d="M292 301 H330 V109 H374"></path><path class="dg-e__hot" pathLength="100" d="M292 301 H330 V109 H374"></path></g><g class="dg-e is-done" data-e="iu2argo"><path class="dg-e__base" d="M484 142 V176"></path><path class="dg-e__hot" pathLength="100" d="M484 142 V176"></path></g><g class="dg-e is-done" data-e="argo2pods"><path class="dg-e__base" d="M594 209 H640 V262"></path><path class="dg-e__hot" pathLength="100" d="M594 209 H640 V262"></path></g><g class="dg-n dg-env dg-env--slim is-lit" data-n="run"><rect class="dg-card" x="374" y="262" width="346" height="80" rx="14"></rect><text class="dg-l" x="392" y="288">pods</text><text class="dg-v" data-s="" x="702" y="288" text-anchor="end">a1c9e2f</text><g class="dg-pods" data-pods="run"><g class="dg-pod is-on" transform="translate(392 302)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"></path></g><g class="dg-pod is-on" transform="translate(424 302)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"></path></g><g class="dg-pod is-on" transform="translate(456 302)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"></path></g><g class="dg-pod is-on" transform="translate(488 302)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"></path></g><g class="dg-pod is-on" transform="translate(520 302)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"></path></g><g class="dg-pod is-on" transform="translate(552 302)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"></path></g></g></g></g></svg></div><!-- /thumb --></a>
+          <div>
+            <h3 class="work__title"><a href="homelab.html">Homelab</a></h3>
+            <p class="work__type">Personal · 2026</p>
+            <p class="work__line">The same patterns on one old laptop under the TV: k3s, Argo CD and Home Assistant, with no open ports.</p>
+            <a class="work__link" href="homelab.html">Read the case study<span class="visually-hidden">: homelab</span></a>
+          </div>
+        </li>
+        <li class="work__row">
+          <a class="work__thumb" href="mtg.html" tabindex="-1" aria-hidden="true"><img src="assets/shots/r99-home.webp" width="1440" height="900" alt="" loading="lazy" decoding="async"></a>
+          <div>
+            <h3 class="work__title"><a href="mtg.html">MTG suite</a></h3>
+            <p class="work__type">Personal · 2026</p>
+            <p class="work__line">Four tools for Magic: The Gathering, running on the homelab. One of them lets four friends play Commander in the browser.</p>
+            <a class="work__link" href="mtg.html">Read the case study<span class="visually-hidden">: MTG suite</span></a>
+          </div>
+        </li>
+      </ul>
+
+      <div class="also">
+        <h3 class="also__h">Also</h3>
+        <ul class="also__list">
+          <li class="also__row"><span class="also__title" lang="nl">Uren-assistent</span><span class="also__line">A desktop app that turns a day&rsquo;s activity into booked hours.</span><a class="also__link" href="https://github.com/guuse/uren-assistent" target="_blank" rel="noopener">GitHub<span class="visually-hidden">: Uren-assistent</span></a></li>
+          <li class="also__row"><span class="also__title">ux-testing skill</span><span class="also__line">A Claude Code skill that tests a web app&rsquo;s flows in a real browser and fixes what breaks.</span><a class="also__link" href="https://github.com/guuse/claude-marketplace" target="_blank" rel="noopener">GitHub<span class="visually-hidden">: ux-testing skill</span></a></li>
+          <li class="also__row"><span class="also__title">Scouting agents</span><span class="also__line">Claude routines that watch Marktplaats, Vinted and Funda and email me a digest.</span><span class="also__private">Private repository</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="about" aria-labelledby="about-title">
+    <h2 class="sec__h" id="about-title">About</h2>
+    <div class="sec__body">
+      <p class="about__text">I live in Rotterdam. Outside work I&rsquo;m usually bouldering, travelling somewhere warm, or playing Commander with friends.</p>
+      <div class="about__photos">
+        <figure><img src="assets/photos/bouldering.webp" width="900" height="1512" alt="Guus bouldering on a sandstone block outdoors" loading="lazy" decoding="async"></figure>
+        <figure><img src="assets/photos/sunset.webp" width="1000" height="1328" alt="Guus at a railing at sunset over the water" loading="lazy" decoding="async"></figure>
+      </div>
+      <dl class="deflist deflist--short">
+        <div><dt>Languages</dt><dd>Dutch (native), English (fluent)</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="sec" id="contact" aria-labelledby="contact-title">
+    <h2 class="sec__h" id="contact-title">Contact</h2>
+    <div class="sec__body">
+      <p class="contact__mail" id="mail-address">ekkelenkampguus@gmail.com</p>
+      <p><button type="button" class="copy" data-copy-target="mail-address" aria-describedby="copy-status"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="1"/><path d="M16 8V4H4v12h4"/></svg><span class="copy__label">Copy address</span></button><span class="visually-hidden" id="copy-status" role="status" aria-live="polite"></span></p>
+      <p class="contact__line">Want to work together, or talk about Kubernetes? Send me an email.</p>
+      <ul class="contact__links">
+        <li><a href="https://www.linkedin.com/in/guus-ekkelenkamp/" target="_blank" rel="noopener">LinkedIn</a></li>
+        <li><a href="https://github.com/guuse" target="_blank" rel="noopener">GitHub</a></li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>&copy; 2026 Guus Ekkelenkamp</p>
+    <ul><li><a href="https://www.linkedin.com/in/guus-ekkelenkamp/" target="_blank" rel="noopener">LinkedIn</a></li><li><a href="https://github.com/guuse" target="_blank" rel="noopener">GitHub</a></li></ul>
+  </div>
+</footer>
+</div>
+<script src="site.js"></script>

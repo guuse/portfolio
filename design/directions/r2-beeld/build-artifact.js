@@ -1,69 +1,80 @@
 #!/usr/bin/env node
 /*
- * Builds artifact.html: one self-contained file (nacht + nuchter, no review bar) from
- * index.html, ../../system/base.css, beeld.css, projects.js and site.js.
- * The publisher wraps it in a document, so there is no doctype/html/head/body here.
+ * r2-beeld · round 8 build.
  *   node design/directions/r2-beeld/build-artifact.js
+ *
+ * 1. Bakes the diagrams into the project pages (between <!-- dg:id --> markers), so they
+ *    read without JS; diagrams.js animates them in the browser.
+ * 2. Bakes static thumbnails for Selected work on the CV (<!-- thumb:id --> markers): each is
+ *    one diagram rendered once in its final state (via Playwright), cropped, not animated.
+ * 3. Writes the publishable set to ./artifact/:
+ *      index.html     the CV, as a fragment (no doctype/html/head/body; starts with <title>)
+ *      platform.html, homelab.html, mtg.html   complete documents
+ *      site.css, site.js, diagrams.js          shared, referenced by relative paths
+ *      assets/...                              the images
  */
 "use strict";
 const fs = require("fs");
 const path = require("path");
 const dir = __dirname;
+const out = path.join(dir, "artifact");
 const read = (f) => fs.readFileSync(path.join(dir, f), "utf8");
+const write = (f, s) => fs.writeFileSync(path.join(dir, f), s);
+const D = require(path.join(dir, "diagrams.js"));
 
-// 1. Server-render the default featured state (Homelab) into index.html, same as the repo bake.
-const P = require(path.join(dir, "projects.js"));
-let html = read("index.html");
-const out = P.render();
-for (const k of ["features", "also"]) {
-  html = html.replace(new RegExp("<!-- " + k + ":start -->[\\s\\S]*?<!-- " + k + ":end -->"), "<!-- " + k + ":start -->" + out[k] + "<!-- " + k + ":end -->");
-}
-fs.writeFileSync(path.join(dir, "index.html"), html);
-// ...and the Homelab case study into project.html (the page template).
-let proj = read("project.html");
-proj = proj.replace(/<!-- case:start -->[\s\S]*?<!-- case:end -->/, "<!-- case:start -->" + P.caseHTML(P.byId("platform")) + "<!-- case:end -->");
-fs.writeFileSync(path.join(dir, "project.html"), proj);
+const PAGES = ["platform.html", "homelab.html", "mtg.html"];
+const BAKE = PAGES.concat(["system.html"]);
+// Thumbnail crops (in the full drawing's viewBox): the most telling part of each diagram.
+const THUMBS = { delivery: "10 92 740 290", push: "10 10 740 360" };
 
-// 2. Take the page markup (skip link → detail shell), drop repo-only bits and comments.
-const start = html.indexOf('<a class="skip-link"');
-const end = html.indexOf("<script", start);
-let markup = html.slice(start, end)
-  .replace(/<!--(?!\s*\[CONFIRM)[\s\S]*?-->/g, "")
-  .replace(/\n{3,}/g, "\n\n")
-  .replace('class="site-header__name" href="index.html"', 'class="site-header__name" href="#main"')
-  .trim();
+(async () => {
+  // 1. diagrams into the project pages
+  for (const f of BAKE) {
+    let s = read(f);
+    s = s.replace(/<!-- dg:([a-z]+) -->[\s\S]*?<!-- \/dg -->/g, (m, id) => "<!-- dg:" + id + " -->" + D.html(id) + "<!-- /dg -->");
+    write(f, s);
+  }
 
-// 3. CSS: base + direction, plus artifact-only rules.
-const css = [
-  read("../../system/base.css"),
-  read("beeld.css"),
-  `/* artifact: dark by design, nothing repo-only.
-   Unlayered on purpose: the viewer injects an unlayered reset on body (font, colour), which
-   would beat every @layer rule and leave inherited text dark on navy. */
-:root { color-scheme: dark; }
-html, body { background: var(--surface); color: var(--ink); }
-body { margin: 0; font-family: var(--font-body); font-size: var(--step-0); line-height: 1.55; font-weight: 400; letter-spacing: normal; text-align: left;
-       -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
-[data-repo-only] { display: none !important; }
-.review-bar { display: none !important; }`
-].join("\n").replace(/\/\*[\s\S]*?\*\//g, (m) => (m.length > 400 ? "" : m)).replace(/\n{2,}/g, "\n");
+  // 2. static thumbnails, rendered once in their final state
+  const { chromium } = require("playwright");
+  const browser = await chromium.launch();
+  const ctx = await browser.newContext({ reducedMotion: "reduce", viewport: { width: 1200, height: 800 } });
+  const page = await ctx.newPage();
+  await page.setContent("<!doctype html><body>" + Object.keys(THUMBS).map((id) => D.html(id, { caption: false })).join("") + "</body>");
+  await page.addScriptTag({ content: read("diagrams.js") });
+  const thumbs = await page.evaluate((crops) => {
+    BeeldDiagrams.mount(document);
+    const res = {};
+    document.querySelectorAll(".dg").forEach((f) => {
+      f.__player.play(true);
+      const svg = f.querySelector(".dg__svg--full").cloneNode(true);
+      svg.setAttribute("viewBox", crops[f.dataset.dg]);
+      svg.setAttribute("preserveAspectRatio", "xMinYMin slice");
+      svg.querySelectorAll(".dg-pk").forEach((n) => n.remove());
+      svg.classList.add("dg-still");
+      res[f.dataset.dg] = '<div class="dg dg--static" aria-hidden="true">' + svg.outerHTML + "</div>";
+    });
+    return res;
+  }, THUMBS);
+  await browser.close();
+  let cv = read("index.html");
+  cv = cv.replace(/<!-- thumb:([a-z]+) -->[\s\S]*?<!-- \/thumb -->/g, (m, id) => "<!-- thumb:" + id + " -->" + thumbs[id] + "<!-- /thumb -->");
+  write("index.html", cv);
 
-// 4. JS: project data + rotation + detail views, page enhancements.
-const js = read("diagrams.js") + "\n" + read("projects.js") + "\n" + read("site.js");
+  // 3. the publishable set
+  fs.rmSync(out, { recursive: true, force: true });
+  fs.mkdirSync(path.join(out, "assets"), { recursive: true });
+  fs.cpSync(path.join(dir, "assets"), path.join(out, "assets"), { recursive: true });
+  for (const f of ["site.css", "site.js", "diagrams.js"]) fs.copyFileSync(path.join(dir, f), path.join(out, f));
+  for (const f of PAGES) fs.copyFileSync(path.join(dir, f), path.join(out, f));
 
-const artifact = `<title>Guus Ekkelenkamp</title>
-<meta name="claude:viewport-fit-sides" content="cover">
-<meta name="description" content="Tech lead of the infra team at Harborn in Rotterdam. Security, cloud and architecture, plus a few side projects.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Schibsted+Grotesk:ital,wght@0,400..700;1,400..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-${css}
-</style>
-${markup}
-<script>
-${js}
-</script>
-`;
-fs.writeFileSync(path.join(dir, "artifact.html"), artifact);
-console.log("artifact.html", (Buffer.byteLength(artifact) / 1024).toFixed(1) + " KB");
+  // The CV as a fragment: the publisher wraps it in a document.
+  const head = cv.slice(cv.indexOf("<title>"), cv.indexOf("</head>")).replace(/<meta name="viewport"[^>]*>\n?/, "");
+  const body = cv.slice(cv.indexOf("<!-- page:start -->") + "<!-- page:start -->".length, cv.indexOf("<!-- page:end -->"));
+  const fragment = head.replace(/^(<title>[^<]*<\/title>)/, '$1\n<meta name="claude:viewport-fit-sides" content="cover">').trim() +
+    "\n" + body.trim() + '\n<script src="site.js"></script>\n';
+  fs.writeFileSync(path.join(out, "index.html"), fragment);
+
+  const size = (f) => (fs.statSync(path.join(out, f)).size / 1024).toFixed(1) + " KB";
+  console.log("artifact/", ["index.html", ...PAGES, "site.css", "site.js", "diagrams.js"].map((f) => f + " " + size(f)).join(", "));
+})().catch((e) => { console.error(e); process.exit(1); });
