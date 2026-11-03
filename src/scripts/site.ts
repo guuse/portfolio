@@ -3,6 +3,7 @@
  * module. Anything that moves is skipped when the visitor prefers reduced motion.
  */
 import { browserScheduler } from "~/lib/motion/scheduler";
+import { initSmoothAnchors } from "./anchors";
 import { initCopyEmail } from "./copy-email";
 import { initEasterEggs } from "./eggs";
 import { initLightbox } from "./lightbox";
@@ -14,6 +15,7 @@ import { initScrollEffects } from "./scroll-effects";
 const scheduler = browserScheduler();
 
 initCopyEmail();
+initSmoothAnchors();
 initPrints();
 initLightbox();
 initEasterEggs();

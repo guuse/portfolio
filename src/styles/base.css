@@ -4,8 +4,8 @@
     accent-color: var(--accent);
   }
 
+  /* no scroll-behavior here: only in-page link clicks scroll smoothly (src/scripts/anchors.ts) */
   html {
-    scroll-behavior: smooth;
     background: var(--surface);
     color: var(--ink);
   }
@@ -69,7 +69,8 @@
     font-variant-ligatures: none;
   }
 
-  :target {
+  /* anything a link can point at stops clear of the sticky header */
+  [id] {
     scroll-margin-top: calc(var(--space-header) + 24px);
   }
 
