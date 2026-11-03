@@ -29,13 +29,13 @@
 
 <main id="main" class="wrap">
   <header class="ph-head">
-    <a class="back" href="index.html#projects">&larr; Back to the CV</a>
+    <a class="back" href="index.html#projects">&larr; Back to Guus Ekkelenkamp</a>
     <h1 class="ph-title">MTG suite</h1>
     <p class="ph-line">Four tools for Magic: The Gathering, all deployed on my homelab.</p>
     <p class="ph-meta">Personal · 2026 · one tool is open source</p>
   </header>
 
-  <!-- shot:hero --><figure class="hero-shot"><img src="assets/shots/r99-home.webp" width="1440" height="900" alt="Rules of 99 home screen with the last deck played and a Play button" decoding="async"></figure><!-- /shot -->
+  <!-- shot:hero --><figure class="hero-shot"><img src="assets/shots/r99-game.webp" width="1440" height="900" alt="Rules of 99 during a four-player Commander game" decoding="async"></figure><!-- /shot -->
 
   <div class="ph-lead">
     <p>Commander is the format I play most with friends. When we can&rsquo;t meet up we play on <a href="#rules-of-99">Rules of 99</a>, I keep my decks in <a href="#tutor">Tutor</a>, look up cards with <a href="#scryfall">Scryfall, in plain words</a>, and brew with <a href="#mtg-skills">claude-mtg-skills</a>.</p>
@@ -44,7 +44,7 @@
   <section class="sec" id="rules-of-99" aria-labelledby="r99-h">
     <h2 class="sec__h" id="r99-h">Rules of 99</h2>
     <div class="sec__body">
-      <!-- shots:r99 --><ul class="shotgrid" data-lb-group><li><figure><button type="button" data-lb aria-label="Enlarge: Table setup: two to four seats, each with its commander."><img src="assets/shots/r99-table-setup.webp" width="1440" height="900" alt="Rules of 99 table setup with four seats, each with a commander" loading="lazy" decoding="async"></button><figcaption>Table setup: two to four seats, each with its commander.</figcaption></figure></li><li><figure><button type="button" data-lb aria-label="Enlarge: Replays of finished games."><img src="assets/shots/r99-replay.webp" width="1440" height="900" alt="Rules of 99 replay of a finished four-player game" loading="lazy" decoding="async"></button><figcaption>Replays of finished games.</figcaption></figure></li><li><figure><button type="button" data-lb aria-label="Enlarge: The workbench for building and tuning a deck."><img src="assets/shots/r99-workbench.webp" width="1440" height="900" alt="Rules of 99 deck workbench with the card list, a mana curve and search" loading="lazy" decoding="async"></button><figcaption>The workbench for building and tuning a deck.</figcaption></figure></li><li class="is-phone"><figure><button type="button" data-lb aria-label="Enlarge: On a phone."><img src="assets/shots/r99-home-mobile.webp" width="390" height="844" alt="Rules of 99 home screen on a phone" loading="lazy" decoding="async"></button><figcaption>On a phone.</figcaption></figure></li></ul><!-- /shots -->
+      <!-- shots:r99 --><ul class="shotgrid" data-lb-group><li><figure><button type="button" data-lb aria-label="Enlarge: Combat, with every board on screen."><img src="assets/shots/r99-game-combat.webp" width="1440" height="900" alt="Rules of 99 during combat in a Commander game" loading="lazy" decoding="async"></button><figcaption>Combat, with every board on screen.</figcaption></figure></li><li><figure><button type="button" data-lb aria-label="Enlarge: The lobby: share the room code, fill the seats."><img src="assets/shots/r99-lobby.webp" width="1440" height="900" alt="Rules of 99 lobby with open seats" loading="lazy" decoding="async"></button><figcaption>The lobby: share the room code, fill the seats.</figcaption></figure></li><li><figure><button type="button" data-lb aria-label="Enlarge: The workbench for building and tuning a deck."><img src="assets/shots/r99-workbench-new.webp" width="1440" height="900" alt="Rules of 99 deck workbench" loading="lazy" decoding="async"></button><figcaption>The workbench for building and tuning a deck.</figcaption></figure></li><li class="is-phone"><figure><button type="button" data-lb aria-label="Enlarge: On a phone, one board at a time."><img src="assets/shots/r99-game-mobile.webp" width="1170" height="2532" alt="Rules of 99 game on a phone" loading="lazy" decoding="async"></button><figcaption>On a phone, one board at a time.</figcaption></figure></li></ul><!-- /shots -->
       <div class="prose">
         <p>Commander in the browser for two to four players. The open-source Forge engine runs headless on the server and handles the full rules, including commander tax, commander damage and colour identity.</p>
         <p>A WebSocket gateway sends each player only what they&rsquo;re allowed to see, so the other players&rsquo; hands never leave the server. Rooms use a six-character code and survive a dropped connection, finished games can be replayed, and on a phone the table shows one board at a time.</p>
@@ -57,7 +57,7 @@
   <section class="sec" id="tutor" aria-labelledby="tutor-h">
     <h2 class="sec__h" id="tutor-h">Tutor</h2>
     <div class="sec__body">
-      <!-- shots:tutor --><!-- /shots -->
+      <!-- shots:tutor --><ul class="shotgrid" data-lb-group><li><figure><button type="button" data-lb aria-label="Enlarge: The library: every deck at a glance."><img src="assets/shots/tutor-library.webp" width="1440" height="900" alt="Tutor deck library with commander art for each deck" loading="lazy" decoding="async"></button><figcaption>The library: every deck at a glance.</figcaption></figure></li><li><figure><button type="button" data-lb aria-label="Enlarge: The builder, with legality and colour identity checked."><img src="assets/shots/tutor-builder.webp" width="1440" height="900" alt="Tutor deck builder listing a deck&#39;s cards by category" loading="lazy" decoding="async"></button><figcaption>The builder, with legality and colour identity checked.</figcaption></figure></li><li><figure><button type="button" data-lb aria-label="Enlarge: Analysis: mana curve, colour sources and a bracket estimate."><img src="assets/shots/tutor-analysis.webp" width="1440" height="900" alt="Tutor deck analysis with mana curve, colour sources and a bracket estimate" loading="lazy" decoding="async"></button><figcaption>Analysis: mana curve, colour sources and a bracket estimate.</figcaption></figure></li><li class="is-phone"><figure><button type="button" data-lb aria-label="Enlarge: On a phone."><img src="assets/shots/tutor-mobile.webp" width="1170" height="2532" alt="Tutor on a phone" loading="lazy" decoding="async"></button><figcaption>On a phone.</figcaption></figure></li></ul><!-- /shots -->
       <div class="prose">
         <p>A deck library and builder, with an MCP server so Claude can search the whole card pool. Card data sits in SQLite with full-text search and exact colour-identity and legality filters, and each deck shows its mana curve, colour sources, categories and an estimate of its power bracket.</p>
         <p class="stack-line">Node, SQLite with FTS5, and MCP.</p>
@@ -89,7 +89,7 @@
 
   <nav class="ph-next" aria-label="More projects">
     <a href="homelab.html"><small>Previous project</small>&larr; Homelab</a>
-    <a href="index.html"><small>Back to</small>the CV</a>
+    <a href="index.html"><small>Back to</small>Guus Ekkelenkamp</a>
   </nav>
 </main>
 
