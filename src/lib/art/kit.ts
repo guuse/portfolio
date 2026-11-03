@@ -405,7 +405,7 @@ export const crate = (x: number, y: number, w: number, h: number, key?: string):
 /** A labelled pill with a status LED (Argo CD, Image Updater). */
 export const chip = (x: number, y: number, w: number, label: string, key: string): string =>
   g(
-    { "data-k": key },
+    { "data-k": key, class: "k-origin-c" },
     rect(x, y, w, 30, "k-chip", 15) +
       circle(x + 15, y + 15, 4, "k-led") +
       text(x + 27, y + 20, label, "lb-chip"),

@@ -918,4 +918,45 @@
   .scene-svg .k-led--warn.is-open {
     fill: var(--k-cool);
   }
+
+  /*
+   * The route a change is travelling, in the homelab scene: an amber copy over the route with
+   * a dash that flows the packet's way (src/lib/motion/scenes/homelab.ts fades it in and out).
+   */
+  .scene-svg .k-route-hot {
+    fill: none;
+    stroke: var(--k-amber);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-dasharray: 5, 7;
+    pointer-events: none;
+  }
+
+  .scene-svg .k-route-hot.is-hot {
+    animation: route-flow 0.7s linear infinite;
+  }
+
+  @keyframes route-flow {
+    to {
+      stroke-dashoffset: -12;
+    }
+  }
+
+  /* a machine's label nods when the packet reaches it */
+  .scene-svg text[data-k^="lbl-"] {
+    transform-origin: 50% 50%;
+  }
+
+  .scene-svg :is(.lb, .lb-chip) {
+    transition: fill var(--duration-quick) var(--ease-out);
+  }
+
+  .scene-svg .is-ping :is(.lb, .lb-chip),
+  .scene-svg .lb.is-ping {
+    fill: var(--k-amber);
+  }
+
+  .scene-svg .is-ping .k-led {
+    fill: var(--k-amber);
+  }
 }

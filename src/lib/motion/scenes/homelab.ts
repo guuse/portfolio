@@ -1,14 +1,18 @@
 /** Motion for the homelab scene and the homelab homepage card. */
 import { CL, H } from "~/lib/art/scenes/homelab.layout";
-import { fade, hideStill, move, parts } from "../dom";
+import { fade, fadeTowards, hideStill, move, parts } from "../dom";
 import { blinker } from "../leds";
 import { clamp, ease as E, lerp, seg } from "../math";
-import { courier } from "../packets";
+import { courier, prime } from "../packets";
 import type { SceneFactory } from "../types";
 
 type Path = SVGPathElement;
 
-/** One change, git push to running. Scroll moves a single packet along its journey. */
+/**
+ * One change, git push to running. Scroll moves a single packet along its journey. The route
+ * it's on lights up in amber with a dash flowing its way, and each machine's label nods as the
+ * packet arrives, so something answers every bit of scroll.
+ */
 export const loop: SceneFactory = (svg) => {
   const K = parts(svg),
     blink = blinker(svg);
@@ -25,17 +29,41 @@ export const loop: SceneFactory = (svg) => {
       break;
     }
   }
-  // the journey: [route, start, end, packet class]; gaps are inside a machine
-  const legs: [Path, number, number, string][] = [
-    [push, 0.05, 0.16, "pk--ink"],
-    [r("ship"), 0.24, 0.31, ""],
-    [r("watch"), 0.34, 0.43, "pk--cool"],
-    [r("tag"), 0.46, 0.52, "pk--ink"],
-    [r("sync"), 0.52, 0.58, "pk--ink"],
-    [r("roll"), 0.58, 0.65, "pk--ink"],
+  // the journey: [route, start, end, packet class, where it arrives]; gaps are inside a machine
+  const legs: [Path, number, number, string, string][] = [
+    [push, 0.05, 0.16, "pk--ink", "lbl-build"],
+    [r("ship"), 0.24, 0.31, "", "lbl-reg"],
+    [r("watch"), 0.34, 0.43, "pk--cool", "upd"],
+    [r("tag"), 0.46, 0.52, "pk--ink", "lbl-repo"],
+    [r("sync"), 0.52, 0.58, "pk--ink", "argo"],
+    [r("roll"), 0.58, 0.65, "pk--ink", "lbl-lap"],
   ];
+  prime(...legs.map((l) => l[0]));
+  // an amber copy of each route, laid over it, that shows while the packet is on it
+  const hot = legs.map(([route]) => {
+    const h = route.cloneNode() as Path;
+    h.removeAttribute("data-k");
+    h.setAttribute("class", "k-route-hot");
+    h.style.opacity = "0";
+    route.after(h);
+    return h;
+  });
+  const arrivals = legs.map(([, , end, , key]) => ({ el: K[key], end }));
   return (p, dt, t) => {
     blink(dt);
+    legs.forEach(([, a0, a1], i) => {
+      // lit from just before the packet sets off until just after it arrives; the push route
+      // lights again when the tag commit's build comes back round to the gate
+      const on = (p > a0 - 0.01 && p < a1 + 0.015) || (i === 0 && p > 0.77 && p < 0.92);
+      fadeTowards(hot[i], on ? 0.95 : 0, dt, 9);
+      hot[i]!.classList.toggle("is-hot", on);
+    });
+    for (const { el, end } of arrivals) {
+      const u = seg(p, end - 0.004, end + 0.045),
+        bump = Math.sin(Math.PI * u);
+      move(el, 0, 0, 1 + 0.1 * bump);
+      el?.classList.toggle("is-ping", bump > 0.15);
+    }
     const a = seg(p, 0, 0.05);
     move(K["c-push"], 0, 0, lerp(0.3, 1, E.outBack(a, 2.4)));
     fade(K["c-push"], Math.min(1, a * 3));
@@ -78,7 +106,8 @@ export const loop: SceneFactory = (svg) => {
       );
       return;
     }
-    const leg = legs.find(([, a0, a1]) => p >= a0 && p < a1);
+    let leg: (typeof legs)[number] | undefined;
+    for (const l of legs) if (p >= l[1] && p < l[2]) leg = l;
     if (leg) put(leg[0], E.inOutCubic(seg(p, leg[1], leg[2])), leg[3]);
     else put();
   };

@@ -38,7 +38,8 @@ export function loop(o: LoopOptions = {}): string {
   for (const i of [0, 1, 2]) b += commit(R.x + 32 + i * 30, R.y + 41, 5, "k-commit-old");
   b += g({ "data-k": "c-push", class: "k-origin-c" }, commit(R.x + 122, R.y + 41, 7, "k-commit"));
   b += g({ "data-k": "c-tag", class: "k-origin-c" }, commit(R.x + 148, R.y + 41, 5.5, "k-commit-tag"));
-  if (!o.nolabels) b += text(R.x + R.w / 2, R.y - 18, "app repo", "lb", "middle");
+  // labels carry a key so motion can nod at the machine a change arrives at
+  if (!o.nolabels) b += text(R.x + R.w / 2, R.y - 18, "app repo", "lb", "middle", { "data-k": "lbl-repo" });
   // the build: a machine with a hatch
   const B = H.build;
   let vents = "";
@@ -55,9 +56,11 @@ export function loop(o: LoopOptions = {}): string {
       circle(B.x + B.w - 18, B.y + 27, 2, "k-led k-led--act", { "data-k": "buildled" }),
   );
   if (!o.nolabels)
-    b +=
+    b += g(
+      { "data-k": "lbl-build", class: "k-origin-l" },
       text(B.x + B.w + 14, B.y + 22, "GitHub", "lb lb--s") +
-      text(B.x + B.w + 14, B.y + 42, "Actions", "lb lb--s");
+        text(B.x + B.w + 14, B.y + 42, "Actions", "lb lb--s"),
+    );
   // the registry: a shelf of images
   const G = H.reg;
   b +=
@@ -65,7 +68,7 @@ export function loop(o: LoopOptions = {}): string {
     crate(G.x + 14, G.y - 30, 40, 30) +
     crate(G.x + 62, G.y - 30, 40, 30) +
     crate(G.x + 112, G.y - 30, 40, 30, "crate");
-  if (!o.nolabels) b += text(G.x + G.w / 2, G.y + 58, "GHCR", "lb", "middle");
+  if (!o.nolabels) b += text(G.x + G.w / 2, G.y + 58, "GHCR", "lb", "middle", { "data-k": "lbl-reg" });
   // the laptop with k3s on it
   const L = laptop(H.lap.cx, H.lap.by, H.lap.w);
   b += L.svg;
@@ -79,7 +82,8 @@ export function loop(o: LoopOptions = {}): string {
     g({ "data-k": "newpod", class: "k-origin-c" }, pod(podSlot(T.x, T.y, T.w, T.h, 5, 3), { fresh: true }));
   b += path(`M420 182V${n(L.screen.y - 2)}`, "k-route k-route--dash");
   b += chip(440, 70, 116, "Argo CD", "argo") + chip(296, 152, 170, "Image Updater", "upd");
-  if (!o.nolabels) b += text(H.lap.cx, H.lap.by + 40, "the laptop, k3s", "lb", "middle");
+  if (!o.nolabels)
+    b += text(H.lap.cx, H.lap.by + 40, "the laptop, k3s", "lb", "middle", { "data-k": "lbl-lap" });
   // the paths-ignore gate on repo → Actions
   b += g(
     { "data-k": "gate", opacity: o.nogate ? 0 : undefined },
