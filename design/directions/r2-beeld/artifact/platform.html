@@ -123,6 +123,11 @@
           <div><dt>Cause</dt><dd>A lifecycle rule on the bucket deletes chunks that Loki&rsquo;s index still points to.</dd></div>
           <div><dt>Fix</dt><dd>Let Loki&rsquo;s compactor own retention, and keep lifecycle rules off the log bucket.</dd></div>
         </dl></li>
+        <li><dl class="gotcha">
+          <div><dt>Symptom</dt><dd>After the move to IPv6, apps hung when connecting to a database.</dd></div>
+          <div><dt>Cause</dt><dd>The database got a dual-stack address, so apps resolved both families, but the security group only allowed IPv4.</dd></div>
+          <div><dt>Fix</dt><dd>Allow IPv6 in the security group. And since IPv6-only egress only works with DNS64 and NAT64, test everything around it too.</dd></div>
+        </dl></li>
       </ul>
       <p class="stack-line">Built with Kubernetes (EKS, AKS), Argo CD and Image Updater, Pulumi with CrossGuard, Terraform, Karpenter, GitHub Actions, Loki, Alloy, Grafana, Velero and Rancher.</p>
     </div>

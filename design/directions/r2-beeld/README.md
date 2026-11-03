@@ -427,3 +427,12 @@ Source: `design/CONTENT-v7.md` (synthesis of four reviews). §E (anti-"AI vibe")
   re-rendered on navy.
 - Outside work is four uniform items (Bouldering, Travel, Games, Tinkering), not linked to
   projects. Each lifts a print or brightens the backdrop. The hobby wording avoids naming Magic.
+
+## Round 13: About me first, more depth
+The home page order is now: hero, About me (two paragraphs in Guus's words, plus the four
+interests), Projects, Experience, What I've learned, Skills and certifications, Contact.
+- **Experience:** each phase has 2–5 bullets and a small italic "What I learned" line.
+- **What I've learned:** three principles plus the IPv6 dual-stack story. The same lesson was
+  added to `platform.html`.
+- **Skills:** reordered by strength, plus "Currently exploring" and "Knowledge sharing".
+- **Contact:** "Want to talk platforms, homelabs or games? Mail me."
