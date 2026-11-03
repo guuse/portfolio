@@ -1,0 +1,75 @@
+{
+  "name": "ekkelenkamp.dev",
+  "version": "1.0.0",
+  "private": true,
+  "description": "The personal site of Guus Ekkelenkamp: infrastructure, homelabs and the occasional card game.",
+  "license": "MIT",
+  "author": "Guus Ekkelenkamp (https://ekkelenkamp.dev)",
+  "repository": "github:guuse/portfolio",
+  "type": "module",
+  "engines": {
+    "node": ">=22.22.3 <23"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "lint": "eslint .",
+    "lint:css": "stylelint \"src/**/*.{css,astro}\"",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "astro check",
+    "test": "vitest run --passWithNoTests",
+    "test:e2e": "playwright test --project=e2e",
+    "test:a11y": "playwright test --project=a11y",
+    "check": "npm run lint && npm run lint:css && npm run format:check && npm run typecheck && npm run test",
+    "prepare": "simple-git-hooks"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,mjs,ts,astro}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.css": [
+      "stylelint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yaml,yml}": "prettier --write"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "3.7.4",
+    "@fontsource-variable/schibsted-grotesk": "5.3.0",
+    "@fontsource/geist-mono": "5.3.0",
+    "@fontsource/instrument-serif": "5.3.0",
+    "astro": "7.4.1",
+    "sharp": "0.35.5"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.11",
+    "@axe-core/playwright": "4.14.0",
+    "@eslint/js": "10.0.1",
+    "@lhci/cli": "0.15.1",
+    "@playwright/test": "1.64.1",
+    "@types/node": "22.20.5",
+    "eslint": "10.13.0",
+    "eslint-plugin-astro": "3.2.1",
+    "eslint-plugin-jsx-a11y-x": "0.2.0",
+    "globals": "17.13.0",
+    "lint-staged": "17.6.0",
+    "postcss-html": "2.0.0",
+    "prettier": "3.9.10",
+    "prettier-plugin-astro": "1.1.1",
+    "simple-git-hooks": "2.14.0",
+    "style-dictionary": "5.7.0",
+    "stylelint": "17.16.0",
+    "stylelint-config-html": "2.0.0",
+    "stylelint-config-standard": "40.0.0",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.72.0",
+    "vitest": "4.1.12",
+    "yaml": "2.9.1"
+  }
+}

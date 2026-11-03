@@ -1,0 +1,13 @@
+dist/
+.astro/
+design/
+node_modules/
+package-lock.json
+playwright-report/
+test-results/
+.lighthouseci/
+src/styles/tokens.css
+src/styles/tokens.ts
+src/assets/
+public/
+.claude/

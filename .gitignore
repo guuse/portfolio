@@ -1,2 +1,23 @@
+# dependencies and build output
+node_modules/
+dist/
+.astro/
+
+# generated from tokens/ by `npm run tokens` (see docs/adr/0002)
+src/styles/tokens.css
+src/styles/tokens.ts
+
+# test and audit output
+playwright-report/
+test-results/
+.lighthouseci/
+
+# local
+.env
+.env.*
+.DS_Store
+/.claude/worktrees/
+
+# design archive scratch files
 _wrap.html
 _review.html
