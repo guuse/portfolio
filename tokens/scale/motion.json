@@ -1,0 +1,23 @@
+{
+  "duration": {
+    "$type": "duration",
+    "quick": { "$value": "160ms", "$description": "Colour and border changes" },
+    "base": { "$value": "280ms" },
+    "slow": { "$value": "520ms", "$description": "Image zooms, scene cross-fades" },
+    "reveal": { "$value": "700ms", "$description": "Sections settling in once" }
+  },
+  "ease": {
+    "$type": "cubicBezier",
+    "out": { "$value": "cubic-bezier(0.2, 0.7, 0.2, 1)" },
+    "in-out": { "$value": "cubic-bezier(0.6, 0, 0.3, 1)" },
+    "spring": {
+      "$value": "linear(0, 0.52 9%, 0.89 18%, 1.03 27%, 1.04 33%, 1 45%, 0.99 60%, 1)",
+      "$description": "The prints springing back after a nudge"
+    }
+  },
+  "breakpoint": {
+    "$type": "dimension",
+    "$description": "Exported to TypeScript for matchMedia. CSS media queries can't read custom properties, so stylesheets repeat these numbers.",
+    "stage": { "$value": "900px", "$description": "From here, scroll scenes share one sticky stage" }
+  }
+}

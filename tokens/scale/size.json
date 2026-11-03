@@ -1,0 +1,55 @@
+{
+  "font": {
+    "$type": "fontFamily",
+    "$description": "Families are registered by Astro's Fonts API (astro.config.mjs), which also generates metric-matched fallbacks.",
+    "heading": {
+      "$value": "var(--font-serif)",
+      "$description": "Instrument Serif: headings, numbers, the email address"
+    },
+    "body": { "$value": "var(--font-sans)", "$description": "Schibsted Grotesk: everything else" },
+    "code": { "$value": "var(--font-mono)", "$description": "Geist Mono: code and real identifiers only" }
+  },
+  "text": {
+    "$type": "dimension",
+    "$description": "Fluid type scale (rem + vw clamps), 320px to 1440px.",
+    "small": { "$value": "clamp(0.9375rem, 0.92rem + 0.1vw, 1rem)" },
+    "body": { "$value": "clamp(1rem, 0.96rem + 0.19vw, 1.125rem)" },
+    "lead": { "$value": "clamp(1.15rem, 1.07rem + 0.35vw, 1.375rem)" },
+    "h3": { "$value": "clamp(1.35rem, 1.2rem + 0.6vw, 1.75rem)" },
+    "h2": { "$value": "clamp(1.9rem, 1.55rem + 1.5vw, 2.9rem)" },
+    "h1": { "$value": "clamp(2.8rem, 2rem + 3.4vw, 5rem)" },
+    "display": { "$value": "clamp(2.9rem, 1.6rem + 5vw, 6.2rem)", "$description": "The homepage headline" },
+    "case-title": { "$value": "clamp(2.6rem, 1.6rem + 4vw, 5.2rem)" },
+    "stat": { "$value": "clamp(2rem, 1.5rem + 1.6vw, 2.9rem)" },
+    "card-title": { "$value": "clamp(1.7rem, 1.3rem + 1vw, 2.3rem)" },
+    "mail": { "$value": "clamp(1.9rem, 1rem + 4.2vw, 4.5rem)" },
+    "code": { "$value": "13px" }
+  },
+  "space": {
+    "$type": "dimension",
+    "gutter": { "$value": "clamp(16px, 2.4vw, 40px)", "$description": "Column gap" },
+    "edge": {
+      "$value": "max(16px, env(safe-area-inset-left, 0px))",
+      "$description": "Left page margin, safe-area aware"
+    },
+    "edge-end": { "$value": "max(16px, env(safe-area-inset-right, 0px))" },
+    "section": {
+      "$value": "clamp(3rem, 1.5rem + 4vw, 5.5rem)",
+      "$description": "Vertical padding of a section"
+    },
+    "header": { "$value": "64px", "$description": "Height of the sticky header" }
+  },
+  "size": {
+    "$type": "dimension",
+    "wrap": { "$value": "1180px", "$description": "Max content width" },
+    "measure": { "$value": "40em", "$description": "Comfortable line length" }
+  },
+  "radius": {
+    "$type": "dimension",
+    "xs": { "$value": "3px" },
+    "s": { "$value": "4px", "$description": "Cards, images, heroes" },
+    "m": { "$value": "6px", "$description": "Lesson cards, code blocks" },
+    "phone": { "$value": "10px" },
+    "pill": { "$value": "999px" }
+  }
+}

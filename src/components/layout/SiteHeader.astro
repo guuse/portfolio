@@ -1,0 +1,86 @@
+---
+import { nav, site } from "~/lib/site";
+
+const path = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="wrap site-header__inner">
+    <a class="site-header__name" href="/">
+      {site.name}
+    </a>
+    <nav class="nav" aria-label="Main">
+      <ul role="list">
+        {nav.map((item) => (
+          <li>
+            <a href={item.href} aria-current={item.match(path) ? "page" : undefined}>
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  @layer components {
+    .site-header {
+      position: sticky;
+      top: env(safe-area-inset-top, 0);
+      z-index: 20;
+      background: color-mix(in oklch, var(--surface) 92%, transparent);
+      backdrop-filter: blur(8px);
+    }
+
+    .site-header__inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px 24px;
+      min-height: var(--space-header);
+    }
+
+    .site-header__name {
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .nav ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0 22px;
+    }
+
+    .nav a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      text-decoration: none;
+      color: var(--ink-muted);
+    }
+
+    .nav a:hover,
+    .nav a[aria-current] {
+      color: var(--ink);
+      text-decoration: underline;
+      text-decoration-color: var(--accent);
+      text-underline-offset: 0.4em;
+    }
+
+    @media (width < 600px) {
+      .site-header {
+        position: relative;
+      }
+
+      .nav ul {
+        gap: 0 16px;
+      }
+
+      .nav a {
+        font-size: var(--text-small);
+      }
+    }
+  }
+</style>

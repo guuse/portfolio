@@ -11,14 +11,15 @@
     "node": ">=22.22.3 <23"
   },
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
+    "dev": "npm run tokens && astro dev",
+    "build": "npm run tokens && astro build",
     "preview": "astro preview",
+    "tokens": "node scripts/build-tokens.mjs",
     "lint": "eslint .",
     "lint:css": "stylelint \"src/**/*.{css,astro}\"",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "typecheck": "astro check",
+    "typecheck": "npm run tokens && astro check",
     "test": "vitest run --passWithNoTests",
     "test:e2e": "playwright test --project=e2e",
     "test:a11y": "playwright test --project=a11y",

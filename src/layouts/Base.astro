@@ -1,0 +1,48 @@
+---
+import { Font } from "astro:assets";
+import "~/styles/global.css";
+import SkipLink from "~/components/layout/SkipLink.astro";
+import SiteHeader from "~/components/layout/SiteHeader.astro";
+import SiteFooter from "~/components/layout/SiteFooter.astro";
+import { site } from "~/lib/site";
+
+export interface Props {
+  /** The full document title. */
+  title: string;
+  description: string;
+  /** Classes for <main> (case studies and the projects page wrap their content). */
+  mainClass?: string | undefined;
+}
+
+const { title, description, mainClass } = Astro.props;
+const canonical = new URL(Astro.url.pathname, site.url).href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content={site.themeColor} />
+    <meta name="color-scheme" content="dark" />
+    <Font cssVariable="--font-serif" preload={[{ subset: "latin" }]} />
+    <Font cssVariable="--font-sans" preload={[{ subset: "latin" }]} />
+    <Font cssVariable="--font-sans-italic" />
+    <Font cssVariable="--font-mono" />
+    <slot name="head" />
+  </head>
+  <body>
+    <SkipLink />
+    <div class="site">
+      <SiteHeader />
+      <main id="main" class={mainClass}>
+        <slot />
+      </main>
+      <SiteFooter />
+    </div>
+    <slot name="after-site" />
+  </body>
+</html>
