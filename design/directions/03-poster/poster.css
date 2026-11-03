@@ -30,6 +30,7 @@
     --c-field-c: var(--pop);      --c-field-c-ink: var(--pop-ink);
     --c-hatch: var(--line-strong);
     --c-num: var(--accent);
+    --c-feature-2: var(--accent-ink-2);
     --c-chip-bg: var(--surface);
     --c-chip-dot: var(--accent);
     --c-bar-bg: var(--surface-inverse);
@@ -285,7 +286,7 @@
   }
 
   /* ===== Work feature (day job, co-lead with the homelab) ===== */
-  .work-feature { --c-field-b: var(--accent-on-inverse); }
+  .work-feature { --c-feature-2: var(--accent-on-inverse); }
   .work__t1 { --fit: 4.19; font-stretch: var(--w-ultra-c); font-weight: 900; }
   .work__t2 { --fit: 12.5; font-stretch: var(--w-ultra-e); font-weight: 800; margin-block: .1em .06em; color: var(--accent-on-inverse); }
   .work__t3 { --fit: 7.22; font-stretch: var(--w-norm); font-weight: 900; }
@@ -336,14 +337,14 @@
   .feature__kicker { text-align: end; max-width: 30ch; }
   .feature__title { grid-column: 1 / -1; font-weight: 900; text-transform: none; }
   .feature__t1 { --fit: 4.18; font-stretch: var(--w-ultra-c); font-weight: 900; }
-  .feature__t2 { --fit: 14.05; font-stretch: var(--w-ultra-e); font-weight: 800; margin-block-start: .08em; color: var(--c-field-b); }
+  .feature__t2 { --fit: 14.05; font-stretch: var(--w-ultra-e); font-weight: 800; margin-block-start: .08em; color: var(--c-feature-2); }
   .feature__intro { grid-column: 1 / -1; font-size: var(--step-1); line-height: 1.45; max-width: 40ch; }
   .feature__intro::first-letter {
     float: left; font-family: var(--font-display); font-weight: 900; font-stretch: var(--w-norm);
-    font-size: 3.9em; line-height: .78; margin: .04em .08em -.05em 0; color: var(--c-field-b);
+    font-size: 3.9em; line-height: .78; margin: .04em .08em -.05em 0; color: var(--c-feature-2);
   }
   .feature__photo { grid-column: 1 / -1; }
-  .laptop { grid-column: 1 / -1; width: min(100%, 520px); height: auto; color: var(--c-field-b); }
+  .laptop { grid-column: 1 / -1; width: min(100%, 520px); height: auto; color: var(--c-feature-2); }
   @media (min-width: 960px) {
     .feature__intro { grid-column: 1 / span 6; }
     .feature__photo { grid-column: 8 / -1; grid-row: span 2; margin-block-start: var(--space-s); margin-inline-end: calc(-1 * var(--bleed)); }

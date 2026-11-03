@@ -76,6 +76,7 @@
     --pop-ink: var(--p-black);
     --accent-on-inverse: var(--p-red-400);
     --focus-on-inverse: var(--p-paper-50);
+    --accent-ink-2: var(--p-black);
     color-scheme: light;
   }
 }
@@ -105,6 +106,7 @@
     --pop-ink: var(--p-green-900);
     --accent-on-inverse: var(--p-sky-400);
     --focus-on-inverse: var(--p-sky-400);
+    --accent-ink-2: var(--p-sky-100);
     color-scheme: light;
   }
   :root[data-option="nachtdruk"] {
@@ -131,6 +133,7 @@
     --pop-ink: var(--p-bone-100);
     --accent-on-inverse: var(--p-pink-700);
     --focus-on-inverse: var(--p-pink-700);
+    --accent-ink-2: var(--p-night-950);
     color-scheme: dark;
   }
   /* No JS + dark preference: night print by default */
@@ -159,6 +162,7 @@
       --pop-ink: var(--p-bone-100);
       --accent-on-inverse: var(--p-pink-700);
       --focus-on-inverse: var(--p-pink-700);
+      --accent-ink-2: var(--p-night-950);
       color-scheme: dark;
     }
   }
