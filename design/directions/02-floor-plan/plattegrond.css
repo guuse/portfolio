@@ -208,9 +208,9 @@
     .site-nav a { grid-template-columns: auto auto; }
     .site-header__in .hoi-small { display: inline-flex; }
     .mark__sheet { display: none; }
-    .hero__grid { row-gap: 0; }
+    .hero .hero__grid { row-gap: 0; }
     .hero__text { display: contents; }
-    .hero__plan { order: 1; margin-top: var(--space-l); }
+    .hero .hero__plan { order: 1; margin-top: var(--space-l); }
     .roomlist { order: 2; }
   }
   .hoi-small { display: none; margin-inline-start: auto; font-family: var(--font-mono); font-size: var(--step--1); padding: 0.6rem 0; }

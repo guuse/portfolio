@@ -125,8 +125,8 @@
   .cols ul, .cols ol { padding-left: 1.2em; display: grid; gap: var(--space-3xs); }
 
   .checklist { list-style: none; padding: 0; display: grid; gap: var(--space-2xs); max-width: 72ch; }
-  .checklist li { display: grid; grid-template-columns: 1.5rem 1fr; gap: var(--space-xs); }
-  .checklist li::before { content: ""; width: 1rem; height: 1rem; border: 1.5px solid var(--line-strong); margin-top: 0.3em; }
+  .checklist li { position: relative; padding-left: 2.25rem; }
+  .checklist li::before { content: ""; position: absolute; left: 0; top: 0.3em; width: 1rem; height: 1rem; border: 1.5px solid var(--line-strong); }
 
   .foot { padding-block: var(--space-xl); display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-s); color: var(--ink-subtle); }
 }
@@ -170,7 +170,7 @@
 
     <section class="section" aria-labelledby="score-title">
       <h2 id="score-title"><span class="label">§2</span> Scorecard</h2>
-      <p style="max-width:68ch;color:var(--ink-muted);margin-bottom:var(--space-m)">My honest first read against the five criteria in the brief (1–5). It's a starting point for the discussion, not a verdict. Fill in your own.</p>
+      <p style="max-width:68ch;color:var(--ink-muted);margin-bottom:var(--space-m)">My read after reviewing all five, scored 1–5 against the criteria in the brief and weighted for its audiences: peers and tech leads, recruiters, friends. Each direction’s README has its own self-score. It's a starting point, not a verdict.</p>
       <div class="table-wrap">
         <table>
           <thead><tr><th scope="col">Direction</th><th scope="col">Recognisable</th><th scope="col">Credible</th><th scope="col">Personal</th><th scope="col">Durable</th><th scope="col">Buildable</th><th scope="col">Best for</th></tr></thead>
@@ -190,7 +190,7 @@
       <ul class="checklist">
         <li>Pick a direction (or a mix) and an option. Leave dark mode to <code>prefers-color-scheme</code>, or offer a manual switch?</li>
         <li>Confirm the <code>[CONFIRM]</code> items in CONTENT.md: since when, the security framework(s), which clients may be named, Quizmaster's stack, contact address.</li>
-        <li>Pick the hero one-liner: A ("better uptime"), B ("fifteen services, lid shut") or C ("I'll just automate that").</li>
+        <li>Pick the hero one-liner: A ("secure by day, a laptop behind the TV by night"), B ("fifteen services, lid shut") or C ("how it's built, where it runs, who gets in").</li>
         <li>Real home automations and devices for §4.7, to replace the placeholders.</li>
         <li>Photos: the laptop behind the TV, the Zigbee stick on its extension cable, the wall panel, and one of you.</li>
         <li>Is <em>huisjes</em> (the house hunt) public-OK, or does it stay off the site?</li>
@@ -213,35 +213,35 @@ const DIRS = [
     options: [["paper","#f3efe6","Paper"],["night-shift","#1c1b19","Night shift"],["hi-vis","#d7f34a","Hi-vis"]] },
   { slug: "02-floor-plan", name: "Plattegrond", nl: "The site as a floor plan of a smart home",
     blurb: "The hero is a drawn floor plan. Rooms are the navigation: the meterkast holds the homelab, the living room holds the home automation, and a Zigbee mesh runs through the walls.",
-    fonts: "Bricolage Grotesque · Fragment Mono",
+    fonts: "Bricolage Grotesque · Atkinson Hyperlegible Next · Fragment Mono",
     options: [["daylight","#f6f1e7","Daylight"],["blueprint","#1f3fae","Blueprint"],["lights-out","#15151a","Lights out"]] },
   { slug: "03-poster", name: "Affiche", nl: "Rotterdam editorial poster, type as image",
     blurb: "Dutch graphic-design confidence. Giant variable-width type, numbers as graphics (16 GB as colour fields, a huge 0 clogs found), a strict grid broken on purpose.",
-    fonts: "Anybody (wdth 50–150) · text serif",
+    fonts: "Anybody (wdth 50–150) · Newsreader · IBM Plex Mono",
     options: [["rotterdam","#e3261c","Rotterdam"],["polder","#3d9a4a","Polder"],["nachtdruk","#ff3d9a","Nachtdruk"]] },
   { slug: "04-zine", name: "Zine", nl: "Risograph DIY zine, two-ink overprint",
     blurb: "A home-printed zine about building things at home: two-ink overprint, stickers, tape, hand-drawn arrows and margin notes, with a disciplined grid underneath.",
-    fonts: "Fat display · Atkinson Hyperlegible · Shantell Sans",
+    fonts: "Bagel Fat One · Atkinson Hyperlegible Next · Shantell Sans",
     options: [["fluor-pink-teal","#ff5ea8","Pink & teal"],["yellow-blue","#ffd23f","Yellow & blue"],["nachtdruk","#1d1b1f","Nachtdruk"]] },
   { slug: "05-wall-panel", name: "Wandpaneel", nl: "The site as a home-dashboard wall panel",
     blurb: "A status interface for a person: Rotterdam time, where Guus probably is, Argo sync state, the next finder run, and rover clogs found: 0. Every tile opens into the full story.",
-    fonts: "UI grotesk · mono numerals",
+    fonts: "Onest · Martian Mono (wdth)",
     options: [["daylight","#f4f2ee","Daylight"],["oled","#000000","OLED"],["e-ink","#e7e6e1","E-ink"]] },
 ];
 
 const SCORES = [
   // [recognisable, credible, personal, durable, buildable, bestFor]
-  [4, 5, 4, 5, 5, "Peers & tech leads; the safest strong choice"],
-  [5, 4, 5, 3, 3, "Maximum memorability; the home-automation story"],
-  [5, 3, 3, 4, 4, "Designers & agencies; a Rotterdam identity"],
-  [4, 3, 5, 3, 3, "Personality first; friends & the homelab crowd"],
-  [5, 4, 5, 3, 3, "Show-don't-tell: a live product feel"],
+  [4, 5, 4, 5, 5, "Tech leads & recruiters. The safest strong choice, and it scales to any number of projects"],
+  [5, 4, 5, 3, 3, "Maximum memorability. Strongest as the homelab/home-automation page"],
+  [5, 4, 3, 3, 4, "A loud Rotterdam identity. Can read as designer more than tech lead"],
+  [5, 3, 4, 2, 4, "Personality first. Friends and the homelab crowd love it; CTOs may not"],
+  [4, 5, 5, 3, 4, "Show, don't tell. The same-rule-at-home links tie the day job to the lab"],
 ];
 
 const MIXES = [
-  { h: "If you pick one", body: "<p><strong>01 Spec Sheet</strong> is the most durable: it scales to any number of projects, makes depth believable, and builds as a fast static site. Push its label-tape humour so it stays young.</p>" },
-  { h: "Best mixes", body: "<ul><li><strong>01 system + 05 hero</strong>: the datasheet discipline, opened by a live wall panel.</li><li><strong>03 type + 01 tables</strong>: poster-scale headlines over precise spec sheets.</li><li><strong>02 plan as the homelab page only</strong>: the floor plan as a case-study visual inside 01 or 03.</li></ul>" },
-  { h: "What every option shares", body: "<ul><li>One copy deck, one token contract, one component inventory</li><li>Fluid type 360→1440, 12/6/4 grid, 4px spacing</li><li>WCAG 2.2 AA (body AAA), reduced motion, no JS needed</li><li>≤ 50 KB HTML+CSS, ≤ 15 KB JS, 0 third parties</li></ul>" },
+  { h: "If you pick one", body: "<p><strong>01 Spec Sheet.</strong> Of the five it fits a tech lead infra best: precise, calm, credible for CTOs and recruiters, and still funny in the details (errata, the bill of materials, the declaration of conformity). It is also the easiest to keep growing.</p>" },
+  { h: "Best mixes", body: "<ul><li><strong>01 system + 05 hero</strong>: the datasheet as the site, opening on a live <em>Guus is at Harborn</em> panel.</li><li><strong>01 site + 02 homelab page</strong>: the floor plan as the visual of the home-automation case study only.</li><li><strong>03 type in 01</strong>: the width axis of Anybody for big headlines on top of the spec-sheet tables.</li></ul>" },
+  { h: "What every option shares", body: "<ul><li>One copy deck, one token contract, one component inventory</li><li>Fluid type 360→1440, 12/6/4 grid, 4px spacing</li><li>Measured contrast per option, reduced motion, readable without JS</li><li>No horizontal scroll at 320px, no console errors</li></ul>" },
 ];
 
 const root = document.getElementById("directions");
