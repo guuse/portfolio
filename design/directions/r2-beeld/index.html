@@ -60,11 +60,11 @@
   </section>
 
   <section class="numbers" aria-label="In numbers">
-    <dl class="page numbers__list tnum">
+    <dl class="page numbers__list">
       <div><dt>years in development agencies</dt><dd>10+</dd></div>
       <div><dt>years in infrastructure</dt><dd>8+</dd></div>
-      <div><dt>cloud-agnostic Kubernetes platform, running for multiple clients</dt><dd>1</dd></div>
-      <div><dt>clouds day to day: AWS and Azure</dt><dd>2</dd></div>
+      <div><dt>Kubernetes clusters on one cloud-agnostic platform, NL and abroad</dt><dd>8</dd></div>
+      <div><dt>pods on the largest of them</dt><dd>1,500+</dd></div>
     </dl>
   </section>
 
@@ -81,21 +81,26 @@
         <div class="highlight__text">
           <p class="meta">highlight</p>
           <h3 class="highlight__title" id="hl-title">A standardised, cloud-agnostic Kubernetes hosting platform.</h3>
-          <p>I designed and built the hosting platform our client projects run on. It&rsquo;s the same setup on every cloud, driven from git, and it&rsquo;s been rolled out for multiple clients. New projects get a namespace, a pipeline and monitoring on day one instead of in week six.</p>
-          <!-- [CONFIRM: any numbers to add, e.g. number of clients/apps/clusters] -->
+          <p>I designed and built the hosting platform our client projects run on. It&rsquo;s the same setup on every cloud, driven from git, and it now runs <strong>8 clusters</strong>, from small to large: the biggest runs <strong>more than 1,500 pods</strong>. They&rsquo;re in the Netherlands and abroad, including a cluster in <strong>Japan</strong>. The focus is automation and scaling: new projects get a namespace, a pipeline and monitoring on day one, and the platform grows without hand work. I also run <strong>training programmes with clients</strong>, so their own teams can work on it.</p>
+          <dl class="hl-facts">
+            <div><dd>8</dd><dt>clusters</dt></div>
+            <div><dd>1,500+</dd><dt>pods on the largest</dt></div>
+            <div><dd>3</dd><dt>regions: NL, EU and Japan</dt></div>
+            <div><dd><span aria-hidden="true">&#x2713;</span><span class="visually-hidden">Yes</span></dd><dt>client training programmes</dt></div>
+          </dl>
           <ul class="chips" aria-label="Built with"><li>kubernetes</li><li>argo-cd</li><li>terraform</li><li>helm</li><li>prometheus</li></ul>
         </div>
-        <figure class="stack" aria-label="Diagram: every new project gets a namespace, a pipeline and monitoring from one platform, driven from git, that runs the same on AWS and Azure.">
+        <figure class="stack" aria-label="Diagram: every new project gets a namespace, a pipeline and monitoring from one platform, driven from git, that runs the same on AWS and Azure across 8 clusters in the Netherlands, elsewhere in Europe and Japan.">
           <div class="stack__row stack__row--day1"><span class="meta">day one, every project</span><div class="stack__cells"><span>namespace</span><span>pipeline</span><span>monitoring</span></div></div>
           <div class="stack__row stack__row--platform"><span class="meta">one platform</span><strong>The same setup, driven from git</strong><span class="stack__git"><code>git</code> &rarr; <code>argo cd</code></span></div>
-          <div class="stack__row stack__row--clouds"><span class="meta">any cloud</span><div class="stack__cells"><span>AWS &middot; EKS</span><span>Azure &middot; AKS</span></div></div>
+          <div class="stack__row stack__row--clouds"><span class="meta">any cloud &middot; 8 clusters, small to large</span><div class="stack__cells"><span>AWS &middot; EKS</span><span>Azure &middot; AKS</span></div><div class="stack__regions"><span>NL</span><span>EU</span><span>Japan</span></div></div>
         </figure>
       </article>
 
       <h3 class="sub-head"><span class="meta">what I work on</span></h3>
       <ol class="skills">
         <li class="skill"><p class="skill__no">01</p><h4 class="skill__title">Kubernetes platform engineering</h4><p class="skill__line">Production clusters, and the custom parts that make them fit.</p>
-          <ul class="skill__list"><li>Custom operators and CRDs for the things off-the-shelf charts don&rsquo;t cover</li><li>Helm charts and Kustomize overlays, standardised across projects</li><li>Upgrades, multi-tenancy and capacity, run in production</li></ul>
+          <ul class="skill__list"><li>Custom operators and CRDs (written in Python) for the things off-the-shelf charts don&rsquo;t cover</li><li>Helm charts and Kustomize overlays, standardised across projects</li><li>Upgrades, multi-tenancy, autoscaling and capacity across 8 production clusters</li></ul>
           <ul class="chips" aria-label="Tools"><li>kubernetes</li><li>operators</li><li>crds</li><li>helm</li><li>kustomize</li></ul></li>
         <li class="skill"><p class="skill__no">02</p><h4 class="skill__title">GitOps &amp; delivery</h4><p class="skill__line">Git is the source of truth; the cluster follows.</p>
           <ul class="skill__list"><li>Argo CD for every environment, with app-of-apps</li><li>CI with GitHub Actions: build, test and push immutable images</li><li>Promotion and rollbacks by commit, not by hand</li></ul>
@@ -113,7 +118,7 @@
           <ul class="skill__list"><li>ISO 27001 work: policies, controls and audits</li><li>Least-privilege access, regular access reviews, secrets kept out of git</li><li>Deciding which tools and AI services may touch client data</li></ul>
           <ul class="chips" aria-label="Tools"><li>iso-27001</li><li>rbac</li><li>least-privilege</li></ul></li>
         <li class="skill"><p class="skill__no">07</p><h4 class="skill__title">Architecture &amp; leadership</h4><p class="skill__line">Decide early, write it down, bring the team along.</p>
-          <ul class="skill__list"><li>Tech lead of the infra team: priorities, reviews and mentoring</li><li>Architecture for client systems: where it runs, how it connects, who gets access</li><li>Decision records, so the reasoning outlives the meeting</li></ul></li>
+          <ul class="skill__list"><li>Tech lead of the infra team: priorities, reviews and mentoring</li><li>Training programmes with clients, so their teams can run what we build</li><li>Architecture for client systems: where it runs, how it connects, who gets access</li><li>Decision records, so the reasoning outlives the meeting</li></ul></li>
         <li class="skill"><p class="skill__no">08</p><h4 class="skill__title">AI tooling</h4><p class="skill__line">Let agents do the boring parts, with guardrails.</p>
           <ul class="skill__list"><li>Claude-based agents, skills and plugins for day-to-day work</li><li>See the <a href="#ai" data-open="ai">AI tooling project</a> below</li></ul>
           <ul class="chips" aria-label="Tools"><li>claude-code</li><li>mcp</li><li>agents</li></ul></li>
@@ -137,7 +142,7 @@
             <div><dt>delivery</dt><dd>GitHub Actions, Docker, GHCR</dd></div>
             <div><dt>observability</dt><dd>Prometheus, Grafana, Loki</dd></div>
             <div><dt>network &amp; security</dt><dd>Tailscale, Cloudflare (DNS, Tunnel, Access), ISO 27001</dd></div>
-            <div><dt>code</dt><dd>TypeScript, Python, Go, Java, Bash</dd></div><!-- [CONFIRM: Go] -->
+            <div><dt>code</dt><dd>Python (incl. Kubernetes operators), TypeScript, Java, Bash</dd></div>
             <div><dt>ai</dt><dd>Claude Code, MCP, Claude Agent SDK</dd></div>
           </dl>
         </div>
@@ -196,7 +201,7 @@
       <p class="contact__line">Want to work together, or talk Kubernetes? Send me an email.</p>
       <ul class="contact__links">
         <li><a class="arrow-link" href="https://github.com/guuse" target="_blank" rel="noopener">GitHub <span aria-hidden="true">&nearr;</span></a></li>
-        <li><a class="arrow-link" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">&nearr;</span></a></li><!-- [CONFIRM url] -->
+        <li><a class="arrow-link" href="https://www.linkedin.com/in/guus-ekkelenkamp/" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">&nearr;</span></a></li>
       </ul>
     </div>
   </section>
