@@ -14,7 +14,7 @@ illustrations or icons. It's Dutch and Rotterdam-specific without being kitsch. 
 structure (feature opener, spec sheet, pull quote, numbered decisions, index) gives the homelab the
 depth of a properly edited story. The day job gets the same treatment: its own full-bleed feature
 band (black) right before the homelab band (red). Its headline comes from what the work is ("How
-it's built. Where it runs. Who gets in."). Job titles stay small, as facts.
+it's built. Where it runs. Who gets in."). His one title (tech lead, infra team) stays small, as a fact.
 
 ## Options (token overrides only, `data-option` on `<html>`)
 
@@ -33,15 +33,17 @@ muted ≥ 4.5, accent text ≥ 4.5, rules/focus ≥ 3.
 - The laptop's brand and model, and the CPU model, are gone everywhere: copy, aria labels, SVG titles,
   placeholders, spec table, system sheet. The mini PCs have no brands either.
   A case-insensitive grep over this folder for the brand, model and CPU names returns nothing.
-- Hero: one-liner A, roles sub-line, new title/meta. The masthead meta row now reads
-  "Security · Cloud · Architecture" in small mono.
+- Hero: one-liner A, sub-line "Tech lead of the infra team at Harborn, Rotterdam.", title/meta per
+  CONTENT §0. The masthead meta row reads "Security · Cloud · Architecture" as a topic line only.
 - Work is rebuilt as a **co-lead feature band**, placed directly before the homelab. It has a fitted
-  three-line headline, a RolesLine (titles as mono facts between rules), the intro, three
-  **RoleBlocks** (Security / Cloud & platform / Architecture) as three flat fields, an "Also" list
+  three-line headline, a TitleLine (the single title "Tech lead · Infra team" as a mono fact
+  between rules), the new intro, then "What the job covers": three **AreaBlocks** (Security /
+  Cloud & platform / Architecture, labelled as areas, not roles) as three flat fields, an "Also" list
   with the single client line, and the **BridgeQuote** leading into the homelab. There are no
   shields, padlocks or slashed title stacks, and no client case-study treatment.
 - The toolbox gained a Security group. `system.html` documents the new components (FeatureBand,
-  RolesLine, RoleBlock, BridgeQuote) and a do/don't on how to set the titles.
+  TitleLine, AreaBlock, BridgeQuote) and a do/don't on how to set the title.
+- Round 2: the three-title wording is gone everywhere; there is one title, tech lead of the infra team.
 
 ## Risks
 
@@ -64,7 +66,7 @@ could get its own page, with the homepage showing the top two plus five rows.
 ## Build notes
 
 - **Astro components:** `Masthead`, `Hero`, `StatusChip`, `SectionHeader`, `FeatureBand`,
-  `RolesLine`, `RoleBlock`, `BridgeQuote`, `NowList`, `SpecTable`, `BudgetBar`, `ArchDiagram` (HTML,
+  `TitleLine`, `AreaBlock`, `BridgeQuote`, `NowList`, `SpecTable`, `BudgetBar`, `ArchDiagram` (HTML,
   not SVG), `DecisionCard`, `GotchaNote`, `ProjectFeatured`, `ProjectRow`, `Principle`, `Toolbox`,
   `Footer`, `ReviewBar` (mock only). Content comes from collections. `FitLine` takes text plus a width
   setting and computes `--fit` at build time with fontkit, so nobody hand-measures.

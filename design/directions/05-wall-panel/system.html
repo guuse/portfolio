@@ -187,7 +187,7 @@
         <div><span class="label">--step-2 · sub title</span><p style="font-size:var(--step-2);font-weight:600;letter-spacing:-0.025em">Learned the hard way</p></div>
         <div><span class="label">--step-1 · lead</span><p style="font-size:var(--step-1);line-height:1.35">One second-hand laptop, lid closed, behind the TV.</p></div>
         <div><span class="label">--step-0 · body</span><p style="line-height:1.55">Nothing on it is reachable from the internet unless I explicitly say so. Every change goes through git.</p></div>
-        <div><span class="label">--step--1 · meta</span><p style="font-size:var(--step--1);color:var(--ink-muted)">Security officer, cloud specialist and solution architect at Harborn, Rotterdam.</p></div>
+        <div><span class="label">--step--1 · meta</span><p style="font-size:var(--step--1);color:var(--ink-muted)">Tech lead of the infra team at Harborn, Rotterdam.</p></div>
         <div><span class="label">--step--2 · label</span><p class="label">Finder · next run in 37 min</p></div>
       </div>
     </div>
@@ -197,7 +197,7 @@
         <div class="row"><dt>Numbers</dt><dd>Onest, weight <code>--c-num-weight</code> (300 daylight, 250 OLED, 400 e-ink), tracking −0.035 to −0.05em. Units drop to 42% size in <code>--ink-muted</code>.</dd></div>
         <div class="row"><dt>Tabular</dt><dd><code>tabular-nums slashed-zero</code> on everything that changes faster than once a minute: seconds, countdowns, RAM use, logs, specs. The clock’s HH:MM uses proportional figures on purpose: it changes once a minute and Onest’s tabular 1 opens an ugly gap at 100px.</dd></div>
         <div class="row"><dt>Labels</dt><dd>Martian Mono, caps, 87.5% width, +0.07em. Never for sentences longer than a line.</dd></div>
-        <div class="row"><dt>Roles</dt><dd>Job titles only ever appear as label-sized facts. Never as a headline, never stacked with slashes.</dd></div>
+        <div class="row"><dt>Title</dt><dd>One title, “Tech lead · Infra team”, only ever as a label-sized fact. Security, cloud and architecture are areas the job covers, never titles.</dd></div>
       </dl>
     </div>
   </section>
@@ -268,7 +268,7 @@
           <p class="hero__state">is <strong data-state>home</strong>.</p>
           <div class="hero__foot">
             <p class="hero__line">By day I make sure client platforms are secure and keep running. By night I do the same for a laptop behind the TV.</p>
-            <p class="hero__sub">Security officer, cloud specialist and solution architect at Harborn, Rotterdam.</p>
+            <p class="hero__sub">Tech lead of the infra team at Harborn, Rotterdam.</p>
             <p class="chip"><span class="chip__k label"><span class="live" aria-hidden="true"></span>Currently</span><span>moving my infra to ekkelenkamp.dev &amp; hunting mini PCs for node #2</span></p>
           </div>
         </article>
@@ -286,10 +286,11 @@
     </div>
 
     <div class="sub">
-      <div class="sub__head"><h3 class="sub__title">On duty · work status tile</h3><p class="label">New · plain status rows, roles as facts</p></div>
+      <div class="sub__head"><h3 class="sub__title">On duty · work status tile</h3><p class="label">New · title as one fact, areas as plain rows</p></div>
       <div class="tiles" style="margin-block-start:12px;grid-template-columns:minmax(0,1fr);max-width:640px">
         <article class="tile t-duty" style="grid-column:auto">
           <div class="tile__head"><p class="label"><a class="tile__link" href="#components">On duty · Harborn</a></p><svg class="tile__go glyph" viewBox="0 0 14 14" aria-hidden="true"><path d="M5 3l4 4-4 4"/></svg></div>
+          <p class="tile__sub"><strong>Tech lead · infra team</strong> · what the job covers:</p>
           <dl class="duty">
             <div><dt class="label">Security</dt><dd>Policy, access reviews, which vendors get near client data</dd></div>
             <div><dt class="label">Cloud &amp; platform</dt><dd>Kubernetes on Haven, GitOps with Argo CD, environments rebuilt from git</dd></div>
@@ -303,7 +304,7 @@
       <div class="sub__head"><h3 class="sub__title">Job pane + bridge</h3><p class="label">New · the day-job detail view</p></div>
       <div class="jobs" style="margin-block-start:12px">
         <article class="job">
-          <div class="job__head"><p class="label">Job 2 of 3</p><span class="stat-chip">On duty</span></div>
+          <div class="job__head"><p class="label">Area 2 of 3</p><span class="stat-chip">On duty</span></div>
           <p class="job__title">Cloud &amp; platform</p>
           <p class="job__line">The layer every client project lands on.</p>
           <ul class="job__rows"><li>Environments that can be rebuilt from git, not from someone’s memory</li></ul>
@@ -478,8 +479,8 @@
     <div class="dodont" style="margin-block-start:24px">
       <div class="do"><p class="label"><b>Do</b></p><div class="tile"><div class="tile__head"><p class="label">Rover clogs found</p></div><p class="tile__value">0</p><p class="tile__sub"><strong>Still looking.</strong></p></div><p class="muted">A real number, a label, one deadpan line.</p></div>
       <div class="dont"><p class="label"><b>Don’t</b></p><div class="bad-tile"><span style="font-size:28px" aria-hidden="true">◎</span>Passionate about clean code</div><p class="muted">Gradient card, icon in a circle, nothing to read. That’s the bento template this direction exists to avoid.</p></div>
-      <div class="do"><p class="label"><b>Do</b></p><p class="label">Security officer · Cloud specialist · Solution architect</p><p class="muted">Roles as small plain facts; the copy says what the work is.</p></div>
-      <div class="dont"><p class="label"><b>Don’t</b></p><p style="font-size:var(--step-3);font-weight:700;letter-spacing:-0.03em;line-height:1">SECURITY / CLOUD / ARCHITECT</p><p class="muted">Titles as a stacked, slashed headline.</p></div>
+      <div class="do"><p class="label"><b>Do</b></p><p class="label">Tech lead · Infra team</p><p class="muted">One title as a small plain fact; the copy says what the job covers.</p></div>
+      <div class="dont"><p class="label"><b>Don’t</b></p><p style="font-size:var(--step-3);font-weight:700;letter-spacing:-0.03em;line-height:1">SECURITY / CLOUD / ARCHITECT</p><p class="muted">Areas dressed up as titles in a stacked, slashed headline.</p></div>
       <div class="do"><p class="label"><b>Do</b></p><p class="muted">Every tile links into a detail view with the real content.</p></div>
       <div class="dont"><p class="label"><b>Don’t</b></p><p class="muted">Tiles of identical size, or a tile per technology. The toolbox is a list.</p></div>
     </div>

@@ -263,7 +263,7 @@
       <ul class="rules">
         <li>Display is for names of things: rooms, projects, jobs, the person. Never for a paragraph.</li>
         <li>Mono is for annotations: anything you'd find next to a line on a drawing (areas, refs, dimensions, small-caps labels with +0.08em tracking).</li>
-        <li>Job titles are facts, so they go in mono labels or small body bold. Never as the big headline, never stacked with slashes.</li>
+        <li>The job title (tech lead, infra team) is a fact, so it goes in a mono label or small body bold. Never as the big headline. Security, cloud and architecture are areas of the job, not titles.</li>
         <li>Numbers in tables and budgets: <code>tabular-nums slashed-zero</code>. Dutch decimals in m² (<code>25,0 m²</code>), mm for dimensions.</li>
         <li>Dutch words carry <code>lang="nl"</code> and always have the English beside them.</li>
       </ul>
@@ -362,7 +362,7 @@
         <p class="hero__sheet"><span class="room-tag" aria-hidden="true">01</span><span class="label-caps"><span lang="nl">Hal</span> · hallway · 5,5 m²</span></p>
         <p class="h1-demo" style="font-family: var(--font-display); font-size: clamp(2.6rem, 1rem + 4vw, 4.4rem); font-weight: 800; font-stretch: 75%; line-height: .86; letter-spacing: -.035em; margin-bottom: var(--space-s)">Guus Ekkelenkamp</p>
         <p class="hero__line">By day I make sure client platforms are secure and keep running. By night I do the same for a laptop behind the TV.</p>
-        <p class="hero__sub">Security officer, cloud specialist and solution architect at Harborn, Rotterdam.</p>
+        <p class="hero__sub">Tech lead of the infra team at Harborn, Rotterdam.</p>
       </div>
     </div>
 
@@ -397,17 +397,17 @@
     </div>
 
     <div class="comp">
-      <header><h4>RoleFacts</h4><p>New in round 1. The job titles as plain facts in a ruled strip: mono label, bold value. Confident, small, no headline treatment.</p></header>
-      <div class="comp__stage"><dl class="roles" style="margin:0"><div><dt>Role</dt><dd>Security officer</dd></div><div><dt>Role</dt><dd>Cloud specialist</dd></div><div><dt>Role</dt><dd>Solution architect</dd></div><div><dt>At</dt><dd>Harborn, Rotterdam</dd></div></dl></div>
+      <header><h4>RoleFacts</h4><p>The one title as a plain fact in a ruled strip: mono label, bold value. Confident, small, no headline treatment.</p></header>
+      <div class="comp__stage"><dl class="roles" style="margin:0"><div><dt>Title</dt><dd>Tech lead · Infra team</dd></div><div><dt>At</dt><dd>Harborn, Rotterdam</dd></div></dl></div>
     </div>
 
     <div class="comp">
-      <header><h4>Programme</h4><p>New in round 1. The day job drawn as a <span lang="nl">programma</span>: three jobs as three rooms in one walled block, doors between them. Same visual weight as the homelab's section drawing. Stacks on phones with the doors in the cross walls.</p></header>
+      <header><h4>Programme</h4><p>New in round 1. The day job drawn as a <span lang="nl">programma</span>: what the job covers, three areas as three rooms in one walled block, doors between them. Same visual weight as the homelab's section drawing. Stacks on phones with the doors in the cross walls.</p></header>
       <div class="comp__stage">
         <div class="programme" style="margin-top: 2em">
-          <article class="programme__room"><p class="programme__code">P1 · <span class="label-caps">security</span></p><h3>Security</h3><p class="programme__line">Keeping the agency and its clients out of the news.</p><ul><li>Access reviews, secrets handling, and the security questionnaires clients send before signing</li></ul></article>
-          <article class="programme__room"><p class="programme__code">P2 · <span class="label-caps">cloud &amp; platform</span></p><h3>Cloud &amp; platform</h3><p class="programme__line">The layer every client project lands on.</p><ul><li>Environments that can be rebuilt from git, not from someone's memory</li></ul></article>
-          <article class="programme__room"><p class="programme__code">P3 · <span class="label-caps">architecture</span></p><h3>Architecture</h3><p class="programme__line">Turning “we need a portal” into a system that survives year three.</p><ul><li>Writes the decision down (ADRs), including the options we didn't pick and why</li></ul></article>
+          <article class="programme__room"><p class="programme__code">Area 1</p><h3>Security</h3><p class="programme__line">Keeping the agency and its clients out of the news.</p><ul><li>Access reviews, secrets handling, and the security questionnaires clients send before signing</li></ul></article>
+          <article class="programme__room"><p class="programme__code">Area 2</p><h3>Cloud &amp; platform</h3><p class="programme__line">The layer every client project lands on.</p><ul><li>Environments that can be rebuilt from git, not from someone's memory</li></ul></article>
+          <article class="programme__room"><p class="programme__code">Area 3</p><h3>Architecture</h3><p class="programme__line">Turning “we need a portal” into a system that survives year three.</p><ul><li>Writes the decision down (ADRs), including the options we didn't pick and why</li></ul></article>
         </div>
       </div>
     </div>
@@ -561,8 +561,8 @@
       <figure class="dont"><div class="ex"><span style="display:inline-block; width:14px; height:14px; border-radius:50%; background: var(--ok)"></span></div><figcaption><b>Don't</b>A coloured dot alone.</figcaption></figure>
       <figure class="do"><div class="ex"><svg viewBox="0 0 120 60" width="160" aria-hidden="true"><rect x="10" y="10" width="100" height="40" fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="6 4"/><text x="60" y="35" text-anchor="middle" style="font-family: var(--font-mono); font-size: 10px; fill: var(--ink-muted)">node 2 · planned</text></svg></div><figcaption><b>Do</b>Dashed means not built yet. Use it for plans.</figcaption></figure>
       <figure class="dont"><div class="ex"><div class="bad-card"><span aria-hidden="true">✦</span>Cloud Expert</div></div><figcaption><b>Don't</b>Rounded cards with an icon tile, soft shadows, job titles as badges.</figcaption></figure>
-      <figure class="do"><div class="ex"><dl class="roles" style="margin:0; grid-template-columns: auto auto"><div><dt>Role</dt><dd>Solution architect</dd></div><div><dt>At</dt><dd>Harborn</dd></div></dl></div><figcaption><b>Do</b>Titles as small facts.</figcaption></figure>
-      <figure class="dont"><div class="ex"><p style="font-family: var(--font-display); font-size: var(--step-3); font-weight: 800; font-stretch: 75%; line-height: 1">SECURITY / CLOUD / ARCHITECT</p></div><figcaption><b>Don't</b>Stacked titles with slashes as the headline.</figcaption></figure>
+      <figure class="do"><div class="ex"><dl class="roles" style="margin:0"><div><dt>Title</dt><dd>Tech lead · Infra team</dd></div></dl></div><figcaption><b>Do</b>The title as one small fact.</figcaption></figure>
+      <figure class="dont"><div class="ex"><p style="font-family: var(--font-display); font-size: var(--step-3); font-weight: 800; font-stretch: 75%; line-height: 1">SECURITY / CLOUD / INFRA</p></div><figcaption><b>Don't</b>The job's areas stacked with slashes as a headline.</figcaption></figure>
     </div>
   </div>
 </section>

@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Guus Ekkelenkamp, security, cloud &amp; architecture, Rotterdam</title>
-<meta name="description" content="Security officer, cloud specialist and solution architect at Harborn in Rotterdam. Runs a GitOps homelab on an old laptop with the lid shut.">
+<title>Guus Ekkelenkamp, tech lead infra, Rotterdam</title>
+<meta name="description" content="Tech lead of the infra team at Harborn in Rotterdam. Security, cloud and architecture by day; a GitOps homelab on an old laptop by night.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Martian+Mono:wdth,wght@75..112.5,100..800&display=swap">
@@ -44,14 +44,14 @@
   <div class="hero__grid">
     <div class="hero__copy">
       <p class="hero__line">By day I make sure client platforms are secure and keep running. By night I do the same for a laptop behind the TV.</p>
-      <p class="hero__sub">Security officer, cloud specialist and solution architect at Harborn, Rotterdam.</p>
+      <p class="hero__sub">Tech lead of the infra team at Harborn, Rotterdam.</p>
       <p class="status hero__status"><span class="tape"><span class="status__dot" aria-hidden="true"></span><span><span class="visually-hidden">Status: </span>Currently: moving my infra to ekkelenkamp.dev &amp; hunting mini PCs for node #2</span></span></p>
 
       <table class="spec hero__keys">
         <caption class="label">Key specifications</caption>
         <tbody>
           <tr><th scope="row">Location</th><td>Rotterdam, NL</td></tr>
-          <tr><th scope="row">Day shift</th><td><a href="https://harborn.com">Harborn</a>, Rotterdam<span class="spec__sub">Security · cloud &amp; platform · architecture</span></td></tr>
+          <tr><th scope="row">Day shift</th><td>Tech lead, infra team at <a href="https://harborn.com">Harborn</a><span class="spec__sub">Covers security · cloud &amp; platform · architecture</span></td></tr>
           <tr><th scope="row">Night shift</th><td>The homelab, behind the TV</td></tr>
           <tr><th scope="row">Services</th><td class="tnum">15 running <span class="spec__sub">7 of my own + 8 platform components</span></td></tr>
           <tr><th scope="row">Interfaces</th><td><a href="mailto:hello@ekkelenkamp.dev">hello@ekkelenkamp.dev</a><span class="spec__sub"><a href="https://github.com/guuse">github.com/guuse</a></span></td></tr>
@@ -168,16 +168,15 @@
 
   <div class="split split--rev">
     <div class="split__a stack">
-      <p class="lead">Before a client project gets built, someone has to decide what it looks like, where it runs, and who gets access to what. At Harborn that's usually me.</p>
+      <p class="lead">I lead the infra team at Harborn. Before a client project gets built, someone has to decide what it looks like, where it runs, and who gets access to what. That's us, and it's usually me holding the pen.</p>
       <p class="col-text muted">I still write code, mostly where those decisions meet the code.</p>
     </div>
     <div class="split__b">
-      <table class="spec roles">
-        <caption class="label">Roles</caption>
+      <table class="spec title-fact">
+        <caption class="label">Unit at Harborn</caption>
         <tbody>
-          <tr><th scope="row">FN-01</th><td>Security officer</td></tr>
-          <tr><th scope="row">FN-02</th><td>Cloud specialist</td></tr>
-          <tr><th scope="row">FN-03</th><td>Solution architect</td></tr>
+          <tr><th scope="row">Title</th><td>Tech lead · Infra team</td></tr>
+          <tr><th scope="row">Covers</th><td class="muted">Security · cloud &amp; platform · architecture</td></tr>
         </tbody>
       </table>
     </div>
@@ -187,26 +186,27 @@
     <p class="label" id="flow-cap">Fig. 3 · What happens before a client project gets built</p>
     <ol class="flow__steps">
       <li class="flow__in"><span class="label">Input</span><b>“We need a portal”</b></li>
-      <li class="flow__q"><span class="label label--accent">FN-03 · Architecture</span><b>What does it look like?</b><span class="flow__out">→ integrations, ADRs</span></li>
-      <li class="flow__q"><span class="label label--accent">FN-02 · Cloud &amp; platform</span><b>Where does it run?</b><span class="flow__out">→ Haven, GitOps, CI</span></li>
-      <li class="flow__q"><span class="label label--accent">FN-01 · Security</span><b>Who gets access to what?</b><span class="flow__out">→ policy, reviews, vendors</span></li>
+      <li class="flow__q"><span class="label label--accent">AR-03 · Architecture</span><b>What does it look like?</b><span class="flow__out">→ integrations, ADRs</span></li>
+      <li class="flow__q"><span class="label label--accent">AR-02 · Cloud &amp; platform</span><b>Where does it run?</b><span class="flow__out">→ Haven, GitOps, CI</span></li>
+      <li class="flow__q"><span class="label label--accent">AR-01 · Security</span><b>Who gets access to what?</b><span class="flow__out">→ policy, reviews, vendors</span></li>
       <li class="flow__in flow__in--end"><span class="label">Output</span><b>Something that survives year three</b></li>
     </ol>
   </figure>
 
-  <div class="fns sub">
+  <p class="label sub">What the job covers · three areas</p>
+  <div class="fns mt-s">
     <article class="fn" aria-labelledby="fn1">
-      <div class="fn__head"><span class="label label--accent">FN-01</span><span class="label">Function sheet 1 / 3</span></div>
+      <div class="fn__head"><span class="label label--accent">AR-01</span><span class="label">Area 1 / 3</span></div>
       <h3 id="fn1">Security</h3>
       <p class="fn__line">Keeping the agency and its clients out of the news.</p>
       <ul class="fn__list">
-        <li>Owns the security policy and makes it something people actually follow.</li>
+        <li>Looks after the security policy and makes it something people actually follow.</li>
         <li>Access reviews, secrets handling, and the security questionnaires clients send before signing.</li>
         <li>Decides which AI tools and vendors are allowed near client data, and on what terms.</li>
       </ul>
     </article>
     <article class="fn" aria-labelledby="fn2">
-      <div class="fn__head"><span class="label label--accent">FN-02</span><span class="label">Function sheet 2 / 3</span></div>
+      <div class="fn__head"><span class="label label--accent">AR-02</span><span class="label">Area 2 / 3</span></div>
       <h3 id="fn2">Cloud &amp; platform</h3>
       <p class="fn__line">The layer every client project lands on.</p>
       <ul class="fn__list">
@@ -216,7 +216,7 @@
       </ul>
     </article>
     <article class="fn" aria-labelledby="fn3">
-      <div class="fn__head"><span class="label label--accent">FN-03</span><span class="label">Function sheet 3 / 3</span></div>
+      <div class="fn__head"><span class="label label--accent">AR-03</span><span class="label">Area 3 / 3</span></div>
       <h3 id="fn3">Architecture</h3>
       <p class="fn__line">Turning “we need a portal” into a system that survives year three.</p>
       <ul class="fn__list">

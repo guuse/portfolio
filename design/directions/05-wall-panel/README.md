@@ -5,7 +5,7 @@
 The site is the wall panel of Guus's smart home, turned into a status interface for a person.
 The first screen is one dense, typeset panel of live-feeling state: the Rotterdam clock, a guess
 at where Guus is right now ("is at Harborn", derived from the time of day, never tracked), what
-he's on duty for at Harborn (security, cloud & platform, architecture), Argo CD at 16/16, the last
+his job as tech lead of the infra team at Harborn covers (security, cloud & platform, architecture), Argo CD at 16/16, the last
 deploy, the RAM budget as sixteen 1 GB cells, the Finder's countdown to its next run, 283 finds
 and 0 Rover clogs ("Still looking."). On wide screens the panel sits in a physical tablet frame on
 a plaster wall. Every tile links into a "detail view" below: rows for specs, settings toggles for
@@ -19,8 +19,8 @@ most honest way to "show depth instead of claiming it": every number on the firs
 (or plainly labelled illustrative) and every one opens into the story behind it. The day job gets
 its own tile on the first screen and a full detail view right before the homelab, and the two are
 tied together: each job pane ends with a "same rule at home" link into the matching homelab
-section, and the view closes with the bridge line ("Same rules, smaller blast radius"). Job titles
-only appear as small facts; the copy says what the work is.
+section, and the view closes with the bridge line ("Same rules, smaller blast radius"). His one title,
+"Tech lead · Infra team", appears only as a small fact; security, cloud and architecture are the areas the job covers, never titles.
 
 ## Options (tokens only)
 
@@ -78,7 +78,7 @@ that earns a metric). Toolbox groups are `auto-fit` columns and absorb new group
 | Criterion | Score | Why |
 |---|---|---|
 | Recognisable | 4 | "Guus is at Harborn." in huge type next to a ticking clock and "Rover clogs found: 0" is memorable; e-ink especially so. Loses a point because "dashboard" is a known genre |
-| Credible | 5 | Real numbers everywhere, each one opens into the decision, the log entry or the spec behind it; the day job's "same rule at home" links make the role claims believable |
+| Credible | 5 | Real numbers everywhere, each one opens into the decision, the log entry or the spec behind it; the day job's "same rule at home" links make the day-job claims believable |
 | Personal | 5 | Only works for someone who actually runs a wall panel, a homelab and a clog-hunting bot |
 | Durable | 3 | Status UIs date faster than editorial layouts, and the live gimmicks may feel less fresh in two years. The token system and detail views age fine |
 | Buildable | 4 | Static, tiny JS, no libraries. The only real work is build-time data for Argo/deploy/finds and keeping the panel honest |

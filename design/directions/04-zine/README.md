@@ -17,8 +17,8 @@ hunting one pair of clogs. A zine is the format people already use for "here's h
 this, here's what bit me". Its conventions (contents page, page numbers, margin notes, a
 "things that bit me" page) let the specifics carry the personality. The design never has to
 claim any. The day job runs against that on purpose: in a zine the full-coverage page is the
-serious one, so security, cloud and architecture get flat ink, small-caps titles and plain
-sentences.
+serious one, so the job (tech lead of the infra team) gets flat ink, one small-caps title and
+plain sentences about the three areas it covers: security, cloud & platform, architecture.
 
 ## Options (tokens only, `data-option` on `<html>`)
 
@@ -35,7 +35,7 @@ flood-page accent (`--c-flood-accent`) and the semantic set.
 
 - **Mess vs. trust.** The tilt, tape and handwriting can make it feel unserious to a CTO or a
   recruiter. I've limited that with rules: tilt ≤ 1.1°, notes only as asides, and none of it on
-  the day-job spread, which is flat and quiet on purpose.
+  the day-job spread (one title, "Tech lead · Infra team", in small caps), which is flat and quiet on purpose.
 - **Bagel Fat One is loud.** It has one weight and lots of character. Set too small or too
   often, it turns childish. It only appears on h2 and up and on the cover.
 - **Overprint is a CSS trick.** The `::after` copy uses `content: attr(data-ink) / ""` (empty alt
@@ -59,8 +59,8 @@ case studies become new "cover stories" that reuse the sheet + folio pattern.
 - **Astro components:** `Sheet` (folio + grid), `Folio`, `Overprint`, `Note`, `Tape`,
   `Sticker` (round / tag / warn), `Halftone` (photo, label prop), `StatusChip`, `NowList`,
   `SpecTable`, `BudgetBar` (data in, legend as real text), `ArchDiagram` (nested-list data),
-  `DecisionCard`, `GotchaNote`, `ProjectEntry` (featured / compact / tint), `Roles`,
-  `JobBlock`, `Bridge`, `Principle`, `Toolbox`, `BackCover`, `ReviewBar` (dev only).
+  `DecisionCard`, `GotchaNote`, `ProjectEntry` (featured / compact / tint), `TitleFact`,
+  `AreaBlock`, `Bridge`, `Principle`, `Toolbox`, `BackCover`, `ReviewBar` (dev only).
 - **Fonts to self-host (WOFF2, Latin + Latin-ext):** Bagel Fat One (one static file),
   Atkinson Hyperlegible Next (variable, wght 200–800; roman only is enough), Shantell Sans
   (variable, subset to wght 500–600 with INFM and BNCE). That makes three files. Code uses the system

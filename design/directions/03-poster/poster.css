@@ -299,8 +299,9 @@
     .work__intro { grid-row: 3; }
   }
 
-  /* RoleBlock: the three jobs, set as three flat fields */
-  .jobs { list-style: none; padding: 0; margin-block-start: var(--space-2xl); display: grid; gap: var(--gutter); grid-template-columns: minmax(0, 1fr); }
+  /* AreaBlock: the three areas the job covers, set as three flat fields */
+  .jobs__label { margin-block-start: var(--space-2xl); padding-block-start: var(--space-2xs); border-block-start: var(--rule) solid var(--ink-inverse); }
+  .jobs { list-style: none; padding: 0; margin-block-start: var(--space-m); display: grid; gap: var(--gutter); grid-template-columns: minmax(0, 1fr); }
   .job { display: grid; gap: var(--space-s); align-content: start; padding: var(--space-s) var(--space-s) var(--space-l); }
   .job--a { background: var(--accent); color: var(--accent-ink); }
   .job--b { background: var(--surface); color: var(--ink); }
