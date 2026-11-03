@@ -41,6 +41,21 @@ const FLOW = `.wrap{position:absolute;inset:64px 64px 64px;display:flex;flex-dir
 .c-v{width:3px;height:36px;background:#fbc044;opacity:.85;align-self:center}
 .node b{font-size:64px}
 .node span{font-size:24px}`;
+const CARD = `.zone{position:absolute;left:64px;right:64px;top:56px;height:540px;display:flex;flex-direction:column;justify-content:center;align-items:center}
+.pill{display:flex;align-items:center;justify-content:center;gap:16px;width:440px;height:80px;border:1.5px solid rgba(240,243,250,.24);border-radius:10px;background:#121f3d;font-family:"Instrument Serif",Georgia,serif;font-size:46px;line-height:1;color:#f0f3fa}
+.pill.gold{border-color:#fbc044;color:#fbc044;background:rgba(251,192,68,.07)}
+.v{width:3px;height:22px;background:#fbc044;opacity:.8}
+.fork{position:relative;width:440px;height:34px}
+.fork::before{content:"";position:absolute;left:50%;top:0;width:3px;height:14px;margin-left:-1.5px;background:#fbc044;opacity:.8}
+.fork::after{content:"";position:absolute;left:25%;right:25%;top:14px;height:20px;border:3px solid #fbc044;border-bottom:0;opacity:.8;border-radius:6px 6px 0 0}
+.pair{display:flex;gap:24px}.pair .pill{width:310px;font-size:40px}
+.lock{width:26px;height:30px;border:3px solid currentColor;border-radius:5px;position:relative;margin-top:8px}
+.lock::before{content:"";position:absolute;left:3px;right:3px;top:-16px;height:16px;border:3px solid currentColor;border-bottom:0;border-radius:12px 12px 0 0}
+.box{width:560px;border:2px solid rgba(240,243,250,.28);border-radius:12px;padding:26px 28px 30px;background:rgba(255,255,255,.03);position:relative}
+.box::after{content:"";position:absolute;left:-6%;right:-6%;bottom:-20px;height:12px;border-radius:0 0 14px 14px;background:rgba(240,243,250,.2)}
+.box p{font-size:26px;color:rgba(240,243,250,.62);margin-bottom:18px;text-align:center}
+.box .pill{width:100%}.box .pill+.pill{margin-top:16px}
+`;
 function platform(shape) {
   if (shape === "wide") {
     return doc(`<div class="wrap">
@@ -51,12 +66,11 @@ function platform(shape) {
 <p style="font-size:26px;letter-spacing:.08em;text-transform:uppercase;color:rgba(240,243,250,.55)">8 clusters · AWS and Azure · GitOps</p>
 </div>`, FLOW + ".foot{display:none}");
   }
-  return doc(`<div class="wrap">
-<div class="col" style="padding-inline:90px">
-<div class="node"><b>Commit</b></div><i class="c-v"></i><div class="node"><b>CI</b></div><i class="c-v"></i><div class="node"><b>Registry</b></div><i class="c-v"></i><div class="node gold"><b>Argo CD</b></div>
-</div>
-<div class="row" style="gap:24px"><div class="node" style="flex:1"><b style="font-size:46px">Acceptance</b></div><div class="node gold" style="flex:1"><b style="font-size:46px">Production</b></div></div>
-</div>`, FLOW + ".foot{display:none}" + ".wrap{bottom:330px;top:48px;justify-content:space-between}.node{padding:16px 24px}.node b{font-size:52px}.c-v{height:22px}");
+  return doc(`<div class="zone">
+<div class="pill">Commit</div><i class="v"></i><div class="pill">CI</div><i class="v"></i><div class="pill">Registry</div><i class="v"></i><div class="pill gold">Argo CD</div>
+<i class="fork"></i>
+<div class="pair"><div class="pill">Acceptance</div><div class="pill gold">Production</div></div>
+</div>`, CARD + ".foot{display:none}");
 }
 
 /* --- homelab: three ways in → the laptop (k3s + Home Assistant), no open ports */
@@ -81,10 +95,10 @@ function homelab(shape) {
 <div class="shield" style="align-self:flex-end"><i></i>0 open ports</div>
 </div>`, LAB + ".foot{display:none}");
   }
-  return doc(`<div class="wrap">
-${box}
-<div><p class="way" style="font-size:46px">Tailnet by default<small>two more ways in, both opt-in</small></p><div class="shield" style="margin-top:28px"><i></i>0 open ports</div></div>
-</div>`, LAB + ".wrap{bottom:330px;top:48px;justify-content:space-between}.node{padding:16px 24px}.node b{font-size:52px}.c-v{height:22px}");
+  return doc(`<div class="zone">
+<div class="pill gold" style="width:360px"><i class="lock"></i>Tailnet</div><i class="v" style="height:40px"></i>
+<div class="box"><p>One old laptop · Proxmox</p><div class="pill gold">k3s</div><div class="pill">Home Assistant</div></div>
+</div>`, CARD);
 }
 
 /* --- MTG: Tutor library behind, Rules of 99 home in front, Scryfall on a phone */
@@ -102,9 +116,9 @@ function mtg(shape, shots) {
 <p class="foot" style="left:auto;right:64px;bottom:44px">Rules of 99 · Tutor · Scryfall, in plain words</p>`, css);
   }
   return doc(`
-<div class="shot" style="${abs(20, 30, 720)}height:500px;transform:rotate(-5deg);opacity:.85"><img src="${s("tutor-library@2x.webp")}"></div>
-<div class="shot" style="${abs(40, 220, 820)}height:512px;transform:rotate(2deg)"><img src="${s("r99-lobby@2x.webp")}"></div>
-<div class="phone" style="${abs(520, 330, 230)}height:490px;transform:rotate(6deg)"><img src="${s("scryfall-home-mobile.webp")}"></div>`, css);
+<div class="shot" style="${abs(40, 70, 560)}height:350px;transform:rotate(-4deg);opacity:.85"><img src="${s("tutor-library@2x.webp")}"></div>
+<div class="shot" style="${abs(110, 210, 600)}height:375px;transform:rotate(2deg)"><img src="${s("r99-lobby@2x.webp")}"></div>
+<div class="phone" style="${abs(560, 90, 190)}height:410px;transform:rotate(6deg);padding:9px;border-radius:30px"><img src="${s("scryfall-home-mobile.webp")}" style="border-radius:22px"></div>`, css);
 }
 
 async function render(dir) {
