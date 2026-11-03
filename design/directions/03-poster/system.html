@@ -1,0 +1,566 @@
+<!doctype html>
+<html lang="en" data-direction="poster">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Affiche design system</title>
+<meta name="description" content="Design system sheet for the Affiche (poster) direction of ekkelenkamp.dev: principles, colour with measured contrast, type, grid, components, motion.">
+<meta name="color-scheme" content="light dark">
+<script>(()=>{const O=['rotterdam','polder','nachtdruk'];let o=new URLSearchParams(location.search).get('option');if(!O.includes(o)){try{o=localStorage.getItem('affiche-option')}catch(e){}}if(!O.includes(o))o=matchMedia('(prefers-color-scheme: dark)').matches?'nachtdruk':'rotterdam';document.documentElement.dataset.option=o})()</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anybody:wdth,wght@50..150,100..900&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../../system/base.css">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="poster.css">
+<style>
+@layer components {
+  .sys-sec { padding-block: var(--space-3xl) 0; }
+  .sys-h { display: grid; grid-template-columns: auto 1fr; gap: var(--space-m); align-items: end; border-block-start: var(--rule-heavy) solid var(--line-strong); padding-block-start: var(--space-s); margin-block-end: var(--space-l); }
+  .sys-h span { font-family: var(--font-display); font-weight: 900; font-stretch: 50%; font-size: var(--step-7); line-height: .76; color: var(--c-num); }
+  .sys-h h2 { font-stretch: 125%; text-transform: uppercase; font-size: clamp(1.6rem, .9rem + 3.4vw, 4.7rem); line-height: .9; overflow-wrap: anywhere; }
+  .stage .decision, .stage .gotcha { grid-column: auto !important; grid-row: auto !important; margin-block-start: 0 !important; }
+  .stage .gotchas { grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); }
+  .sys-h3 { font-family: var(--font-display); font-weight: 850; font-stretch: 110%; text-transform: uppercase; font-size: var(--step-1); letter-spacing: .03em; margin-block: var(--space-xl) var(--space-s); border-block-start: var(--rule) solid var(--line-strong); padding-block-start: var(--space-2xs); }
+  .lede { font-size: var(--step-1); max-width: 56ch; line-height: 1.45; }
+  .cover { padding-block: var(--space-l) var(--space-2xl); }
+  .cover__t1 { --fit: 4.33; font-stretch: 150%; font-weight: 900; }
+  .cover__t2 { --fit: 6.6; font-stretch: 50%; font-weight: 900; color: var(--accent); }
+  .cover__meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-2xs) var(--space-m); border-block-end: var(--rule-hair) solid var(--line); padding-block-end: var(--space-2xs); margin-block-end: var(--space-s); }
+  .toc { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0 var(--space-m); margin-block-start: var(--space-l); }
+  .toc a { display: inline-block; min-height: 44px; line-height: 44px; font-family: var(--font-display); font-weight: 800; font-stretch: 85%; text-transform: uppercase; letter-spacing: .05em; font-size: var(--step--1); text-decoration: none; }
+  .toc a:hover { text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 3px; }
+
+  .princ { list-style: none; padding: 0; display: grid; gap: var(--space-l) var(--gutter); grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); }
+  .princ li { border-block-start: var(--rule) solid var(--line-strong); padding-block-start: var(--space-xs); display: grid; gap: var(--space-2xs); align-content: start; }
+  .princ b { font-family: var(--font-display); font-weight: 900; font-stretch: 68%; font-size: var(--step-4); line-height: .92; }
+  .princ i { font-family: var(--font-display); font-style: normal; font-weight: 900; font-stretch: 50%; font-size: var(--step-6); color: var(--c-num); line-height: .8; }
+
+  .prims { list-style: none; padding: 0; display: grid; gap: 0 var(--gutter); grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); }
+  .prim { display: grid; grid-template-columns: 2.6rem 1fr auto; grid-template-rows: auto auto; gap: 0 var(--space-xs); align-items: center; padding-block: var(--space-2xs); border-block-end: var(--rule-hair) solid var(--line); font-family: var(--font-mono); font-size: var(--step--2); }
+  .prim__chip { grid-row: span 2; width: 2.6rem; height: 2.6rem; border: 1px solid var(--line-strong); }
+  .prim__name { font-weight: 600; font-size: var(--step--1); }
+  .prim__hex { grid-row: 1 / span 2; grid-column: 3; color: var(--ink-muted); }
+  .prim__val { color: var(--ink-muted); }
+  .table-scroll { overflow-x: auto; max-width: 100%; }
+  .semtable, .ctable table, .mtable { border-collapse: collapse; width: 100%; font-size: var(--step--1); }
+  .semtable th, .semtable td, .ctable th, .ctable td, .mtable th, .mtable td { text-align: start; padding: .5em .8em .5em 0; border-block-end: var(--rule-hair) solid var(--line); vertical-align: middle; white-space: nowrap; }
+  .semtable thead th, .ctable thead th, .mtable thead th { font-family: var(--font-mono); font-weight: 500; font-size: var(--step--2); letter-spacing: .1em; text-transform: uppercase; border-block-end: var(--rule) solid var(--line-strong); }
+  .sw { display: inline-block; width: 1.1em; height: 1.1em; vertical-align: -.2em; margin-inline-end: .5em; border: 1px solid var(--line-strong); }
+  .semtable__p { font-family: var(--font-mono); font-size: .9em; }
+  .semtable__hex { font-family: var(--font-mono); font-size: .8em; color: var(--ink-muted); }
+  .ctables { display: grid; gap: var(--space-xl); }
+  .ctable__title { font-family: var(--font-display); font-weight: 900; font-stretch: 125%; text-transform: uppercase; font-size: var(--step-2); }
+  .ctable__note { color: var(--ink-muted); margin-block-end: var(--space-xs); }
+  .ctable { border-inline-start: var(--rule-heavy) solid transparent; padding-inline-start: var(--space-s); }
+  :root[data-option="rotterdam"] .ctable[data-for="rotterdam"], :root[data-option="polder"] .ctable[data-for="polder"], :root[data-option="nachtdruk"] .ctable[data-for="nachtdruk"] { border-color: var(--accent); }
+  .pair { display: inline-grid; place-items: center; width: 2.6em; height: 1.8em; font-family: var(--font-display); font-weight: 800; border: 1px solid var(--line); }
+  .num { font-family: var(--font-mono); font-weight: 600; }
+  .flag { color: var(--danger); }
+  .min { color: var(--ink-muted); }
+
+  .live { display: grid; gap: var(--gutter); grid-template-columns: repeat(auto-fill, minmax(min(100%, 9rem), 1fr)); }
+  .live div { border: var(--rule) solid var(--line-strong); }
+  .live i { display: block; height: 5rem; }
+  .live code { display: block; padding: .4em .5em; font-size: var(--step--2); }
+
+  .scale { list-style: none; padding: 0; }
+  .scale li { display: grid; grid-template-columns: 5.5rem minmax(0, 1fr); gap: var(--space-s); align-items: baseline; padding-block: var(--space-2xs); border-block-end: var(--rule-hair) solid var(--line); overflow: hidden; }
+  .scale code { font-size: var(--step--2); color: var(--ink-muted); }
+  .scale span { font-family: var(--font-display); font-weight: 850; line-height: 1; white-space: nowrap; overflow: hidden; text-overflow: clip; }
+  .families { display: grid; gap: var(--space-l) var(--gutter); grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
+  .fam { border-block-start: var(--rule) solid var(--line-strong); padding-block-start: var(--space-xs); display: grid; gap: var(--space-2xs); align-content: start; }
+  .fam__big { font-size: var(--step-6); line-height: .9; }
+  .widths { display: grid; gap: 0; border-block-start: var(--rule) solid var(--line-strong); }
+  .widths p { display: grid; grid-template-columns: 4.5rem minmax(0,1fr); align-items: baseline; gap: var(--space-s); border-block-end: var(--rule-hair) solid var(--line); padding-block: .2em; overflow: hidden; }
+  .widths span { font-family: var(--font-display); font-weight: 900; font-size: var(--step-5); line-height: 1; white-space: nowrap; }
+  .slider { display: grid; gap: var(--space-xs); margin-block-start: var(--space-m); }
+  .slider label { font-family: var(--font-mono); font-size: var(--step--1); display: flex; gap: var(--space-s); align-items: center; flex-wrap: wrap; }
+  .slider input { accent-color: var(--accent); width: min(100%, 22rem); min-height: 44px; }
+  .slider output { font-family: var(--font-display); font-weight: 900; font-size: var(--step-7); line-height: .9; white-space: nowrap; overflow: hidden; display: block; }
+
+  .spaces { list-style: none; padding: 0; display: grid; gap: var(--space-2xs); }
+  .spaces li { display: grid; grid-template-columns: 6.5rem 3rem 1fr; gap: var(--space-xs); align-items: center; font-family: var(--font-mono); font-size: var(--step--2); }
+  .spaces i { display: block; height: 1rem; background: var(--accent); }
+  .griddemo { position: relative; height: 12rem; margin-block-start: var(--space-m); }
+  .griddemo .gridlines span { background: color-mix(in oklch, var(--accent) 12%, transparent); border-color: var(--accent); }
+  .griddemo b { position: absolute; inset-inline-start: 0; inset-block-start: 1.5rem; font-family: var(--font-display); font-weight: 900; font-stretch: 150%; font-size: var(--step-6); line-height: .8; white-space: nowrap; }
+  .griddemo em { position: absolute; inset-inline-end: calc(-1 * var(--page-margin)); inset-block-end: 0; width: 40%; height: 5rem; background: var(--clash); }
+  .lines { display: grid; gap: var(--space-s); grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
+  .lines div { padding-block-start: var(--space-xs); font-family: var(--font-mono); font-size: var(--step--1); }
+
+  .comp { display: grid; gap: var(--space-s); margin-block-end: var(--space-xl); }
+  .comp__label { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-2xs) var(--space-m); font-family: var(--font-mono); font-size: var(--step--1); border-block-start: var(--rule) solid var(--line-strong); padding-block-start: var(--space-2xs); }
+  .comp__label b { font-family: var(--font-display); font-weight: 900; font-stretch: 110%; font-size: var(--step-1); text-transform: none; }
+  .comp__label span { color: var(--ink-muted); }
+  .stage { border: 1px dashed var(--line); padding: var(--space-m); overflow: hidden; position: relative; }
+  .stage--flush { padding: 0; }
+  .stage .page { width: 100%; }
+  .states { display: flex; flex-wrap: wrap; gap: var(--space-m); align-items: center; }
+  .states figure { margin: 0; display: grid; gap: var(--space-2xs); justify-items: start; }
+  .states figcaption { font-family: var(--font-mono); font-size: var(--step--2); color: var(--ink-muted); letter-spacing: .06em; text-transform: uppercase; }
+  .btn.force-hover { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-stretch: 125%; }
+  .btn--ghost.force-hover { background: var(--ink); border-color: var(--ink); color: var(--surface); font-stretch: 85%; }
+  .force-focus { outline: 3px solid var(--focus); outline-offset: 2px; box-shadow: 0 0 0 2px var(--surface); }
+  a.force-hover { text-decoration-thickness: 4px; }
+  .decision.force-hover .decision__n, .entry.force-hover .entry__num { font-stretch: 150%; }
+  .mini-hero .hero__field { margin-inline: 0; }
+  .mini-hero { padding: 0; }
+
+  .motion-demo { display: grid; gap: var(--space-s); }
+  .motion-demo__word { font-family: var(--font-display); font-weight: 900; font-size: var(--step-7); line-height: .9; font-stretch: 50%; white-space: nowrap; overflow: hidden; }
+  .motion-demo__word.go { animation: demo-stretch var(--dur-slow) var(--ease-out) both; }
+  @keyframes demo-stretch { from { font-stretch: 50%; } to { font-stretch: 150%; } }
+  .motion-demo__word.done { font-stretch: 150%; }
+  .ease-row { display: grid; grid-template-columns: 8rem 1fr; gap: var(--space-s); align-items: center; font-family: var(--font-mono); font-size: var(--step--2); }
+  .ease-row i { display: block; width: 1.4rem; height: 1.4rem; background: var(--accent); }
+  .ease-track { position: relative; height: 1.4rem; border-block-end: 1px solid var(--line); }
+  .ease-track i { position: absolute; inset-inline-start: 0; transition: inset-inline-start var(--dur-slow) var(--e); }
+  .play .ease-track i { inset-inline-start: calc(100% - 1.4rem); }
+
+  .dodont { display: grid; gap: var(--gutter); grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); }
+  .dd { border: var(--rule) solid var(--line-strong); }
+  .dd header { padding: .4em .7em; font-family: var(--font-display); font-weight: 900; font-stretch: 125%; text-transform: uppercase; letter-spacing: .05em; font-size: var(--step--1); display: flex; gap: .5em; align-items: center; }
+  .dd--do header { background: var(--ok); color: var(--surface); }
+  .dd--dont header { background: var(--danger); color: var(--surface); }
+  .dd > div { padding: var(--space-s); min-height: 9rem; display: grid; align-content: center; gap: var(--space-2xs); overflow: hidden; }
+  .dd p.cap { font-size: var(--step--1); color: var(--ink-muted); }
+  .bad-card { border-radius: 18px; background: linear-gradient(135deg, #8a7cff, #ff7ccf); color: #fff; padding: 1rem 1.2rem; box-shadow: 0 10px 30px rgba(120,80,255,.4); font-family: system-ui, sans-serif; font-weight: 600; text-align: center; }
+  .rules-list { padding-inline-start: 1.2em; display: grid; gap: var(--space-2xs); max-width: 70ch; }
+}
+</style>
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="masthead">
+  <div class="page masthead__bar">
+    <a class="mark" href="index.html" aria-label="Back to the Affiche homepage">G.E.<span class="mark__dot" aria-hidden="true"></span><span class="mark__dom">Affiche · system</span></a>
+    <nav class="nav" aria-label="System sections">
+      <ul>
+        <li><a href="#colour"><span>02</span>Colour</a></li>
+        <li><a href="#type"><span>03</span>Type</a></li>
+        <li><a href="#grid"><span>04</span>Grid</a></li>
+        <li><a href="#components"><span>06</span>Parts</a></li>
+        <li><a href="#motion"><span>07</span>Motion</a></li>
+      </ul>
+    </nav>
+    <p class="masthead__city">Option: <b data-current-option>rotterdam</b></p>
+  </div>
+</header>
+
+<main id="main">
+<section class="page cover" aria-labelledby="cover-t">
+  <p class="cover__meta label"><span>Direction 03</span><span>Design system sheet</span><span>ekkelenkamp.dev · 2026</span></p>
+  <h1 class="fit-box" id="cover-t"><span class="fit cover__t1">Affiche</span><span class="fit cover__t2">The poster system</span></h1>
+  <p class="lede" style="margin-block-start: var(--space-l)">Dutch graphic design by way of Rotterdam: the type is the image, numbers become shapes, and the 12-column grid is there so it can be broken on purpose. Flat colour, hard edges, no shadows. One variable display face does all the shouting; a book face does the explaining.</p>
+  <ol class="toc">
+    <li><a href="#principles">01 Principles</a></li><li><a href="#colour">02 Colour</a></li><li><a href="#type">03 Type</a></li><li><a href="#grid">04 Space &amp; grid</a></li><li><a href="#lines">05 Lines, radius, shadow</a></li><li><a href="#components">06 Components</a></li><li><a href="#motion">07 Motion</a></li><li><a href="#imagery">08 Imagery</a></li><li><a href="#dodont">09 Do / don’t</a></li>
+  </ol>
+</section>
+
+<section class="page sys-sec" id="principles" aria-labelledby="h-pr">
+  <div class="sys-h"><span aria-hidden="true">01</span><h2 id="h-pr">Principles</h2></div>
+  <ol class="princ">
+    <li><i aria-hidden="true">1</i><b>The number is the picture.</b><p>16 GB, 0 clogs, 33,000 cards. If a fact has a number, set the number huge and let a small caption explain it. No icons, no illustrations standing in for facts.</p></li>
+    <li><i aria-hidden="true">2</i><b>Width is the voice.</b><p>Anybody runs from 50% to 150% wide. Ultra-condensed for weight and density, ultra-expanded for a shout across the page. Size and weight are secondary; width is the expressive axis.</p></li>
+    <li><i aria-hidden="true">3</i><b>Grid first, then break it.</b><p>Every block snaps to 12 columns. Then one thing per section ignores it: bleeds off the edge, overlaps, or turns 90°. Never two things breaking at once.</p></li>
+    <li><i aria-hidden="true">4</i><b>Flat print.</b><p>Fields of solid colour with hard edges. Radius 0, shadow none, gradients never (a hard hatch is a pattern, not a gradient). Depth comes from overlap and scale.</p></li>
+    <li><i aria-hidden="true">5</i><b>Shout in display, explain in serif.</b><p>Display type never carries a paragraph. Long copy is Newsreader at a readable measure. Day-job titles stay small: facts in mono, not headlines.</p></li>
+  </ol>
+</section>
+
+<section class="page sys-sec" id="colour" aria-labelledby="h-col">
+  <div class="sys-h"><span aria-hidden="true">02</span><h2 id="h-col">Colour</h2></div>
+  <p class="lede">Three options, each a token override on <code>&lt;html data-option&gt;</code>. Every value is authored in OKLCH and generated from one palette file, so the CSS and the ratios below can’t drift apart. Each option has one accent, one “clash” field and one “pop” field: three flat colours, used as areas, not as decoration.</p>
+
+  <h3 class="sys-h3">Live: current option (<span data-current-option>rotterdam</span>)</h3>
+  <div class="live">
+    <div><i style="background:var(--surface)"></i><code>--surface</code></div>
+    <div><i style="background:var(--surface-raised)"></i><code>--surface-raised</code></div>
+    <div><i style="background:var(--surface-sunken)"></i><code>--surface-sunken</code></div>
+    <div><i style="background:var(--surface-inverse)"></i><code>--surface-inverse</code></div>
+    <div><i style="background:var(--ink)"></i><code>--ink</code></div>
+    <div><i style="background:var(--ink-muted)"></i><code>--ink-muted</code></div>
+    <div><i style="background:var(--ink-subtle)"></i><code>--ink-subtle</code></div>
+    <div><i style="background:var(--accent)"></i><code>--accent</code></div>
+    <div><i style="background:var(--accent-soft)"></i><code>--accent-soft</code></div>
+    <div><i style="background:var(--clash)"></i><code>--clash</code></div>
+    <div><i style="background:var(--pop)"></i><code>--pop</code></div>
+    <div><i style="background:var(--accent-on-inverse)"></i><code>--accent-on-inverse</code></div>
+    <div><i style="background:var(--ok)"></i><code>--ok</code></div>
+    <div><i style="background:var(--warn)"></i><code>--warn</code></div>
+    <div><i style="background:var(--danger)"></i><code>--danger</code></div>
+    <div><i style="background:var(--line)"></i><code>--line</code></div>
+    <div><i style="background:var(--focus)"></i><code>--focus</code></div>
+  </div>
+
+  <h3 class="sys-h3">Primitives (tier 1): OKLCH + hex</h3>
+  <ul class="prims">
+<li class="prim"><span class="prim__chip" style="background:var(--p-black)"></span><span class="prim__name">black</span><span class="prim__val">oklch(16% 0.008 40)</span><span class="prim__hex">#100c0b</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-ink-700)"></span><span class="prim__name">ink-700</span><span class="prim__val">oklch(34% 0.01 40)</span><span class="prim__hex">#3d3634</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-grey-600)"></span><span class="prim__name">grey-600</span><span class="prim__val">oklch(47% 0.01 60)</span><span class="prim__hex">#5f5a55</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-grey-500)"></span><span class="prim__name">grey-500</span><span class="prim__val">oklch(56% 0.01 60)</span><span class="prim__hex">#79736f</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-paper-50)"></span><span class="prim__name">paper-50</span><span class="prim__val">oklch(96.5% 0.014 85)</span><span class="prim__hex">#f8f3e9</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-paper-0)"></span><span class="prim__name">paper-0</span><span class="prim__val">oklch(98.8% 0.008 85)</span><span class="prim__hex">#fefbf5</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-paper-150)"></span><span class="prim__name">paper-150</span><span class="prim__val">oklch(91% 0.018 85)</span><span class="prim__hex">#e7e1d4</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-paper-250)"></span><span class="prim__name">paper-250</span><span class="prim__val">oklch(85% 0.022 85)</span><span class="prim__hex">#d4cdbe</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-red-500)"></span><span class="prim__name">red-500</span><span class="prim__val">oklch(57% 0.215 29)</span><span class="prim__hex">#d9241b</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-red-550)"></span><span class="prim__name">red-550</span><span class="prim__val">oklch(53.5% 0.205 29)</span><span class="prim__hex">#c91c15</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-red-650)"></span><span class="prim__name">red-650</span><span class="prim__val">oklch(46% 0.18 29)</span><span class="prim__hex">#a5100b</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-red-400)"></span><span class="prim__name">red-400</span><span class="prim__val">oklch(64.5% 0.19 29)</span><span class="prim__hex">#eb5344</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-red-100)"></span><span class="prim__name">red-100</span><span class="prim__val">oklch(91% 0.045 29)</span><span class="prim__hex">#fed7d0</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-amber-600)"></span><span class="prim__name">amber-600</span><span class="prim__val">oklch(52% 0.116 65)</span><span class="prim__hex">#965802</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-amber-400)"></span><span class="prim__name">amber-400</span><span class="prim__val">oklch(80% 0.16 80)</span><span class="prim__hex">#f3b01d</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-green-600)"></span><span class="prim__name">green-600</span><span class="prim__val">oklch(50% 0.15 146)</span><span class="prim__hex">#077826</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-green-700)"></span><span class="prim__name">green-700</span><span class="prim__val">oklch(43% 0.124 148)</span><span class="prim__hex">#016123</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-green-900)"></span><span class="prim__name">green-900</span><span class="prim__val">oklch(23% 0.045 152)</span><span class="prim__hex">#0a2312</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-green-800)"></span><span class="prim__name">green-800</span><span class="prim__val">oklch(33% 0.06 152)</span><span class="prim__hex">#1a3e26</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-green-100)"></span><span class="prim__name">green-100</span><span class="prim__val">oklch(93% 0.05 146)</span><span class="prim__hex">#d3f1d4</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-sky-400)"></span><span class="prim__name">sky-400</span><span class="prim__val">oklch(79% 0.105 232)</span><span class="prim__hex">#6fc7f2</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-sky-700)"></span><span class="prim__name">sky-700</span><span class="prim__val">oklch(47% 0.118 245)</span><span class="prim__hex">#015f98</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-sky-50)"></span><span class="prim__name">sky-50</span><span class="prim__val">oklch(97% 0.015 232)</span><span class="prim__hex">#ecf7fe</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-sky-100)"></span><span class="prim__name">sky-100</span><span class="prim__val">oklch(93.5% 0.03 232)</span><span class="prim__hex">#d7eefa</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-orange-500)"></span><span class="prim__name">orange-500</span><span class="prim__val">oklch(70% 0.185 47)</span><span class="prim__hex">#f7721a</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-orange-700)"></span><span class="prim__name">orange-700</span><span class="prim__val">oklch(52% 0.156 42)</span><span class="prim__hex">#af4002</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-white)"></span><span class="prim__name">white</span><span class="prim__val">oklch(100% 0 0)</span><span class="prim__hex">#ffffff</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-night-950)"></span><span class="prim__name">night-950</span><span class="prim__val">oklch(14.5% 0.006 320)</span><span class="prim__hex">#0b090c</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-night-900)"></span><span class="prim__name">night-900</span><span class="prim__val">oklch(20% 0.008 320)</span><span class="prim__hex">#181518</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-night-800)"></span><span class="prim__name">night-800</span><span class="prim__val">oklch(27% 0.01 320)</span><span class="prim__hex">#29252a</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-night-600)"></span><span class="prim__name">night-600</span><span class="prim__val">oklch(50% 0.01 320)</span><span class="prim__hex">#666167</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-bone-100)"></span><span class="prim__name">bone-100</span><span class="prim__val">oklch(94% 0.012 85)</span><span class="prim__hex">#efebe2</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-bone-300)"></span><span class="prim__name">bone-300</span><span class="prim__val">oklch(80% 0.012 85)</span><span class="prim__hex">#c1bdb5</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-bone-500)"></span><span class="prim__name">bone-500</span><span class="prim__val">oklch(64% 0.012 85)</span><span class="prim__hex">#8f8c84</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-pink-500)"></span><span class="prim__name">pink-500</span><span class="prim__val">oklch(70% 0.216 356)</span><span class="prim__hex">#ff55a3</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-pink-900)"></span><span class="prim__name">pink-900</span><span class="prim__val">oklch(30% 0.1 356)</span><span class="prim__hex">#51102f</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-pink-700)"></span><span class="prim__name">pink-700</span><span class="prim__val">oklch(47% 0.19 356)</span><span class="prim__hex">#a4055e</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-mint-400)"></span><span class="prim__name">mint-400</span><span class="prim__val">oklch(82% 0.15 160)</span><span class="prim__hex">#59e1a2</span></li>
+<li class="prim"><span class="prim__chip" style="background:var(--p-yellow-400)"></span><span class="prim__name">yellow-400</span><span class="prim__val">oklch(88% 0.16 100)</span><span class="prim__hex">#f0d947</span></li>
+  </ul>
+
+  <h3 class="sys-h3">Semantic tokens per option (tier 2)</h3>
+<div class="table-scroll"><table class="semtable"><thead><tr><th scope="col">Token</th><th scope="col">Rotterdam</th><th scope="col">Polder</th><th scope="col">Nachtdruk</th></tr></thead><tbody><tr><th scope="row"><code>--surface</code></th><td><span class="sw" style="background:var(--p-paper-50)"></span><span class="semtable__p">paper-50</span> <span class="semtable__hex">#f8f3e9</span></td><td><span class="sw" style="background:var(--p-white)"></span><span class="semtable__p">white</span> <span class="semtable__hex">#ffffff</span></td><td><span class="sw" style="background:var(--p-night-950)"></span><span class="semtable__p">night-950</span> <span class="semtable__hex">#0b090c</span></td></tr><tr><th scope="row"><code>--surface-raised</code></th><td><span class="sw" style="background:var(--p-paper-0)"></span><span class="semtable__p">paper-0</span> <span class="semtable__hex">#fefbf5</span></td><td><span class="sw" style="background:var(--p-sky-50)"></span><span class="semtable__p">sky-50</span> <span class="semtable__hex">#ecf7fe</span></td><td><span class="sw" style="background:var(--p-night-900)"></span><span class="semtable__p">night-900</span> <span class="semtable__hex">#181518</span></td></tr><tr><th scope="row"><code>--surface-sunken</code></th><td><span class="sw" style="background:var(--p-paper-150)"></span><span class="semtable__p">paper-150</span> <span class="semtable__hex">#e7e1d4</span></td><td><span class="sw" style="background:var(--p-sky-100)"></span><span class="semtable__p">sky-100</span> <span class="semtable__hex">#d7eefa</span></td><td><span class="sw" style="background:var(--p-black)"></span><span class="semtable__p">black</span> <span class="semtable__hex">#100c0b</span></td></tr><tr><th scope="row"><code>--surface-inverse</code></th><td><span class="sw" style="background:var(--p-black)"></span><span class="semtable__p">black</span> <span class="semtable__hex">#100c0b</span></td><td><span class="sw" style="background:var(--p-green-900)"></span><span class="semtable__p">green-900</span> <span class="semtable__hex">#0a2312</span></td><td><span class="sw" style="background:var(--p-bone-100)"></span><span class="semtable__p">bone-100</span> <span class="semtable__hex">#efebe2</span></td></tr><tr><th scope="row"><code>--ink</code></th><td><span class="sw" style="background:var(--p-black)"></span><span class="semtable__p">black</span> <span class="semtable__hex">#100c0b</span></td><td><span class="sw" style="background:var(--p-green-900)"></span><span class="semtable__p">green-900</span> <span class="semtable__hex">#0a2312</span></td><td><span class="sw" style="background:var(--p-bone-100)"></span><span class="semtable__p">bone-100</span> <span class="semtable__hex">#efebe2</span></td></tr><tr><th scope="row"><code>--ink-muted</code></th><td><span class="sw" style="background:var(--p-ink-700)"></span><span class="semtable__p">ink-700</span> <span class="semtable__hex">#3d3634</span></td><td><span class="sw" style="background:var(--p-green-800)"></span><span class="semtable__p">green-800</span> <span class="semtable__hex">#1a3e26</span></td><td><span class="sw" style="background:var(--p-bone-300)"></span><span class="semtable__p">bone-300</span> <span class="semtable__hex">#c1bdb5</span></td></tr><tr><th scope="row"><code>--ink-subtle</code></th><td><span class="sw" style="background:var(--p-grey-600)"></span><span class="semtable__p">grey-600</span> <span class="semtable__hex">#5f5a55</span></td><td><span class="sw" style="background:var(--p-grey-600)"></span><span class="semtable__p">grey-600</span> <span class="semtable__hex">#5f5a55</span></td><td><span class="sw" style="background:var(--p-bone-500)"></span><span class="semtable__p">bone-500</span> <span class="semtable__hex">#8f8c84</span></td></tr><tr><th scope="row"><code>--ink-inverse</code></th><td><span class="sw" style="background:var(--p-paper-50)"></span><span class="semtable__p">paper-50</span> <span class="semtable__hex">#f8f3e9</span></td><td><span class="sw" style="background:var(--p-white)"></span><span class="semtable__p">white</span> <span class="semtable__hex">#ffffff</span></td><td><span class="sw" style="background:var(--p-night-950)"></span><span class="semtable__p">night-950</span> <span class="semtable__hex">#0b090c</span></td></tr><tr><th scope="row"><code>--accent</code></th><td><span class="sw" style="background:var(--p-red-550)"></span><span class="semtable__p">red-550</span> <span class="semtable__hex">#c91c15</span></td><td><span class="sw" style="background:var(--p-green-600)"></span><span class="semtable__p">green-600</span> <span class="semtable__hex">#077826</span></td><td><span class="sw" style="background:var(--p-pink-500)"></span><span class="semtable__p">pink-500</span> <span class="semtable__hex">#ff55a3</span></td></tr><tr><th scope="row"><code>--accent-ink</code></th><td><span class="sw" style="background:var(--p-paper-50)"></span><span class="semtable__p">paper-50</span> <span class="semtable__hex">#f8f3e9</span></td><td><span class="sw" style="background:var(--p-white)"></span><span class="semtable__p">white</span> <span class="semtable__hex">#ffffff</span></td><td><span class="sw" style="background:var(--p-night-950)"></span><span class="semtable__p">night-950</span> <span class="semtable__hex">#0b090c</span></td></tr><tr><th scope="row"><code>--accent-soft</code></th><td><span class="sw" style="background:var(--p-red-100)"></span><span class="semtable__p">red-100</span> <span class="semtable__hex">#fed7d0</span></td><td><span class="sw" style="background:var(--p-green-100)"></span><span class="semtable__p">green-100</span> <span class="semtable__hex">#d3f1d4</span></td><td><span class="sw" style="background:var(--p-pink-900)"></span><span class="semtable__p">pink-900</span> <span class="semtable__hex">#51102f</span></td></tr><tr><th scope="row"><code>--ok</code></th><td><span class="sw" style="background:var(--p-green-700)"></span><span class="semtable__p">green-700</span> <span class="semtable__hex">#016123</span></td><td><span class="sw" style="background:var(--p-green-700)"></span><span class="semtable__p">green-700</span> <span class="semtable__hex">#016123</span></td><td><span class="sw" style="background:var(--p-mint-400)"></span><span class="semtable__p">mint-400</span> <span class="semtable__hex">#59e1a2</span></td></tr><tr><th scope="row"><code>--warn</code></th><td><span class="sw" style="background:var(--p-amber-600)"></span><span class="semtable__p">amber-600</span> <span class="semtable__hex">#965802</span></td><td><span class="sw" style="background:var(--p-orange-700)"></span><span class="semtable__p">orange-700</span> <span class="semtable__hex">#af4002</span></td><td><span class="sw" style="background:var(--p-yellow-400)"></span><span class="semtable__p">yellow-400</span> <span class="semtable__hex">#f0d947</span></td></tr><tr><th scope="row"><code>--danger</code></th><td><span class="sw" style="background:var(--p-red-650)"></span><span class="semtable__p">red-650</span> <span class="semtable__hex">#a5100b</span></td><td><span class="sw" style="background:var(--p-red-650)"></span><span class="semtable__p">red-650</span> <span class="semtable__hex">#a5100b</span></td><td><span class="sw" style="background:var(--p-pink-500)"></span><span class="semtable__p">pink-500</span> <span class="semtable__hex">#ff55a3</span></td></tr><tr><th scope="row"><code>--line</code></th><td><span class="sw" style="background:var(--p-grey-500)"></span><span class="semtable__p">grey-500</span> <span class="semtable__hex">#79736f</span></td><td><span class="sw" style="background:var(--p-grey-500)"></span><span class="semtable__p">grey-500</span> <span class="semtable__hex">#79736f</span></td><td><span class="sw" style="background:var(--p-night-600)"></span><span class="semtable__p">night-600</span> <span class="semtable__hex">#666167</span></td></tr><tr><th scope="row"><code>--line-strong</code></th><td><span class="sw" style="background:var(--p-black)"></span><span class="semtable__p">black</span> <span class="semtable__hex">#100c0b</span></td><td><span class="sw" style="background:var(--p-green-900)"></span><span class="semtable__p">green-900</span> <span class="semtable__hex">#0a2312</span></td><td><span class="sw" style="background:var(--p-bone-100)"></span><span class="semtable__p">bone-100</span> <span class="semtable__hex">#efebe2</span></td></tr><tr><th scope="row"><code>--focus</code></th><td><span class="sw" style="background:var(--p-black)"></span><span class="semtable__p">black</span> <span class="semtable__hex">#100c0b</span></td><td><span class="sw" style="background:var(--p-sky-700)"></span><span class="semtable__p">sky-700</span> <span class="semtable__hex">#015f98</span></td><td><span class="sw" style="background:var(--p-pink-500)"></span><span class="semtable__p">pink-500</span> <span class="semtable__hex">#ff55a3</span></td></tr><tr><th scope="row"><code>--clash</code></th><td><span class="sw" style="background:var(--p-black)"></span><span class="semtable__p">black</span> <span class="semtable__hex">#100c0b</span></td><td><span class="sw" style="background:var(--p-sky-400)"></span><span class="semtable__p">sky-400</span> <span class="semtable__hex">#6fc7f2</span></td><td><span class="sw" style="background:var(--p-bone-100)"></span><span class="semtable__p">bone-100</span> <span class="semtable__hex">#efebe2</span></td></tr><tr><th scope="row"><code>--clash-ink</code></th><td><span class="sw" style="background:var(--p-paper-50)"></span><span class="semtable__p">paper-50</span> <span class="semtable__hex">#f8f3e9</span></td><td><span class="sw" style="background:var(--p-green-900)"></span><span class="semtable__p">green-900</span> <span class="semtable__hex">#0a2312</span></td><td><span class="sw" style="background:var(--p-night-950)"></span><span class="semtable__p">night-950</span> <span class="semtable__hex">#0b090c</span></td></tr><tr><th scope="row"><code>--pop</code></th><td><span class="sw" style="background:var(--p-paper-250)"></span><span class="semtable__p">paper-250</span> <span class="semtable__hex">#d4cdbe</span></td><td><span class="sw" style="background:var(--p-orange-500)"></span><span class="semtable__p">orange-500</span> <span class="semtable__hex">#f7721a</span></td><td><span class="sw" style="background:var(--p-night-800)"></span><span class="semtable__p">night-800</span> <span class="semtable__hex">#29252a</span></td></tr><tr><th scope="row"><code>--pop-ink</code></th><td><span class="sw" style="background:var(--p-black)"></span><span class="semtable__p">black</span> <span class="semtable__hex">#100c0b</span></td><td><span class="sw" style="background:var(--p-green-900)"></span><span class="semtable__p">green-900</span> <span class="semtable__hex">#0a2312</span></td><td><span class="sw" style="background:var(--p-bone-100)"></span><span class="semtable__p">bone-100</span> <span class="semtable__hex">#efebe2</span></td></tr><tr><th scope="row"><code>--accent-on-inverse</code></th><td><span class="sw" style="background:var(--p-red-400)"></span><span class="semtable__p">red-400</span> <span class="semtable__hex">#eb5344</span></td><td><span class="sw" style="background:var(--p-sky-400)"></span><span class="semtable__p">sky-400</span> <span class="semtable__hex">#6fc7f2</span></td><td><span class="sw" style="background:var(--p-pink-700)"></span><span class="semtable__p">pink-700</span> <span class="semtable__hex">#a4055e</span></td></tr><tr><th scope="row"><code>--focus-on-inverse</code></th><td><span class="sw" style="background:var(--p-paper-50)"></span><span class="semtable__p">paper-50</span> <span class="semtable__hex">#f8f3e9</span></td><td><span class="sw" style="background:var(--p-sky-400)"></span><span class="semtable__p">sky-400</span> <span class="semtable__hex">#6fc7f2</span></td><td><span class="sw" style="background:var(--p-pink-700)"></span><span class="semtable__p">pink-700</span> <span class="semtable__hex">#a4055e</span></td></tr></tbody></table></div>
+
+  <h3 class="sys-h3">Measured contrast (WCAG 2.x relative luminance)</h3>
+  <p style="max-width:70ch; margin-block-end: var(--space-m)">Computed in Node from the OKLCH values (converted to sRGB, chroma reduced into gamut where needed). Body ink ≥ 7:1, muted ≥ 4.5, labels ≥ 3, accent as text ≥ 4.5, rules and focus ≥ 3. The focus ring carries a 2px halo in <code>--surface</code>, so it also reads on accent fields. Inside inverse bands, components switch to <code>--accent-on-inverse</code> and <code>--focus-on-inverse</code>. The current option is marked with a bar.</p>
+  <div class="ctables">
+<div class="ctable" data-for="rotterdam"><h4 class="ctable__title">Rotterdam</h4><p class="ctable__note">Signal red, black, off-white. The default.</p><div class="table-scroll"><table><thead><tr><th scope="col">Pair</th><th scope="col">Tokens</th><th scope="col">Use</th><th scope="col">Ratio</th><th scope="col">Grade</th></tr></thead><tbody><tr><td><span class="pair" style="color:#100c0b;background:#f8f3e9">Aa</span></td><td><code>--ink</code> on <code>--surface</code></td><td>Body text</td><td class="tnum num">17.55:1</td><td>AAA <span class="min">(min 7)</span></td></tr>
+<tr><td><span class="pair" style="color:#100c0b;background:#fefbf5">Aa</span></td><td><code>--ink</code> on <code>--surface-raised</code></td><td>Body on raised</td><td class="tnum num">18.77:1</td><td>AAA <span class="min">(min 7)</span></td></tr>
+<tr><td><span class="pair" style="color:#100c0b;background:#e7e1d4">Aa</span></td><td><code>--ink</code> on <code>--surface-sunken</code></td><td>Body on sunken</td><td class="tnum num">14.87:1</td><td>AAA <span class="min">(min 7)</span></td></tr>
+<tr><td><span class="pair" style="color:#3d3634;background:#f8f3e9">Aa</span></td><td><code>--ink-muted</code> on <code>--surface</code></td><td>Muted text</td><td class="tnum num">10.66:1</td><td>AAA <span class="min">(min 4.5)</span></td></tr>
+<tr><td><span class="pair" style="color:#5f5a55;background:#f8f3e9">Aa</span></td><td><code>--ink-subtle</code> on <code>--surface</code></td><td>Labels only</td><td class="tnum num">6.18:1</td><td>AA <span class="min">(min 3)</span></td></tr>
+<tr><td><span class="pair" style="color:#c91c15;background:#f8f3e9">Aa</span></td><td><code>--accent</code> on <code>--surface</code></td><td>Accent as text</td><td class="tnum num">5.18:1</td><td>AA <span class="min">(min 4.5)</span></td></tr>
+<tr><td><span class="pair" style="color:#f8f3e9;background:#c91c15">Aa</span></td><td><code>--accent-ink</code> on <code>--accent</code></td><td>Text on accent field</td><td class="tnum num">5.18:1</td><td>AA <span class="min">(min 4.5)</span></td></tr>
+<tr><td><span class="pair" style="color:#100c0b;background:#fed7d0">Aa</span></td><td><code>--ink</code> on <code>--accent-soft</code></td><td>Text on soft accent</td><td class="tnum num">14.65:1</td><td>AAA <span class="min">(min 4.5)</span></td></tr>
+<tr><td><span class="pair" style="color:#f8f3e9;background:#100c0b">Aa</span></td><td><code>--ink-inverse</code> on <code>--surface-inverse</code></td><td>Inverse band</td><td class="tnum num">17.55:1</td><td>AAA <span class="min">(min 7)</span></td></tr>
+<tr><td><span class="pair" style="color:#eb5344;background:#100c0b">Aa</span></td><td><code>--accent-on-inverse</code> on <code>--surface-inverse</code></td><td>Accent on inverse</td><td class="tnum num">5.40:1</td><td>AA <span class="min">(min 4.5)</span></td></tr>
+<tr><td><span class="pair" style="color:#f8f3e9;background:#100c0b">Aa</span></td><td><code>--clash-ink</code> on <code>--clash</code></td><td>Text on clash field</td><td class="tnum num">17.55:1</td><td>AAA <span class="min">(min 4.5)</span></td></tr>
+<tr><td><span class="pair" style="color:#100c0b;background:#d4cdbe">Aa</span></td><td><code>--pop-ink</code> on <code>--pop</code></td><td>Text on pop field</td><td class="tnum num">12.29:1</td><td>AAA <span class="min">(min 4.5)</span></td></tr>
+<tr><td><span class="pair" style="color:#016123;background:#f8f3e9">Aa</span></td><td><code>--ok</code> on <code>--surface</code></td><td>OK signal</td><td class="tnum num">6.93:1</td><td>AA <span class="min">(min 4.5)</span></td></tr>
+<tr><td><span class="pair" style="color:#965802;background:#f8f3e9">Aa</span></td><td><code>--warn</code> on <code>--surface</code></td><td>Warn signal</td><td class="tnum num">5.13:1</td><td>AA <span class="min">(min 4.5)</span></td></tr>
+<tr><td><span class="pair" style="color:#a5100b;background:#f8f3e9">Aa</span></td><td><code>--danger</code> on <code>--surface</code></td><td>Danger signal</td><td class="tnum num">7.07:1</td><td>AAA <span class="min">(min 4.5)</span></td></tr>
+<tr><td><span class="pair" style="color:#79736f;background:#f8f3e9">Aa</span></td><td><code>--line</code> on <code>--surface</code></td><td>Hairline (decorative)</td><td class="tnum num">4.21:1</td><td>AA large / UI <span class="min">(min 3)</span></td></tr>
+<tr><td><span class="pair" style="color:#100c0b;background:#f8f3e9">Aa</span></td><td><code>--line-strong</code> on <code>--surface</code></td><td>Rules, boundaries</td><td class="tnum num">17.55:1</td><td>AAA <span class="min">(min 3)</span></td></tr>
+<tr><td><span class="pair" style="color:#100c0b;background:#f8f3e9">Aa</span></td><td><code>--focus</code> on <code>--surface</code></td><td>Focus ring</td><td class="tnum num">17.55:1</td><td>AAA <span class="min">(min 3)</span></td></tr>
+<tr><td><span class="pair" style="color:#f8f3e9;background:#100c0b">Aa</span></td><td><code>--focus-on-inverse</code> on <code>--surface-inverse</code></td><td>Focus on inverse band</td><td class="tnum num">17.55:1</td><td>AAA <span class="min">(min 3)</span></td></tr></tbody></table></div></div>
+<div class="ctable" data-for="polder"><h4 class="ctable__title">Polder</h4><p class="ctable__note">Grass green, sky blue, white, a touch of tulip orange.</p><div class="table-scroll"><table><thead><tr><th scope="col">Pair</th><th scope="col">Tokens</th><th scope="col">Use</th><th scope="col">Ratio</th><th scope="col">Grade</th></tr></thead><tbody><tr><td><span class="pair" style="color:#0a2312;background:#ffffff">Aa</span></td><td><code>--ink</code> on <code>--surface</code></td><td>Body text</td><td class="tnum num">16.67:1</td><td>AAA <span class="min">(min 7)</span></td></tr>
+<tr><td><span class="pair" style="color:#0a2312;background:#ecf7fe">Aa</span></td><td><code>--ink</code> on <code>--surface-raised</code></td><td>Body on raised</td><td class="tnum num">15.33:1</td><td>AAA <span class="min">(min 7)</span></td></tr>
+<tr><td><span class="pair" style="color:#0a2312;background:#d7eefa">Aa</span></td><td><code>--ink</code> on <code>--surface-sunken</code></td><td>Body on sunken</td><td class="tnum num">13.85:1</td><td>AAA <span class="min">(min 7)</span></td></tr>
+<tr><td><span class="pair" style="color:#1a3e26;background:#ffffff">Aa</span></td><td><code>--ink-muted</code> on <code>--surface</code></td><td>Muted text</td><td class="tnum num">11.91:1</td><td>AAA <span class="min">(min 4.5)</span></td></tr>
+<tr><td><span class="pair" style="color:#5f5a55;background:#ffffff">Aa</span></td><td><code>--ink-subtle</code> on <code>--surface</code></td><td>Labels only</td><td class="tnum num">6.84:1</td><td>AA <span class="min">(min 3)</span></td></tr>
+<tr><td><span class="pair" style="color:#077826;background:#ffffff">Aa</span></td><td><code>--accent</code> on <code>--surface</code></td><td>Accent as text</td><td class="tnum num">5.62:1</td><td>AA <span class="min">(min 4.5)</span></td></tr>
+<tr><td><span class="pair" style="color:#ffffff;background:#077826">Aa</span></td><td><code>--accent-ink</code> on <code>--accent</code></td><td>Text on accent field</td><td class="tnum num">5.62:1</td><td>AA <span class="min">(min 4.5)</span></td></tr>
+<tr><td><span class="pair" style="color:#0a2312;background:#d3f1d4">Aa</span></td><td><code>--ink</code> on <code>--accent-soft</code></td><td>Text on soft accent</td><td class="tnum num">13.79:1</td><td>AAA <span class="min">(min 4.5)</span></td></tr>
+<tr><td><span class="pair" style="color:#ffffff;background:#0a2312">Aa</span></td><td><code>--ink-inverse</code> on <code>--surface-inverse</code></td><td>Inverse band</td><td class="tnum num">16.67:1</td><td>AAA <span class="min">(min 7)</span></td></tr>
+<tr><td><span class="pair" style="color:#6fc7f2;background:#0a2312">Aa</span></td><td><code>--accent-on-inverse</code> on <code>--surface-inverse</code></td><td>Accent on inverse</td><td class="tnum num">8.80:1</td><td>AAA <span class="min">(min 4.5)</span></td></tr>
+<tr><td><span class="pair" style="color:#0a2312;background:#6fc7f2">Aa</span></td><td><code>--clash-ink</code> on <code>--clash</code></td><td>Text on clash field</td><td class="tnum num">8.80:1</td><td>AAA <span class="min">(min 4.5)</span></td></tr>
+<tr><td><span class="pair" style="color:#0a2312;background:#f7721a">Aa</span></td><td><code>--pop-ink</code> on <code>--pop</code></td><td>Text on pop field</td><td class="tnum num">5.84:1</td><td>AA <span class="min">(min 4.5)</span></td></tr>
+<tr><td><span class="pair" style="color:#016123;background:#ffffff">Aa</span></td><td><code>--ok</code> on <code>--surface</code></td><td>OK signal</td><td class="tnum num">7.67:1</td><td>AAA <span class="min">(min 4.5)</span></td></tr>
+<tr><td><span class="pair" style="color:#af4002;background:#ffffff">Aa</span></td><td><code>--warn</code> on <code>--surface</code></td><td>Warn signal</td><td class="tnum num">5.90:1</td><td>AA <span class="min">(min 4.5)</span></td></tr>
+<tr><td><span class="pair" style="color:#a5100b;background:#ffffff">Aa</span></td><td><code>--danger</code> on <code>--surface</code></td><td>Danger signal</td><td class="tnum num">7.82:1</td><td>AAA <span class="min">(min 4.5)</span></td></tr>
+<tr><td><span class="pair" style="color:#79736f;background:#ffffff">Aa</span></td><td><code>--line</code> on <code>--surface</code></td><td>Hairline (decorative)</td><td class="tnum num">4.66:1</td><td>AA <span class="min">(min 3)</span></td></tr>
+<tr><td><span class="pair" style="color:#0a2312;background:#ffffff">Aa</span></td><td><code>--line-strong</code> on <code>--surface</code></td><td>Rules, boundaries</td><td class="tnum num">16.67:1</td><td>AAA <span class="min">(min 3)</span></td></tr>
+<tr><td><span class="pair" style="color:#015f98;background:#ffffff">Aa</span></td><td><code>--focus</code> on <code>--surface</code></td><td>Focus ring</td><td class="tnum num">6.77:1</td><td>AA <span class="min">(min 3)</span></td></tr>
+<tr><td><span class="pair" style="color:#6fc7f2;background:#0a2312">Aa</span></td><td><code>--focus-on-inverse</code> on <code>--surface-inverse</code></td><td>Focus on inverse band</td><td class="tnum num">8.80:1</td><td>AAA <span class="min">(min 3)</span></td></tr></tbody></table></div></div>
+<div class="ctable" data-for="nachtdruk"><h4 class="ctable__title">Nachtdruk</h4><p class="ctable__note">Night print: black stock, off-white type, one fluorescent pink.</p><div class="table-scroll"><table><thead><tr><th scope="col">Pair</th><th scope="col">Tokens</th><th scope="col">Use</th><th scope="col">Ratio</th><th scope="col">Grade</th></tr></thead><tbody><tr><td><span class="pair" style="color:#efebe2;background:#0b090c">Aa</span></td><td><code>--ink</code> on <code>--surface</code></td><td>Body text</td><td class="tnum num">16.61:1</td><td>AAA <span class="min">(min 7)</span></td></tr>
+<tr><td><span class="pair" style="color:#efebe2;background:#181518">Aa</span></td><td><code>--ink</code> on <code>--surface-raised</code></td><td>Body on raised</td><td class="tnum num">15.21:1</td><td>AAA <span class="min">(min 7)</span></td></tr>
+<tr><td><span class="pair" style="color:#efebe2;background:#100c0b">Aa</span></td><td><code>--ink</code> on <code>--surface-sunken</code></td><td>Body on sunken</td><td class="tnum num">16.30:1</td><td>AAA <span class="min">(min 7)</span></td></tr>
+<tr><td><span class="pair" style="color:#c1bdb5;background:#0b090c">Aa</span></td><td><code>--ink-muted</code> on <code>--surface</code></td><td>Muted text</td><td class="tnum num">10.60:1</td><td>AAA <span class="min">(min 4.5)</span></td></tr>
+<tr><td><span class="pair" style="color:#8f8c84;background:#0b090c">Aa</span></td><td><code>--ink-subtle</code> on <code>--surface</code></td><td>Labels only</td><td class="tnum num">5.89:1</td><td>AA <span class="min">(min 3)</span></td></tr>
+<tr><td><span class="pair" style="color:#ff55a3;background:#0b090c">Aa</span></td><td><code>--accent</code> on <code>--surface</code></td><td>Accent as text</td><td class="tnum num">6.66:1</td><td>AA <span class="min">(min 4.5)</span></td></tr>
+<tr><td><span class="pair" style="color:#0b090c;background:#ff55a3">Aa</span></td><td><code>--accent-ink</code> on <code>--accent</code></td><td>Text on accent field</td><td class="tnum num">6.66:1</td><td>AA <span class="min">(min 4.5)</span></td></tr>
+<tr><td><span class="pair" style="color:#efebe2;background:#51102f">Aa</span></td><td><code>--ink</code> on <code>--accent-soft</code></td><td>Text on soft accent</td><td class="tnum num">11.97:1</td><td>AAA <span class="min">(min 4.5)</span></td></tr>
+<tr><td><span class="pair" style="color:#0b090c;background:#efebe2">Aa</span></td><td><code>--ink-inverse</code> on <code>--surface-inverse</code></td><td>Inverse band</td><td class="tnum num">16.61:1</td><td>AAA <span class="min">(min 7)</span></td></tr>
+<tr><td><span class="pair" style="color:#a4055e;background:#efebe2">Aa</span></td><td><code>--accent-on-inverse</code> on <code>--surface-inverse</code></td><td>Accent on inverse</td><td class="tnum num">6.38:1</td><td>AA <span class="min">(min 4.5)</span></td></tr>
+<tr><td><span class="pair" style="color:#0b090c;background:#efebe2">Aa</span></td><td><code>--clash-ink</code> on <code>--clash</code></td><td>Text on clash field</td><td class="tnum num">16.61:1</td><td>AAA <span class="min">(min 4.5)</span></td></tr>
+<tr><td><span class="pair" style="color:#efebe2;background:#29252a">Aa</span></td><td><code>--pop-ink</code> on <code>--pop</code></td><td>Text on pop field</td><td class="tnum num">12.68:1</td><td>AAA <span class="min">(min 4.5)</span></td></tr>
+<tr><td><span class="pair" style="color:#59e1a2;background:#0b090c">Aa</span></td><td><code>--ok</code> on <code>--surface</code></td><td>OK signal</td><td class="tnum num">12.05:1</td><td>AAA <span class="min">(min 4.5)</span></td></tr>
+<tr><td><span class="pair" style="color:#f0d947;background:#0b090c">Aa</span></td><td><code>--warn</code> on <code>--surface</code></td><td>Warn signal</td><td class="tnum num">13.91:1</td><td>AAA <span class="min">(min 4.5)</span></td></tr>
+<tr><td><span class="pair" style="color:#ff55a3;background:#0b090c">Aa</span></td><td><code>--danger</code> on <code>--surface</code></td><td>Danger signal</td><td class="tnum num">6.66:1</td><td>AA <span class="min">(min 4.5)</span></td></tr>
+<tr><td><span class="pair" style="color:#666167;background:#0b090c">Aa</span></td><td><code>--line</code> on <code>--surface</code></td><td>Hairline (decorative)</td><td class="tnum num">3.29:1</td><td>AA large / UI <span class="min">(min 3)</span></td></tr>
+<tr><td><span class="pair" style="color:#efebe2;background:#0b090c">Aa</span></td><td><code>--line-strong</code> on <code>--surface</code></td><td>Rules, boundaries</td><td class="tnum num">16.61:1</td><td>AAA <span class="min">(min 3)</span></td></tr>
+<tr><td><span class="pair" style="color:#ff55a3;background:#0b090c">Aa</span></td><td><code>--focus</code> on <code>--surface</code></td><td>Focus ring</td><td class="tnum num">6.66:1</td><td>AA <span class="min">(min 3)</span></td></tr>
+<tr><td><span class="pair" style="color:#a4055e;background:#efebe2">Aa</span></td><td><code>--focus-on-inverse</code> on <code>--surface-inverse</code></td><td>Focus on inverse band</td><td class="tnum num">6.38:1</td><td>AA <span class="min">(min 3)</span></td></tr></tbody></table></div></div>
+  </div>
+</section>
+
+<section class="page sys-sec" id="type" aria-labelledby="h-type">
+  <div class="sys-h"><span aria-hidden="true">03</span><h2 id="h-type">Type</h2></div>
+  <div class="families">
+    <div class="fam"><p class="label">Display · Anybody (variable: wdth 50–150, wght 100–900)</p><p class="fam__big" style="font-family:var(--font-display);font-weight:900;font-stretch:50%">Ekkelenkamp</p><p>A grotesque with a width axis wide enough to be the identity. Condensed it stacks like wood type; expanded it runs like a masthead. Headlines, numerals, labels in caps, nav.</p></div>
+    <div class="fam"><p class="label">Text · Newsreader (variable: opsz 6–72, wght 300–700, italic)</p><p class="fam__big" style="font-family:var(--font-body);font-weight:400;font-style:italic">A data centre</p><p>A real editorial book face with optical sizes. The magazine half of the poster: it makes long copy calm next to very loud display type. Body, one-liners (italic), captions.</p></div>
+    <div class="fam"><p class="label">Data · IBM Plex Mono (400, 500, 600)</p><p class="fam__big" style="font-family:var(--font-mono);font-weight:500;font-size:var(--step-4)">k3s-01 · 10 GB</p><p>Spec labels, running heads, kickers, metadata and code. Always uppercase and tracked when used as a label; never for paragraphs.</p></div>
+  </div>
+
+  <h3 class="sys-h3">Width is the expressive axis</h3>
+  <div class="widths">
+    <p><code>50%</code><span style="font-stretch:50%">Rotterdam</span></p>
+    <p><code>68%</code><span style="font-stretch:68%">Rotterdam</span></p>
+    <p><code>85%</code><span style="font-stretch:85%">Rotterdam</span></p>
+    <p><code>100%</code><span style="font-stretch:100%">Rotterdam</span></p>
+    <p><code>125%</code><span style="font-stretch:125%">Rotterdam</span></p>
+    <p><code>150%</code><span style="font-stretch:150%">Rotterdam</span></p>
+  </div>
+  <div class="slider">
+    <label for="wdth">font-stretch <input id="wdth" type="range" min="50" max="150" value="110" step="1"> <span id="wdth-v">110%</span></label>
+    <output for="wdth" id="wdth-out" style="font-stretch:110%">16 GB</output>
+  </div>
+
+  <h3 class="sys-h3">Scale: shared steps −2…6, poster steps 7…9</h3>
+  <ul class="scale">
+    <li><code>--step--2</code><span style="font-size:var(--step--2);font-family:var(--font-mono);font-weight:500;letter-spacing:.1em">LABELS, AXIS TICKS · 11px</span></li>
+    <li><code>--step--1</code><span style="font-size:var(--step--1);font-family:var(--font-mono);font-weight:500">Meta, captions, mono data</span></li>
+    <li><code>--step-0</code><span style="font-size:var(--step-0);font-family:var(--font-body);font-weight:400">Body copy in Newsreader, 16→18px</span></li>
+    <li><code>--step-1</code><span style="font-size:var(--step-1);font-family:var(--font-body);font-style:italic;font-weight:400">The lead, a one-liner in italic</span></li>
+    <li><code>--step-2</code><span style="font-size:var(--step-2);font-stretch:85%">Decision headline</span></li>
+    <li><code>--step-3</code><span style="font-size:var(--step-3);font-stretch:125%">Quizmaster</span></li>
+    <li><code>--step-4</code><span style="font-size:var(--step-4);font-stretch:68%">Automate the second time.</span></li>
+    <li><code>--step-5</code><span style="font-size:var(--step-5);font-stretch:125%;text-transform:uppercase">Spec sheet</span></li>
+    <li><code>--step-6</code><span style="font-size:var(--step-6);font-stretch:125%">Rules of 99</span></li>
+    <li><code>--step-7</code><span style="font-size:var(--step-7);font-stretch:50%;color:var(--c-num)">01 02 03</span></li>
+    <li><code>--step-8</code><span style="font-size:var(--step-8);font-stretch:50%">33,000</span></li>
+    <li><code>--step-9</code><span style="font-size:var(--step-9);font-stretch:150%;color:var(--c-num)">0</span></li>
+  </ul>
+  <p style="margin-block-start:var(--space-s); max-width:70ch">Beyond step 9, type is <b>fitted</b>: the parent is a size container and the line gets <code>font-size: calc(100cqi / var(--fit))</code>, where <code>--fit</code> is the line’s measured advance in em at its width setting. No JS needed; a 1 KB script refits only if the webfont fails.</p>
+
+  <h3 class="sys-h3">Pairing rules</h3>
+  <ul class="rules-list">
+    <li>Display line-height 0.76–0.92, tracking 0 to −0.03em. Caps labels in mono, +0.06 to +0.14em.</li>
+    <li>In one headline, contrast width, not family: one line at 50%, the next at 150%.</li>
+    <li>Body copy is Newsreader at 68ch max. Never set more than two lines of display type as running text.</li>
+    <li>Numerals in data: <code>tabular-nums slashed-zero</code>. Big numerals are always Anybody, condensed or expanded, never normal width for the hero numbers.</li>
+    <li>Roles and job titles are facts: mono caps at step −1. They never become the headline.</li>
+  </ul>
+</section>
+
+<section class="page sys-sec" id="grid" aria-labelledby="h-grid">
+  <div class="sys-h"><span aria-hidden="true">04</span><h2 id="h-grid">Space &amp; grid</h2></div>
+  <ul class="spaces">
+    <li><code>--space-3xs</code><span>4</span><i style="width:4px"></i></li>
+    <li><code>--space-2xs</code><span>8</span><i style="width:8px"></i></li>
+    <li><code>--space-xs</code><span>12</span><i style="width:12px"></i></li>
+    <li><code>--space-s</code><span>16</span><i style="width:16px"></i></li>
+    <li><code>--space-m</code><span>24</span><i style="width:24px"></i></li>
+    <li><code>--space-l</code><span>32</span><i style="width:32px"></i></li>
+    <li><code>--space-xl</code><span>48</span><i style="width:48px"></i></li>
+    <li><code>--space-2xl</code><span>64</span><i style="width:64px"></i></li>
+    <li><code>--space-3xl</code><span>96</span><i style="width:96px"></i></li>
+    <li><code>--space-4xl</code><span>144</span><i style="width:144px; max-width:100%"></i></li>
+  </ul>
+  <h3 class="sys-h3">12 / 6 / 4 columns, and one break per section</h3>
+  <p style="max-width:70ch">Gutter <code>clamp(16px, 2vw, 32px)</code>, margin <code>clamp(16px, 4vw, 64px)</code>. The hairline columns are drawn in the hero so the break is visible. A <code>--bleed</code> token measures the distance from the page edge to the viewport edge, so fields can run off the page precisely.</p>
+  <div class="griddemo" aria-hidden="true">
+    <div class="gridlines"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <b>Break it.</b><em></em>
+  </div>
+</section>
+
+<section class="page sys-sec" id="lines" aria-labelledby="h-lines">
+  <div class="sys-h"><span aria-hidden="true">05</span><h2 id="h-lines">Lines, radius, shadow</h2></div>
+  <div class="lines">
+    <div style="border-block-start: var(--rule-hair) solid var(--line)"><b>--rule-hair</b> 1px, <code>--line</code>. Table rows, list dividers.</div>
+    <div style="border-block-start: var(--rule) solid var(--line-strong)"><b>--rule</b> 3px, <code>--line-strong</code>. Block tops, boxes, chips.</div>
+    <div style="border-block-start: var(--rule-heavy) solid var(--line-strong)"><b>--rule-heavy</b> 8px. Section starts, the masthead.</div>
+    <div style="border-block-start: var(--rule) solid var(--line-strong)"><b>--radius-s/m/l: 0</b>. <b>--shadow-1/2: none</b>. Corners are square; nothing floats.</div>
+  </div>
+</section>
+
+<section class="page sys-sec" id="components" aria-labelledby="h-comp">
+  <div class="sys-h"><span aria-hidden="true">06</span><h2 id="h-comp">Components</h2></div>
+  <p class="lede" style="margin-block-end: var(--space-xl)">Every part of the homepage, rendered with the live tokens. Switch the option in the review bar and they all follow.</p>
+
+  <div class="comp"><p class="comp__label"><b>SiteHeader</b><span>masthead: mark + 5 links, number prefix, width grows on hover</span></p>
+    <div class="stage stage--flush"><header class="masthead"><div class="page masthead__bar" style="padding-inline: var(--space-s)"><a class="mark" href="#components">G.E.<span class="mark__dot" aria-hidden="true"></span><span class="mark__dom">ekkelenkamp.dev</span></a><nav class="nav" aria-label="Example"><ul><li><a href="#components"><span>01</span>Now</a></li><li><a href="#components" class="force-hover" style="font-stretch:125%;text-decoration:underline;text-decoration-thickness:3px;text-decoration-color:var(--accent)"><span>02</span>Work (hover)</a></li><li><a href="#components" class="force-focus"><span>03</span>Homelab (focus)</a></li></ul></nav></div></header></div>
+  </div>
+
+  <div class="comp"><p class="comp__label"><b>Hero</b><span>fitted name, number field, one-liner, roles sub-line, status. Fits 360×640.</span></p>
+    <div class="stage"><div class="hero mini-hero"><div class="grid hero__grid" style="grid-template-columns: repeat(12, minmax(0,1fr))">
+      <h2 class="hero__name fit-box" style="grid-column:1/span 7; grid-row:1"><span class="fit hero__first">Guus</span><span class="fit hero__last">Ekkelenkamp</span></h2>
+      <div class="hero__field" style="grid-column:8/-1; grid-row:1 / span 2; margin:0; padding: var(--space-s)" aria-hidden="true"><span class="hero__fifteen" style="inset-inline-end:0">15</span><span class="hero__fifteen-cap">services at home</span></div>
+      <p class="hero__line" style="grid-column:1/span 7; grid-row:2; font-size: var(--step-3)">By day I make sure client platforms are <mark>secure and keep running</mark>.</p>
+    </div></div></div>
+  </div>
+
+  <div class="comp"><p class="comp__label"><b>StatusChip</b><span>square “live” dot, steps blink, stops under reduced motion</span></p>
+    <div class="stage"><span class="status"><span class="status__dot" aria-hidden="true"></span><span class="status__label">Currently</span><span>moving my infra to ekkelenkamp.dev &amp; hunting mini PCs for node #2</span></span></div>
+  </div>
+
+  <div class="comp"><p class="comp__label"><b>SectionHeader</b><span>ultra-condensed numeral in accent + expanded caps title + mono kicker; heavy rule on top</span></p>
+    <div class="stage"><header class="sec-head" style="margin:0"><span class="sec-head__num" aria-hidden="true">04</span><h3 class="sec-head__title">Side projects</h3><p class="sec-head__kicker label">Index · six entries</p></header></div>
+  </div>
+
+  <div class="comp"><p class="comp__label"><b>NowList</b><span>each item gets a figure in a different width; staggered on desktop</span></p>
+    <div class="stage"><ul class="now" style="grid-template-columns: repeat(auto-fit, minmax(12rem,1fr))"><li class="now__item"><span class="now__fig now__fig--a" aria-hidden="true">×3</span><p class="now__text">Building a <strong>3-node homelab</strong> out of ex-office mini PCs.</p></li><li class="now__item"><span class="now__fig now__fig--b" aria-hidden="true">2.0</span><p class="now__text">Shipping <strong>Rules of 99</strong> 2.0.</p></li></ul></div>
+  </div>
+
+  <div class="comp"><p class="comp__label"><b>FeatureBand</b> <span>new · full-bleed field that opens a co-lead section (Work on inverse, Homelab on accent): numeral, kicker, fitted 2–3 line title, drop-cap intro</span></p>
+    <div class="stage stage--flush"><div class="band band--inverse feature" style="padding: var(--space-m)"><div class="grid feature__grid"><div class="feature__top"><span class="feature__num" aria-hidden="true">02</span><p class="feature__kicker label">Work · the day job</p></div><h3 class="feature__title fit-box work__title"><span class="fit work__t1">How it’s built.</span><span class="fit work__t2">Where it runs.</span><span class="fit work__t3">Who gets in.</span></h3></div></div></div>
+  </div>
+
+  <div class="comp"><p class="comp__label"><b>RolesLine</b> <span>new · titles as plain facts: mono caps between two rules, never a headline</span></p>
+    <div class="stage band--inverse" style="background:var(--surface-inverse); color: var(--ink-inverse)"><dl class="roles"><div><dt class="label">Roles</dt><dd>Security officer · Cloud specialist · Solution architect</dd></div><div><dt class="label">At</dt><dd>Harborn, Rotterdam &amp; Amsterdam</dd></div></dl></div>
+  </div>
+
+  <div class="comp"><p class="comp__label"><b>RoleBlock</b> <span>new · one of the three jobs: flat field (accent / surface / outlined), condensed title, italic line, three square-bullet facts</span></p>
+    <div class="stage" style="background:var(--surface-inverse)"><ol class="jobs" style="margin:0"><li class="job job--a"><p class="job__n label">Job 1 of 3</p><h3 class="job__title">Security</h3><p class="job__line">Keeping the agency and its clients out of the news.</p><ul class="job__bullets"><li>Access reviews, secrets handling, and the security questionnaires clients send before signing.</li></ul></li><li class="job job--b" style="margin:0"><p class="job__n label">Job 2 of 3</p><h3 class="job__title">Cloud &amp; platform</h3><p class="job__line">The layer every client project lands on.</p><ul class="job__bullets"><li>Environments that can be rebuilt from git, not from someone’s memory.</li></ul></li><li class="job job--c" style="margin:0"><p class="job__n label">Job 3 of 3</p><h3 class="job__title">Architecture</h3><p class="job__line">Turning “we need a portal” into a system that survives year three.</p><ul class="job__bullets"><li>Writes the decision down (ADRs), including the options we didn’t pick.</li></ul></li></ol></div>
+  </div>
+
+  <div class="comp"><p class="comp__label"><b>BridgeQuote</b> <span>new · the transition from day job to homelab; also the pull quote</span></p>
+    <div class="stage" style="background:var(--surface-inverse); color:var(--ink-inverse)"><blockquote class="bridge"><p>The homelab is where I try things before I recommend them at work.</p><p class="bridge__small">Same rules, smaller blast radius. <a href="#components">On to the homelab ↓</a></p></blockquote></div>
+    <div class="stage"><blockquote class="pull"><p>The battery is the UPS.</p><cite>Spec sheet, row 2</cite></blockquote></div>
+  </div>
+
+  <div class="comp"><p class="comp__label"><b>SpecTable</b><span>real &lt;table&gt;, mono row heads, tabular numerals; stacks under 600px</span></p>
+    <div class="stage"><table class="spec-table"><caption class="visually-hidden">Example specs</caption><tbody><tr><th scope="row">Hardware</th><td>Second-hand laptop · 11th-gen Intel, 4 cores / 8 threads · 16 GB · ~512 GB SSD</td></tr><tr><th scope="row">UPS</th><td>The laptop battery</td></tr><tr><th scope="row">VM 100</th><td><code>k3s-01</code>: Ubuntu 26.04, 4 vCPU, 10 GB RAM</td></tr></tbody></table></div>
+  </div>
+
+  <div class="comp"><p class="comp__label"><b>BudgetBar</b><span>16 GB as four flat fields, 10fr / 3fr / 2fr / 1fr. Vertical under 720px. The legend carries the text for assistive tech.</span></p>
+    <div class="stage"><ol class="budget__band" aria-hidden="true" style="grid-template-columns: 10fr 3fr 2fr 1fr; grid-template-rows: 1fr; height: 12rem"><li style="flex-direction:column"><span class="budget__n" style="font-size:8rem">10</span><span class="budget__tag">GB · k3s-01</span></li><li style="flex-direction:column; border-inline-start: var(--c-rule); border-block-start:0"><span class="budget__n" style="font-size:4rem">3</span></li><li style="flex-direction:column; border-inline-start: var(--c-rule); border-block-start:0"><span class="budget__n" style="font-size:3rem">2</span></li><li style="flex-direction:column; border-inline-start: var(--c-rule); border-block-start:0"><span class="budget__n">1</span></li></ol><ol class="budget__legend"><li><b>10 GB · k3s-01</b><span>Real use 2–4 GB.</span></li><li><b>3 GB · haos-01</b><span>Home Assistant + ZHA.</span></li><li><b>~2 GB · host</b><span>Proxmox.</span></li><li><b>~1 GB · cushion</b><span>The spare, hatched.</span></li></ol></div>
+  </div>
+
+  <div class="comp"><p class="comp__label"><b>ArchDiagram</b><span>HTML blocks, not a picture: nested frames for metal → hypervisor → VMs, text selectable, list alternative in a &lt;details&gt;</span></p>
+    <div class="stage band--inverse" style="background:var(--surface-inverse); color:var(--ink-inverse)"><div class="metal"><span class="metal__lbl">Old laptop <small>bare metal · lid shut · battery = UPS</small></span><div class="pve"><div class="pve__head"><b>Proxmox VE 9.2</b><span class="arch__lbl">firewall: tailnet-only</span></div><div class="vms" style="grid-template-columns: 7fr 4fr"><div class="vm vm--k3s"><div class="vm__head"><span class="arch__lbl">VM 100</span><b>k3s-01</b></div><ul class="vm__rows"><li><b>Argo CD</b>◀ app-of-apps</li></ul></div><div class="vm vm--ha"><div class="vm__head"><span class="arch__lbl">VM 101</span><b>haos-01</b></div><ul class="vm__rows"><li><b>Zigbee coordinator</b>USB passthrough</li></ul></div></div></div></div></div>
+  </div>
+
+  <div class="comp"><p class="comp__label"><b>DecisionCard</b><span>numeral widens 50% → 150% on hover</span></p>
+    <div class="stage"><ol class="decisions" style="margin:0; grid-template-columns: repeat(auto-fit, minmax(16rem,1fr))"><li class="decision"><span class="decision__n" aria-hidden="true">1</span><h4>k3s in a VM, not LXC.</h4><p>A VM snapshots as one unit.</p></li><li class="decision force-hover" style="margin:0"><span class="decision__n" aria-hidden="true">2</span><h4>Hover state</h4><p>The numeral stretches; nothing else moves.</p></li></ol></div>
+  </div>
+
+  <div class="comp"><p class="comp__label"><b>GotchaNote</b><span>8px <code>--warn</code> rule + “!” square + the word “Gotcha”: never colour alone. Crooked stamp, once.</span></p>
+    <div class="stage"><div class="gotchas-head" style="margin:0 0 var(--space-m)"><h3>Gotchas</h3><span class="stamp">Learned the hard way</span></div><ol class="gotchas"><li class="gotcha"><p class="gotcha__tag"><span>Gotcha 01</span><span>disk</span></p><p class="gotcha__fig" aria-hidden="true">30<small> GiB of 500</small></p><h4>Disk-pressure at 30 GiB on a 500 GB SSD.</h4><p>Fix: one <code>lvextend</code>, zero downtime.</p></li><li class="gotcha gotcha--date" style="grid-column:auto; grid-row:auto"><p class="gotcha__tag"><span>Gotcha 02</span><span>storage</span></p><span class="stamp" aria-hidden="true">July 2026</span><h4><code>lvextend</code> on the host does nothing for the guest.</h4><p>Resize through Proxmox or <code>qm resize</code>.</p></li></ol></div>
+  </div>
+
+  <div class="comp"><p class="comp__label"><b>ProjectEntry · featured</b><span>giant number field or giant numeral + tiny caption, bullets, stack, status, button</span></p>
+    <div class="stage"><div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(min(100%,18rem),1fr))"><div class="zero" style="grid-column:auto"><span class="zero__n" aria-hidden="true" style="font-size:12rem">0</span><p class="zero__cap"><b>Rover clogs found</b>EU 40, max €180 all-in. Still looking.</p></div><div class="proj__body" style="grid-column:auto"><p class="every" aria-hidden="true">every 2 h</p><div class="proj__meta"><div class="proj__meta-row"><span class="label">Stack</span><ul class="tags"><li>Python</li><li>Claude</li><li>Astro SSR</li></ul></div><div class="proj__meta-row"><span class="label">Status</span><span class="status-word status-word--ok">Running</span></div></div></div></div></div>
+  </div>
+
+  <div class="comp"><p class="comp__label"><b>ProjectEntry · compact</b><span>index row; numeral widens on hover</span></p>
+    <div class="stage"><ol class="index" style="border:0"><li class="entry force-hover"><span class="entry__num" aria-hidden="true">05</span><h3 class="entry__name">Grimoire</h3><p class="entry__line">An MTG deck-builder I run for myself and my playgroup.</p><div class="entry__more"><p>Fork, self-hosted, single pod + PVC.</p><p><span class="status-word status-word--ok">Deployed</span></p></div></li></ol></div>
+  </div>
+
+  <div class="comp"><p class="comp__label"><b>Tag</b><span>plain mono text, slash-separated in accent; no pills, no icons</span></p>
+    <div class="stage"><ul class="tags"><li>Java 17</li><li>Maven</li><li>React</li><li>TypeScript</li><li>SQLite</li><li>WebSockets</li></ul></div>
+  </div>
+
+  <div class="comp"><p class="comp__label"><b>Principle</b><span>numeral + condensed statement + serif detail; even rows widen</span></p>
+    <div class="stage"><ol class="principles"><li class="principle"><span class="principle__n" aria-hidden="true">4</span><h3>Automate the second time.</h3><p>Not the first, not the third.</p></li></ol></div>
+  </div>
+
+  <div class="comp"><p class="comp__label"><b>Toolbox</b><span>group name as a vertical column of type; tools in a ruled list; no bars, no logos</span></p>
+    <div class="stage"><div class="toolbox"><div class="tools"><h3>Security</h3><ul><li>Policy &amp; risk</li><li>Access reviews</li><li>Secrets management</li></ul></div><div class="tools"><h3>Home</h3><ul><li>Proxmox</li><li>Tailscale</li><li>Zigbee <small>ZHA</small></li></ul></div></div></div>
+  </div>
+
+  <div class="comp"><p class="comp__label"><b>Footer</b><span>inverse band, expanded name, plain links, dry microcopy</span></p>
+    <div class="stage stage--flush"><div class="footer band--inverse" style="background:var(--surface-inverse); color:var(--ink-inverse); padding: var(--space-m)"><div class="grid footer__grid"><p class="footer__mark">Guus Ekkelenkamp</p><ul class="footer__links"><li><a href="#components">Email</a></li><li><a href="#components">GitHub</a></li></ul><p class="footer__small">No cookies, no trackers, no newsletter.</p></div></div></div>
+  </div>
+
+  <div class="comp"><p class="comp__label"><b>Link / Button</b><span>underlined links (2px → 4px on hover); square buttons that widen and flip to accent on hover</span></p>
+    <div class="stage"><div class="states">
+      <figure><a class="btn" href="#components">More on GitHub <span aria-hidden="true">↗</span></a><figcaption>default</figcaption></figure>
+      <figure><a class="btn force-hover" href="#components">More on GitHub <span aria-hidden="true">↗</span></a><figcaption>hover</figcaption></figure>
+      <figure><a class="btn force-focus" href="#components">More on GitHub <span aria-hidden="true">↗</span></a><figcaption>focus-visible</figcaption></figure>
+      <figure><a class="btn btn--ghost" href="#components">Ghost</a><figcaption>ghost</figcaption></figure>
+      <figure><a class="btn btn--ghost force-hover" href="#components">Ghost</a><figcaption>ghost hover</figcaption></figure>
+      <figure><p><a href="#components">A link in body text</a></p><figcaption>link</figcaption></figure>
+      <figure><p><a class="force-hover" href="#components">A link in body text</a></p><figcaption>link hover</figcaption></figure>
+      <figure><p><a class="force-focus" href="#components">A link in body text</a></p><figcaption>link focus</figcaption></figure>
+    </div></div>
+  </div>
+
+  <div class="comp"><p class="comp__label"><b>Photo placeholder</b><span>hard frame, crossed box, black label says what to shoot</span></p>
+    <div class="stage"><div class="photo" role="img" aria-label="Photo placeholder example: the wall panel" style="max-width: 28rem"><svg aria-hidden="true" preserveAspectRatio="none" viewBox="0 0 100 100"><line x1="0" y1="0" x2="100" y2="100" stroke="currentColor" vector-effect="non-scaling-stroke"/><line x1="100" y1="0" x2="0" y2="100" stroke="currentColor" vector-effect="non-scaling-stroke"/></svg><span class="photo__label"><b>PHOTO</b> · the wall panel</span></div></div>
+  </div>
+</section>
+
+<section class="page sys-sec" id="motion" aria-labelledby="h-mo">
+  <div class="sys-h"><span aria-hidden="true">07</span><h2 id="h-mo">Motion</h2></div>
+  <p class="lede">The only thing that moves is width. Type stretches into place on arrival and widens on hover. No fades on scroll, no parallax. Under <code>prefers-reduced-motion</code> everything is instant.</p>
+  <table class="mtable" style="margin-block: var(--space-m)"><thead><tr><th scope="col">Token</th><th scope="col">Value</th><th scope="col">Use here</th></tr></thead><tbody>
+    <tr><td><code>--dur-instant</code></td><td>80ms</td><td>Button press</td></tr>
+    <tr><td><code>--dur-quick</code></td><td>160ms</td><td>Nav and button widen on hover</td></tr>
+    <tr><td><code>--dur-base</code></td><td>280ms</td><td>Option switch (colour), numeral widen</td></tr>
+    <tr><td><code>--dur-slow</code></td><td>520ms</td><td>Hero name stretches in</td></tr>
+    <tr><td><code>--ease-out</code></td><td>cubic-bezier(.2,.7,.2,1)</td><td>Everything arriving</td></tr>
+    <tr><td><code>--ease-in-out</code></td><td>cubic-bezier(.6,0,.3,1)</td><td>Colour transitions</td></tr>
+    <tr><td><code>--ease-spring</code></td><td>linear(…)</td><td>Not used: too playful for print</td></tr>
+  </tbody></table>
+  <div class="motion-demo">
+    <p class="motion-demo__word" id="mword" aria-hidden="true">Stretch</p>
+    <div id="eases" class="ease-demo" style="display:grid; gap: var(--space-2xs)">
+      <div class="ease-row" style="--e: var(--ease-out)"><code>--ease-out</code><div class="ease-track"><i></i></div></div>
+      <div class="ease-row" style="--e: var(--ease-in-out)"><code>--ease-in-out</code><div class="ease-track"><i></i></div></div>
+    </div>
+    <button class="btn" type="button" id="play">Play the demo</button>
+  </div>
+</section>
+
+<section class="page sys-sec" id="imagery" aria-labelledby="h-im">
+  <div class="sys-h"><span aria-hidden="true">08</span><h2 id="h-im">Imagery &amp; icons</h2></div>
+  <ul class="rules-list">
+    <li><b>Type and shapes first.</b> The laptop is two black bars and a square LED. The rack is three filled rectangles in a frame. Drawn in inline SVG, flat <code>currentColor</code>, square corners.</li>
+    <li><b>No icon set.</b> The only glyphs are typographic: → ◀ └ ! and a filled square as bullet and live dot.</li>
+    <li><b>Photos are real or absent.</b> Placeholders say what to shoot: the laptop behind the TV, the Zigbee stick on its cable, the wall panel. In production, photos run full-colour inside a 3px frame, cropped hard, never rounded or tinted.</li>
+    <li><b>Patterns:</b> one hatch (45°, 2px line, hard stops), only for “spare” or “empty”.</li>
+    <li><b>No hacker imagery</b> for the security work: no padlocks, shields or code rain. The job is described in words.</li>
+  </ul>
+</section>
+
+<section class="page sys-sec" id="dodont" aria-labelledby="h-dd" style="padding-block-end: var(--space-section)">
+  <div class="sys-h"><span aria-hidden="true">09</span><h2 id="h-dd">Do / don’t</h2></div>
+  <div class="dodont">
+    <div class="dd dd--do"><header><span aria-hidden="true">■</span>Do</header><div><p style="font-family:var(--font-display);font-weight:900;font-stretch:150%;font-size:var(--step-6);line-height:.8;color:var(--c-num)">0</p><p class="cap">One number, set enormous, with a tiny caption: “Rover clogs found”.</p></div></div>
+    <div class="dd dd--dont"><header><span aria-hidden="true">✕</span>Don’t</header><div><div class="bad-card">🚀 280+ finds!</div><p class="cap">Rounded gradient cards with an emoji and a glow. Not this system, not this site.</p></div></div>
+    <div class="dd dd--do"><header><span aria-hidden="true">■</span>Do</header><div><p class="label" style="color:var(--ink)">Roles · Security officer · Cloud specialist · Solution architect</p><p class="cap">Titles as small facts. Let the work description carry the weight.</p></div></div>
+    <div class="dd dd--dont"><header><span aria-hidden="true">✕</span>Don’t</header><div><p style="font-family:var(--font-display);font-weight:900;font-stretch:125%;font-size:var(--step-3);line-height:.95;text-transform:uppercase">Security / Cloud / Architect</p><p class="cap">Job titles as the big headline, stacked with slashes.</p></div></div>
+    <div class="dd dd--do"><header><span aria-hidden="true">■</span>Do</header><div><p style="font-family:var(--font-display);font-weight:900;line-height:.85"><span style="display:block;font-stretch:50%;font-size:var(--step-5)">A data centre</span><span style="display:block;font-stretch:150%;font-size:var(--step-2)">with the lid shut</span></p><p class="cap">Contrast width between lines.</p></div></div>
+    <div class="dd dd--dont"><header><span aria-hidden="true">✕</span>Don’t</header><div><p style="font-family:var(--font-display);font-weight:400;font-stretch:100%;font-size:var(--step-1)">A data centre with the lid shut, everything at one size and one width, centred and polite.</p><p class="cap">Same volume everywhere means no poster.</p></div></div>
+  </div>
+</section>
+</main>
+
+<div class="review-bar" role="region" aria-label="Design review">
+  <span class="review-bar__name"><span>03</span><b>Affiche</b></span>
+  <fieldset>
+    <legend>Option</legend>
+    <label><input type="radio" name="option" value="rotterdam"><span class="swatch" aria-hidden="true"><i style="background:#c91c15"></i><i style="background:#100c0b"></i><i style="background:#f8f3e9"></i></span><span class="opt-name">rotterdam</span></label>
+    <label><input type="radio" name="option" value="polder"><span class="swatch" aria-hidden="true"><i style="background:#077826"></i><i style="background:#6fc7f2"></i><i style="background:#f7721a"></i></span><span class="opt-name">polder</span></label>
+    <label><input type="radio" name="option" value="nachtdruk"><span class="swatch" aria-hidden="true"><i style="background:#0b090c"></i><i style="background:#efebe2"></i><i style="background:#ff55a3"></i></span><span class="opt-name">nachtdruk</span></label>
+  </fieldset>
+  <a href="index.html">Homepage</a>
+  <a href="../../../index.html">Hub</a>
+</div>
+<script src="poster.js" defer></script>
+<script>
+(() => {
+  const r = document.getElementById('wdth'), o = document.getElementById('wdth-out'), v = document.getElementById('wdth-v');
+  r.addEventListener('input', () => { o.style.fontStretch = r.value + '%'; v.textContent = r.value + '%'; });
+  const w = document.getElementById('mword'), e = document.getElementById('eases');
+  document.getElementById('play').addEventListener('click', () => {
+    w.classList.remove('go', 'done'); e.classList.remove('play'); void w.offsetWidth;
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { w.classList.add('done'); e.classList.add('play'); return; }
+    w.classList.add('go'); requestAnimationFrame(() => e.classList.add('play'));
+    setTimeout(() => { e.classList.remove('play'); }, 1600);
+  });
+})();
+</script>
+</body>
+</html>

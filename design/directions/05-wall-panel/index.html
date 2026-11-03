@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Guus Ekkelenkamp, developer, Rotterdam</title>
-<meta name="description" content="Developer at Harborn in Rotterdam. Builds web platforms by day and a GitOps homelab on a lid-shut ThinkPad by night.">
+<title>Guus Ekkelenkamp, security, cloud &amp; architecture, Rotterdam</title>
+<meta name="description" content="Security officer, cloud specialist and solution architect at Harborn in Rotterdam. Runs a GitOps homelab on an old laptop with the lid shut.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Martian+Mono:wdth,wght@75..112.5,300..700&family=Onest:wght@200..800&display=swap">
@@ -80,8 +80,8 @@
           </div>
 
           <div class="hero__foot">
-            <p class="hero__line">I build software for clients by day and a homelab by night. The homelab has better uptime.</p>
-            <p class="hero__sub">Developer at <a href="#work">Harborn</a>, Rotterdam. Product work, platforms, and the plumbing in between.</p>
+            <p class="hero__line">By day I make sure client platforms are secure and keep running. By night I do the same for a laptop behind the TV.</p>
+            <p class="hero__sub">Security officer, cloud specialist and solution architect at <a href="#work">Harborn</a>, Rotterdam.</p>
             <p class="chip"><span class="chip__k label"><span class="live" aria-hidden="true"></span>Currently</span><span>moving my infra to ekkelenkamp.dev &amp; hunting mini PCs for node #2</span></p>
           </div>
         </article>
@@ -95,8 +95,32 @@
           <p class="clock"><span data-clock>CET</span><span class="clock__s" data-clock-s aria-hidden="true"></span></p>
           <div class="clock-meta">
             <p class="tile__sub"><strong data-date>Europe/Amsterdam</strong></p>
-            <p class="tile__sub">Same zone as Harborn, the ThinkPad and the Finder</p>
+            <p class="tile__sub">Same zone as Harborn, the laptop and the Finder</p>
           </div>
+          <ul class="house">
+            <li class="is-on" data-lights-row>
+              <svg class="glyph" viewBox="0 0 20 20" aria-hidden="true"><path d="M7.5 15.5h5M8.5 18h3M10 2.5a5 5 0 0 0-3 9V13h6v-1.5a5 5 0 0 0-3-9z"/></svg>
+              <div><b data-lights>20%</b><span class="tile__fine" data-lights-note>Hallway, after sunset</span></div>
+            </li>
+            <li>
+              <svg class="glyph" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 6.5h14v7H2zM16 8.5h2v3h-2M5 9v2M8 9v2M11 9v2M14 9v2"/></svg>
+              <div><b>100%</b><span class="tile__fine">Battery (= UPS) · on mains</span></div>
+            </li>
+            <li class="house__more"><a href="#automations">Automations · 4 on</a></li>
+          </ul>
+        </article>
+
+        <!-- ON DUTY: the day job, same weight as the homelab -->
+        <article class="tile t-duty">
+          <div class="tile__head">
+            <p class="label"><a class="tile__link" href="#work">On duty · Harborn</a></p>
+            <svg class="tile__go glyph" viewBox="0 0 14 14" aria-hidden="true"><path d="M5 3l4 4-4 4"/></svg>
+          </div>
+          <dl class="duty">
+            <div><dt class="label">Security</dt><dd>Policy, access reviews, which vendors get near client data</dd></div>
+            <div><dt class="label">Cloud &amp; platform</dt><dd>Kubernetes on Haven, GitOps with Argo CD, environments rebuilt from git</dd></div>
+            <div><dt class="label">Architecture</dt><dd>Integrations between client systems, decisions written down as ADRs</dd></div>
+          </dl>
         </article>
 
         <!-- ARGO -->
@@ -141,7 +165,7 @@
         <!-- RAM -->
         <article class="tile t-ram">
           <div class="tile__head">
-            <p class="label"><a class="tile__link" href="#ram">RAM budget · ThinkPad E15</a></p>
+            <p class="label"><a class="tile__link" href="#ram">RAM budget · the laptop</a></p>
             <p class="label"><b>16 GB</b> · k3s using <b class="tnum" data-ram-use-label>2–4</b> GB</p>
           </div>
           <div class="ram-wrap">
@@ -179,23 +203,6 @@
           <p class="tile__fine">Brown · EU 40 · max €180 all-in</p>
         </article>
 
-        <!-- HOUSE: lights + battery -->
-        <article class="tile t-house">
-          <div class="tile__head">
-            <p class="label"><a class="tile__link" href="#automations">House</a></p>
-            <svg class="tile__go glyph" viewBox="0 0 14 14" aria-hidden="true"><path d="M5 3l4 4-4 4"/></svg>
-          </div>
-          <ul class="house">
-            <li class="is-on" data-lights-row>
-              <svg class="glyph" viewBox="0 0 20 20" aria-hidden="true"><path d="M7.5 15.5h5M8.5 18h3M10 2.5a5 5 0 0 0-3 9V13h6v-1.5a5 5 0 0 0-3-9z"/></svg>
-              <div><b data-lights>20%</b><span class="tile__fine" data-lights-note>Hallway, after sunset</span></div>
-            </li>
-            <li>
-              <svg class="glyph" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 6.5h14v7H2zM16 8.5h2v3h-2M5 9v2M8 9v2M11 9v2M14 9v2"/></svg>
-              <div><b>100%</b><span class="tile__fine">Battery (= UPS) · on mains</span></div>
-            </li>
-          </ul>
-        </article>
       </section>
 
       <div class="panel-foot">
@@ -231,63 +238,83 @@
     </div>
   </section>
 
-  <!-- WORK -->
-  <section class="view" id="work" aria-labelledby="work-h">
+  <!-- WORK: co-lead with the homelab -->
+  <section class="view view--work" id="work" aria-labelledby="work-h">
     <div class="view__bar label">
       <a class="view__back" href="#top"><svg class="glyph" viewBox="0 0 12 12" aria-hidden="true"><path d="M8 2L4 6l4 4"/></svg>Panel</a>
-      <span class="view__crumb">/ Work</span>
-      <span class="view__meta">02 · Day job</span>
+      <span class="view__crumb">/ On duty</span>
+      <span class="view__meta">02 · Day job · Featured</span>
     </div>
+    <header class="view__head">
+      <dl class="facts">
+        <div><dt class="label">Employer</dt><dd>Harborn, Rotterdam &amp; Amsterdam</dd></div>
+        <div><dt class="label">Roles</dt><dd>Security officer · Cloud specialist · Solution architect</dd></div>
+        <div><dt class="label">Part of</dt><dd>Boer &amp; Croon</dd></div>
+      </dl>
+      <h2 class="view__title" id="work-h" style="max-width:17ch">How it’s built, where it runs, <em>who gets in</em></h2>
+    </header>
     <div class="split-view">
-      <header class="view__head split-view__rail">
-        <p class="label">Harborn · Rotterdam &amp; Amsterdam</p>
-        <h2 class="view__title" id="work-h">Client work, <em>by day</em></h2>
-        <p class="muted">Digital agency, part of Boer &amp; Croon.</p>
-      </header>
-      <div>
-        <div class="prose">
-          <p class="lead">I work on the stuff clients actually run: web platforms, customer portals, product configurators, integrations with ERP and data systems, and the occasional Flutter app.</p>
-          <p class="muted" style="margin-block-start:1em">I also work on the layer underneath: GitOps, Kubernetes, and the internal AI-agent tooling we use to ship faster.</p>
-        </div>
-
-        <div class="sub" style="margin-block-start:40px" data-tabs>
-          <div class="tabs__list" role="tablist" aria-label="What that looks like">
-            <button class="tabs__tab" role="tab" id="tab-product" aria-controls="panel-product" aria-selected="true">Product</button>
-            <button class="tabs__tab" role="tab" id="tab-platform" aria-controls="panel-platform" aria-selected="false">Platform</button>
-            <button class="tabs__tab" role="tab" id="tab-ai" aria-controls="panel-ai" aria-selected="false">AI tooling</button>
-          </div>
-          <div class="tabs__panel" role="tabpanel" id="panel-product" aria-labelledby="tab-product">
-            <dl class="rows">
-              <div class="row"><dt>Builds</dt><dd>Web platforms, customer portals, product configurators</dd></div>
-              <div class="row"><dt>Connects</dt><dd>ERP and data systems</dd></div>
-              <div class="row"><dt>Stack</dt><dd><ul class="tags"><li>Astro</li><li>React/TypeScript</li><li>Flutter</li><li>Rails</li><li>PHP</li><li>Python/FastAPI</li></ul></dd></div>
-            </dl>
-          </div>
-          <div class="tabs__panel" role="tabpanel" id="panel-platform" aria-labelledby="tab-platform">
-            <dl class="rows">
-              <div class="row"><dt>Runs on</dt><dd>Kubernetes (Haven)</dd></div>
-              <div class="row"><dt>Ships with</dt><dd>Argo CD, GitHub Actions</dd></div>
-              <div class="row"><dt>Maintains</dt><dd>Docker base images</dd></div>
-            </dl>
-          </div>
-          <div class="tabs__panel" role="tabpanel" id="panel-ai" aria-labelledby="tab-ai">
-            <dl class="rows">
-              <div class="row"><dt>Builds</dt><dd>Claude-based agents, skills and plugins for the team’s daily work</dd></div>
-              <div class="row"><dt>Why</dt><dd>To ship faster. The agents read the same context files the people do.</dd></div>
-            </dl>
-          </div>
-        </div>
-
-        <div class="sub" style="margin-block-start:40px">
-          <div class="sub__head"><h3 class="sub__title">Clients</h3><p class="label">Public Harborn cases</p></div>
-          <dl class="rows">
-            <div class="row"><dt>Industrial</dt><dd>Holmatro</dd></div>
-            <div class="row"><dt>Bikes</dt><dd>Santos Bikes</dd></div>
-            <div class="row"><dt>Logistics</dt><dd>De Wit Transport</dd></div>
-          </dl>
-        </div>
+      <div class="split-view__rail">
+        <p class="label">In short</p>
       </div>
+      <p class="lead">Before a client project gets built, someone has to decide what it looks like, where it runs, and who gets access to what. At Harborn that’s usually me. I still write code, mostly where those decisions meet the code.</p>
     </div>
+
+    <div class="jobs">
+      <article class="job" aria-labelledby="job-sec">
+        <div class="job__head"><p class="label">Job 1 of 3</p><span class="stat-chip">On duty</span></div>
+        <h3 class="job__title" id="job-sec">Security</h3>
+        <p class="job__line">Keeping the agency and its clients out of the news.</p>
+        <ul class="job__rows">
+          <li>Owns the security policy and makes it something people actually follow</li>
+          <li>Access reviews, secrets handling, and the security questionnaires clients send before signing</li>
+          <li>Decides which AI tools and vendors are allowed near client data, and on what terms</li>
+        </ul>
+        <a class="job__home" href="#ingress"><span class="label">Same rule at home</span><span>Zero open ports, access per app</span></a>
+      </article>
+      <article class="job" aria-labelledby="job-cloud">
+        <div class="job__head"><p class="label">Job 2 of 3</p><span class="stat-chip">On duty</span></div>
+        <h3 class="job__title" id="job-cloud">Cloud &amp; platform</h3>
+        <p class="job__line">The layer every client project lands on.</p>
+        <ul class="job__rows">
+          <li>Kubernetes on Haven (the Dutch government’s standard for Kubernetes platforms), GitOps with Argo CD</li>
+          <li>Shared base images, CI with GitHub Actions, monitoring that tells you something before the client does</li>
+          <li>Environments that can be rebuilt from git, not from someone’s memory</li>
+        </ul>
+        <a class="job__home" href="#gitops"><span class="label">Same rule at home</span><span>k3s + Argo CD, 16/16 synced</span></a>
+      </article>
+      <article class="job" aria-labelledby="job-arch">
+        <div class="job__head"><p class="label">Job 3 of 3</p><span class="stat-chip">On duty</span></div>
+        <h3 class="job__title" id="job-arch">Architecture</h3>
+        <p class="job__line">Turning “we need a portal” into a system that survives year three.</p>
+        <ul class="job__rows">
+          <li>Designs the integrations between client systems: ERP, PLM, data platforms, customer portals, configurators</li>
+          <li>Writes the decision down (ADRs), including the options we didn’t pick and why</li>
+          <li>Keeps it boring where it can be, so the budget goes to the part that’s actually hard</li>
+        </ul>
+        <a class="job__home" href="#decisions"><span class="label">Same rule at home</span><span>5 decision records, written down</span></a>
+      </article>
+    </div>
+
+    <div class="sub" style="margin-block-start:40px" data-tabs>
+      <div class="tabs__list" role="tablist" aria-label="Also">
+        <button class="tabs__tab" role="tab" id="tab-ai" aria-controls="panel-ai" aria-selected="true">Also · AI tooling</button>
+        <button class="tabs__tab" role="tab" id="tab-hands" aria-controls="panel-hands" aria-selected="false">Also · Hands-on</button>
+      </div>
+      <div class="tabs__panel" role="tabpanel" id="panel-ai" aria-labelledby="tab-ai">
+        <dl class="rows"><div class="row"><dt>AI tooling</dt><dd>Internal Claude-based agents, skills and plugins for the team, with guardrails on what they can touch</dd></div></dl>
+      </div>
+      <div class="tabs__panel" role="tabpanel" id="panel-hands" aria-labelledby="tab-hands">
+        <dl class="rows"><div class="row"><dt>Still hands-on</dt><dd>TypeScript, Python, a bit of everything client projects need</dd></div></dl>
+      </div>
+      <p class="tile__fine" style="margin-block-start:14px">Public Harborn cases include Holmatro, Santos Bikes and De Wit Transport.</p>
+    </div>
+
+    <a class="bridge" href="#homelab">
+      <span class="label">Next view · Homelab</span>
+      <span class="bridge__text">The homelab is where I try things before I recommend them at work. Zero open ports, everything in git, access only where it’s explicitly granted. Same rules, smaller blast radius.</span>
+      <svg class="bridge__arrow glyph" viewBox="0 0 22 12" aria-hidden="true"><path d="M1 6h19M16 2l4 4-4 4"/></svg>
+    </a>
   </section>
 
   <!-- HOMELAB -->
@@ -303,10 +330,10 @@
     </header>
     <div class="split-view">
       <div class="split-view__rail">
-        <div class="photo"><span>PHOTO: the ThinkPad behind the TV, lid shut</span></div>
+        <div class="photo"><span>PHOTO: the laptop behind the TV, lid shut</span></div>
       </div>
       <div class="prose">
-        <p class="lead">One second-hand ThinkPad, lid closed, behind the TV. It runs a hypervisor, a Kubernetes cluster, Home Assistant with a Zigbee radio, and every side project I’ve shipped this year.</p>
+        <p class="lead">One second-hand laptop, lid closed, behind the TV. It runs a hypervisor, a Kubernetes cluster, Home Assistant with a Zigbee radio, and every side project I’ve shipped this year.</p>
         <p class="muted" style="margin-block-start:1em">Nothing on it is reachable from the internet unless I explicitly say so. Every change goes through git.</p>
       </div>
     </div>
@@ -315,7 +342,7 @@
     <div class="sub" id="specs">
       <div class="sub__head"><h3 class="sub__title">Spec sheet</h3><p class="label">11 rows · numbers are real</p></div>
       <dl class="rows">
-        <div class="row"><dt>Hardware</dt><dd>Lenovo ThinkPad E15 Gen 2 · Intel i5-1135G7 (4c/8t) · 16 GB · ~512 GB SSD</dd></div>
+        <div class="row"><dt>Hardware</dt><dd>Second-hand laptop · 11th-gen Intel, 4 cores / 8 threads · 16 GB · ~512 GB SSD</dd></div>
         <div class="row"><dt>UPS</dt><dd>The laptop battery</dd></div>
         <div class="row"><dt>Hypervisor</dt><dd>Proxmox VE 9.2 (Debian 13 “Trixie”)</dd></div>
         <div class="row"><dt>VM 100</dt><dd><code>k3s-01</code>: Ubuntu 26.04, 4 vCPU, 10 GB RAM, 360 GiB thin disk, single-node k3s</dd></div>
@@ -349,7 +376,7 @@
       <div class="sub__head"><h3 class="sub__title">Architecture</h3><p class="label">Layers, outside in · the list is the diagram</p></div>
       <div class="arch" style="padding-block-start:16px">
         <div class="arch__box">
-          <p class="arch__name"><b>ThinkPad E15</b><span class="label">Bare metal · lid shut · battery = UPS</span></p>
+          <p class="arch__name"><b>Old laptop</b><span class="label">Bare metal · lid shut · battery = UPS</span></p>
           <div class="arch__box">
             <p class="arch__name"><b>Proxmox VE 9.2</b><span class="label">Tailscale (mgmt) · firewall: tailnet-only</span></p>
             <ul class="arch__kids arch__kids--vms">
@@ -491,9 +518,9 @@
     <!-- what's next -->
     <div class="sub" id="next">
       <div class="sub__head"><h3 class="sub__title">What’s next</h3><p class="label">Pending update · 1 node → 3 nodes</p></div>
-      <p class="prose muted" style="padding-block:16px 20px">Three ex-office mini PCs (Lenovo Tiny / Dell Micro / HP Mini, 8th gen+, ~16 GB) in a 3D-printed rack, turning the single node into a real cluster. The laptop retires to backup duty.</p>
+      <p class="prose muted" style="padding-block:16px 20px">Three ex-office 1-litre mini PCs (8th gen+, ~16 GB each) in a 3D-printed rack, turning the single node into a real cluster. The laptop retires to backup duty.</p>
       <div class="slots">
-        <div class="slot slot--now"><span class="label">Node 1 · now</span><b>ThinkPad E15</b><p>Retires to backup duty</p></div>
+        <div class="slot slot--now"><span class="label">Node 1 · now</span><b>The laptop</b><p>Retires to backup duty</p></div>
         <div class="slot"><span class="label">Node 2</span><b>Mini PC</b><p>Searching · €50–100</p></div>
         <div class="slot"><span class="label">Node 3</span><b>Mini PC</b><p>Searching · €50–100</p></div>
         <div class="slot"><span class="label">Node 4</span><b>Mini PC</b><p>Searching · €50–100</p></div>
@@ -509,7 +536,7 @@
       <span class="view__meta">04 · 6 services</span>
     </div>
     <header class="view__head">
-      <p class="label">Side projects · all deployed to the same ThinkPad</p>
+      <p class="label">Side projects · all deployed to the same laptop</p>
       <h2 class="view__title" id="projects-h">Things running <em>on the lid-shut laptop</em></h2>
     </header>
 
@@ -608,6 +635,7 @@
     <div class="toolbox">
       <section class="toolgroup" aria-labelledby="tg1"><h3 id="tg1"><span class="label">Daily</span><span class="label">6</span></h3><ul><li>TypeScript</li><li>React</li><li>Astro</li><li>Python</li><li>Git</li><li>Claude Code</li></ul></section>
       <section class="toolgroup" aria-labelledby="tg2"><h3 id="tg2"><span class="label">Often</span><span class="label">7</span></h3><ul><li>Java</li><li>Flutter/Dart</li><li>Rails</li><li>PHP</li><li>FastAPI</li><li>SQLite</li><li>Postgres</li></ul></section>
+      <section class="toolgroup" aria-labelledby="tg5"><h3 id="tg5"><span class="label">Security</span><span class="label">5</span></h3><ul><li>Policy &amp; risk</li><li>Access reviews</li><li>Secrets management</li><li>Cloudflare Access</li><li>Tailscale ACLs</li></ul></section>
       <section class="toolgroup" aria-labelledby="tg3"><h3 id="tg3"><span class="label">Platform</span><span class="label">9</span></h3><ul><li>Kubernetes (k3s, Haven)</li><li>Argo CD</li><li>Helm</li><li>Kustomize</li><li>Traefik</li><li>cert-manager</li><li>GitHub Actions</li><li>GHCR</li><li>Docker</li></ul></section>
       <section class="toolgroup" aria-labelledby="tg4"><h3 id="tg4"><span class="label">Home</span><span class="label">5</span></h3><ul><li>Proxmox</li><li>Tailscale</li><li>Cloudflare (DNS, Tunnel, Access)</li><li>Home Assistant</li><li>Zigbee (ZHA)</li></ul></section>
     </div>

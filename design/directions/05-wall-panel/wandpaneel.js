@@ -74,7 +74,7 @@
     [1050, 1110, 'commuting', 'move'], [1110, 1440, 'home', 'home']];
   const WEEKEND = [[0, 480, 'asleep', 'sleep'], [480, 1440, 'home', 'home']];
   const NOTES = { asleep: 'The homelab isn’t.', commuting: 'Rotterdam, by bike or metro.',
-    'at Harborn': 'Client work, platforms, the plumbing in between.', home: 'Probably tinkering with the homelab.' };
+    'at Harborn': 'Security, cloud and architecture work.', home: 'Probably tinkering with the homelab.' };
 
   /* Approximate Rotterdam sunset per month, local time, in minutes (illustrative). */
   const SUNSET = [1010, 1065, 1125, 1235, 1285, 1320, 1315, 1265, 1195, 1120, 1025, 990];
