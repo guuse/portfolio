@@ -221,3 +221,8 @@ pre-rendered into the HTML.
 
 Previews: `design/previews/r5-beeld--*.png`. Run `node build-artifact.js` after editing; it bakes
 `index.html` and `project.html` and writes `artifact.html` (images stay as files under `assets/`).
+
+**Content update (v5, later in round 5):** the numbers strip now reads 8 clusters and 1,500+ pods.
+The highlight gets a facts row (8 clusters · 1,500+ pods on the largest · NL, EU and Japan ·
+client training) and a regions row in the diagram. Operators are written in Python (Go removed),
+and LinkedIn links to the real profile.

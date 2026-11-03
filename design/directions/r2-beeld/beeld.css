@@ -978,3 +978,20 @@
 @layer components {
   .stage .il__label { inset-block-start: auto; inset-block-end: 14px; inset-inline-start: auto; inset-inline-end: 14px; }
 }
+@layer components {
+  .highlight__text strong { color: var(--ink); font-weight: 600; }
+  .hl-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-s) var(--gutter); margin: var(--space-xs) 0 var(--space-2xs); width: 100%; }
+  @media (min-width: 600px) { .hl-facts { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .hl-facts div { display: grid; gap: 4px; align-content: start; padding-block-start: var(--space-xs); border-block-start: 2px solid var(--accent); }
+  .hl-facts dd { font-family: var(--font-heading); font-weight: var(--heading-weight); letter-spacing: var(--heading-tracking); font-size: calc(var(--step-4) * var(--heading-scale)); line-height: 1; color: var(--accent-text); }
+  .hl-facts dt { font-size: var(--step-small); color: var(--ink-muted); line-height: 1.35; }
+  .stack__regions { display: flex; gap: 6px; flex-wrap: wrap; }
+  .stack__regions span { font-family: var(--font-mono); font-size: var(--step-meta); padding: 3px 8px; border-radius: 999px; border: 1px solid var(--line-strong); color: var(--ink-muted); }
+  .stack__regions span:last-child { border-color: var(--accent); color: var(--accent-text); }
+}
+@layer components {
+  .hl-facts dd { font-variant-numeric: lining-nums tabular-nums; }
+  .stack__row--platform { background: var(--surface-raised); border-color: var(--line-strong); border-inline-start: 3px solid var(--accent); }
+  .numbers__list dt { font-variant-numeric: normal; }
+}
+@layer components { .numbers__list dd { font-variant-numeric: lining-nums tabular-nums; } }
