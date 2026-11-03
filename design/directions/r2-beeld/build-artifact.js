@@ -14,14 +14,14 @@ const read = (f) => fs.readFileSync(path.join(dir, f), "utf8");
 // 1. Server-render the default featured state (Homelab) into index.html, same as the repo bake.
 const P = require(path.join(dir, "projects.js"));
 let html = read("index.html");
-const out = P.render("homelab");
-for (const k of ["featured", "grid", "index"]) {
+const out = P.render();
+for (const k of ["features", "also"]) {
   html = html.replace(new RegExp("<!-- " + k + ":start -->[\\s\\S]*?<!-- " + k + ":end -->"), "<!-- " + k + ":start -->" + out[k] + "<!-- " + k + ":end -->");
 }
 fs.writeFileSync(path.join(dir, "index.html"), html);
 // ...and the Homelab case study into project.html (the page template).
 let proj = read("project.html");
-proj = proj.replace(/<!-- case:start -->[\s\S]*?<!-- case:end -->/, "<!-- case:start -->" + P.caseHTML(P.byId("homelab")) + "<!-- case:end -->");
+proj = proj.replace(/<!-- case:start -->[\s\S]*?<!-- case:end -->/, "<!-- case:start -->" + P.caseHTML(P.byId("platform")) + "<!-- case:end -->");
 fs.writeFileSync(path.join(dir, "project.html"), proj);
 
 // 2. Take the page markup (skip link → detail shell), drop repo-only bits and comments.
@@ -37,15 +37,19 @@ let markup = html.slice(start, end)
 const css = [
   read("../../system/base.css"),
   read("beeld.css"),
-  `/* artifact: dark by design, nothing repo-only */
+  `/* artifact: dark by design, nothing repo-only.
+   Unlayered on purpose: the viewer injects an unlayered reset on body (font, colour), which
+   would beat every @layer rule and leave inherited text dark on navy. */
 :root { color-scheme: dark; }
-html, body { background: var(--surface); }
+html, body { background: var(--surface); color: var(--ink); }
+body { margin: 0; font-family: var(--font-body); font-size: var(--step-0); line-height: 1.55; font-weight: 400; letter-spacing: normal; text-align: left;
+       -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
 [data-repo-only] { display: none !important; }
 .review-bar { display: none !important; }`
 ].join("\n").replace(/\/\*[\s\S]*?\*\//g, (m) => (m.length > 400 ? "" : m)).replace(/\n{2,}/g, "\n");
 
 // 4. JS: project data + rotation + detail views, page enhancements.
-const js = read("projects.js") + "\n" + read("site.js");
+const js = read("diagrams.js") + "\n" + read("projects.js") + "\n" + read("site.js");
 
 const artifact = `<title>Guus Ekkelenkamp</title>
 <meta name="claude:viewport-fit-sides" content="cover">

@@ -241,3 +241,59 @@ and LinkedIn links to the real profile.
   NL, EU and Japan; training programmes with clients.
 - **AI illustration:** text on yellow and teal fills is now dark.
 - **Phones:** a round portrait next to the kicker, so a face is on the first screen.
+
+## Round 6: three projects, the platform first, diagrams that explain
+Source: `design/CONTENT-v6.md`, including its addendum.
+
+- **Page order:** hero (portrait, bouldering, sunset), Off the clock, numbers, Experience,
+  How I work, Projects (3 + Also), Contact. Hovering or focusing Bouldering or Travel lifts the
+  matching print. Magic and Tinkering open their case studies.
+- **Projects are static.** In order: hosting platform, homelab & home automation, MTG suite.
+  Each is a large feature with alternating sides. The old rotation and the 5-item index are gone.
+  Home automation was merged into the homelab. AI tooling and Scouting moved into the Also list.
+- **`diagrams.js`** holds eight animated SVG diagrams:
+  - delivery: commit → CI tag → Image Updater → Argo CD → acceptance, then production;
+  - infra: a PR through 7 gates, where a policy blocks a public bucket, it's fixed and passes;
+    plus a daily drift check;
+  - logs: Alloy → Loki → encrypted storage → Grafana;
+  - map: 8 clusters in NL, EU and JP;
+  - edge: CloudFront → EU / Tokyo, with the resource syncer;
+  - push: git push to running pods, with the battery as a UPS;
+  - ways: tailnet, Tunnel and Funnel, with 0 open ports;
+  - box: the 16 GB split and the Zigbee stick on USB.
+
+  Each diagram has a full and a compact drawing (container query at 620px) and uses drawn
+  glyphs. It plays while in view (IntersectionObserver), loops calmly, and has a replay button.
+  Under reduced motion it shows the final, fully labelled state.
+- **Case studies:** keyed sections (a, b, c…) with a lead, bullets and the matching diagram.
+  The platform adds its foundation, reliability, the CLI (shown without `apply`) and a "How it
+  grew" timeline. The homelab adds Home Assistant, the gotchas and the snippet. MTG keeps its
+  four parts and galleries.
+- **Artifact contrast bug:** fixed with unlayered `html, body { color; background }` and body
+  font/size/line-height in `build-artifact.js`. Verified with a hostile `body{font:14px
+  system-ui;color:#000}` reset injected before the artifact.
+
+### Iteration log
+1. **Built everything, then measured** every diagram label against its card in the browser.
+   Fixed six overflows: the logs card, the CloudFront line, the pill labels and the USB card.
+   Removed the focus ring on the programmatically focused detail title, and shortened the PR
+   status text.
+2. **Diagram pass at 1440 and 390:**
+   - widened the CI and Image Updater cards for the live text (`pushed v2.4.0-rc.1`);
+   - moved the battery badge;
+   - gave the memory bar a separate legend (segment names no longer clash);
+   - rebuilt the compact infra pipeline as a fixed PR card above full-width stages (the moving
+     card ran off a phone screen);
+   - rerouted the compact "ways in" paths so they no longer cross card text;
+   - moved the 1,500+ callout off the cluster dots.
+3. **Polish:**
+   - the pointer line in Experience wrapped as flex pieces (now inline);
+   - the phone nav fits four items;
+   - reduced motion now drops the transition delays;
+   - `system.html` shows the new feature and all eight diagrams live.
+
+   Verified: no console errors, no horizontal scroll at 320px (page and each detail view), and
+   0 label overflows on desktop and mobile.
+
+Previews: `design/previews/r6-beeld--*.png` (desktop, full, mobile, mobile-full, anim-*,
+detail-*-N, mobile-detail-*, lightbox, reduced-motion, lift, system).
