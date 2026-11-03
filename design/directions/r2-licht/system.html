@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en" data-direction="r2-licht" data-option="licht">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Style guide · Licht &amp; rustig</title>
+  <meta name="description" content="Colours, type, spacing and components of the Licht & rustig direction.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400..700;1,400..700&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&display=swap">
+  <link rel="stylesheet" href="../../system/base.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="review.js"></script>
+  <style>
+    @layer components {
+      .sg h2.sg__h { font-family: var(--font-display); font-weight: 400; font-size: var(--step-3); letter-spacing: -0.015em; margin-block: var(--space-3xl) var(--space-m); }
+      .sg h3.sg__k { font-size: var(--step--1); font-weight: 600; color: var(--ink-subtle); margin-block: var(--space-xl) var(--space-s); }
+      .sg__note { color: var(--ink-muted); max-width: var(--c-col); }
+      .sg table { width: 100%; border-collapse: collapse; font-size: var(--step--1); font-variant-numeric: tabular-nums; }
+      .sg th, .sg td { text-align: left; padding: var(--space-xs) var(--space-s) var(--space-xs) 0; border-bottom: 1px solid var(--line); vertical-align: middle; }
+      .sg th { color: var(--ink-subtle); font-weight: 600; }
+      .sg__scroll { overflow-x: auto; }
+      .chip { display: inline-flex; align-items: center; gap: 0.5em; white-space: nowrap; }
+      .chip i { width: 1.1rem; height: 1.1rem; border-radius: 50%; box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.12); display: inline-block; }
+      .pass { color: var(--ok); font-weight: 600; }
+      .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr)); gap: var(--space-s); }
+      .swatch { border: 1px solid var(--line); border-radius: var(--radius-m); overflow: hidden; background: var(--surface-raised); font-size: var(--step--1); }
+      .swatch div { height: 4.5rem; }
+      .swatch p { padding: var(--space-2xs) var(--space-xs); }
+      .swatch code { font-family: var(--font-mono); font-size: var(--step--2); color: var(--ink-muted); }
+      .specimen > div { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: var(--space-m); align-items: baseline; padding-block: var(--space-s); border-bottom: 1px solid var(--line); }
+      .specimen code { font-family: var(--font-mono); font-size: var(--step--2); color: var(--ink-subtle); }
+      .space-row { display: grid; grid-template-columns: 6.5rem 3rem minmax(0, 1fr); gap: var(--space-s); align-items: center; font-size: var(--step--1); padding-block: 0.2rem; }
+      .space-row span:last-child { max-width: 100%; height: 0.75rem; background: var(--accent-soft); border-inline-start: 2px solid var(--accent); }
+      .demo { border: 1px dashed var(--line-strong); border-radius: var(--radius-l); padding: var(--space-l); background: var(--surface); }
+      .demo + .demo { margin-block-start: var(--space-s); }
+      .states { display: flex; flex-wrap: wrap; gap: var(--space-m); align-items: center; }
+      .is-hover .prow__title, a.link.is-hover { color: var(--accent); }
+      .is-hover .ph { transform: scale(1.12); }
+      .is-hover .prow__title .arrow { opacity: 1; transform: none; }
+      a.link.is-hover { text-decoration-color: currentColor; text-underline-offset: 0.28em; }
+      .is-focus { outline: 2px solid var(--focus); outline-offset: 3px; border-radius: 2px; }
+      .btn.is-hover { background: color-mix(in oklch, var(--accent) 86%, var(--ink)); }
+      @media (max-width: 599px) { .specimen > div { grid-template-columns: 1fr; gap: var(--space-3xs); } }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="page site-header">
+    <a class="site-header__name" href="index.html">Guus Ekkelenkamp</a>
+    <nav class="site-nav" aria-label="Main"><ul><li><a href="index.html">Home</a></li><li><a href="project.html">Project page</a></li></ul></nav>
+  </header>
+
+  <main id="main" class="page sg">
+    <section aria-labelledby="sg-title">
+      <h1 class="case__title" id="sg-title">Licht &amp; rustig</h1>
+      <p class="case__line">A short style guide. One reading column, a lot of air, two typefaces and one accent. Everything below is the real CSS from <code>style.css</code>.</p>
+    </section>
+
+    <section aria-labelledby="c-colour">
+      <h2 class="sg__h" id="c-colour">Colour</h2>
+      <p class="sg__note">Two options, tokens only. <strong>licht</strong> (default) is a near-white with a hint of blue and one clear blue accent. <strong>zacht</strong> is a pale sage ground with a deep green accent. Switch them in the review bar; the swatches below follow.</p>
+      <h3 class="sg__k">Current option, live</h3>
+      <div class="swatches">
+        <div class="swatch"><div style="background:var(--surface)"></div><p>surface<br><code>--surface</code></p></div>
+        <div class="swatch"><div style="background:var(--surface-raised)"></div><p>raised<br><code>--surface-raised</code></p></div>
+        <div class="swatch"><div style="background:var(--surface-sunken)"></div><p>sunken<br><code>--surface-sunken</code></p></div>
+        <div class="swatch"><div style="background:var(--ink)"></div><p>ink<br><code>--ink</code></p></div>
+        <div class="swatch"><div style="background:var(--ink-muted)"></div><p>ink muted<br><code>--ink-muted</code></p></div>
+        <div class="swatch"><div style="background:var(--ink-subtle)"></div><p>ink subtle<br><code>--ink-subtle</code></p></div>
+        <div class="swatch"><div style="background:var(--accent)"></div><p>accent<br><code>--accent</code></p></div>
+        <div class="swatch"><div style="background:var(--accent-soft)"></div><p>accent soft<br><code>--accent-soft</code></p></div>
+        <div class="swatch"><div style="background:var(--line)"></div><p>line<br><code>--line</code></p></div>
+        <div class="swatch"><div style="background:var(--line-strong)"></div><p>line strong<br><code>--line-strong</code></p></div>
+      </div>
+      <h3 class="sg__k">Project tones (placeholders, one per project)</h3>
+      <div class="swatches">
+        <div class="swatch"><div class="ph" data-tone="homelab" style="border-radius:0;aspect-ratio:auto;height:4.5rem"></div><p>homelab</p></div>
+        <div class="swatch"><div class="ph" data-tone="rules-of-99" style="border-radius:0;aspect-ratio:auto;height:4.5rem"></div><p>rules-of-99</p></div>
+        <div class="swatch"><div class="ph" data-tone="finds" style="border-radius:0;aspect-ratio:auto;height:4.5rem"></div><p>finds</p></div>
+        <div class="swatch"><div class="ph" data-tone="quizmaster" style="border-radius:0;aspect-ratio:auto;height:4.5rem"></div><p>quizmaster</p></div>
+        <div class="swatch"><div class="ph" data-tone="scryfall" style="border-radius:0;aspect-ratio:auto;height:4.5rem"></div><p>scryfall</p></div>
+      </div>
+
+      <h3 class="sg__k">Measured contrast (WCAG 2.x, sRGB from OKLCH)</h3>
+      <div class="sg__scroll">
+        <table>
+          <thead><tr><th scope="col">Pair</th><th scope="col">Needs</th><th scope="col">licht</th><th scope="col">zacht</th></tr></thead>
+          <tbody>
+            <tr><td>ink on surface</td><td>7:1</td><td><span class="chip"><i style="background:#131921"></i>#131921 on #f9fcfe · 17.17</span></td><td><span class="chip"><i style="background:#0f1e18"></i>#0f1e18 on #e8f4eb · 15.21</span></td></tr>
+            <tr><td>ink muted on surface</td><td>4.5:1</td><td><span class="chip"><i style="background:#4c535e"></i>#4c535e · 7.52</span></td><td><span class="chip"><i style="background:#3b5046"></i>#3b5046 · 7.69</span></td></tr>
+            <tr><td>ink muted on sunken</td><td>4.5:1</td><td><span class="chip"><i style="background:#f0f4f8"></i>on #f0f4f8 · 7.00</span></td><td><span class="chip"><i style="background:#dbebdf"></i>on #dbebdf · 7.05</span></td></tr>
+            <tr><td>ink subtle on surface (labels)</td><td>3:1</td><td><span class="chip"><i style="background:#727881"></i>#727881 · 4.32</span></td><td><span class="chip"><i style="background:#596f65"></i>#596f65 · 4.80</span></td></tr>
+            <tr><td>accent as text on surface</td><td>4.5:1</td><td><span class="chip"><i style="background:#1e59cd"></i>#1e59cd · 6.04</span></td><td><span class="chip"><i style="background:#005c3b"></i>#005c3b · 7.14</span></td></tr>
+            <tr><td>accent on accent soft</td><td>4.5:1</td><td><span class="chip"><i style="background:#e3edff"></i>on #e3edff · 5.30</span></td><td><span class="chip"><i style="background:#c5e6d1"></i>on #c5e6d1 · 5.99</span></td></tr>
+            <tr><td>accent ink on accent (button)</td><td>4.5:1</td><td><span class="chip"><i style="background:#ffffff"></i>#ffffff on #1e59cd · 6.24</span></td><td><span class="chip"><i style="background:#f6fcf7"></i>#f6fcf7 on #005c3b · 7.72</span></td></tr>
+            <tr><td>line strong / focus ring on surface</td><td>3:1</td><td><span class="chip"><i style="background:#81878d"></i>#81878d · 3.53 · focus 6.04</span></td><td><span class="chip"><i style="background:#697d71"></i>#697d71 · 3.89 · focus 7.14</span></td></tr>
+            <tr><td>ink on project tones</td><td>4.5:1</td><td>11.8 – 12.8</td><td>10.5 – 11.5</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="sg__note" style="margin-top:var(--space-s);font-size:var(--step--1)"><code>--line</code> (#e0e3e7 / #cbdad0) is decorative only: section rules and list dividers, never the only edge of a control.</p>
+    </section>
+
+    <section aria-labelledby="c-type">
+      <h2 class="sg__h" id="c-type">Type</h2>
+      <p class="sg__note"><strong>Newsreader</strong> for headlines and the lead paragraphs, set at regular weight with optical sizing, so the large sizes stay fine instead of heavy. <strong>Hanken Grotesk</strong> for everything you read and click: warm and slightly round, but quiet. One serif voice for the things Guus says, one sans for the rest.</p>
+      <div class="specimen" style="margin-top:var(--space-l)">
+        <div><code>hero · ~68px</code><p class="intro__title" style="max-width:none">I lead the infra team.</p></div>
+        <div><code>step-5 · case</code><p class="case__title" style="margin:0;max-width:none">Homelab &amp; home automation</p></div>
+        <div><code>step-4 · feature</code><p class="feature__title">Rules of 99</p></div>
+        <div><code>step-3 · h2</code><p style="font-family:var(--font-display);font-size:var(--step-3);line-height:1.12;letter-spacing:-0.015em">What I learned</p></div>
+        <div><code>step-2 · lead</code><p class="lead">Before a client project gets built, we decide where it runs.</p></div>
+        <div><code>step-1 · row title</code><p style="font-size:var(--step-1);font-weight:600">2nd-hand finds</p></div>
+        <div><code>step-0 · body</code><p>Every two hours it checks for things I’m looking for, like Magic card collections or cheap mini PCs, and uses AI to filter out the noise.</p></div>
+        <div><code>step--1 · meta</code><p style="font-size:var(--step--1);color:var(--ink-muted)">Featured · a different one each visit · 2026</p></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="c-space">
+      <h2 class="sg__h" id="c-space">Spacing &amp; layout</h2>
+      <p class="sg__note">The 4px scale from the foundations. Everything sits on one left edge: a 40rem reading column, and a 72rem wide measure for images, the work columns and the project list. Sections are separated by <code>--space-section</code> and a hairline, not by boxes.</p>
+      <div style="margin-top:var(--space-l)">
+        <div class="space-row"><code>--space-2xs</code><span>8</span><span style="width:8px"></span></div>
+        <div class="space-row"><code>--space-s</code><span>16</span><span style="width:16px"></span></div>
+        <div class="space-row"><code>--space-m</code><span>24</span><span style="width:24px"></span></div>
+        <div class="space-row"><code>--space-l</code><span>32</span><span style="width:32px"></span></div>
+        <div class="space-row"><code>--space-xl</code><span>48</span><span style="width:48px"></span></div>
+        <div class="space-row"><code>--space-2xl</code><span>64</span><span style="width:64px"></span></div>
+        <div class="space-row"><code>--space-3xl</code><span>96</span><span style="width:96px"></span></div>
+        <div class="space-row"><code>--space-4xl</code><span>144</span><span style="width:144px"></span></div>
+      </div>
+      <p class="sg__note" style="margin-top:var(--space-m);font-size:var(--step--1)">Radius: 3 / 6 / 10px (thumbnail, image, feature). Shadows exist in the tokens but the site uses none; hairlines do the work.</p>
+    </section>
+
+    <section aria-labelledby="c-comp">
+      <h2 class="sg__h" id="c-comp">Components</h2>
+
+      <h3 class="sg__k">Header (nav: rest · hover · current)</h3>
+      <div class="demo">
+        <div class="site-header" style="min-height:0;padding:0">
+          <a class="site-header__name" href="#c-comp">Guus Ekkelenkamp</a>
+          <nav class="site-nav" aria-label="Example"><ul><li><a href="#c-comp">Work</a></li><li><a href="#c-comp" aria-current="true">Projects</a></li><li><a href="#c-comp">About</a></li><li><a href="#c-comp">Contact</a></li></ul></nav>
+        </div>
+      </div>
+
+      <h3 class="sg__k">Intro</h3>
+      <div class="demo">
+        <div class="intro">
+          <div class="ph ph--portrait intro__portrait" role="img" aria-label="Photo: portrait of Guus" style="width:7rem"><span class="ph__cap" aria-hidden="true">Photo: portrait of Guus</span></div>
+          <div><p class="intro__title" style="font-size:var(--step-4)">I’m Guus. I lead the infra team at Harborn in Rotterdam.</p><p class="intro__text" style="font-size:var(--step-0)">Headline in Newsreader, one sentence, max 15ch wide. Portrait sits to the right from 760px, above the headline on phones.</p></div>
+        </div>
+      </div>
+
+      <h3 class="sg__k">Project feature (picked at random per load; <code>?featured=&lt;id&gt;</code> pins it)</h3>
+      <div class="demo" id="demo-feature"></div>
+
+      <h3 class="sg__k">Project list item (rest · hover/focus)</h3>
+      <div class="demo"><ul class="plist" style="margin:0" id="demo-rows"></ul></div>
+
+      <h3 class="sg__k">Tag (outlined in the feature, plain in the list)</h3>
+      <div class="demo states">
+        <ul class="tags"><li class="tag">Kubernetes</li><li class="tag">Home Assistant</li></ul>
+        <ul class="tags tags--plain"><li class="tag">Python</li><li class="tag">Claude</li><li class="tag">Astro</li></ul>
+      </div>
+
+      <h3 class="sg__k">Button &amp; link (rest · hover · focus)</h3>
+      <div class="demo states">
+        <a class="btn" href="#c-comp">Send an email</a>
+        <a class="btn is-hover" href="#c-comp" tabindex="-1">Hover</a>
+        <a class="btn is-focus" href="#c-comp" tabindex="-1">Focus</a>
+        <a class="btn btn--quiet" href="#c-comp">GitHub</a>
+      </div>
+      <div class="demo states">
+        <a class="link" href="#c-comp">Text link</a>
+        <a class="link is-hover" href="#c-comp" tabindex="-1">Hover</a>
+        <a class="link is-focus" href="#c-comp" tabindex="-1">Focus</a>
+        <span class="feature__cta" style="margin:0">Read about the project <span class="arrow" aria-hidden="true">→</span></span>
+        <a class="contact__mail" href="#c-comp" style="margin:0;font-size:var(--step-2)">hello@ekkelenkamp.dev</a>
+      </div>
+
+      <h3 class="sg__k">Footer</h3>
+      <div class="demo"><div class="site-footer" style="margin:0;padding:0;border:0"><span>© 2026 Guus Ekkelenkamp</span><a href="#main">Back to top</a></div></div>
+
+      <h3 class="sg__k">Motion</h3>
+      <p class="sg__note">A 520ms fade-and-rise on load, staggered 90ms (header, intro, portrait, work). Hovers are 160ms: the list thumbnail grows to 112%, the title turns accent and an arrow slides in. All of it switches off under <code>prefers-reduced-motion</code>.</p>
+    </section>
+  </main>
+
+  <footer class="page site-footer"><span>r2-licht · style guide</span><a href="index.html">Back to the homepage</a></footer>
+
+  <aside class="review-bar" aria-label="Review tools">
+    <strong>Licht &amp; rustig</strong>
+    <div role="radiogroup" aria-label="Option">
+      <button type="button" role="radio" data-value="licht" aria-checked="true">licht</button>
+      <button type="button" role="radio" data-value="zacht" aria-checked="false" tabindex="-1">zacht</button>
+    </div>
+    <span class="review-bar__sep" aria-hidden="true"></span>
+    <a href="index.html">index</a>
+    <a href="project.html">project</a>
+    <a href="system.html" aria-current="page">system</a>
+    <a href="../../../index.html">← all</a>
+  </aside>
+
+  <script src="projects.js"></script>
+  <script>
+    (function () {
+      var P = window.Projects; if (!P) return;
+      var out = P.render(P.byId("rules-of-99"));
+      document.getElementById("demo-feature").innerHTML = out.feature;
+      var rows = document.getElementById("demo-rows");
+      rows.innerHTML = out.list;
+      while (rows.children.length > 2) rows.lastElementChild.remove();
+      rows.querySelectorAll(".prow")[1].classList.add("is-hover");
+      document.querySelectorAll("#demo-feature h3, #demo-rows h4").forEach(function (h) {
+        var p = document.createElement("p"); p.className = h.className; p.innerHTML = h.innerHTML; h.replaceWith(p);
+      });
+    })();
+  </script>
+  <noscript><p class="page">The feature and list demos are rendered from projects.js; see index.html for the no-JS state.</p></noscript>
+</body>
+</html>

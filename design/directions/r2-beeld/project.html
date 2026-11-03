@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en" data-direction="beeld" data-option="wit">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Homelab &amp; home automation · Guus Ekkelenkamp</title>
+<meta name="description" content="A small home server that runs my apps and my home automation.">
+<script>(function(){var o=["wit","donker"],v=null;try{v=new URLSearchParams(location.search).get("option")}catch(e){}if(o.indexOf(v)<0){try{v=localStorage.getItem("r2-beeld:option")}catch(e){}}if(o.indexOf(v)<0)v=o[0];document.documentElement.setAttribute("data-option",v)})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Schibsted+Grotesk:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../system/base.css">
+<link rel="stylesheet" href="beeld.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="page site-header__inner">
+    <a class="site-header__name" href="index.html">Guus Ekkelenkamp</a>
+    <nav class="nav" aria-label="Main">
+      <ul>
+        <li><a href="index.html#work">Work</a></li>
+        <li><a href="index.html#projects" aria-current="true">Projects</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <article aria-labelledby="case-title">
+    <header class="page grid case-head">
+      <p class="case-head__back"><a class="arrow-link arrow-link--back" href="index.html#projects"><span aria-hidden="true">&larr;</span> All projects</a></p>
+      <h1 class="case-head__title display" id="case-title">Homelab &amp; home automation</h1>
+      <p class="case-head__line">A small home server that runs my apps and my home automation.</p>
+      <dl class="case-meta">
+        <dt>Year</dt><dd>2026</dd>
+        <dt>Built with</dt><dd><ul class="tags" style="color: var(--ink)"><li>Proxmox</li><li>Kubernetes</li><li>Home Assistant</li><li>Zigbee</li></ul></dd>
+      </dl>
+    </header>
+
+    <figure class="case-hero">
+      <div class="ph" role="img" aria-label="Photo: the setup under the TV"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true">Photo: the setup under the TV</span></div>
+    </figure>
+
+    <section class="page grid case-section" aria-labelledby="s-what">
+      <h2 class="split__title" id="s-what">What it is</h2>
+      <div class="split__body prose">
+        <p class="lead lead--wide" style="max-width: 46ch">An old laptop under the TV runs everything: my side projects, Home Assistant and the lights.</p>
+        <p>It&rsquo;s only reachable through my own private network, and every change goes through git, so I can rebuild it in an afternoon. Next up: three small second-hand PCs to turn it into a proper cluster.</p>
+      </div>
+    </section>
+
+    <section class="page grid case-section" aria-labelledby="s-why">
+      <h2 class="split__title" id="s-why">Why I built it</h2>
+      <div class="split__body prose">
+        <p>I wanted one place for my side projects, and to try things at home before recommending them at work.</p>
+      </div>
+    </section>
+
+    <section class="page grid case-section" aria-labelledby="s-how">
+      <h2 class="split__title" id="s-how">How it works</h2>
+      <div class="split__body split__body--wide">
+        <p class="prose" id="how-text" style="max-width: 62ch">The laptop runs two virtual machines. One runs Kubernetes with my apps; the other runs Home Assistant with a Zigbee stick for the lights and sensors. Nothing is open to the internet; I connect through a private network (Tailscale). When I push code to GitHub, it&rsquo;s built and deployed automatically (Argo CD).</p>
+        <figure class="diagram" aria-describedby="how-text">
+          <div class="diagram__box"><h4>Me</h4><p>Phone or laptop, anywhere</p></div>
+          <div class="diagram__arrow">Tailscale <span aria-hidden="true">&rarr;</span><br><span class="visually-hidden">private network to the laptop</span></div>
+          <div class="diagram__box diagram__host">
+            <h4>The laptop under the TV</h4>
+            <div class="diagram__vms">
+              <div class="diagram__box diagram__vm"><h4>VM 1 · Kubernetes</h4><p>My 7 apps, deployed by Argo CD</p></div>
+              <div class="diagram__box diagram__vm"><h4>VM 2 · Home Assistant</h4><p>Zigbee stick for the lights and sensors</p></div>
+            </div>
+          </div>
+          <div class="diagram__arrow"><span aria-hidden="true">&larr;</span> deploys<br><span class="visually-hidden">from GitHub</span></div>
+          <div class="diagram__box"><h4>GitHub</h4><p>I push code, it gets built</p></div>
+        </figure>
+      </div>
+    </section>
+
+    <div class="page grid pair">
+      <figure class="pair__a">
+        <div class="ph" style="--tone: var(--tone-homelab); --ratio: 4 / 5" role="img" aria-label="Photo: the wall panel"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true">Photo: the wall panel</span></div>
+        <figcaption class="caption">The wall panel, where the house gets switched on and off.</figcaption>
+      </figure>
+      <figure class="pair__b">
+        <div class="ph" style="--tone: var(--tone-scryfall); --ratio: 1 / 1" role="img" aria-label="Photo: the Zigbee stick on its cable"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true">Photo: the Zigbee stick on its cable</span></div>
+        <figcaption class="caption">The Zigbee stick that talks to the lights and sensors.</figcaption>
+      </figure>
+    </div>
+
+    <section class="page grid case-section" aria-labelledby="s-numbers">
+      <h2 class="split__title" id="s-numbers">A few numbers</h2>
+      <div class="split__body">
+        <dl class="stats tnum">
+          <div><dt>GB memory</dt><dd>16</dd></div>
+          <div><dt>virtual machines</dt><dd>2</dd></div>
+          <div><dt>of my own apps</dt><dd>7</dd></div>
+          <div><dt>open ports</dt><dd>0</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="page grid case-section" aria-labelledby="s-learned">
+      <h2 class="split__title" id="s-learned">What I learned</h2>
+      <div class="split__body">
+        <ol class="learned">
+          <li><p>Small mistakes in disk setup add up. Check how much space the installer really gave you.</p></li>
+          <li><p>Keep a simple way in that works when everything else breaks.</p></li>
+          <li><p>Writing everything down makes rebuilding boring, which is exactly what you want.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="page grid case-section" aria-labelledby="s-next">
+      <h2 class="split__title" id="s-next">What&rsquo;s next</h2>
+      <div class="split__body prose">
+        <p>Three small second-hand PCs in a 3D-printed rack.</p>
+      </div>
+    </section>
+  </article>
+
+  <nav class="page next" aria-label="Next project">
+    <a class="next__link" href="project.html">
+      <div class="next__text">
+        <p class="eyebrow">Next project</p>
+        <p class="next__title">Rules of 99</p>
+        <p class="muted" style="margin-block-start: var(--space-2xs)">Play Commander (Magic: The Gathering) with friends in the browser.</p>
+      </div>
+      <div class="next__media"><div class="ph" style="--tone: var(--tone-rules-of-99)" role="img" aria-label="Screenshot: a 4-player game"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true">Screenshot: a 4-player game</span></div></div>
+    </a>
+  </nav>
+</main>
+
+<footer class="site-footer">
+  <div class="page site-footer__inner">
+    <p>&copy; 2026 Guus Ekkelenkamp</p>
+    <a href="#main">Back to top</a>
+  </div>
+</footer>
+
+<script src="review.js"></script>
+</body>
+</html>

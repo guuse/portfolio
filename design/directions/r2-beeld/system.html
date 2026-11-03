@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en" data-direction="beeld" data-option="wit">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Beeld voorop · system</title>
+<meta name="description" content="Style guide for the Beeld voorop direction: colours, type, spacing and components.">
+<script>(function(){var o=["wit","donker"],v=null;try{v=new URLSearchParams(location.search).get("option")}catch(e){}if(o.indexOf(v)<0){try{v=localStorage.getItem("r2-beeld:option")}catch(e){}}if(o.indexOf(v)<0)v=o[0];document.documentElement.setAttribute("data-option",v)})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Schibsted+Grotesk:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../system/base.css">
+<link rel="stylesheet" href="beeld.css">
+<style>
+  @layer components {
+    .sg-section { padding-block: var(--space-3xl) 0; }
+    .sg-section > .page > h2 { margin-block-end: var(--space-l); }
+    .sg-note { color: var(--ink-muted); max-width: 60ch; margin-block-end: var(--space-l); }
+    .sg-label { font-size: var(--step--2); color: var(--ink-subtle); letter-spacing: 0.06em; text-transform: uppercase; margin-block-end: var(--space-xs); }
+    .panels { display: grid; gap: var(--gutter); }
+    @media (min-width: 960px) { .panels { grid-template-columns: 1fr 1fr; } }
+    .panel { background: var(--surface); color: var(--ink); padding: var(--space-l); border: 1px solid var(--line); }
+    .panel h3 { font-family: var(--font-display); font-size: var(--step-2); margin-block-end: var(--space-m); }
+    .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: var(--space-s); margin-block-end: var(--space-l); }
+    .sw { font-size: var(--step--2); }
+    .sw i { display: block; height: 56px; border: 1px solid var(--line); margin-block-end: var(--space-3xs); }
+    .sw code { font-family: var(--font-mono); color: var(--ink-muted); }
+    .ratios { width: 100%; border-collapse: collapse; font-size: var(--step--1); }
+    .ratios th, .ratios td { text-align: start; padding: var(--space-2xs) 0; border-block-end: 1px solid var(--line); vertical-align: middle; }
+    .ratios td:last-child, .ratios th:last-child { text-align: end; }
+    .ratios .demo { display: inline-block; padding: 2px 8px; border: 1px solid var(--line); }
+    .pass { color: var(--ink-muted); }
+    .tones { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: var(--gutter); }
+    .tones .ph { --ratio: 4 / 5; }
+    .tones .ph[data-r="1"] { --ratio: 3 / 2; }
+    .type-row { display: grid; gap: var(--space-2xs) var(--gutter); padding-block: var(--space-s); border-block-end: 1px solid var(--line); align-items: baseline; }
+    @media (min-width: 760px) { .type-row { grid-template-columns: 12rem 1fr; } }
+    .type-row code { font-family: var(--font-mono); font-size: var(--step--2); color: var(--ink-subtle); }
+    .space-row { display: flex; align-items: center; gap: var(--space-s); font-size: var(--step--1); padding-block: 4px; }
+    .space-row code { font-family: var(--font-mono); width: 9rem; color: var(--ink-muted); font-size: var(--step--2); }
+    .space-row i { display: block; height: 12px; background: var(--tone-homelab); }
+    .demo-box { border: 1px dashed var(--line-strong); padding: var(--space-m); margin-block-end: var(--space-l); overflow: hidden; }
+    .states { display: flex; flex-wrap: wrap; gap: var(--space-l); align-items: center; }
+    .states figure { display: grid; gap: var(--space-2xs); }
+    .states figcaption { font-size: var(--step--2); color: var(--ink-subtle); }
+    .is-hover.arrow-link { border-color: currentColor; color: var(--accent); }
+    .is-hover.arrow-link span[aria-hidden] { transform: translateX(4px); }
+    .is-focus { outline: 2px solid var(--focus); outline-offset: 3px; border-radius: var(--radius-s); }
+    .nav a.is-hover { color: var(--ink); background-size: 100% 1px; }
+    .item.is-hover .item__title a { background-size: 100% 1px; }
+    .item.is-hover .ph__inner { transform: scale(1.025); }
+    .mini-grid { display: grid; gap: var(--gutter); }
+    @media (min-width: 760px) { .mini-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    .mini-grid .project-grid { margin: 0; display: contents; }
+    .mini-grid .item { grid-column: auto !important; margin: 0 !important; }
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="page site-header__inner">
+    <a class="site-header__name" href="index.html">Guus Ekkelenkamp</a>
+    <nav class="nav" aria-label="Main"><ul><li><a href="index.html">Home</a></li><li><a href="project.html">Project page</a></li><li><a href="#colour" aria-current="true">System</a></li></ul></nav>
+  </div>
+</header>
+
+<main id="main">
+  <section class="intro">
+    <div class="page">
+      <p class="eyebrow">Direction r2-beeld</p>
+      <h1 class="display" style="font-size: var(--step-6); margin-block: var(--space-2xs) var(--space-m)">Beeld voorop</h1>
+      <p class="lead lead--wide">Image first. Big photography carries the page and the text supports it. Two typefaces, one neutral ramp, one quiet accent, and a calm tone per photo.</p>
+    </div>
+  </section>
+
+  <section class="sg-section" id="colour" aria-labelledby="colour-title">
+    <div class="page">
+      <h2 class="h2" id="colour-title">Colour</h2>
+      <p class="sg-note">Options only swap tokens. The ratios below are measured live in the browser from the computed token values (WCAG 2.x relative luminance). Targets: body ink ≥ 7, muted ≥ 4.5, subtle and UI lines ≥ 3.</p>
+      <div class="panels">
+        <div class="panel" data-option="wit" data-panel><h3>Wit <span class="muted" style="font-family: var(--font-body); font-size: var(--step--1)">default, gallery white</span></h3></div>
+        <div class="panel" data-option="donker" data-panel><h3>Donker <span class="muted" style="font-family: var(--font-body); font-size: var(--step--1)">dark gallery, images pop</span></h3></div>
+      </div>
+
+      <h3 class="h3" style="margin-block: var(--space-2xl) var(--space-xs)">Photo tones</h3>
+      <p class="sg-note">One muted colour per image, the same in both options, because a real photo doesn&rsquo;t change with the background. Each placeholder gets a soft light fall-off and a faint grain so it reads as a photo slot, not a grey box. Label ink on each tone is measured too.</p>
+      <div class="tones" id="tones"></div>
+    </div>
+  </section>
+
+  <section class="sg-section" aria-labelledby="type-title">
+    <div class="page">
+      <h2 class="h2" id="type-title">Type</h2>
+      <p class="sg-note"><strong>Instrument Serif</strong> for big moments only: the intro headline, section titles, project titles, numbers and the email address. It&rsquo;s condensed and elegant, so a large headline sits calmly next to a portrait like a magazine cover line. <strong>Schibsted Grotesk</strong> for everything else: a newspaper-born sans with sturdy, slightly quirky shapes that keeps captions and body text clear without feeling like a default UI font.</p>
+      <div class="type-row"><code>--step-hero · serif</code><p class="display" style="font-size: var(--step-hero)">I&rsquo;m Guus.</p></div>
+      <div class="type-row"><code>--step-giant · serif</code><p class="display" style="font-size: var(--step-giant)">Homelab &amp; home</p></div>
+      <div class="type-row"><code>--step-5 · serif · h2</code><p class="h2">Projects</p></div>
+      <div class="type-row"><code>--step-3 · serif · case h2</code><p class="display" style="font-size: var(--step-3)">What I learned</p></div>
+      <div class="type-row"><code>--step-1 · serif · item title</code><p class="item__title">Scryfall, in plain words</p></div>
+      <div class="type-row"><code>--step-1 · sans · lead</code><p class="lead">I live in Rotterdam and build things at home.</p></div>
+      <div class="type-row"><code>--step-0 · sans · body</code><p>I make sure the platforms our clients run on are secure, reliable and well thought out.</p></div>
+      <div class="type-row"><code>--step-0 · sans 600 · h3</code><p class="h3">Cloud &amp; platform</p></div>
+      <div class="type-row"><code>--step--1 · sans · caption</code><p class="item__line">A tool that keeps an eye on <span lang="nl">Marktplaats</span> and Vinted for me.</p></div>
+    </div>
+  </section>
+
+  <section class="sg-section" aria-labelledby="space-title">
+    <div class="page">
+      <h2 class="h2" id="space-title">Space &amp; images</h2>
+      <p class="sg-note">The shared 4px scale. Sections are separated by <code>--space-section</code>; inside the project grid items stagger by <code>--space-3xl</code> and <code>--space-4xl</code>. Image ratios: portrait 4:5, featured full-bleed (16:9 on tablet, viewport-capped on desktop), grid slots repeat wide 3:2, tall 4:5, square 1:1, 4:3. A trailing single item spans the full width at 21:9.</p>
+      <div id="spaces"></div>
+    </div>
+  </section>
+
+  <section class="sg-section" aria-labelledby="comp-title">
+    <div class="page">
+      <h2 class="h2" id="comp-title">Components</h2>
+
+      <p class="sg-label">Header · nav link default / hover / focus</p>
+      <div class="demo-box">
+        <div class="site-header__inner">
+          <span class="site-header__name">Guus Ekkelenkamp</span>
+          <nav class="nav" aria-label="Example"><ul><li><a href="#colour">Work</a></li><li><a class="is-hover" href="#colour">Projects</a></li><li><a class="is-focus" href="#colour">About</a></li><li><a href="#colour">Contact</a></li></ul></nav>
+        </div>
+      </div>
+
+      <p class="sg-label">Intro</p>
+      <div class="demo-box">
+        <div class="grid" style="align-items: end">
+          <p class="display" style="grid-column: 1 / 8; font-size: var(--step-4); line-height: .95">I&rsquo;m Guus. I lead the infra team at Harborn in <em>Rotterdam.</em></p>
+          <div class="ph ph--portrait" style="grid-column: 9 / -1" role="img" aria-label="Photo: portrait of Guus"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true">Portrait 4:5</span></div>
+        </div>
+      </div>
+
+      <p class="sg-label">Project feature (full-bleed image, title set below)</p>
+      <div class="demo-box" id="feature-demo" style="padding: 0"></div>
+
+      <p class="sg-label">Project list item · default / hover</p>
+      <div class="demo-box"><div class="mini-grid"><ul class="project-grid" id="items-demo"></ul></div></div>
+
+      <p class="sg-label">Tag</p>
+      <div class="demo-box"><ul class="tags"><li>Java</li><li>React</li><li>TypeScript</li><li>WebSockets</li></ul>
+        <p class="sg-note" style="margin: var(--space-s) 0 0">Plain text separated by a thin dot. No pills, no icons.</p></div>
+
+      <p class="sg-label">Link &amp; button · default / hover / focus</p>
+      <div class="demo-box">
+        <div class="states">
+          <figure><a class="arrow-link" href="#colour">Read the project <span aria-hidden="true">&rarr;</span></a><figcaption>default</figcaption></figure>
+          <figure><a class="arrow-link is-hover" href="#colour">Read the project <span aria-hidden="true">&rarr;</span></a><figcaption>hover</figcaption></figure>
+          <figure><a class="arrow-link is-focus" href="#colour">Read the project <span aria-hidden="true">&rarr;</span></a><figcaption>focus-visible</figcaption></figure>
+          <figure><p>Body text with <a href="#colour">an inline link</a>.</p><figcaption>inline link: always underlined</figcaption></figure>
+        </div>
+      </div>
+
+      <p class="sg-label">Footer</p>
+      <div class="demo-box" style="padding: 0">
+        <footer class="site-footer" style="margin: 0; padding: var(--space-m)"><div class="site-footer__inner"><p>&copy; 2026 Guus Ekkelenkamp</p><a href="#main">Back to top</a></div></footer>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="page site-footer__inner"><p>Beeld voorop · r2-beeld</p><a href="index.html">Homepage</a></div>
+</footer>
+
+<script src="projects.js"></script>
+<script>
+(function () {
+  "use strict";
+  var P = window.BeeldProjects;
+  // Components rendered from the same templates as the homepage
+  var r = P.render("homelab");
+  document.getElementById("feature-demo").innerHTML = r.featured.replace('id="feature-title"', 'id="feature-demo-title"').replace('aria-labelledby="feature-title"', 'aria-labelledby="feature-demo-title"').replace(/<h3/g, '<p').replace(/<\/h3>/g, '</p>').replace('class="page grid feature__body"', 'class="grid feature__body" style="padding: 0 var(--space-m) var(--space-m)"');
+  var demo = document.getElementById("items-demo");
+  demo.innerHTML = r.grid.replace(/<h3/g, '<p').replace(/<\/h3>/g, '</p>');
+  while (demo.children.length > 3) demo.removeChild(demo.lastElementChild);
+  demo.children[1].classList.add("is-hover");
+
+  // Spacing scale
+  var sp = ["3xs","2xs","xs","s","m","l","xl","2xl","3xl","4xl"];
+  document.getElementById("spaces").innerHTML = sp.map(function (k) {
+    return '<div class="space-row"><code>--space-' + k + '</code><i style="width: var(--space-' + k + ')"></i><span class="px" data-k="' + k + '"></span></div>';
+  }).join("");
+  Array.prototype.forEach.call(document.querySelectorAll(".px"), function (el) {
+    el.textContent = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--space-" + el.dataset.k)) * 16 + "px";
+  });
+
+  // Contrast, measured from computed tokens via canvas
+  var cv = document.createElement("canvas"); cv.width = cv.height = 1;
+  var cx = cv.getContext("2d", { willReadFrequently: true });
+  function rgb(c) { cx.clearRect(0, 0, 1, 1); cx.fillStyle = "#000"; cx.fillStyle = c; cx.fillRect(0, 0, 1, 1); return cx.getImageData(0, 0, 1, 1).data; }
+  function lum(d) { var a = [d[0], d[1], d[2]].map(function (v) { v /= 255; return v <= 0.04045 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }); return 0.2126 * a[0] + 0.7152 * a[1] + 0.0722 * a[2]; }
+  function ratio(a, b) { var x = lum(rgb(a)), y = lum(rgb(b)); return (Math.max(x, y) + 0.05) / (Math.min(x, y) + 0.05); }
+  function tok(el, n) { return getComputedStyle(el).getPropertyValue(n).trim(); }
+
+  var SW = ["--surface","--surface-raised","--surface-sunken","--surface-inverse","--ink","--ink-muted","--ink-subtle","--accent","--accent-soft","--line","--line-strong"];
+  var PAIRS = [
+    ["--ink","--surface","Body text", 7], ["--ink","--surface-raised","Body on raised", 7],
+    ["--ink-muted","--surface","Muted text", 4.5], ["--ink-subtle","--surface","Subtle labels", 3],
+    ["--accent","--surface","Accent as text / hover", 4.5], ["--accent-ink","--accent","Text on accent", 4.5],
+    ["--ink-inverse","--surface-inverse","Inverse", 7], ["--focus","--surface","Focus ring", 3],
+    ["--line-strong","--surface","UI boundary", 3]
+  ];
+  Array.prototype.forEach.call(document.querySelectorAll("[data-panel]"), function (panel) {
+    var s = '<div class="swatches">' + SW.map(function (n) { return '<div class="sw"><i style="background: var(' + n + ')"></i>' + n.slice(2) + '<br><code>' + tok(panel, n) + '</code></div>'; }).join("") + "</div>";
+    s += '<table class="ratios"><thead><tr><th scope="col">Pair</th><th scope="col">Sample</th><th scope="col">Ratio</th></tr></thead><tbody>';
+    PAIRS.forEach(function (p) {
+      var v = ratio(tok(panel, p[0]), tok(panel, p[1]));
+      s += "<tr><td>" + p[2] + '<br><span class="muted">' + p[0].slice(2) + " on " + p[1].slice(2) + '</span></td><td><span class="demo" style="color: var(' + p[0] + "); background: var(" + p[1] + ')">Aa</span></td><td class="tnum">' + v.toFixed(2) + ':1 <span class="pass">' + (v >= p[3] ? "pass ≥ " + p[3] : "below " + p[3]) + "</span></td></tr>";
+    });
+    panel.insertAdjacentHTML("beforeend", s + "</tbody></table>");
+  });
+
+  var TONES = [["portrait","Portrait"],["homelab","Homelab"],["rules-of-99","Rules of 99"],["finds","2nd-hand finds"],["quizmaster","Quizmaster"],["scryfall","Scryfall"],["friends","About"]];
+  var root = document.documentElement;
+  document.getElementById("tones").innerHTML = TONES.map(function (t, i) {
+    var v = ratio(tok(root, "--ph-ink"), tok(root, "--tone-" + t[0]));
+    return '<figure><div class="ph" data-r="' + (i % 2) + '" style="--tone: var(--tone-' + t[0] + ')" role="img" aria-label="Tone for ' + t[1] + '"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true">' + t[1] + '</span></div><figcaption class="caption tnum">--tone-' + t[0] + "<br>label " + v.toFixed(2) + ":1</figcaption></figure>";
+  }).join("");
+})();
+</script>
+<script src="review.js"></script>
+</body>
+</html>
