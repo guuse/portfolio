@@ -847,3 +847,159 @@ svg.story { border: 0; padding: 0; margin: 0; border-radius: 0; max-width: none;
 .scrolly__mini .story:not(.s5) [data-show="5"], .scrolly__mini .story:not(.s6) [data-show="6"], .scrolly__mini .story:not(.s7) [data-show="7"] { opacity: 0; }
 .story .tl { fill: var(--ink-subtle); font-size: 14.5px; }
 .story--compact .t { font-size: 16px; } .story--compact .ts { font-size: 14.5px; }
+
+/* ============================================================ round 16: the illustration kit */
+/* One hand for every drawing (see art.js): front elevation from slightly above, lit top planes,
+   1.5-unit outlines, flat contact shadows. Navy shades + ink, amber for what moves, blue for "on". */
+.scene-svg {
+  --k-face: oklch(28% 0.05 266); --k-top: oklch(39% 0.052 266); --k-edge: oklch(47% 0.05 266);
+  --k-hl: oklch(41% 0.052 266); --k-dark: oklch(16.5% 0.04 266); --k-det: oklch(43% 0.05 266);
+  --k-shadow: oklch(13% 0.035 266); --k-ground: oklch(30% 0.045 266); --k-route: oklch(36% 0.05 266);
+  --k-pod: oklch(76% 0.035 255); --k-cool: oklch(80% 0.09 228); --k-amber: var(--accent);
+  display: block; width: 100%; height: auto; overflow: hidden; font-family: var(--font-sans);
+}
+.scene-svg .k-face { fill: var(--k-face); stroke: var(--k-edge); stroke-width: 1.5; }
+.scene-svg .k-top { fill: var(--k-top); stroke: var(--k-edge); stroke-width: 1.5; stroke-linejoin: round; }
+.scene-svg .k-hl { fill: none; stroke: var(--k-hl); stroke-width: 1; stroke-linecap: round; }
+.scene-svg .k-dark { fill: var(--k-dark); }
+.scene-svg .k-det { fill: none; stroke: var(--k-det); stroke-width: 1.2; stroke-linecap: round; }
+.scene-svg .k-det-f { fill: var(--k-det); }
+.scene-svg .k-det-ring { fill: none; stroke: var(--k-det); stroke-width: 1.3; }
+.scene-svg .k-vent { stroke: var(--k-dark); stroke-width: 1.6; stroke-linecap: round; }
+.scene-svg .k-shadow { fill: var(--k-shadow); opacity: 0.8; }
+.scene-svg .k-ground { stroke: var(--k-ground); stroke-width: 1; fill: none; }
+.scene-svg .k-ear { fill: oklch(31% 0.05 266); stroke: var(--k-edge); stroke-width: 1; }
+.scene-svg .k-screw { fill: var(--k-dark); }
+.scene-svg .k-led { fill: var(--k-cool); }
+.scene-svg .k-led--act { fill: var(--k-det); }
+.scene-svg .k-led--warn { fill: var(--k-amber); }
+.scene-svg .k-slot { fill: var(--k-dark); stroke: oklch(22% 0.045 266); stroke-width: 1; }
+.scene-svg .k-pod { fill: var(--k-pod); }
+.scene-svg .k-pod--new { fill: var(--k-amber); }
+.scene-svg .k-pod-l { stroke: oklch(62% 0.04 260); stroke-width: 1.2; stroke-linecap: round; }
+.scene-svg .k-pend { fill: none; stroke: var(--k-amber); stroke-width: 1.5; stroke-dasharray: 3 3; }
+.scene-svg .k-back { fill: oklch(19% 0.042 266); }
+.scene-svg .k-rail { fill: oklch(30% 0.05 266); stroke: var(--k-edge); stroke-width: 1; }
+.scene-svg .k-hole { fill: var(--k-dark); }
+.scene-svg .k-foot { fill: var(--k-dark); }
+.scene-svg .k-seam { stroke: var(--k-dark); stroke-width: 2; }
+.scene-svg .k-cable { fill: none; stroke: var(--k-det); stroke-width: 2.2; stroke-linecap: round; }
+.scene-svg .k-win { fill: oklch(31% 0.05 266); stroke: var(--k-edge); stroke-width: 1.5; }
+.scene-svg .k-edge-line { stroke: var(--k-edge); stroke-width: 1; }
+.scene-svg .k-tab { fill: oklch(36% 0.052 266); stroke: var(--k-edge); stroke-width: 1; }
+.scene-svg .k-img { fill: oklch(23% 0.045 266); }
+.scene-svg .k-imgline { fill: none; stroke: oklch(40% 0.05 266); stroke-width: 1.3; stroke-linejoin: round; }
+.scene-svg .k-txt { fill: oklch(48% 0.045 264); }
+.scene-svg .k-txt--b { fill: oklch(66% 0.035 262); }
+.scene-svg .k-mark { fill: var(--k-pod); }
+.scene-svg .k-markline { fill: none; stroke: var(--k-pod); stroke-width: 1.6; stroke-linecap: round; }
+.scene-svg .k-field { fill: oklch(23% 0.045 266); stroke: oklch(40% 0.05 266); stroke-width: 1; }
+.scene-svg .k-keys { fill: oklch(24% 0.045 266); }
+.scene-svg .k-screen { fill: oklch(18% 0.04 266); }
+.scene-svg .k-sheen { fill: oklch(100% 0 0 / 0.035); }
+.scene-svg .k-lo { fill: none; stroke: oklch(22% 0.045 266); stroke-width: 1.4; stroke-linecap: round; }
+.scene-svg .k-pod-d { fill: oklch(58% 0.04 258); }
+.scene-svg .pk-h { fill: oklch(66% 0.13 70); }
+.scene-svg .k-sticker { fill: oklch(55% 0.06 250); }
+.scene-svg .k-band { fill: none; stroke: var(--k-det); stroke-width: 1.2; }
+.scene-svg .k-port { fill: oklch(30% 0.05 266); }
+.scene-svg .k-bar { fill: var(--ink); }
+.scene-svg .k-stripe { fill: var(--k-face); }
+.scene-svg .k-doorway { fill: var(--k-dark); }
+.scene-svg .k-pin { fill: var(--ink); stroke: var(--k-dark); stroke-width: 2; }
+.scene-svg .k-globe { fill: oklch(21.5% 0.045 266); }
+.scene-svg .k-globe-edge { fill: none; stroke: var(--k-edge); stroke-width: 1.5; }
+.scene-svg .k-grat { fill: none; stroke: oklch(29% 0.045 266); stroke-width: 1; }
+.scene-svg .k-route { fill: none; stroke: var(--k-route); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.scene-svg .k-route--dash { stroke-dasharray: 2 6; }
+.scene-svg .k-route--idle { stroke-dasharray: 2 4; }
+.scene-svg .k-tag { fill: var(--k-face); stroke: var(--k-edge); stroke-width: 1.5; }
+.scene-svg .k-tag--v6 { stroke: var(--k-amber); }
+.scene-svg .k-plate { fill: var(--k-dark); stroke: var(--k-edge); stroke-width: 1; }
+.scene-svg .k-plate--v6 { stroke: var(--k-amber); }
+.scene-svg .k-git { stroke: var(--k-det); stroke-width: 2; fill: none; stroke-linecap: round; }
+.scene-svg .k-commit { fill: var(--k-amber); }
+.scene-svg .k-commit-core { fill: var(--k-dark); }
+.scene-svg .k-commit-old { fill: var(--k-dark); stroke: var(--k-det); stroke-width: 2; }
+.scene-svg .k-commit-tag { fill: var(--ink); }
+.scene-svg .k-wire { fill: none; stroke: var(--k-route); stroke-width: 2; stroke-linecap: round; }
+.scene-svg .k-wire--lit { stroke: oklch(62% 0.04 262); }
+.scene-svg .k-flag { fill: var(--ink); }
+.scene-svg .k-flag--old { fill: var(--k-det); }
+.scene-svg .k-chip { fill: var(--k-face); stroke: var(--k-edge); stroke-width: 1.2; }
+.scene-svg .k-cardbg { fill: oklch(21% 0.047 266); }
+.scene-svg .pk-b { fill: var(--k-amber); }
+.scene-svg .pk-s { stroke: oklch(50% 0.1 70); stroke-width: 1.2; stroke-linecap: round; }
+.scene-svg .pk--cool .pk-b { fill: var(--k-cool); } .scene-svg .pk--cool .pk-h { fill: oklch(64% 0.09 230); } .scene-svg .pk--cool .pk-s { stroke: oklch(48% 0.07 230); }
+.scene-svg .pk--ink .pk-b { fill: var(--ink); } .scene-svg .pk--ink .pk-h { fill: oklch(76% 0.02 262); } .scene-svg .pk--ink .pk-s { stroke: oklch(58% 0.03 262); }
+.scene-svg .lb { fill: var(--ink-muted); font-size: 15px; font-weight: 500; }
+.scene-svg .lb--s { font-size: 13.5px; }
+.scene-svg .lb-m { fill: var(--k-cool); font-family: var(--font-mono); font-size: 13.5px; }
+.scene-svg .lb-m--s { font-size: 12.5px; fill: var(--ink-muted); }
+.scene-svg .lb-chip { fill: var(--ink-muted); font-size: 14.5px; font-weight: 500; }
+@media (max-width: 699px) { .scene-svg .lb { font-size: 21px; } .scene-svg .lb--s { font-size: 18.5px; } .scene-svg .lb-m { font-size: 17.5px; } .scene-svg .lb-m--s { font-size: 15px; } .scene-svg .lb-chip { font-size: 18.5px; } }
+.scene-svg .lb-tag { fill: var(--ink); font-size: 16px; font-weight: 600; letter-spacing: 0.02em; }
+.scene-svg .lb-tag--v6 { fill: var(--k-amber); }
+.scene-svg .lb-port { fill: var(--ink-muted); font-size: 11px; font-weight: 600; }
+.scene-svg .lb-port--v6 { fill: var(--k-amber); }
+/* transform origins for parts scenes.js moves */
+.scene-svg [data-k] { transform-box: fill-box; }
+.scene-svg .k-origin-b { transform-origin: 50% 100%; }
+.scene-svg .k-origin-t { transform-origin: 50% 0; }
+.scene-svg .k-origin-c { transform-origin: 50% 50%; }
+.scene-svg .k-origin-l { transform-origin: 0 50%; }
+.scene-svg .k-gatebar { transform-origin: 50% 0; }
+.scene-svg .k-pulse { fill: var(--k-amber); }
+.scene-svg .k-led--act.is-blink { fill: var(--k-cool); }
+.scene-svg .k-led--warn.is-open { fill: var(--k-cool); }
+.scene-svg .k-led--warn { transition: fill 200ms; }
+
+/* ---- round 16: scroll scenes */
+.scenes { border-top: 1px solid var(--line); padding-block: clamp(1.5rem, 1rem + 2vw, 3rem); }
+.scenes__stage { display: none; }
+.scene-step { display: grid; gap: 1rem var(--gutter); padding-block: clamp(1.5rem, 1rem + 2vw, 2.5rem); }
+.scene-step + .scene-step { border-top: 1px solid var(--line); }
+.scene { margin: 0; min-width: 0; }
+.scene figcaption { margin-top: 0.5rem; color: var(--ink-subtle); font-size: var(--t-small); }
+.scene-step__text { min-width: 0; max-width: 34em; }
+.scene-step__text h3 { font-family: var(--font-serif); font-size: var(--t-h3); line-height: 1.15; margin-bottom: 0.5rem; }
+.scene-step__text p { color: var(--ink-muted); }
+.scene-step__text p + p { margin-top: 0.8rem; }
+.scene-step > div.scene:empty { display: none; }
+/* no JS, or reduced motion, on a wide screen: text and its still side by side */
+@media (min-width: 900px) {
+  .scene-step { grid-template-columns: minmax(0, 4.2fr) minmax(0, 7.8fr); align-items: center; }
+  .scene-step > .scene { grid-column: 2; grid-row: 1; }
+  .scene-step > .scene-step__text { grid-column: 1; grid-row: 1; }
+}
+/* with JS on a wide screen: one sticky stage, the steps scroll past it */
+@media (min-width: 900px) {
+  .scenes.is-staged { display: grid; grid-template-columns: minmax(0, 4.2fr) minmax(0, 7.8fr); gap: 0 var(--gutter); }
+  .scenes.is-staged .scenes__steps { grid-column: 1; grid-row: 1; }
+  .scenes.is-staged .scenes__stage { display: grid; grid-column: 2; grid-row: 1; align-self: start; position: sticky; top: 64px; height: calc(100svh - 64px); place-items: center; }
+  .scenes.is-staged .scenes__stage > .scene { grid-area: 1 / 1; width: min(100%, calc((100svh - 150px) * 600 / 440)); opacity: 0; transform: translate3d(0, 14px, 0) scale(0.985);
+    transition: opacity 520ms var(--ease-out), transform 700ms var(--ease-out); }
+  .scenes.is-staged .scenes__stage > .scene.is-on { opacity: 1; transform: none; }
+  .scenes.is-staged .scene-step { display: flex; align-items: center; min-height: 100svh; border-top: 0; padding-block: 0; }
+  .scenes.is-staged .scene-step:first-child { min-height: 135svh; }
+  .scenes.is-staged { padding-top: 0; }
+  .scenes.is-staged .scene-step > .scene { display: none; }
+  .scenes.is-staged .scene-step__text { opacity: 0.4; transition: opacity 400ms var(--ease-out); }
+  .scenes.is-staged .scene-step.is-active .scene-step__text { opacity: 1; }
+}
+@media (max-width: 899px) { .scene-step { gap: 0.75rem; } }
+
+/* ---- round 16: Under the hood */
+.hood { list-style: none; padding: 0; display: grid; gap: 0; max-width: 46em; border-top: 1px solid var(--line); }
+.hood li { display: grid; grid-template-columns: 28px minmax(0, 15em) minmax(0, 1fr); gap: 0.25rem 1rem; align-items: center; padding-block: 0.7rem; border-bottom: 1px solid var(--line); }
+.hood__icon { width: 24px; height: 24px; }
+.hood__icon--none { visibility: hidden; }
+.hood__name { font-weight: 500; }
+.hood__what { color: var(--ink-muted); font-size: var(--t-small); }
+@media (max-width: 599px) { .hood li { grid-template-columns: 28px minmax(0, 1fr); } .hood__what { grid-column: 2; } }
+
+/* ---- round 16: homepage cards with live art */
+.cover__art { position: absolute; inset: 0; display: block; background: oklch(21% 0.047 266); }
+.cover__art .scene-svg { width: 100%; height: 100%; }
+.cover__link--mtg .cover__img { background: oklch(21% 0.047 266); }
+.cover__link .cover__art { transition: transform var(--dur-slow) var(--ease-out); }
