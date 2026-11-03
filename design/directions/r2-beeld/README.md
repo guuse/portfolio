@@ -414,3 +414,16 @@ Source: `design/CONTENT-v7.md` (synthesis of four reviews). §E (anti-"AI vibe")
   homelab cover is the laptop with three ways in, and the MTG cover is a collage of the three
   app homes. `build-artifact.js` runs it and copies only the screenshots still in use.
 - **Palette:** near-black base, warm white text, the gold of the Play button.
+
+## Round 12: round-11 structure, round-10 styling
+- Round 11 structure kept: cinematic hero with prints and stat row, the cover strip,
+  `projects.html`, cover heroes on the case studies, the designed covers, and the MTG home
+  screens.
+- Round-10 Nacht palette restored (navy `#0a1328`, cool ink, amber used rarely). Scrims are
+  tinted with the navy surface.
+- Quiet actions: "See projects" is a 1px outlined button; email is text with the copy pill;
+  LinkedIn and GitHub are plain links. "Read the case study" is a text link with an arrow.
+- 4px radii and hairline borders; no glow; plain small labels (no letter-spaced caps); covers
+  re-rendered on navy.
+- Outside work is four uniform items (Bouldering, Travel, Games, Tinkering), not linked to
+  projects. Each lifts a print or brightens the backdrop. The hobby wording avoids naming Magic.
