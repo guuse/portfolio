@@ -1,0 +1,124 @@
+---
+/** The screenshot viewer: a native modal dialog (behaviour in src/scripts/lightbox.ts). */
+---
+
+<dialog class="lightbox" aria-label="Screenshot viewer">
+  <div class="lightbox__stage">
+    <img class="lightbox__img" alt="" decoding="async" />
+  </div>
+  <div class="lightbox__bar">
+    <p class="lightbox__cap" aria-live="polite"></p>
+    <span class="lightbox__count"></span>
+    <div class="lightbox__nav">
+      <button type="button" class="lb-btn" data-lb-prev aria-label="Previous screenshot">
+        <span aria-hidden="true">&larr;</span>
+      </button>
+      <button type="button" class="lb-btn" data-lb-next aria-label="Next screenshot">
+        <span aria-hidden="true">&rarr;</span>
+      </button>
+      <button type="button" class="lb-btn lb-btn--close" data-lb-close aria-label="Close viewer">
+        Close
+      </button>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  @layer components {
+    .lightbox {
+      width: 100%;
+      max-width: none;
+      height: 100%;
+      max-height: none;
+      margin: 0;
+      border: 0;
+      padding: max(12px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px))
+        max(12px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+      background: var(--scrim-lightbox);
+      color: var(--ink);
+    }
+
+    .lightbox[open] {
+      display: grid;
+      grid-template-rows: 1fr auto;
+    }
+
+    .lightbox::backdrop {
+      background: transparent;
+    }
+
+    .lightbox__stage {
+      display: grid;
+      place-items: center;
+      min-height: 0;
+      touch-action: pan-y;
+    }
+
+    .lightbox__img {
+      max-width: 100%;
+      max-height: calc(100svh - 120px);
+      width: auto;
+      height: auto;
+      border-radius: var(--radius-s);
+    }
+
+    .lightbox__bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      padding-top: 12px;
+    }
+
+    .lightbox__cap {
+      flex: 1 1 260px;
+      font-size: var(--text-small);
+    }
+
+    .lightbox__count {
+      color: var(--ink-muted);
+      font-size: var(--text-small);
+    }
+
+    .lightbox__nav {
+      display: flex;
+      gap: 8px;
+    }
+
+    .lb-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-width: 40px;
+      min-height: 40px;
+      padding: 0 12px;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-pill);
+      background: transparent;
+      color: var(--ink);
+      cursor: pointer;
+    }
+
+    .lb-btn[hidden] {
+      display: none;
+    }
+
+    .lb-btn:hover {
+      border-color: var(--ink-muted);
+    }
+
+    .lb-btn--close {
+      background: var(--ink);
+      color: var(--surface);
+      border-color: var(--ink);
+    }
+  }
+
+  @layer base {
+    /* the page behind a modal doesn't scroll */
+    :global(html.has-modal) {
+      overflow: hidden;
+    }
+  }
+</style>

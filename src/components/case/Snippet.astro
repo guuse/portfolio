@@ -1,0 +1,49 @@
+---
+/** A code listing with a caption. `code` is pre-escaped HTML (comments wrapped in .c). */
+interface Props {
+  caption: string;
+  label: string;
+  code: string;
+}
+const { caption, label, code } = Astro.props;
+---
+
+<figure class="snippet">
+  <figcaption>{caption}</figcaption>
+  <pre tabindex="0" aria-label={label}><code set:html={code} /></pre>
+</figure>
+
+<style>
+  @layer components {
+    .snippet {
+      max-width: 46em;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-m);
+      background: var(--surface-sunken);
+    }
+
+    .snippet figcaption {
+      padding: 8px 14px;
+      border-bottom: 1px solid var(--line);
+      color: var(--ink-muted);
+      font-size: var(--text-small);
+    }
+
+    .snippet pre {
+      padding: 14px;
+      overflow-x: auto;
+      color: var(--ink);
+      font-size: var(--text-code);
+      line-height: 1.6;
+    }
+
+    .snippet pre:focus-visible {
+      outline-offset: -3px;
+    }
+
+    .snippet :global(.c) {
+      color: var(--ink-subtle);
+    }
+  }
+</style>

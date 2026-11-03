@@ -1,0 +1,127 @@
+---
+import { Picture } from "astro:assets";
+import type { CollectionEntry } from "astro:content";
+import TextLink from "~/components/ui/TextLink.astro";
+import { caseStudyHref } from "~/lib/projects";
+import platform from "~/assets/covers/platform-wide.webp";
+import homelab from "~/assets/covers/homelab-wide.webp";
+import mtg from "~/assets/covers/mtg-wide.webp";
+
+/** A project on the projects page: its cover, why it exists, four facts and the stack. */
+interface Props {
+  project: CollectionEntry<"projects">["data"];
+}
+const { project: p } = Astro.props;
+const covers = { "hosting-platform": platform, homelab, "mtg-suite": mtg };
+const href = caseStudyHref(p.id);
+---
+
+<article class="pcard" aria-labelledby={`pc-${p.id}`}>
+  <!-- the cover repeats the title link, so it's hidden from assistive tech and the tab order -->
+  <a class="pcard__media" href={href} tabindex="-1" aria-hidden="true">
+    <Picture
+      src={covers[p.id]}
+      alt=""
+      formats={["avif", "webp"]}
+      widths={[700, 1400, 2000]}
+      sizes="(width < 960px) 100vw, 680px"
+    />
+  </a>
+  <div class="pcard__body">
+    <p class="pcard__meta">{p.meta}</p>
+    <h2 class="pcard__title" id={`pc-${p.id}`}>
+      <a href={href}>{p.title}</a>
+    </h2>
+    <p class="pcard__line">{p.line}</p>
+    <p class="pcard__why">{p.why}</p>
+    <ul class="pcard__facts">
+      {p.facts.map((f) => (
+        <li>{f}</li>
+      ))}
+    </ul>
+    <p class="pcard__stack">{p.stack}</p>
+    <TextLink variant="underline" href={href}>
+      Read the case study<span class="visually-hidden">: {p.title}</span>{" "}
+      <span aria-hidden="true">&rarr;</span>
+    </TextLink>
+  </div>
+</article>
+
+<style>
+  @layer components {
+    .pcard {
+      display: grid;
+      gap: 1.5rem var(--space-gutter);
+      align-items: center;
+    }
+
+    @media (width >= 960px) {
+      .pcard {
+        grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      }
+    }
+
+    .pcard__media {
+      display: block;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-s);
+    }
+
+    .pcard__media :global(img) {
+      width: 100%;
+      height: auto;
+      transition: transform var(--duration-slow) var(--ease-out);
+    }
+
+    .pcard:hover .pcard__media :global(img) {
+      transform: scale(1.02);
+    }
+
+    .pcard__body {
+      display: grid;
+      gap: 0.75rem;
+      justify-items: start;
+    }
+
+    .pcard__meta {
+      color: var(--ink-subtle);
+      font-size: var(--text-small);
+    }
+
+    .pcard__title {
+      font-family: var(--font-heading);
+      font-size: var(--text-h2);
+      line-height: 1;
+    }
+
+    .pcard__title a {
+      text-decoration: none;
+    }
+
+    .pcard__line {
+      font-size: var(--text-lead);
+      line-height: 1.4;
+    }
+
+    .pcard__why {
+      color: var(--ink-muted);
+    }
+
+    .pcard__facts {
+      display: grid;
+      gap: 0.35rem;
+      padding-left: 1.1em;
+      color: var(--ink-muted);
+    }
+
+    .pcard__facts li::marker {
+      color: var(--ink-subtle);
+    }
+
+    .pcard__stack {
+      color: var(--ink-subtle);
+      font-size: var(--text-small);
+    }
+  }
+</style>

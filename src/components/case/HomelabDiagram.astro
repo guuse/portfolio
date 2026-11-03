@@ -1,0 +1,49 @@
+---
+import Drawing from "~/components/art/Drawing.astro";
+
+/** A small homelab diagram whose parts settle in one after another (`reveal-set`). */
+interface Props {
+  svg: string;
+  kind: "apps" | "ways";
+}
+const { svg, kind } = Astro.props;
+---
+
+<figure class:list={["diagram", "reveal-set", `diagram--${kind}`]}>
+  <Drawing svg={svg} />
+</figure>
+
+<style>
+  @layer components {
+    .diagram {
+      max-width: 820px;
+      margin: 1rem 0 0;
+    }
+
+    :global(.js-reveal) .diagram :global(:is(.tile, .way)) {
+      opacity: 0;
+      transform: translate3d(0, 8px, 0);
+      transition:
+        opacity 500ms var(--ease-out),
+        transform 500ms var(--ease-out);
+    }
+
+    /* --i comes from each tile's data-i (src/scripts/reveal.ts) */
+    :global(.js-reveal) .diagram :global(.tile) {
+      transition-delay: calc(var(--i, 0) * 60ms);
+    }
+
+    :global(.js-reveal) .diagram :global(.w2) {
+      transition-delay: 250ms;
+    }
+
+    :global(.js-reveal) .diagram :global(.w3) {
+      transition-delay: 500ms;
+    }
+
+    :global(.js-reveal) .diagram:global(.is-in) :global(:is(.tile, .way)) {
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>

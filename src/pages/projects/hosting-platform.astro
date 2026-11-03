@@ -1,0 +1,169 @@
+---
+// The layout first: its global.css declares the cascade layer order before any component CSS.
+import CaseStudy from "~/layouts/CaseStudy.astro";
+import CaseHero from "~/components/case/CaseHero.astro";
+import CaseLead from "~/components/case/CaseLead.astro";
+import Closing from "~/components/case/Closing.astro";
+import Gotchas from "~/components/case/Gotchas.astro";
+import Hood from "~/components/case/Hood.astro";
+import NextNav from "~/components/case/NextNav.astro";
+import Scenes from "~/components/case/Scenes.astro";
+import SceneStep from "~/components/case/SceneStep.astro";
+import Section from "~/components/ui/Section.astro";
+import cover from "~/assets/covers/platform-wide.webp";
+
+const hood = [
+  {
+    icon: "aws-AmazonElasticKubernetesService",
+    name: "EKS, and AKS on Azure",
+    what: "Kubernetes, the same setup in every cluster",
+  },
+  { name: "Karpenter", what: "adds and removes nodes with the load" },
+  {
+    icon: "aws-ElasticLoadBalancingNetworkLoadBalancer",
+    name: "Network Load Balancer + ingress",
+    what: "the way into each cluster, with fixed IPs",
+  },
+  { name: "cert-manager", what: "certificates, so nobody renews one by hand" },
+  {
+    icon: "aws-AmazonAurora",
+    name: "Aurora, Redis, OpenSearch",
+    what: "ready-made modules a project picks from",
+  },
+  {
+    icon: "aws-AmazonCloudFront",
+    name: "CloudFront",
+    what: "one entry, routing to Ireland or Tokyo by path",
+  },
+  {
+    icon: "aws-AmazonSimpleStorageService",
+    name: "Velero",
+    what: "backups of the clusters, for the bad day",
+  },
+  { name: "Pulumi and Argo CD", what: "infrastructure and apps, both from git" },
+  { name: "Rancher, Loki and Grafana", what: "one view of the whole fleet, and every pod’s logs" },
+] as const;
+const icons = hood.flatMap((h) => ("icon" in h ? [h.icon] : []));
+---
+
+<CaseStudy
+  title="Hosting platform · Guus Ekkelenkamp"
+  description="Case study: the Kubernetes platform behind an agency's client projects, AWS first and the same on Azure."
+  icons={icons}
+>
+  <CaseHero
+    cover={cover}
+    meta="Work at Harborn · 2022 to now · I designed and built it, and lead the team that runs it"
+    title="Hosting platform"
+    line="The AWS platform our client projects run on, and the same setup, adapted, on Azure where a client lives there."
+  />
+  <CaseLead>
+    <p>
+      When I started on this in 2022, every client project had its own setup. Its own pipelines, its own
+      monitoring and its own way in, so each upgrade had to be worked out again, and so did each incident. I
+      thought that could be one platform, so I started building it.
+    </p>
+    <p>
+      Today it runs 8 Kubernetes clusters for Dutch and international clients, on AWS in Ireland and Tokyo and
+      on Azure. The largest runs more than 1,500 pods. What makes it work is that a new client doesn’t get a
+      new design. They get the same modules, the same network and the same way of deploying as everyone else,
+      which also means one person can explain it to the next.
+    </p>
+  </CaseLead>
+  <Scenes id="story" title="How the platform works">
+    <SceneStep scene="standard">
+      <h3>Many projects, one platform</h3>
+      <p>
+        Every client project used to sit on its own setup, and no two were quite the same. Now they all land
+        on one platform: the same modules, the same network and the same way of deploying. A new client gets
+        what everyone else already has.
+      </p>
+    </SceneStep>
+    <SceneStep scene="scale">
+      <h3>It scales with the load</h3>
+      <p>
+        Traffic comes in through a load balancer and is spread over three availability zones. When the load
+        goes up, Karpenter adds nodes and the pods spread onto them. When it calms down, the pods drain and
+        the nodes are removed again. The largest cluster runs more than 1,500 pods this way.
+      </p>
+    </SceneStep>
+    <SceneStep scene="regions">
+      <h3>Two regions, one way in</h3>
+      <p>
+        The platform runs in Ireland and in Tokyo. CloudFront sits in front of both: it sends region-specific
+        paths to Tokyo and everything else to Europe, and static content comes straight from the edge.
+      </p>
+    </SceneStep>
+    <SceneStep scene="ipv6">
+      <h3>The move to IPv6</h3>
+      <p>
+        Later we moved the clusters to IPv6-only. Anything that still only speaks IPv4 is reached through
+        DNS64 and NAT64, which translate on the way out.
+      </p>
+      <p>
+        It didn’t go without problems. A database answered on both an IPv4 and an IPv6 address, the apps
+        picked IPv6, and those connections hung, because the security group only let IPv4 in. Opening it for
+        IPv6 fixed it.
+      </p>
+    </SceneStep>
+    <SceneStep scene="learned">
+      <h3>Everything as code</h3>
+      <p>
+        The infrastructure is Pulumi and the apps go through Argo CD, about 80 of them. Because every cluster
+        comes from the same code, a change to the standard is made and reviewed once, not once per cluster.
+      </p>
+      <p>
+        Some clients live on Azure. They get the same platform, adapted for AKS. That’s the part I’m proudest
+        of: the standard holds on a second cloud.
+      </p>
+    </SceneStep>
+  </Scenes>
+  <Section id="hood" title="Under the hood">
+    <Hood items={[...hood]} />
+    <div class="prose">
+      <p>
+        Infrastructure is Pulumi in Python, and we’re moving the older Terraform over gradually. Every change
+        is a pull request: tests run against the modules, the preview runs with a mandatory CrossGuard policy
+        pack and is saved as a plan, someone other than the author approves it, and the pipeline only applies
+        what was approved. It runs on self-hosted runners with short-lived roles through GitHub OIDC, so CI
+        holds no cloud keys.
+      </p>
+      <p>
+        Apps go through git as well. Argo CD deploys acceptance from release candidates and production from
+        stable release tags, and a repo that follows our conventions is onboarded by adding one GitHub topic.
+        Every pod’s logs go to Loki.
+      </p>
+      <p>
+        A small CronJob we built keeps chosen Deployments, ConfigMaps and Secrets in Tokyo in step with the
+        main cluster, so a change is still made in one place. Every database, search and ingress version we
+        offer has a published end-of-support date, so we can plan upgrades well before they’re due.
+      </p>
+    </div>
+  </Section>
+  <Section id="lessons" title="Lessons" bodyClass="prose">
+    <Gotchas
+      items={[
+        {
+          symptom: "After the move to IPv6, apps hung when connecting to a database.",
+          cause:
+            "The database got a dual-stack address, so apps resolved both families, but the security group only allowed IPv4.",
+          fix: "Allow IPv6 in the security group, and test the DNS64 and NAT64 path around the cluster as well.",
+        },
+        {
+          symptom: "Queries over older logs failed or came back incomplete.",
+          cause: "A lifecycle rule on the bucket deleted chunks that Loki’s index still pointed to.",
+          fix: "Let Loki’s compactor own the 90-day retention and keep lifecycle rules off the log bucket.",
+        },
+      ]}
+    />
+    <p>
+      The Tokyo syncer predates our move to GitOps. Today I’d replace it with Argo CD ApplicationSets that
+      target both clusters, so git is the only source for both regions.
+    </p>
+  </Section>
+  <Closing line="I started this as one engineer who was tired of one-offs. What I took from it is that a standard only sticks when the people around you can run it without you, so these days I spend as much time teaching it as building it." />
+  <NextNav
+    prev={{ href: "/projects/", small: "Back to", label: "all projects" }}
+    next={{ href: "/projects/homelab/", small: "Next project", label: "Homelab &rarr;" }}
+  />
+</CaseStudy>

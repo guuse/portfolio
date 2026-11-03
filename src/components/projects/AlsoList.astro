@@ -1,0 +1,64 @@
+---
+import type { CollectionEntry } from "astro:content";
+import ExternalLink from "~/components/ui/ExternalLink.astro";
+
+/** Smaller projects: one line each, with a link when the code is public. */
+interface Props {
+  items: CollectionEntry<"also">["data"][];
+}
+const { items } = Astro.props;
+---
+
+<ul class="also" role="list">
+  {items.map((it) => (
+    <li class="also__row">
+      <span class="also__title" lang={it.lang}>
+        {it.title}
+      </span>
+      <span class="also__line">{it.line}</span>
+      {it.href ? (
+        <ExternalLink class="also__link" href={it.href}>
+          GitHub<span class="visually-hidden">: {it.title}</span>
+        </ExternalLink>
+      ) : (
+        <span class="also__private">Private repository</span>
+      )}
+    </li>
+  ))}
+</ul>
+
+<style>
+  @layer components {
+    .also__row {
+      display: grid;
+      gap: 2px 24px;
+      align-items: baseline;
+      padding-block: 0.8rem;
+      border-top: 1px solid var(--line);
+    }
+
+    @media (width >= 760px) {
+      .also__row {
+        grid-template-columns: minmax(0, 12rem) minmax(0, 1fr) auto;
+      }
+    }
+
+    .also__title {
+      font-weight: 600;
+    }
+
+    .also__line {
+      color: var(--ink-muted);
+      font-size: var(--text-small);
+    }
+
+    .also :global(.also__link) {
+      font-size: var(--text-small);
+    }
+
+    .also__private {
+      color: var(--ink-subtle);
+      font-size: var(--text-small);
+    }
+  }
+</style>

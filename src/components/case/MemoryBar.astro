@@ -1,0 +1,82 @@
+---
+/** How the laptop's memory is split, as a proportional bar with a key (one entry per part). */
+interface Props {
+  label: string;
+  parts: string[];
+}
+const { label, parts } = Astro.props;
+---
+
+<div class="membar reveal-set" role="img" aria-label={label}>
+  {parts.map(() => (
+    <span />
+  ))}
+</div>
+<p class="memkey" aria-hidden="true">
+  {parts.map((p) => (
+    <span>{p}</span>
+  ))}
+</p>
+
+<style>
+  @layer components {
+    /* The tracks are the split in GB (10, 3, 2, 1). They live here rather than in a style
+       attribute because the CSP allows none. */
+    .membar {
+      display: grid;
+      grid-template-columns: 10fr 3fr 2fr 1fr;
+      gap: 3px;
+      height: 14px;
+      max-width: var(--size-measure);
+      margin-top: 0.5rem;
+      overflow: hidden;
+      border-radius: 3px;
+    }
+
+    .membar span {
+      background: var(--accent);
+    }
+
+    .membar span:nth-child(2) {
+      background: color-mix(in oklch, var(--accent) 55%, var(--surface));
+    }
+
+    .membar span:nth-child(3) {
+      background: var(--line-strong);
+    }
+
+    .membar span:nth-child(4) {
+      background: var(--line);
+    }
+
+    :global(.js-reveal) .membar span {
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform var(--duration-reveal) var(--ease-out);
+    }
+
+    :global(.js-reveal) .membar span:nth-child(2) {
+      transition-delay: 200ms;
+    }
+
+    :global(.js-reveal) .membar span:nth-child(3) {
+      transition-delay: 400ms;
+    }
+
+    :global(.js-reveal) .membar span:nth-child(4) {
+      transition-delay: 600ms;
+    }
+
+    :global(.js-reveal) .membar:global(.is-in) span {
+      transform: none;
+    }
+
+    .memkey {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 20px;
+      color: var(--ink-muted);
+      font-size: var(--text-small);
+    }
+  }
+</style>

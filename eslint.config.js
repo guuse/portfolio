@@ -34,6 +34,8 @@ export default tseslint.config(
       eqeqeq: ["error", "smart"],
       // `role="list"` restores list semantics that Safari drops when list-style is none.
       "astro/jsx-a11y/no-redundant-roles": ["error", { ul: ["list"], ol: ["list"] }],
+      // a scrollable <pre> must be focusable so keyboard users can scroll it
+      "astro/jsx-a11y/no-noninteractive-tabindex": ["error", { tags: ["pre"] }],
       "no-console": ["error", { allow: ["info", "warn", "error"] }],
     },
   },

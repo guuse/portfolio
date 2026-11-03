@@ -1,0 +1,19 @@
+---
+/** Two screenshots side by side: a desktop one and a phone one. */
+---
+
+<div class="step-shots">
+  <slot />
+</div>
+
+<style>
+  @layer components {
+    .step-shots {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      max-width: 30rem;
+    }
+  }
+</style>

@@ -11,3 +11,4 @@ src/styles/tokens.ts
 src/assets/
 public/
 .claude/
+src/content/snippets/

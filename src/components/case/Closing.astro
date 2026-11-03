@@ -1,0 +1,34 @@
+---
+import Section from "~/components/ui/Section.astro";
+
+/** The last word of a case study, and optionally what it was built with. */
+interface Props {
+  line: string;
+  stack?: string;
+}
+const { line, stack } = Astro.props;
+---
+
+<Section variant="closing" bodyClass="prose">
+  <p class="closing__line">{line}</p>
+  {stack && <p class="stack-line">{stack}</p>}
+</Section>
+
+<style>
+  @layer components {
+    .closing__line {
+      max-width: 30em;
+      font-family: var(--font-heading);
+      font-size: var(--text-h3);
+      line-height: 1.3;
+    }
+
+    .prose .closing__line {
+      color: var(--ink);
+    }
+
+    .stack-line {
+      max-width: 46em;
+    }
+  }
+</style>

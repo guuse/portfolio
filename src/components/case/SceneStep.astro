@@ -1,0 +1,136 @@
+---
+import Drawing from "~/components/art/Drawing.astro";
+import { scenes, type SceneId } from "~/lib/art";
+
+/**
+ * One step of a scroll story: a drawing and the text that goes with it. Steps that continue
+ * the previous step's drawing pass `continues` (no figure of their own; motion clones one
+ * for narrow screens) and a `range`, the slice of the drawing's timeline they play.
+ */
+interface Props {
+  scene: SceneId;
+  range?: [number, number];
+  continues?: boolean;
+  caption?: string;
+}
+const { scene, range, continues, caption } = Astro.props;
+---
+
+<article class="scene-step" data-scene={scene} data-range={range?.join(" ")}>
+  {continues ? (
+    <div class="scene" aria-hidden="true" />
+  ) : (
+    <figure class="scene">
+      <Drawing svg={scenes[scene]()} />
+      {caption && <figcaption>{caption}</figcaption>}
+    </figure>
+  )}
+  <div class="scene-step__text">
+    <slot />
+  </div>
+</article>
+
+<style>
+  @layer components {
+    .scene-step {
+      display: grid;
+      gap: 1rem var(--space-gutter);
+      padding-block: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+    }
+
+    .scene-step + .scene-step {
+      border-top: 1px solid var(--line);
+    }
+
+    .scene {
+      margin: 0;
+      min-width: 0;
+    }
+
+    .scene figcaption {
+      margin-top: 0.5rem;
+      color: var(--ink-subtle);
+      font-size: var(--text-small);
+    }
+
+    div.scene:empty {
+      display: none;
+    }
+
+    .scene-step__text {
+      min-width: 0;
+      max-width: 34em;
+    }
+
+    .scene-step__text :global(h3) {
+      margin-bottom: 0.5rem;
+      font-family: var(--font-heading);
+      font-size: var(--text-h3);
+      line-height: 1.15;
+    }
+
+    .scene-step__text :global(p) {
+      color: var(--ink-muted);
+    }
+
+    .scene-step__text :global(p + p) {
+      margin-top: 0.8rem;
+    }
+
+    .scene-step__text :global(code) {
+      font-size: 0.88em;
+      padding: 1px 5px;
+      border-radius: var(--radius-xs);
+      background: var(--surface-sunken);
+      color: var(--ink);
+    }
+
+    @media (width < 900px) {
+      .scene-step {
+        gap: 0.75rem;
+      }
+    }
+
+    /* no JS, or reduced motion, on a wide screen: text and its still side by side */
+    @media (width >= 900px) {
+      .scene-step {
+        grid-template-columns: minmax(0, 4.2fr) minmax(0, 7.8fr);
+        align-items: center;
+      }
+
+      .scene-step > .scene {
+        grid-area: 1 / 2;
+      }
+
+      .scene-step > .scene-step__text {
+        grid-area: 1 / 1;
+      }
+
+      /* with JS: the steps scroll past one sticky stage */
+      :global(.is-staged) .scene-step {
+        display: flex;
+        align-items: center;
+        min-height: 100svh;
+        border-top: 0;
+        padding-block: 0;
+      }
+
+      :global(.is-staged) .scene-step:first-child {
+        min-height: 135svh;
+      }
+
+      :global(.is-staged) .scene-step > .scene {
+        display: none;
+      }
+
+      :global(.is-staged) .scene-step__text {
+        opacity: 0.4;
+        transition: opacity 400ms var(--ease-out);
+      }
+
+      :global(.is-staged) .scene-step:global(.is-active) .scene-step__text {
+        opacity: 1;
+      }
+    }
+  }
+</style>

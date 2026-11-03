@@ -1,0 +1,60 @@
+---
+// The layout first: its global.css declares the cascade layer order before any component CSS.
+import CaseStudy from "~/layouts/CaseStudy.astro";
+import AlsoList from "~/components/projects/AlsoList.astro";
+import ProjectCard from "~/components/projects/ProjectCard.astro";
+import Section from "~/components/ui/Section.astro";
+import { list } from "~/lib/content";
+
+const projects = await list("projects");
+---
+
+<CaseStudy
+  title="Projects · Guus Ekkelenkamp"
+  description="Projects by Guus Ekkelenkamp: a Kubernetes hosting platform, a homelab and a suite of Magic: The Gathering tools."
+>
+  <header class="plist-head">
+    <h1 class="plist-title">Projects</h1>
+    <p class="plist-line">
+      One platform I built at work and have been growing since 2022, and two things I built at home because I
+      wanted them to exist. Each case study says why I made it, how it works, and what broke along the way.
+    </p>
+  </header>
+  <div class="pcards">
+    {projects.map((p) => (
+      <ProjectCard project={p} />
+    ))}
+  </div>
+  <Section id="also" title="Also">
+    <AlsoList items={await list("also")} />
+  </Section>
+</CaseStudy>
+
+<style>
+  @layer components {
+    .plist-head {
+      display: grid;
+      gap: 1rem;
+      padding-block: clamp(2.5rem, 1rem + 5vw, 5rem) clamp(1.5rem, 1rem + 2vw, 2.5rem);
+    }
+
+    .plist-title {
+      font-family: var(--font-heading);
+      font-size: var(--text-h1);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+
+    .plist-line {
+      max-width: 36em;
+      color: var(--ink-muted);
+      font-size: var(--text-lead);
+    }
+
+    .pcards {
+      display: grid;
+      gap: clamp(2.5rem, 1.5rem + 3vw, 4.5rem);
+      padding-bottom: clamp(3rem, 2rem + 3vw, 5rem);
+    }
+  }
+</style>
