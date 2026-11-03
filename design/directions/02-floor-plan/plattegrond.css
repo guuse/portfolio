@@ -400,6 +400,7 @@
   .plan .north path { fill: var(--c-plan-ink); }
   .plan .north-n { font-size: 20px; text-anchor: middle; fill: var(--ink); }
   @media (max-width: 599px) {
+    .plan { overflow: hidden; }
     .plan .annotations,
     .plan .dims, .plan .label-en, .plan .label-area, .plan .label-go, .plan .anno, .plan .sheet-note, .plan .north, .plan .label--private { display: none; }
     .plan .label-name { font-size: 40px; }
@@ -598,6 +599,8 @@
   }
   .photo span { background: var(--surface); padding: 0.4em 0.7em; border: 1px solid var(--line-strong); font-family: var(--font-mono); font-size: var(--step--2); letter-spacing: 0.04em; max-width: 30ch; }
   .photo--tall { aspect-ratio: 3 / 4; }
+  .photo--wide { aspect-ratio: 16 / 9; }
+  @media (min-width: 760px) { .photo--wide { aspect-ratio: 4 / 1; } }
 
   /* ---------- Automations (switching schedule) */
   .auto-list { list-style: none; padding: 0; border-top: 2px solid var(--line-strong); }
