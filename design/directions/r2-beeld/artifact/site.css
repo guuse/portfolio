@@ -678,3 +678,8 @@ code, pre { font-family: var(--font-mono); font-variant-ligatures: none; }
 .story p:not(.story__h) { color: var(--ink-muted); font-size: var(--t-small); line-height: 1.55; }
 #about .like__chip, #about .like[data-lift]::before { display: none; }
 #about .like[data-lift] .like__name { text-decoration: none; }
+
+/* round 14 */
+.phase__intro { color: var(--ink-muted); font-size: var(--t-body); max-width: 40em; }
+.phase ul { margin-top: 0.25rem; }
+@media (max-width: 699px) { .cover__link { aspect-ratio: 4 / 5; } .cover__img { object-position: center; } }
