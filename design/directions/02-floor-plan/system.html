@@ -75,7 +75,7 @@
     .axes code { font-size: var(--step--2); color: var(--ink-muted); }
     .rules { padding-left: 1.2em; display: grid; gap: 0.4em; max-width: 70ch; }
     .space-bars div { display: grid; grid-template-columns: 7rem 3rem minmax(0, 1fr); gap: var(--space-s); align-items: center; padding: 0.3rem 0; border-bottom: 1px solid var(--line); font-size: var(--step--2); }
-    .space-bars i { display: block; height: 12px; background: var(--accent); }
+    .space-bars i { display: block; height: 12px; max-width: 100%; background: var(--accent); }
     .grid-demo { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gutter); height: 120px; position: relative; }
     .grid-demo span { background: color-mix(in oklch, var(--accent) 14%, transparent); border-inline: 1px dashed color-mix(in oklch, var(--accent) 60%, transparent); }
     .grid-demo b { position: absolute; inset: auto auto 12px 0; width: calc(66.66% - var(--gutter) / 3); padding: 0.5rem; background: var(--surface); border: 1px solid var(--line-strong); font-size: var(--step--2); font-family: var(--font-mono); font-weight: 400; }
