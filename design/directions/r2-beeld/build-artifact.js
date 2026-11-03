@@ -25,12 +25,72 @@ const D = require(path.join(dir, "diagrams.js"));
 const PAGES = ["platform.html", "homelab.html", "mtg.html"];
 const BAKE = PAGES.concat(["system.html"]);
 // Thumbnail crops (in the full drawing's viewBox): the most telling part of each diagram.
-const THUMBS = { delivery: "10 92 740 290", push: "10 10 740 360" };
+const THUMBS = { delivery: "10 100 360 270", push: "10 10 400 300" };
+
+/* Screenshot slots. Each slot lists candidate files in order of preference; the build uses the
+   first one that exists in assets/shots, so new screenshots drop in without editing HTML. */
+const SHOT = {
+  "r99-game": ["Rules of 99 during a four-player Commander game", "A four-player game in progress."],
+  "r99-game-combat": ["Rules of 99 during combat in a Commander game", "Combat, with every board on screen."],
+  "r99-game-stack": ["Rules of 99 with spells on the stack", "Spells on the stack, waiting for responses."],
+  "r99-game-mobile": ["Rules of 99 game on a phone", "On a phone, one board at a time.", true],
+  "r99-lobby": ["Rules of 99 lobby with open seats", "The lobby: share the room code, fill the seats."],
+  "r99-workbench-new": ["Rules of 99 deck workbench", "The workbench for building and tuning a deck."],
+  "r99-home": ["Rules of 99 home screen with the last deck played and a Play button", "Home: continue with the last deck, or open a table."],
+  "r99-table-setup": ["Rules of 99 table setup with four seats, each with a commander", "Table setup: two to four seats, each with its commander."],
+  "r99-workbench": ["Rules of 99 deck workbench with the card list, a mana curve and search", "The workbench for building and tuning a deck."],
+  "r99-replay": ["Rules of 99 replay of a finished four-player game", "Replays of finished games."],
+  "r99-home-mobile": ["Rules of 99 home screen on a phone", "On a phone.", true],
+  "tutor-library": ["Tutor deck library with commander art for each deck", "The library: every deck at a glance."],
+  "tutor-builder": ["Tutor deck builder listing a deck's cards by category", "The builder, with legality and colour identity checked."],
+  "tutor-analysis": ["Tutor deck analysis with mana curve, colour sources and a bracket estimate", "Analysis: mana curve, colour sources and a bracket estimate."],
+  "tutor-mobile": ["Tutor on a phone", "On a phone.", true],
+  "scryfall-result": ["Scryfall in plain words: a request turned into a query, with a breakdown of each part", "A request in plain words, the query it became, and what each part means."],
+  "scryfall-mobile": ["Scryfall in plain words on a phone", "On a phone.", true],
+  "mtg-skills-banner": ["MTG Skills for Claude Code banner", "The plugin marketplace."]
+};
+const SLOTS = {
+  hero: [["r99-game", "r99-home"]],
+  thumb: [["r99-game", "r99-home"]],
+  r99: [["r99-game-combat", "r99-game-stack", "r99-table-setup"], ["r99-lobby", "r99-replay"], ["r99-workbench-new", "r99-workbench"], ["r99-game-mobile", "r99-home-mobile"]],
+  tutor: [["tutor-library"], ["tutor-builder"], ["tutor-analysis"], ["tutor-mobile"]],
+  scryfall: [["scryfall-result"], ["scryfall-mobile"]],
+  skills: [["mtg-skills-banner"]]
+};
+function webpSize(file) {
+  const b = fs.readFileSync(file);
+  const t = b.toString("ascii", 12, 16);
+  if (t === "VP8X") return [1 + b.readUIntLE(24, 3), 1 + b.readUIntLE(27, 3)];
+  if (t === "VP8 ") return [b.readUInt16LE(26) & 0x3fff, b.readUInt16LE(28) & 0x3fff];
+  if (t === "VP8L") { const v = b.readUInt32LE(21); return [(v & 0x3fff) + 1, ((v >> 14) & 0x3fff) + 1]; }
+  throw new Error("unknown webp " + file);
+}
+const missing = [];
+function pick(slot) {
+  return SLOTS[slot].map((cands) => {
+    const id = cands.find((c) => fs.existsSync(path.join(dir, "assets/shots", c + ".webp")));
+    if (!id) missing.push(slot + ": " + cands.join(" | "));
+    return id;
+  }).filter(Boolean);
+}
+function esc(s) { return s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/'/g, "&#39;"); }
+function img(id, lazy) {
+  const [w, h] = webpSize(path.join(dir, "assets/shots", id + ".webp"));
+  return '<img src="assets/shots/' + id + '.webp" width="' + w + '" height="' + h + '" alt="' + esc(SHOT[id][0]) + '"' + (lazy ? ' loading="lazy"' : "") + ' decoding="async">';
+}
+function grid(slot) {
+  const ids = pick(slot);
+  if (!ids.length) return "";
+  return '<ul class="shotgrid" data-lb-group>' + ids.map((id) =>
+    '<li' + (SHOT[id][2] ? ' class="is-phone"' : "") + (ids.length === 1 ? ' style="grid-column: 1 / -1"' : "") + '><figure><button type="button" data-lb aria-label="Enlarge: ' + esc(SHOT[id][1]) + '">' + img(id, true) + "</button><figcaption>" + SHOT[id][1] + "</figcaption></figure></li>").join("") + "</ul>";
+}
 
 (async () => {
-  // 1. diagrams into the project pages
+  // 1. diagrams and screenshot slots into the project pages
   for (const f of BAKE) {
     let s = read(f);
+    s = s.replace(/<!-- shots:([a-z0-9]+) -->[\s\S]*?<!-- \/shots -->/g, (m, slot) => "<!-- shots:" + slot + " -->" + grid(slot) + "<!-- /shots -->");
+    s = s.replace(/<!-- shot:hero -->[\s\S]*?<!-- \/shot -->/g, () => { const id = pick("hero")[0]; return "<!-- shot:hero -->" + (id ? '<figure class="hero-shot">' + img(id, false) + "</figure>" : "") + "<!-- /shot -->"; });
     s = s.replace(/<!-- dg:([a-z]+) -->[\s\S]*?<!-- \/dg -->/g, (m, id) => "<!-- dg:" + id + " -->" + D.html(id) + "<!-- /dg -->");
     write(f, s);
   }
@@ -59,12 +119,13 @@ const THUMBS = { delivery: "10 92 740 290", push: "10 10 740 360" };
   await browser.close();
   let cv = read("index.html");
   cv = cv.replace(/<!-- thumb:([a-z]+) -->[\s\S]*?<!-- \/thumb -->/g, (m, id) => "<!-- thumb:" + id + " -->" + thumbs[id] + "<!-- /thumb -->");
+  cv = cv.replace(/<!-- shot:thumb -->[\s\S]*?<!-- \/shot -->/g, () => { const id = pick("thumb")[0]; return "<!-- shot:thumb -->" + (id ? img(id, true).replace(/alt="[^"]*"/, 'alt=""') : "") + "<!-- /shot -->"; });
   write("index.html", cv);
 
   // 3. the publishable set
   fs.rmSync(out, { recursive: true, force: true });
   fs.mkdirSync(path.join(out, "assets"), { recursive: true });
-  fs.cpSync(path.join(dir, "assets"), path.join(out, "assets"), { recursive: true });
+  fs.cpSync(path.join(dir, "assets"), path.join(out, "assets"), { recursive: true, filter: (src) => !/grimoire-/.test(src) });
   for (const f of ["site.css", "site.js", "diagrams.js"]) fs.copyFileSync(path.join(dir, f), path.join(out, f));
   for (const f of PAGES) fs.copyFileSync(path.join(dir, f), path.join(out, f));
 
@@ -76,5 +137,6 @@ const THUMBS = { delivery: "10 92 740 290", push: "10 10 740 360" };
   fs.writeFileSync(path.join(out, "index.html"), fragment);
 
   const size = (f) => (fs.statSync(path.join(out, f)).size / 1024).toFixed(1) + " KB";
+  if (missing.length) console.log("screenshot slots with no file yet:\n  " + missing.join("\n  "));
   console.log("artifact/", ["index.html", ...PAGES, "site.css", "site.js", "diagrams.js"].map((f) => f + " " + size(f)).join(", "));
 })().catch((e) => { console.error(e); process.exit(1); });

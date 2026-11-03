@@ -402,3 +402,57 @@ code, pre { font-family: var(--font-mono); font-variant-ligatures: none; }
   .sec--dive > .sec__visual { grid-column: 2; grid-row: 2; top: 88px; }
 }
 .ph-overview { padding-bottom: clamp(2rem, 1rem + 3vw, 3.5rem); }
+
+/* ============================================================ round 9 */
+/* Diagrams sit on the page: a thin rule, a caption in the body font, no frame or glow. */
+.dg { padding: 20px 0 0; border: 0; border-top: 1px solid var(--line); border-radius: 0; background: none; box-shadow: none; overflow: visible; cursor: pointer; }
+.dg-sheen { display: none; }
+.is-lit > .dg-card, .is-lit > rect.dg-card, .dg-stage.is-bad rect, .dg-shield.is-lit circle, .dg-pr > rect:first-child { filter: none !important; }
+.dg-e__hot, .dg-pk, .dg-mark.is-lit circle { filter: none !important; }
+.dg-card { fill: oklch(22% 0.048 266); }
+.dg-rail { fill: none; }
+.dg__cap { display: block; margin-top: 10px; padding: 0; border: 0; font-family: var(--font-sans); font-size: var(--t-small); color: var(--ink-subtle); }
+.dg-l { font-weight: 500; }
+
+/* CV */
+.intro__role { display: flex; flex-wrap: wrap; gap: 0 0.4em; }
+@media (max-width: 599px) { .intro__role .sep { display: none; } .intro__role > span { flex-basis: 100%; } }
+@media (max-width: 899px) {
+  .intro { padding-top: 1.5rem; gap: 1.25rem; }
+  .intro__photo { order: -1; width: 104px; }
+  .intro__name { font-size: clamp(2.4rem, 1.8rem + 3vw, 3.4rem); }
+}
+.phase__title { justify-content: space-between; }
+.phase__years { font-weight: 400; font-size: var(--t-small); color: var(--ink-subtle); font-variant-numeric: tabular-nums lining-nums; white-space: nowrap; }
+@media (min-width: 640px) { .work__row { grid-template-columns: 300px minmax(0, 1fr); } }
+.work__thumb { aspect-ratio: 4 / 3; background: oklch(17% 0.045 266); }
+.work__thumb .dg--static { width: 100%; height: 100%; }
+
+/* Project pages */
+.ph-meta { color: var(--ink-subtle); font-size: var(--t-small); }
+.ph-lead { max-width: 40em; display: grid; gap: 1rem; padding-bottom: clamp(2rem, 1rem + 3vw, 3.5rem); }
+.ph-lead p { color: var(--ink-muted); font-size: var(--t-lead); line-height: 1.5; }
+.prose ol { padding-left: 1.4em; }
+.prose ol li::marker { color: var(--ink-subtle); font-variant-numeric: tabular-nums; }
+.sec__body .dg { margin-top: 1rem; }
+.timeline li { grid-template-columns: 5rem 1fr; }
+.membar { display: flex; gap: 3px; height: 14px; border-radius: 3px; overflow: hidden; max-width: 40em; margin-top: 0.5rem; }
+.membar span { display: block; background: var(--accent); }
+.membar span:nth-child(2) { background: color-mix(in oklch, var(--accent) 55%, var(--surface)); }
+.membar span:nth-child(3) { background: var(--line-strong); }
+.membar span:nth-child(4) { background: var(--line); }
+.memkey { display: flex; flex-wrap: wrap; gap: 4px 20px; font-size: var(--t-small); color: var(--ink-muted); }
+.shotgrid { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: start; }
+.shotgrid figure { margin: 0; }
+.shotgrid button { all: unset; display: block; cursor: zoom-in; border-radius: 4px; width: 100%; }
+.shotgrid img { width: 100%; height: auto; border-radius: 4px; border: 1px solid var(--line); transition: border-color var(--dur-quick); }
+.shotgrid .is-phone img { max-width: 260px; margin-inline: auto; }
+.shotgrid button:hover img { border-color: var(--ink-muted); }
+.shotgrid button:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+.shotgrid figcaption { margin-top: 8px; font-size: var(--t-small); color: var(--ink-muted); line-height: 1.4; }
+@media (max-width: 599px) { .shotgrid { grid-template-columns: 1fr; } }
+.hero-shot { margin: 0 0 clamp(2rem, 1rem + 3vw, 3.5rem); }
+.tthumb { display: flex; flex-direction: column; justify-content: center; gap: 2px; height: 100%; padding: 18px 22px; font-family: var(--font-serif); font-size: 1.35rem; line-height: 1.25; color: var(--ink-muted); }
+.tthumb span:not(:last-child)::after { content: " \2193"; color: var(--ink-subtle); font-family: var(--font-sans); font-size: 0.8em; }
+.tthumb span:last-child { color: var(--ink); }
+.work__thumb { text-decoration: none; }

@@ -362,3 +362,35 @@ Source: `design/CONTENT-v7.md` (synthesis of four reviews). §E (anti-"AI vibe")
      heading.
   3. Smaller intro block (no forced height), photos before the languages line, remaining
      "nearest cluster" wording fixed, new `system.html`.
+
+## Round 9 (fresh-review fixes)
+- **CV:**
+  - years on every phase, and no "current role" chip;
+  - new role line, which breaks onto separate lines on mobile;
+  - "Moving" to Pulumi;
+  - client and region wording ("Dutch and international clients, on AWS (Ireland and Tokyo)
+    and Azure");
+  - a concrete example for the infra-engineer phase;
+  - LinkedIn and GitHub only in the intro and footer;
+  - two straight About photos, and a small portrait above the name on mobile;
+  - typographic thumbnails in place of the fuzzy diagram crops.
+- **Project pages each have their own shape.**
+  - Platform: a lead paragraph with the numbers in prose, "How it grew" as the spine, then
+    delivery, infrastructure (a numbered stage list), logs, Tokyo, trade-offs and lessons.
+  - Homelab: a narrative page with two diagrams, a CSS memory bar, Home Assistant, the YAML and
+    three lessons (including the new `paths-ignore` build-loop lesson).
+  - MTG: the hero screenshot first, then each tool led by a two-column screenshot grid.
+- **Removed:**
+  - the Principles section, the stat tiles, the cluster map, the disclaimers and the
+    bold-lead bullets;
+  - the diagram frame, sheen, glow and Replay pill (a click on the diagram replays it);
+  - decorative icons (lock, git, shield and laptop remain).
+- **Technical fixes:**
+  - "preview + policy" and "plan check" stages, with drift reported daily;
+  - path-based CloudFront routing, and the ingress controller no longer named;
+  - corrected disk and DNS lessons;
+  - "card data tracks upstream nightly";
+  - the 95%+ coverage is for the skills' helper scripts.
+- **Grimoire is now Tutor.** Screenshot slots are filled by `build-artifact.js` from the first
+  existing file in each candidate list (`SLOTS`), so the new `tutor-*` and `r99-game*` files
+  drop in on the next build. `grimoire-*` is no longer used or copied.

@@ -43,7 +43,9 @@
     stack: '<path d="m10 3 7 3.5-7 3.5-7-3.5z"/><path d="m3 10 7 3.5 7-3.5M3 13.5 10 17l7-3.5"/>',
     usb: '<rect x="7" y="2" width="6" height="7" rx="1"/><path d="M5 9h10v5a5 5 0 0 1-10 0z"/><path d="M10 16v2"/>'
   };
+  var KEEP = { git: 1, lock: 1, shield: 1, gh: 1, laptop: 1 };
   function glyph(name, x, y, cls) {
+    if (!KEEP[name]) return "";
     return '<g class="dg-g' + (cls ? " " + cls : "") + '" transform="translate(' + x + " " + y + ')" aria-hidden="true">' + (G[name] || "") + "</g>";
   }
   function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
@@ -53,6 +55,7 @@
   function card(id, b, label, sub, g, extra) {
     extra = extra || {};
     var cx = b.x + 16, gy = b.y + (b.h - 20) / 2;
+    if (g && !KEEP[g]) g = null;
     var tx = g ? b.x + 48 : b.x + 16;
     var single = !sub;
     return '<g class="dg-n' + (extra.cls ? " " + extra.cls : "") + '" data-n="' + id + '">' +
@@ -76,8 +79,8 @@
   }
   function pill(id, x, y, w, s, cls, g) {
     return '<g class="dg-pill' + (cls ? " " + cls : "") + '" data-n="' + id + '"><rect x="' + x + '" y="' + y + '" width="' + w + '" height="30" rx="15"/>' +
-      (g ? glyph(g, x + 9, y + 5, "dg-g--sm") : "") +
-      '<text x="' + (x + (g ? 32 : w / 2)) + '" y="' + (y + 20) + '"' + (g ? "" : ' text-anchor="middle"') + ">" + esc(s) + "</text></g>";
+      (g && KEEP[g] ? glyph(g, x + 9, y + 5, "dg-g--sm") : "") +
+      '<text x="' + (x + (g && KEEP[g] ? 32 : w / 2)) + '" y="' + (y + 20) + '"' + (g && KEEP[g] ? "" : ' text-anchor="middle"') + ">" + esc(s) + "</text></g>";
   }
   function pods(id, x, y, n, gap) {
     var s = '<g class="dg-pods" data-pods="' + id + '">';
@@ -142,24 +145,24 @@
   };
 
   /* 2. Platform: infrastructure pipeline (Pulumi, push-based GitOps) */
-  var STAGES = [["tests", "check"], ["policy", "shield"], ["preview", "eye"], ["review", "users"], ["merge", "merge"], ["drift gate", "gauge"], ["apply", "rocket"]];
+  var STAGES = [["tests", "check"], ["preview + policy", "shield"], ["review", "users"], ["merge", "merge"], ["plan check", "gauge"], ["apply", "rocket"]];
   D.infra = {
     title: "Infrastructure pipeline",
-    alt: "Diagram: a pull request moves through tests, a mandatory policy check, a saved preview plan, a review by someone other than the author, merge, a drift gate and finally apply. In the first run the policy blocks a public bucket; after the fix every stage passes. A daily drift check runs on the side.",
+    alt: "Diagram: a pull request moves through tests, a preview with the mandatory policy pack (saved as a plan), a review by someone other than the author, merge, a plan check that refuses anything the approved plan did not contain, and apply. In the first run the policy pack fails the preview of a public bucket; after the fix every step passes. A daily job reports infrastructure drift to Slack.",
     full: function () {
       var s = '<path class="dg-track" d="M48 236 H712"/>';
       STAGES.forEach(function (st, i) {
-        var x = 20 + i * 104;
-        s += '<g class="dg-stage" data-st="' + i + '"><rect x="' + x + '" y="214" width="96" height="88" rx="14"/>' + glyph(st[1], x + 38, 226) +
-          '<text class="dg-l dg-l--c" x="' + (x + 48) + '" y="270" text-anchor="middle">' + st[0] + "</text>" +
+        var x = 20 + i * 122;
+        s += '<g class="dg-stage" data-st="' + i + '"><rect x="' + x + '" y="214" width="112" height="88" rx="10"/>' +
+          '<text class="dg-l dg-l--c" x="' + (x + 56) + '" y="258" text-anchor="middle">' + st[0] + "</text>" +
           '<g class="dg-state"><circle cx="' + (x + 48) + '" cy="290" r="0"/></g>' +
-          '<text class="dg-st" data-sts x="' + (x + 48) + '" y="292" text-anchor="middle">waiting</text></g>';
+          '<text class="dg-st" data-sts x="' + (x + 56) + '" y="282" text-anchor="middle">waiting</text></g>';
       });
       s += '<g class="dg-pr" data-pr style="--x: 0px"><rect x="20" y="40" width="250" height="118" rx="14"/>' +
         '<rect class="dg-sheen" x="21" y="41" width="248" height="22" rx="13"/>' + glyph("merge", 36, 54) +
         '<text class="dg-l" x="64" y="70">PR #128</text><text class="dg-s" data-prs x="36" y="102">add a storage bucket</text>' +
         '<text class="dg-m" data-prm x="36" y="132">opened by an engineer</text><path class="dg-pr__pin" d="M70 158 V206"/></g>';
-      s += pill("drift", 470, 330, 270, "daily drift check: no drift", "dg-pill--pulse", "gauge") + pill("slack", 20, 330, 230, "result posted to Slack", "", "bell");
+      s += pill("drift", 20, 330, 330, "daily: infrastructure drift reported to Slack", "", "");
       return s;
     },
     compact: function () {
@@ -170,22 +173,22 @@
       s += '<path class="dg-track" d="M40 118 V520"/>';
       STAGES.forEach(function (st, i) {
         var y = 118 + i * 58;
-        s += '<g class="dg-stage" data-st="' + i + '"><rect x="10" y="' + y + '" width="320" height="48" rx="12"/>' + glyph(st[1], 24, y + 14) +
-          '<text class="dg-l" x="56" y="' + (y + 30) + '">' + st[0] + "</text>" +
+        s += '<g class="dg-stage" data-st="' + i + '"><rect x="10" y="' + y + '" width="320" height="48" rx="10"/>' +
+          '<text class="dg-l" x="24" y="' + (y + 30) + '">' + st[0] + "</text>" +
           '<g class="dg-state"><circle cx="0" cy="0" r="0"/></g>' +
           '<text class="dg-st" data-sts x="314" y="' + (y + 29) + '" text-anchor="end">waiting</text></g>';
       });
-      s += pill("drift", 10, 538, 320, "daily drift check: no drift", "dg-pill--pulse", "gauge") + pill("slack", 10, 580, 320, "result posted to Slack", "", "bell");
+      s += pill("drift", 10, 480, 320, "daily: drift reported to Slack", "", "");
       return s;
     },
-    vb: ["0 0 760 380", "0 0 340 622"],
+    vb: ["0 0 760 380", "0 0 340 530"],
     seq: [
       ["pr", 0, "add a public bucket", "opened by an engineer"], ["stage", 0, "ok", "passed"], ["wait", 500],
-      ["pr", 1], ["stage", 1, "bad", "blocked"], ["prbad", true, "fails at preview: public bucket"], ["wait", 1700],
+      ["pr", 1], ["stage", 1, "bad", "policy failed"], ["prbad", true, "policy: bucket can't be public"], ["wait", 1700],
       ["prbad", false, "fixed in a new commit"], ["prtext", "add a private bucket"], ["reset-stages"], ["pr", 0], ["stage", 0, "ok", "passed"], ["wait", 350],
-      ["pr", 1], ["stage", 1, "ok", "passed"], ["wait", 350], ["pr", 2], ["stage", 2, "ok", "plan saved"], ["wait", 450],
-      ["pr", 3], ["stage", 3, "ok", "approved"], ["prm", "reviewed by a colleague"], ["wait", 450], ["pr", 4], ["stage", 4, "ok", "merged"], ["wait", 350],
-      ["pr", 5], ["stage", 5, "ok", "no drift"], ["wait", 450], ["pr", 6], ["stage", 6, "ok", "applied"], ["prm", "applied by the pipeline"], ["lit", "slack"], ["wait", 2800]
+      ["pr", 1], ["stage", 1, "ok", "plan saved"], ["wait", 450],
+      ["pr", 2], ["stage", 2, "ok", "approved"], ["prm", "reviewed by a colleague"], ["wait", 450], ["pr", 3], ["stage", 3, "ok", "merged"], ["wait", 350],
+      ["pr", 4], ["stage", 4, "ok", "matches plan"], ["wait", 450], ["pr", 5], ["stage", 5, "ok", "applied"], ["prm", "applied by the pipeline"], ["lit", "drift"], ["wait", 2800]
     ]
   };
 
@@ -241,7 +244,7 @@
   var CL = { NL: [26, 14, 10, 8], EU: [16, 11, 8], JP: [13] };
   D.map = {
     title: "Where the clusters run",
-    alt: "Diagram: eight Kubernetes clusters of different sizes, in the Netherlands, elsewhere in Europe and in Japan. The largest runs more than 1,500 pods. Positions and sizes are illustrative.",
+    alt: "Diagram: eight Kubernetes clusters of different sizes, for Dutch and international clients, on AWS (Ireland and Tokyo) and Azure. The largest runs more than 1,500 pods.",
     full: function () {
       var s = '<path class="dg-lat" d="M20 190 H740"/>';
       var zones = [["NL", "the Netherlands", 20, 270], ["EU", "elsewhere in Europe", 306, 250], ["JP", "Japan", 572, 168]];
@@ -255,7 +258,6 @@
       });
       s += '<text class="dg-big" x="20" y="58">8 clusters</text><text class="dg-m" x="190" y="56">small to large, one way of working</text>';
       s += '<path class="dg-callout" d="M66 238 V266 H96"/><text class="dg-m dg-m--ink" x="102" y="270">1,500+ pods</text>';
-      s += label(740, 330, "positions and sizes are illustrative", "dg-m dg-m--note", "end");
       return s;
     },
     compact: function () {
@@ -270,7 +272,6 @@
         });
       });
       s += '<text class="dg-m dg-m--ink" x="314" y="90" text-anchor="end">largest: 1,500+ pods</text>';
-      s += label(10, 448, "positions and sizes are illustrative", "dg-m dg-m--note");
       return s;
     },
     vb: ["0 0 760 340", "0 0 340 460"],
@@ -280,16 +281,15 @@
   /* 5. Homelab: git push to running */
   D.push = {
     title: "From git push to running",
-    alt: "Diagram: a git push triggers GitHub Actions, which builds an image tagged with the commit SHA on GHCR. On the laptop under the TV, Argo CD Image Updater notices the new tag and writes it to git, Argo CD syncs, and the pods roll over. The laptop runs with its lid shut, and its battery doubles as a UPS.",
+    alt: "Diagram: a git push triggers GitHub Actions, which builds an image tagged with the commit SHA on GHCR. On the laptop, Argo CD Image Updater notices the new image and commits its version to git, Argo CD syncs, and the pods roll over.",
     full: function () {
       return group({ x: 16, y: 16, w: 300, h: 344 }, "GitHub", "", "gh") +
         card("push", { x: 40, y: 64, w: 252, h: 66 }, "git push", "to main", "git") +
         card("actions", { x: 40, y: 166, w: 252, h: 66 }, "GitHub Actions", "build and test", "box") +
         card("ghcr", { x: 40, y: 268, w: 252, h: 66 }, "GHCR", "image registry", "tag") +
         edge("p2a", "M166 130 V166") + edge("a2g", "M166 232 V268") +
-        group({ x: 350, y: 16, w: 394, h: 344 }, "the laptop under the TV", "dg-grp--host", "laptop") +
-        '<g class="dg-badge"><rect x="594" y="30" width="136" height="26" rx="13"/>' + glyph("battery", 602, 33, "dg-g--sm") + '<text x="628" y="48">battery = UPS</text></g>' +
-        card("iu", { x: 374, y: 76, w: 220, h: 66 }, "Image Updater", "watches GHCR", "eye") +
+        group({ x: 350, y: 16, w: 394, h: 344 }, "the laptop: Proxmox and k3s", "dg-grp--host", "laptop") +
+                card("iu", { x: 374, y: 76, w: 220, h: 66 }, "Image Updater", "watches GHCR", "eye") +
         card("argo", { x: 374, y: 176, w: 220, h: 66 }, "Argo CD", "in sync", "sync") +
         edge("g2iu", "M292 301 H330 V109 H374") + edge("iu2argo", "M484 142 V176") + edge("argo2pods", "M594 209 H640 V262") +
         '<g class="dg-n dg-env dg-env--slim" data-n="run"><rect class="dg-card" x="374" y="262" width="346" height="80" rx="14"/>' +
@@ -301,9 +301,8 @@
         card("actions", { x: 24, y: 120, w: 292, h: 56 }, "GitHub Actions", "build and test", "box") +
         card("ghcr", { x: 24, y: 192, w: 292, h: 56 }, "GHCR", "image registry", "tag") +
         edge("p2a", "M170 104 V120") + edge("a2g", "M170 176 V192") +
-        group({ x: 8, y: 290, w: 324, h: 330 }, "laptop under the TV", "dg-grp--host", "laptop") +
-        '<g class="dg-badge"><rect x="212" y="300" width="108" height="26" rx="13"/>' + glyph("battery", 220, 303, "dg-g--sm") + '<text x="246" y="318">UPS</text></g>' +
-        card("iu", { x: 24, y: 340, w: 292, h: 56 }, "Image Updater", "watches GHCR", "eye") +
+        group({ x: 8, y: 290, w: 324, h: 330 }, "the laptop", "dg-grp--host", "laptop") +
+                card("iu", { x: 24, y: 340, w: 292, h: 56 }, "Image Updater", "watches GHCR", "eye") +
         card("argo", { x: 24, y: 420, w: 292, h: 56 }, "Argo CD", "in sync", "sync") +
         edge("g2iu", "M316 220 H326 V368 H316") + edge("iu2argo", "M170 396 V420") + edge("argo2pods", "M170 476 V500") +
         '<g class="dg-n dg-env dg-env--slim" data-n="run"><rect class="dg-card" x="24" y="500" width="292" height="104" rx="14"/>' +
@@ -320,7 +319,7 @@
   /* 6. Homelab: ways in */
   D.ways = {
     title: "Three ways in",
-    alt: "Diagram: three ways into the laptop, all opt-in. By default my own devices come in over the private Tailscale network. A few apps are public through a Cloudflare Tunnel with a login in front. For a party, Tailscale Funnel gives a temporary public URL. All of them end at Traefik, which serves one wildcard TLS certificate. There are no open ports.",
+    alt: "Diagram: three ways into the laptop. The tailnet is the default; the other two are opt-in. By default my own devices come in over the private Tailscale network. A few apps are public through a Cloudflare Tunnel with a login in front. For a party, Tailscale Funnel gives a temporary public URL. All of them end at Traefik, which serves one wildcard TLS certificate. There are no open ports.",
     full: function () {
       return card("me", { x: 20, y: 30, w: 200, h: 70 }, "My devices", "phone, laptop", "laptop") +
         card("pub", { x: 20, y: 150, w: 200, h: 70 }, "Visitor", "public, with login", "globe") +
@@ -368,7 +367,7 @@
     title: "Inside the box",
     alt: "Diagram: Proxmox on the laptop runs two virtual machines: Ubuntu with k3s, using 10 GB of the 16 GB memory, and Home Assistant OS with 3 GB, which gets the Zigbee USB stick passed straight through. The host uses about 2 GB and about 1 GB is spare. Snapshots are taken before every upgrade.",
     full: function () {
-      return group({ x: 16, y: 16, w: 728, h: 340 }, "Proxmox, on the laptop under the TV", "dg-grp--host", "laptop") +
+      return group({ x: 16, y: 16, w: 728, h: 340 }, "Proxmox, on the laptop", "dg-grp--host", "laptop") +
         card("vm1", { x: 40, y: 62, w: 300, h: 110 }, "VM 1: Ubuntu + k3s", "the apps, 15 of them", "box") + pods("vm1p", 88, 136, 6, 30) +
         card("vm2", { x: 360, y: 62, w: 220, h: 110 }, "VM 2: Home Assistant", "lights and sensors", "radio") +
         card("usb", { x: 600, y: 62, w: 124, h: 110 }, "Zigbee", "USB stick") +
@@ -432,7 +431,7 @@
     opts = opts || {};
     return '<figure class="dg' + (opts.cls ? " " + opts.cls : "") + '" data-dg="' + id + '" role="img" aria-label="' + esc(d.alt) + '">' +
       svg("dg__svg--full", d.vb[0], d.title, d.full()) + svg("dg__svg--compact", d.vb[1], d.title, d.compact()) +
-      (opts.caption === false ? "" : '<figcaption class="dg__cap"><span class="dg__title">' + esc(d.title) + '</span><button type="button" class="dg__replay" aria-label="Replay animation: ' + esc(d.title) + '">Replay</button></figcaption>') +
+      (opts.caption === false ? "" : '<figcaption class="dg__cap">' + esc(d.title) + "</figcaption>") +
       "</figure>";
   }
 
@@ -490,9 +489,9 @@
       if (k === "pr") {
         var full = s.classList.contains("dg__svg--full");
         if (full) {
-          var off = Math.min(st[1] * 104, 470);
+          var off = Math.min(st[1] * 122, 470);
           pr.style.setProperty("--x", off + "px");
-          pr.querySelector(".dg-pr__pin").setAttribute("d", "M" + (68 + st[1] * 104 - off) + " 158 V214");
+          pr.querySelector(".dg-pr__pin").setAttribute("d", "M" + (76 + st[1] * 122 - off) + " 158 V214");
         }
         if (st[2]) { pr.querySelector("[data-prs]").textContent = st[2]; pr.querySelector("[data-prm]").textContent = st[3]; }
         return wait(520);
@@ -556,7 +555,8 @@
     Array.prototype.forEach.call(figs, function (f) {
       f.setAttribute("data-mounted", "");
       var pl = new Player(f); f.__player = pl;
-      var btn = f.querySelector(".dg__replay");
+      f.addEventListener("click", function () { if (!reduce()) { pl.visible = true; pl.play(); } });
+      var btn = null;
       if (btn) btn.addEventListener("click", function () { pl.visible = true; pl.play(); });
       f.addEventListener("mouseenter", function () { if (!reduce() && pl.idle) pl.play(); });
       if (io) io.observe(f); else { pl.visible = true; pl.play(); }
