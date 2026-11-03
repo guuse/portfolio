@@ -239,7 +239,7 @@ export function scaler(svg: SVGSVGElement, load: (p: number, t: number) => numbe
       w1 = Z[1]!.want,
       r = Math.random() * (w0 + w1 + Z[2]!.want);
     const zi = r < w0 ? 0 : r < w0 + w1 ? 1 : 2;
-    P.spawn(routes[(Math.random() * 3) | 0]![zi]!, { speed: 190 + Math.random() * 70, end: landed[zi] });
+    P.spawn(routes[(Math.random() * 3) | 0]![zi]!, { speed: 190 + Math.random() * 70, end: landed[zi]! });
   };
 
   return (p: number, dt: number, t: number): void => {

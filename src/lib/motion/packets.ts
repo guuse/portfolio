@@ -47,6 +47,43 @@ export function prime(...els: (Element | undefined)[]): void {
   for (const el of els) if (el) track(el as SVGGeometryElement);
 }
 
+export interface Segment {
+  el: SVGPathElement | SVGGeometryElement;
+  /** Packet class from this segment on (e.g. "pk--ink" after a reply). */
+  cls?: string;
+  /** Travel this segment invisibly (inside a device). */
+  hide?: boolean;
+  /** The path's lookup table, filled in on first use. */
+  track?: Track;
+}
+
+export interface Packet {
+  segs: Segment[];
+  i: number;
+  /** Distance along the current segment. */
+  d: number;
+  v: number;
+  g: SVGGElement;
+  cls: string;
+  age: number;
+  /** A random phase, so waiting packets don't jitter in sync. */
+  ph: number;
+  /** Seconds spent held back by `stop`. */
+  wait: number;
+  stop?: ((k: Packet) => number) | undefined;
+  end?: ((k: Packet) => void) | undefined;
+  autofade?: boolean | undefined;
+}
+
+export interface SpawnOptions {
+  speed?: number;
+  /** The furthest distance along the current segment the packet may go (a closed gate). */
+  stop?: (k: Packet) => number;
+  end?: (k: Packet) => void;
+  /** Fade out over the first segment instead of at the end (for answers nobody gives). */
+  autofade?: boolean;
+}
+
 /** Writes a packet's transform: at distance d along a track, pointing along it, nudged by jitter. */
 function place(g: SVGGElement, t: Track, d: number, jitter = 0): void {
   const last = t.xs.length - 1,
