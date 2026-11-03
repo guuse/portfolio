@@ -1,0 +1,107 @@
+---
+import Base from "~/layouts/Base.astro";
+import Drawing from "~/components/art/Drawing.astro";
+import TextLink from "~/components/ui/TextLink.astro";
+import { evicted } from "~/lib/art/scenes/evicted";
+---
+
+<Base title="Not found · Guus Ekkelenkamp" description="This page doesn't exist." mainClass="wrap" noindex>
+  <section class="lost" aria-labelledby="lost-title">
+    <figure class="lost__art">
+      <Drawing svg={evicted()} />
+    </figure>
+    <div class="lost__text">
+      <p class="lost__code">404</p>
+      <h1 id="lost-title">This pod was evicted.</h1>
+      <p>
+        Nothing is scheduled at this address. The page may have moved when the site was rebuilt, or it never
+        existed.
+      </p>
+      <p class="lost__links">
+        <TextLink variant="outline" href="/">
+          Back to the homepage <span aria-hidden="true">&rarr;</span>
+        </TextLink>
+        <TextLink variant="underline" href="/projects/">
+          See the projects
+        </TextLink>
+      </p>
+    </div>
+  </section>
+</Base>
+
+<style>
+  @layer components {
+    .lost {
+      display: grid;
+      gap: 2rem var(--space-gutter);
+      align-items: center;
+      padding-block: clamp(3rem, 2rem + 5vw, 6rem);
+    }
+
+    @media (width >= 900px) {
+      .lost {
+        grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      }
+
+      .lost__art {
+        order: 2;
+      }
+    }
+
+    .lost__art {
+      margin: 0;
+    }
+
+    .lost__code {
+      color: var(--accent);
+      font-family: var(--font-code);
+    }
+
+    .lost h1 {
+      margin-block: 0.5rem 1rem;
+      font-family: var(--font-heading);
+      font-size: var(--text-h1);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+
+    .lost__text > p:not(.lost__code, .lost__links) {
+      max-width: 32em;
+      color: var(--ink-muted);
+      font-size: var(--text-lead);
+    }
+
+    .lost__links {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px 22px;
+      margin-top: 2rem;
+    }
+
+    /* the evicted pod drifts up and away, and comes back to try again */
+    .lost__art :global(.evicted) {
+      transform-box: fill-box;
+      animation: evict 4s var(--ease-in-out) infinite;
+    }
+
+    @keyframes evict {
+      0%,
+      100% {
+        translate: 0 0;
+        rotate: -4deg;
+      }
+
+      50% {
+        translate: 0 -12px;
+        rotate: 5deg;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .lost__art :global(.evicted) {
+        animation: none;
+      }
+    }
+  }
+</style>

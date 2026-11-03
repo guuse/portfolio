@@ -1,0 +1,398 @@
+---
+import Base from "~/layouts/Base.astro";
+import Drawing from "~/components/art/Drawing.astro";
+import Sprite from "~/components/art/Sprite.astro";
+import Gotchas from "~/components/case/Gotchas.astro";
+import Hood from "~/components/case/Hood.astro";
+import Lessons from "~/components/case/Lessons.astro";
+import Snippet from "~/components/case/Snippet.astro";
+import CopyButton from "~/components/ui/CopyButton.astro";
+import DefList from "~/components/ui/DefList.astro";
+import Section from "~/components/ui/Section.astro";
+import TextLink from "~/components/ui/TextLink.astro";
+import { card } from "~/lib/art";
+import { sketch } from "~/lib/art/sketch";
+import { ease } from "~/lib/motion/math";
+import { tokens, type TokenName } from "~/styles/tokens";
+import "~/styles/tokens-preview.css";
+
+/*
+ * The living styleguide. Everything here is rendered from the same tokens, components and
+ * drawings as the site, so it can't fall out of date.
+ */
+const all = Object.entries(tokens) as [TokenName, (typeof tokens)[TokenName]][];
+const by = (test: (name: string, type: string) => boolean) => all.filter(([name, t]) => test(name, t.type));
+const semantic = by((n, t) => t === "color" && !/^(navy|cloud|amber|sky|bone|art)-/.test(n));
+const art = by((n) => n.startsWith("art-"));
+const ramps = by((n, t) => t === "color" && /^(navy|cloud|amber|sky|bone)-/.test(n));
+const text = by((n) => n.startsWith("text-") && n !== "text-code");
+const space = by((n) => /^(space|radius)-/.test(n) && n !== "space-edge" && n !== "space-edge-end");
+const motion = by((n, t) => t === "duration" || t === "cubicBezier");
+
+/** An easing curve as an SVG path, sampled at build time from the runtime's own functions. */
+const curve = (f: (t: number) => number): string =>
+  Array.from({ length: 41 }, (_, i) => {
+    const t = i / 40;
+    return `${i ? "L" : "M"}${(t * 100).toFixed(1)} ${(80 - f(t) * 60).toFixed(1)}`;
+  }).join("");
+const curves = [
+  ["outCubic", ease.outCubic],
+  ["inOutCubic", ease.inOutCubic],
+  ["outBack", (t: number) => ease.outBack(t)],
+  ["inOutBack", ease.inOutBack],
+] as const;
+---
+
+<Base
+  title="Design system · Guus Ekkelenkamp"
+  description="The living styleguide of ekkelenkamp.dev: tokens, type, components, the illustration kit and its motion."
+  og="design-system"
+  mainClass="wrap"
+>
+  <Sprite icons={["aws-AmazonElasticKubernetesService", "aws-AmazonCloudFront"]} />
+  <header class="ds-head">
+    <h1>Design system</h1>
+    <p>
+      Everything this site is made of, rendered from the same source as the pages. Colours, type and space are
+      design tokens in <code>tokens/</code>; change one there and this page, and the site, follow.
+    </p>
+  </header>
+
+  <Section id="colour" title="Colour">
+    <p class="ds-note">The Nacht theme: one navy hue, cool inks, and one amber used rarely.</p>
+    <ul class="swatches" role="list">
+      {semantic.map(([name, t]) => (
+        <li>
+          <span class={`swatch tk-${name}`} />
+          <code>--{name}</code>
+          <small>{t.value}</small>
+        </li>
+      ))}
+    </ul>
+    <h3 class="ds-h3">Illustration materials</h3>
+    <ul class="swatches swatches--small" role="list">
+      {art.map(([name]) => (
+        <li>
+          <span class={`swatch tk-${name}`} />
+          <code>--{name}</code>
+        </li>
+      ))}
+    </ul>
+    <h3 class="ds-h3">Primitive ramps</h3>
+    <ul class="ramp" role="list" aria-label="Primitive colours, by name">
+      {ramps.map(([name]) => (
+        <li class={`tk-${name}`}>
+          <span class="visually-hidden">{name}</span>
+        </li>
+      ))}
+    </ul>
+  </Section>
+
+  <Section id="type" title="Type">
+    <p class="ds-note">
+      Instrument Serif for headings and numbers, Schibsted Grotesk for text, Geist Mono for code only.
+    </p>
+    <ul class="type-scale" role="list">
+      {text.map(([name]) => (
+        <li>
+          <code>--{name}</code>
+          <span class={`tk-${name} ${/h\d|display|title|stat|mail/.test(name) ? "sample--serif" : ""}`}>
+            Things that keep running
+          </span>
+        </li>
+      ))}
+    </ul>
+  </Section>
+
+  <Section id="space" title="Space and shape">
+    <ul class="bars" role="list">
+      {space.map(([name, t]) => (
+        <li>
+          <code>--{name}</code>
+          <span class={name.startsWith("radius") ? `shape tk-${name}` : `bar tk-${name}`} />
+          <small>{t.value}</small>
+        </li>
+      ))}
+    </ul>
+  </Section>
+
+  <Section id="motion" title="Motion">
+    <p class="ds-note">
+      Transform and opacity only, on one shared animation loop that sleeps when nothing is on screen. With
+      reduced motion every drawing shows its final frame.
+    </p>
+    <DefList items={motion.map(([name, t]) => ({ term: `--${name}`, detail: t.value }))} />
+    <ul class="curves" role="list">
+      {curves.map(([name, f]) => (
+        <li>
+          <svg viewBox="-4 0 108 100" aria-hidden="true">
+            <path class="curves__axis" d="M0 80H100M0 20H100" />
+            <path class="curves__line" d={curve(f)} />
+          </svg>
+          <code>ease.{name}</code>
+        </li>
+      ))}
+    </ul>
+    <figure class="ds-live">
+      <span class="ds-live__art" data-card="cardscale">
+        <Drawing svg={card("platform")} />
+      </span>
+      <figcaption>A live drawing: the scaling scene from the platform case study, on a clock.</figcaption>
+    </figure>
+  </Section>
+
+  <Section id="components" title="Components">
+    <h3 class="ds-h3">Links and actions</h3>
+    <p class="ds-row">
+      <TextLink variant="outline" href="/projects/">
+        Outlined link <span aria-hidden="true">&rarr;</span>
+      </TextLink>
+      <TextLink variant="underline" href="/">
+        Underlined link
+      </TextLink>
+      <span class="ds-row">
+        <span id="ds-mail">hello@example.com</span>
+        <CopyButton target="ds-mail" label="Copy email" />
+      </span>
+    </p>
+    <h3 class="ds-h3">Definition list</h3>
+    <DefList
+      items={[
+        { term: "Term", detail: "A plain description, typeset next to it from 640px." },
+        { term: "Another term", detail: "Hairline rules between rows, no boxes." },
+      ]}
+    />
+    <h3 class="ds-h3">Lessons, two ways</h3>
+    <Gotchas
+      items={[
+        {
+          symptom: "What went wrong.",
+          cause: "Why it went wrong.",
+          fix: "What fixed it, with <code>code</code> if it helps.",
+        },
+      ]}
+    />
+    <Lessons
+      items={[{ title: "A lesson in one sentence.", text: "And the story behind it, in a few more." }]}
+    />
+    <h3 class="ds-h3">Under the hood</h3>
+    <Hood
+      items={[
+        {
+          icon: "aws-AmazonElasticKubernetesService",
+          name: "With an icon",
+          what: "an official AWS or brand mark",
+        },
+        { name: "Without", what: "the column stays aligned" },
+        { icon: "aws-AmazonCloudFront", name: "CloudFront", what: "icons come from one sprite" },
+      ]}
+    />
+    <h3 class="ds-h3">Code</h3>
+    <Snippet
+      caption="A snippet with a caption"
+      label="Example snippet"
+      code={'npm run dev   <span class="c"># tokens, then astro dev</span>'}
+    />
+  </Section>
+
+  <Section id="kit" title="Illustration kit">
+    <p class="ds-note">
+      One hand for every drawing: front elevation from slightly above, lit top planes, 1.5-unit outlines, flat
+      shadows, navy and ink with one amber for the thing in motion. Drawn at build time from{" "}
+      <code>src/lib/art</code>.
+    </p>
+    <figure class="ds-kit">
+      <Drawing svg={sketch()} />
+    </figure>
+  </Section>
+</Base>
+
+<style>
+  @layer components {
+    .ds-head {
+      display: grid;
+      gap: 1rem;
+      padding-block: clamp(2.5rem, 1rem + 5vw, 5rem) clamp(1.5rem, 1rem + 2vw, 2.5rem);
+    }
+
+    .ds-head h1 {
+      font-family: var(--font-heading);
+      font-size: var(--text-h1);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+
+    .ds-head p,
+    .ds-note {
+      max-width: 36em;
+      color: var(--ink-muted);
+    }
+
+    .ds-head p {
+      font-size: var(--text-lead);
+    }
+
+    code {
+      font-size: 0.88em;
+    }
+
+    .ds-h3 {
+      margin-top: 1rem;
+      font-weight: 600;
+    }
+
+    .swatches {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 1rem;
+    }
+
+    .swatches--small {
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+
+    .swatches li {
+      display: grid;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .swatches small {
+      color: var(--ink-subtle);
+      font-size: 0.75rem;
+      overflow-wrap: anywhere;
+    }
+
+    .swatch {
+      height: 56px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-s);
+    }
+
+    .swatches--small .swatch {
+      height: 36px;
+    }
+
+    .ramp {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(28px, 1fr));
+      gap: 3px;
+    }
+
+    .ramp li {
+      height: 28px;
+      border-radius: 2px;
+    }
+
+    .type-scale,
+    .bars {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .type-scale li,
+    .bars li {
+      display: grid;
+      grid-template-columns: minmax(0, 11rem) minmax(0, 1fr);
+      gap: 4px 1rem;
+      align-items: baseline;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .type-scale span {
+      min-width: 0;
+      line-height: 1.1;
+      overflow-wrap: anywhere;
+    }
+
+    .sample--serif {
+      font-family: var(--font-heading);
+    }
+
+    .bars li {
+      grid-template-columns: minmax(0, 11rem) minmax(0, 1fr) auto;
+      align-items: center;
+    }
+
+    .bars small {
+      color: var(--ink-subtle);
+    }
+
+    .bar {
+      display: block;
+      max-width: 100%;
+      height: 10px;
+      background: var(--accent);
+      border-radius: 2px;
+    }
+
+    .shape {
+      display: block;
+      width: 48px;
+      height: 32px;
+      border: 1.5px solid var(--accent);
+    }
+
+    .curves {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 1rem;
+    }
+
+    .curves svg {
+      width: 100%;
+      height: auto;
+      overflow: visible;
+    }
+
+    .curves__axis {
+      fill: none;
+      stroke: var(--line);
+    }
+
+    .curves__line {
+      fill: none;
+      stroke: var(--accent);
+      stroke-width: 2;
+      stroke-linecap: round;
+    }
+
+    .ds-live {
+      max-width: 320px;
+    }
+
+    .ds-live__art {
+      display: block;
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-s);
+    }
+
+    .ds-live figcaption,
+    .ds-kit figcaption {
+      margin-top: 0.5rem;
+      color: var(--ink-subtle);
+      font-size: var(--text-small);
+    }
+
+    .ds-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px 22px;
+    }
+
+    .ds-kit {
+      overflow-x: auto;
+    }
+
+    @media (width < 640px) {
+      .type-scale li,
+      .bars li {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+  }
+</style>

@@ -5,18 +5,28 @@ import SkipLink from "~/components/layout/SkipLink.astro";
 import SiteHeader from "~/components/layout/SiteHeader.astro";
 import SiteFooter from "~/components/layout/SiteFooter.astro";
 import KeyboardSheet from "~/components/layout/KeyboardSheet.astro";
+import Seo from "~/components/layout/Seo.astro";
 import { site } from "~/lib/site";
 
 export interface Props {
   /** The full document title. */
   title: string;
   description: string;
+  /** The page's social card in public/og/ (defaults to the homepage's). */
+  og?: string | undefined;
   /** Classes for <main> (case studies and the projects page wrap their content). */
   mainClass?: string | undefined;
+  /** Keep a page out of search results (the 404). */
+  noindex?: boolean | undefined;
 }
 
-const { title, description, mainClass } = Astro.props;
-const canonical = new URL(Astro.url.pathname, site.url).href;
+const { title, description, og = "home", mainClass, noindex } = Astro.props;
+/* For people reading the source. Set as HTML so the comment survives minification. */
+const hello = `<!--
+  Hi. View-source is a fine way to read a website; the repo is nicer:
+  ${site.repo}
+  Built with Astro, served by nginx from a k3s cluster, kept honest by Lighthouse in CI.
+-->`;
 ---
 
 <!doctype html>
@@ -24,9 +34,15 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <Fragment set:html={hello} />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <Seo title={title} description={description} og={og} />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content={site.themeColor} />
     <meta name="color-scheme" content="dark" />
     <Font cssVariable="--font-serif" preload={[{ subset: "latin" }]} />

@@ -4,6 +4,7 @@
  *
  *   src/styles/tokens.css   custom properties on :root, inside `@layer tokens`
  *   src/styles/tokens.ts    the same tokens as a typed map, for the styleguide and for JS
+ *   src/styles/tokens-preview.css   a class per token, for the styleguide
  *
  * Layers: tokens/primitive (raw ramps, never used directly) → tokens/scale (type, space, radii,
  * motion) and tokens/theme/nacht.json (semantic colours). A second theme is a second file in
@@ -67,6 +68,34 @@ StyleDictionary.registerFormat({
   },
 });
 
+/**
+ * One class per token that applies it, for the living styleguide (/design-system/): swatches,
+ * type samples, space bars. Generated, so the styleguide can't drift from the tokens, and
+ * classes rather than style attributes, which the CSP forbids.
+ */
+const PREVIEW = {
+  color: (v) => `background: ${v};`,
+  dimension: (v, name) =>
+    name.startsWith("text-")
+      ? `font-size: ${v};`
+      : name.startsWith("radius-")
+        ? `border-radius: ${v};`
+        : `inline-size: ${v};`,
+  fontFamily: (v) => `font-family: ${v};`,
+  duration: (v) => `--preview-duration: ${v};`,
+  cubicBezier: (v) => `--preview-ease: ${v};`,
+};
+StyleDictionary.registerFormat({
+  name: "css/token-preview",
+  format: async ({ dictionary, file }) => {
+    const header = await fileHeader({ file, commentStyle: "long" });
+    const rules = dictionary.allTokens
+      .filter((t) => PREVIEW[t.$type] && !t.name.startsWith("breakpoint-"))
+      .map((t) => `  .tk-${t.name} { ${PREVIEW[t.$type](`var(--${t.name})`, t.name)} }`);
+    return `${header}@layer utilities {\n${rules.join("\n")}\n}\n`;
+  },
+});
+
 const sd = new StyleDictionary({
   source: ["tokens/**/*.json"],
   usesDtcg: true,
@@ -78,6 +107,11 @@ const sd = new StyleDictionary({
       buildPath: "src/styles/",
       files: [
         { destination: "tokens.css", format: "css/layered-variables", options: { fileHeader: "generated" } },
+        {
+          destination: "tokens-preview.css",
+          format: "css/token-preview",
+          options: { fileHeader: "generated" },
+        },
       ],
     },
     ts: {
