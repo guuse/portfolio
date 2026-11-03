@@ -1,0 +1,614 @@
+<!doctype html>
+<html lang="en" data-direction="zine" data-option="fluor-pink-teal">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guus Ekkelenkamp, developer, Rotterdam</title>
+<meta name="description" content="Developer at Harborn in Rotterdam. Builds web platforms by day and a GitOps homelab on a lid-shut laptop by night.">
+<meta name="color-scheme" content="light dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&family=Bagel+Fat+One&family=Shantell+Sans:wght,BNCE,INFM@300..800,-100..100,0..100&display=swap">
+<link rel="stylesheet" href="../../system/base.css">
+<link rel="stylesheet" href="zine.css">
+<script src="zine.js"></script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="d-arrow" viewBox="0 0 80 50"><g class="doodle" stroke-width="2.6"><path d="M4 9 C 22 2, 50 8, 64 37"/><path d="M52 32 L65 40 L69 25"/></g></symbol>
+    <symbol id="d-arrow-s" viewBox="0 0 80 40"><g class="doodle" stroke-width="2.6"><path d="M4 24 C 22 16, 46 26, 72 18"/><path d="M61 11 L73 18 L63 28"/></g></symbol>
+    <symbol id="d-box" viewBox="0 0 32 32"><g class="doodle" stroke-width="2.4"><path d="M5 6 L27 4.5 L28 27 L4 28 Z"/></g></symbol>
+    <symbol id="d-box-half" viewBox="0 0 32 32"><g class="doodle" stroke-width="2.4"><path d="M5 6 L27 4.5 L28 27 L4 28 Z"/><path d="M9 23 L23 9 M8 17 L17 8 M15 24 L24 15"/></g></symbol>
+    <symbol id="d-box-check" viewBox="0 0 32 32"><g class="doodle" stroke-width="2.4"><path d="M5 6 L27 4.5 L28 27 L4 28 Z"/><path d="M8 16 L14 23 L30 2"/></g></symbol>
+    <symbol id="d-lock" viewBox="0 0 24 24"><g class="doodle" stroke-width="2.4"><path d="M5 11 L19 10.5 L19.5 21 L4.5 21.5 Z"/><path d="M8 11 V7.5 C8 3, 16 3, 16 7.5 V10.5"/></g></symbol>
+    <symbol id="d-warn" viewBox="0 0 24 24"><g class="doodle" stroke-width="2.4"><path d="M12 2.5 L22.5 21 L1.5 21.5 Z"/><path d="M12 9 L12 14.5"/><path d="M12 18 L12 18.2"/></g></symbol>
+    <symbol id="d-disk" viewBox="0 0 48 48"><g class="doodle"><path d="M8 12 C 8 6, 40 6, 40 12 C 40 18, 8 18, 8 12 Z"/><path d="M8 12 V36 C 8 42, 40 42, 40 36 V12"/><path d="M8 24 C 8 30, 40 30, 40 24"/><path d="M40 24 L46 20 M40 30 L46 33"/></g></symbol>
+    <symbol id="d-nest" viewBox="0 0 48 48"><g class="doodle"><path d="M4 8 L44 7 L45 41 L3 42 Z"/><path d="M20 18 L39 17.5 L39.5 35 L19.5 35.5 Z"/><path d="M7 27 L15 27"/><path d="M12 22 L17 27 L12 32"/><path d="M27 23 L33 30 M33 23 L27 30"/></g></symbol>
+    <symbol id="d-globe" viewBox="0 0 48 48"><g class="doodle"><circle cx="22" cy="24" r="16"/><path d="M6 24 H38 M22 8 C 13 16, 13 32, 22 40 C 31 32, 31 16, 22 8"/><path d="M34 34 L45 45 M45 34 L34 45"/></g></symbol>
+    <symbol id="d-cert" viewBox="0 0 48 48"><g class="doodle"><path d="M6 10 L38 9 L39 40 L5 41 Z"/><path d="M6 18 H38"/><path d="M13 5 V13 M31 5 V13"/><path d="M30 27 A 7 7 0 1 1 22 22"/><path d="M19 19 L22.5 22 L19 25.5"/></g></symbol>
+    <symbol id="d-radio" viewBox="0 0 48 48"><g class="doodle"><path d="M14 22 L24 21.5 L24.5 44 L13.5 44.5 Z"/><path d="M17 21.5 V15 H21 V21.5"/><path d="M28 12 C 32 15, 32 21, 28 24"/><path d="M33 7 C 40 13, 40 23, 33 29"/><path d="M9 13 C 6 16, 6 21, 9 24"/></g></symbol>
+    <symbol id="d-minipc" viewBox="0 0 64 32"><g class="doodle"><path d="M3 6 L61 5 L61.5 27 L2.5 27.5 Z"/><path d="M9 19 H23"/><path d="M50 14.5 L50.2 14.5"/><path d="M54 14.5 L54.2 14.5"/></g></symbol>
+    <symbol id="d-scissors" viewBox="0 0 32 20"><g class="doodle" stroke-width="1.8"><circle cx="6" cy="5" r="3.5"/><circle cx="6" cy="15" r="3.5"/><path d="M9 7 L30 15 M9 13 L30 5"/></g></symbol>
+  </defs>
+</svg>
+
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="masthead">
+  <div class="page masthead__inner">
+    <a class="masthead__mark" href="#top" aria-label="ekkelenkamp.dev, back to the cover">
+      <span class="masthead__logo">ekkelenkamp<span>.dev</span></span>
+      <span class="masthead__issue">Issue 01 · Nov 2026</span>
+    </a>
+    <nav class="nav" aria-label="Main">
+      <ul>
+        <li><a href="#now">Now</a></li>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#homelab">Homelab</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- p.01 · Cover ─────────────────────────────────────────────── -->
+<section class="sheet cover" id="top" aria-labelledby="hero-name">
+  <div class="page grid sheet__grid">
+    <div class="col-full cover__strap" aria-hidden="true">
+      <span>A zine about building things at home</span>
+      <span>Rotterdam, NL</span>
+      <span>Free · take one</span>
+    </div>
+
+    <h1 class="col-full cover__name" id="hero-name">
+      <span class="overprint" data-ink="Guus" data-press>Guus</span>
+      <span class="overprint" data-ink="Ekkelenkamp" data-press>Ekkelenkamp</span>
+    </h1>
+
+    <div class="col-full lg-1-7 stack-l">
+      <p class="cover__lede">Developer in Rotterdam. Runs fifteen services on a laptop with the <span class="circled">lid shut</span>.</p>
+      <p class="cover__sub">Developer at Harborn, Rotterdam. Product work, platforms, and the plumbing in between.</p>
+      <p class="status"><span class="status__dot" aria-hidden="true"></span><span><b>Currently:</b> moving my infra to ekkelenkamp.dev &amp; hunting mini PCs for node #2</span></p>
+    </div>
+
+    <div class="col-full lg-8-13 cover__art">
+      <figure class="photo">
+        <span class="tape tape--tl" aria-hidden="true"></span>
+        <span class="tape tape--tr tape--alt" aria-hidden="true"></span>
+        <div class="halftone" style="--hx: 42%; --hy: 62%">
+          <figcaption class="halftone__label"><span>PHOTO</span>the laptop behind the TV</figcaption>
+        </div>
+      </figure>
+      <div class="cover__sticker">
+        <p class="sticker sticker--round" aria-label="Clogs found so far: zero">
+          <svg viewBox="0 0 152 152" aria-hidden="true"><defs><path id="ring" d="M76 76 m-60 0 a60 60 0 1 1 120 0 a60 60 0 1 1 -120 0"/></defs><text><textPath href="#ring">brown NB Rover · EU 40 · max €180 ·</textPath></text></svg>
+          <span aria-hidden="true"><span class="sticker__big">0</span><span class="sticker__small">clogs<br>found</span></span>
+        </p>
+      </div>
+      <p class="cover__note note note--r" aria-hidden="true">
+        <svg class="arrow arrow--flip" style="rotate:-150deg"><use href="#d-arrow"/></svg>
+        yes, that's the whole data centre
+      </p>
+    </div>
+
+    <nav class="col-full u-mt-l" aria-labelledby="toc-h">
+      <h2 class="label" id="toc-h" style="margin-bottom: var(--space-xs)">Inside this issue</h2>
+      <ol class="toc toc--cols">
+        <li><a href="#now"><span class="toc__n">02</span><span class="toc__t">Now<small>What's on the workbench</small></span><span class="toc__p">p. 02</span></a></li>
+        <li><a href="#work"><span class="toc__n">03</span><span class="toc__t">Day job<small>Harborn, Rotterdam &amp; Amsterdam</small></span><span class="toc__p">p. 03</span></a></li>
+        <li><a href="#homelab"><span class="toc__n">04</span><span class="toc__t">Cover story: a data centre with the lid shut<small>Specs, RAM, diagram, things that bit me</small></span><span class="toc__p">p. 04–11</span></a></li>
+        <li><a href="#projects"><span class="toc__n">12</span><span class="toc__t">Side projects<small>Including a bot that hunts clogs</small></span><span class="toc__p">p. 12–13</span></a></li>
+        <li><a href="#how"><span class="toc__n">14</span><span class="toc__t">How I work<small>Five rules I actually follow</small></span><span class="toc__p">p. 14</span></a></li>
+        <li><a href="#contact"><span class="toc__n">16</span><span class="toc__t">Say hoi<small>Back cover</small></span><span class="toc__p">p. 16</span></a></li>
+      </ol>
+    </nav>
+  </div>
+</section>
+
+<!-- p.02 · Now ─────────────────────────────────────────────── -->
+<section class="sheet" id="now" aria-labelledby="now-h">
+  <div class="page">
+    <div class="folio"><span>§ Now · November 2026</span><span class="folio__page">p. 02</span></div>
+    <div class="grid sheet__grid">
+      <header class="col-full lg-1-4 section-head">
+        <h2 class="section-head__title overprint" data-ink="Now" id="now-h">Now</h2>
+        <p class="note note--l u-mt-s">on the workbench this month</p>
+      </header>
+      <ul class="col-full lg-4-13 now" role="list">
+        <li><svg class="now__box" aria-hidden="true"><use href="#d-box-half"/></svg>
+          <p>Building a <strong>3-node homelab</strong> out of ex-office 1-litre mini PCs (€50–100 each) for a 3D-printed rack. A bot I wrote scouts Marktplaats for them every two hours.</p></li>
+        <li><svg class="now__box" aria-hidden="true"><use href="#d-box-half"/></svg>
+          <p>Shipping <strong>Rules of 99</strong> 2.0: Commander in the browser, now on phones too.</p></li>
+        <li><svg class="now__box" aria-hidden="true"><use href="#d-box-half"/></svg>
+          <p>Moving everything from <code>guuse.online</code> to <code>ekkelenkamp.dev</code>.</p></li>
+        <li><svg class="now__box" aria-hidden="true"><use href="#d-box"/></svg>
+          <p>Searching for a first home. Yes, there's a repo for that too.</p></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- p.03 · Work ─────────────────────────────────────────────── -->
+<section class="sheet" id="work" aria-labelledby="work-h">
+  <div class="page">
+    <div class="folio"><span>§ Day job</span><span class="folio__page">p. 03</span></div>
+    <div class="grid sheet__grid">
+      <header class="col-full lg-1-6 section-head">
+        <p class="section-head__kicker">Harborn · Rotterdam &amp; Amsterdam</p>
+        <h2 class="section-head__title overprint" data-ink="Client work, by day" id="work-h">Client work, by day</h2>
+        <p class="u-muted u-mt-s">Digital agency, part of Boer &amp; Croon.</p>
+      </header>
+      <div class="col-full lg-7-13 stack">
+        <p class="u-lead">I work on the stuff clients actually run: web platforms, customer portals, product configurators, integrations with ERP and data systems, and the occasional Flutter app.</p>
+        <p>I also work on the layer underneath: GitOps, Kubernetes, and the internal AI-agent tooling we use to ship faster.</p>
+        <div class="u-mt-m">
+          <p class="label">Clients I've worked for</p>
+          <ul class="clients u-mt-s" role="list"><li>a client</li><li>a client</li><li>a client</li></ul>
+        </div>
+      </div>
+      <div class="col-full card card--ruled u-mt-m">
+        <span class="tape tape--tc" aria-hidden="true"></span>
+        <div class="practice">
+          <div><h3>Product</h3><p>Astro, React/TypeScript, Flutter, Rails, PHP, Python/FastAPI</p></div>
+          <div><h3>Platform</h3><p>Kubernetes (Haven), Argo CD, GitHub Actions, Docker base images</p></div>
+          <div><h3>AI tooling</h3><p>Claude-based agents, skills and plugins for the team's daily work</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- p.04 · Cover story ─────────────────────────────────────────────── -->
+<article id="homelab" aria-labelledby="lab-h">
+
+<section class="sheet" aria-labelledby="lab-h">
+  <div class="page">
+    <div class="folio"><span>§ Cover story</span><span class="folio__page">p. 04</span></div>
+    <div class="grid sheet__grid">
+      <header class="col-full section-head">
+        <p class="section-head__kicker">Homelab · Home automation · GitOps · 2026–ongoing</p>
+        <h2 class="section-head__title section-head__title--l overprint" data-ink="A data centre with the lid shut" id="lab-h">A data centre with the lid shut</h2>
+      </header>
+      <div class="col-full lg-1-6 stack">
+        <p class="u-lead">One second-hand laptop, lid closed, behind the TV. It runs a hypervisor, a Kubernetes cluster, Home Assistant with a Zigbee radio, and every side project I've shipped this year.</p>
+        <p>Nothing on it is reachable from the internet unless I explicitly say so. Every change goes through git.</p>
+        <p class="u-mt-l"><span class="sticker sticker--tag"><svg aria-hidden="true"><use href="#d-lock"/></svg>tailnet only</span></p>
+      </div>
+      <div class="col-full lg-6-13">
+        <figure class="photo">
+          <span class="tape tape--tc" aria-hidden="true"></span>
+          <div class="halftone halftone--wide" style="--hx: 60%; --hy: 45%">
+            <figcaption class="halftone__label"><span>PHOTO</span>the laptop with the lid shut</figcaption>
+          </div>
+        </figure>
+        <p class="note note--flat u-mt-s" style="max-width:none; display:flex; gap:.25rem; align-items:center">
+          <svg class="arrow" style="width:48px;height:32px;rotate:-70deg" aria-hidden="true"><use href="#d-arrow-s"/></svg>
+          the battery is the UPS. really.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- p.05 · Spec sheet ─────────────────────────────────────────────── -->
+<section class="sheet sheet--insert" aria-labelledby="spec-h">
+  <div class="page">
+    <div class="folio"><span>§ Cover story · Parts list</span><span class="folio__page">p. 05</span></div>
+    <div class="grid sheet__grid">
+      <header class="col-full lg-1-4 section-head">
+        <h2 class="h-display overprint" data-ink="The spec sheet" id="spec-h">The spec sheet</h2>
+        <p class="note u-mt-s">numbers are real</p>
+      </header>
+      <dl class="col-full lg-4-13 spec">
+        <div class="spec__row"><dt>Hardware</dt><dd>old laptop · Intel laptop CPU (4c/8t) · 16 GB · ~512 GB SSD</dd></div>
+        <div class="spec__row"><dt>UPS</dt><dd>The laptop battery</dd></div>
+        <div class="spec__row"><dt>Hypervisor</dt><dd>Proxmox VE 9.2 (Debian 13 “Trixie”)</dd></div>
+        <div class="spec__row"><dt>VM 100</dt><dd><code>k3s-01</code>: Ubuntu 26.04, 4 vCPU, 10 GB RAM, 360 GiB thin disk, single-node k3s</dd></div>
+        <div class="spec__row"><dt>VM 101</dt><dd><code>haos-01</code>: Home Assistant OS, 2 vCPU, 3 GB RAM, Zigbee stick passed through</dd></div>
+        <div class="spec__row"><dt>Network</dt><dd>Tailscale only. Zero open ports on the router</dd></div>
+        <div class="spec__row"><dt>TLS</dt><dd>Wildcard Let's Encrypt via Cloudflare DNS-01 → Traefik default TLSStore</dd></div>
+        <div class="spec__row"><dt>GitOps</dt><dd>Argo CD app-of-apps, self-managed root, 16 Application manifests</dd></div>
+        <div class="spec__row"><dt>Apps deployed</dt><dd>7 of my own + 8 platform components</dd></div>
+        <div class="spec__row"><dt>Deploy flow</dt><dd>push → GitHub Actions builds <code>ghcr.io/…:&lt;sha&gt;</code> → Image Updater commits the tag → Argo syncs</dd></div>
+        <div class="spec__row"><dt>Backups</dt><dd>VM snapshots. No RAID, no off-box backup, <em>by choice</em></dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- p.06 · RAM budget ─────────────────────────────────────────────── -->
+<section class="sheet" aria-labelledby="ram-h">
+  <div class="page">
+    <div class="folio"><span>§ Cover story · The RAM budget</span><span class="folio__page">p. 06</span></div>
+    <div class="grid sheet__grid">
+      <header class="col-full lg-1-8 section-head">
+        <h2 class="section-head__title overprint" data-ink="16 GB, spent" id="ram-h">16 GB, spent</h2>
+        <p class="section-head__lead">Every gigabyte has a job. The cushion is the only one that's allowed to do nothing.</p>
+      </header>
+      <figure class="col-full budget" aria-labelledby="ram-cap">
+        <div class="budget__notes" aria-hidden="true">
+          <p class="note note--a">real use 2–4 GB. Argo CD is the only heavyweight <svg class="arrow" style="rotate:20deg"><use href="#d-arrow"/></svg></p>
+          <p class="note note--b note--r">10 + 4 would have tipped into OOM territory <svg class="arrow"><use href="#d-arrow"/></svg></p>
+        </div>
+        <ol class="budget__bar" aria-hidden="true">
+          <li class="budget__seg budget__seg--k3s"><span>10 GB</span></li>
+          <li class="budget__seg budget__seg--ha"><span>3 GB</span></li>
+          <li class="budget__seg budget__seg--host"><span>~2</span></li>
+          <li class="budget__seg budget__seg--spare"><span>1</span></li>
+        </ol>
+        <div class="budget__ticks" aria-hidden="true"><span style="left:0">0</span><span style="left:25%">4</span><span style="left:50%">8</span><span style="left:75%">12</span><span style="left:100%">16 GB</span></div>
+        <figcaption class="visually-hidden" id="ram-cap">RAM budget of the laptop, 16 GB total, split as listed below.</figcaption>
+        <dl class="budget__legend">
+          <div><span class="swatch swatch--k3s" aria-hidden="true"></span><dt>10 GB</dt><dd><b>k3s-01.</b> Real use 2–4 GB; Argo CD is the only heavyweight.</dd></div>
+          <div><span class="swatch swatch--ha" aria-hidden="true"></span><dt>3 GB</dt><dd><b>haos-01.</b> Home Assistant + ZHA.</dd></div>
+          <div><span class="swatch swatch--host" aria-hidden="true"></span><dt>~2 GB</dt><dd><b>Proxmox host.</b></dd></div>
+          <div><span class="swatch swatch--spare" aria-hidden="true"></span><dt>~1 GB</dt><dd><b>Cushion.</b> 10 + 4 would have tipped into OOM territory.</dd></div>
+        </dl>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- p.07 · Architecture ─────────────────────────────────────────────── -->
+<section class="sheet" aria-labelledby="arch-h">
+  <div class="page">
+    <div class="folio"><span>§ Cover story · What's inside</span><span class="folio__page">p. 07</span></div>
+    <div class="grid sheet__grid">
+      <header class="col-full lg-1-8 section-head">
+        <h2 class="section-head__title overprint" data-ink="Boxes inside boxes" id="arch-h">Boxes inside boxes</h2>
+        <p class="section-head__lead">Bare metal, a hypervisor, two VMs. Git feeds the cluster; nothing else is allowed to.</p>
+      </header>
+      <figure class="col-full arch" aria-labelledby="arch-cap">
+        <figcaption id="arch-cap" class="visually-hidden">Architecture of the homelab, drawn as nested boxes. The drawing is a nested list, so it reads in the same order without the boxes.</figcaption>
+        <ul role="list">
+          <li class="arch__box arch__box--metal">
+            <span class="arch__name"><span class="label">Bare metal</span>old laptop <small>lid shut · battery = UPS</small></span>
+            <span class="arch__ann arch__ann--ups note note--r" aria-hidden="true"><svg class="arrow" style="rotate:60deg;width:44px;height:34px"><use href="#d-arrow-s"/></svg>behind the TV</span>
+            <ul role="list">
+              <li class="arch__box arch__box--host">
+                <span class="arch__name"><span class="label">Hypervisor</span>Proxmox VE 9.2 <small>Tailscale for management · firewall: tailnet-only</small></span>
+                <ul class="arch__vms" role="list">
+                  <li class="arch__box arch__box--vm is-k3s">
+                    <span class="arch__name"><span class="label">VM 100</span><code>k3s-01</code> · k3s <small>4 vCPU · 10 GB</small></span>
+                    <ul class="arch__parts" role="list">
+                      <li class="arch__part"><b>Traefik</b> + wildcard TLS <small>(cert-manager, DNS-01)</small></li>
+                      <li class="arch__part"><b>Argo CD</b><span class="feed">github.com/guuse/homeserver (app-of-apps)</span></li>
+                      <li class="arch__part"><b>Image Updater</b><span class="feed">GHCR commit-SHA tags</span></li>
+                      <li class="arch__part"><b>Headlamp</b> cluster dashboard</li>
+                      <li class="arch__part"><b>Tailscale operator</b> → Funnel <small>(public, opt-in per app)</small></li>
+                      <li class="arch__part"><b>cloudflared</b> → Cloudflare Tunnel + Access <small>(public, opt-in per app)</small></li>
+                    </ul>
+                    <div class="arch__apps">
+                      <span class="label">My apps</span>
+                      <ul role="list"><li>rules-of-99</li><li>quizmaster</li><li>grimoire</li><li>scryfall</li><li>2nd-hand-finds</li><li>huisjes</li><li>home-dashboard</li></ul>
+                    </div>
+                  </li>
+                  <li class="arch__box arch__box--vm is-ha">
+                    <span class="arch__name"><span class="label">VM 101</span><code>haos-01</code> · Home Assistant OS <small>2 vCPU · 3 GB</small></span>
+                    <ul class="arch__parts" role="list" style="grid-template-columns:1fr">
+                      <li class="arch__part"><b>Zigbee coordinator</b> USB passthrough, on a USB2 extension cable</li>
+                      <li class="arch__part"><b>NGINX SSL proxy</b> (TLS) → HA Core on plain HTTP <small>(LAN fallback)</small></li>
+                      <li class="arch__part"><b>Tailscale</b> add-on</li>
+                    </ul>
+                    <span class="arch__ann arch__ann--usb note" aria-hidden="true"><svg class="arrow" style="rotate:-100deg;width:40px;height:30px"><use href="#d-arrow-s"/></svg>USB3 ports scream at 2.4 GHz</span>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </figure>
+
+      <div class="col-full u-mt-xl">
+        <h3 class="h-display" style="font-size:var(--step-2)">Three ways in, all opt-in</h3>
+        <ol class="ways u-mt-m">
+          <li><h4>Tailnet <span class="tag-stamp tag-stamp--ok">default</span></h4><p><code>*.domain</code> → Tailscale IP, valid public cert, only my devices.</p></li>
+          <li><h4>Cloudflare Tunnel</h4><p>A friendly public hostname with Cloudflare Access in front, no inbound port.</p></li>
+          <li><h4>Tailscale Funnel</h4><p>Public <code>*.ts.net</code> URL for things like the quiz game at a party.</p></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- p.08 · Decisions ─────────────────────────────────────────────── -->
+<section class="sheet" aria-labelledby="dec-h">
+  <div class="page">
+    <div class="folio"><span>§ Cover story · Decisions</span><span class="folio__page">p. 08</span></div>
+    <div class="grid sheet__grid">
+      <header class="col-full lg-1-8 section-head">
+        <h2 class="section-head__title overprint" data-ink="Five calls I'd make again" id="dec-h">Five calls I'd make again</h2>
+      </header>
+      <ol class="col-full decisions u-mt-m" role="list">
+        <li class="card card--ruled decision"><span class="decision__n" aria-hidden="true">1</span><h3>k3s in a VM, not LXC.</h3><p>Kubernetes in a container needs privileged mode and cgroup hacks, and breaks on upgrades. A VM snapshots as one unit.</p></li>
+        <li class="card card--ruled decision"><span class="decision__n" aria-hidden="true">2</span><h3>Home Assistant next to the cluster, not in it.</h3><p>USB passthrough to a VM is one line. Into a pod it means a device plugin and node pinning, and it breaks on reschedule.</p></li>
+        <li class="card card--ruled decision"><span class="decision__n" aria-hidden="true">3</span><h3>TLS at the proxy, plain HTTP in HA Core.</h3><p>So there's always a LAN fallback that works with no cert, no tailnet, no proxy.</p></li>
+        <li class="card card--ruled decision"><span class="decision__n" aria-hidden="true">4</span><h3>One flat <code>applications/</code> folder.</h3><p>The root app manages itself. No bootstrap/projects/apps sprawl.</p></li>
+        <li class="card card--ruled decision"><span class="decision__n" aria-hidden="true">5</span><h3>No backups beyond snapshots.</h3><p>A conscious trade-off: everything is rebuildable from git, and the guide is good enough to do it in an afternoon.</p></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- p.09 · Gotchas ─────────────────────────────────────────────── -->
+<section class="sheet sheet--insert" aria-labelledby="got-h">
+  <div class="page">
+    <div class="folio"><span>§ Cover story · Learned the hard way</span><span class="folio__page">p. 09</span></div>
+    <div class="grid sheet__grid">
+      <header class="col-full lg-1-5 section-head">
+        <p><span class="sticker sticker--warn"><span><svg aria-hidden="true"><use href="#d-warn"/></svg>Learned the hard way</span></span></p>
+        <h2 class="section-head__title overprint u-mt-m" data-ink="Things that bit me" id="got-h">Things that bit me</h2>
+        <p class="note u-mt-m">this took three evenings</p>
+      </header>
+      <ul class="col-full lg-5-13 gotchas" role="list">
+        <li class="gotcha">
+          <svg class="gotcha__doodle" aria-hidden="true"><use href="#d-disk"/></svg>
+          <div><h3>Disk-pressure at 30 GiB on a 500 GB SSD.</h3>
+          <p>Ubuntu's guided LVM install allocated half the disk and parked the rest as free space. Kubelet panicked. Fix: one <code>lvextend</code>, zero downtime.</p></div>
+        </li>
+        <li class="gotcha">
+          <svg class="gotcha__doodle" aria-hidden="true"><use href="#d-nest"/></svg>
+          <div><h3><code>lvextend</code> on the host does nothing for the guest.</h3>
+          <p>QEMU never hears about it. Resize through Proxmox or <code>qm resize</code>.</p>
+          <div class="gotcha__meta"><span class="tag-stamp tag-stamp--danger">July 2026</span></div></div>
+        </li>
+        <li class="gotcha">
+          <svg class="gotcha__doodle" aria-hidden="true"><use href="#d-globe"/></svg>
+          <div><h3>Public DNS broke on every Linux node.</h3>
+          <p>MagicDNS had no global nameserver, so <code>*.ts.net</code> resolved and nothing else did. My Mac kept working because macOS ignores <code>resolv.conf</code>.</p></div>
+        </li>
+        <li class="gotcha">
+          <svg class="gotcha__doodle" aria-hidden="true"><use href="#d-cert"/></svg>
+          <div><h3>Home Assistant doesn't renew its own certs.</h3>
+          <p>A monthly automation restarts the Let's Encrypt add-on, then NGINX. HA Core itself never restarts.</p></div>
+        </li>
+        <li class="gotcha">
+          <svg class="gotcha__doodle" aria-hidden="true" style="color:var(--ok)"><use href="#d-radio"/></svg>
+          <div><h3>The Zigbee mesh survived the Pi → VM move with zero re-pairing.</h3>
+          <p>Same stick, full backup, “Restore backup” on the scary ZHA dialog, <em>never</em> “keep new settings”.</p>
+          <div class="gotcha__meta"><span class="tag-stamp tag-stamp--ok">Went fine</span><span class="note">don't click “keep new settings”</span></div></div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- p.10 · Home automation ─────────────────────────────────────────────── -->
+<section class="sheet" aria-labelledby="home-h">
+  <div class="page">
+    <div class="folio"><span>§ Cover story · The human side</span><span class="folio__page">p. 10</span></div>
+    <div class="grid sheet__grid">
+      <header class="col-full lg-1-7 section-head">
+        <h2 class="section-head__title overprint" data-ink="The house, automated" id="home-h">The house, automated</h2>
+      </header>
+      <div class="col-full lg-1-7 stack">
+        <p class="u-lead">The Zigbee network used to live on a Raspberry Pi. Now it lives in a VM with the radio on an extension cable, because USB3 ports scream at 2.4 GHz.</p>
+        <p>A wall panel shows what the house is doing, and the companion app (<code>home-dashboard</code>: Go, embedded React, SQLite) keeps the build guides and the parts inventory.</p>
+        <div class="card u-mt-l" style="rotate:-1deg; max-width: 30rem">
+          <span class="tape tape--tl" aria-hidden="true"></span>
+          <h3 class="label" style="color:var(--ink)">On the fridge</h3>
+          <ul class="fridge u-mt-s" role="list">
+            <li>Hallway lights at 20% after sunset</li>
+            <li>Washing machine done → phone ping</li>
+            <li>Everything off when the last phone leaves</li>
+            <li>Monthly cert renewal (yes, really)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-full lg-8-13 stack-l">
+        <figure class="photo" style="rotate:1.5deg">
+          <span class="tape tape--tr" aria-hidden="true"></span>
+          <div class="halftone halftone--tall" style="--hx: 50%; --hy: 40%">
+            <figcaption class="halftone__label"><span>PHOTO</span>the Zigbee stick on its USB2 extension cable</figcaption>
+          </div>
+        </figure>
+        <figure class="photo" style="rotate:-1deg">
+          <span class="tape tape--tl tape--alt" aria-hidden="true"></span>
+          <div class="halftone" style="--hx: 30%; --hy: 55%">
+            <figcaption class="halftone__label"><span>PHOTO</span>the wall panel</figcaption>
+          </div>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- p.11 · What's next ─────────────────────────────────────────────── -->
+<section class="sheet sheet--insert" aria-labelledby="next-h">
+  <div class="page">
+    <div class="folio"><span>§ Cover story · Next issue</span><span class="folio__page">p. 11</span></div>
+    <div class="grid sheet__grid">
+      <header class="col-full lg-1-6 section-head">
+        <p class="section-head__kicker">Coming up</p>
+        <h2 class="section-head__title overprint" data-ink="One node becomes three" id="next-h">One node becomes three</h2>
+      </header>
+      <div class="col-full lg-7-13 stack">
+        <p class="u-lead">Three ex-office mini PCs (laptop Tiny / Dell Micro / HP Mini, 8th gen+, ~16 GB) in a 3D-printed rack, turning the single node into a real cluster.</p>
+        <p>The laptop retires to backup duty. The bot on <a href="#projects">p. 12</a> is out looking for the mini PCs.</p>
+        <div class="u-mt-m" aria-hidden="true" style="display:flex; flex-wrap:wrap; gap:var(--space-xs); align-items:center; color:var(--riso-1-text)">
+          <svg style="width:72px;height:36px"><use href="#d-minipc"/></svg>
+          <svg style="width:72px;height:36px"><use href="#d-minipc"/></svg>
+          <svg style="width:72px;height:36px; color:var(--ink-subtle)"><use href="#d-minipc"/></svg>
+          <span class="note note--flat" style="font-size:var(--step--1)">three of these, then the rack</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</article>
+
+<!-- p.12–13 · Side projects ─────────────────────────────────────────────── -->
+<section class="sheet" id="projects" aria-labelledby="proj-h">
+  <div class="page">
+    <div class="folio"><span>§ Side projects · cut out and keep</span><span class="folio__page">p. 12–13</span></div>
+    <div class="grid sheet__grid">
+      <header class="col-full lg-1-8 section-head">
+        <h2 class="section-head__title overprint" data-ink="Things I made for myself" id="proj-h">Things I made for myself</h2>
+        <p class="section-head__lead">All of them run on the laptop from p. 04. Seven apps, one laptop, one deploy flow.</p>
+      </header>
+      <div class="col-full collage u-mt-m">
+
+        <article class="card project project--feat" aria-labelledby="p-r99">
+          <span class="tape tape--tl" aria-hidden="true"></span>
+          <div class="project__kicker"><span class="label">Featured · Card game</span><span class="tag-stamp tag-stamp--ok">Live · 2.0</span></div>
+          <h3 class="project__name" id="p-r99">Rules of 99</h3>
+          <p class="project__line">Commander in the browser, with full rules enforcement.</p>
+          <div class="project__cols">
+            <ul class="bullets">
+              <li>Wraps <strong>Forge's</strong> open-source Java rules engine headless behind a WebSocket/JSON gateway. All ~33k cards are data, and commander tax and 21 commander damage are engine-native.</li>
+              <li><strong>Per-viewer state redaction</strong>: opponents' hands never cross the wire. Rooms via 6-char codes, 2–4 seats, reconnect-safe seat tokens, host migration.</li>
+              <li>Six table layouts on desktop. Below 1280px it turns into a phone shell. Installable as a PWA. The card database syncs itself every night.</li>
+            </ul>
+            <div class="project__stats">
+              <p class="stat"><b>~33k</b><span>cards as data</span></p>
+              <p class="stat"><b>2–4</b><span>seats</span></p>
+              <p class="stat"><b>6</b><span>char room codes</span></p>
+            </div>
+          </div>
+          <div class="project__foot">
+            <ul class="tags" role="list"><li>Java 17</li><li>Maven</li><li>React</li><li>TypeScript</li><li>SQLite</li><li>WebSockets</li></ul>
+            <a class="link-arrow" href="https://github.com/guuse"><span>Code on GitHub</span></a>
+          </div>
+        </article>
+
+        <article class="card project project--feat" aria-labelledby="p-2hf">
+          <span class="tape tape--tr tape--alt" aria-hidden="true"></span>
+          <div class="project__kicker"><span class="label">Featured · Bot</span><span class="tag-stamp tag-stamp--ok">Runs every 2h</span></div>
+          <h3 class="project__name" id="p-2hf">2nd-hand-finds</h3>
+          <p class="project__line">A bot that reads Marktplaats so I don't have to.</p>
+          <ul class="bullets">
+            <li>Every two hours (08:00–23:00) it searches Marktplaats and Vinted, applies hard filters, then has <strong>Claude judge each listing</strong> against a per-category rubric.</li>
+            <li>Hunting: bulk Magic: The Gathering lots (priced via Scryfall), mini PCs for the homelab rack, and <strong>one pair of brown New Balance Rover clogs, EU 40, max €180 all-in.</strong></li>
+            <li>Email digest, price-drop alerts, a “something broke” alarm, and a small UI to mark finds loved / hidden / bought. 280+ finds recorded so far.</li>
+          </ul>
+          <div class="project__stats">
+            <p class="stat"><b>253</b><span>MTG lots</span></p>
+            <p class="stat"><b>30</b><span>homelab parts</span></p>
+            <p class="stat stat--hot"><b><span class="circled">0</span></b><span>clogs</span></p>
+          </div>
+          <div class="project__foot">
+            <ul class="tags" role="list"><li>Python</li><li>Claude</li><li>Astro SSR</li><li>Resend</li><li>k3s</li></ul>
+            <a class="link-arrow" href="https://github.com/guuse"><span>Code on GitHub</span></a>
+          </div>
+        </article>
+
+        <article class="card project project--compact" aria-labelledby="p-quiz">
+          <span class="tape tape--tc" aria-hidden="true"></span>
+          <div class="project__kicker"><span class="label">Party game</span></div>
+          <h3 class="project__name" id="p-quiz">Quizmaster</h3>
+          <p class="project__line">A live multiplayer quiz where the questions are generated on the spot.</p>
+          <ul class="bullets"><li>Made public for the evening through Tailscale Funnel, then back to tailnet-only.</li></ul>
+          <div class="project__foot"><span class="tag-stamp tag-stamp--warn">Party nights only</span></div>
+        </article>
+
+        <article class="card project project--compact" aria-labelledby="p-scry">
+          <span class="tape tape--tl tape--alt" aria-hidden="true"></span>
+          <div class="project__kicker"><span class="label">MTG · Search</span></div>
+          <h3 class="project__name" id="p-scry">Scryfall, in plain words</h3>
+          <p class="project__line">Ask for cards like a human. Get a real Scryfall query back.</p>
+          <ul class="bullets"><li>Claude turns “cheap green ramp that isn't a land” into Scryfall syntax, verifies the query actually returns results, and links you to Scryfall.</li></ul>
+          <div class="project__foot"><ul class="tags" role="list"><li>Claude</li><li>Scryfall</li></ul></div>
+        </article>
+
+        <article class="card project project--compact" aria-labelledby="p-grim">
+          <span class="tape tape--tr" aria-hidden="true"></span>
+          <div class="project__kicker"><span class="label">MTG · Self-hosted</span></div>
+          <h3 class="project__name" id="p-grim">Grimoire</h3>
+          <p class="project__line">An MTG deck-builder I run for myself and my playgroup.</p>
+          <ul class="bullets"><li>Fork, self-hosted, single pod + PVC, deployed via the same Image Updater flow.</li></ul>
+          <div class="project__foot"><ul class="tags" role="list"><li>k3s</li><li>Argo CD</li><li>Image Updater</li></ul></div>
+        </article>
+
+        <article class="card project project--compact" aria-labelledby="p-huis">
+          <span class="tape tape--tc tape--alt" aria-hidden="true"></span>
+          <div class="project__kicker"><span class="label">Personal</span></div>
+          <h3 class="project__name" id="p-huis" lang="nl">huisjes</h3>
+          <p class="project__line">Our search for a first home, run like a software project.</p>
+          <ul class="bullets">
+            <li>The git repo is the source of truth: one folder per house, ADRs for decisions, a Funda routine that scores new listings and emails a digest.</li>
+            <li>A read-only web app so my (non-technical) partner sees everything without touching git.</li>
+          </ul>
+          <div class="project__foot"><ul class="tags" role="list"><li>Astro</li><li>Git</li><li>ADRs</li></ul></div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- p.14 · How I work ─────────────────────────────────────────────── -->
+<section class="sheet" id="how" aria-labelledby="how-h">
+  <div class="page">
+    <div class="folio"><span>§ How I work</span><span class="folio__page">p. 14</span></div>
+    <div class="grid sheet__grid">
+      <header class="col-full lg-1-8 section-head">
+        <h2 class="section-head__title overprint" data-ink="House rules" id="how-h">House rules</h2>
+        <p class="note u-mt-s">taped above the desk</p>
+      </header>
+      <ol class="col-full principles u-mt-m" role="list">
+        <li class="principle"><span class="principle__n overprint" data-ink="1" aria-hidden="true">1</span><div><h3>Write it down where the code lives.</h3><p>Every repo of mine has a context file and ADRs. Future me and the AI agents both start by reading.</p></div></li>
+        <li class="principle"><span class="principle__n overprint" data-ink="2" aria-hidden="true">2</span><div><h3>Git is the source of truth.</h3><p>For infrastructure, for side projects, even for house hunting.</p></div></li>
+        <li class="principle"><span class="principle__n overprint" data-ink="3" aria-hidden="true">3</span><div><h3>Boring tech, sharp edges filed off.</h3><p>k3s, Postgres-or-SQLite, Astro. The interesting part is the problem.</p></div></li>
+        <li class="principle"><span class="principle__n overprint" data-ink="4" aria-hidden="true">4</span><div><h3>Automate the second time.</h3><p>Not the first, not the third.</p></div></li>
+        <li class="principle"><span class="principle__n overprint" data-ink="5" aria-hidden="true">5</span><div><h3>Let Claude do the boring part.</h3><p>Judging 200 listings, writing the tag bump, drafting the runbook. I review.</p></div></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- p.15 · Toolbox ─────────────────────────────────────────────── -->
+<section class="sheet sheet--insert" id="toolbox" aria-labelledby="tool-h">
+  <div class="page">
+    <div class="folio"><span>§ Toolbox</span><span class="folio__page">p. 15</span></div>
+    <div class="grid sheet__grid">
+      <header class="col-full lg-1-8 section-head">
+        <h2 class="h-display overprint" data-ink="What's in the toolbox" id="tool-h">What's in the toolbox</h2>
+      </header>
+      <div class="col-full toolbox u-mt-s">
+        <div><h3>daily</h3><ul role="list"><li>TypeScript</li><li>React</li><li>Astro</li><li>Python</li><li>Git</li><li>Claude Code</li></ul></div>
+        <div><h3>often</h3><ul role="list"><li>Java</li><li>Flutter/Dart</li><li>Rails</li><li>PHP</li><li>FastAPI</li><li>SQLite, Postgres</li></ul></div>
+        <div><h3>platform</h3><ul role="list"><li>Kubernetes <small>(k3s, Haven)</small></li><li>Argo CD</li><li>Helm, Kustomize</li><li>Traefik, cert-manager</li><li>GitHub Actions, GHCR</li><li>Docker</li></ul></div>
+        <div><h3>home</h3><ul role="list"><li>Proxmox</li><li>Tailscale</li><li>Cloudflare <small>(DNS, Tunnel, Access)</small></li><li>Home Assistant</li><li>Zigbee <small>(ZHA)</small></li></ul></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- p.16 · Back cover ─────────────────────────────────────────────── -->
+<footer class="backcover" id="contact" aria-labelledby="contact-h">
+  <div class="page">
+    <div class="folio" style="color:inherit"><span>§ Back cover</span><span class="folio__page" style="color:var(--accent)">p. 16</span></div>
+    <div class="grid sheet__grid">
+      <div class="col-full lg-1-8 stack-l">
+        <h2 class="backcover__hoi" id="contact-h">Say <span lang="nl">hoi</span>.</h2>
+        <p class="backcover__mail"><a href="mailto:hello@ekkelenkamp.dev">hello@ekkelenkamp.dev</a></p>
+        <p class="u-lead">Code on GitHub: <a href="https://github.com/guuse">@guuse</a>. This site is open source, so poke around.</p>
+      </div>
+      <dl class="col-full lg-9-13 colophon">
+        <div><dt>Colophon</dt><dd>Set in Bagel Fat One, Atkinson Hyperlegible Next and Shantell Sans. Two inks, no printer.</dd></div>
+        <div><dt>Built with</dt><dd>Astro. Hosted somewhere more reliable than my laptop.</dd></div>
+        <div><dt>Small print</dt><dd>© 2026 Guus Ekkelenkamp · No cookies, no trackers, no newsletter.</dd></div>
+      </dl>
+    </div>
+  </div>
+</footer>
+
+<aside class="review-bar" aria-label="Design review">
+  <span class="review-bar__name">Zine</span>
+  <fieldset role="radiogroup" aria-label="Ink option">
+    <legend>Ink option</legend>
+    <label title="Fluorescent pink + teal"><input type="radio" name="zine-option" value="fluor-pink-teal" checked><span class="review-bar__sw" data-o="fluor-pink-teal" aria-hidden="true"></span><span class="review-bar__lbl">pink/teal</span><span class="visually-hidden"> (fluorescent pink and teal)</span></label>
+    <label title="Sunflower yellow + blue"><input type="radio" name="zine-option" value="yellow-blue"><span class="review-bar__sw" data-o="yellow-blue" aria-hidden="true"></span><span class="review-bar__lbl">yellow/blue</span></label>
+    <label title="Nachtdruk: light inks on black stock"><input type="radio" name="zine-option" value="nachtdruk"><span class="review-bar__sw" data-o="nachtdruk" aria-hidden="true"></span><span class="review-bar__lbl" lang="nl">nachtdruk</span></label>
+  </fieldset>
+  <span class="review-bar__links"><a href="system.html" data-keep-option>System</a><a href="../../../index.html">Hub</a></span>
+</aside>
+
+</body>
+</html>
