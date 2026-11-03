@@ -1,0 +1,5 @@
+# Types the stock mime.types is missing for an Astro site.
+types {
+    application/manifest+json  webmanifest;
+    text/javascript            mjs;
+}
