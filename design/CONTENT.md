@@ -17,10 +17,10 @@ LAN addresses, device IDs or internal hostnames.
 | Handle | `guuse` (GitHub) |
 | Domain | ekkelenkamp.dev |
 | City | Rotterdam, NL |
-| Role | Security officer · cloud specialist · solution architect at Harborn `[CONFIRM exact titles + since when]` |
+| Role | Tech lead of the infra team at Harborn `[CONFIRM since when]` |
 | Contact | `hello@ekkelenkamp.dev` `[CONFIRM: mailbox doesn't exist yet]` · github.com/guuse · LinkedIn `[CONFIRM url]` |
-| Page title | Guus Ekkelenkamp, security, cloud & architecture, Rotterdam |
-| Meta description | Security officer, cloud specialist and solution architect at Harborn in Rotterdam. Runs a GitOps homelab on an old laptop with the lid shut. |
+| Page title | Guus Ekkelenkamp, tech lead infra, Rotterdam |
+| Meta description | Tech lead of the infra team at Harborn in Rotterdam. Security, cloud and architecture by day; a GitOps homelab on an old laptop by night. |
 
 > **Naming rule:** never name the homelab laptop's brand or model. It's "an old laptop" /
 > "a second-hand laptop". Same goes for the CPU model.
@@ -34,12 +34,14 @@ LAN addresses, device IDs or internal hostnames.
 **One-liner options** (directions pick one, or rotate them):
 
 - A. *By day I make sure client platforms are secure and keep running. By night I do the same for a laptop behind the TV.*
-- B. *Security, cloud and architecture at Harborn. Fifteen services on a laptop with the lid shut at home.*
+- B. *Tech lead infra at Harborn. Fifteen services on a laptop with the lid shut at home.*
 - C. *I decide how things get built, where they run, and who's allowed in. Also at home.*
 
-**Sub-line:** Security officer, cloud specialist and solution architect at Harborn, Rotterdam.
+**Sub-line:** Tech lead of the infra team at Harborn, Rotterdam.
 
-**Tone note for the day job:** titles go in small type as plain facts; the copy around them
+**Tone note for the day job:** there is ONE title: *tech lead, infra team*. Security, cloud and
+architecture are **what the job covers**, never presented as job titles (no "security officer",
+"cloud specialist", "solution architect"). The title goes in small type as a plain fact; the copy around them
 describes *what the work actually is*. No "passionate about security", no "architecting
 solutions", no "guardian of the cloud". State the responsibility, give one concrete example, move on.
 
@@ -60,18 +62,18 @@ solutions", no "guardian of the cloud". State the responsibility, give one concr
 ## 3. Work (day job) ⟵ co-lead with the homelab, same weight
 
 **Harborn**: digital agency in Rotterdam & Amsterdam, part of Boer & Croon.
-**Roles (small print, as facts):** Security officer · Cloud specialist · Solution architect `[CONFIRM]`
+**Title (small print, as a fact):** Tech lead · Infra team
 
 **Intro:**
 
-> Before a client project gets built, someone has to decide what it looks like, where it runs,
-> and who gets access to what. At Harborn that's usually me. I still write code, mostly where
-> those decisions meet the code.
+> I lead the infra team at Harborn. Before a client project gets built, someone has to decide
+> what it looks like, where it runs, and who gets access to what. That's us, and it's usually
+> me holding the pen. I still write code, mostly where those decisions meet the code.
 
-### 3.1 The three jobs (each a block: title, one line, 3 concrete bullets)
+### 3.1 What the job covers (three areas, each a block: area, one line, 3 concrete bullets; these are areas, not titles)
 
 **Security** — *Keeping the agency and its clients out of the news.*
-- Owns the security policy and makes it something people actually follow `[CONFIRM: ISO 27001 / NEN 7510 / other framework]`
+- Looks after the security policy and makes it something people actually follow `[CONFIRM: ISO 27001 / NEN 7510 / other framework]`
 - Access reviews, secrets handling, and the security questionnaires clients send before signing
 - Decides which AI tools and vendors are allowed near client data, and on what terms
 
