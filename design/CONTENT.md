@@ -17,10 +17,13 @@ LAN addresses, device IDs or internal hostnames.
 | Handle | `guuse` (GitHub) |
 | Domain | ekkelenkamp.dev |
 | City | Rotterdam, NL |
-| Role | Developer at Harborn `[CONFIRM exact title]` |
+| Role | Security officer · cloud specialist · solution architect at Harborn `[CONFIRM exact titles + since when]` |
 | Contact | `hello@ekkelenkamp.dev` `[CONFIRM: mailbox doesn't exist yet]` · github.com/guuse · LinkedIn `[CONFIRM url]` |
-| Page title | Guus Ekkelenkamp, developer, Rotterdam |
-| Meta description | Developer at Harborn in Rotterdam. Builds web platforms by day and a GitOps homelab on a lid-shut laptop by night. |
+| Page title | Guus Ekkelenkamp, security, cloud & architecture, Rotterdam |
+| Meta description | Security officer, cloud specialist and solution architect at Harborn in Rotterdam. Runs a GitOps homelab on an old laptop with the lid shut. |
+
+> **Naming rule:** never name the homelab laptop's brand or model. It's "an old laptop" /
+> "a second-hand laptop". Same goes for the CPU model.
 
 ---
 
@@ -30,11 +33,15 @@ LAN addresses, device IDs or internal hostnames.
 
 **One-liner options** (directions pick one, or rotate them):
 
-- A. *I build software for clients by day and a homelab by night. The homelab has better uptime.*
-- B. *Developer in Rotterdam. Runs fifteen services on a laptop with the lid shut.*
-- C. *Web developer, part-time sysadmin, full-time "I'll just automate that".*
+- A. *By day I make sure client platforms are secure and keep running. By night I do the same for a laptop behind the TV.*
+- B. *Security, cloud and architecture at Harborn. Fifteen services on a laptop with the lid shut at home.*
+- C. *I decide how things get built, where they run, and who's allowed in. Also at home.*
 
-**Sub-line:** Developer at Harborn, Rotterdam. Product work, platforms, and the plumbing in between.
+**Sub-line:** Security officer, cloud specialist and solution architect at Harborn, Rotterdam.
+
+**Tone note for the day job:** titles go in small type as plain facts; the copy around them
+describes *what the work actually is*. No "passionate about security", no "architecting
+solutions", no "guardian of the cloud". State the responsibility, give one concrete example, move on.
 
 **Status chip:** `Currently: moving my infra to ekkelenkamp.dev & hunting mini PCs for node #2`
 
@@ -50,23 +57,47 @@ LAN addresses, device IDs or internal hostnames.
 
 ---
 
-## 3. Work (day job)
+## 3. Work (day job) ⟵ co-lead with the homelab, same weight
 
 **Harborn**: digital agency in Rotterdam & Amsterdam, part of Boer & Croon.
+**Roles (small print, as facts):** Security officer · Cloud specialist · Solution architect `[CONFIRM]`
 
-> I work on the stuff clients actually run: web platforms, customer portals, product
-> configurators, integrations with ERP and data systems, and the occasional Flutter app. I also
-> work on the layer underneath: GitOps, Kubernetes, and the internal AI-agent tooling we use to
-> ship faster. `[CONFIRM scope + since when]`
+**Intro:**
 
-Clients I've worked for (public Harborn cases): a client, a client, a client.
-`[CONFIRM: OK to name? Otherwise use "industrial manufacturers, a bike brand, a logistics company"]`
+> Before a client project gets built, someone has to decide what it looks like, where it runs,
+> and who gets access to what. At Harborn that's usually me. I still write code, mostly where
+> those decisions meet the code.
 
-What that looks like in practice:
+### 3.1 The three jobs (each a block: title, one line, 3 concrete bullets)
 
-- **Product**: Astro, React/TypeScript, Flutter, Rails, PHP, Python/FastAPI `[CONFIRM list]`
-- **Platform**: Kubernetes (Haven), Argo CD, GitHub Actions, Docker base images
-- **AI tooling**: Claude-based agents, skills and plugins for the team's daily work
+**Security** — *Keeping the agency and its clients out of the news.*
+- Owns the security policy and makes it something people actually follow `[CONFIRM: ISO 27001 / NEN 7510 / other framework]`
+- Access reviews, secrets handling, and the security questionnaires clients send before signing
+- Decides which AI tools and vendors are allowed near client data, and on what terms
+
+**Cloud & platform** — *The layer every client project lands on.*
+- Kubernetes on Haven (the Dutch government's standard for Kubernetes platforms), GitOps with Argo CD
+- Shared base images, CI with GitHub Actions, monitoring that tells you something before the client does
+- Environments that can be rebuilt from git, not from someone's memory
+
+**Architecture** — *Turning "we need a portal" into a system that survives year three.*
+- Designs the integrations between client systems: ERP, PLM, data platforms, customer portals, configurators
+- Writes the decision down (ADRs), including the options we didn't pick and why
+- Keeps it boring where it can be, so the budget goes to the part that's actually hard
+
+Clients (public Harborn cases): a client, a client, a client.
+`[CONFIRM: OK to name? Otherwise "industrial manufacturers, a bike brand, a logistics company"]`
+
+### 3.2 The bridge to the homelab (one line, use it as a transition)
+
+> The homelab is where I try things before I recommend them at work. Zero open ports,
+> everything in git, access only where it's explicitly granted. Same rules, smaller blast radius.
+
+### 3.3 Also
+
+- **AI tooling**: internal Claude-based agents, skills and plugins for the team, with
+  guardrails on what they can touch
+- Still hands-on: TypeScript, Python, a bit of everything client projects need `[CONFIRM]`
 
 ---
 
@@ -86,7 +117,7 @@ What that looks like in practice:
 
 | Spec | Value |
 |---|---|
-| Hardware | old laptop · Intel laptop CPU (4c/8t) · 16 GB · ~512 GB SSD |
+| Hardware | Second-hand laptop · 11th-gen Intel, 4 cores / 8 threads · 16 GB · ~512 GB SSD |
 | UPS | The laptop battery |
 | Hypervisor | Proxmox VE 9.2 (Debian 13 "Trixie") |
 | VM 100 | `k3s-01`: Ubuntu 26.04, 4 vCPU, 10 GB RAM, 360 GiB thin disk, single-node k3s |
@@ -111,7 +142,7 @@ What that looks like in practice:
 ### 4.4 Architecture (layers, for a diagram)
 
 ```
-old laptop (bare metal, lid shut, battery = UPS)
+Old laptop (bare metal, lid shut, battery = UPS)
 └─ Proxmox VE 9.2 ── Tailscale (mgmt), firewall: tailnet-only
    ├─ VM k3s-01 ── k3s
    │   ├─ Traefik + wildcard TLS (cert-manager, DNS-01)
@@ -172,7 +203,7 @@ Placeholder automations for the design (replace with real ones):
 
 ### 4.8 What's next
 
-Three ex-office mini PCs (laptop Tiny / Dell Micro / HP Mini, 8th gen+, ~16 GB) in a
+Three ex-office 1-litre mini PCs (8th gen+, ~16 GB each) in a
 3D-printed rack, turning the single node into a real cluster. The laptop retires to backup duty.
 
 ---
@@ -243,6 +274,7 @@ Grouped plainly:
 
 - **Daily:** TypeScript, React, Astro, Python, Git, Claude Code
 - **Often:** Java, Flutter/Dart, Rails, PHP, FastAPI, SQLite, Postgres `[CONFIRM]`
+- **Security:** policy & risk, access reviews, secrets management, Cloudflare Access, Tailscale ACLs `[CONFIRM add frameworks/tools]`
 - **Platform:** Kubernetes (k3s, Haven), Argo CD, Helm, Kustomize, Traefik, cert-manager,
   GitHub Actions, GHCR, Docker
 - **Home:** Proxmox, Tailscale, Cloudflare (DNS, Tunnel, Access), Home Assistant, Zigbee (ZHA)

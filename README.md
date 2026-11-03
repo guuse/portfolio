@@ -1,6 +1,6 @@
 # ekkelenkamp.dev
 
-The personal site of **Guus Ekkelenkamp**, a developer in Rotterdam: what I do at
+The personal site of **Guus Ekkelenkamp**: security officer, cloud specialist and solution architect in Rotterdam. What I do at
 [Harborn](https://harborn.com), and the homelab-shaped rabbit hole I fall into after hours.
 
 > **Status: phase 1, design.** This repo currently holds five design directions and the design
