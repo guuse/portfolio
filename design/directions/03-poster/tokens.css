@@ -1,0 +1,165 @@
+/* 03-poster "Affiche": tokens. GENERATED from one palette definition; edit the generator, not this file. */
+@layer tokens {
+  :root {
+    /* Tier 1: primitives */
+    --p-black: oklch(16% 0.008 40); /* #100c0b */
+    --p-ink-700: oklch(34% 0.01 40); /* #3d3634 */
+    --p-grey-600: oklch(47% 0.01 60); /* #5f5a55 */
+    --p-grey-500: oklch(56% 0.01 60); /* #79736f */
+    --p-paper-50: oklch(96.5% 0.014 85); /* #f8f3e9 */
+    --p-paper-0: oklch(98.8% 0.008 85); /* #fefbf5 */
+    --p-paper-150: oklch(91% 0.018 85); /* #e7e1d4 */
+    --p-paper-250: oklch(85% 0.022 85); /* #d4cdbe */
+    --p-red-500: oklch(57% 0.215 29); /* #d9241b */
+    --p-red-550: oklch(53.5% 0.205 29); /* #c91c15 */
+    --p-red-650: oklch(46% 0.18 29); /* #a5100b */
+    --p-red-400: oklch(64.5% 0.19 29); /* #eb5344 */
+    --p-red-100: oklch(91% 0.045 29); /* #fed7d0 */
+    --p-amber-600: oklch(52% 0.116 65); /* #965802 */
+    --p-amber-400: oklch(80% 0.16 80); /* #f3b01d */
+    --p-green-600: oklch(50% 0.15 146); /* #077826 */
+    --p-green-700: oklch(43% 0.124 148); /* #016123 */
+    --p-green-900: oklch(23% 0.045 152); /* #0a2312 */
+    --p-green-800: oklch(33% 0.06 152); /* #1a3e26 */
+    --p-green-100: oklch(93% 0.05 146); /* #d3f1d4 */
+    --p-sky-400: oklch(79% 0.105 232); /* #6fc7f2 */
+    --p-sky-700: oklch(47% 0.118 245); /* #015f98 */
+    --p-sky-50: oklch(97% 0.015 232); /* #ecf7fe */
+    --p-sky-100: oklch(93.5% 0.03 232); /* #d7eefa */
+    --p-orange-500: oklch(70% 0.185 47); /* #f7721a */
+    --p-orange-700: oklch(52% 0.156 42); /* #af4002 */
+    --p-white: oklch(100% 0 0); /* #ffffff */
+    --p-night-950: oklch(14.5% 0.006 320); /* #0b090c */
+    --p-night-900: oklch(20% 0.008 320); /* #181518 */
+    --p-night-800: oklch(27% 0.01 320); /* #29252a */
+    --p-night-600: oklch(50% 0.01 320); /* #666167 */
+    --p-bone-100: oklch(94% 0.012 85); /* #efebe2 */
+    --p-bone-300: oklch(80% 0.012 85); /* #c1bdb5 */
+    --p-bone-500: oklch(64% 0.012 85); /* #8f8c84 */
+    --p-pink-500: oklch(70% 0.216 356); /* #ff55a3 */
+    --p-pink-900: oklch(30% 0.1 356); /* #51102f */
+    --p-pink-700: oklch(47% 0.19 356); /* #a4055e */
+    --p-mint-400: oklch(82% 0.15 160); /* #59e1a2 */
+    --p-yellow-400: oklch(88% 0.16 100); /* #f0d947 */
+
+    /* Type */
+    --font-display: "Anybody", "Arial Narrow", "Helvetica Neue", sans-serif;
+    --font-body: "Newsreader", "Iowan Old Style", Georgia, serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+    /* Hard edges, flat print */
+    --radius-s: 0; --radius-m: 0; --radius-l: 0;
+    --shadow-1: none; --shadow-2: none;
+    --rule-hair: 1px; --rule: 3px; --rule-heavy: 8px;
+
+    /* Tier 2: semantic (Rotterdam, default) */
+    --surface: var(--p-paper-50);
+    --surface-raised: var(--p-paper-0);
+    --surface-sunken: var(--p-paper-150);
+    --surface-inverse: var(--p-black);
+    --ink: var(--p-black);
+    --ink-muted: var(--p-ink-700);
+    --ink-subtle: var(--p-grey-600);
+    --ink-inverse: var(--p-paper-50);
+    --accent: var(--p-red-550);
+    --accent-ink: var(--p-paper-50);
+    --accent-soft: var(--p-red-100);
+    --ok: var(--p-green-700);
+    --warn: var(--p-amber-600);
+    --danger: var(--p-red-650);
+    --line: var(--p-grey-500);
+    --line-strong: var(--p-black);
+    --focus: var(--p-black);
+    --clash: var(--p-black);
+    --clash-ink: var(--p-paper-50);
+    --pop: var(--p-paper-250);
+    --pop-ink: var(--p-black);
+    --accent-on-inverse: var(--p-red-400);
+    --focus-on-inverse: var(--p-paper-50);
+    color-scheme: light;
+  }
+}
+
+@layer options {
+  :root[data-option="polder"] {
+    --surface: var(--p-white);
+    --surface-raised: var(--p-sky-50);
+    --surface-sunken: var(--p-sky-100);
+    --surface-inverse: var(--p-green-900);
+    --ink: var(--p-green-900);
+    --ink-muted: var(--p-green-800);
+    --ink-subtle: var(--p-grey-600);
+    --ink-inverse: var(--p-white);
+    --accent: var(--p-green-600);
+    --accent-ink: var(--p-white);
+    --accent-soft: var(--p-green-100);
+    --ok: var(--p-green-700);
+    --warn: var(--p-orange-700);
+    --danger: var(--p-red-650);
+    --line: var(--p-grey-500);
+    --line-strong: var(--p-green-900);
+    --focus: var(--p-sky-700);
+    --clash: var(--p-sky-400);
+    --clash-ink: var(--p-green-900);
+    --pop: var(--p-orange-500);
+    --pop-ink: var(--p-green-900);
+    --accent-on-inverse: var(--p-sky-400);
+    --focus-on-inverse: var(--p-sky-400);
+    color-scheme: light;
+  }
+  :root[data-option="nachtdruk"] {
+    --surface: var(--p-night-950);
+    --surface-raised: var(--p-night-900);
+    --surface-sunken: var(--p-black);
+    --surface-inverse: var(--p-bone-100);
+    --ink: var(--p-bone-100);
+    --ink-muted: var(--p-bone-300);
+    --ink-subtle: var(--p-bone-500);
+    --ink-inverse: var(--p-night-950);
+    --accent: var(--p-pink-500);
+    --accent-ink: var(--p-night-950);
+    --accent-soft: var(--p-pink-900);
+    --ok: var(--p-mint-400);
+    --warn: var(--p-yellow-400);
+    --danger: var(--p-pink-500);
+    --line: var(--p-night-600);
+    --line-strong: var(--p-bone-100);
+    --focus: var(--p-pink-500);
+    --clash: var(--p-bone-100);
+    --clash-ink: var(--p-night-950);
+    --pop: var(--p-night-800);
+    --pop-ink: var(--p-bone-100);
+    --accent-on-inverse: var(--p-pink-700);
+    --focus-on-inverse: var(--p-pink-700);
+    color-scheme: dark;
+  }
+  /* No JS + dark preference: night print by default */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-option]) {
+      --surface: var(--p-night-950);
+      --surface-raised: var(--p-night-900);
+      --surface-sunken: var(--p-black);
+      --surface-inverse: var(--p-bone-100);
+      --ink: var(--p-bone-100);
+      --ink-muted: var(--p-bone-300);
+      --ink-subtle: var(--p-bone-500);
+      --ink-inverse: var(--p-night-950);
+      --accent: var(--p-pink-500);
+      --accent-ink: var(--p-night-950);
+      --accent-soft: var(--p-pink-900);
+      --ok: var(--p-mint-400);
+      --warn: var(--p-yellow-400);
+      --danger: var(--p-pink-500);
+      --line: var(--p-night-600);
+      --line-strong: var(--p-bone-100);
+      --focus: var(--p-pink-500);
+      --clash: var(--p-bone-100);
+      --clash-ink: var(--p-night-950);
+      --pop: var(--p-night-800);
+      --pop-ink: var(--p-bone-100);
+      --accent-on-inverse: var(--p-pink-700);
+      --focus-on-inverse: var(--p-pink-700);
+      color-scheme: dark;
+    }
+  }
+}
