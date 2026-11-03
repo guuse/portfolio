@@ -1,5 +1,10 @@
 # Design brief: ekkelenkamp.dev
 
+> **Decision (round 4):** direction **Beeld voorop** (`directions/r2-beeld`), colour
+> **Nacht**, copy voice **Nuchter**, heading style **Serif**. Round 4 makes it fuller (illustrative
+> project visuals, more content) and interactive (project detail views), and adds a
+> self-contained `artifact.html` build.
+
 > **Round 2 (current).** Round 1 explored five concept-driven directions (datasheet, floor
 > plan, poster, zine, wall panel). They're archived in `archive/round-1/`. Feedback: *"I don't
 > really feel any of them. It doesn't need to be that tech-savvy or cringy. Just a normal
