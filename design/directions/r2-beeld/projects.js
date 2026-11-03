@@ -37,7 +37,7 @@
       short: "Hosting platform",
       line: "The platform our client projects run on: eight clusters, one way of working.",
       story: "Every client used to get a slightly different setup. I designed one platform instead: the same building blocks on AWS or Azure, the same pipelines, the same monitoring. It now runs eight clusters, from small to large, in the Netherlands and abroad, including Japan. The biggest runs more than 1,500 pods. New apps get production and acceptance environments, TLS, logging and dashboards on day one, without anyone touching the cluster.",
-      feature: { dg: "delivery" },
+      feature: { tabs: [["delivery", "delivery"], ["infra pipeline", "infra"], ["logging", "logs"], ["regions", "edge"]] },
       lead: { dg: "map" },
       numbers: [["8", "clusters"], ["1,500+", "pods on the largest"], ["~80", "Argo CD apps on the main cluster"], ["0", "static cloud keys in CI"]],
       sections: [
@@ -105,7 +105,7 @@
       short: "Homelab & home automation",
       line: "Complete overkill for a home. Great fun to maintain.",
       story: "An old laptop under the TV, lid shut, runs the same kind of platform I build at work, just smaller. Proxmox hosts a k3s cluster and Home Assistant. Every app is built, tagged and rolled out from git without me touching anything. It has its own domain, real certificates, and no open ports. The battery doubles as a UPS.",
-      feature: { dg: "push" },
+      feature: { tabs: [["git push \u2192 running", "push"], ["ways in", "ways"], ["inside the box", "box"]] },
       numbers: [["15", "Argo CD apps"], ["2", "virtual machines"], ["0", "open ports"], ["3", "ways in, all opt-in"]],
       sections: [
         { k: "push", title: "From git push to running", dg: "push", lead: "Push to main and walk away.",
@@ -201,8 +201,19 @@
   function openAttrs(p) { return 'href="#' + p.id + '" data-open="' + p.id + '"'; }
 
   /* ---------------------------------------------------------- homepage feature */
+  // Diagram tabs: auto-cycle through the project's diagrams (see behaviour below).
+  function tabsHTML(p) {
+    var t = p.feature.tabs;
+    return '<div class="dgtabs" data-tabs>' +
+      '<div class="dgtabs__list" role="tablist" aria-label="' + esc(p.short) + ' diagrams">' + t.map(function (tab, i) {
+        return '<button type="button" role="tab" class="dgtabs__tab" id="tab-' + p.id + "-" + i + '" aria-controls="tp-' + p.id + "-" + i + '" aria-selected="' + (i === 0) + '" tabindex="' + (i === 0 ? 0 : -1) + '"><span class="dgtabs__n">' + (i + 1) + "</span>" + esc(tab[0]) + '<span class="dgtabs__bar" aria-hidden="true"></span></button>';
+      }).join("") + "</div>" +
+      t.map(function (tab, i) {
+        return '<div class="dgtabs__panel" role="tabpanel" id="tp-' + p.id + "-" + i + '" aria-labelledby="tab-' + p.id + "-" + i + '"' + (i ? " hidden" : "") + ">" + dgHTML(tab[1], { cls: "dg--feature" }) + "</div>";
+      }).join("") + "</div>";
+  }
   function featureHTML(p, i) {
-    var media = p.feature.dg ? dgHTML(p.feature.dg, { cls: "dg--feature" }) : stackHTML(p.feature.shots);
+    var media = p.feature.tabs ? tabsHTML(p) : stackHTML(p.feature.shots);
     return '<article class="pf pf--' + (i % 2 ? "left" : "right") + '" id="' + p.id + '-feature" data-project="' + p.id + '" style="' + vars(p) + '" aria-labelledby="pf-' + p.id + '">' +
       '<div class="pf__media">' + media + "</div>" +
       '<div class="pf__body">' +
@@ -289,6 +300,8 @@
           '<button type="button" class="detail__btn" data-go="' + next.id + '" aria-label="Next project: ' + esc(next.short) + '"><span class="detail__btn-text">' + esc(next.short) + '</span><span aria-hidden="true">→</span></button>' +
           '<button type="button" class="detail__btn detail__close" data-close aria-label="Close project"><span aria-hidden="true">✕</span><span class="detail__btn-text">Close</span></button>' +
         "</div>" +
+      (p.sections ? '<nav class="toc" aria-label="Sections"><ol>' + p.sections.map(function (sec, k) { return '<li><a href="#cs-' + p.id + "-" + sec.k + '" data-toc="cs-' + p.id + "-" + sec.k + '"><span>' + String.fromCharCode(97 + k) + "</span>" + esc(sec.k) + "</a></li>"; }).join("") +
+        (p.timeline ? '<li><a href="#cs-' + p.id + '-tl" data-toc="cs-' + p.id + '-tl"><span>\u2192</span>timeline</a></li>' : "") + "</ol></nav>" : "") +
       "</div>" +
       '<p class="meta detail__kicker">' + p.no + " · " + esc(p.short.toLowerCase()) + "</p>" +
       '<h2 class="detail__title display" id="detail-title" tabindex="-1">' + esc(p.title) + "</h2>" +
@@ -315,6 +328,79 @@
   /* ================================================================ behaviour */
   if (root.BeeldDiagrams) root.BeeldDiagrams.mount(document);
 
+  var reduceM = function () { return !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches); };
+
+  /* Feature tabs: auto-advance when a diagram finishes (min 6 s), pause on hover/focus. */
+  Array.prototype.forEach.call(document.querySelectorAll("[data-tabs]"), function (box) {
+    var tabs = Array.prototype.slice.call(box.querySelectorAll('[role="tab"]'));
+    var panels = Array.prototype.slice.call(box.querySelectorAll('[role="tabpanel"]'));
+    var cur = 0, paused = false, inView = false, since = Date.now(), timer = null;
+    var auto = !reduceM();
+    panels.forEach(function (pn) { var f = pn.querySelector(".dg"); if (f && auto) f.setAttribute("data-noloop", ""); });
+    function show(i, focus) {
+      cur = (i + tabs.length) % tabs.length;
+      tabs.forEach(function (t, k) { var on = k === cur; t.setAttribute("aria-selected", on); t.tabIndex = on ? 0 : -1; t.classList.remove("is-timing"); });
+      panels.forEach(function (pn, k) { pn.hidden = k !== cur; });
+      since = Date.now();
+      if (auto && !paused) {
+        var f = panels[cur].querySelector(".dg"), D = root.BeeldDiagrams;
+        if (f && D) tabs[cur].style.setProperty("--dur", Math.max(6000, D.est(f.getAttribute("data-dg")) + 900) + "ms");
+        void tabs[cur].offsetWidth; tabs[cur].classList.add("is-timing");
+      }
+      if (focus) tabs[cur].focus();
+    }
+    function next() { if (auto && !paused && inView) show(cur + 1); }
+    tabs.forEach(function (t, k) {
+      t.addEventListener("click", function () { show(k); });
+      t.addEventListener("keydown", function (e) {
+        var d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+        if (e.key === "Home") { e.preventDefault(); show(0, true); }
+        else if (e.key === "End") { e.preventDefault(); show(tabs.length - 1, true); }
+        else if (d) { e.preventDefault(); show(cur + d, true); }
+      });
+    });
+    box.addEventListener("dgdone", function (e) {
+      if (!panels[cur].contains(e.target)) return;
+      var wait = Math.max(0, 6000 - (Date.now() - since));
+      clearTimeout(timer); timer = setTimeout(function () {
+        if (paused || !inView) { var f = panels[cur].querySelector(".dg"); if (f && f.__player && inView) f.__player.play(); return; }
+        next();
+      }, wait + 900);
+    });
+    var pause = function () { paused = true; box.classList.add("is-paused"); }, resume = function () { paused = false; box.classList.remove("is-paused"); var f = panels[cur].querySelector(".dg"); if (f && f.__player && f.__player.idle) next(); };
+    box.addEventListener("mouseenter", pause); box.addEventListener("mouseleave", resume);
+    box.addEventListener("focusin", pause); box.addEventListener("focusout", function (e) { if (!box.contains(e.relatedTarget)) resume(); });
+    if ("IntersectionObserver" in window) new IntersectionObserver(function (en) { inView = en[0].isIntersecting; }, { threshold: 0.3 }).observe(box);
+    show(0);
+  });
+
+  /* Numbers count up once when they scroll into view. */
+  function countUp(scope) {
+    if (reduceM() || !("IntersectionObserver" in window)) return;
+    var els = (scope || document).querySelectorAll(".numbers__list dd, .pf__nums dd, .case__nums dd");
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        io.unobserve(en.target);
+        var el = en.target, txt = el.getAttribute("data-final") || el.textContent;
+        var m = txt.match(/^([^\d]*)([\d,]+)(.*)$/);
+        if (!m) return;
+        el.setAttribute("data-final", txt);
+        var end = parseInt(m[2].replace(/,/g, ""), 10), comma = m[2].indexOf(",") > -1, t0 = null, dur = 1100;
+        if (!end) return;
+        (function f(ts) {
+          if (t0 === null) t0 = ts;
+          var p = Math.min(1, (ts - t0) / dur), v = Math.round(end * (1 - Math.pow(1 - p, 3)));
+          el.textContent = m[1] + (comma ? v.toLocaleString("en-US") : v) + m[3];
+          if (p < 1) requestAnimationFrame(f); else el.textContent = txt;
+        })(performance.now());
+      });
+    }, { threshold: 0.6 });
+    Array.prototype.forEach.call(els, function (el) { io.observe(el); });
+  }
+  countUp(document);
+  root.BeeldCountUp = countUp;
+
   /* ------------------------------------------------------------- detail view */
   var dlg = document.getElementById("detail");
   var panel = dlg && dlg.querySelector(".detail__panel");
@@ -339,6 +425,16 @@
     panel.innerHTML = detailHTML(p);
     panel.setAttribute("style", vars(p));
     if (root.BeeldDiagrams) root.BeeldDiagrams.mount(panel);
+    countUp(panel);
+    var tocLinks = panel.querySelectorAll("[data-toc]");
+    if (tocLinks.length) {
+      var secs = Array.prototype.map.call(tocLinks, function (a) { return panel.querySelector("#" + a.getAttribute("data-toc")); });
+      panel.onscroll = function () {
+        var top = panel.getBoundingClientRect().top + 160, cur = -1;
+        secs.forEach(function (sc, k) { if (sc && sc.getBoundingClientRect().top <= top) cur = k; });
+        Array.prototype.forEach.call(tocLinks, function (a, k) { if (k === cur) a.setAttribute("aria-current", "true"); else a.removeAttribute("aria-current"); });
+      };
+    } else panel.onscroll = null;
     panel.scrollTop = 0;
     if (!openId) {
       dlg.hidden = false;
@@ -409,6 +505,8 @@
   document.addEventListener("click", function (e) {
     var t = e.target.closest ? e.target : null;
     if (!t) return;
+    var toc = t.closest("[data-toc]");
+    if (toc) { e.preventDefault(); var target = document.getElementById(toc.getAttribute("data-toc")); if (target) { target.scrollIntoView({ behavior: reduceM() ? "auto" : "smooth", block: "start" }); target.setAttribute("tabindex", "-1"); target.focus({ preventScroll: true }); } return; }
     var lbBtn = t.closest("[data-lightbox]");
     if (lbBtn) { e.preventDefault(); openLightbox(lbBtn.getAttribute("data-lightbox"), +lbBtn.getAttribute("data-index"), lbBtn); return; }
     var a = t.closest("[data-open]");
