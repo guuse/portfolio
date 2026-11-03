@@ -85,7 +85,7 @@
       </div>
 
       <h3 class="h3" style="margin-block: var(--space-2xl) var(--space-xs)">Photo tones</h3>
-      <p class="sg-note">One muted colour per image, the same in both options, because a real photo doesn&rsquo;t change with the background. Each placeholder gets a soft light fall-off and a faint grain so it reads as a photo slot, not a grey box. Label ink on each tone is measured too.</p>
+      <p class="sg-note">Each project also has its own <em>ink</em> (its tone, deepened per option) for the caption dot, hover colour and the image-label chip. One muted colour per image, the same in both options, because a real photo doesn&rsquo;t change with the background. Each placeholder gets a soft light fall-off and a faint grain so it reads as a photo slot, not a grey box. Label ink on each tone is measured too.</p>
       <div class="tones" id="tones"></div>
     </div>
   </section>
@@ -94,11 +94,12 @@
     <div class="page">
       <h2 class="h2" id="type-title">Type</h2>
       <p class="sg-note"><strong>Instrument Serif</strong> for big moments only: the intro headline, section titles, project titles, numbers and the email address. It&rsquo;s condensed and elegant, so a large headline sits calmly next to a portrait like a magazine cover line. <strong>Schibsted Grotesk</strong> for everything else: a newspaper-born sans with sturdy, slightly quirky shapes that keeps captions and body text clear without feeling like a default UI font.</p>
-      <div class="type-row"><code>--step-hero · serif</code><p class="display" style="font-size: var(--step-hero)">I&rsquo;m Guus.</p></div>
-      <div class="type-row"><code>--step-giant · serif</code><p class="display" style="font-size: var(--step-giant)">Homelab &amp; home</p></div>
-      <div class="type-row"><code>--step-5 · serif · h2</code><p class="h2">Projects</p></div>
-      <div class="type-row"><code>--step-3 · serif · case h2</code><p class="display" style="font-size: var(--step-3)">What I learned</p></div>
-      <div class="type-row"><code>--step-1 · serif · item title</code><p class="item__title">Scryfall, in plain words</p></div>
+      <p class="sg-note"><strong>Koppen</strong> (<code>data-type</code>, tokens only): <em>Serif</em> (a) sets headings in Instrument Serif 400, big and tight; <em>Sans</em> (b) sets them in Schibsted Grotesk 600 at 0.8&times; the scale with tighter tracking (&minus;0.045em). In both, the one <code>&lt;em&gt;</code> phrase per headline stays an italic Instrument Serif in the accent, with a hand-drawn line that draws itself in once (instant under reduced motion).</p>
+      <div class="type-row"><code>--step-hero · heading + em</code><p class="display" style="font-size: calc(var(--step-hero) * var(--heading-scale))">Builds things. <em>Usually</em> finishes them.</p></div>
+      <div class="type-row"><code>--step-giant · heading</code><p class="display" style="font-size: var(--step-giant)">Homelab &amp; home</p></div>
+      <div class="type-row"><code>--step-5 · heading · h2</code><p class="h2">Projects</p></div>
+      <div class="type-row"><code>--step-3 · heading · case h2</code><p class="display" style="font-size: var(--step-3)">What I learned</p></div>
+      <div class="type-row"><code>--step-1 · heading · item title</code><p class="item__title">Scryfall, in plain words</p></div>
       <div class="type-row"><code>--step-1 · sans · lead</code><p class="lead">I live in Rotterdam and build things at home.</p></div>
       <div class="type-row"><code>--step-0 · sans · body</code><p>I make sure the platforms our clients run on are secure, reliable and well thought out.</p></div>
       <div class="type-row"><code>--step-0 · sans 600 · h3</code><p class="h3">Cloud &amp; platform</p></div>
@@ -134,6 +135,15 @@
         </div>
       </div>
 
+      <p class="sg-label">Loose prints (hero) · tilted / straightened on hover</p>
+      <div class="demo-box" style="padding-block: var(--space-xl)">
+        <div class="states" style="gap: var(--space-2xl)">
+          <figure style="width: 180px"><div class="print" style="position: relative; --tilt: -6deg"><div class="ph" style="--tone: var(--tone-homelab); --ratio: 4 / 5" role="img" aria-label="Example print"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true">Photo</span></div></div><figcaption style="margin-top: var(--space-m)">rest: rotate(var(--tilt))</figcaption></figure>
+          <figure style="width: 180px"><div class="print" style="position: relative; --tilt: 0deg; transform: translateY(-6px) scale(1.03)"><div class="ph" style="--tone: var(--tone-rules-of-99); --ratio: 4 / 5" role="img" aria-label="Example print, hover"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true">Photo</span></div></div><figcaption style="margin-top: var(--space-m)">hover: straight, lifted (spring ease)</figcaption></figure>
+          <figure><p class="now" style="margin: 0"><span class="now__dot" aria-hidden="true"></span><span><strong style="font-weight: 600; color: var(--ink)">Now:</strong> building a 3-node cluster.</span></p><figcaption>Now line: live dot, pulse off under reduced motion</figcaption></figure>
+        </div>
+      </div>
+
       <p class="sg-label">Project feature (full-bleed image, title set below)</p>
       <div class="demo-box" id="feature-demo" style="padding: 0"></div>
 
@@ -147,6 +157,8 @@
       <p class="sg-label">Link &amp; button · default / hover / focus</p>
       <div class="demo-box">
         <div class="states">
+          <figure><a class="button" href="#colour">Get in touch <span aria-hidden="true">&rarr;</span></a><figcaption>button (primary CTA): ink pill, accent on hover, arrow bounces once</figcaption></figure>
+          <figure><a class="button is-focus" href="#colour">Get in touch <span aria-hidden="true">&rarr;</span></a><figcaption>button focus-visible</figcaption></figure>
           <figure><a class="arrow-link" href="#colour">Read the project <span aria-hidden="true">&rarr;</span></a><figcaption>default</figcaption></figure>
           <figure><a class="arrow-link is-hover" href="#colour">Read the project <span aria-hidden="true">&rarr;</span></a><figcaption>hover</figcaption></figure>
           <figure><a class="arrow-link is-focus" href="#colour">Read the project <span aria-hidden="true">&rarr;</span></a><figcaption>focus-visible</figcaption></figure>
@@ -216,10 +228,16 @@
 
   var TONES = [["portrait","Portrait"],["homelab","Homelab"],["rules-of-99","Rules of 99"],["finds","2nd-hand finds"],["quizmaster","Quizmaster"],["scryfall","Scryfall"],["friends","About"]];
   var root = document.documentElement;
+  function renderTones() {
   document.getElementById("tones").innerHTML = TONES.map(function (t, i) {
     var v = ratio(tok(root, "--ph-ink"), tok(root, "--tone-" + t[0]));
-    return '<figure><div class="ph" data-r="' + (i % 2) + '" style="--tone: var(--tone-' + t[0] + ')" role="img" aria-label="Tone for ' + t[1] + '"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true">' + t[1] + '</span></div><figcaption class="caption tnum">--tone-' + t[0] + "<br>label " + v.toFixed(2) + ":1</figcaption></figure>";
+    var ink = tok(root, "--pink-" + t[0]);
+    var vi = ink ? ratio(ink, tok(root, "--surface")) : 0;
+    return '<figure><div class="ph" data-r="' + (i % 2) + '" style="--tone: var(--tone-' + t[0] + ')" role="img" aria-label="Tone for ' + t[1] + '"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true">' + t[1] + '</span></div><figcaption class="caption tnum">--tone-' + t[0] + "<br>label " + v.toFixed(2) + ":1" + (vi ? '<br><span style="color: var(--pink-' + t[0] + ')">project ink</span> ' + vi.toFixed(2) + ":1 on surface" : "") + "</figcaption></figure>";
   }).join("");
+  }
+  renderTones();
+  new MutationObserver(renderTones).observe(root, { attributes: true, attributeFilter: ["data-option"] });
 })();
 </script>
 <script src="review.js"></script>
