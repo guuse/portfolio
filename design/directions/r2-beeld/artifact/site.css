@@ -649,3 +649,12 @@ code, pre { font-family: var(--font-mono); font-variant-ligatures: none; }
 .pcard__facts li::marker { color: var(--ink-subtle); }
 .ph-hero__bg::after { background: linear-gradient(0deg, color-mix(in oklch, var(--surface) 96%, transparent) 0%, color-mix(in oklch, var(--surface) 65%, transparent) 38%, transparent 70%); }
 .shotgrid img, .hero-shot img { border-radius: 4px; }
+#outside .like__chip, #outside .like[data-lift]::before { display: none; }
+#outside .like[data-lift] .like__name { text-decoration: none; }
+#outside .like:hover .like__name, #outside .like:focus-visible .like__name { color: var(--accent); }
+#outside .like { grid-template-columns: 14px 1fr; align-items: start; row-gap: 2px; }
+#outside .like__mark { grid-row: 1 / span 2; margin: 0.7em 0 0; }
+#outside .like__name, #outside .like__line { grid-column: 2; margin: 0; }
+#outside .like__line { align-self: start; }
+.actions { gap: 10px 18px; }
+@media (min-width: 1000px) { .stage__inner { grid-template-columns: minmax(0, 7.5fr) minmax(0, 3.5fr); } }
