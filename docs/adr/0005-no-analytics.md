@@ -1,0 +1,19 @@
+# 0005: No analytics, no cookies
+
+**Status:** accepted, November 2026
+
+## Context
+
+Visitor numbers for a personal site don't change what goes on it. Any tracking would need a
+third-party script (breaking the CSP and the performance budget) or a cookie banner.
+
+## Decision
+
+No analytics, no cookies, no third-party requests. Fonts are self-hosted; every asset comes
+from the same origin. nginx's access log keeps no IP addresses.
+
+## Consequences
+
+- There is no consent banner and nothing to disclose beyond this page.
+- If numbers are ever wanted, the bar is: cookieless, self-hosted, and same-origin, so it fits
+  the CSP. That would be a new ADR.
