@@ -1,0 +1,169 @@
+/*
+ * Print: the page on paper. Ink on white for the text; the drawings, covers and the case-study
+ * heroes keep their navy panel (and print it), because they are drawn for it. Everything that
+ * waits to settle in is simply there, scenes stand next to their steps in their final frame
+ * (the motion runtime hands the stage's figures back and sets its inline styles aside while
+ * printing), and nothing is sticky or a screen tall. Utilities layer, so it beats every
+ * component; !important only where a state class or the runtime would otherwise win.
+ */
+@media print {
+  @layer utilities {
+    @page {
+      margin: 16mm 14mm;
+    }
+
+    :root {
+      --surface: #fff;
+      --surface-raised: #fff;
+      --surface-sunken: var(--cloud-960);
+      --ink: var(--navy-190);
+      --ink-muted: var(--navy-300);
+      --ink-subtle: var(--navy-480);
+      --line: var(--cloud-760);
+      --line-strong: var(--cloud-680);
+      --accent: var(--amber-500);
+      --focus: var(--amber-500);
+    }
+
+    /* the drawn things keep the night palette, background included */
+    :is(.scene, .ph-hero, .pcard__media, .cover__link, .ds-live__art, .ds-kit) {
+      --surface: var(--navy-190);
+      --surface-card: var(--navy-210);
+      --ink: var(--cloud-960);
+      --ink-muted: var(--cloud-800);
+      --ink-subtle: var(--cloud-680);
+      --line: var(--navy-310);
+      --line-strong: var(--navy-480);
+      --accent: var(--amber-840);
+      --art-card: var(--navy-210);
+      --art-amber: var(--amber-840);
+
+      print-color-adjust: exact;
+      color: var(--ink);
+    }
+
+    .scene {
+      padding: 10px;
+      border-radius: var(--radius-s);
+      background: var(--surface);
+    }
+
+    html,
+    body {
+      background: #fff;
+    }
+
+    /* a plain header: the name, no sticky bar, no nav */
+    .site-header {
+      position: static !important;
+      margin: 0;
+      padding: 0;
+      background: none;
+      backdrop-filter: none;
+    }
+
+    .nav,
+    .skip-link,
+    .toast,
+    dialog,
+    .copy,
+    .scenes__stage,
+    .scene-svg .pk-layer,
+    .scene-svg .k-route-hot,
+    .stage__bg {
+      display: none !important;
+    }
+
+    /* nothing waits to settle in on paper */
+    .reveal,
+    .rows > [data-i],
+    .rows > [data-i]::before,
+    .membar span,
+    .diagram :is(.tile, .way),
+    .stage__text > *,
+    .print {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+      animation: none !important;
+    }
+
+    .print {
+      --tilt: 0deg;
+
+      box-shadow: none;
+    }
+
+    /* the hero is a clipped, full-bleed grid on screen; on paper it just flows */
+    .stage {
+      display: block;
+      min-height: 0;
+      margin: 0;
+      padding: 0;
+      overflow: visible;
+    }
+
+    .stage__inner {
+      display: flex;
+      flex-direction: column-reverse;
+      gap: 1.5rem;
+    }
+
+    .stage__prints {
+      width: 260px;
+      justify-self: start;
+    }
+
+    /* scenes: each step with its figure, at its own height */
+    .scenes,
+    .scene-step {
+      display: block !important;
+      min-height: 0 !important;
+      padding-block: 0.75rem;
+    }
+
+    .scene-step > .scene {
+      display: block !important;
+      max-width: 100%;
+      margin-bottom: 0.75rem;
+    }
+
+    .scene-step__text :is(h3, p) {
+      color: var(--ink) !important;
+    }
+
+    .scene-step__text p {
+      color: var(--ink-muted) !important;
+    }
+
+    .scene-step__text .step-shot button {
+      opacity: 1 !important;
+    }
+
+    .ph-hero {
+      min-height: 0;
+      aspect-ratio: 16 / 7;
+    }
+
+    /* sensible page breaks */
+    h1,
+    h2,
+    h3,
+    h4 {
+      break-after: avoid;
+    }
+
+    :is(figure, .scene-step, .pcard, .cover, .gotcha, .phase, .deflist > div, .lessons li, pre, .ph-hero) {
+      break-inside: avoid;
+    }
+
+    /* where an external link goes, written out after it */
+    a[href^="http"]:not([href^="https://ekkelenkamp.dev"])::after {
+      content: " (" attr(href) ")";
+      color: var(--ink-subtle);
+      font-size: 0.85em;
+      font-weight: 400;
+      overflow-wrap: anywhere;
+    }
+  }
+}
