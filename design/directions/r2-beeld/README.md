@@ -152,3 +152,72 @@ review bar.
   with no review bar, no copy.js, no localStorage and no external requests besides fonts. The
   side gutter sits on `.site` as `padding-left/right: max(16px, env(safe-area-inset-*, 0px))`.
 - New files: `site.js` (prints, copy button) and `build-artifact.js`.
+
+## Round 5: from mock-up to an implementation-ready site
+All copy now comes from `design/CONTENT-v5.md` (`copy.js` is no longer loaded, and the review bar
+keeps only Kleur and Koppen). Real photos are in `assets/photos/` and real app screenshots in
+`assets/shots/`. Both are used as `<img>` with intrinsic `width`/`height`, `decoding="async"`,
+`loading="lazy"` below the fold and written alt text. Drawn illustrations are left only where no
+real image exists: homelab architecture, home automation (wall panel + Zigbee mesh) and AI tooling.
+
+**Structure:**
+- Hero with the three photos as prints on the mat.
+- Numbers strip.
+- Experience: intro, the highlight with a small stack diagram (day-one services → one platform
+  from git → AWS/Azure), 8 competency cards, how I work, and the toolbox.
+- Projects: 5 bundles; the featured one rotates per load.
+- About with the two tall photos.
+- Contact with a copy button.
+
+**The case-study detail view** (`#<id>`) shows:
+- a lead visual, the story and facts;
+- numbers and the RAM bar;
+- a screenshot gallery (scroll-snap strip) with a lightbox (← →, Esc, swipe, caption, counter,
+  focus kept inside and returned to the thumbnail);
+- for the MTG suite and AI tooling, each part as a sub-section with its own images, chips and
+  public link;
+- decisions, learned the hard way, the Argo snippet, and the automation rows;
+- previous/next cards.
+
+`project.html?id=<id>` renders the same template as a standalone page, with the Homelab
+pre-rendered into the HTML.
+
+### UX pass 1: readability
+- Small text now has a floor: meta/mono 12px or more (`--step-meta`), secondary text 15–16px
+  (`--step-small`), body 16–18px. Line length is capped at 46–70ch everywhere.
+- The illustrations have two drawings each. Containers under 560px get a compact one with
+  fewer, larger labels (about 14–19px at phone width) through a container query. The tiny
+  9px ruler numbers became 12px.
+- Contrast on Nacht (measured): body 16.5:1, muted 9.9:1, subtle 6:1, accent 11:1. Labels on
+  screenshots and illustrations sit on a chip.
+- Removed or rephrased jargon a non-technical visitor would trip over. Each project card says
+  what it is in one plain line; tech words live in chips and case studies.
+
+### UX pass 2: flow and hierarchy
+- Within the first screen a recruiter sees who (name, Rotterdam), level (tech lead, 10+ / 8+
+  years in the numbers strip right below), stack (intro + numbers) and contact (Get in touch).
+- Nav order matches the page (Experience → Projects → About → Contact). The header is sticky on
+  wider screens, the nav marks the section in view with `aria-current`, and anchors offset for
+  the header. On phones the header scrolls away to save space.
+- The sticky index now lists all five projects with status, starts below the sticky header,
+  highlights the matching card both ways and opens the case study.
+- Competency 08 links straight into the AI tooling case study.
+
+### UX pass 3: interaction and polish
+- Everything clickable has a hover, focus-visible and pressed state. Cards lift, gallery
+  thumbnails show a zoom badge (always visible on touch), and buttons move down 1px when pressed.
+- Detail view and lightbox: keyboard (Tab stays inside, Esc closes the top layer only, ← → in
+  the lightbox), screen readers (`role="dialog"`, `aria-modal`, labelled, page behind `inert`,
+  live caption), touch (swipe in the lightbox, a full-height sheet on phones).
+- No layout shift: every image has intrinsic dimensions, and gallery thumbnails get a fixed
+  height so their width comes from the aspect ratio.
+- Grid safety: the featured project is removed from the grid, so the grid always has four cards
+  in the 3:2 / 4:5 / 1:1 / 4:3 rhythm. Screenshots sit `contain`-ed on a tonal stage, so any
+  crop works. A tall slot uses the phone screenshot where one exists. Empty fields (no chips,
+  no link, no parts) render nothing, not empty rows.
+- Checked at 320px for every featured project and every detail view: no horizontal scroll.
+  No console errors and no failed image loads. Reduced motion turns off the pulse, the
+  transitions and the zooms.
+
+Previews: `design/previews/r5-beeld--*.png`. Run `node build-artifact.js` after editing; it bakes
+`index.html` and `project.html` and writes `artifact.html` (images stay as files under `assets/`).

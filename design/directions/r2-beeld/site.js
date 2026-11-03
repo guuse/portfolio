@@ -38,9 +38,9 @@
     var status = document.getElementById(btn.getAttribute("aria-describedby"));
     function say(msg) {
       if (label) label.textContent = msg;
-      if (status) status.textContent = msg === "Copy" ? "" : msg;
+      if (status) status.textContent = msg === "Copy address" ? "" : msg;
       clearTimeout(btn._t);
-      btn._t = setTimeout(function () { if (label) label.textContent = "Copy"; if (status) status.textContent = ""; }, 2200);
+      btn._t = setTimeout(function () { if (label) label.textContent = "Copy address"; if (status) status.textContent = ""; }, 2200);
     }
     function selectText() {
       try {
@@ -55,4 +55,22 @@
       } catch (e) { selectText(); say("Selected, press Ctrl/Cmd+C"); }
     });
   });
+
+  /* Nav: mark the section in view with aria-current, and give the sticky header an edge. */
+  var header = document.querySelector(".site-header");
+  var links = Array.prototype.slice.call(document.querySelectorAll('.nav a[href^="#"]'));
+  var sections = links.map(function (a) { return document.getElementById(a.getAttribute("href").slice(1)); }).filter(Boolean);
+  function track() {
+    if (header) header.classList.toggle("is-stuck", window.scrollY > 8);
+    var y = window.scrollY + window.innerHeight * 0.35, current = null;
+    sections.forEach(function (s) { if (s.offsetTop <= y) current = s.id; });
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4 && sections.length) current = sections[sections.length - 1].id;
+    links.forEach(function (a) {
+      if (a.getAttribute("href") === "#" + current) a.setAttribute("aria-current", "location"); else a.removeAttribute("aria-current");
+    });
+  }
+  var ticking = false;
+  window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(function () { ticking = false; track(); }); } }, { passive: true });
+  window.addEventListener("resize", track);
+  track();
 })();

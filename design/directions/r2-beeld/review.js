@@ -8,7 +8,6 @@
   var Copy = window.EkkCopy;
   var GROUPS = [
     { key: "option", label: "Kleur", values: [["nacht", "Nacht"], ["kobalt", "Kobalt"], ["signaal", "Signaal"]] },
-    { key: "copy", label: "Tekst", values: [["nuchter", "Nuchter"], ["speels", "Speels"], ["persoonlijk", "Persoonlijk"], ["kort", "Kort"]] },
     { key: "type", label: "Koppen", values: [["a", "Serif"], ["b", "Sans"]] }
   ];
   var state = {};
@@ -31,13 +30,11 @@
   function applyState() {
     html.setAttribute("data-option", state.option);
     html.setAttribute("data-type", state.type);
-    if (Copy) Copy.apply(state.copy);
-    html.setAttribute("data-copy-voice", state.copy);
     sizeHeadline();
   }
 
   function query() {
-    return "?option=" + state.option + "&copy=" + state.copy + "&type=" + state.type;
+    return "?option=" + state.option + "&type=" + state.type;
   }
 
   function syncUI() {

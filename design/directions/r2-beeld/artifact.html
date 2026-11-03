@@ -88,6 +88,9 @@
     --step-giant: clamp(2.5rem, 1rem + 6.2vw, 7rem);
     --radius-s: 2px; --radius-m: 4px; --radius-l: 6px;
     --mat-cell: 24px;
+    /* round 5: small text floors (readability pass) */
+    --step-meta: clamp(0.75rem, 0.73rem + 0.1vw, 0.8125rem);
+    --step-small: clamp(0.9375rem, 0.92rem + 0.1vw, 1rem);
   }
   /* Koppen (heading styles) */
   :root, [data-type="a"] {
@@ -277,7 +280,7 @@
   .prose { max-width: var(--measure); }
   .prose p + p { margin-block-start: var(--space-s); }
   /* Meta: the only place the mono face appears */
-  .meta { font-family: var(--font-mono); font-size: var(--step--2); line-height: 1.4; color: var(--ink-subtle); letter-spacing: 0; font-variant-ligatures: none; }
+  .meta { font-family: var(--font-mono); font-size: var(--step-meta); line-height: 1.4; color: var(--ink-subtle); letter-spacing: 0; font-variant-ligatures: none; }
   .meta b { font-weight: 500; color: var(--ink-muted); }
   /* <em>: one playful phrase per headline, styled per colour option */
   .display em, .h2 em {
@@ -348,7 +351,7 @@
          background-size: calc(var(--mat-cell) * 5) calc(var(--mat-cell) * 5), calc(var(--mat-cell) * 5) calc(var(--mat-cell) * 5), var(--mat-cell) var(--mat-cell), var(--mat-cell) var(--mat-cell);
          background-position: -1px -1px; }
   .mat__ruler { position: absolute; inset-block-start: 6px; inset-inline-start: 0; inset-inline-end: 0; display: flex; padding-inline-start: calc(var(--mat-cell) * 5 - 4px); gap: 0;
-                font-family: var(--font-mono); font-size: 9px; color: var(--ink-subtle); pointer-events: none; overflow: hidden; }
+                font-family: var(--font-mono); font-size: 12px; color: var(--ink-subtle); pointer-events: none; overflow: hidden; }
   .mat__ruler span { flex: none; width: calc(var(--mat-cell) * 5); }
   @media (min-width: 600px) { .mat { grid-column: 2 / -1; margin-inline-start: 0; } }
   @media (min-width: 960px) {
@@ -359,7 +362,7 @@
            box-shadow: var(--shadow-2), 0 1px 2px oklch(0% 0 0 / 0.14);
            transform: translate(var(--dx, 0px), var(--dy, 0px)) rotate(var(--tilt, 0deg)); transition: transform var(--dur-slow) var(--ease-spring), box-shadow var(--dur-base) var(--ease-out); z-index: 1; }
   .print .ph::before { inset: 7px; }
-  .print .ph__label { font-size: var(--step--2); inset-inline-start: 12px; inset-block-end: 12px; }
+  .print .ph__label { font-size: var(--step-meta); inset-inline-start: 12px; inset-block-end: 12px; }
   .print.is-dragging { transition: none; cursor: grabbing; z-index: 4; transform: translate(var(--dx, 0px), var(--dy, 0px)) rotate(0deg) scale(1.04); }
   .print:hover { transform: translate(var(--dx, 0px), var(--dy, 0px)) rotate(0deg) translateY(-6px) scale(1.03); z-index: 3; box-shadow: 0 18px 44px oklch(0% 0 0 / 0.24); }
   .print--portrait { --tilt: 1.5deg; }
@@ -374,7 +377,7 @@
   .pillar p { margin-block-start: var(--space-2xs); color: var(--ink-muted); font-size: var(--step--1); line-height: 1.5; }
   /* ---------- Code chips (tags) */
   .chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 0; list-style: none; }
-  .chips li { font-family: var(--font-mono); font-size: var(--step--2); line-height: 1; padding: 5px 7px; border-radius: 3px;
+  .chips li { font-family: var(--font-mono); font-size: var(--step-meta); line-height: 1; padding: 5px 7px; border-radius: 3px;
               background: var(--surface-sunken); color: var(--ink-muted); border: 1px solid var(--line); font-variant-ligatures: none; }
   /* ---------- Links & buttons */
   .arrow-link { display: inline-flex; align-items: center; gap: 0.5em; min-height: 44px; font-weight: 500; text-decoration: none;
@@ -425,9 +428,9 @@
   .index a { display: grid; grid-template-columns: 2.2rem 1fr auto; align-items: baseline; gap: var(--space-2xs); padding-block: var(--space-xs); min-height: 44px;
              border-block-end: 1px solid var(--line); text-decoration: none; color: var(--ink);
              transition: color var(--dur-quick) var(--ease-out), padding var(--dur-base) var(--ease-out); }
-  .index__no { font-family: var(--font-mono); font-size: var(--step--2); color: var(--ink-subtle); transition: color var(--dur-quick) var(--ease-out); }
+  .index__no { font-family: var(--font-mono); font-size: var(--step-meta); color: var(--ink-subtle); transition: color var(--dur-quick) var(--ease-out); }
   .index__title { font-size: var(--step--1); font-weight: 500; }
-  .index__mark { font-family: var(--font-mono); font-size: var(--step--2); color: var(--ink-subtle); }
+  .index__mark { font-family: var(--font-mono); font-size: var(--step-meta); color: var(--ink-subtle); }
   .index li.is-hot a, .index a:hover, .index a:focus-visible { color: var(--p-ink, var(--accent-text)); padding-inline-start: 6px; }
   .index li.is-hot .index__no, .index a:hover .index__no { color: var(--p-ink, var(--accent-text)); }
   .index li .index__no::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-inline-end: 6px; background: var(--p); vertical-align: 1px; }
@@ -491,7 +494,7 @@
   .site-footer__inner { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: var(--space-xs) var(--space-l); }
   .site-footer a { text-decoration: none; display: inline-block; padding-block: var(--space-2xs); }
   .site-footer a:hover { text-decoration: underline; }
-  .status { display: inline-flex; align-items: baseline; flex-wrap: wrap; gap: 0 0.6em; font-family: var(--font-mono); font-size: var(--step--2); color: var(--ink-subtle); }
+  .status { display: inline-flex; align-items: baseline; flex-wrap: wrap; gap: 0 0.6em; font-family: var(--font-mono); font-size: var(--step-meta); color: var(--ink-subtle); }
   .status__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ok); align-self: center; }
   /* ---------- Project page */
   .case { --p: var(--tone-homelab); --p-ink: var(--pink-homelab); }
@@ -500,7 +503,7 @@
   .case-head__title { grid-column: 1 / -1; font-size: calc(var(--step-giant) * var(--heading-scale)); max-width: 14ch; }
   .case-head__line { grid-column: 1 / -1; font-size: var(--step-1); line-height: 1.4; max-width: 32ch; }
   .case-meta { grid-column: 1 / -1; display: grid; grid-template-columns: auto 1fr; gap: var(--space-xs) var(--space-m); font-size: var(--step--1); align-items: baseline; }
-  .case-meta dt { font-family: var(--font-mono); font-size: var(--step--2); color: var(--ink-subtle); }
+  .case-meta dt { font-family: var(--font-mono); font-size: var(--step-meta); color: var(--ink-subtle); }
   @media (min-width: 960px) {
     .case-head__title { grid-column: 1 / 9; }
     .case-head__line { grid-column: 1 / 7; }
@@ -519,7 +522,7 @@
   /* Config snippet */
   .snippet { margin: 0; border: 1px solid var(--line); border-radius: var(--radius-m); background: var(--surface-sunken); overflow: hidden; }
   .snippet figcaption { display: flex; justify-content: space-between; gap: var(--space-s); padding: 8px 12px; border-block-end: 1px solid var(--line); }
-  .snippet pre { margin: 0; padding: 12px 14px 14px; overflow-x: auto; font-family: var(--font-mono); font-size: var(--step--2); line-height: 1.65; color: var(--ink); tab-size: 2; font-variant-ligatures: none; }
+  .snippet pre { margin: 0; padding: 12px 14px 14px; overflow-x: auto; font-family: var(--font-mono); font-size: var(--step-meta); line-height: 1.65; color: var(--ink); tab-size: 2; font-variant-ligatures: none; }
   .snippet .k { color: var(--ink-muted); }
   .snippet .v { color: var(--p-ink, var(--accent-text)); }
   .snippet .c { color: var(--ink-subtle); font-style: italic; }
@@ -538,7 +541,7 @@
   .diagram__vms { display: grid; gap: var(--space-xs); }
   .diagram__vm { background: var(--surface); }
   .diagram__vm:first-child { border-inline-start: 3px solid var(--p); }
-  .diagram__arrow { color: var(--ink-muted); text-align: center; line-height: 1.3; font-family: var(--font-mono); font-size: var(--step--2); }
+  .diagram__arrow { color: var(--ink-muted); text-align: center; line-height: 1.3; font-family: var(--font-mono); font-size: var(--step-meta); }
   .arr-h { display: none; }
   @media (min-width: 700px) {
     .diagram { grid-template-columns: minmax(0, 1fr) auto minmax(0, 2.8fr) auto minmax(0, 1fr); align-items: center; }
@@ -616,7 +619,7 @@
   .il::after { opacity: 0.12; }
   .il .ph__inner { display: none; }
   .il__svg { position: absolute; inset: 13% 5% 4%; width: 90%; height: 83%; transition: transform var(--dur-slow) var(--ease-out); overflow: visible; }
-  .il__label { inset-block-end: auto; inset-block-start: 14px; font-family: var(--font-mono); font-size: var(--step--2); color: var(--ink-muted); }
+  .il__label { inset-block-end: auto; inset-block-start: 14px; font-family: var(--font-mono); font-size: var(--step-meta); color: var(--ink-muted); }
   .item__media:hover .il__svg, .item.is-hot .il__svg, .feature__media:hover .il__svg { transform: scale(1.03); }
   .item:hover .il__label, .item.is-hot .il__label, .feature__media:hover .il__label, .feature.is-hot .il__label { background: var(--p-ink); color: var(--surface); }
   .il svg text { font-family: var(--font-body); }
@@ -650,7 +653,7 @@
   .s-pulse { fill: none; stroke: var(--p); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 26 600; stroke-dashoffset: 626; animation: travel 3.2s var(--ease-in-out) infinite; }
   @keyframes travel { to { stroke-dashoffset: 0; } }
   /* Status pill */
-  .state { display: inline-flex; align-items: center; gap: 0.45em; font-family: var(--font-mono); font-size: var(--step--2); color: var(--ink-muted); white-space: nowrap; }
+  .state { display: inline-flex; align-items: center; gap: 0.45em; font-family: var(--font-mono); font-size: var(--step-meta); color: var(--ink-muted); white-space: nowrap; }
   .state__dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ink-subtle); }
   .state--live .state__dot { background: var(--ok); box-shadow: 0 0 0 3px color-mix(in oklch, var(--ok) 25%, transparent); }
   .state--wip .state__dot { background: var(--warn); }
@@ -660,15 +663,15 @@
   .item__facts .chips { margin: 0; }
   /* Work: recently */
   .pillar__recent { margin-block-start: var(--space-xs) !important; padding-inline-start: var(--space-xs); border-inline-start: 2px solid var(--accent-soft); }
-  .pillar__recent b { font-family: var(--font-mono); font-weight: 400; font-size: var(--step--2); color: var(--ink-subtle); display: block; margin-block-end: 2px; }
+  .pillar__recent b { font-family: var(--font-mono); font-weight: 400; font-size: var(--step-meta); color: var(--ink-subtle); display: block; margin-block-end: 2px; }
   /* About: currently + toolbox */
   .currently, .toolbox-list { display: grid; gap: 0; margin: 0; }
   .currently div, .toolbox-list div { display: grid; grid-template-columns: 7.5rem 1fr; gap: var(--space-s); padding-block: var(--space-2xs); border-block-end: 1px solid var(--line); font-size: var(--step--1); }
-  .currently dt, .toolbox-list dt { font-family: var(--font-mono); font-size: var(--step--2); color: var(--ink-subtle); padding-block-start: 2px; }
+  .currently dt, .toolbox-list dt { font-family: var(--font-mono); font-size: var(--step-meta); color: var(--ink-subtle); padding-block-start: 2px; }
   .currently dd, .toolbox-list dd { color: var(--ink); }
   .toolbox-list dd { color: var(--ink-muted); }
   .currently .now__dot { display: inline-block; margin-inline-end: 0.5em; }
-  .about__sub { font-family: var(--font-mono); font-size: var(--step--2); color: var(--ink-subtle); margin-block: var(--space-s) var(--space-3xs); }
+  .about__sub { font-family: var(--font-mono); font-size: var(--step-meta); color: var(--ink-subtle); margin-block: var(--space-s) var(--space-3xs); }
   /* Contact: selectable address + copy button */
   .contact__row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-s) var(--space-m); margin-block: var(--space-m); }
   .contact__row .contact__mail { margin: 0; user-select: all; cursor: text; }
@@ -714,7 +717,7 @@
   .detail__line { font-size: var(--step-1); line-height: 1.4; margin-block-start: var(--space-xs); max-width: 36ch; }
   .detail__facts { display: grid; gap: 0; margin: 0; }
   .detail__facts div { display: grid; grid-template-columns: 6.5rem 1fr; gap: var(--space-s); padding-block: var(--space-xs); border-block-end: 1px solid var(--line); align-items: baseline; }
-  .detail__facts dt { font-family: var(--font-mono); font-size: var(--step--2); color: var(--ink-subtle); }
+  .detail__facts dt { font-family: var(--font-mono); font-size: var(--step-meta); color: var(--ink-subtle); }
   .detail__story p { max-width: 52ch; }
   .detail__how h3 { margin-block-end: var(--space-xs); }
   .detail__how .learned li::before { color: var(--p-ink); }
@@ -723,6 +726,258 @@
 @media (prefers-reduced-motion: reduce) {
   .s-pulse { animation: none; stroke-dashoffset: 300; }
   .detail__panel { transform: none; }
+}
+/* ============================================================ round 5 */
+@layer components {
+  /* --- Readability floors */
+  .eyebrow, .item__line, .pillar p, .caption, .toolbox, .now, .currently div, .toolbox-list div, .index__title { font-size: var(--step-small); }
+  .intro__para, .feature__story p, .detail__story p { font-size: var(--step-0); }
+  .meta, .chips li, .state, .status, .index__no, .index__mark, .il__label { font-size: var(--step-meta); }
+  /* --- Sticky header that tracks the section you're in */
+  .site-header { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; padding-block: var(--space-s);
+                 background: color-mix(in oklch, var(--surface) 88%, transparent); backdrop-filter: blur(10px);
+                 border-block-end: 1px solid transparent; transition: border-color var(--dur-base) var(--ease-out); }
+  .site-header.is-stuck { border-block-end-color: var(--line); }
+  .nav a[aria-current] { color: var(--ink); background-size: 100% 1px; }
+  .nav a { min-height: 44px; display: inline-flex; align-items: center; }
+  :target, section[id] { scroll-margin-block-start: 84px; }
+  main:focus { outline: none; }
+  /* --- Hero prints are real photos now */
+  .print img { display: block; width: 100%; height: auto; -webkit-user-drag: none; user-select: none; pointer-events: none; }
+  .mat { padding: 9% 12% 16% 24%; }
+  .print--portrait { --tilt: 1.5deg; }
+  .print--a { --tilt: -5deg; inset-inline-start: 3%; inset-block-start: 26%; width: 27%; }
+  .print--b { --tilt: 4deg; inset-inline-end: 3%; inset-block-end: 3%; width: 30%; }
+  .intro__para { max-width: 46ch; }
+  .now strong { font-weight: 600; color: var(--ink); }
+  /* --- Numbers strip */
+  .numbers { margin-block-start: var(--space-2xl); }
+  .numbers__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-l) var(--gutter); margin-block: 0; }
+  @media (min-width: 960px) { .numbers__list { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .numbers__list div { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: var(--space-2xs); padding-block-start: var(--space-s); border-block-start: 1px solid var(--line-strong); }
+  .numbers__list dd { font-family: var(--font-heading); font-weight: var(--heading-weight); letter-spacing: var(--heading-tracking); font-size: calc(var(--step-5) * var(--heading-scale)); line-height: 1; color: var(--ink); }
+  .numbers__list dd::first-letter { color: var(--accent-text); }
+  .numbers__list dt { font-size: var(--step-small); color: var(--ink-muted); max-width: 26ch; }
+  /* --- Experience */
+  .sub-head { margin-block: var(--space-3xl) var(--space-m); padding-block-end: var(--space-xs); border-block-end: 1px solid var(--line-strong); }
+  .sub-head .meta { color: var(--ink-muted); }
+  .highlight { margin-block-start: var(--space-2xl); display: grid; gap: var(--space-xl); padding: clamp(20px, 3vw, 40px); border: 1px solid var(--line); border-radius: var(--radius-l);
+               background: linear-gradient(140deg, color-mix(in oklch, var(--accent) 9%, var(--surface-raised)), var(--surface-raised) 60%); position: relative; overflow: hidden; }
+  .highlight::before { content: ""; position: absolute; inset-block: 0; inset-inline-start: 0; width: 3px; background: var(--accent); }
+  @media (min-width: 960px) { .highlight { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: center; } }
+  .highlight__text { display: grid; gap: var(--space-s); justify-items: start; }
+  .highlight__title { font-family: var(--font-heading); font-weight: var(--heading-weight); letter-spacing: var(--heading-tracking); font-size: calc(var(--step-3) * var(--heading-scale)); line-height: 1.08; max-width: 22ch; }
+  .highlight__text p:not(.meta) { max-width: 56ch; color: var(--ink-muted); }
+  .stack { margin: 0; display: grid; gap: 8px; }
+  .stack__row { display: grid; gap: 6px; padding: 12px 14px; border-radius: var(--radius-m); border: 1px solid var(--line-strong); background: var(--surface); }
+  .stack__row .meta { color: var(--ink-subtle); }
+  .stack__cells { display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 6px; }
+  .stack__cells span { padding: 8px 10px; border-radius: var(--radius-s); background: var(--surface-sunken); border: 1px solid var(--line); font-size: var(--step-small); text-align: center; }
+  .stack__row--platform { background: color-mix(in oklch, var(--accent) 14%, var(--surface)); border-color: color-mix(in oklch, var(--accent) 55%, var(--surface)); }
+  .stack__row--platform strong { font-weight: 600; }
+  .stack__git { font-size: var(--step-small); color: var(--ink-muted); }
+  .skills { list-style: none; padding: 0; display: grid; gap: var(--gutter); grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 640px) { .skills { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 1200px) { .skills { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .skill { display: flex; flex-direction: column; gap: var(--space-2xs); padding: var(--space-m); border: 1px solid var(--line); border-radius: var(--radius-m); background: var(--surface-raised);
+           transition: border-color var(--dur-quick) var(--ease-out); }
+  .skill:hover { border-color: var(--line-strong); }
+  .skill__no { font-family: var(--font-mono); font-size: var(--step-meta); color: var(--accent-text); }
+  .skill__title { font-size: var(--step-1); font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; }
+  .skill__line { color: var(--ink-muted); font-size: var(--step-small); }
+  .skill__list { margin: var(--space-2xs) 0 0; padding-inline-start: 1.1em; display: grid; gap: 6px; font-size: var(--step-small); line-height: 1.45; }
+  .skill__list li::marker { color: var(--ink-subtle); }
+  .skill__list a { color: var(--accent-text); }
+  .skill .chips { margin-block-start: auto; padding-block-start: var(--space-s); }
+  .work-bottom { row-gap: 0; align-items: start; }
+  .principles-wrap, .toolbox-wrap { grid-column: 1 / -1; }
+  @media (min-width: 960px) { .principles-wrap { grid-column: 1 / 6; } .toolbox-wrap { grid-column: 7 / 13; } }
+  .principles { list-style: none; padding: 0; counter-reset: pr; display: grid; gap: var(--space-m); }
+  .principles li { counter-increment: pr; display: grid; grid-template-columns: 2.5rem 1fr; gap: var(--space-xs); color: var(--ink-muted); font-size: var(--step-small); line-height: 1.5; }
+  .principles li::before { content: counter(pr, decimal-leading-zero); font-family: var(--font-mono); font-size: var(--step-meta); color: var(--accent-text); padding-block-start: 0.3em; }
+  .principles strong { display: block; font-family: var(--font-heading); font-weight: var(--heading-weight); letter-spacing: var(--heading-tracking); font-size: calc(var(--step-2) * var(--heading-scale)); line-height: 1.1; color: var(--ink); margin-block-end: 4px; }
+  .toolbox-list div { grid-template-columns: 9.5rem 1fr; }
+  /* --- Screenshot stage (real images on the project's tone) */
+  .stage { --stage-bg: color-mix(in oklch, var(--p, var(--tone)) 22%, var(--surface));
+           background-color: var(--stage-bg);
+           background-image: radial-gradient(color-mix(in oklch, var(--p, var(--tone)) 30%, transparent) 1px, transparent 1.6px);
+           background-size: 18px 18px; }
+  .stage::before { --t: color-mix(in oklch, var(--ink) 40%, transparent); }
+  .stage::after { display: none; }
+  .stage img { position: absolute; inset: 0; margin: auto; width: auto; height: auto; max-width: 84%; max-height: 74%; transform: translateY(5%);
+               border-radius: 6px; box-shadow: 0 16px 40px oklch(5% 0.03 266 / 0.55), 0 0 0 1px oklch(100% 0 0 / 0.08);
+               transition: transform var(--dur-slow) var(--ease-out); }
+  .stage--tall img { max-height: 82%; border-radius: 14px; }
+  .item__media:hover .stage img, .item.is-hot .stage img, .feature__media:hover .stage img { transform: translateY(5%) scale(1.025); }
+  .feature__media .stage img { max-height: 80%; }
+  /* --- Illustrations: full drawing in wide containers, a compact one in narrow ones */
+  .il { container-type: inline-size; }
+  .il__art { position: absolute; inset: 0; }
+  .il__svg--compact { display: none; }
+  @container (max-width: 560px) {
+    .il__svg--full { display: none; }
+    .il__svg--compact { display: block; inset: 14% 6% 5%; width: 88%; height: 81%; }
+  }
+  .il svg .s-m { font-size: 12.5px; }
+  .s-t { font-size: 15px; }
+  .il svg .s-c { fill: var(--ink-muted); font-family: var(--font-mono); font-size: 14.5px; }
+  .s-lg { font-size: 19px; font-weight: 600; }
+  .s-s { font-size: 13.5px; }
+  .s-on { fill: var(--surface) !important; font-weight: 600; }
+  .s-tile { fill: var(--surface-raised); stroke: var(--il-line); stroke-width: 1; }
+  .s-tile--on { fill: color-mix(in oklch, var(--p) 18%, var(--surface-raised)); stroke: var(--p); }
+  .s-warn { fill: var(--warn); }
+  /* --- Card captions: no empty rows */
+  .item__facts:empty { display: none; }
+  .button--ghost { background: transparent; color: var(--ink); border: 1px solid var(--p-ink, var(--line-strong)); }
+  .button--ghost:hover { background: var(--p, var(--accent)); color: var(--surface); border-color: var(--p, var(--accent)); }
+  .index a { cursor: pointer; }
+  .index__head .meta { color: var(--ink-subtle); }
+  /* --- Detail: case study */
+  .detail__panel { width: min(100%, 1120px); }
+  .detail__title { font-size: calc(var(--step-6) * var(--heading-scale) * 0.85); margin-block: var(--space-m) var(--space-l); max-width: 16ch; }
+  .case { display: grid; gap: var(--space-2xl); }
+  .case__visual .ph { --ratio: 4 / 3; border-radius: var(--radius-m); }
+  @media (min-width: 760px) { .case__visual .ph { --ratio: 16 / 9; } }
+  .case__intro { display: grid; gap: var(--space-l); }
+  @media (min-width: 860px) { .case__intro { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); column-gap: var(--space-xl); align-items: start; } }
+  .case__line { font-size: var(--step-1); line-height: 1.4; margin-block-end: var(--space-s); max-width: 40ch; }
+  .case__story p:not(.case__line) { max-width: 62ch; color: var(--ink-muted); }
+  .case__sec { display: grid; gap: var(--space-m); }
+  .case__h { font-family: var(--font-mono); font-size: var(--step-meta); font-weight: 400; color: var(--ink-muted); padding-block-end: var(--space-xs); border-block-end: 1px solid var(--line-strong); text-transform: none; }
+  .case__note, .case__note-lead { color: var(--ink-muted); max-width: 62ch; }
+  .case .stats { margin: 0; }
+  .case .learned { max-width: 66ch; }
+  .case .learned li::before { color: var(--p-ink); }
+  .case .snippet { max-width: 640px; }
+  .ram { display: flex; gap: 3px; height: 56px; border-radius: var(--radius-m); overflow: hidden; }
+  .ram__seg { display: flex; flex-direction: column; justify-content: center; padding-inline: 10px; min-width: 0; overflow: hidden; white-space: nowrap; font-size: var(--step-meta); font-family: var(--font-mono); color: var(--surface); background: var(--p); }
+  .ram__seg b { font-weight: 500; font-size: var(--step-small); font-family: var(--font-body); }
+  .ram__seg--1 { background: color-mix(in oklch, var(--p) 65%, var(--surface)); }
+  .ram__seg--2 { background: color-mix(in oklch, var(--p) 35%, var(--surface)); color: var(--ink); }
+  .ram__seg--3 { background: var(--surface-sunken); color: var(--ink-muted); border: 1px dashed var(--line-strong); }
+  @media (max-width: 599px) { .ram { height: auto; flex-wrap: wrap; } .ram__seg { flex: 1 1 40% !important; padding-block: 8px; } }
+  .decisions { display: grid; gap: var(--gutter); margin: 0; }
+  @media (min-width: 760px) { .decisions { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .decisions div { padding: var(--space-s); border: 1px solid var(--line); border-radius: var(--radius-m); background: var(--surface-raised); }
+  .decisions dt { font-weight: 600; margin-block-end: 6px; }
+  .decisions dd { color: var(--ink-muted); font-size: var(--step-small); }
+  .gotchas { list-style: none; padding: 0; display: grid; gap: var(--space-s); max-width: 70ch; }
+  .gotchas li { padding: var(--space-s) var(--space-s) var(--space-s) calc(var(--space-s) + 4px); border-radius: var(--radius-m); background: color-mix(in oklch, var(--warn) 9%, var(--surface)); border-inline-start: 3px solid var(--warn); }
+  .gotchas code { font-size: 0.9em; padding: 1px 5px; border-radius: 3px; background: var(--surface-sunken); }
+  .autos { list-style: none; padding: 0; display: grid; gap: 6px; }
+  .autos li { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1.3fr); align-items: center; gap: var(--space-s); padding: 10px var(--space-s); border: 1px solid var(--line); border-radius: var(--radius-m); background: var(--surface-raised); }
+  .autos .meta { display: block; color: var(--ink-subtle); margin-block-end: 2px; }
+  .autos__arrow { color: var(--p-ink); font-size: var(--step-1); }
+  @media (max-width: 520px) { .autos li { grid-template-columns: 1fr; gap: 4px; } .autos__arrow { display: none; } }
+  .case__photo { border-radius: var(--radius-m); max-width: 640px; }
+  .parts { display: grid; gap: var(--space-3xl); }
+  .part { display: grid; gap: var(--space-m); padding-block-start: var(--space-l); border-block-start: 1px solid var(--line-strong); }
+  @media (min-width: 860px) { .part { grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); column-gap: var(--space-xl); } .part .gallery { grid-column: 1 / -1; } }
+  .part__title { font-family: var(--font-heading); font-weight: var(--heading-weight); letter-spacing: var(--heading-tracking); font-size: calc(var(--step-3) * var(--heading-scale)); line-height: 1.05; margin-block: 4px 8px; }
+  .part__line { font-size: var(--step-0); color: var(--ink); max-width: 40ch; }
+  .part__body { display: grid; gap: var(--space-s); align-content: start; }
+  .part__body p:first-child { color: var(--ink-muted); max-width: 62ch; }
+  .part__body a:not(.arrow-link) { color: var(--accent-text); }
+  /* Gallery strip: scroll-snap, each image opens the lightbox */
+  .gallery { list-style: none; padding: 2px 2px var(--space-s); margin: 0; display: flex; gap: var(--space-s); overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain;
+             scrollbar-width: thin; scrollbar-color: var(--line-strong) transparent; }
+  .gallery__item { flex: none; scroll-snap-align: start; }
+  .gallery figure { margin: 0; width: min-content; }
+  .gallery__open { all: unset; position: relative; display: block; cursor: zoom-in; border-radius: 6px; }
+  .gallery__open img { display: block; height: clamp(180px, 28vw, 300px); width: auto; max-width: none; border-radius: 6px; border: 1px solid var(--line); transition: transform var(--dur-base) var(--ease-out), border-color var(--dur-quick) var(--ease-out); }
+  .gallery__open:hover img { border-color: var(--p-ink); transform: translateY(-2px); }
+  .gallery__open:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+  .gallery__open:active img { transform: scale(0.99); }
+  .gallery__zoom { position: absolute; inset-block-start: 8px; inset-inline-end: 8px; width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%;
+                   background: color-mix(in oklch, var(--surface) 82%, transparent); color: var(--ink); font-size: 15px; opacity: 0; transition: opacity var(--dur-quick) var(--ease-out); }
+  .gallery__open:hover .gallery__zoom, .gallery__open:focus-visible .gallery__zoom { opacity: 1; }
+  @media (hover: none) { .gallery__zoom { opacity: 1; } }
+  .gallery figcaption { margin-block-start: var(--space-xs); font-size: var(--step-small); color: var(--ink-muted); line-height: 1.4; }
+  .gallery figcaption .meta { display: block; color: var(--ink-subtle); margin-block-end: 2px; }
+  .detail__next { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gutter); margin-block-start: var(--space-3xl); }
+  .detail__card { all: unset; cursor: pointer; display: grid; gap: 6px; padding: var(--space-m); border: 1px solid var(--line); border-radius: var(--radius-m); background: var(--surface-raised);
+                  border-block-start: 3px solid var(--p); transition: border-color var(--dur-quick) var(--ease-out), transform var(--dur-base) var(--ease-out); }
+  .detail__card--next { text-align: end; }
+  .detail__card:hover { transform: translateY(-2px); border-color: var(--p); }
+  .detail__card:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
+  .detail__card-title { font-family: var(--font-heading); font-size: calc(var(--step-2) * var(--heading-scale)); line-height: 1.1; color: var(--ink); }
+  .detail__btn:active, .button:active, .copy:active { transform: translateY(1px); }
+  /* --- Lightbox */
+  .lightbox { position: fixed; inset: 0; z-index: 80; display: grid; grid-template-rows: 1fr auto; background: oklch(8% 0.03 266 / 0.94);
+              padding: max(12px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(12px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+              opacity: 0; transition: opacity var(--dur-base) var(--ease-out); }
+  .lightbox[hidden] { display: none; }
+  .lightbox.is-open { opacity: 1; }
+  .lightbox__stage { display: grid; place-items: center; min-height: 0; touch-action: pan-y; }
+  .lightbox__img { max-width: 100%; max-height: calc(100svh - 120px); width: auto; height: auto; border-radius: 6px; box-shadow: 0 20px 60px oklch(0% 0 0 / 0.5); }
+  .lightbox__bar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-s); padding-block-start: var(--space-s); color: oklch(96% 0.008 260); }
+  .lightbox__cap { flex: 1 1 260px; font-size: var(--step-small); }
+  .lightbox__count { color: oklch(80% 0.03 262); }
+  .lightbox__nav { display: flex; gap: var(--space-2xs); }
+  .lightbox .detail__btn { color: oklch(96% 0.008 260); border-color: oklch(60% 0.03 262); }
+  .lightbox .detail__close { background: oklch(96% 0.008 260); color: oklch(19% 0.045 266); }
+  /* --- About with two tall photos */
+  .about__grid { row-gap: var(--space-l); }
+  .about__text { grid-column: 1 / -1; }
+  .about__photo { margin: 0; }
+  .about__photo img { display: block; width: 100%; height: auto; border-radius: var(--radius-m); }
+  .about__photo--a { grid-column: 1 / 3; }
+  .about__photo--b { grid-column: 3 / 5; margin-block-start: var(--space-2xl); }
+  @media (min-width: 600px) { .about__photo--a { grid-column: 1 / 4; } .about__photo--b { grid-column: 4 / 7; } }
+  @media (min-width: 960px) {
+    .about__text { grid-column: 1 / 6; grid-row: 1; align-self: center; }
+    .about__photo--a { grid-column: 7 / 10; grid-row: 1; }
+    .about__photo--b { grid-column: 10 / 13; grid-row: 1; margin-block-start: var(--space-4xl); }
+  }
+  .about__photo figcaption { margin-block-start: var(--space-xs); }
+  /* --- Contact */
+  .contact__row { margin-block: var(--space-l) var(--space-s); }
+  .contact__line { color: var(--ink-muted); max-width: 52ch; }
+  .contact__mail { font-size: calc(var(--step-giant) * var(--heading-scale) * 0.82); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lightbox, .detail__card, .gallery__open img, .stage img { transition: none; }
+}
+@layer components {
+  .principles li { display: block; position: relative; padding-inline-start: 2.75rem; }
+  .principles li::before { position: absolute; inset-inline-start: 0; inset-block-start: 0; }
+}
+/* round 5 project ids, mapped onto the per-option tone sets */
+@layer tokens {
+  :root, [data-option] {
+    --tone-home: var(--tone-rules-of-99);   --pink-home: var(--pink-rules-of-99);
+    --tone-mtg: var(--tone-scryfall);       --pink-mtg: var(--pink-scryfall);
+    --tone-ai: var(--tone-finds);           --pink-ai: var(--pink-finds);
+    --tone-scouts: var(--tone-quizmaster);  --pink-scouts: var(--pink-quizmaster);
+  }
+}
+@layer components {
+  @media (min-width: 960px) { .index { inset-block-start: 96px; } }
+}
+@layer components {
+  .stage { --ph-chip: color-mix(in oklch, var(--surface) 80%, transparent); --ph-ink: var(--ink); }
+  .stage .il__label { color: var(--ink-muted); }
+}
+@layer components {
+  .case__intro .detail__facts { grid-column: auto; grid-row: auto; }
+  .lightbox { background: oklch(7% 0.03 266 / 0.985); }
+}
+@layer components {
+  .s-xs { font-size: 12.5px; }
+  @media (max-width: 599px) { .site-header { position: relative; top: auto; } }
+}
+@layer components {
+  .case-page { padding-block: var(--space-l) 0; }
+  .case-page .detail__title { margin-block-start: var(--space-s); }
+}
+@layer components {
+  .feature__media .stage img { max-height: 70%; transform: translateY(-10%); }
+  .feature__media:hover .stage img { transform: translateY(-10%) scale(1.02); }
+  @media (max-width: 959px) { .feature__media .stage img { transform: translateY(-14%); max-height: 64%; } }
+}
+@layer components {
+  .stage .il__label { inset-block-start: auto; inset-block-end: 14px; inset-inline-start: auto; inset-inline-end: 14px; }
 }
 /* artifact: dark by design, nothing repo-only */
 :root { color-scheme: dark; }
@@ -737,113 +992,180 @@ html, body { background: var(--surface); }
     <a class="site-header__name" href="#main">Guus Ekkelenkamp</a>
     <nav class="nav" aria-label="Main">
       <ul>
-        <li><a href="#work" data-copy="nav.work">Work</a></li>
-        <li><a href="#projects" data-copy="nav.projects">Projects</a></li>
-        <li><a href="#about" data-copy="nav.about">About</a></li>
-        <li><a href="#contact" data-copy="nav.contact">Contact</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
   </div>
 </header>
 
-<main id="main">
+<main id="main" tabindex="-1">
   <section class="intro" aria-labelledby="intro-title">
     <div class="page grid intro__grid">
       <div class="intro__text">
-        <p class="intro__kicker" data-copy="hero.kicker">Rotterdam</p>
-        <h1 class="intro__title display" id="intro-title" data-copy="hero.headline">I like building things that <em>keep running</em>.</h1>
-        <p class="intro__role" data-copy="hero.role">Tech lead, infra team at Harborn</p>
-        <p class="intro__para" data-copy="hero.intro">I&rsquo;m Guus. At Harborn I make sure client platforms are secure and reliable. At home I keep going: a few web apps, a small server and more home automation than one apartment needs.</p>
+        <p class="intro__kicker">Rotterdam</p>
+        <h1 class="intro__title display" id="intro-title">I like building things that <em>keep running</em>.</h1>
+        <p class="intro__role">Tech lead, infra team at Harborn</p>
+        <p class="intro__para">Ten years in development agencies, eight of them in infrastructure. I build and run the platforms client projects land on: Kubernetes, GitOps and cloud, set up so they&rsquo;re secure, repeatable and boring to operate. At home I do the same on a smaller scale.</p>
         <div class="intro__ctas">
-          <a class="button" href="#contact"><span data-copy="cta.primary">Get in touch</span> <span aria-hidden="true">&rarr;</span></a>
-          <a class="arrow-link" href="#projects"><span data-copy="cta.secondary">See projects</span> <span aria-hidden="true">&darr;</span></a>
+          <a class="button" href="#contact">Get in touch <span aria-hidden="true">&rarr;</span></a>
+          <a class="arrow-link" href="#projects">See projects <span aria-hidden="true">&darr;</span></a>
         </div>
-        <p class="now"><span class="now__dot" aria-hidden="true"></span><span><strong style="font-weight: 600; color: var(--ink)">Now:</strong> building a 3-node cluster from second-hand mini PCs.</span></p>
+        <p class="now"><span class="now__dot" aria-hidden="true"></span><span><strong>Now:</strong> turning one homelab node into three, from second-hand mini PCs.</span></p>
       </div>
 
       <div class="mat">
         <div class="mat__ruler" aria-hidden="true"><span>5</span><span>10</span><span>15</span><span>20</span><span>25</span><span>30</span><span>35</span></div>
         <figure class="print print--portrait">
-          <div class="ph ph--portrait" role="img" aria-label="Photo: portrait of Guus"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true"><span class="ph__no">00</span>Photo: portrait of Guus</span></div>
+          <img src="assets/photos/portrait.webp" width="800" height="800" alt="Guus Ekkelenkamp, portrait" fetchpriority="high" decoding="async">
         </figure>
         <figure class="print print--a">
-          <div class="ph" role="img" aria-label="Photo: the wall panel at home"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true">Photo: the wall panel</span></div>
+          <img src="assets/photos/bouldering.webp" width="900" height="1512" alt="Guus bouldering on a sandstone block outdoors" decoding="async">
         </figure>
         <figure class="print print--b">
-          <div class="ph" role="img" aria-label="Photo: game night, cards on the table"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true">Photo: game night</span></div>
+          <img src="assets/photos/sunset.webp" width="1000" height="1328" alt="Guus at a railing at sunset over the water" decoding="async">
         </figure>
       </div>
     </div>
   </section>
 
-  <section class="section" id="work" aria-labelledby="work-title">
+  <section class="numbers" aria-label="In numbers">
+    <dl class="page numbers__list tnum">
+      <div><dt>years in development agencies</dt><dd>10+</dd></div>
+      <div><dt>years in infrastructure</dt><dd>8+</dd></div>
+      <div><dt>cloud-agnostic Kubernetes platform, running for multiple clients</dt><dd>1</dd></div>
+      <div><dt>clouds day to day: AWS and Azure</dt><dd>2</dd></div>
+    </dl>
+  </section>
+
+  <section class="section" id="experience" aria-labelledby="experience-title">
     <div class="page grid">
-      <h2 class="split__title h2" id="work-title" data-copy="work.title">Work</h2>
+      <h2 class="split__title h2" id="experience-title">Experience</h2>
       <div class="split__body">
-        <p class="lead lead--wide" data-copy="work.intro">I&rsquo;m tech lead of the infra team at Harborn, a digital agency in Rotterdam and Amsterdam. Before a client project gets built, we decide where it runs, how it&rsquo;s set up and who gets access to what.</p>
-        <ul class="pillars">
-          <li class="pillar"><h3 class="h3">Security</h3><p>Policies people actually follow, access reviews, and deciding which tools are allowed near client data.</p><p class="pillar__recent"><b>recently</b>A full access review across our client environments, and a short list of AI tools we allow near client work.</p></li>
-          <li class="pillar"><h3 class="h3">Cloud &amp; platform</h3><p>The Kubernetes platform our projects run on, set up so it can be rebuilt from code.</p><p class="pillar__recent"><b>recently</b>Moving more client apps onto the shared platform, with every environment described in git.</p></li>
-          <li class="pillar"><h3 class="h3">Architecture</h3><p>How client systems connect, and writing down why we chose what we chose.</p><p class="pillar__recent"><b>recently</b>Short decision records for every bigger choice, so the reasoning outlives the meeting.</p></li>
-        </ul>
+        <p class="lead lead--wide">I&rsquo;ve spent my whole career at development agencies, where every client brings a different stack, a different cloud and a different deadline. For the last eight years I&rsquo;ve worked on the layer underneath: the platform, the pipelines and the security that let many projects ship without each one reinventing them. Today I lead the infra team.</p>
+      </div>
+    </div>
+
+    <div class="page">
+      <article class="highlight" aria-labelledby="hl-title">
+        <div class="highlight__text">
+          <p class="meta">highlight</p>
+          <h3 class="highlight__title" id="hl-title">A standardised, cloud-agnostic Kubernetes hosting platform.</h3>
+          <p>I designed and built the hosting platform our client projects run on. It&rsquo;s the same setup on every cloud, driven from git, and it&rsquo;s been rolled out for multiple clients. New projects get a namespace, a pipeline and monitoring on day one instead of in week six.</p>
+          <!-- [CONFIRM: any numbers to add, e.g. number of clients/apps/clusters] -->
+          <ul class="chips" aria-label="Built with"><li>kubernetes</li><li>argo-cd</li><li>terraform</li><li>helm</li><li>prometheus</li></ul>
+        </div>
+        <figure class="stack" aria-label="Diagram: every new project gets a namespace, a pipeline and monitoring from one platform, driven from git, that runs the same on AWS and Azure.">
+          <div class="stack__row stack__row--day1"><span class="meta">day one, every project</span><div class="stack__cells"><span>namespace</span><span>pipeline</span><span>monitoring</span></div></div>
+          <div class="stack__row stack__row--platform"><span class="meta">one platform</span><strong>The same setup, driven from git</strong><span class="stack__git"><code>git</code> &rarr; <code>argo cd</code></span></div>
+          <div class="stack__row stack__row--clouds"><span class="meta">any cloud</span><div class="stack__cells"><span>AWS &middot; EKS</span><span>Azure &middot; AKS</span></div></div>
+        </figure>
+      </article>
+
+      <h3 class="sub-head"><span class="meta">what I work on</span></h3>
+      <ol class="skills">
+        <li class="skill"><p class="skill__no">01</p><h4 class="skill__title">Kubernetes platform engineering</h4><p class="skill__line">Production clusters, and the custom parts that make them fit.</p>
+          <ul class="skill__list"><li>Custom operators and CRDs for the things off-the-shelf charts don&rsquo;t cover</li><li>Helm charts and Kustomize overlays, standardised across projects</li><li>Upgrades, multi-tenancy and capacity, run in production</li></ul>
+          <ul class="chips" aria-label="Tools"><li>kubernetes</li><li>operators</li><li>crds</li><li>helm</li><li>kustomize</li></ul></li>
+        <li class="skill"><p class="skill__no">02</p><h4 class="skill__title">GitOps &amp; delivery</h4><p class="skill__line">Git is the source of truth; the cluster follows.</p>
+          <ul class="skill__list"><li>Argo CD for every environment, with app-of-apps</li><li>CI with GitHub Actions: build, test and push immutable images</li><li>Promotion and rollbacks by commit, not by hand</li></ul>
+          <ul class="chips" aria-label="Tools"><li>argo-cd</li><li>github-actions</li><li>gitops</li></ul></li>
+        <li class="skill"><p class="skill__no">03</p><h4 class="skill__title">Infrastructure as Code</h4><p class="skill__line">Environments you can rebuild from a repo.</p>
+          <ul class="skill__list"><li>Terraform / OpenTofu modules for networks, clusters, databases and identity</li><li>The same building blocks reused across clients and clouds</li><li>Reviews and plans in pull requests before anything changes</li></ul>
+          <ul class="chips" aria-label="Tools"><li>terraform</li><li>opentofu</li></ul></li>
+        <li class="skill"><p class="skill__no">04</p><h4 class="skill__title">Cloud: AWS &amp; Azure</h4><p class="skill__line">Mostly AWS, Azure where the client lives there.</p>
+          <ul class="skill__list"><li>AWS: EKS, IAM, VPC, RDS</li><li>Azure: AKS, Entra ID</li><li>Landing the same platform on either, without rewriting the apps</li></ul>
+          <ul class="chips" aria-label="Tools"><li>aws</li><li>eks</li><li>iam</li><li>vpc</li><li>rds</li><li>azure</li><li>aks</li><li>entra-id</li></ul></li>
+        <li class="skill"><p class="skill__no">05</p><h4 class="skill__title">Observability</h4><p class="skill__line">Know before the client does.</p>
+          <ul class="skill__list"><li>Metrics with Prometheus, dashboards in Grafana, logs in Loki</li><li>Alerts that point at a cause, not just a symptom</li></ul>
+          <ul class="chips" aria-label="Tools"><li>prometheus</li><li>grafana</li><li>loki</li></ul></li>
+        <li class="skill"><p class="skill__no">06</p><h4 class="skill__title">Security &amp; compliance</h4><p class="skill__line">Secure by default, and able to prove it.</p>
+          <ul class="skill__list"><li>ISO 27001 work: policies, controls and audits</li><li>Least-privilege access, regular access reviews, secrets kept out of git</li><li>Deciding which tools and AI services may touch client data</li></ul>
+          <ul class="chips" aria-label="Tools"><li>iso-27001</li><li>rbac</li><li>least-privilege</li></ul></li>
+        <li class="skill"><p class="skill__no">07</p><h4 class="skill__title">Architecture &amp; leadership</h4><p class="skill__line">Decide early, write it down, bring the team along.</p>
+          <ul class="skill__list"><li>Tech lead of the infra team: priorities, reviews and mentoring</li><li>Architecture for client systems: where it runs, how it connects, who gets access</li><li>Decision records, so the reasoning outlives the meeting</li></ul></li>
+        <li class="skill"><p class="skill__no">08</p><h4 class="skill__title">AI tooling</h4><p class="skill__line">Let agents do the boring parts, with guardrails.</p>
+          <ul class="skill__list"><li>Claude-based agents, skills and plugins for day-to-day work</li><li>See the <a href="#ai" data-open="ai">AI tooling project</a> below</li></ul>
+          <ul class="chips" aria-label="Tools"><li>claude-code</li><li>mcp</li><li>agents</li></ul></li>
+      </ol>
+
+      <div class="grid work-bottom">
+        <div class="principles-wrap">
+          <h3 class="sub-head"><span class="meta">how I work</span></h3>
+          <ol class="principles">
+            <li><strong>Boring is a feature.</strong> If a platform is exciting to run, something&rsquo;s wrong.</li>
+            <li><strong>Everything in git.</strong> Infrastructure, config and decisions. If it&rsquo;s not in a repo, it doesn&rsquo;t exist.</li>
+            <li><strong>Automate the second time.</strong> Not the first, and certainly not the third.</li>
+            <li><strong>Write it down.</strong> Every repo of mine starts with a context file and decision records.</li>
+          </ol>
+        </div>
+        <div class="toolbox-wrap">
+          <h3 class="sub-head"><span class="meta">toolbox</span></h3>
+          <dl class="toolbox-list">
+            <div><dt>platform</dt><dd>Kubernetes, k3s, Helm, Kustomize, Argo CD, Argo CD Image Updater, cert-manager, Traefik</dd></div>
+            <div><dt>infrastructure</dt><dd>Terraform / OpenTofu, AWS, Azure, Proxmox</dd></div>
+            <div><dt>delivery</dt><dd>GitHub Actions, Docker, GHCR</dd></div>
+            <div><dt>observability</dt><dd>Prometheus, Grafana, Loki</dd></div>
+            <div><dt>network &amp; security</dt><dd>Tailscale, Cloudflare (DNS, Tunnel, Access), ISO 27001</dd></div>
+            <div><dt>code</dt><dd>TypeScript, Python, Go, Java, Bash</dd></div><!-- [CONFIRM: Go] -->
+            <div><dt>ai</dt><dd>Claude Code, MCP, Claude Agent SDK</dd></div>
+          </dl>
+        </div>
       </div>
     </div>
   </section>
 
   <section class="section" id="projects" aria-labelledby="projects-title">
     <div class="page grid section-head">
-      <h2 class="section-head__title h2" id="projects-title" data-copy="projects.title">Projects</h2>
-      <p class="section-head__sub" data-copy="projects.sub">Things I build outside work.</p>
+      <h2 class="section-head__title h2" id="projects-title">Projects</h2>
+      <p class="section-head__sub">Things I build outside work. Open one for the full story, screenshots and how it works.</p>
     </div>
-    <div id="featured-slot" data-current="homelab"><article class="page feature" id="p-homelab" data-project="homelab" style="--p: var(--tone-homelab); --p-ink: var(--pink-homelab)" aria-labelledby="feature-title"><a class="feature__media" href="#homelab" data-open="homelab" tabindex="-1" aria-hidden="true"><div class="ph il" style="--tone: var(--tone-homelab)"><svg class="il__svg" viewBox="0 0 480 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Illustration: a laptop running two virtual machines, k3s with six app chips and Home Assistant with a small Zigbee mesh, fed by git push and Argo CD, reached over a private network."><path class="s-line" d="M128 37 H240 V100 H150 V116"/><path class="s-pulse" pathLength="600" d="M128 37 H240 V100 H150 V116"/><rect x="24" y="22" width="104" height="30" rx="6" class="s-box"/><text x="40" y="42" class="s-m s-ink">git push</text><rect x="188" y="22" width="104" height="30" rx="6" class="s-box s-box--tone"/><text x="206" y="42" class="s-m s-ink">argo cd</text><text x="304" y="42" class="s-m">syncs every app</text><rect x="24" y="84" width="432" height="208" rx="12" class="s-host"/><text x="440" y="287" class="s-m" text-anchor="end">proxmox · the laptop under the TV</text><rect x="40" y="116" width="220" height="160" rx="8" class="s-box"/><text x="56" y="140" class="s-t">k3s</text><text x="244" y="140" class="s-m" text-anchor="end">7 apps</text><rect x="56" y="152" width="96" height="22" rx="5" class="s-chip"/><text x="64" y="167" class="s-m s-ink">rules-of-99</text><rect x="160" y="152" width="84" height="22" rx="5" class="s-chip"/><text x="168" y="167" class="s-m s-ink">finds</text><rect x="56" y="180" width="96" height="22" rx="5" class="s-chip"/><text x="64" y="195" class="s-m s-ink">quizmaster</text><rect x="160" y="180" width="84" height="22" rx="5" class="s-chip"/><text x="168" y="195" class="s-m s-ink">scryfall</text><rect x="56" y="208" width="96" height="22" rx="5" class="s-chip"/><text x="64" y="223" class="s-m s-ink">dashboard</text><rect x="160" y="208" width="84" height="22" rx="5" class="s-chip"/><text x="168" y="223" class="s-m s-ink">+2 more</text><text x="56" y="258" class="s-s">built and deployed from git</text><rect x="276" y="116" width="164" height="160" rx="8" class="s-box"/><text x="292" y="140" class="s-t">Home Assistant</text><path class="s-line" d="M358 204 L306 190 M358 204 L414 188 M358 204 L312 248 M358 204 L408 246 M306 190 L312 248"/><circle cx="358" cy="204" r="10" class="s-tone"/><circle cx="306" cy="190" r="6" class="s-node"/><text x="306" y="179" class="s-m" text-anchor="middle">lamp</text><circle cx="414" cy="188" r="6" class="s-node"/><text x="414" y="177" class="s-m" text-anchor="middle">sensor</text><circle cx="312" cy="248" r="6" class="s-node"/><text x="312" y="268" class="s-m" text-anchor="middle">switch</text><circle cx="408" cy="246" r="6" class="s-node"/><text x="408" y="266" class="s-m" text-anchor="middle">plug</text><text x="292" y="158" class="s-m">zigbee mesh</text><rect x="24" y="312" width="108" height="30" rx="6" class="s-box"/><text x="40" y="332" class="s-m s-ink">me, anywhere</text><path class="s-line s-dash" d="M132 327 H240 V292"/><text x="150" y="320" class="s-m">tailscale</text><text x="456" y="332" class="s-m s-ink" text-anchor="end">0 open ports</text></svg><span class="ph__label il__label" aria-hidden="true"><span class="ph__no">01</span>illustration</span></div></a><div class="feature__head"><div class="feature__kicker"><p class="eyebrow"><span class="feature__dot" aria-hidden="true"></span><span data-copy="projects.featured">Featured</span></p><p class="meta">fig.01 — homelab/illustration.svg · 16:9</p></div><h3 class="feature__title display" id="feature-title"><a href="#homelab" data-open="homelab">Homelab &amp; home automation</a></h3><p class="feature__line">A small home server that runs my apps and my home automation.</p></div><div class="feature__story"><p class="facts"><span class="state state--live"><span class="state__dot" aria-hidden="true"></span>Live</span><span class="meta">2026</span></p><p>An old laptop under the TV runs everything: my side projects, Home Assistant and the lights. It’s only reachable through my own private network, and every change goes through git, so I can rebuild it in an afternoon. Next up: three small second-hand PCs to turn it into a proper cluster.</p><ul class="chips" aria-label="Built with"><li>proxmox</li><li>k3s</li><li>argo-cd</li><li>home-assistant</li><li>zigbee</li><li>tailscale</li></ul><p><a class="arrow-link" href="#homelab" data-open="homelab">How it works <span aria-hidden="true">→</span></a></p></div></article></div>
+    <div id="featured-slot" data-current="homelab"><article class="page feature" id="p-homelab" data-project="homelab" style="--p: var(--tone-homelab); --p-ink: var(--pink-homelab)" aria-labelledby="feature-title"><a class="feature__media" href="#homelab" data-open="homelab" tabindex="-1" aria-hidden="true"><div class="ph il" style="--tone: var(--tone-homelab)"><div class="il__art" role="img" aria-label="Illustration: git push goes to Argo CD, which deploys into k3s with fifteen apps on a laptop that also runs Home Assistant, reachable only over a private network with zero open ports."><svg class="il__svg il__svg--full" viewBox="0 0 480 360" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path class="s-line" d="M128 37 H240 V100 H150 V116"/><path class="s-pulse" pathLength="600" d="M128 37 H240 V100 H150 V116"/><rect x="24" y="20" width="104" height="34" rx="6" class="s-box"/><text x="42" y="42" class="s-m s-ink">git push</text><rect x="188" y="20" width="104" height="34" rx="6" class="s-box s-box--tone"/><text x="208" y="42" class="s-m s-ink">argo cd</text><text x="306" y="42" class="s-m">syncs every app</text><rect x="24" y="84" width="432" height="212" rx="12" class="s-host"/><text x="440" y="289" class="s-m" text-anchor="end">proxmox · the laptop under the TV</text><rect x="40" y="112" width="220" height="158" rx="8" class="s-box"/><text x="56" y="136" class="s-t">k3s</text><text x="246" y="136" class="s-m" text-anchor="end">15 apps</text><rect x="56" y="150" width="104" height="24" rx="5" class="s-chip"/><text x="64" y="166.5" class="s-m s-ink">rules-of-99</text><rect x="168" y="150" width="80" height="24" rx="5" class="s-chip"/><text x="176" y="166.5" class="s-m s-ink">grimoire</text><rect x="56" y="180" width="104" height="24" rx="5" class="s-chip"/><text x="64" y="196.5" class="s-m s-ink">scryfall</text><rect x="168" y="180" width="80" height="24" rx="5" class="s-chip"/><text x="176" y="196.5" class="s-m s-ink">finds</text><rect x="56" y="210" width="104" height="24" rx="5" class="s-chip"/><text x="64" y="226.5" class="s-m s-ink">dashboard</text><rect x="168" y="210" width="80" height="24" rx="5" class="s-chip"/><text x="176" y="226.5" class="s-m s-ink">+10 more</text><rect x="276" y="112" width="164" height="158" rx="8" class="s-box"/><text x="292" y="136" class="s-t">Home Assistant</text><text x="292" y="160" class="s-m">its own VM</text><text x="292" y="180" class="s-m">zigbee over USB</text><circle cx="358" cy="232" r="10" class="s-tone"/><path class="s-line" d="M358 232 L316 214"/><circle cx="316" cy="214" r="5" class="s-node"/><path class="s-line" d="M358 232 L400 212"/><circle cx="400" cy="212" r="5" class="s-node"/><path class="s-line" d="M358 232 L320 254"/><circle cx="320" cy="254" r="5" class="s-node"/><path class="s-line" d="M358 232 L398 254"/><circle cx="398" cy="254" r="5" class="s-node"/><rect x="24" y="314" width="124" height="32" rx="6" class="s-box"/><text x="40" y="335" class="s-m s-ink">me, anywhere</text><path class="s-line s-dash" d="M148 330 H240 V296"/><text x="160" y="322" class="s-m">tailscale</text><text x="456" y="335" class="s-m s-ink" text-anchor="end">0 open ports</text></svg><svg class="il__svg il__svg--compact" viewBox="0 0 320 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path class="s-line" d="M146 36 H174"/><path class="s-line" d="M239 56 V98"/><path class="s-pulse" pathLength="600" d="M146 36 H239 V98"/><rect x="16" y="16" width="130" height="40" rx="8" class="s-box"/><text x="81" y="42" class="s-c s-ink" text-anchor="middle">git push</text><rect x="174" y="16" width="130" height="40" rx="8" class="s-box s-box--tone"/><text x="239" y="42" class="s-c s-ink" text-anchor="middle">argo cd</text><rect x="16" y="84" width="288" height="128" rx="12" class="s-host"/><rect x="30" y="98" width="150" height="100" rx="8" class="s-box"/><text x="46" y="128" class="s-t s-lg">k3s</text><text x="46" y="154" class="s-c">15 apps</text><text x="46" y="178" class="s-c">from git</text><rect x="192" y="98" width="98" height="100" rx="8" class="s-box"/><text x="206" y="128" class="s-t s-lg">Home</text><text x="206" y="152" class="s-t s-lg">Assistant</text><rect x="16" y="242" width="120" height="42" rx="8" class="s-box"/><text x="76" y="268" class="s-c s-ink" text-anchor="middle">me</text><path class="s-line s-dash" d="M136 263 H160 V212"/><text x="304" y="268" class="s-c s-ink" text-anchor="end">0 open ports</text></svg></div><span class="ph__label il__label" aria-hidden="true"><span class="ph__no">01</span>illustration</span></div></a><div class="feature__head"><div class="feature__kicker"><p class="eyebrow"><span class="feature__dot" aria-hidden="true"></span>Featured</p><p class="meta">fig.01 — homelab/illustration.svg · 16:9</p></div><h3 class="feature__title display" id="feature-title"><a href="#homelab" data-open="homelab">Homelab platform</a></h3><p class="feature__line">A small, production-style Kubernetes platform on an old laptop under the TV.</p></div><div class="feature__story"><p class="facts"><span class="state state--live"><span class="state__dot" aria-hidden="true"></span>Live</span><span class="meta">2026</span></p><p>An old laptop with the lid shut runs Proxmox, a single-node k3s cluster and everything I build. It’s managed the way I’d run a client platform: one git repo, Argo CD syncing every app, wildcard TLS, and no open ports. If the disk dies, I rebuild it from the repo in an afternoon.</p><ul class="chips" aria-label="Built with"><li>proxmox</li><li>k3s</li><li>argo-cd</li><li>image-updater</li><li>cert-manager</li><li>traefik</li><li>tailscale</li><li>cloudflare</li></ul><p><a class="button button--ghost" href="#homelab" data-open="homelab">Open the case study <span aria-hidden="true">→</span></a></p></div></article></div>
     <div class="page projects-body">
       <nav class="index" aria-labelledby="index-label">
-        <div class="index__head"><h3 class="eyebrow" id="index-label" data-copy="projects.more">More projects</h3><span class="meta" aria-hidden="true">05 total</span></div>
-        <ol id="project-index"><li data-project="homelab" style="--p: var(--tone-homelab); --p-ink: var(--pink-homelab)"><a href="#homelab" data-open="homelab"><span class="index__no">01</span><span class="index__title">Homelab &amp; home automation</span><span class="index__mark">↑ featured</span></a></li><li data-project="rules-of-99" style="--p: var(--tone-rules-of-99); --p-ink: var(--pink-rules-of-99)"><a href="#rules-of-99" data-open="rules-of-99"><span class="index__no">02</span><span class="index__title">Rules of 99</span><span class="index__mark">in progress</span></a></li><li data-project="finds" style="--p: var(--tone-finds); --p-ink: var(--pink-finds)"><a href="#finds" data-open="finds"><span class="index__no">03</span><span class="index__title">2nd-hand finds</span><span class="index__mark">personal</span></a></li><li data-project="quizmaster" style="--p: var(--tone-quizmaster); --p-ink: var(--pink-quizmaster)"><a href="#quizmaster" data-open="quizmaster"><span class="index__no">04</span><span class="index__title">Quizmaster</span><span class="index__mark">live</span></a></li><li data-project="scryfall" style="--p: var(--tone-scryfall); --p-ink: var(--pink-scryfall)"><a href="#scryfall" data-open="scryfall"><span class="index__no">05</span><span class="index__title">Scryfall, in plain words</span><span class="index__mark">live</span></a></li></ol>
+        <div class="index__head"><h3 class="eyebrow" id="index-label">All projects</h3><span class="meta" aria-hidden="true">05</span></div>
+        <ol id="project-index"><li data-project="homelab" style="--p: var(--tone-homelab); --p-ink: var(--pink-homelab)"><a href="#homelab" data-open="homelab"><span class="index__no">01</span><span class="index__title">Homelab platform</span><span class="index__mark">↑ featured</span></a></li><li data-project="home" style="--p: var(--tone-home); --p-ink: var(--pink-home)"><a href="#home" data-open="home"><span class="index__no">02</span><span class="index__title">Home automation</span><span class="index__mark">live</span></a></li><li data-project="mtg" style="--p: var(--tone-mtg); --p-ink: var(--pink-mtg)"><a href="#mtg" data-open="mtg"><span class="index__no">03</span><span class="index__title">MTG suite</span><span class="index__mark">live</span></a></li><li data-project="ai" style="--p: var(--tone-ai); --p-ink: var(--pink-ai)"><a href="#ai" data-open="ai"><span class="index__no">04</span><span class="index__title">AI tooling</span><span class="index__mark">live</span></a></li><li data-project="scouts" style="--p: var(--tone-scouts); --p-ink: var(--pink-scouts)"><a href="#scouts" data-open="scouts"><span class="index__no">05</span><span class="index__title">Scouting agents</span><span class="index__mark">personal</span></a></li></ol>
       </nav>
-      <ul class="project-grid" id="project-grid" aria-labelledby="index-label"><li class="item" id="p-rules-of-99" data-project="rules-of-99" style="--p: var(--tone-rules-of-99); --p-ink: var(--pink-rules-of-99)"><a class="item__media" href="#rules-of-99" data-open="rules-of-99" tabindex="-1" aria-hidden="true"><div class="ph il" style="--tone: var(--tone-rules-of-99)"><svg class="il__svg" viewBox="0 0 480 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Illustration: a four-seat game table seen from above, cards in play, life totals around the edge and the room code K7QX2P."><rect x="16" y="14" width="124" height="26" rx="13" class="s-chip"/><text x="30" y="31" class="s-m s-ink">room K7QX2P</text><text x="464" y="31" class="s-m" text-anchor="end">commander · 4 players</text><rect x="66" y="62" width="348" height="236" rx="30" class="s-felt"/><rect x="180" y="92" width="34" height="48" rx="4" class="s-tone" transform="rotate(-6 197 116)"/><rect x="222" y="90" width="34" height="48" rx="4" class="s-card" transform="rotate(2 239 114)"/><rect x="262" y="92" width="34" height="48" rx="4" class="s-card" transform="rotate(8 279 116)"/><rect x="196" y="222" width="34" height="48" rx="4" class="s-tone" transform="rotate(4 213 246)"/><rect x="238" y="224" width="34" height="48" rx="4" class="s-card" transform="rotate(-3 255 248)"/><rect x="106" y="150" width="34" height="48" rx="4" class="s-tone" transform="rotate(-84 123 174)"/><rect x="112" y="196" width="34" height="48" rx="4" class="s-card" transform="rotate(-94 129 220)"/><rect x="338" y="140" width="34" height="48" rx="4" class="s-tone" transform="rotate(86 355 164)"/><rect x="334" y="186" width="34" height="48" rx="4" class="s-card" transform="rotate(92 351 210)"/><circle cx="240" cy="180" r="24" class="s-ring"/><text x="240" y="185" class="s-m s-ink" text-anchor="middle">d20</text><rect x="186" y="48" width="108" height="28" rx="14" class="s-seat"/><text x="240" y="67" class="s-m s-ink" text-anchor="middle">you · 40</text><rect x="186" y="284" width="108" height="28" rx="14" class="s-seat"/><text x="240" y="303" class="s-m s-ink" text-anchor="middle">P3 · 33</text><rect x="28" y="166" width="84" height="28" rx="14" class="s-seat"/><text x="70" y="185" class="s-m s-ink" text-anchor="middle">P2 · 38</text><rect x="368" y="166" width="84" height="28" rx="14" class="s-seat"/><text x="410" y="185" class="s-m s-ink" text-anchor="middle">P4 · 40</text><text x="240" y="344" class="s-m" text-anchor="middle">rules enforced by the engine</text></svg><span class="ph__label il__label" aria-hidden="true"><span class="ph__no">02</span>illustration</span></div></a><div class="item__caption"><p class="meta">fig.02 — rules-of-99/illustration.svg · 3:2</p><h3 class="item__title"><a href="#rules-of-99" data-open="rules-of-99">Rules of 99</a></h3><p class="item__line">Play Commander (Magic: The Gathering) with friends in the browser.</p><div class="item__facts"><span class="state state--wip"><span class="state__dot" aria-hidden="true"></span>In progress</span><ul class="chips" aria-label="Built with"><li>java</li><li>react</li><li>typescript</li><li>websockets</li><li>sqlite</li></ul></div></div></li><li class="item" id="p-finds" data-project="finds" style="--p: var(--tone-finds); --p-ink: var(--pink-finds)"><a class="item__media" href="#finds" data-open="finds" tabindex="-1" aria-hidden="true"><div class="ph il" style="--tone: var(--tone-finds)"><svg class="il__svg" viewBox="0 0 480 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Illustration: an email digest with three finds, a Commander precon lot for 45 euros, a mini PC for 85 euros and shoes still being looked for, sent every two hours."><rect x="56" y="24" width="368" height="312" rx="12" class="s-paper"/><text x="78" y="58" class="s-t s-strong">2nd-hand finds</text><text x="402" y="58" class="s-m s-ink" text-anchor="end">3 new</text><line x1="78" y1="74" x2="402" y2="74" class="s-line"/><rect x="78" y="88" width="52" height="52" rx="6" class="s-tone"/><text x="144" y="109" class="s-t">Commander precon lot</text><text x="144" y="129" class="s-m">€45 · 12 km · marktplaats</text><rect x="354" y="103" width="48" height="22" rx="11" class="s-verdict"/><text x="378" y="118" class="s-m s-ink" text-anchor="middle">keep</text><line x1="78" y1="150" x2="402" y2="150" class="s-line s-faint"/><rect x="78" y="158" width="52" height="52" rx="6" class="s-tone-2"/><text x="144" y="179" class="s-t">Dell Micro i5-8500T 16 GB</text><text x="144" y="199" class="s-m">€85 · pickup · marktplaats</text><rect x="354" y="173" width="48" height="22" rx="11" class="s-verdict"/><text x="378" y="188" class="s-m s-ink" text-anchor="middle">keep</text><line x1="78" y1="220" x2="402" y2="220" class="s-line s-faint"/><rect x="78" y="228" width="52" height="52" rx="6" class="s-tone-3"/><text x="144" y="249" class="s-t">New Balance Rover EU 40</text><text x="144" y="269" class="s-m">still looking · vinted</text><rect x="334" y="243" width="68" height="22" rx="11" class="s-chip"/><text x="368" y="258" class="s-m s-ink" text-anchor="middle">watching</text><text x="78" y="316" class="s-m">every 2 h, 08:00–23:00</text><text x="402" y="316" class="s-m" text-anchor="end">judged by claude</text></svg><span class="ph__label il__label" aria-hidden="true"><span class="ph__no">03</span>illustration</span></div></a><div class="item__caption"><p class="meta">fig.03 — finds/illustration.svg · 4:5</p><h3 class="item__title"><a href="#finds" data-open="finds">2nd-hand finds</a></h3><p class="item__line">A tool that keeps an eye on Marktplaats and Vinted for me.</p><div class="item__facts"><span class="state state--personal"><span class="state__dot" aria-hidden="true"></span>Personal</span><ul class="chips" aria-label="Built with"><li>python</li><li>claude</li><li>astro</li></ul></div></div></li><li class="item" id="p-quizmaster" data-project="quizmaster" style="--p: var(--tone-quizmaster); --p-ink: var(--pink-quizmaster)"><a class="item__media" href="#quizmaster" data-open="quizmaster" tabindex="-1" aria-hidden="true"><div class="ph il" style="--tone: var(--tone-quizmaster)"><svg class="il__svg" viewBox="0 0 480 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Illustration: a phone showing a quiz question with four answers, a timer ring at 12 seconds and eight players."><rect x="30" y="104" width="112" height="28" rx="14" class="s-chip"/><text x="86" y="123" class="s-m s-ink" text-anchor="middle">theme · Rotterdam</text><text x="30" y="168" class="s-m">questions are</text><text x="30" y="184" class="s-m">made up as you play</text><rect x="340" y="104" width="112" height="86" rx="8" class="s-box"/><text x="352" y="124" class="s-m">scores</text><text x="352" y="146" class="s-m s-ink">P1</text><text x="440" y="146" class="s-m s-ink" text-anchor="end">820</text><text x="352" y="164" class="s-m">P2</text><text x="440" y="164" class="s-m" text-anchor="end">760</text><text x="352" y="182" class="s-m">P3</text><text x="440" y="182" class="s-m" text-anchor="end">610</text><rect x="164" y="12" width="152" height="336" rx="24" class="s-phone"/><rect x="218" y="22" width="44" height="6" rx="3" class="s-chip"/><text x="182" y="54" class="s-m">Q 4/10</text><text x="298" y="54" class="s-m s-ink" text-anchor="end">8 players</text><circle cx="240" cy="96" r="24" class="s-ring"/><circle cx="240" cy="96" r="24" class="s-timer" pathLength="100" transform="rotate(-90 240 96)"/><text x="240" y="102" class="s-t s-strong" text-anchor="middle">12</text><text x="240" y="146" class="s-t" text-anchor="middle">Which city has the</text><text x="240" y="166" class="s-t" text-anchor="middle">Erasmus Bridge?</text><rect x="180" y="184" width="120" height="30" rx="8" class="s-tone"/><text x="240" y="204" class="s-t s-on-tone" text-anchor="middle">Rotterdam</text><rect x="180" y="222" width="120" height="30" rx="8" class="s-box"/><text x="240" y="242" class="s-t" text-anchor="middle">Utrecht</text><rect x="180" y="260" width="120" height="30" rx="8" class="s-box"/><text x="240" y="280" class="s-t" text-anchor="middle">Antwerp</text><rect x="180" y="298" width="120" height="30" rx="8" class="s-box"/><text x="240" y="318" class="s-t" text-anchor="middle">Delft</text></svg><span class="ph__label il__label" aria-hidden="true"><span class="ph__no">04</span>illustration</span></div></a><div class="item__caption"><p class="meta">fig.04 — quizmaster/illustration.svg · 1:1</p><h3 class="item__title"><a href="#quizmaster" data-open="quizmaster">Quizmaster</a></h3><p class="item__line">A live party quiz with questions generated on the spot.</p><div class="item__facts"><span class="state state--live"><span class="state__dot" aria-hidden="true"></span>Live</span></div></div></li><li class="item" id="p-scryfall" data-project="scryfall" style="--p: var(--tone-scryfall); --p-ink: var(--pink-scryfall)"><a class="item__media" href="#scryfall" data-open="scryfall" tabindex="-1" aria-hidden="true"><div class="ph il" style="--tone: var(--tone-scryfall)"><svg class="il__svg" viewBox="0 0 480 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Illustration: a search box reading cheap green ramp that isn't a land, an arrow to the query c:g otag:ramp -t:land usd&lt;1, and 128 cards."><rect x="40" y="40" width="400" height="52" rx="26" class="s-box"/><circle cx="70" cy="64" r="8" class="s-line"/><path class="s-line" d="M76 70 L82 76"/><text x="94" y="71" class="s-t">cheap green ramp that isn’t a land</text><path class="s-line" d="M240 100 V134 M233 127 L240 135 L247 127"/><text x="252" y="122" class="s-m">claude writes the query</text><rect x="60" y="142" width="360" height="42" rx="6" class="s-chip"/><text x="240" y="168" class="s-m s-ink s-big" text-anchor="middle">c:g otag:ramp -t:land usd&lt;1</text><text x="60" y="212" class="s-m">checked: returns results</text><text x="420" y="212" class="s-m s-ink" text-anchor="end">128 cards</text><rect x="60" y="226" width="50" height="70" rx="4" class="s-tone"/><rect x="122" y="226" width="50" height="70" rx="4" class="s-card"/><rect x="184" y="226" width="50" height="70" rx="4" class="s-tone"/><rect x="246" y="226" width="50" height="70" rx="4" class="s-card"/><rect x="308" y="226" width="50" height="70" rx="4" class="s-tone"/><rect x="370" y="226" width="50" height="70" rx="4" class="s-card"/><text x="240" y="322" class="s-m" text-anchor="middle">→ straight to the results on Scryfall</text></svg><span class="ph__label il__label" aria-hidden="true"><span class="ph__no">05</span>illustration</span></div></a><div class="item__caption"><p class="meta">fig.05 — scryfall/illustration.svg · 4:3</p><h3 class="item__title"><a href="#scryfall" data-open="scryfall">Scryfall, in plain words</a></h3><p class="item__line">Search Magic cards by describing what you want.</p><div class="item__facts"><span class="state state--live"><span class="state__dot" aria-hidden="true"></span>Live</span><ul class="chips" aria-label="Built with"><li>claude</li><li>typescript</li></ul></div></div></li></ul>
+      <ul class="project-grid" id="project-grid" aria-label="More projects"><li class="item" id="p-home" data-project="home" style="--p: var(--tone-home); --p-ink: var(--pink-home)"><a class="item__media" href="#home" data-open="home" tabindex="-1" aria-hidden="true"><div class="ph il" style="--tone: var(--tone-home)"><div class="il__art" role="img" aria-label="Illustration: a wall-mounted tablet showing three rooms with their lights and who is home, next to a Zigbee mesh of lamps and sensors, and two automations: someone home turns the screen on, docking brings the dashboard forward."><svg class="il__svg il__svg--full" viewBox="0 0 480 360" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><text x="24" y="28" class="s-m">wall panel · kiosk browser</text><rect x="20" y="40" width="312" height="200" rx="16" class="s-phone"/><rect x="32" y="52" width="288" height="176" rx="8" class="s-box"/><text x="54" y="82" class="s-t s-strong">Home</text><rect x="234" y="64" width="74" height="26" rx="13" class="s-verdict"/><text x="271" y="81.5" class="s-m s-on" text-anchor="middle">2 home</text><rect x="44" y="100" width="84" height="112" rx="8" class="s-tile s-tile--on"/><text x="86" y="124" class="s-s s-xs" text-anchor="middle" lang="nl">Woonkamer</text><circle cx="66" cy="160" r="11" class="s-tone"/><text x="54" y="198" class="s-m">on · 60%</text><rect x="134" y="100" width="84" height="112" rx="8" class="s-tile"/><text x="176" y="124" class="s-s s-xs" text-anchor="middle" lang="nl">Keuken</text><circle cx="156" cy="160" r="11" class="s-node"/><text x="144" y="198" class="s-m">off</text><rect x="224" y="100" width="84" height="112" rx="8" class="s-tile s-tile--on"/><text x="266" y="124" class="s-s s-xs" text-anchor="middle" lang="nl">Slaapkamer</text><circle cx="246" cy="160" r="11" class="s-tone"/><text x="234" y="198" class="s-m">on · 20%</text><text x="346" y="58" class="s-m">zigbee mesh</text><path class="s-line" d="M404 146 L354 98"/><path class="s-line" d="M404 146 L458 104"/><path class="s-line" d="M404 146 L352 206"/><path class="s-line" d="M404 146 L460 208"/><path class="s-line s-faint" d="M354 98 L458 104 M352 206 L460 208"/><circle cx="404" cy="146" r="13" class="s-tone"/><text x="404" y="176" class="s-m s-ink" text-anchor="middle">zha</text><circle cx="354" cy="98" r="7" class="s-node"/><text x="354" y="86" class="s-m" text-anchor="middle">lamp</text><circle cx="458" cy="104" r="7" class="s-node"/><text x="458" y="92" class="s-m" text-anchor="middle">sensor</text><circle cx="352" cy="206" r="7" class="s-node"/><text x="352" y="230" class="s-m" text-anchor="middle">door</text><circle cx="460" cy="208" r="7" class="s-node"/><text x="460" y="232" class="s-m" text-anchor="middle">plug</text><rect x="24" y="262" width="186" height="32" rx="16" class="s-chip"/><text x="117" y="283" class="s-m s-ink" text-anchor="middle">someone home</text><path class="s-line" d="M218 278 H250 M244 272 L250 278 L244 284"/><rect x="258" y="262" width="198" height="32" rx="16" class="s-box s-box--tone"/><text x="357" y="283" class="s-m s-ink" text-anchor="middle">screen on</text><rect x="24" y="304" width="186" height="32" rx="16" class="s-chip"/><text x="117" y="325" class="s-m s-ink" text-anchor="middle">tablet docked</text><path class="s-line" d="M218 320 H250 M244 314 L250 320 L244 326"/><rect x="258" y="304" width="198" height="32" rx="16" class="s-box s-box--tone"/><text x="357" y="325" class="s-m s-ink" text-anchor="middle">dashboard to front</text></svg><svg class="il__svg il__svg--compact" viewBox="0 0 320 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><rect x="16" y="12" width="288" height="178" rx="16" class="s-phone"/><rect x="28" y="24" width="264" height="154" rx="8" class="s-box"/><text x="42" y="54" class="s-t s-lg">Home</text><rect x="196" y="34" width="84" height="28" rx="14" class="s-verdict"/><text x="238" y="53" class="s-c s-on" text-anchor="middle">2 home</text><rect x="40" y="74" width="76" height="92" rx="8" class="s-tile s-tile--on"/><circle cx="60" cy="104" r="11" class="s-tone"/><text x="78" y="152" class="s-s s-xs s-ink" text-anchor="middle" lang="nl">Woonkamer</text><rect x="124" y="74" width="76" height="92" rx="8" class="s-tile"/><circle cx="144" cy="104" r="11" class="s-node"/><text x="162" y="152" class="s-s s-xs s-ink" text-anchor="middle" lang="nl">Keuken</text><rect x="208" y="74" width="76" height="92" rx="8" class="s-tile s-tile--on"/><circle cx="228" cy="104" r="11" class="s-tone"/><text x="246" y="152" class="s-s s-xs s-ink" text-anchor="middle" lang="nl">Slaapkamer</text><rect x="16" y="208" width="288" height="36" rx="18" class="s-chip"/><text x="160" y="231" class="s-c s-ink" text-anchor="middle">someone home → screen on</text><rect x="16" y="254" width="288" height="36" rx="18" class="s-box s-box--tone"/><text x="160" y="277" class="s-c s-ink" text-anchor="middle">docked → dashboard</text></svg></div><span class="ph__label il__label" aria-hidden="true"><span class="ph__no">02</span>illustration</span></div></a><div class="item__caption"><p class="meta">fig.02 — home/illustration.svg · 3:2</p><h3 class="item__title"><a href="#home" data-open="home">Home automation</a></h3><p class="item__line">Home Assistant, a Zigbee mesh and a wall panel that knows when we’re home.</p><div class="item__facts"><span class="state state--live"><span class="state__dot" aria-hidden="true"></span>Live</span></div></div></li><li class="item" id="p-mtg" data-project="mtg" style="--p: var(--tone-mtg); --p-ink: var(--pink-mtg)"><a class="item__media" href="#mtg" data-open="mtg" tabindex="-1" aria-hidden="true"><div class="ph stage stage--tall" style="--tone: var(--tone-mtg)"><img src="assets/shots/r99-home-mobile.webp" width="390" height="844" alt="Rules of 99 home screen on a phone" loading="lazy" decoding="async"><span class="ph__label il__label" aria-hidden="true"><span class="ph__no">03</span>screenshot</span></div></a><div class="item__caption"><p class="meta">fig.03 — r99-home-mobile.webp · 4:5</p><h3 class="item__title"><a href="#mtg" data-open="mtg">MTG suite</a></h3><p class="item__line">Four tools for Magic: The Gathering: play, build, search and brew.</p><div class="item__facts"><span class="state state--live"><span class="state__dot" aria-hidden="true"></span>Live</span><span class="meta">4 parts</span></div></div></li><li class="item" id="p-ai" data-project="ai" style="--p: var(--tone-ai); --p-ink: var(--pink-ai)"><a class="item__media" href="#ai" data-open="ai" tabindex="-1" aria-hidden="true"><div class="ph il" style="--tone: var(--tone-ai)"><div class="il__art" role="img" aria-label="Illustration: a day of work turned into time blocks and booked as 7.5 hours, and a Playwright checklist where a failing checkout flow gets a fix task and then passes."><svg class="il__svg il__svg--full" viewBox="0 0 480 360" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><text x="24" y="30" class="s-m">uren-assistent · one day</text><rect x="26" y="44" width="74" height="46" rx="6" class="s-tone-3"/><text x="63" y="72" class="s-s s-ink" text-anchor="middle">standup</text><rect x="104" y="44" width="104" height="46" rx="6" class="s-tone"/><text x="156" y="72" class="s-s s-ink" text-anchor="middle">PR review</text><rect x="212" y="44" width="134" height="46" rx="6" class="s-tone-2"/><text x="279" y="72" class="s-s s-ink" text-anchor="middle">Linear issue</text><rect x="350" y="44" width="50" height="46" rx="6" class="s-tone-3"/><text x="375" y="72" class="s-s s-ink" text-anchor="middle">call</text><rect x="404" y="44" width="50" height="46" rx="6" class="s-tone"/><text x="429" y="72" class="s-s s-ink" text-anchor="middle">deploy</text><line x1="24" y1="102" x2="456" y2="102" class="s-line"/><text x="24" y="122" class="s-m">09</text><text x="78" y="122" class="s-m" text-anchor="middle">10</text><text x="132" y="122" class="s-m" text-anchor="middle">11</text><text x="186" y="122" class="s-m" text-anchor="middle">12</text><text x="240" y="122" class="s-m" text-anchor="middle">13</text><text x="294" y="122" class="s-m" text-anchor="middle">14</text><text x="348" y="122" class="s-m" text-anchor="middle">15</text><text x="402" y="122" class="s-m" text-anchor="middle">16</text><text x="456" y="122" class="s-m" text-anchor="end">17</text><path class="s-line" d="M240 130 V148 M234 142 L240 148 L246 142"/><rect x="24" y="156" width="432" height="40" rx="8" class="s-box"/><text x="40" y="181" class="s-t">7.5 h booked</text><text x="150" y="181" class="s-m">classified, then submitted</text><rect x="358" y="164" width="86" height="24" rx="12" class="s-verdict"/><text x="401" y="180.5" class="s-m s-on" text-anchor="middle">submitted</text><text x="24" y="228" class="s-m">ux-testing · playwright</text><rect x="24" y="240" width="432" height="30" rx="6" class="s-box"/><circle cx="42" cy="255" r="6" class="s-tone"/><text x="58" y="260" class="s-s s-ink">sign-up flow</text><text x="444" y="260" class="s-m" text-anchor="end">passes</text><rect x="24" y="278" width="432" height="30" rx="6" class="s-box s-box--tone"/><circle cx="42" cy="293" r="6" class="s-warn"/><text x="58" y="298" class="s-s s-ink">checkout flow</text><text x="444" y="298" class="s-m" text-anchor="end">broke → fix task → passes</text><rect x="24" y="316" width="432" height="30" rx="6" class="s-box"/><circle cx="42" cy="331" r="6" class="s-tone"/><text x="58" y="336" class="s-s s-ink">settings flow</text><text x="444" y="336" class="s-m" text-anchor="end">passes</text></svg><svg class="il__svg il__svg--compact" viewBox="0 0 320 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><text x="16" y="26" class="s-c">hours, booked</text><rect x="16" y="38" width="84" height="48" rx="6" class="s-tone-3"/><rect x="106" y="38" width="112" height="48" rx="6" class="s-tone"/><rect x="224" y="38" width="80" height="48" rx="6" class="s-tone-2"/><text x="24" y="68" class="s-c s-ink">standup</text><text x="114" y="68" class="s-c s-ink">PR review</text><text x="232" y="68" class="s-c s-ink">issue</text><rect x="16" y="98" width="288" height="44" rx="8" class="s-box"/><text x="30" y="126" class="s-t s-lg">7.5 h</text><rect x="194" y="108" width="98" height="26" rx="13" class="s-verdict"/><text x="243" y="126" class="s-c s-on" text-anchor="middle">submitted</text><text x="16" y="176" class="s-c">flows, tested</text><rect x="16" y="188" width="288" height="32" rx="6" class="s-box"/><circle cx="34" cy="204" r="6" class="s-tone"/><text x="50" y="209" class="s-c s-ink">sign-up</text><text x="292" y="209" class="s-c" text-anchor="end">passes</text><rect x="16" y="226" width="288" height="32" rx="6" class="s-box s-box--tone"/><circle cx="34" cy="242" r="6" class="s-warn"/><text x="50" y="247" class="s-c s-ink">checkout</text><text x="292" y="247" class="s-c" text-anchor="end">fixed</text><rect x="16" y="264" width="288" height="32" rx="6" class="s-box"/><circle cx="34" cy="280" r="6" class="s-tone"/><text x="50" y="285" class="s-c s-ink">settings</text><text x="292" y="285" class="s-c" text-anchor="end">passes</text></svg></div><span class="ph__label il__label" aria-hidden="true"><span class="ph__no">04</span>illustration</span></div></a><div class="item__caption"><p class="meta">fig.04 — ai/illustration.svg · 1:1</p><h3 class="item__title"><a href="#ai" data-open="ai">AI tooling</a></h3><p class="item__line">Agents and apps that take the boring parts of the job off my hands.</p><div class="item__facts"><span class="state state--live"><span class="state__dot" aria-hidden="true"></span>Live</span><span class="meta">3 parts</span></div></div></li><li class="item" id="p-scouts" data-project="scouts" style="--p: var(--tone-scouts); --p-ink: var(--pink-scouts)"><a class="item__media" href="#scouts" data-open="scouts" tabindex="-1" aria-hidden="true"><div class="ph stage" style="--tone: var(--tone-scouts)"><img src="assets/shots/finds-overview.webp" width="1440" height="900" alt="The 2nd-hand finds web app: a grid of kept Magic listings with price, distance and verdict" loading="lazy" decoding="async"><span class="ph__label il__label" aria-hidden="true"><span class="ph__no">05</span>screenshot</span></div></a><div class="item__caption"><p class="meta">fig.05 — finds-overview.webp · 4:3</p><h3 class="item__title"><a href="#scouts" data-open="scouts">Scouting agents</a></h3><p class="item__line">Two agents that watch Marktplaats, Vinted and Funda so I don’t have to.</p><div class="item__facts"><span class="state state--personal"><span class="state__dot" aria-hidden="true"></span>Personal</span></div></div></li></ul>
     </div>
   </section>
 
   <section class="section" id="about" aria-labelledby="about-title">
     <div class="page grid about__grid">
-      <figure class="about__photo">
-        <div class="ph" role="img" aria-label="Photo: Rotterdam, around the corner from home"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true"><span class="ph__no">06</span>Photo: Rotterdam, around the corner</span></div>
-        <figcaption class="meta">fig.06 &mdash; about/rotterdam.jpg &middot; 3:2</figcaption>
-      </figure>
       <div class="about__text">
-        <h2 class="h2" id="about-title" data-copy="about.title">About</h2>
-        <p class="lead" data-copy="about.body">I live in Rotterdam. When I&rsquo;m not working I&rsquo;m usually tinkering with something at home, playing Magic with friends, or scrolling <span lang="nl">Marktplaats</span> for things I don&rsquo;t need.</p>
+        <h2 class="h2" id="about-title">About</h2>
+        <p class="lead">I live in Rotterdam. Outside work you&rsquo;ll find me bouldering, around a table playing Magic with friends, or tinkering with the setup under the TV. I like a weekend with nothing planned and a trip somewhere warm.</p><!-- [CONFIRM / personalise] -->
         <div>
           <h3 class="about__sub">currently</h3>
           <dl class="currently">
-            <div><dt>learning</dt><dd>Running k3s on more than one node, before the mini PCs arrive.</dd></div>
-            <div><dt>playing</dt><dd>Commander on Rules of 99, four players at a time.</dd></div>
-            <div><dt>looking for</dt><dd>Brown New Balance Rovers, EU 40. The finds bot is on it.</dd></div>
-          </dl>
-        </div>
-        <div>
-          <h3 class="about__sub">tools I use a lot</h3>
-          <dl class="toolbox-list">
-            <div><dt>platform</dt><dd>Kubernetes, Argo CD, Terraform, Proxmox</dd></div>
-            <div><dt>network</dt><dd>Cloudflare, Tailscale</dd></div>
-            <div><dt>code</dt><dd>TypeScript, Python, Java</dd></div>
-            <div><dt>home</dt><dd>Home Assistant, Zigbee</dd></div>
+            <div><dt>climbing</dt><dd>Bouldering, mostly outdoors when the weather allows</dd></div><!-- [CONFIRM] -->
+            <div><dt>playing</dt><dd>Commander with friends, on Rules of 99 when we can&rsquo;t meet up</dd></div>
+            <div><dt>building</dt><dd><span class="now__dot" aria-hidden="true"></span>The 3-node homelab cluster</dd></div>
           </dl>
         </div>
       </div>
+      <figure class="about__photo about__photo--a">
+        <img src="assets/photos/bouldering.webp" width="900" height="1512" alt="Guus bouldering on a sandstone block outdoors" loading="lazy" decoding="async">
+        <figcaption class="meta">fig. &mdash; bouldering</figcaption>
+      </figure>
+      <figure class="about__photo about__photo--b">
+        <img src="assets/photos/sunset.webp" width="1000" height="1328" alt="Guus at a railing at sunset over the water" loading="lazy" decoding="async">
+        <figcaption class="meta">fig. &mdash; somewhere warm</figcaption>
+      </figure>
     </div>
   </section>
 
   <section class="section" id="contact" aria-labelledby="contact-title">
     <div class="page">
-      <h2 class="eyebrow" id="contact-title" data-copy="contact.title">Contact</h2>
+      <h2 class="h2" id="contact-title">Contact</h2>
       <div class="contact__row">
-        <span class="contact__mail" id="mail-address">hello@ekkelenkamp.dev</span>
-        <button type="button" class="copy" data-copy-target="mail-address" aria-describedby="copy-status"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><rect x="8" y="8" width="12" height="12"/><path d="M16 8V4H4v12h4"/></svg><span class="copy__label">Copy</span></button>
+        <span class="contact__mail" id="mail-address">ekkelenkampguus@gmail.com</span>
+        <button type="button" class="copy" data-copy-target="mail-address" aria-describedby="copy-status"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" aria-hidden="true"><rect x="8" y="8" width="12" height="12"/><path d="M16 8V4H4v12h4"/></svg><span class="copy__label">Copy address</span></button>
         <span class="visually-hidden" id="copy-status" role="status" aria-live="polite"></span>
       </div>
-      <p class="muted" data-copy="contact.body">Want to work together or just say hi? Send me an email.</p>
+      <p class="contact__line">Want to work together, or talk Kubernetes? Send me an email.</p>
       <ul class="contact__links">
         <li><a class="arrow-link" href="https://github.com/guuse" target="_blank" rel="noopener">GitHub <span aria-hidden="true">&nearr;</span></a></li>
         <li><a class="arrow-link" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn <span aria-hidden="true">&nearr;</span></a></li><!-- [CONFIRM url] -->
@@ -854,10 +1176,10 @@ html, body { background: var(--surface); }
 
 <footer class="site-footer">
   <div class="page site-footer__inner">
-    <p data-copy="footer.note">&copy; 2026 Guus Ekkelenkamp</p>
+    <p>&copy; 2026 Guus Ekkelenkamp</p>
     
     <p class="status"><span class="status__dot" aria-hidden="true"></span><span>all systems normal</span><span aria-hidden="true">&middot;</span><span>last deploy <span data-build="commit">a1c9e2f</span></span><span aria-hidden="true">&middot;</span><span data-build="date">3 Nov 2026</span></p>
-    <a href="#main">Back to top</a>
+    <a href="#main">Back to top <span aria-hidden="true">&uarr;</span></a>
   </div>
 </footer>
 </div>
@@ -866,241 +1188,356 @@ html, body { background: var(--surface); }
   <div class="detail__backdrop" data-close></div>
   <div class="detail__panel"></div>
 </div>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Screenshot viewer" hidden>
+  <div class="lightbox__stage"><img class="lightbox__img" alt="" decoding="async"></div>
+  <div class="lightbox__bar">
+    <p class="lightbox__cap" aria-live="polite"></p>
+    <span class="lightbox__count meta"></span>
+    <div class="lightbox__nav">
+      <button type="button" class="detail__btn" data-lb-prev aria-label="Previous screenshot"><span aria-hidden="true">&larr;</span></button>
+      <button type="button" class="detail__btn" data-lb-next aria-label="Next screenshot"><span aria-hidden="true">&rarr;</span></button>
+      <button type="button" class="detail__btn detail__close" data-lb-close aria-label="Close viewer"><span aria-hidden="true">&#x2715;</span><span class="detail__btn-text">Close</span></button>
+    </div>
+  </div>
+</div>
 <script>
 /*
- * r2-beeld · projects: data, illustrations, featured rotation, index highlight, detail view.
- * One project is featured per page load (random, or ?featured=<id>); the rest fill the
- * image grid in their normal order. The index lists all of them and highlights the matching
- * image on hover/focus (and the other way round). Every project opens an in-page detail
- * view at #<id> (Esc, the close button or browser back close it).
- * Without JS the server-rendered Homelab state stays.
+ * r2-beeld · projects (round 5): data from CONTENT-v5 §5, cards, featured rotation,
+ * index ↔ image highlight, case-study detail view (#<id>) and the image lightbox.
+ * One project is featured per page load (random, or ?featured=<id>); the other four fill
+ * the grid in their normal order. Without JS the server-rendered Homelab state stays.
  */
 (function (root) {
   "use strict";
 
   var GITHUB = "https://github.com/guuse";
 
+  /* ------------------------------------------------------------------ images */
+  // Real screenshots (assets/shots) with intrinsic sizes, so nothing shifts while loading.
+  var SHOTS = {
+    "r99-home": [1440, 900, "Rules of 99 home screen: the last deck played, its record and a Play button", "Home: pick up the last deck, or start a table with a room code."],
+    "r99-table-setup": [1440, 900, "Rules of 99 table setup with four seats, each showing its commander", "Table setup: two to four seats, each with its commander."],
+    "r99-workbench": [1440, 900, "Rules of 99 deck workbench with the card list by type, a mana curve and search", "The workbench: build and tune a deck with instant search over every card."],
+    "r99-replay": [1440, 900, "Rules of 99 replay of a finished four-player game", "Replays: step back through a finished game."],
+    "r99-card": [1440, 900, "Rules of 99 card details dialog open over a deck", "Card details, one click from anywhere."],
+    "r99-home-mobile": [390, 844, "Rules of 99 home screen on a phone", "On a phone: the same app, one board at a time."],
+    "grimoire-library": [1440, 1400, "Grimoire deck library with commander art for each deck", "The library: every deck at a glance."],
+    "grimoire-builder": [1440, 1000, "Grimoire deck builder listing a deck's cards by category", "The builder: the list by category, legality and colour identity checked."],
+    "grimoire-rating": [1440, 2000, "Grimoire deck analysis with mana curve, colour sources, categories and a bracket estimate", "Analysis: mana curve, colour sources, categories and a bracket estimate."],
+    "grimoire-mobile": [390, 844, "Grimoire deck view on a phone", "On a phone."],
+    "scryfall-result": [1140, 1250, "Scryfall in plain words: a plain-language request turned into a Scryfall query with 82 cards and a breakdown of each part", "Describe it, get a working query and what every part of it means."],
+    "scryfall-mobile": [390, 844, "Scryfall in plain words on a phone", "On a phone."],
+    "finds-overview": [1440, 900, "The 2nd-hand finds web app: a grid of kept Magic listings with price, distance and verdict", "The finds overview: listings worth a look, with price, distance and Claude's verdict."],
+    "finds-mobile": [390, 844, "The 2nd-hand finds web app on a phone", "On a phone, for checking a find on the go."],
+    "mtg-skills-banner": [1200, 450, "MTG Skills for Claude Code banner: brew, build, tune, untap the meta", "claude-mtg-skills: a Claude Code plugin marketplace."]
+  };
+  function shot(id) { var s = SHOTS[id]; return { id: id, src: "assets/shots/" + id + ".webp", w: s[0], h: s[1], alt: s[2], cap: s[3] }; }
+
   var PROJECTS = [
     {
       id: "homelab", no: "01", year: "2026", status: "Live",
-      title: "Homelab & home automation",
-      line: "A small home server that runs my apps and my home automation.",
-      story: "An old laptop under the TV runs everything: my side projects, Home Assistant and the lights. It’s only reachable through my own private network, and every change goes through git, so I can rebuild it in an afternoon. Next up: three small second-hand PCs to turn it into a proper cluster.",
+      title: "Homelab platform",
+      line: "A small, production-style Kubernetes platform on an old laptop under the TV.",
+      story: "An old laptop with the lid shut runs Proxmox, a single-node k3s cluster and everything I build. It’s managed the way I’d run a client platform: one git repo, Argo CD syncing every app, wildcard TLS, and no open ports. If the disk dies, I rebuild it from the repo in an afternoon.",
+      cover: { illo: "homelab" },
+      numbers: [["16 GB", "memory"], ["2", "virtual machines"], ["15", "Argo CD applications"], ["0", "open ports"]],
+      ram: [[10, "k3s"], [3, "Home Assistant"], [2, "host", "~"], [1, "spare", "~"]],
       how: [
-        "Proxmox runs two virtual machines: k3s for my apps, and Home Assistant with a Zigbee stick for the lights and sensors.",
-        "Argo CD watches one git repo and keeps every app in line with it. New images roll out on their own.",
-        "Nothing is open to the internet. I get in over Tailscale, and the apps still get proper HTTPS certificates."
+        "Proxmox runs two VMs: Ubuntu with k3s for the apps, and Home Assistant OS (see the next project). The laptop battery doubles as a UPS.",
+        "Argo CD watches one repo with an app-of-apps root that manages itself. Each app is one Application file; adding a repo is adding a file.",
+        "GitHub Actions builds every app to an immutable commit-SHA image on GHCR. Argo CD Image Updater commits the new tag back to git, and Argo rolls it out.",
+        "cert-manager gets one wildcard Let’s Encrypt certificate via Cloudflare DNS-01; Traefik serves it for every app, so no app needs its own certificate.",
+        "Three ways in, all opt-in: the private tailnet by default, a Cloudflare Tunnel with Access for a few public hostnames, and Tailscale Funnel for a party-night URL."
       ],
-      chips: ["proxmox", "k3s", "argo-cd", "home-assistant", "zigbee", "tailscale"],
-      alt: "Illustration: a laptop running two virtual machines, k3s with six app chips and Home Assistant with a small Zigbee mesh, fed by git push and Argo CD, reached over a private network.",
-      caseStudy: "project.html"
+      decisions: [
+        ["k3s in a VM, not LXC", "Kubernetes in a container needs privileged mode and breaks on upgrades."],
+        ["Home Assistant next to the cluster, not in it", "USB passthrough to a VM is one line."],
+        ["Snapshots, no off-site backups", "Everything is rebuildable from git, by choice."]
+      ],
+      learned: [
+        "Disk pressure at 30 GiB on a 500 GB SSD: the Ubuntu installer allocated only half the disk. One <code>lvextend</code>, zero downtime.",
+        "Growing a disk on the host doesn’t tell the guest. Resize through Proxmox, not <code>lvextend</code>.",
+        "MagicDNS without a global nameserver broke public DNS on every Linux node."
+      ],
+      snippet: true,
+      chips: ["proxmox", "k3s", "argo-cd", "image-updater", "cert-manager", "traefik", "tailscale", "cloudflare"],
+      privateRepo: true,
+      alt: "Illustration: git push goes to Argo CD, which deploys into k3s with fifteen apps on a laptop that also runs Home Assistant, reachable only over a private network with zero open ports."
     },
     {
-      id: "rules-of-99", no: "02", year: "2026", status: "In progress",
-      title: "Rules of 99",
-      line: "Play Commander (Magic: The Gathering) with friends in the browser.",
-      story: "Import a deck, share a room code, and play with up to four people. An open-source rules engine handles the rules, so nobody has to argue about them. Works on phones too.",
+      id: "home", no: "02", year: "2026", status: "Live",
+      title: "Home automation",
+      line: "Home Assistant, a Zigbee mesh and a wall panel that knows when we’re home.",
+      story: "Home Assistant runs in its own VM next to the cluster, with the Zigbee stick passed straight through. A tablet on the wall is the control panel; lift it off and it’s a normal tablet again, put it back and it returns to the dashboard. The automations and dashboards are versioned in git like everything else.",
+      cover: { illo: "home" },
       how: [
-        "The open-source Forge engine runs the rules on the server: every card, commander tax, commander damage and colour identity.",
-        "A WebSocket server sends each player only what they’re allowed to see, so the other hands never leave the server.",
-        "Rooms survive a dropped connection, and on a phone the table turns into a one-board-at-a-time layout you can install."
+        "Home Assistant OS in a VM, with a Zigbee coordinator over USB on an extension cable (USB3 noise and 2.4 GHz don’t mix).",
+        "Moved from a Raspberry Pi to the VM with a full backup restore: the whole Zigbee mesh came across without re-pairing a single device.",
+        "HTTPS through an NGINX proxy in front of Home Assistant, with a plain-HTTP fallback on the home network for when it’s having a bad day. A monthly automation renews the certificate.",
+        "The wall panel is a Galaxy Tab in a kiosk browser. Charging state tells it it’s docked; NFC tags tell the wall dock from the desk dock."
       ],
-      chips: ["java", "react", "typescript", "websockets", "sqlite"],
-      alt: "Illustration: a four-seat game table seen from above, cards in play, life totals around the edge and the room code K7QX2P."
+      automations: [
+        ["Someone is home", "Wall panel screen on"],
+        ["Nobody home", "Wall panel screen off"],
+        ["Tablet docked", "Dashboard to the foreground"],
+        ["Wall-dock NFC tag", "Control dashboard"],
+        ["Desk-dock NFC tag", "Ops dashboard"],
+        ["Time of day", "Panel brightness"],
+        ["Monthly", "Renew the certificate (restart the Let’s Encrypt and NGINX add-ons)"]
+      ],
+      photoSlot: "Photo of the wall panel: coming soon",
+      chips: ["home-assistant", "zigbee", "zha", "fully-kiosk", "nfc"],
+      privateRepo: true,
+      alt: "Illustration: a wall-mounted tablet showing three rooms with their lights and who is home, next to a Zigbee mesh of lamps and sensors, and two automations: someone home turns the screen on, docking brings the dashboard forward."
     },
     {
-      id: "finds", no: "03", year: "2026", status: "Personal",
-      title: "2nd-hand finds",
-      line: "A tool that keeps an eye on Marktplaats and Vinted for me.",
-      story: "Every two hours it checks for things I’m looking for, like Magic card collections or cheap mini PCs, and uses AI to filter out the noise. The good ones arrive in a short email.",
-      how: [
-        "Every two hours between 08:00 and 23:00 it searches Marktplaats and Vinted, skips what it has seen and applies hard filters.",
-        "Claude judges what’s left against a short brief per search: Magic lots, mini PCs, and one pair of shoes.",
-        "Good finds land in a short email digest. Once a day it checks for sold items and price drops."
+      id: "mtg", no: "03", year: "2026", status: "Live",
+      title: "MTG suite",
+      line: "Four tools for Magic: The Gathering: play, build, search and brew.",
+      story: "Magic is my favourite hobby with friends, and it turned into a small suite of software. All of it runs on the homelab.",
+      cover: { shot: "r99-home", tall: "r99-home-mobile" },
+      parts: [
+        { title: "Rules of 99", line: "Commander in the browser, with full rules enforcement.",
+          body: "An open-source rules engine (Forge) runs headless behind a WebSocket gateway; each player only receives what they’re allowed to see. Rooms with a 6-character code, 2–4 seats, reconnect-safe, replays, and a phone layout.",
+          shots: ["r99-home", "r99-table-setup", "r99-workbench", "r99-replay", "r99-card", "r99-home-mobile"],
+          chips: ["java", "react", "typescript", "websockets", "sqlite"] },
+        { title: "Grimoire", line: "A deck library and builder, with an MCP server so Claude can search the whole card pool.",
+          body: "Card data in SQLite with full-text search; exact colour-identity and legality filters; mana curve, colour sources, categories and a bracket estimate.",
+          shots: ["grimoire-library", "grimoire-builder", "grimoire-rating", "grimoire-mobile"],
+          chips: ["node", "sqlite", "fts5", "mcp"] },
+        { title: "Scryfall, in plain words", line: "Describe the cards you want; get a working Scryfall query.",
+          body: "The Claude Agent SDK writes a query, tests it against Scryfall, and offers stricter and broader readings, each with a breakdown of what every part means. The screenshots are the real UI with live Scryfall data.",
+          shots: ["scryfall-result", "scryfall-mobile"],
+          chips: ["claude-agent-sdk", "node", "sse"] },
+        { title: "claude-mtg-skills", line: "Claude Code skills that build, upgrade, rate and explain real decks.",
+          body: "Seven skills grounded in proven decklists and live prices, installable as a Claude Code plugin marketplace. MIT licensed, with at least 95% test coverage.",
+          shots: ["mtg-skills-banner"], chips: ["claude-code", "skills"], link: ["github.com/guuse/claude-mtg-skills", "https://github.com/guuse/claude-mtg-skills"], public: true }
       ],
-      chips: ["python", "claude", "astro"],
-      alt: "Illustration: an email digest with three finds, a Commander precon lot for 45 euros, a mini PC for 85 euros and shoes still being looked for, sent every two hours."
+      chips: ["java", "react", "typescript", "node", "sqlite", "claude"]
     },
     {
-      id: "quizmaster", no: "04", year: "2026", status: "Live",
-      title: "Quizmaster",
-      line: "A live party quiz with questions generated on the spot.",
-      story: "Everyone joins on their phone, picks a theme, and the questions are made up as you play. Built for one birthday, used at every party since.",
-      how: [
-        "Players join on their phone with a short code; one shared screen shows the question and the scores.",
-        "Pick a theme and the questions are generated while you play, so no two rounds are the same."
+      id: "ai", no: "04", year: "2026", status: "Live",
+      title: "AI tooling",
+      line: "Agents and apps that take the boring parts of the job off my hands.",
+      story: "I use Claude every day, and when something is repetitive I’d rather build a tool than do it a fourth time. These are the ones I’ve published.",
+      cover: { illo: "ai" },
+      parts: [
+        { title: "Uren-assistent", lang: "nl", line: "From a day’s activity to booked hours in one click.",
+          body: "A Tauri 2 desktop app (React 19, TypeScript, Rust) that turns browser history, calendar and GitHub/Linear activity into time blocks, classifies them with an LLM, and books and submits them to Simplicate. At least 95% test coverage, MIT licensed.",
+          chips: ["tauri", "rust", "react", "typescript"], link: ["github.com/guuse/uren-assistent", "https://github.com/guuse/uren-assistent"], public: true },
+        { title: "ux-testing skill", line: "Autonomous, adversarial UX testing.",
+          body: "It maps a web app’s user flows, drives a real browser with Playwright, tries to break each flow, files a fix task per bug, dispatches an agent to fix it, and re-runs until it passes. Part of my Claude marketplace.",
+          chips: ["claude-code", "skills", "playwright"], link: ["github.com/guuse/claude-marketplace", "https://github.com/guuse/claude-marketplace"], public: true },
+        { title: "claude-mtg-skills", line: "Seven Claude Code skills for Magic decks.", body: "Part of the MTG suite.", ref: "mtg",
+          chips: [], link: ["github.com/guuse/claude-mtg-skills", "https://github.com/guuse/claude-mtg-skills"], public: true }
       ],
-      chips: [], /* [CONFIRM stack] */
-      alt: "Illustration: a phone showing a quiz question with four answers, a timer ring at 12 seconds and eight players."
+      chips: ["claude-code", "skills", "playwright", "tauri", "rust", "react"],
+      alt: "Illustration: a day of work turned into time blocks and booked as 7.5 hours, and a Playwright checklist where a failing checkout flow gets a fix task and then passes."
     },
     {
-      id: "scryfall", no: "05", year: "2026", status: "Live",
-      title: "Scryfall, in plain words",
-      line: "Search Magic cards by describing what you want.",
-      story: "Type “cheap green cards that ramp” and it turns that into a proper Scryfall search, checks that it returns results, and sends you there.",
+      id: "scouts", no: "05", year: "2026", status: "Personal",
+      title: "Scouting agents",
+      line: "Two agents that watch Marktplaats, Vinted and Funda so I don’t have to.",
+      story: "Both run as scheduled Claude routines on my laptop: search, filter, let Claude judge each listing against a short brief, and email a digest only when something’s worth it. One hunts second-hand finds, the other helped us search for a first home.",
+      cover: { shot: "finds-overview", tall: "finds-mobile" },
+      numbers: [["281", "finds recorded"], ["2 h", "between runs"], ["2", "platforms, plus Funda"]],
       how: [
-        "You describe the cards you want in plain words.",
-        "Claude turns that into Scryfall’s search syntax and runs it once to check it returns cards.",
-        "If it does, you land straight on the results."
+        "Search the platforms every two hours (08:00–23:00), skip what was seen, apply hard filters.",
+        "Claude judges each survivor against a short brief per category.",
+        "A short email digest, price-drop alerts, and a small web app to keep or hide finds."
       ],
-      chips: ["claude", "typescript"], /* [CONFIRM stack] */
-      alt: "Illustration: a search box reading cheap green ramp that isn't a land, an arrow to the query c:g otag:ramp -t:land usd<1, and 128 cards."
+      shots: ["finds-overview", "finds-mobile"],
+      shotsNote: "The house search stays private, so there are no screenshots of it.",
+      chips: ["python", "claude", "astro", "resend"],
+      privateRepo: true
     }
   ];
 
   /* ------------------------------------------------------------ illustrations */
-  // Drawn in a 480×360 box with CSS classes, so every option (and each project tone) recolours them.
-  function T(x, y, s, cls, anchor) { return '<text x="' + x + '" y="' + y + '" class="' + (cls || "s-t") + '"' + (anchor ? ' text-anchor="' + anchor + '"' : "") + ">" + s + "</text>"; }
-  function R(x, y, w, h, rx, cls, extra) { return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="' + rx + '" class="' + cls + '"' + (extra || "") + "/>"; }
-  function chip(x, y, w, s) { return R(x, y, w, 22, 5, "s-chip") + T(x + 8, y + 15, s, "s-m s-ink"); }
+  // Two drawings per illustration: a full one (480×360) and a compact one (320×300) with
+  // fewer, larger labels for narrow containers. CSS picks one with a container query.
+  function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+  function T(x, y, s, cls, anchor, lang) { return '<text x="' + x + '" y="' + y + '" class="' + (cls || "s-t") + '"' + (anchor ? ' text-anchor="' + anchor + '"' : "") + (lang ? ' lang="' + lang + '"' : "") + ">" + s + "</text>"; }
+  function R(x, y, w, h, rx, cls) { return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="' + rx + '" class="' + cls + '"/>'; }
+  function chip(x, y, w, s) { return R(x, y, w, 24, 5, "s-chip") + T(x + 8, y + 16.5, s, "s-m s-ink"); }
 
   var ILLO = {
-    homelab: function () {
-      var apps = [["rules-of-99", 56, 152], ["finds", 160, 152], ["quizmaster", 56, 180], ["scryfall", 160, 180], ["dashboard", 56, 208], ["+2 more", 160, 208]];
-      return '<path class="s-line" d="M128 37 H240 V100 H150 V116"/>' +
-        '<path class="s-pulse" pathLength="600" d="M128 37 H240 V100 H150 V116"/>' +
-        R(24, 22, 104, 30, 6, "s-box") + T(40, 42, "git push", "s-m s-ink") +
-        R(188, 22, 104, 30, 6, "s-box s-box--tone") + T(206, 42, "argo cd", "s-m s-ink") +
-        T(304, 42, "syncs every app", "s-m") +
-        R(24, 84, 432, 208, 12, "s-host") + T(440, 287, "proxmox · the laptop under the TV", "s-m", "end") +
-        R(40, 116, 220, 160, 8, "s-box") + T(56, 140, "k3s") + T(244, 140, "7 apps", "s-m", "end") +
-        apps.map(function (a) { return chip(a[1], a[2], a[1] === 56 ? 96 : 84, a[0]); }).join("") +
-        T(56, 258, "built and deployed from git", "s-s") +
-        R(276, 116, 164, 160, 8, "s-box") + T(292, 140, "Home Assistant") +
-        '<path class="s-line" d="M358 204 L306 190 M358 204 L414 188 M358 204 L312 248 M358 204 L408 246 M306 190 L312 248"/>' +
-        '<circle cx="358" cy="204" r="10" class="s-tone"/>' +
-        [[306, 190, "lamp"], [414, 188, "sensor"], [312, 248, "switch"], [408, 246, "plug"]].map(function (n) {
-          return '<circle cx="' + n[0] + '" cy="' + n[1] + '" r="6" class="s-node"/>' + T(n[0], n[1] + (n[1] > 204 ? 20 : -11), n[2], "s-m", "middle");
-        }).join("") +
-        T(292, 158, "zigbee mesh", "s-m") +
-        R(24, 312, 108, 30, 6, "s-box") + T(40, 332, "me, anywhere", "s-m s-ink") +
-        '<path class="s-line s-dash" d="M132 327 H240 V292"/>' + T(150, 320, "tailscale", "s-m") +
-        T(456, 332, "0 open ports", "s-m s-ink", "end");
+    homelab: {
+      full: function () {
+        var apps = [["rules-of-99", 56, 150, 104], ["grimoire", 168, 150, 80], ["scryfall", 56, 180, 104], ["finds", 168, 180, 80], ["dashboard", 56, 210, 104], ["+10 more", 168, 210, 80]];
+        return '<path class="s-line" d="M128 37 H240 V100 H150 V116"/>' +
+          '<path class="s-pulse" pathLength="600" d="M128 37 H240 V100 H150 V116"/>' +
+          R(24, 20, 104, 34, 6, "s-box") + T(42, 42, "git push", "s-m s-ink") +
+          R(188, 20, 104, 34, 6, "s-box s-box--tone") + T(208, 42, "argo cd", "s-m s-ink") +
+          T(306, 42, "syncs every app", "s-m") +
+          R(24, 84, 432, 212, 12, "s-host") + T(440, 289, "proxmox · the laptop under the TV", "s-m", "end") +
+          R(40, 112, 220, 158, 8, "s-box") + T(56, 136, "k3s") + T(246, 136, "15 apps", "s-m", "end") +
+          apps.map(function (a) { return chip(a[1], a[2], a[3], a[0]); }).join("") +
+          R(276, 112, 164, 158, 8, "s-box") + T(292, 136, "Home Assistant") +
+          T(292, 160, "its own VM", "s-m") + T(292, 180, "zigbee over USB", "s-m") +
+          '<circle cx="358" cy="232" r="10" class="s-tone"/>' +
+          [[316, 214], [400, 212], [320, 254], [398, 254]].map(function (n) { return '<path class="s-line" d="M358 232 L' + n[0] + " " + n[1] + '"/><circle cx="' + n[0] + '" cy="' + n[1] + '" r="5" class="s-node"/>'; }).join("") +
+          R(24, 314, 124, 32, 6, "s-box") + T(40, 335, "me, anywhere", "s-m s-ink") +
+          '<path class="s-line s-dash" d="M148 330 H240 V296"/>' + T(160, 322, "tailscale", "s-m") +
+          T(456, 335, "0 open ports", "s-m s-ink", "end");
+      },
+      compact: function () {
+        return '<path class="s-line" d="M146 36 H174"/><path class="s-line" d="M239 56 V98"/>' +
+          '<path class="s-pulse" pathLength="600" d="M146 36 H239 V98"/>' +
+          R(16, 16, 130, 40, 8, "s-box") + T(81, 42, "git push", "s-c s-ink", "middle") +
+          R(174, 16, 130, 40, 8, "s-box s-box--tone") + T(239, 42, "argo cd", "s-c s-ink", "middle") +
+          R(16, 84, 288, 128, 12, "s-host") +
+          R(30, 98, 150, 100, 8, "s-box") + T(46, 128, "k3s", "s-t s-lg") + T(46, 154, "15 apps", "s-c") + T(46, 178, "from git", "s-c") +
+          R(192, 98, 98, 100, 8, "s-box") + T(206, 128, "Home", "s-t s-lg") + T(206, 152, "Assistant", "s-t s-lg") +
+          R(16, 242, 120, 42, 8, "s-box") + T(76, 268, "me", "s-c s-ink", "middle") +
+          '<path class="s-line s-dash" d="M136 263 H160 V212"/>' +
+          T(304, 268, "0 open ports", "s-c s-ink", "end");
+      }
     },
-    "rules-of-99": function () {
-      function card(x, y, r, tone) { return '<rect x="' + x + '" y="' + y + '" width="34" height="48" rx="4" class="' + (tone ? "s-tone" : "s-card") + '" transform="rotate(' + r + " " + (x + 17) + " " + (y + 24) + ')"/>'; }
-      return R(16, 14, 124, 26, 13, "s-chip") + T(30, 31, "room K7QX2P", "s-m s-ink") +
-        T(464, 31, "commander · 4 players", "s-m", "end") +
-        R(66, 62, 348, 236, 30, "s-felt") +
-        card(180, 92, -6, true) + card(222, 90, 2) + card(262, 92, 8) +
-        card(196, 222, 4, true) + card(238, 224, -3) +
-        card(106, 150, -84, true) + card(112, 196, -94) +
-        card(338, 140, 86, true) + card(334, 186, 92) +
-        '<circle cx="240" cy="180" r="24" class="s-ring"/>' + T(240, 185, "d20", "s-m s-ink", "middle") +
-        R(186, 48, 108, 28, 14, "s-seat") + T(240, 67, "you · 40", "s-m s-ink", "middle") +
-        R(186, 284, 108, 28, 14, "s-seat") + T(240, 303, "P3 · 33", "s-m s-ink", "middle") +
-        R(28, 166, 84, 28, 14, "s-seat") + T(70, 185, "P2 · 38", "s-m s-ink", "middle") +
-        R(368, 166, 84, 28, 14, "s-seat") + T(410, 185, "P4 · 40", "s-m s-ink", "middle") +
-        T(240, 344, "rules enforced by the engine", "s-m", "middle");
+    home: {
+      full: function () {
+        var rooms = [["Woonkamer", "on · 60%", 1], ["Keuken", "off", 0], ["Slaapkamer", "on · 20%", 1]];
+        var nodes = [[354, 98, "lamp", -12], [458, 104, "sensor", -12], [352, 206, "door", 24], [460, 208, "plug", 24]];
+        return T(24, 28, "wall panel · kiosk browser", "s-m") +
+          R(20, 40, 312, 200, 16, "s-phone") + R(32, 52, 288, 176, 8, "s-box") +
+          T(54, 82, "Home", "s-t s-strong") + R(234, 64, 74, 26, 13, "s-verdict") + T(271, 81.5, "2 home", "s-m s-on", "middle") +
+          rooms.map(function (r, i) {
+            var x = 44 + i * 90;
+            return R(x, 100, 84, 112, 8, r[2] ? "s-tile s-tile--on" : "s-tile") +
+              T(x + 42, 124, r[0], "s-s s-xs", "middle", "nl") +
+              '<circle cx="' + (x + 22) + '" cy="160" r="11" class="' + (r[2] ? "s-tone" : "s-node") + '"/>' +
+              T(x + 10, 198, r[1], "s-m");
+          }).join("") +
+          T(346, 58, "zigbee mesh", "s-m") +
+          nodes.map(function (n) { return '<path class="s-line" d="M404 146 L' + n[0] + " " + n[1] + '"/>'; }).join("") +
+          '<path class="s-line s-faint" d="M354 98 L458 104 M352 206 L460 208"/>' +
+          '<circle cx="404" cy="146" r="13" class="s-tone"/>' + T(404, 176, "zha", "s-m s-ink", "middle") +
+          nodes.map(function (n) { return '<circle cx="' + n[0] + '" cy="' + n[1] + '" r="7" class="s-node"/>' + T(n[0], n[1] + n[3], n[2], "s-m", "middle"); }).join("") +
+          [["someone home", "screen on", 262], ["tablet docked", "dashboard to front", 304]].map(function (a) {
+            return R(24, a[2], 186, 32, 16, "s-chip") + T(117, a[2] + 21, a[0], "s-m s-ink", "middle") +
+              '<path class="s-line" d="M218 ' + (a[2] + 16) + " H250 M244 " + (a[2] + 10) + " L250 " + (a[2] + 16) + " L244 " + (a[2] + 22) + '"/>' +
+              R(258, a[2], 198, 32, 16, "s-box s-box--tone") + T(357, a[2] + 21, a[1], "s-m s-ink", "middle");
+          }).join("");
+      },
+      compact: function () {
+        var rooms = [["Woonkamer", 1], ["Keuken", 0], ["Slaapkamer", 1]];
+        return R(16, 12, 288, 178, 16, "s-phone") + R(28, 24, 264, 154, 8, "s-box") +
+          T(42, 54, "Home", "s-t s-lg") + R(196, 34, 84, 28, 14, "s-verdict") + T(238, 53, "2 home", "s-c s-on", "middle") +
+          rooms.map(function (r, i) {
+            var x = 40 + i * 84;
+            return R(x, 74, 76, 92, 8, r[1] ? "s-tile s-tile--on" : "s-tile") +
+              '<circle cx="' + (x + 20) + '" cy="104" r="11" class="' + (r[1] ? "s-tone" : "s-node") + '"/>' +
+              T(x + 38, 152, r[0], "s-s s-xs s-ink", "middle", "nl");
+          }).join("") +
+          R(16, 208, 288, 36, 18, "s-chip") + T(160, 231, "someone home → screen on", "s-c s-ink", "middle") +
+          R(16, 254, 288, 36, 18, "s-box s-box--tone") + T(160, 277, "docked → dashboard", "s-c s-ink", "middle");
+      }
     },
-    finds: function () {
-      var rows = [
-        ["Commander precon lot", "€45 · 12 km · marktplaats", "keep", 0],
-        ["Dell Micro i5-8500T 16 GB", "€85 · pickup · marktplaats", "keep", 1],
-        ["New Balance Rover EU 40", "still looking · vinted", "watching", 2]
-      ];
-      return R(56, 24, 368, 312, 12, "s-paper") +
-        T(78, 58, "2nd-hand finds", "s-t s-strong") + T(402, 58, "3 new", "s-m s-ink", "end") +
-        '<line x1="78" y1="74" x2="402" y2="74" class="s-line"/>' +
-        rows.map(function (r, i) {
-          var y = 88 + i * 70;
-          return R(78, y, 52, 52, 6, i === 0 ? "s-tone" : i === 1 ? "s-tone-2" : "s-tone-3") +
-            T(144, y + 21, r[0]) + T(144, y + 41, r[1], "s-m") +
-            R(r[2] === "keep" ? 354 : 334, y + 15, r[2] === "keep" ? 48 : 68, 22, 11, r[2] === "keep" ? "s-verdict" : "s-chip") +
-            T(r[2] === "keep" ? 378 : 368, y + 30, r[2], "s-m s-ink", "middle") +
-            (i < 2 ? '<line x1="78" y1="' + (y + 62) + '" x2="402" y2="' + (y + 62) + '" class="s-line s-faint"/>' : "");
-        }).join("") +
-        T(78, 316, "every 2 h, 08:00–23:00", "s-m") + T(402, 316, "judged by claude", "s-m", "end");
-    },
-    quizmaster: function () {
-      var ans = ["Rotterdam", "Utrecht", "Antwerp", "Delft"];
-      return R(30, 104, 112, 28, 14, "s-chip") + T(86, 123, "theme · Rotterdam", "s-m s-ink", "middle") +
-        T(30, 168, "questions are", "s-m") + T(30, 184, "made up as you play", "s-m") +
-        R(340, 104, 112, 86, 8, "s-box") + T(352, 124, "scores", "s-m") +
-        T(352, 146, "P1", "s-m s-ink") + T(440, 146, "820", "s-m s-ink", "end") +
-        T(352, 164, "P2", "s-m") + T(440, 164, "760", "s-m", "end") +
-        T(352, 182, "P3", "s-m") + T(440, 182, "610", "s-m", "end") +
-        R(164, 12, 152, 336, 24, "s-phone") + R(218, 22, 44, 6, 3, "s-chip") +
-        T(182, 54, "Q 4/10", "s-m") + T(298, 54, "8 players", "s-m s-ink", "end") +
-        '<circle cx="240" cy="96" r="24" class="s-ring"/>' +
-        '<circle cx="240" cy="96" r="24" class="s-timer" pathLength="100" transform="rotate(-90 240 96)"/>' +
-        T(240, 102, "12", "s-t s-strong", "middle") +
-        T(240, 146, "Which city has the", "s-t", "middle") + T(240, 166, "Erasmus Bridge?", "s-t", "middle") +
-        ans.map(function (a, i) {
-          var y = 184 + i * 38;
-          return R(180, y, 120, 30, 8, i === 0 ? "s-tone" : "s-box") + T(240, y + 20, a, i === 0 ? "s-t s-on-tone" : "s-t", "middle");
-        }).join("");
-    },
-    scryfall: function () {
-      var cards = [60, 122, 184, 246, 308, 370];
-      return R(40, 40, 400, 52, 26, "s-box") +
-        '<circle cx="70" cy="64" r="8" class="s-line"/><path class="s-line" d="M76 70 L82 76"/>' +
-        T(94, 71, "cheap green ramp that isn’t a land") +
-        '<path class="s-line" d="M240 100 V134 M233 127 L240 135 L247 127"/>' + T(252, 122, "claude writes the query", "s-m") +
-        R(60, 142, 360, 42, 6, "s-chip") + T(240, 168, "c:g otag:ramp -t:land usd&lt;1", "s-m s-ink s-big", "middle") +
-        T(60, 212, "checked: returns results", "s-m") + T(420, 212, "128 cards", "s-m s-ink", "end") +
-        cards.map(function (x, i) { return R(x, 226, 50, 70, 4, i % 2 ? "s-card" : "s-tone"); }).join("") +
-        T(240, 322, "→ straight to the results on Scryfall", "s-m", "middle");
+    ai: {
+      full: function () {
+        var blocks = [["standup", 24, 78, "s-tone-3"], ["PR review", 102, 108, "s-tone"], ["Linear issue", 210, 138, "s-tone-2"], ["call", 348, 54, "s-tone-3"], ["deploy", 402, 54, "s-tone"]];
+        var hours = ["09", "10", "11", "12", "13", "14", "15", "16", "17"];
+        return T(24, 30, "uren-assistent · one day", "s-m") +
+          blocks.map(function (b) { return R(b[1] + 2, 44, b[2] - 4, 46, 6, b[3]) + T(b[1] + b[2] / 2, 72, b[0], "s-s s-ink", "middle"); }).join("") +
+          '<line x1="24" y1="102" x2="456" y2="102" class="s-line"/>' +
+          hours.map(function (h, i) { return T(24 + i * 54, 122, h, "s-m", i === 0 ? null : i === 8 ? "end" : "middle"); }).join("") +
+          '<path class="s-line" d="M240 130 V148 M234 142 L240 148 L246 142"/>' +
+          R(24, 156, 432, 40, 8, "s-box") + T(40, 181, "7.5 h booked", "s-t") + T(150, 181, "classified, then submitted", "s-m") +
+          R(358, 164, 86, 24, 12, "s-verdict") + T(401, 180.5, "submitted", "s-m s-on", "middle") +
+          T(24, 228, "ux-testing · playwright", "s-m") +
+          [["sign-up flow", "passes", 0], ["checkout flow", "broke → fix task → passes", 1], ["settings flow", "passes", 0]].map(function (r, i) {
+            var y = 240 + i * 38;
+            return R(24, y, 432, 30, 6, r[2] ? "s-box s-box--tone" : "s-box") +
+              '<circle cx="42" cy="' + (y + 15) + '" r="6" class="' + (r[2] ? "s-warn" : "s-tone") + '"/>' +
+              T(58, y + 20, r[0], "s-s s-ink") + T(444, y + 20, r[1], "s-m", "end");
+          }).join("");
+      },
+      compact: function () {
+        return T(16, 26, "hours, booked", "s-c") +
+          R(16, 38, 84, 48, 6, "s-tone-3") + R(106, 38, 112, 48, 6, "s-tone") + R(224, 38, 80, 48, 6, "s-tone-2") +
+          T(24, 68, "standup", "s-c s-ink") + T(114, 68, "PR review", "s-c s-ink") + T(232, 68, "issue", "s-c s-ink") +
+          R(16, 98, 288, 44, 8, "s-box") + T(30, 126, "7.5 h", "s-t s-lg") + R(194, 108, 98, 26, 13, "s-verdict") + T(243, 126, "submitted", "s-c s-on", "middle") +
+          T(16, 176, "flows, tested", "s-c") +
+          [["sign-up", "passes", 0], ["checkout", "fixed", 1], ["settings", "passes", 0]].map(function (r, i) {
+            var y = 188 + i * 38;
+            return R(16, y, 288, 32, 6, r[2] ? "s-box s-box--tone" : "s-box") +
+              '<circle cx="34" cy="' + (y + 16) + '" r="6" class="' + (r[2] ? "s-warn" : "s-tone") + '"/>' +
+              T(50, y + 21, r[0], "s-c s-ink") + T(292, y + 21, r[1], "s-c", "end");
+          }).join("");
+      }
     }
   };
 
-  function illoSVG(p) {
-    return '<svg class="il__svg" viewBox="0 0 480 360" preserveAspectRatio="xMidYMid meet" role="img" aria-label="' + esc(p.alt) + '">' + ILLO[p.id]() + "</svg>";
+  function illoHTML(p) {
+    var il = ILLO[p.cover.illo];
+    return '<div class="il__art" role="img" aria-label="' + esc(p.alt) + '">' +
+      '<svg class="il__svg il__svg--full" viewBox="0 0 480 360" preserveAspectRatio="xMidYMid meet" aria-hidden="true">' + il.full() + "</svg>" +
+      '<svg class="il__svg il__svg--compact" viewBox="0 0 320 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true">' + il.compact() + "</svg></div>";
   }
 
-  // Grid slot ratios repeat every four; a lone trailing item spans wide.
+  /* ---------------------------------------------------------------- templates */
   var SLOT = ["3:2", "4:5", "1:1", "4:3"];
   function slotRatio(i, n) {
     if (i === n - 1 && (i % 4 === 0 || i % 4 === 2)) return "21:9";
     return SLOT[i % 4];
   }
-
-  function esc(s) {
-    return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-  }
   function vars(p) { return "--p: var(--tone-" + p.id + "); --p-ink: var(--pink-" + p.id + ")"; }
-  function chipsHTML(p) {
-    if (!p.chips.length) return "";
-    return '<ul class="chips" aria-label="Built with">' + p.chips.map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") + "</ul>";
+  function chipsHTML(list, label) {
+    if (!list || !list.length) return "";
+    return '<ul class="chips" aria-label="' + (label || "Built with") + '">' + list.map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") + "</ul>";
   }
   function statusHTML(p) {
     var k = p.status === "Live" ? "live" : p.status === "In progress" ? "wip" : "personal";
     return '<span class="state state--' + k + '"><span class="state__dot" aria-hidden="true"></span>' + esc(p.status) + "</span>";
   }
-  function visualHTML(p) {
-    return '<div class="ph il" style="--tone: var(--tone-' + p.id + ')">' + illoSVG(p) +
-      '<span class="ph__label il__label" aria-hidden="true"><span class="ph__no">' + p.no + "</span>illustration</span></div>";
+  function imgHTML(s, eager) {
+    return '<img src="' + s.src + '" width="' + s.w + '" height="' + s.h + '" alt="' + esc(s.alt) + '" ' + (eager ? 'fetchpriority="high"' : 'loading="lazy"') + ' decoding="async">';
   }
-  function metaHTML(p, ratio) {
-    return '<p class="meta">fig.' + p.no + " — " + p.id + "/illustration.svg · " + ratio + "</p>";
+  // A card visual: a real screenshot on a tonal stage, or the illustration. `shape` picks the tall shot where one exists.
+  function visualHTML(p, shape, eager) {
+    if (p.cover.illo) {
+      return '<div class="ph il" style="--tone: var(--tone-' + p.id + ')">' + illoHTML(p) +
+        '<span class="ph__label il__label" aria-hidden="true"><span class="ph__no">' + p.no + "</span>illustration</span></div>";
+    }
+    var tall = shape === "tall" && p.cover.tall;
+    var s = shot(tall ? p.cover.tall : p.cover.shot);
+    return '<div class="ph stage' + (tall ? " stage--tall" : "") + '" style="--tone: var(--tone-' + p.id + ')">' + imgHTML(s, eager) +
+      '<span class="ph__label il__label" aria-hidden="true"><span class="ph__no">' + p.no + "</span>screenshot</span></div>";
   }
+  function coverFile(p, shape) {
+    if (p.cover.illo) return p.id + "/illustration.svg";
+    return (shape === "tall" && p.cover.tall ? p.cover.tall : p.cover.shot) + ".webp";
+  }
+  function metaHTML(p, ratio, shape) { return '<p class="meta">fig.' + p.no + " — " + coverFile(p, shape) + " · " + ratio + "</p>"; }
   function openAttrs(p) { return 'href="#' + p.id + '" data-open="' + p.id + '"'; }
 
   function featuredHTML(p) {
     return '<article class="page feature" id="p-' + p.id + '" data-project="' + p.id + '" style="' + vars(p) + '" aria-labelledby="feature-title">' +
-      '<a class="feature__media" ' + openAttrs(p) + ' tabindex="-1" aria-hidden="true">' + visualHTML(p) + "</a>" +
+      '<a class="feature__media" ' + openAttrs(p) + ' tabindex="-1" aria-hidden="true">' + visualHTML(p, "wide") + "</a>" +
       '<div class="feature__head">' +
-        '<div class="feature__kicker"><p class="eyebrow"><span class="feature__dot" aria-hidden="true"></span><span data-copy="projects.featured">Featured</span></p>' + metaHTML(p, "16:9") + "</div>" +
+        '<div class="feature__kicker"><p class="eyebrow"><span class="feature__dot" aria-hidden="true"></span>Featured</p>' + metaHTML(p, "16:9") + "</div>" +
         '<h3 class="feature__title display" id="feature-title"><a ' + openAttrs(p) + ">" + esc(p.title) + "</a></h3>" +
         '<p class="feature__line">' + esc(p.line) + "</p>" +
       "</div>" +
       '<div class="feature__story">' +
-        '<p class="facts">' + statusHTML(p) + '<span class="meta">' + p.year + "</span></p>" +
+        '<p class="facts">' + statusHTML(p) + '<span class="meta">' + p.year + "</span>" + (p.parts ? '<span class="meta">' + p.parts.length + " parts</span>" : "") + "</p>" +
         "<p>" + esc(p.story) + "</p>" +
-        chipsHTML(p) +
-        '<p><a class="arrow-link" ' + openAttrs(p) + ">How it works <span aria-hidden=\"true\">→</span></a></p>" +
+        chipsHTML(p.chips) +
+        '<p><a class="button button--ghost" ' + openAttrs(p) + '>Open the case study <span aria-hidden="true">→</span></a></p>' +
       "</div>" +
     "</article>";
   }
 
   function itemHTML(p, i, n) {
+    var ratio = slotRatio(i, n), shape = ratio === "4:5" ? "tall" : "wide";
     return '<li class="item" id="p-' + p.id + '" data-project="' + p.id + '" style="' + vars(p) + '">' +
-      '<a class="item__media" ' + openAttrs(p) + ' tabindex="-1" aria-hidden="true">' + visualHTML(p) + "</a>" +
+      '<a class="item__media" ' + openAttrs(p) + ' tabindex="-1" aria-hidden="true">' + visualHTML(p, shape) + "</a>" +
       '<div class="item__caption">' +
-        metaHTML(p, slotRatio(i, n)) +
+        metaHTML(p, ratio, shape) +
         '<h3 class="item__title"><a ' + openAttrs(p) + ">" + esc(p.title) + "</a></h3>" +
         '<p class="item__line">' + esc(p.line) + "</p>" +
-        '<div class="item__facts">' + statusHTML(p) + chipsHTML(p) + "</div>" +
+        '<div class="item__facts">' + statusHTML(p) + (p.parts ? '<span class="meta">' + p.parts.length + " parts</span>" : "") + "</div>" +
       "</div>" +
     "</li>";
   }
@@ -1114,47 +1551,108 @@ html, body { background: var(--surface); }
     }).join("");
   }
 
+  /* ------------------------------------------------------------ case study */
+  function galleryHTML(ids, group) {
+    if (!ids || !ids.length) return "";
+    return '<ul class="gallery" aria-label="Screenshots">' + ids.map(function (id, i) {
+      var s = shot(id);
+      return '<li class="gallery__item' + (s.w < s.h ? " gallery__item--tall" : "") + '"><figure>' +
+        '<button type="button" class="gallery__open" data-lightbox="' + group + '" data-index="' + i + '" aria-label="Enlarge: ' + esc(s.cap) + '">' +
+        imgHTML(s) + '<span class="gallery__zoom" aria-hidden="true">⤢</span></button>' +
+        '<figcaption><span class="meta">' + id + ".webp</span> " + esc(s.cap) + "</figcaption></figure></li>";
+    }).join("") + "</ul>";
+  }
+  function linkHTML(l) {
+    return '<a class="arrow-link" href="' + l[1] + '" target="_blank" rel="noopener">' + esc(l[0]) + ' <span aria-hidden="true">↗</span></a>';
+  }
+  function section(title, body, cls) { return '<section class="case__sec' + (cls ? " " + cls : "") + '"><h3 class="case__h">' + title + "</h3>" + body + "</section>"; }
+
+  function caseHTML(p) {
+    var h = "";
+    // lead visual: the illustration, or the first screenshot set as a gallery
+    h += '<div class="case__visual">' + visualHTML(p, "wide") + "</div>";
+    h += '<div class="case__intro">' +
+      '<div class="case__story"><p class="case__line">' + esc(p.line) + "</p><p>" + esc(p.story) + "</p></div>" +
+      '<dl class="detail__facts">' +
+        "<div><dt>status</dt><dd>" + statusHTML(p) + "</dd></div>" +
+        "<div><dt>year</dt><dd>" + p.year + "</dd></div>" +
+        (p.chips && p.chips.length ? "<div><dt>built with</dt><dd>" + chipsHTML(p.chips) + "</dd></div>" : "") +
+        "<div><dt>code</dt><dd>" + (p.privateRepo ? '<span class="meta">Repository is private</span>' : (p.parts ? '<span class="meta">Public parts are linked below</span>' : "")) + "</dd></div>" +
+      "</dl></div>";
+
+    if (p.numbers) h += section("in numbers", '<dl class="stats tnum">' + p.numbers.map(function (n) { return "<div><dt>" + esc(n[1]) + "</dt><dd>" + esc(n[0]) + "</dd></div>"; }).join("") + "</dl>");
+    if (p.ram) {
+      var total = p.ram.reduce(function (a, r) { return a + r[0]; }, 0);
+      h += section("where the 16 GB goes",
+        '<div class="ram" aria-hidden="true">' + p.ram.map(function (r, i) { return '<span class="ram__seg ram__seg--' + i + '" style="flex: ' + r[0] + '"><b>' + (r[2] || "") + r[0] + " GB</b> " + esc(r[1]) + "</span>"; }).join("") + "</div>" +
+        '<ul class="visually-hidden">' + p.ram.map(function (r) { return "<li>" + (r[2] ? "about " : "") + r[0] + " GB of " + total + " for " + esc(r[1]) + "</li>"; }).join("") + "</ul>");
+    }
+    if (p.shots) h += section("screenshots", galleryHTML(p.shots, p.id) + (p.shotsNote ? '<p class="meta case__note">' + esc(p.shotsNote) + "</p>" : ""));
+    if (p.how) h += section("how it works", '<ol class="learned">' + p.how.map(function (x) { return "<li><p>" + esc(x) + "</p></li>"; }).join("") + "</ol>");
+    if (p.automations) h += section("automations that run every day",
+      '<ul class="autos">' + p.automations.map(function (a) { return '<li><span class="autos__when"><span class="meta">when</span> ' + esc(a[0]) + '</span><span class="autos__arrow" aria-hidden="true">→</span><span class="autos__then"><span class="meta">then</span> ' + esc(a[1]) + "</span></li>"; }).join("") + "</ul>" +
+      (p.photoSlot ? '<div class="ph case__photo" style="--tone: var(--tone-home); --ratio: 16 / 9" role="img" aria-label="' + esc(p.photoSlot) + '"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true">' + esc(p.photoSlot) + "</span></div>" : ""));
+    if (p.decisions) h += section("decisions", '<dl class="decisions">' + p.decisions.map(function (d) { return "<div><dt>" + esc(d[0]) + "</dt><dd>" + esc(d[1]) + "</dd></div>"; }).join("") + "</dl>");
+    if (p.learned) h += section("learned the hard way", '<ul class="gotchas">' + p.learned.map(function (x) { return "<li>" + x + "</li>"; }).join("") + "</ul>");
+    if (p.snippet) h += section("one app, one file",
+      '<p class="case__note-lead">Every app on the platform is one small file like this. Argo CD keeps the cluster in line with it.</p>' +
+      '<figure class="snippet"><figcaption><span class="meta"><b>applications/rules-of-99.yaml</b></span><span class="meta">Argo CD</span></figcaption>' +
+      '<pre tabindex="0" aria-label="Example Argo CD Application file"><code>' +
+      '<span class="k">apiVersion:</span> <span class="v">argoproj.io/v1alpha1</span>\n<span class="k">kind:</span> <span class="v">Application</span>\n<span class="k">metadata:</span> { <span class="k">name:</span> <span class="v">rules-of-99</span> }\n<span class="k">spec:</span>\n  <span class="k">source:</span>\n    <span class="k">repoURL:</span> <span class="v">…/rules-of-99.git</span>\n    <span class="k">path:</span> <span class="v">deploy</span>\n  <span class="k">syncPolicy:</span>\n    <span class="c"># fix drift, remove what\'s gone</span>\n    <span class="k">automated:</span> { <span class="k">prune:</span> <span class="v">true</span>, <span class="k">selfHeal:</span> <span class="v">true</span> }' +
+      "</code></pre></figure>");
+    if (p.parts) h += '<div class="parts">' + p.parts.map(function (pt, i) {
+      return '<section class="part">' +
+        '<div class="part__head"><p class="meta">' + p.no + "." + (i + 1) + (pt.public ? " · public" : "") + "</p>" +
+        '<h3 class="part__title"' + (pt.lang ? ' lang="' + pt.lang + '"' : "") + ">" + esc(pt.title) + "</h3>" +
+        '<p class="part__line">' + esc(pt.line) + "</p></div>" +
+        '<div class="part__body"><p>' + esc(pt.body) + (pt.ref ? ' <a href="#' + pt.ref + '" data-go="' + pt.ref + '">Open the MTG suite</a>.' : "") + "</p>" +
+        chipsHTML(pt.chips) + (pt.link ? "<p>" + linkHTML(pt.link) + "</p>" : "") + "</div>" +
+        galleryHTML(pt.shots, p.id + "-" + i) +
+      "</section>";
+    }).join("") + "</div>";
+    return h;
+  }
+
   function detailHTML(p) {
     var i = PROJECTS.indexOf(p), n = PROJECTS.length;
     var prev = PROJECTS[(i - 1 + n) % n], next = PROJECTS[(i + 1) % n];
     return '<div class="detail__bar">' +
-        '<p class="meta">' + p.no + " / 0" + n + " · " + p.id + "</p>" +
+        '<p class="meta">project ' + p.no + " of 0" + n + "</p>" +
         '<div class="detail__nav">' +
-          '<button type="button" class="detail__btn" data-go="' + prev.id + '" aria-label="Previous project: ' + esc(prev.title) + '"><span aria-hidden="true">←</span> <span class="detail__btn-text">' + esc(prev.title) + "</span></button>" +
-          '<button type="button" class="detail__btn" data-go="' + next.id + '" aria-label="Next project: ' + esc(next.title) + '"><span class="detail__btn-text">' + esc(next.title) + '</span> <span aria-hidden="true">→</span></button>' +
-          '<button type="button" class="detail__btn detail__close" data-close aria-label="Close project (Esc)"><span aria-hidden="true">✕</span><span class="meta" aria-hidden="true">esc</span></button>' +
+          '<button type="button" class="detail__btn" data-go="' + prev.id + '" aria-label="Previous project: ' + esc(prev.title) + '"><span aria-hidden="true">←</span><span class="detail__btn-text">' + esc(prev.title) + "</span></button>" +
+          '<button type="button" class="detail__btn" data-go="' + next.id + '" aria-label="Next project: ' + esc(next.title) + '"><span class="detail__btn-text">' + esc(next.title) + '</span><span aria-hidden="true">→</span></button>' +
+          '<button type="button" class="detail__btn detail__close" data-close aria-label="Close project"><span aria-hidden="true">✕</span><span class="detail__btn-text">Close</span></button>' +
         "</div>" +
       "</div>" +
-      '<div class="detail__visual">' + visualHTML(p) + "</div>" +
-      '<div class="detail__body">' +
-        '<div class="detail__head">' +
-          '<h2 class="detail__title display" id="detail-title" tabindex="-1">' + esc(p.title) + "</h2>" +
-          '<p class="detail__line">' + esc(p.line) + "</p>" +
-        "</div>" +
-        '<dl class="detail__facts">' +
-          "<div><dt>status</dt><dd>" + statusHTML(p) + "</dd></div>" +
-          "<div><dt>year</dt><dd>" + p.year + "</dd></div>" +
-          (p.chips.length ? "<div><dt>built with</dt><dd>" + chipsHTML(p) + "</dd></div>" : "") +
-        "</dl>" +
-        '<div class="detail__story"><p>' + esc(p.story) + "</p></div>" +
-        '<div class="detail__how"><h3 class="meta">how it works</h3><ol class="learned">' + p.how.map(function (h) { return "<li><p>" + esc(h) + "</p></li>"; }).join("") + "</ol></div>" +
-        '<p class="detail__links">' +
-          '<a class="arrow-link" href="' + GITHUB + '" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a>' +
-          (p.caseStudy ? ' <a class="arrow-link" data-repo-only href="' + p.caseStudy + '">Full case study <span aria-hidden="true">→</span></a>' : "") +
-        "</p>" +
-      "</div>";
+      '<h2 class="detail__title display" id="detail-title" tabindex="-1">' + esc(p.title) + "</h2>" +
+      '<div class="case">' + caseHTML(p) + "</div>" +
+      '<nav class="detail__next" aria-label="More projects">' +
+        '<button type="button" class="detail__card" data-go="' + prev.id + '" style="' + vars(prev) + '"><span class="meta">← previous</span><span class="detail__card-title">' + esc(prev.title) + "</span></button>" +
+        '<button type="button" class="detail__card detail__card--next" data-go="' + next.id + '" style="' + vars(next) + '"><span class="meta">next →</span><span class="detail__card-title">' + esc(next.title) + "</span></button>" +
+      "</nav>";
   }
 
   function render(featuredId) {
     var f = byId(featuredId) || PROJECTS[0];
     var rest = PROJECTS.filter(function (p) { return p !== f; });
-    return {
-      featured: featuredHTML(f),
-      grid: rest.map(function (p, i) { return itemHTML(p, i, rest.length); }).join(""),
-      index: indexHTML(f)
-    };
+    return { featured: featuredHTML(f), grid: rest.map(function (p, i) { return itemHTML(p, i, rest.length); }).join(""), index: indexHTML(f) };
   }
   function byId(id) { return PROJECTS.filter(function (p) { return p.id === id; })[0] || null; }
+  function groupShots(group) {
+    var parts = group.split("-"), p = byId(parts[0]);
+    if (!p) return [];
+    if (parts.length > 1 && p.parts) return p.parts[+parts[1]].shots || [];
+    return p.shots || [];
+  }
+
+  var api = { PROJECTS: PROJECTS, SHOTS: SHOTS, render: render, detailHTML: detailHTML, caseHTML: caseHTML, visualHTML: visualHTML, byId: byId, shot: shot };
+  if (typeof module !== "undefined" && module.exports) { module.exports = api; return; }
+  root.BeeldProjects = api;
+
+  /* ================================================================ behaviour */
+  var slot = document.getElementById("featured-slot");
+  var grid = document.getElementById("project-grid");
+  var index = document.getElementById("project-index");
 
   function pickId() {
     var wanted = null;
@@ -1162,69 +1660,57 @@ html, body { background: var(--surface); }
     if (wanted && byId(wanted)) return wanted;
     return PROJECTS[Math.floor(Math.random() * PROJECTS.length)].id;
   }
-
-  var api = { PROJECTS: PROJECTS, render: render, detailHTML: detailHTML, visualHTML: visualHTML, byId: byId };
-  if (typeof module !== "undefined" && module.exports) { module.exports = api; return; }
-  root.BeeldProjects = api;
-
-  var slot = document.getElementById("featured-slot");
-  var grid = document.getElementById("project-grid");
-  var index = document.getElementById("project-index");
-  if (!slot || !grid) return;
-
-  var id = pickId();
-  if (slot.getAttribute("data-current") !== id) {
-    var out = render(id);
-    slot.innerHTML = out.featured;
-    grid.innerHTML = out.grid;
-    if (index) index.innerHTML = out.index;
-    slot.setAttribute("data-current", id);
-  }
-
-  /* ---------------------------------------- two-way highlight: index lines and images */
-  function hot(pid) {
-    Array.prototype.forEach.call(document.querySelectorAll("#projects [data-project]"), function (el) {
-      el.classList.toggle("is-hot", !!pid && el.getAttribute("data-project") === pid);
+  if (slot && grid) {
+    var id = pickId();
+    if (slot.getAttribute("data-current") !== id) {
+      var out = render(id);
+      slot.innerHTML = out.featured; grid.innerHTML = out.grid;
+      if (index) index.innerHTML = out.index;
+      slot.setAttribute("data-current", id);
+    }
+    // two-way highlight: index lines and images
+    var hot = function (pid) {
+      Array.prototype.forEach.call(document.querySelectorAll("#projects [data-project]"), function (el) {
+        el.classList.toggle("is-hot", !!pid && el.getAttribute("data-project") === pid);
+      });
+      grid.classList.toggle("has-hot", !!pid && !!grid.querySelector('[data-project="' + pid + '"]'));
+    };
+    var from = function (e) { var el = e.target.closest && e.target.closest("[data-project]"); return el ? el.getAttribute("data-project") : null; };
+    [index, grid].forEach(function (zone) {
+      if (!zone) return;
+      zone.addEventListener("mouseover", function (e) { hot(from(e)); });
+      zone.addEventListener("mouseleave", function () { hot(null); });
+      zone.addEventListener("focusin", function (e) { hot(from(e)); });
+      zone.addEventListener("focusout", function () { hot(null); });
     });
-    grid.classList.toggle("has-hot", !!pid && !!grid.querySelector('[data-project="' + pid + '"]'));
   }
-  function from(e) {
-    var el = e.target.closest && e.target.closest("[data-project]");
-    return el ? el.getAttribute("data-project") : null;
-  }
-  [index, grid].forEach(function (zone) {
-    if (!zone) return;
-    zone.addEventListener("mouseover", function (e) { hot(from(e)); });
-    zone.addEventListener("mouseleave", function () { hot(null); });
-    zone.addEventListener("focusin", function (e) { hot(from(e)); });
-    zone.addEventListener("focusout", function () { hot(null); });
-  });
 
-  /* ------------------------------------------------------------------ detail view */
+  /* ------------------------------------------------------------- detail view */
   var dlg = document.getElementById("detail");
   var panel = dlg && dlg.querySelector(".detail__panel");
+  var lb = document.getElementById("lightbox");
   var siteRoot = document.querySelector(".site");
   var lastTrigger = null, openId = null;
-  if (!dlg || !panel) return;
+  var reduce = function () { return window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches; };
+  function setHash(h) { try { history.replaceState(null, "", h ? "#" + h : location.pathname + location.search); } catch (e) {} }
+  function pushHash(h) { try { history.pushState({ detail: h }, "", "#" + h); } catch (e) {} }
 
-  function setHash(h) {
-    try { history.replaceState(null, "", h ? "#" + h : location.pathname + location.search); } catch (e) {}
-  }
-  function pushHash(h) {
-    try { history.pushState({ detail: h }, "", "#" + h); return true; } catch (e) { return false; }
+  function trapTab(e, box, firstFallback) {
+    var f = Array.prototype.filter.call(box.querySelectorAll('a[href], button:not([disabled]), [tabindex="0"]'), function (el) { return el.offsetParent !== null; });
+    if (!f.length) return;
+    var first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && (document.activeElement === first || document.activeElement === firstFallback)) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
   }
 
-  function open(pid, opts) {
+  function open(pid) {
     var p = byId(pid);
-    if (!p) return;
-    opts = opts || {};
+    if (!p || !dlg) return;
     panel.innerHTML = detailHTML(p);
     panel.setAttribute("style", vars(p));
-    if (window.BeeldDetailHook) window.BeeldDetailHook(panel);
     panel.scrollTop = 0;
     if (!openId) {
       dlg.hidden = false;
-      // next frame: let the transition run
       requestAnimationFrame(function () { requestAnimationFrame(function () { dlg.classList.add("is-open"); }); });
       if (siteRoot) siteRoot.inert = true;
       document.documentElement.classList.add("has-detail");
@@ -1233,47 +1719,93 @@ html, body { background: var(--surface); }
     var t = panel.querySelector("#detail-title");
     if (t) t.focus({ preventScroll: true });
   }
-
   function close(fromHistory) {
     if (!openId) return;
+    closeLightbox(true);
     openId = null;
     dlg.classList.remove("is-open");
     if (siteRoot) siteRoot.inert = false;
     document.documentElement.classList.remove("has-detail");
     var done = function () { if (!openId) { dlg.hidden = true; panel.innerHTML = ""; } };
-    var reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) done(); else setTimeout(done, 320);
+    if (reduce()) done(); else setTimeout(done, 320);
     if (!fromHistory) setHash("");
     if (lastTrigger && document.contains(lastTrigger)) lastTrigger.focus({ preventScroll: true });
   }
 
+  /* ------------------------------------------------------------------ lightbox */
+  var lbItems = [], lbIndex = 0, lbTrigger = null;
+  function lbRender() {
+    var s = shot(lbItems[lbIndex]);
+    var img = lb.querySelector(".lightbox__img");
+    img.src = s.src; img.width = s.w; img.height = s.h; img.alt = s.alt;
+    lb.querySelector(".lightbox__cap").textContent = s.cap;
+    lb.querySelector(".lightbox__count").textContent = (lbIndex + 1) + " / " + lbItems.length;
+    var many = lbItems.length > 1;
+    lb.querySelector("[data-lb-prev]").hidden = !many;
+    lb.querySelector("[data-lb-next]").hidden = !many;
+  }
+  function openLightbox(group, i, trigger) {
+    if (!lb) return;
+    lbItems = groupShots(group); lbIndex = i; lbTrigger = trigger;
+    if (!lbItems.length) return;
+    lbRender();
+    lb.hidden = false;
+    requestAnimationFrame(function () { requestAnimationFrame(function () { lb.classList.add("is-open"); }); });
+    if (panel) panel.inert = true;
+    lb.querySelector("[data-lb-close]").focus({ preventScroll: true });
+  }
+  function closeLightbox(silent) {
+    if (!lb || lb.hidden) return;
+    lb.classList.remove("is-open");
+    lb.hidden = true;
+    if (panel) panel.inert = false;
+    if (!silent && lbTrigger && document.contains(lbTrigger)) lbTrigger.focus({ preventScroll: true });
+  }
+  function lbStep(d) { if (lbItems.length < 2) return; lbIndex = (lbIndex + d + lbItems.length) % lbItems.length; lbRender(); }
+
+  if (lb) {
+    lb.addEventListener("click", function (e) {
+      if (e.target.closest("[data-lb-prev]")) return lbStep(-1);
+      if (e.target.closest("[data-lb-next]")) return lbStep(1);
+      if (e.target.closest("[data-lb-close]") || e.target === lb || e.target.classList.contains("lightbox__stage")) closeLightbox();
+    });
+    // swipe
+    var sx = null;
+    lb.addEventListener("pointerdown", function (e) { if (e.pointerType !== "mouse") sx = e.clientX; });
+    lb.addEventListener("pointerup", function (e) { if (sx === null) return; var dx = e.clientX - sx; sx = null; if (Math.abs(dx) > 50) lbStep(dx < 0 ? 1 : -1); });
+  }
+
   document.addEventListener("click", function (e) {
-    var a = e.target.closest && e.target.closest("[data-open]");
-    if (a) {
+    var t = e.target.closest ? e.target : null;
+    if (!t) return;
+    var lbBtn = t.closest("[data-lightbox]");
+    if (lbBtn) { e.preventDefault(); openLightbox(lbBtn.getAttribute("data-lightbox"), +lbBtn.getAttribute("data-index"), lbBtn); return; }
+    var a = t.closest("[data-open]");
+    if (a && dlg) {
       e.preventDefault();
       lastTrigger = a.getAttribute("tabindex") === "-1" ? (a.closest("[data-project]").querySelector("a:not([tabindex])") || a) : a;
       var pid = a.getAttribute("data-open");
-      pushHash(pid);
+      if (openId) setHash(pid); else pushHash(pid);
       open(pid);
       return;
     }
     if (!openId) return;
-    var go = e.target.closest && e.target.closest("[data-go]");
-    if (go) { var g = go.getAttribute("data-go"); setHash(g); open(g); var b = panel.querySelector('[data-go="' + g + '"]'); return; }
-    if (e.target.closest && e.target.closest("[data-close]")) close();
+    var go = t.closest("[data-go]");
+    if (go) { e.preventDefault(); var g = go.getAttribute("data-go"); setHash(g); open(g); return; }
+    if (t.closest("[data-close]")) close();
   });
 
   document.addEventListener("keydown", function (e) {
+    if (lb && !lb.hidden) {
+      if (e.key === "Escape") { e.preventDefault(); closeLightbox(); }
+      else if (e.key === "ArrowLeft") { e.preventDefault(); lbStep(-1); }
+      else if (e.key === "ArrowRight") { e.preventDefault(); lbStep(1); }
+      else if (e.key === "Tab") trapTab(e, lb);
+      return;
+    }
     if (!openId) return;
     if (e.key === "Escape") { e.preventDefault(); close(); return; }
-    if (e.key === "Tab") {
-      // keep focus inside the panel
-      var f = panel.querySelectorAll('a[href], button, [tabindex="0"]');
-      if (!f.length) return;
-      var first = f[0], last = f[f.length - 1];
-      if (e.shiftKey && (document.activeElement === first || document.activeElement === panel.querySelector("#detail-title"))) { e.preventDefault(); last.focus(); }
-      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-    }
+    if (e.key === "Tab") trapTab(e, panel, panel.querySelector("#detail-title"));
   });
 
   function fromLocation() {
@@ -1282,7 +1814,7 @@ html, body { background: var(--surface); }
   }
   window.addEventListener("popstate", fromLocation);
   window.addEventListener("hashchange", fromLocation);
-  if (byId((location.hash || "").slice(1))) open(location.hash.slice(1));
+  if (dlg && byId((location.hash || "").slice(1))) open(location.hash.slice(1));
 })(this);
 
 /* r2-beeld · small page enhancements: draggable prints and the email copy button. */
@@ -1325,9 +1857,9 @@ html, body { background: var(--surface); }
     var status = document.getElementById(btn.getAttribute("aria-describedby"));
     function say(msg) {
       if (label) label.textContent = msg;
-      if (status) status.textContent = msg === "Copy" ? "" : msg;
+      if (status) status.textContent = msg === "Copy address" ? "" : msg;
       clearTimeout(btn._t);
-      btn._t = setTimeout(function () { if (label) label.textContent = "Copy"; if (status) status.textContent = ""; }, 2200);
+      btn._t = setTimeout(function () { if (label) label.textContent = "Copy address"; if (status) status.textContent = ""; }, 2200);
     }
     function selectText() {
       try {
@@ -1342,6 +1874,24 @@ html, body { background: var(--surface); }
       } catch (e) { selectText(); say("Selected, press Ctrl/Cmd+C"); }
     });
   });
+
+  /* Nav: mark the section in view with aria-current, and give the sticky header an edge. */
+  var header = document.querySelector(".site-header");
+  var links = Array.prototype.slice.call(document.querySelectorAll('.nav a[href^="#"]'));
+  var sections = links.map(function (a) { return document.getElementById(a.getAttribute("href").slice(1)); }).filter(Boolean);
+  function track() {
+    if (header) header.classList.toggle("is-stuck", window.scrollY > 8);
+    var y = window.scrollY + window.innerHeight * 0.35, current = null;
+    sections.forEach(function (s) { if (s.offsetTop <= y) current = s.id; });
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4 && sections.length) current = sections[sections.length - 1].id;
+    links.forEach(function (a) {
+      if (a.getAttribute("href") === "#" + current) a.setAttribute("aria-current", "location"); else a.removeAttribute("aria-current");
+    });
+  }
+  var ticking = false;
+  window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(function () { ticking = false; track(); }); } }, { passive: true });
+  window.addEventListener("resize", track);
+  track();
 })();
 
 </script>
