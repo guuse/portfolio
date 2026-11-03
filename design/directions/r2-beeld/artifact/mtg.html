@@ -10,7 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Schibsted+Grotesk:ital,wght@0,400..700;1,400..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="site.css">
 </head>
-<body style="background: #0a1328; color: #f0f2f7">
+<body style="background: #0c0d12; color: #f3efe6">
 <a class="skip-link" href="#main">Skip to content</a>
 <div class="site">
 <header class="site-header">
@@ -18,8 +18,9 @@
     <a class="site-header__name" href="index.html">Guus Ekkelenkamp</a>
     <nav class="nav" aria-label="Main">
       <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="projects.html" aria-current="page">Projects</a></li>
         <li><a href="index.html#experience">Experience</a></li>
-        <li><a href="index.html#projects" aria-current="page">Projects</a></li>
         <li><a href="index.html#contact">Contact</a></li>
       </ul>
     </nav>
@@ -27,14 +28,16 @@
 </header>
 
 <main id="main" class="wrap">
-  <header class="ph-head">
-    <a class="back" href="index.html#projects">&larr; Back to Guus Ekkelenkamp</a>
-    <h1 class="ph-title">MTG suite</h1>
-    <p class="ph-line">Four tools for Magic: The Gathering, all deployed on my homelab.</p>
-    <p class="ph-meta">Personal · 2026 · one tool is open source</p>
+  <header class="ph-hero">
+    <div class="ph-hero__bg"><img src="assets/covers/mtg-wide.webp" srcset="assets/covers/mtg-wide.webp 1x, assets/covers/mtg-wide@2x.webp 2x" width="1600" height="1000" alt="" decoding="async"></div>
+    <div class="ph-hero__text">
+      <a class="back" href="projects.html">&larr; All projects</a>
+      <p class="ph-meta">Personal · 2026 · one tool is open source</p>
+      <h1 class="ph-title">MTG suite</h1>
+      <p class="ph-line">Four tools for Magic: The Gathering, all deployed on my homelab.</p>
+    </div>
   </header>
 
-  <!-- shot:hero --><figure class="hero-shot"><img src="assets/shots/r99-game-combat.webp" srcset="assets/shots/r99-game-combat.webp 1x, assets/shots/r99-game-combat@2x.webp 2x" width="1440" height="900" alt="Rules of 99 during combat: four attackers, with arrows to the player they attack" decoding="async"></figure><!-- /shot -->
 
   <div class="ph-lead">
     <p>Commander is the format I play most with friends. When we can&rsquo;t meet up we play on <a href="#rules-of-99">Rules of 99</a>, I keep my decks in <a href="#tutor">Tutor</a>, look up cards with <a href="#scryfall">Scryfall, in plain words</a>, and brew with <a href="#mtg-skills">claude-mtg-skills</a>.</p>
@@ -43,7 +46,7 @@
   <section class="sec" id="rules-of-99" aria-labelledby="r99-h">
     <h2 class="sec__h" id="r99-h">Rules of 99</h2>
     <div class="sec__body">
-      <!-- shots:r99 --><ul class="shotgrid" data-lb-group><li><figure><button type="button" data-lb aria-label="Enlarge: A four-player game, with every board on screen."><img src="assets/shots/r99-game.webp" srcset="assets/shots/r99-game.webp 1x, assets/shots/r99-game@2x.webp 2x" width="1440" height="900" alt="Rules of 99: a four-player Commander table in the main phase, every board on screen" loading="lazy" decoding="async"></button><figcaption>A four-player game, with every board on screen.</figcaption></figure></li><li><figure><button type="button" data-lb aria-label="Enlarge: Chaos Warp on the stack, waiting for responses."><img src="assets/shots/r99-game-stack.webp" srcset="assets/shots/r99-game-stack.webp 1x, assets/shots/r99-game-stack@2x.webp 2x" width="1440" height="900" alt="Rules of 99 with Chaos Warp on the stack and an arrow to its target" loading="lazy" decoding="async"></button><figcaption>Chaos Warp on the stack, waiting for responses.</figcaption></figure></li><li><figure><button type="button" data-lb aria-label="Enlarge: Combat: four attackers, each with an arrow to its target."><img src="assets/shots/r99-game-combat.webp" srcset="assets/shots/r99-game-combat.webp 1x, assets/shots/r99-game-combat@2x.webp 2x" width="1440" height="900" alt="Rules of 99 during combat: four attackers, with arrows to the player they attack" loading="lazy" decoding="async"></button><figcaption>Combat: four attackers, each with an arrow to its target.</figcaption></figure></li><li class="is-phone"><figure><button type="button" data-lb aria-label="Enlarge: On a phone, one board at a time."><img src="assets/shots/r99-game-mobile.webp" width="1170" height="2532" alt="Rules of 99 game on a phone" loading="lazy" decoding="async"></button><figcaption>On a phone, one board at a time.</figcaption></figure></li><li><figure><button type="button" data-lb aria-label="Enlarge: Home after signing in: your decks and open tables."><img src="assets/shots/r99-lobby.webp" srcset="assets/shots/r99-lobby.webp 1x, assets/shots/r99-lobby@2x.webp 2x" width="1440" height="900" alt="Rules of 99 home screen after signing in" loading="lazy" decoding="async"></button><figcaption>Home after signing in: your decks and open tables.</figcaption></figure></li><li><figure><button type="button" data-lb aria-label="Enlarge: The workbench for building and tuning a deck."><img src="assets/shots/r99-workbench-new.webp" srcset="assets/shots/r99-workbench-new.webp 1x, assets/shots/r99-workbench-new@2x.webp 2x" width="1440" height="900" alt="Rules of 99 deck workbench" loading="lazy" decoding="async"></button><figcaption>The workbench for building and tuning a deck.</figcaption></figure></li></ul><!-- /shots -->
+      <!-- shots:r99 --><ul class="shotgrid" data-lb-group><li><figure><button type="button" data-lb aria-label="Enlarge: Home after signing in: your decks and open tables."><img src="assets/shots/r99-lobby.webp" srcset="assets/shots/r99-lobby.webp 1x, assets/shots/r99-lobby@2x.webp 2x" width="1440" height="900" alt="Rules of 99 home screen after signing in" loading="lazy" decoding="async"></button><figcaption>Home after signing in: your decks and open tables.</figcaption></figure></li><li><figure><button type="button" data-lb aria-label="Enlarge: Combat: four attackers, each with an arrow to its target."><img src="assets/shots/r99-game-combat.webp" srcset="assets/shots/r99-game-combat.webp 1x, assets/shots/r99-game-combat@2x.webp 2x" width="1440" height="900" alt="Rules of 99 during combat: four attackers, with arrows to the player they attack" loading="lazy" decoding="async"></button><figcaption>Combat: four attackers, each with an arrow to its target.</figcaption></figure></li></ul><!-- /shots -->
       <div class="prose">
         <p>Commander in the browser for two to four players. The open-source Forge engine runs headless on the server and handles the full rules, including commander tax, commander damage and colour identity.</p>
         <p>A WebSocket gateway sends each player only what they&rsquo;re allowed to see, so the other players&rsquo; hands never leave the server. Rooms use a six-character code and survive a dropped connection, finished games can be replayed, and on a phone the table shows one board at a time.</p>
@@ -56,7 +59,7 @@
   <section class="sec" id="tutor" aria-labelledby="tutor-h">
     <h2 class="sec__h" id="tutor-h">Tutor</h2>
     <div class="sec__body">
-      <!-- shots:tutor --><ul class="shotgrid" data-lb-group><li><figure><button type="button" data-lb aria-label="Enlarge: The library: every deck at a glance."><img src="assets/shots/tutor-library.webp" srcset="assets/shots/tutor-library.webp 1x, assets/shots/tutor-library@2x.webp 2x" width="1440" height="900" alt="Tutor deck library with commander art for each deck" loading="lazy" decoding="async"></button><figcaption>The library: every deck at a glance.</figcaption></figure></li><li><figure><button type="button" data-lb aria-label="Enlarge: The builder, with legality and colour identity checked."><img src="assets/shots/tutor-builder.webp" srcset="assets/shots/tutor-builder.webp 1x, assets/shots/tutor-builder@2x.webp 2x" width="1440" height="900" alt="Tutor deck builder listing a deck&#39;s cards by category" loading="lazy" decoding="async"></button><figcaption>The builder, with legality and colour identity checked.</figcaption></figure></li><li><figure><button type="button" data-lb aria-label="Enlarge: Insights: how the deck compares with 97 real decks, and what a €50 upgrade would add."><img src="assets/shots/tutor-analysis.webp" srcset="assets/shots/tutor-analysis.webp 1x, assets/shots/tutor-analysis@2x.webp 2x" width="1440" height="900" alt="Tutor deck insights comparing the deck&#39;s shape with 97 real decks, with a 50 euro upgrade suggestion" loading="lazy" decoding="async"></button><figcaption>Insights: how the deck compares with 97 real decks, and what a €50 upgrade would add.</figcaption></figure></li><li><figure><button type="button" data-lb aria-label="Enlarge: Staples the deck is missing."><img src="assets/shots/tutor-insights.webp" srcset="assets/shots/tutor-insights.webp 1x, assets/shots/tutor-insights@2x.webp 2x" width="1440" height="900" alt="Tutor listing staple cards the deck is missing" loading="lazy" decoding="async"></button><figcaption>Staples the deck is missing.</figcaption></figure></li><li class="is-phone"><figure><button type="button" data-lb aria-label="Enlarge: On a phone."><img src="assets/shots/tutor-mobile.webp" width="1170" height="2532" alt="Tutor on a phone" loading="lazy" decoding="async"></button><figcaption>On a phone.</figcaption></figure></li><li class="is-phone"><figure><button type="button" data-lb aria-label="Enlarge: A deck on a phone."><img src="assets/shots/tutor-mobile-deck.webp" width="1170" height="2532" alt="A Tutor deck on a phone" loading="lazy" decoding="async"></button><figcaption>A deck on a phone.</figcaption></figure></li></ul><!-- /shots -->
+      <!-- shots:tutor --><ul class="shotgrid" data-lb-group><li><figure><button type="button" data-lb aria-label="Enlarge: The library: every deck at a glance."><img src="assets/shots/tutor-library.webp" srcset="assets/shots/tutor-library.webp 1x, assets/shots/tutor-library@2x.webp 2x" width="1440" height="900" alt="Tutor deck library with commander art for each deck" loading="lazy" decoding="async"></button><figcaption>The library: every deck at a glance.</figcaption></figure></li><li><figure><button type="button" data-lb aria-label="Enlarge: Insights: how the deck compares with 97 real decks, and what a €50 upgrade would add."><img src="assets/shots/tutor-analysis.webp" srcset="assets/shots/tutor-analysis.webp 1x, assets/shots/tutor-analysis@2x.webp 2x" width="1440" height="900" alt="Tutor deck insights comparing the deck&#39;s shape with 97 real decks, with a 50 euro upgrade suggestion" loading="lazy" decoding="async"></button><figcaption>Insights: how the deck compares with 97 real decks, and what a €50 upgrade would add.</figcaption></figure></li></ul><!-- /shots -->
       <div class="prose">
         <p>A deck library and builder, with an MCP server so Claude can search the whole card pool. Card data sits in SQLite with full-text search and exact colour-identity and legality filters, and each deck shows its mana curve, colour sources, categories and an estimate of its power bracket.</p>
         <p class="stack-line">Node, SQLite with FTS5, and MCP.</p>
@@ -67,7 +70,7 @@
   <section class="sec" id="scryfall" aria-labelledby="sf-h">
     <h2 class="sec__h" id="sf-h">Scryfall, in plain words</h2>
     <div class="sec__body">
-      <!-- shots:scryfall --><ul class="shotgrid" data-lb-group><li><figure><button type="button" data-lb aria-label="Enlarge: A request in plain words, the query it became, and what each part means."><img src="assets/shots/scryfall-result.webp" width="1140" height="1250" alt="Scryfall in plain words: a request turned into a query, with a breakdown of each part" loading="lazy" decoding="async"></button><figcaption>A request in plain words, the query it became, and what each part means.</figcaption></figure></li><li class="is-phone"><figure><button type="button" data-lb aria-label="Enlarge: On a phone."><img src="assets/shots/scryfall-mobile.webp" width="390" height="844" alt="Scryfall in plain words on a phone" loading="lazy" decoding="async"></button><figcaption>On a phone.</figcaption></figure></li></ul><!-- /shots -->
+      <!-- shots:scryfall --><ul class="shotgrid" data-lb-group><li><figure><button type="button" data-lb aria-label="Enlarge: Describe the cards; Claude writes and checks the Scryfall search."><img src="assets/shots/scryfall-home.webp" srcset="assets/shots/scryfall-home.webp 1x, assets/shots/scryfall-home@2x.webp 2x" width="1440" height="900" alt="Scryfall in plain words: a search box with a plain-language request and suggestion chips" loading="lazy" decoding="async"></button><figcaption>Describe the cards; Claude writes and checks the Scryfall search.</figcaption></figure></li><li class="is-phone"><figure><button type="button" data-lb aria-label="Enlarge: On a phone."><img src="assets/shots/scryfall-home-mobile.webp" width="1170" height="2532" alt="Scryfall in plain words on a phone" loading="lazy" decoding="async"></button><figcaption>On a phone.</figcaption></figure></li></ul><!-- /shots -->
       <div class="prose">
         <p>Scryfall is the card search most players use, but its query syntax takes practice. Here you describe the cards you want. The Claude Agent SDK writes a query, tests it against Scryfall before showing it, and offers a stricter and a broader reading, each with a breakdown of what every part of the query means.</p>
         <p class="stack-line">The Claude Agent SDK, Node and server-sent events.</p>

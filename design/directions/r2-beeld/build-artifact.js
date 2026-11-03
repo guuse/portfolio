@@ -22,7 +22,7 @@ const read = (f) => fs.readFileSync(path.join(dir, f), "utf8");
 const write = (f, s) => fs.writeFileSync(path.join(dir, f), s);
 const D = require(path.join(dir, "diagrams.js"));
 
-const PAGES = ["platform.html", "homelab.html", "mtg.html"];
+const PAGES = ["projects.html", "platform.html", "homelab.html", "mtg.html"];
 const BAKE = PAGES.concat(["system.html"]);
 // Thumbnail crops (in the full drawing's viewBox): the most telling part of each diagram.
 const THUMBS = { delivery: "10 100 360 270", push: "10 10 400 300" };
@@ -47,6 +47,8 @@ const SHOT = {
   "tutor-insights": ["Tutor listing staple cards the deck is missing", "Staples the deck is missing."],
   "tutor-mobile": ["Tutor on a phone", "On a phone.", true],
   "tutor-mobile-deck": ["A Tutor deck on a phone", "A deck on a phone.", true],
+  "scryfall-home": ["Scryfall in plain words: a search box with a plain-language request and suggestion chips", "Describe the cards; Claude writes and checks the Scryfall search."],
+  "scryfall-home-mobile": ["Scryfall in plain words on a phone", "On a phone.", true],
   "scryfall-result": ["Scryfall in plain words: a request turned into a query, with a breakdown of each part", "A request in plain words, the query it became, and what each part means."],
   "scryfall-mobile": ["Scryfall in plain words on a phone", "On a phone.", true],
   "mtg-skills-banner": ["MTG Skills for Claude Code banner", "The plugin marketplace."]
@@ -54,9 +56,9 @@ const SHOT = {
 const SLOTS = {
   hero: [["r99-game-combat", "r99-game", "r99-home"]],
   thumb: [["r99-game-combat", "r99-game", "r99-home"]],
-  r99: [["r99-game"], ["r99-game-stack"], ["r99-game-combat"], ["r99-game-mobile"], ["r99-lobby"], ["r99-workbench-new"]],
-  tutor: [["tutor-library"], ["tutor-builder"], ["tutor-analysis"], ["tutor-insights"], ["tutor-mobile"], ["tutor-mobile-deck"]],
-  scryfall: [["scryfall-result"], ["scryfall-mobile"]],
+  r99: [["r99-lobby"], ["r99-game-combat"]],
+  tutor: [["tutor-library"], ["tutor-analysis"]],
+  scryfall: [["scryfall-home"], ["scryfall-home-mobile"]],
   skills: [["mtg-skills-banner"]]
 };
 function webpSize(file) {
@@ -98,6 +100,9 @@ function grid(slot) {
     write(f, s);
   }
 
+  // 2a. designed cover art (assets/covers)
+  await require(path.join(dir, "covers.js")).render(dir);
+
   // 2. static thumbnails, rendered once in their final state
   const { chromium } = require("playwright");
   const browser = await chromium.launch();
@@ -128,7 +133,7 @@ function grid(slot) {
   // 3. the publishable set
   fs.rmSync(out, { recursive: true, force: true });
   fs.mkdirSync(path.join(out, "assets"), { recursive: true });
-  fs.cpSync(path.join(dir, "assets"), path.join(out, "assets"), { recursive: true, filter: (src) => !/grimoire-|r99-(home|table-setup|replay|card|workbench)\.webp|r99-home-mobile/.test(src) });
+  fs.cpSync(path.join(dir, "assets"), path.join(out, "assets"), { recursive: true, filter: (src) => !/grimoire-|finds-|r99-(home|table-setup|replay|card|workbench|game|game-stack|game-mobile|workbench-new)(@2x)?\.webp|r99-home-mobile|tutor-(builder|insights|mobile|mobile-deck)(@2x)?\.webp|scryfall-(result|mobile)\.webp/.test(src) });
   for (const f of ["site.css", "site.js", "diagrams.js"]) fs.copyFileSync(path.join(dir, f), path.join(out, f));
   for (const f of PAGES) fs.copyFileSync(path.join(dir, f), path.join(out, f));
 
