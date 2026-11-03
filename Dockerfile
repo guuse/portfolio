@@ -6,7 +6,7 @@
 # Dependabot bumps both.
 
 # ---- build --------------------------------------------------------------------
-FROM node:22.23.4-alpine3.24@sha256:fe4f6d74e20370acb04ad889077d14d0f64a9c8ea6a42bc60cddf1e844699914 AS build
+FROM node:26.12.0-alpine3.24@sha256:6f08a523443ddedf52941874c203475b0ad503e859ad70cb26ab8be9a517dbd5 AS build
 
 WORKDIR /app
 
@@ -44,7 +44,7 @@ RUN find dist -type f -size +1k \
       -exec gzip -9 -k -n {} +
 
 # ---- runtime ------------------------------------------------------------------
-FROM nginxinc/nginx-unprivileged:1.30.6-alpine3.24@sha256:f5116ed4606f3eb015dd4a8e28cb9b351476dc0ad4bc6e9f93b19cec130cdf03 AS runtime
+FROM nginxinc/nginx-unprivileged:1.31.7-alpine3.24@sha256:b5047b9b76845eac124358373c6852377c52e4b05834a47647e955dd91cb8f1e AS runtime
 
 # Static labels; the release workflow adds source, revision, created and version.
 LABEL org.opencontainers.image.title="ekkelenkamp.dev" \
