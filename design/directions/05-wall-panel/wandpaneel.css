@@ -746,3 +746,8 @@
     .review-bar .seg label { padding: 0 5px; }
   }
 }
+
+@layer components {
+  .budget-key--stack { grid-template-columns: 1fr 1fr; gap: 14px; }
+  .budget-key--stack > div:nth-child(n) { grid-column: auto; }
+}
