@@ -3,7 +3,8 @@ name: ci
 on:
   pull_request:
   push:
-    branches: [main]
+    # main is covered by release.yml, which calls this workflow before it builds.
+    branches-ignore: [main]
   # release.yml calls this before it builds the image
   workflow_call:
 
@@ -64,7 +65,8 @@ jobs:
       - name: Lighthouse (budget in lighthouserc.cjs)
         # on Playwright's Chromium, which the step above installed
         run: |
-          export CHROME_PATH="$(node -p "require('playwright').chromium.executablePath()")"
+          CHROME_PATH="$(node -p "require('playwright').chromium.executablePath()")"
+          export CHROME_PATH
           npx lhci autorun
       - if: failure()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
