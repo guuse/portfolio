@@ -1,0 +1,595 @@
+<!doctype html>
+<html lang="en" data-direction="plattegrond" data-option="daylight" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plattegrond design system</title>
+<meta name="description" content="Design system sheet for direction 02, Plattegrond: the site drawn as a floor plan. Tokens, colour with measured contrast, type, line weights, plan symbols, components and motion.">
+<script>
+  (function () {
+    var d = document.documentElement, o = null, ok = ['daylight', 'blueprint', 'lights-out'];
+    d.className = d.className.replace('no-js', 'js');
+    try { o = new URLSearchParams(location.search).get('option'); } catch (e) {}
+    if (ok.indexOf(o) < 0) { try { o = localStorage.getItem('pg-option'); } catch (e) {} }
+    if (ok.indexOf(o) < 0) o = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'lights-out' : 'daylight';
+    d.setAttribute('data-option', o);
+  })();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,200..800;1,200..800&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&family=Fragment+Mono:ital@0;1&display=swap">
+<link rel="stylesheet" href="../../system/base.css">
+<link rel="stylesheet" href="plattegrond.css">
+<style>
+  @layer components {
+    .sys-cover { padding-block: var(--space-xl) var(--space-l); }
+    .sys-cover h1 { font-size: clamp(3rem, 1rem + 8vw, 8rem); font-weight: 800; font-stretch: 75%; letter-spacing: -0.04em; line-height: 0.85; }
+    .sys-cover .lead { margin-top: var(--space-m); max-width: 46ch; }
+    .sys-block { margin-top: var(--space-2xl); }
+    .sys-block > h3 { font-size: var(--step-2); font-stretch: 85%; margin-bottom: var(--space-s); }
+    .sys-note { color: var(--ink-muted); font-size: var(--step--1); max-width: 64ch; margin-bottom: var(--space-m); }
+    .principles-sys { list-style: none; padding: 0; display: grid; gap: 0 var(--gutter); grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); margin-top: var(--space-xl); }
+    .principles-sys li { border-top: 2px solid var(--line-strong); padding: var(--space-s) 0 var(--space-m); }
+    .principles-sys b { display: block; font-family: var(--font-display); font-size: var(--step-1); font-stretch: 88%; line-height: 1.15; margin-bottom: 0.35em; }
+    .principles-sys span { font-size: var(--step--1); color: var(--ink-muted); }
+    .principles-sys i { font-family: var(--font-mono); font-style: normal; font-size: var(--step--2); color: var(--accent); }
+    .tokens-live { display: grid; gap: 0; grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr)); border-top: 2px solid var(--line-strong); }
+    .tokens-live div { display: grid; grid-template-columns: 2.6rem minmax(0, 1fr); gap: 0.6em; align-items: center; padding: 0.5rem 0.5rem 0.5rem 0; border-bottom: 1px solid var(--line); }
+    .tokens-live span { width: 2.6rem; height: 2.6rem; border: 1px solid var(--line-strong); }
+    .tokens-live code { font-size: var(--step--2); }
+    .tokens-live small { display: block; font-family: var(--font-mono); font-size: 0.66rem; color: var(--ink-muted); }
+    .ramps { display: grid; gap: var(--space-m) var(--gutter); grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr)); }
+    .ramp ul { list-style: none; padding: 0; margin-top: var(--space-2xs); }
+    .ramp li { display: grid; grid-template-columns: 1.6rem minmax(0, 1fr); column-gap: 0.6em; padding: 0.3rem 0; border-bottom: 1px solid var(--line); font-size: var(--step--2); }
+    .ramp .chip { grid-row: span 3; width: 1.6rem; height: 2.6rem; border: 1px solid var(--line-strong); }
+    .ramp .val { font-family: var(--font-mono); color: var(--ink-muted); }
+    .triptych { display: grid; gap: var(--gutter); grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+    .tri { padding: var(--space-m); border: 1px solid var(--line-strong); background-image: var(--c-paper-image); }
+    .tri h4 { font-size: var(--step-2); font-stretch: 80%; }
+    .tri p { font-size: var(--step--1); color: var(--ink-muted); margin-top: 0.3em; }
+    .tri .keyplan { width: 100%; max-width: 220px; margin-top: var(--space-s); }
+    .tri .mini { display: flex; gap: 6px; margin-top: var(--space-s); flex-wrap: wrap; }
+    .tri .mini span { width: 28px; height: 28px; border: 1px solid var(--line-strong); }
+    .ctables { display: grid; gap: var(--space-l) var(--gutter); grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); }
+    .ctable { padding: var(--space-s); border: 1px solid var(--line-strong); overflow-x: auto; }
+    .ctable h4 { font-family: var(--font-mono); font-weight: 400; font-size: var(--step--1); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: var(--space-2xs); }
+    .ctable table { width: 100%; border-collapse: collapse; font-size: var(--step--2); font-variant-numeric: tabular-nums; }
+    .ctable th, .ctable td { text-align: left; padding: 0.35rem 0.4rem 0.35rem 0; border-bottom: 1px solid var(--line); vertical-align: middle; }
+    .ctable th { font-family: var(--font-mono); font-weight: 400; color: var(--ink-muted); }
+    .ctable code { font-size: 0.95em; }
+    .ctable .num { font-family: var(--font-mono); font-size: var(--step--1); }
+    .ctable .pass { color: var(--ok); } .ctable .fail { color: var(--danger); }
+    .ctable .pass::before { content: "✓ "; } .ctable .fail::before { content: "✗ "; }
+    .ctable .sample { display: inline-block; padding: 0.1em 0.45em; border: 1px solid var(--line); font-weight: 700; white-space: nowrap; }
+    .type-fam { display: grid; gap: var(--gutter); grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); }
+    .type-fam article { border-top: 2px solid var(--line-strong); padding-top: var(--space-s); }
+    .type-fam .big { font-size: var(--step-5); line-height: 1; margin-block: 0.15em 0.2em; }
+    .type-fam p { font-size: var(--step--1); color: var(--ink-muted); }
+    .scale { border-top: 2px solid var(--line-strong); }
+    .scale div { display: grid; grid-template-columns: 7rem minmax(0, 1fr); gap: var(--gutter); align-items: baseline; padding: 0.5rem 0; border-bottom: 1px solid var(--line); overflow: hidden; }
+    .scale code { font-size: var(--step--2); color: var(--ink-muted); }
+    .scale p { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.1; }
+    .axes { display: grid; gap: var(--gutter); grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); }
+    .axes div { border: 1px solid var(--line); padding: var(--space-s); }
+    .axes p { font-family: var(--font-display); font-size: var(--step-4); line-height: 1; }
+    .axes code { font-size: var(--step--2); color: var(--ink-muted); }
+    .rules { padding-left: 1.2em; display: grid; gap: 0.4em; max-width: 70ch; }
+    .space-bars div { display: grid; grid-template-columns: 7rem 3rem minmax(0, 1fr); gap: var(--space-s); align-items: center; padding: 0.3rem 0; border-bottom: 1px solid var(--line); font-size: var(--step--2); }
+    .space-bars i { display: block; height: 12px; background: var(--accent); }
+    .grid-demo { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gutter); height: 120px; position: relative; }
+    .grid-demo span { background: color-mix(in oklch, var(--accent) 14%, transparent); border-inline: 1px dashed color-mix(in oklch, var(--accent) 60%, transparent); }
+    .grid-demo b { position: absolute; inset: auto auto 12px 0; width: calc(66.66% - var(--gutter) / 3); padding: 0.5rem; background: var(--surface); border: 1px solid var(--line-strong); font-size: var(--step--2); font-family: var(--font-mono); font-weight: 400; }
+    @media (max-width: 599px) { .grid-demo { grid-template-columns: repeat(4, 1fr); } .grid-demo span:nth-child(n+5) { display: none; } .grid-demo b { width: 100%; } }
+    .weights svg, .symbols svg { width: 100%; height: auto; }
+    .weights .w-wall { fill: var(--c-wall); } .weights .w-door { stroke: var(--c-plan-ink); stroke-width: 1.4; fill: none; }
+    .weights .w-furn { stroke: var(--c-plan-furn); stroke-width: 0.9; fill: none; } .weights .w-thin { stroke: var(--c-plan-thin); stroke-width: 0.6; fill: none; }
+    .weights .w-mesh { stroke: var(--c-mesh); stroke-width: 1; stroke-dasharray: 9 7; fill: none; } .weights .w-over { stroke: var(--c-plan-thin); stroke-width: 0.6; stroke-dasharray: 10 7; }
+    .weights text, .symbols text { font-family: var(--font-mono); font-size: 12px; fill: var(--ink-muted); }
+    .weights text b { fill: var(--ink); }
+    .rsd { display: grid; gap: var(--gutter); grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); }
+    .rsd div { border: 1.5px solid var(--line-strong); padding: var(--space-s); min-height: 90px; background: var(--surface-raised); font-family: var(--font-mono); font-size: var(--step--2); }
+    .symbols { display: grid; gap: 0; grid-template-columns: repeat(auto-fill, minmax(9rem, 1fr)); border-top: 2px solid var(--line-strong); }
+    .symbols figure { margin: 0; padding: var(--space-s); border-bottom: 1px solid var(--line); border-right: 1px solid var(--line); }
+    .symbols figcaption { font-family: var(--font-mono); font-size: var(--step--2); color: var(--ink-muted); margin-top: 0.4em; }
+    .symbols svg { max-width: 80px; height: 60px; overflow: visible; }
+    .comp { display: grid; gap: var(--space-s) var(--gutter); grid-template-columns: minmax(0, 1fr); padding-block: var(--space-l); border-top: 1px solid var(--line-strong); }
+    @media (min-width: 960px) { .comp { grid-template-columns: 15rem minmax(0, 1fr); } }
+    .comp > header h4 { font-family: var(--font-mono); font-weight: 400; font-size: var(--step-0); letter-spacing: 0; }
+    .comp > header p { font-size: var(--step--1); color: var(--ink-muted); margin-top: 0.3em; }
+    .comp__stage { min-width: 0; }
+    .states { display: flex; flex-wrap: wrap; gap: var(--space-s) var(--space-m); align-items: center; }
+    .states figure { margin: 0; display: grid; gap: 0.5em; justify-items: start; }
+    .states figcaption { font-family: var(--font-mono); font-size: 0.66rem; color: var(--ink-muted); letter-spacing: 0.06em; text-transform: uppercase; }
+    .frame { border: 1px dashed var(--line); padding: var(--space-s); }
+    .motion-demo { display: grid; gap: var(--space-l) var(--gutter); grid-template-columns: minmax(0, 1fr); align-items: center; }
+    @media (min-width: 760px) { .motion-demo { grid-template-columns: 1fr 1fr; } }
+    .motion-demo svg.plan { max-width: 320px; }
+    .dur { display: grid; gap: 6px; }
+    .dur div { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); align-items: center; gap: var(--space-s); font-family: var(--font-mono); font-size: var(--step--2); }
+    .dur i { display: block; height: 10px; width: 10%; background: var(--accent); }
+    .dur.play i { width: 100%; }
+    .dur [data-d="instant"] i { transition: width var(--dur-instant) var(--ease-out); }
+    .dur [data-d="quick"] i { transition: width var(--dur-quick) var(--ease-out); }
+    .dur [data-d="base"] i { transition: width var(--dur-base) var(--ease-in-out); }
+    .dur [data-d="slow"] i { transition: width var(--dur-slow) var(--ease-out); }
+    .dodont { display: grid; gap: var(--gutter); grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+    .dodont figure { margin: 0; border-top: 4px solid var(--ok); padding-top: var(--space-s); }
+    .dodont figure.dont { border-top-color: var(--danger); }
+    .dodont figcaption { font-size: var(--step--1); margin-top: var(--space-xs); }
+    .dodont figcaption b { font-family: var(--font-mono); font-weight: 400; font-size: var(--step--2); letter-spacing: 0.08em; text-transform: uppercase; display: block; }
+    .dodont .do b { color: var(--ok); } .dodont .dont b { color: var(--danger); }
+    .dodont .ex { min-height: 140px; border: 1px solid var(--line); padding: var(--space-s); display: grid; place-items: center; text-align: center; }
+    .bad-card { border-radius: 16px; padding: 1rem 1.2rem; box-shadow: 0 8px 24px oklch(0% 0 0 / 0.18); background: var(--surface-raised); font-weight: 700; }
+    .bad-card span { display: inline-grid; place-items: center; width: 2rem; height: 2rem; border-radius: 10px; background: var(--accent-soft); margin-right: 0.5em; }
+    .toc { display: flex; flex-wrap: wrap; gap: 0.3em 1.2em; font-family: var(--font-mono); font-size: var(--step--2); margin-top: var(--space-l); }
+  }
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<!--KP--><svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><symbol id="kp" viewBox="-10 -165 1360 975"><rect class="kp-out" x="60" y="-150" width="560" height="150"/><rect class="kp-wall" x="0" y="0" width="1000" height="800"/><rect class="kp-wall" x="1100" y="450" width="240" height="320"/><polygon class="kp-room" style="fill:var(--kp-woon, var(--c-kp-room))" points="30,30 640,30 640,440 30,440"/><polygon class="kp-room" style="fill:var(--kp-werk, var(--c-kp-room))" points="650,30 970,30 970,440 650,440"/><polygon class="kp-room" style="fill:var(--kp-keuken, var(--c-kp-room))" points="30,450 300,450 300,770 30,770"/><polygon class="kp-room" style="fill:var(--kp-slaap, var(--c-kp-room))" points="310,450 540,450 540,770 310,770"/><polygon class="kp-room" style="fill:var(--kp-hal, var(--c-kp-room))" points="550,450 760,450 760,770 650,770 650,650 550,650"/><polygon class="kp-room" style="fill:var(--kp-meter, var(--c-kp-room))" points="550,660 640,660 640,770 550,770"/><polygon class="kp-room" style="fill:var(--kp-bad, var(--c-kp-room))" points="770,450 970,450 970,620 770,620"/><polygon class="kp-room" style="fill:var(--kp-toilet, var(--c-kp-room))" points="770,630 880,630 880,770 770,770"/><polygon class="kp-room" style="fill:var(--kp-cv, var(--c-kp-room))" points="890,630 970,630 970,770 890,770"/><polygon class="kp-room" style="fill:var(--kp-berg, var(--c-kp-room))" points="1120,470 1320,470 1320,750 1120,750"/></symbol></svg><!--/KP--><svg class="plan" width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><radialGradient id="glow" cx="50%" cy="50%" r="62%"><stop offset="0" class="glow-0"/><stop offset=".55" class="glow-1"/><stop offset="1" class="glow-2"/></radialGradient></defs></svg>
+
+<header class="site-header">
+  <div class="page site-header__in">
+    <a class="mark" href="index.html">Guus Ekkelenkamp <span class="mark__sheet">plattegrond · blad 02, the system</span></a>
+    <a class="hoi-small" href="index.html">Homepage →</a>
+    <nav class="site-nav" aria-label="System sheet">
+      <ul>
+        <li><a href="#colour"><span class="n">A</span><span class="nl">Colour</span><span class="en">tokens, contrast</span></a></li>
+        <li><a href="#type"><span class="n">B</span><span class="nl">Type</span><span class="en">families, scale</span></a></li>
+        <li><a href="#space"><span class="n">C</span><span class="nl">Space</span><span class="en">grid, lines</span></a></li>
+        <li><a href="#components"><span class="n">D</span><span class="nl">Components</span><span class="en">with states</span></a></li>
+        <li><a href="#motion"><span class="n">E</span><span class="nl">Motion</span><span class="en">and imagery</span></a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+<section class="page sys-cover" aria-labelledby="sys-title">
+  <p class="label-caps">Direction 02 · <span lang="nl">Plattegrond</span> · design system, blad 02</p>
+  <h1 id="sys-title" style="margin-top: var(--space-s)">Draw it like a building.</h1>
+  <p class="lead">The site is Guus's home, seen from above. The homelab is the <span lang="nl">meterkast</span>, the day job is the study, side projects are boxes in the <span lang="nl">berging</span>. Everything below follows real drawing conventions, so the joke holds up when you look closely.</p>
+  <ol class="principles-sys">
+    <li><b>Use real drawing conventions, not drawing vibes.</b><span>Poché walls, door swings, dashed = overhead or not built yet, revision deltas, dimensions in mm with a decimal comma for m². An architect should nod.</span> <i>→ plan, section A–A, revisions</i></li>
+    <li><b>Line weight is the hierarchy.</b><span>Walls are solid fill. Doors 1.4px, furniture 0.9px, dimensions and leaders 0.6px. Type hierarchy follows the same rule: one heavy thing per room.</span> <i>→ C · lines</i></li>
+    <li><b>Dutch name, English meaning.</b><span>Every room is named the way a Dutch drawing names it, with the English right next to it in <code>lang="nl"</code>. Flavour, never a puzzle.</span> <i>→ section headers</i></li>
+    <li><b>Light is state.</b><span>A lit room is an active room. Colour codes the room's function; status always comes with a word or a shape too.</span> <i>→ lights-out, status chip</i></li>
+    <li><b>Annotate, don't decorate.</b><span>No icons in rounded squares. If a thing needs a symbol, it gets the one a drawing would use: bulb, plug, sensor, switch.</span> <i>→ symbols</i></li>
+  </ol>
+  <nav class="toc" aria-label="On this sheet"><a href="#colour">A Colour</a><a href="#type">B Type</a><a href="#space">C Space, grid, lines</a><a href="#symbols">C2 Plan symbols</a><a href="#components">D Components</a><a href="#motion">E Motion</a><a href="#imagery">F Imagery, do and don't</a></nav>
+</section>
+
+<!-- A COLOUR -->
+<section id="colour" class="room-section" aria-labelledby="c-title">
+  <div class="page">
+    <header class="room-head"><div><div class="room-head__title"><span class="room-tag" aria-hidden="true">A</span><h2 id="c-title">Colour<span class="en">Three prints of the same drawing</span></h2></div></div></header>
+
+    <div class="sys-block">
+      <h3>The three options</h3>
+      <p class="sys-note">Options only override tokens (<code>[data-option]</code>). Each panel below carries its own option attribute, so you see all three at once. <strong>daylight</strong> is the default: warm cartridge paper with architect's colour codes per room and one tomato accent. <strong>blueprint</strong> is a diazo/cyanotype print: Prussian-blue paper with grain, white linework, a yellow marker. <strong>lights-out</strong> is the evening: dark plan, rooms glow amber when their light is on. It's the default when the visitor prefers dark.</p>
+      <div class="triptych">
+        <div class="tri" data-option="daylight"><h4>daylight</h4><p>Paper, graphite, tomato. Default light.</p><svg class="keyplan" viewBox="0 0 136 97.5" style="--kp-woon: var(--c-room-woon); --kp-werk: var(--c-room-werk); --kp-keuken: var(--c-room-keuken); --kp-hal: var(--c-room-hal); --kp-meter: var(--c-kp-here); --kp-berg: var(--c-room-berg)" aria-hidden="true"><use href="#kp" width="136" height="97.5"/></svg><div class="mini" aria-hidden="true"><span style="background:var(--surface)"></span><span style="background:var(--ink)"></span><span style="background:var(--accent)"></span><span style="background:var(--accent-soft)"></span><span style="background:var(--c-glow)"></span></div></div>
+        <div class="tri" data-option="blueprint"><h4>blueprint</h4><p>Cyanotype paper, white lines, marker yellow.</p><svg class="keyplan" viewBox="0 0 136 97.5" style="--kp-woon: var(--c-room-woon); --kp-werk: var(--c-room-werk); --kp-keuken: var(--c-room-keuken); --kp-hal: var(--c-room-hal); --kp-meter: var(--c-kp-here); --kp-berg: var(--c-room-berg)" aria-hidden="true"><use href="#kp" width="136" height="97.5"/></svg><div class="mini" aria-hidden="true"><span style="background:var(--surface)"></span><span style="background:var(--ink)"></span><span style="background:var(--accent)"></span><span style="background:var(--accent-soft)"></span><span style="background:var(--c-glow)"></span></div></div>
+        <div class="tri" data-option="lights-out"><h4>lights-out</h4><p>Night plan, amber glow. Default dark.</p><svg class="keyplan" viewBox="0 0 136 97.5" style="--kp-woon: var(--c-glow); --kp-werk: color-mix(in oklch, var(--c-glow) 55%, var(--surface)); --kp-meter: var(--c-kp-here)" aria-hidden="true"><use href="#kp" width="136" height="97.5"/></svg><div class="mini" aria-hidden="true"><span style="background:var(--surface)"></span><span style="background:var(--ink)"></span><span style="background:var(--accent)"></span><span style="background:var(--accent-soft)"></span><span style="background:var(--c-glow)"></span></div></div>
+      </div>
+    </div>
+
+    <div class="sys-block">
+      <h3>Semantic tokens, live</h3>
+      <p class="sys-note">These swatches read the tokens of the option picked in the review bar (bottom left). Switch it and they change.</p>
+      <div class="tokens-live">
+        <div><span style="background:var(--surface)"></span><code>--surface<small>page, paper</small></code></div>
+        <div><span style="background:var(--surface-raised)"></span><code>--surface-raised<small>panels, chips</small></code></div>
+        <div><span style="background:var(--surface-sunken)"></span><code>--surface-sunken<small>photo boxes, wells</small></code></div>
+        <div><span style="background:var(--surface-inverse)"></span><code>--surface-inverse<small>footer, review bar</small></code></div>
+        <div><span style="background:var(--ink)"></span><code>--ink<small>body, walls in daylight</small></code></div>
+        <div><span style="background:var(--ink-muted)"></span><code>--ink-muted<small>secondary text</small></code></div>
+        <div><span style="background:var(--ink-subtle)"></span><code>--ink-subtle<small>labels only</small></code></div>
+        <div><span style="background:var(--ink-inverse)"></span><code>--ink-inverse<small>on inverse</small></code></div>
+        <div><span style="background:var(--accent)"></span><code>--accent<small>mesh, here, links</small></code></div>
+        <div><span style="background:var(--accent-ink)"></span><code>--accent-ink<small>text on accent</small></code></div>
+        <div><span style="background:var(--accent-soft)"></span><code>--accent-soft<small>hover fills</small></code></div>
+        <div><span style="background:var(--ok)"></span><code>--ok<small>live dot, status</small></code></div>
+        <div><span style="background:var(--warn)"></span><code>--warn<small>revisions</small></code></div>
+        <div><span style="background:var(--danger)"></span><code>--danger<small>bad revisions</small></code></div>
+        <div><span style="background:var(--line)"></span><code>--line<small>hairlines</small></code></div>
+        <div><span style="background:var(--line-strong)"></span><code>--line-strong<small>rules, frames</small></code></div>
+        <div><span style="background:var(--focus)"></span><code>--focus<small>focus ring</small></code></div>
+        <div><span style="background:var(--c-wall)"></span><code>--c-wall<small>poché, section walls</small></code></div>
+        <div><span style="background:var(--c-glow)"></span><code>--c-glow<small>lit room</small></code></div>
+        <div><span style="background:var(--c-room-woon)"></span><code>--c-room-woon<small>living</small></code></div>
+        <div><span style="background:var(--c-room-werk)"></span><code>--c-room-werk<small>study, day job</small></code></div>
+        <div><span style="background:var(--c-room-keuken)"></span><code>--c-room-keuken<small>kitchen</small></code></div>
+        <div><span style="background:var(--c-room-hal)"></span><code>--c-room-hal<small>hallway</small></code></div>
+        <div><span style="background:var(--c-room-meter)"></span><code>--c-room-meter<small>utility cupboard</small></code></div>
+        <div><span style="background:var(--c-room-berg)"></span><code>--c-room-berg<small>storage</small></code></div>
+      </div>
+    </div>
+
+    <div class="sys-block">
+      <h3>Measured contrast</h3>
+      <p class="sys-note">Computed from the OKLCH values (converted to sRGB, WCAG 2.x relative luminance) with a small Node script. Body ink clears 7:1 on every surface in every option. Room-fill pairs are the plan labels; the plan also gives labels a halo in the room colour so glow never eats them.</p>
+      <div class="ctables">
+<!--CONTRAST--><div class="ctable" data-option="daylight"><h4>daylight</h4><table><thead><tr><th scope="col">Pair</th><th scope="col">Ratio</th><th scope="col">Needs</th><th scope="col">Sample</th></tr></thead><tbody><tr><td><code>--ink</code> on <code>--surface</code></td><td class="num">15.99</td><td>7:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--ink);background:var(--surface)">Aa 16 GB</span></td></tr><tr><td><code>--ink-muted</code> on <code>--surface</code></td><td class="num">8.72</td><td>4.5:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--ink-muted);background:var(--surface)">Aa 16 GB</span></td></tr><tr><td><code>--ink-subtle</code> on <code>--surface</code></td><td class="num">4.59</td><td>3:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--ink-subtle);background:var(--surface)">Aa 16 GB</span></td></tr><tr><td><code>--ink</code> on <code>--surface-raised</code></td><td class="num">15.99</td><td>7:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--ink);background:var(--surface-raised)">Aa 16 GB</span></td></tr><tr><td><code>--ink-muted</code> on <code>--surface-sunken</code></td><td class="num">8.14</td><td>4.5:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--ink-muted);background:var(--surface-sunken)">Aa 16 GB</span></td></tr><tr><td><code>--accent</code> on <code>--surface</code></td><td class="num">5.21</td><td>4.5:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--accent);background:var(--surface)">Aa 16 GB</span></td></tr><tr><td><code>--accent-ink</code> on <code>--accent</code></td><td class="num">5.21</td><td>4.5:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--accent-ink);background:var(--accent)">Aa 16 GB</span></td></tr><tr><td><code>--ink</code> on <code>--accent-soft</code></td><td class="num">13.43</td><td>7:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--ink);background:var(--accent-soft)">Aa 16 GB</span></td></tr><tr><td><code>--ink-inverse</code> on <code>--surface-inverse</code></td><td class="num">15.99</td><td>7:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--ink-inverse);background:var(--surface-inverse)">Aa 16 GB</span></td></tr><tr><td><code>--ok</code> on <code>--surface</code></td><td class="num">5.88</td><td>4.5:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--ok);background:var(--surface)">Aa 16 GB</span></td></tr><tr><td><code>--warn</code> on <code>--surface</code></td><td class="num">5.32</td><td>4.5:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--warn);background:var(--surface)">Aa 16 GB</span></td></tr><tr><td><code>--danger</code> on <code>--surface</code></td><td class="num">6.49</td><td>4.5:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--danger);background:var(--surface)">Aa 16 GB</span></td></tr><tr><td><code>--focus</code> on <code>--surface</code></td><td class="num">5.21</td><td>3:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--focus);background:var(--surface)">Aa 16 GB</span></td></tr><tr><td><code>--line-strong</code> on <code>--surface</code></td><td class="num">15.99</td><td>3:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--line-strong);background:var(--surface)">Aa 16 GB</span></td></tr><tr><td><code>--ink</code> on room woon</td><td class="num">14.45</td><td>7:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--ink);background:oklch(94.5% 0.05 95)">Aa</span></td></tr><tr><td><code>--ink</code> on room werk</td><td class="num">13.82</td><td>7:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--ink);background:oklch(93% 0.028 235)">Aa</span></td></tr><tr><td><code>--ink-muted</code> on room keuken</td><td class="num">7.77</td><td>4.5:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--ink-muted);background:oklch(93.5% 0.04 150)">Aa</span></td></tr></tbody></table></div><div class="ctable" data-option="blueprint"><h4>blueprint</h4><table><thead><tr><th scope="col">Pair</th><th scope="col">Ratio</th><th scope="col">Needs</th><th scope="col">Sample</th></tr></thead><tbody><tr><td><code>--ink</code> on <code>--surface</code></td><td class="num">7.93</td><td>7:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--ink);background:var(--surface)">Aa 16 GB</span></td></tr><tr><td><code>--ink-muted</code> on <code>--surface</code></td><td class="num">4.79</td><td>4.5:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--ink-muted);background:var(--surface)">Aa 16 GB</span></td></tr><tr><td><code>--ink-subtle</code> on <code>--surface</code></td><td class="num">3.11</td><td>3:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--ink-subtle);background:var(--surface)">Aa 16 GB</span></td></tr><tr><td><code>--ink</code> on <code>--surface-raised</code></td><td class="num">10.03</td><td>7:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--ink);background:var(--surface-raised)">Aa 16 GB</span></td></tr><tr><td><code>--ink-muted</code> on <code>--surface-sunken</code></td><td class="num">7.37</td><td>4.5:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--ink-muted);background:var(--surface-sunken)">Aa 16 GB</span></td></tr><tr><td><code>--accent</code> on <code>--surface</code></td><td class="num">6.63</td><td>4.5:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--accent);background:var(--surface)">Aa 16 GB</span></td></tr><tr><td><code>--accent-ink</code> on <code>--accent</code></td><td class="num">10.21</td><td>4.5:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--accent-ink);background:var(--accent)">Aa 16 GB</span></td></tr><tr><td><code>--ink</code> on <code>--accent-soft</code></td><td class="num">10.03</td><td>7:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--ink);background:var(--accent-soft)">Aa 16 GB</span></td></tr><tr><td><code>--ink-inverse</code> on <code>--surface-inverse</code></td><td class="num">12.21</td><td>7:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--ink-inverse);background:var(--surface-inverse)">Aa 16 GB</span></td></tr><tr><td><code>--ok</code> on <code>--surface</code></td><td class="num">4.99</td><td>4.5:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--ok);background:var(--surface)">Aa 16 GB</span></td></tr><tr><td><code>--warn</code> on <code>--surface</code></td><td class="num">5.41</td><td>4.5:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--warn);background:var(--surface)">Aa 16 GB</span></td></tr><tr><td><code>--danger</code> on <code>--surface</code></td><td class="num">4.55</td><td>4.5:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--danger);background:var(--surface)">Aa 16 GB</span></td></tr><tr><td><code>--focus</code> on <code>--surface</code></td><td class="num">6.63</td><td>3:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--focus);background:var(--surface)">Aa 16 GB</span></td></tr><tr><td><code>--line-strong</code> on <code>--surface</code></td><td class="num">7.93</td><td>3:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--line-strong);background:var(--surface)">Aa 16 GB</span></td></tr><tr><td><code>--ink</code> on room werk</td><td class="num">6.80</td><td>4.5:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--ink);background:oklch(44.5% 0.12 249)">Aa</span></td></tr><tr><td><code>--ink</code> on room woon</td><td class="num">6.98</td><td>4.5:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--ink);background:oklch(44% 0.12 253)">Aa</span></td></tr><tr><td><code>--ink-muted</code> on room keuken</td><td class="num">5.21</td><td>4.5:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--ink-muted);background:oklch(39% 0.12 256)">Aa</span></td></tr></tbody></table></div><div class="ctable" data-option="lights-out"><h4>lights-out</h4><table><thead><tr><th scope="col">Pair</th><th scope="col">Ratio</th><th scope="col">Needs</th><th scope="col">Sample</th></tr></thead><tbody><tr><td><code>--ink</code> on <code>--surface</code></td><td class="num">16.10</td><td>7:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--ink);background:var(--surface)">Aa 16 GB</span></td></tr><tr><td><code>--ink-muted</code> on <code>--surface</code></td><td class="num">9.93</td><td>4.5:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--ink-muted);background:var(--surface)">Aa 16 GB</span></td></tr><tr><td><code>--ink-subtle</code> on <code>--surface</code></td><td class="num">5.24</td><td>3:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--ink-subtle);background:var(--surface)">Aa 16 GB</span></td></tr><tr><td><code>--ink</code> on <code>--surface-raised</code></td><td class="num">14.93</td><td>7:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--ink);background:var(--surface-raised)">Aa 16 GB</span></td></tr><tr><td><code>--ink-muted</code> on <code>--surface-sunken</code></td><td class="num">8.44</td><td>4.5:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--ink-muted);background:var(--surface-sunken)">Aa 16 GB</span></td></tr><tr><td><code>--accent</code> on <code>--surface</code></td><td class="num">10.05</td><td>4.5:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--accent);background:var(--surface)">Aa 16 GB</span></td></tr><tr><td><code>--accent-ink</code> on <code>--accent</code></td><td class="num">10.05</td><td>4.5:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--accent-ink);background:var(--accent)">Aa 16 GB</span></td></tr><tr><td><code>--ink</code> on <code>--accent-soft</code></td><td class="num">13.69</td><td>7:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--ink);background:var(--accent-soft)">Aa 16 GB</span></td></tr><tr><td><code>--ink-inverse</code> on <code>--surface-inverse</code></td><td class="num">16.10</td><td>7:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--ink-inverse);background:var(--surface-inverse)">Aa 16 GB</span></td></tr><tr><td><code>--ok</code> on <code>--surface</code></td><td class="num">10.77</td><td>4.5:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--ok);background:var(--surface)">Aa 16 GB</span></td></tr><tr><td><code>--warn</code> on <code>--surface</code></td><td class="num">11.67</td><td>4.5:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--warn);background:var(--surface)">Aa 16 GB</span></td></tr><tr><td><code>--danger</code> on <code>--surface</code></td><td class="num">9.82</td><td>4.5:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--danger);background:var(--surface)">Aa 16 GB</span></td></tr><tr><td><code>--focus</code> on <code>--surface</code></td><td class="num">10.05</td><td>3:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--focus);background:var(--surface)">Aa 16 GB</span></td></tr><tr><td><code>--line-strong</code> on <code>--surface</code></td><td class="num">16.10</td><td>3:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--line-strong);background:var(--surface)">Aa 16 GB</span></td></tr><tr><td><code>--ink</code> on room (off)</td><td class="num">14.93</td><td>7:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--ink);background:oklch(21% 0.014 265)">Aa</span></td></tr><tr><td><code>--ink-muted</code> on room (off)</td><td class="num">9.20</td><td>4.5:1 <span class="pass">pass</span></td><td><span class="sample" style="color:var(--ink-muted);background:oklch(21% 0.014 265)">Aa</span></td></tr><tr><td>plan wall on <code>--surface</code></td><td class="num">5.24</td><td>3:1 <span class="pass">pass</span></td><td><span class="sample" style="color:oklch(62% 0.016 265);background:var(--surface)">▮▮▮</span></td></tr></tbody></table></div><!--/CONTRAST-->
+      </div>
+    </div>
+
+    <div class="sys-block">
+      <h3>Primitives</h3>
+      <p class="sys-note">Authored in OKLCH, hex for design tools. Components never read these directly.</p>
+      <div class="ramps">
+<!--SWATCHES--><div class="ramp"><h4 class="label-caps">Paper</h4><ul><li><span class="chip" style="background:var(--p-paper-50)"></span><code>--p-paper-50</code><span class="val">oklch(98% 0.009 85)</span><span class="val">#fbf8f2</span></li><li><span class="chip" style="background:var(--p-paper-100)"></span><code>--p-paper-100</code><span class="val">oklch(95.6% 0.014 82)</span><span class="val">#f5f0e6</span></li><li><span class="chip" style="background:var(--p-paper-200)"></span><code>--p-paper-200</code><span class="val">oklch(91.5% 0.019 80)</span><span class="val">#eae2d5</span></li><li><span class="chip" style="background:var(--p-paper-300)"></span><code>--p-paper-300</code><span class="val">oklch(84% 0.022 78)</span><span class="val">#d3c9bb</span></li></ul></div><div class="ramp"><h4 class="label-caps">Graphite</h4><ul><li><span class="chip" style="background:var(--p-graphite-900)"></span><code>--p-graphite-900</code><span class="val">oklch(23% 0.016 60)</span><span class="val">#231b15</span></li><li><span class="chip" style="background:var(--p-graphite-700)"></span><code>--p-graphite-700</code><span class="val">oklch(40% 0.016 62)</span><span class="val">#4e463f</span></li><li><span class="chip" style="background:var(--p-graphite-500)"></span><code>--p-graphite-500</code><span class="val">oklch(55% 0.014 65)</span><span class="val">#787069</span></li></ul></div><div class="ramp"><h4 class="label-caps">Tomato (accent, daylight)</h4><ul><li><span class="chip" style="background:var(--p-tomato-600)"></span><code>--p-tomato-600</code><span class="val">oklch(54% 0.175 36)</span><span class="val">#be3a11</span></li><li><span class="chip" style="background:var(--p-tomato-500)"></span><code>--p-tomato-500</code><span class="val">oklch(62% 0.17 38)</span><span class="val">#d8582e</span></li><li><span class="chip" style="background:var(--p-tomato-100)"></span><code>--p-tomato-100</code><span class="val">oklch(92.5% 0.04 40)</span><span class="val">#ffded3</span></li></ul></div><div class="ramp"><h4 class="label-caps">Room colour codes (daylight)</h4><ul><li><span class="chip" style="background:var(--p-room-yellow)"></span><code>--p-room-yellow</code><span class="val">oklch(94.5% 0.05 95)</span><span class="val">#f7edc8</span></li><li><span class="chip" style="background:var(--p-room-green)"></span><code>--p-room-green</code><span class="val">oklch(93.5% 0.04 150)</span><span class="val">#d8f2dc</span></li><li><span class="chip" style="background:var(--p-room-blue)"></span><code>--p-room-blue</code><span class="val">oklch(93% 0.028 235)</span><span class="val">#d7ebf8</span></li><li><span class="chip" style="background:var(--p-room-rose)"></span><code>--p-room-rose</code><span class="val">oklch(92.5% 0.035 25)</span><span class="val">#fddedb</span></li><li><span class="chip" style="background:var(--p-room-sand)"></span><code>--p-room-sand</code><span class="val">oklch(92% 0.035 70)</span><span class="val">#f4e1cc</span></li><li><span class="chip" style="background:var(--p-room-lilac)"></span><code>--p-room-lilac</code><span class="val">oklch(93% 0.025 305)</span><span class="val">#ece4f6</span></li><li><span class="chip" style="background:var(--p-room-grey)"></span><code>--p-room-grey</code><span class="val">oklch(93.5% 0.006 80)</span><span class="val">#ece9e5</span></li></ul></div><div class="ramp"><h4 class="label-caps">Cobalt (blueprint)</h4><ul><li><span class="chip" style="background:var(--p-cobalt-950)"></span><code>--p-cobalt-950</code><span class="val">oklch(25% 0.08 256)</span><span class="val">#022147</span></li><li><span class="chip" style="background:var(--p-cobalt-900)"></span><code>--p-cobalt-900</code><span class="val">oklch(30% 0.095 256)</span><span class="val">#052d5c</span></li><li><span class="chip" style="background:var(--p-cobalt-800)"></span><code>--p-cobalt-800</code><span class="val">oklch(35.5% 0.11 256)</span><span class="val">#0a3a74</span></li><li><span class="chip" style="background:var(--p-cobalt-700)"></span><code>--p-cobalt-700</code><span class="val">oklch(41% 0.12 255)</span><span class="val">#124a89</span></li><li><span class="chip" style="background:var(--p-cobalt-600)"></span><code>--p-cobalt-600</code><span class="val">oklch(47% 0.115 253)</span><span class="val">#245c99</span></li><li><span class="chip" style="background:var(--p-cobalt-400)"></span><code>--p-cobalt-400</code><span class="val">oklch(68% 0.075 248)</span><span class="val">#739dc5</span></li><li><span class="chip" style="background:var(--p-cobalt-300)"></span><code>--p-cobalt-300</code><span class="val">oklch(80% 0.055 248)</span><span class="val">#a2c2e0</span></li><li><span class="chip" style="background:var(--p-cobalt-100)"></span><code>--p-cobalt-100</code><span class="val">oklch(96% 0.018 240)</span><span class="val">#e7f4fd</span></li></ul></div><div class="ramp"><h4 class="label-caps">Marker (blueprint accent)</h4><ul><li><span class="chip" style="background:var(--p-marker-300)"></span><code>--p-marker-300</code><span class="val">oklch(90% 0.13 98)</span><span class="val">#f5df74</span></li></ul></div><div class="ramp"><h4 class="label-caps">Night (lights-out)</h4><ul><li><span class="chip" style="background:var(--p-night-950)"></span><code>--p-night-950</code><span class="val">oklch(17% 0.012 265)</span><span class="val">#0d0f15</span></li><li><span class="chip" style="background:var(--p-night-900)"></span><code>--p-night-900</code><span class="val">oklch(21% 0.014 265)</span><span class="val">#15181f</span></li><li><span class="chip" style="background:var(--p-night-850)"></span><code>--p-night-850</code><span class="val">oklch(24.5% 0.015 265)</span><span class="val">#1d2028</span></li><li><span class="chip" style="background:var(--p-night-700)"></span><code>--p-night-700</code><span class="val">oklch(38% 0.016 265)</span><span class="val">#3e424b</span></li><li><span class="chip" style="background:var(--p-night-500)"></span><code>--p-night-500</code><span class="val">oklch(62% 0.016 265)</span><span class="val">#818690</span></li><li><span class="chip" style="background:var(--p-night-300)"></span><code>--p-night-300</code><span class="val">oklch(79% 0.012 80)</span><span class="val">#bfbab2</span></li><li><span class="chip" style="background:var(--p-night-100)"></span><code>--p-night-100</code><span class="val">oklch(94% 0.012 85)</span><span class="val">#efebe2</span></li></ul></div><div class="ramp"><h4 class="label-caps">Amber (lights-out accent, glow)</h4><ul><li><span class="chip" style="background:var(--p-amber-400)"></span><code>--p-amber-400</code><span class="val">oklch(80% 0.145 72)</span><span class="val">#f7ad44</span></li><li><span class="chip" style="background:var(--p-amber-300)"></span><code>--p-amber-300</code><span class="val">oklch(88% 0.11 82)</span><span class="val">#fcd180</span></li></ul></div><div class="ramp"><h4 class="label-caps">Signal: ok</h4><ul><li><span class="chip" style="background:var(--p-green-600)"></span><code>--p-green-600</code><span class="val">oklch(48% 0.11 150)</span><span class="val">#246e3a</span></li><li><span class="chip" style="background:var(--p-green-300)"></span><code>--p-green-300</code><span class="val">oklch(80% 0.12 150)</span><span class="val">#83d494</span></li></ul></div><div class="ramp"><h4 class="label-caps">Signal: warn</h4><ul><li><span class="chip" style="background:var(--p-ochre-600)"></span><code>--p-ochre-600</code><span class="val">oklch(52% 0.12 70)</span><span class="val">#945a00</span></li><li><span class="chip" style="background:var(--p-ochre-300)"></span><code>--p-ochre-300</code><span class="val">oklch(84% 0.13 85)</span><span class="val">#f1c45e</span></li></ul></div><div class="ramp"><h4 class="label-caps">Signal: danger</h4><ul><li><span class="chip" style="background:var(--p-red-600)"></span><code>--p-red-600</code><span class="val">oklch(49% 0.18 24)</span><span class="val">#b01d28</span></li><li><span class="chip" style="background:var(--p-red-300)"></span><code>--p-red-300</code><span class="val">oklch(80% 0.11 22)</span><span class="val">#fda19e</span></li></ul></div><!--/SWATCHES-->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- B TYPE -->
+<section id="type" class="room-section" aria-labelledby="t-title">
+  <div class="page">
+    <header class="room-head"><div><div class="room-head__title"><span class="room-tag" aria-hidden="true">B</span><h2 id="t-title">Type<span class="en">Two families and a lettering pen</span></h2></div></div></header>
+    <div class="sys-block type-fam">
+      <article><p class="label-caps">Display · <code>--font-display</code></p><p class="big" style="font-family: var(--font-display); font-weight: 800; font-stretch: 75%; letter-spacing: -0.035em">Bricolage Grotesque</p><p>Variable on weight, width (75–100) and optical size (12–96). Its slightly crooked grotesque details and ink traps have the feel of a hand-lettered drawing title without being cute. Set condensed (wdth 75–80) and heavy for room names, the way a sheet title fills its box.</p></article>
+      <article><p class="label-caps">Body · <code>--font-body</code></p><p class="big" style="font-family: var(--font-body); font-weight: 400">Atkinson Hyperlegible Next</p><p>Made for legibility, with distinct letterforms for 1/l/I and 0/O. That matters here: the copy is full of <code>k3s-01</code>, 10 GB, 2.4 GHz. Calm, slightly technical, not Inter.</p></article>
+      <article><p class="label-caps">Annotation · <code>--font-mono</code></p><p class="big" style="font-family: var(--font-mono); font-size: var(--step-4)">Fragment Mono</p><p>Helvetica-flavoured monospace: it looks like the lettering on a CAD print. Used for every annotation: room areas, dimensions, refs, labels. Never for paragraphs.</p></article>
+    </div>
+    <div class="sys-block">
+      <h3>Scale</h3>
+      <p class="sys-note">The shared fluid scale from base.css. Room names push past step 6 on purpose (a clamp up to 6rem); everything else stays on the steps.</p>
+      <div class="scale">
+        <div><code>room name</code><p style="font-family: var(--font-display); font-size: clamp(2.6rem, 1.2rem + 5.6vw, 6rem); font-weight: 800; font-stretch: 78%; letter-spacing: -0.035em" lang="nl">Meterkast</p></div>
+        <div><code>--step-6</code><p style="font-family: var(--font-display); font-size: var(--step-6); font-weight: 800; font-stretch: 78%; letter-spacing: -0.03em">Werkplek</p></div>
+        <div><code>--step-5</code><p style="font-family: var(--font-display); font-size: var(--step-5); font-weight: 800; font-stretch: 80%">A data centre with the lid shut</p></div>
+        <div><code>--step-4</code><p style="font-family: var(--font-display); font-size: var(--step-4); font-weight: 800; font-stretch: 80%">Cloud &amp; platform</p></div>
+        <div><code>--step-3</code><p style="font-family: var(--font-display); font-size: var(--step-3); font-weight: 500; font-stretch: 88%">Before a client project gets built</p></div>
+        <div><code>--step-2</code><p style="font-family: var(--font-display); font-size: var(--step-2); font-weight: 700; font-stretch: 85%">Learned the hard way</p></div>
+        <div><code>--step-1</code><p style="font-size: var(--step-1)">One second-hand laptop, lid closed, behind the TV.</p></div>
+        <div><code>--step-0</code><p style="font-size: var(--step-0)">Nothing on it is reachable from the internet unless I explicitly say so.</p></div>
+        <div><code>--step--1</code><p style="font-size: var(--step--1)">Kubelet panicked. Fix: one lvextend, zero downtime.</p></div>
+        <div><code>--step--2</code><p class="label-caps" style="font-size: var(--step--2)">Room 03 · 1,0 m² · utility cupboard</p></div>
+      </div>
+    </div>
+    <div class="sys-block">
+      <h3>Bricolage's axes, used deliberately</h3>
+      <div class="axes">
+        <div><p style="font-stretch: 75%; font-weight: 800">Hal</p><code>wdth 75 · wght 800 · room names</code></div>
+        <div><p style="font-stretch: 88%; font-weight: 500">Hal</p><code>wdth 88 · wght 500 · leads, one-liners</code></div>
+        <div><p style="font-stretch: 100%; font-weight: 300; color: var(--accent)">1 2 3</p><code>wdth 75 · wght 300 · principle numerals</code></div>
+      </div>
+    </div>
+    <div class="sys-block">
+      <h3>Pairing rules</h3>
+      <ul class="rules">
+        <li>Display is for names of things: rooms, projects, jobs, the person. Never for a paragraph.</li>
+        <li>Mono is for annotations: anything you'd find next to a line on a drawing (areas, refs, dimensions, small-caps labels with +0.08em tracking).</li>
+        <li>Job titles are facts, so they go in mono labels or small body bold. Never as the big headline, never stacked with slashes.</li>
+        <li>Numbers in tables and budgets: <code>tabular-nums slashed-zero</code>. Dutch decimals in m² (<code>25,0 m²</code>), mm for dimensions.</li>
+        <li>Dutch words carry <code>lang="nl"</code> and always have the English beside them.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- C SPACE -->
+<section id="space" class="room-section" aria-labelledby="s-title">
+  <div class="page">
+    <header class="room-head"><div><div class="room-head__title"><span class="room-tag" aria-hidden="true">C</span><h2 id="s-title">Space, grid, lines<span class="en">Measured in centimetres, drawn in pixels</span></h2></div></div></header>
+    <div class="sys-block">
+      <h3>Spacing</h3>
+      <div class="space-bars">
+        <div><code>--space-3xs</code><span>4</span><i style="width:4px"></i></div>
+        <div><code>--space-2xs</code><span>8</span><i style="width:8px"></i></div>
+        <div><code>--space-xs</code><span>12</span><i style="width:12px"></i></div>
+        <div><code>--space-s</code><span>16</span><i style="width:16px"></i></div>
+        <div><code>--space-m</code><span>24</span><i style="width:24px"></i></div>
+        <div><code>--space-l</code><span>32</span><i style="width:32px"></i></div>
+        <div><code>--space-xl</code><span>48</span><i style="width:48px"></i></div>
+        <div><code>--space-2xl</code><span>64</span><i style="width:64px"></i></div>
+        <div><code>--space-3xl</code><span>96</span><i style="width:96px"></i></div>
+        <div><code>--space-4xl</code><span>144</span><i style="width:144px"></i></div>
+      </div>
+    </div>
+    <div class="sys-block">
+      <h3>Grid</h3>
+      <p class="sys-note">12 / 6 / 4 columns. The hero gives the plan 8 columns and the title block 4. Room sections open with a full-width wall and a door, then text never runs past 8 columns. The plan's own unit is 1 = 1 cm (the apartment is 10 000 × 8 000 mm).</p>
+      <div class="grid-demo" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><b>text: max 8 of 12 columns</b></div>
+    </div>
+    <div class="sys-block weights">
+      <h3>Line weights</h3>
+      <p class="sys-note">Plan strokes are <code>vector-effect: non-scaling-stroke</code>, so the hierarchy holds at every size. Tokens: <code>--lw-wall 6px</code>, <code>--lw-door 1.4px</code>, <code>--lw-furn 0.9px</code>, <code>--lw-thin 0.6px</code>.</p>
+      <svg viewBox="0 0 640 200" role="img" aria-labelledby="lw-t"><title id="lw-t">Line weight specimen: wall poché, door leaf and swing, furniture outline, dimension line, overhead dashed line, Zigbee mesh.</title>
+        <rect class="w-wall" x="10" y="20" width="160" height="16"/><text x="10" y="58">wall · solid fill</text>
+        <path class="w-door" d="M210 110V40"/><path class="w-thin" d="M210 40A70 70 0 0 1 280 110"/><text x="210" y="130">door 1.4 · swing 0.6</text>
+        <rect class="w-furn" x="320" y="40" width="110" height="60"/><text x="320" y="130">furniture 0.9</text>
+        <path class="w-thin" d="M460 70H620M460 60v20M620 60v20M455 75l10-10M615 75l10-10"/><text x="510" y="62">6 450</text><text x="460" y="100">dimension 0.6</text>
+        <path class="w-over" d="M10 170H300"/><text x="10" y="192">overhead / not built: dashed 0.6</text>
+        <path class="w-mesh" d="M340 170H620"/><text x="340" y="192">Zigbee mesh: dashed, accent</text>
+      </svg>
+    </div>
+    <div class="sys-block">
+      <h3>Radius and shadow</h3>
+      <p class="sys-note">Drawings are square. Radius is close to zero and shadows are a paper offset, not a blur. In the dark options shadows turn off or become a 1px line.</p>
+      <div class="rsd">
+        <div style="border-radius: var(--radius-s)">--radius-s · 0</div>
+        <div style="border-radius: var(--radius-m)">--radius-m · 2px</div>
+        <div style="border-radius: var(--radius-l)">--radius-l · 4px</div>
+        <div style="box-shadow: var(--shadow-1)">--shadow-1 · paper edge</div>
+        <div style="box-shadow: var(--shadow-2)">--shadow-2 · sheet offset</div>
+      </div>
+    </div>
+    <div class="sys-block" id="symbols">
+      <h3>Plan symbols</h3>
+      <p class="sys-note">Drawn, never from an icon set. 1.1–1.5px strokes, square-ish, the symbols you'd find on a Dutch installation drawing.</p>
+      <div class="symbols">
+        <figure><svg viewBox="0 0 60 60" aria-hidden="true"><circle class="sym" cx="30" cy="30" r="14"/><path class="sym" d="M20 20l20 20M40 20L20 40"/></svg><figcaption>light point, off</figcaption></figure>
+        <figure><svg viewBox="0 0 60 60" aria-hidden="true"><circle class="sym sym-on" cx="30" cy="30" r="14"/><path class="sym" style="fill:none" d="M20 20l20 20M40 20L20 40"/></svg><figcaption>light point, on</figcaption></figure>
+        <figure><svg viewBox="0 0 60 60" aria-hidden="true"><path class="sym" d="M16 38a14 14 0 0 1 28 0z"/><path class="sym" d="M30 24v-9M16 38h28"/></svg><figcaption>smart plug</figcaption></figure>
+        <figure><svg viewBox="0 0 60 60" aria-hidden="true"><rect class="sym" x="20" y="20" width="20" height="20"/><circle cx="30" cy="30" r="4" fill="currentColor"/></svg><figcaption>sensor</figcaption></figure>
+        <figure><svg viewBox="0 0 60 60" aria-hidden="true"><path class="sym-coord" d="M30 12l17 30H13z"/></svg><figcaption>coordinator</figcaption></figure>
+        <figure><svg viewBox="0 0 60 60" aria-hidden="true"><circle class="sym" cx="22" cy="40" r="6"/><path class="sym" style="fill:none" d="M22 40l15-15l6 6"/></svg><figcaption>switch</figcaption></figure>
+        <figure><svg viewBox="0 0 60 60" aria-hidden="true"><path class="sym" style="fill:none" d="M10 50V12"/><path class="sym" style="fill:none;stroke-width:.7" d="M10 12A38 38 0 0 1 48 50"/><rect x="0" y="48" width="60" height="5" fill="var(--c-wall)"/></svg><figcaption>door + swing</figcaption></figure>
+        <figure><svg viewBox="0 0 60 60" aria-hidden="true"><rect x="0" y="22" width="60" height="16" fill="var(--c-wall)"/><rect class="sym" x="12" y="22" width="36" height="16"/><path class="sym" d="M12 28h36M12 32h36"/></svg><figcaption>window</figcaption></figure>
+        <figure><svg viewBox="0 0 60 60" aria-hidden="true"><circle class="sym" style="fill:none" cx="30" cy="34" r="18"/><path d="M30 18l7 24l-7-6l-7 6z" fill="currentColor"/></svg><figcaption>north arrow</figcaption></figure>
+        <figure><svg viewBox="0 0 60 60" aria-hidden="true"><circle class="sym" cx="30" cy="30" r="15"/><text x="30" y="35" text-anchor="middle" style="fill:var(--ink)">03</text></svg><figcaption>room tag</figcaption></figure>
+        <figure><svg viewBox="0 0 60 60" aria-hidden="true"><path d="M30 12l18 32H12z" fill="var(--surface)" stroke="var(--warn)" stroke-width="2"/><text x="30" y="40" text-anchor="middle" style="fill:var(--ink)">B</text></svg><figcaption>revision delta</figcaption></figure>
+        <figure><svg viewBox="0 0 60 60" aria-hidden="true"><rect x="12" y="20" width="36" height="22" fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="5 3"/></svg><figcaption>not built yet</figcaption></figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- D COMPONENTS -->
+<section id="components" class="room-section" aria-labelledby="d-title">
+  <div class="page">
+    <header class="room-head"><div><div class="room-head__title"><span class="room-tag" aria-hidden="true">D</span><h2 id="d-title">Components<span class="en">Everything the homepage is built from</span></h2></div></div></header>
+
+    <div class="comp" style="margin-top: var(--space-xl)">
+      <header><h4>SiteHeader</h4><p>Name + sheet number, rooms with Dutch name and English role. Current room gets an accent sill (set by scroll). On phones the rooms scroll sideways inside the bar.</p></header>
+      <div class="comp__stage">
+        <div class="states">
+          <figure><nav class="site-nav" aria-label="Example nav"><ul><li><a href="#components"><span class="n">02</span><span class="nl" lang="nl">Werkplek</span><span class="en">work</span></a></li></ul></nav><figcaption>default</figcaption></figure>
+          <figure><nav class="site-nav" aria-label="Example nav, hover"><ul><li><a class="is-hover" href="#components"><span class="n">03</span><span class="nl" lang="nl">Meterkast</span><span class="en">homelab</span></a></li></ul></nav><figcaption>hover</figcaption></figure>
+          <figure><nav class="site-nav" aria-label="Example nav, current"><ul><li><a aria-current="true" href="#components"><span class="n">04</span><span class="nl" lang="nl">Woonkamer</span><span class="en">home automation</span></a></li></ul></nav><figcaption>current room</figcaption></figure>
+          <figure><nav class="site-nav" aria-label="Example nav, focus"><ul><li><a class="is-focus" href="#components"><span class="n">05</span><span class="nl" lang="nl">Berging</span><span class="en">side projects</span></a></li></ul></nav><figcaption>focus</figcaption></figure>
+        </div>
+      </div>
+    </div>
+
+    <div class="comp">
+      <header><h4>Hero</h4><p>The hal. Name in Bricolage at wdth 75, one-liner, the role as a plain sub-line, status chip. Above the fold at 360×640. On desktop the plan sits beside it; on phones the plan follows.</p></header>
+      <div class="comp__stage frame hero" style="padding: var(--space-m)">
+        <p class="hero__sheet"><span class="room-tag" aria-hidden="true">01</span><span class="label-caps"><span lang="nl">Hal</span> · hallway · 5,5 m²</span></p>
+        <p class="h1-demo" style="font-family: var(--font-display); font-size: clamp(2.6rem, 1rem + 4vw, 4.4rem); font-weight: 800; font-stretch: 75%; line-height: .86; letter-spacing: -.035em; margin-bottom: var(--space-s)">Guus Ekkelenkamp</p>
+        <p class="hero__line">By day I make sure client platforms are secure and keep running. By night I do the same for a laptop behind the TV.</p>
+        <p class="hero__sub">Security officer, cloud specialist and solution architect at Harborn, Rotterdam.</p>
+      </div>
+    </div>
+
+    <div class="comp">
+      <header><h4>StatusChip</h4><p>A label strip with a Zigbee-style LED. The dot pulses only with motion allowed; the word "Currently" carries the meaning.</p></header>
+      <div class="comp__stage"><p class="status-chip"><span class="status-chip__dot" aria-hidden="true"></span><span><b>Currently</b> moving my infra to ekkelenkamp.dev &amp; hunting mini PCs for node #2</span></p></div>
+    </div>
+
+    <div class="comp">
+      <header><h4>RoomSchedule + LightSwitch</h4><p>The plan's legend, as a <span lang="nl">ruimtestaat</span>. Rows link to rooms; the switch is a real <code>button[aria-pressed]</code> and the plan mirrors it. Hovering a row lights up the room in the plan.</p></header>
+      <div class="comp__stage roomlist" style="margin-top:0; max-width: 520px">
+        <ol>
+          <li data-room="werk"><a href="#components"><span class="n">02</span><span><span class="nl" lang="nl">Werkplek</span> <span class="en">work at Harborn</span></span><span class="m2">13,1 m²</span></a><button class="lightswitch" type="button" data-light="sys-a" aria-pressed="true" aria-label="Example light, on"><svg viewBox="0 0 26 18" aria-hidden="true"><rect class="sw-plate" x="0.6" y="0.6" width="24.8" height="16.8" rx="8.4"/><circle class="sw-rocker" cx="7" cy="9" r="5"/></svg></button></li>
+          <li class="is-hot"><a href="#components"><span class="n">03</span><span><span class="nl" lang="nl">Meterkast</span> <span class="en">hover state</span></span><span class="m2">1,0 m²</span></a><button class="lightswitch" type="button" data-light="sys-b" aria-pressed="false" aria-label="Example light, off"><svg viewBox="0 0 26 18" aria-hidden="true"><rect class="sw-plate" x="0.6" y="0.6" width="24.8" height="16.8" rx="8.4"/><circle class="sw-rocker" cx="7" cy="9" r="5"/></svg></button></li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="comp">
+      <header><h4>NowList</h4><p>Notes on the doormat, lettered a–d like plan notes.</p></header>
+      <div class="comp__stage now__grid" style="grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr))"><ol class="now-list"><li>Shipping <strong>Rules of 99</strong> 2.0: Commander in the browser, now on phones too.</li><li>Moving everything from <code>guuse.online</code> to <code>ekkelenkamp.dev</code>.</li></ol></div>
+    </div>
+
+    <div class="comp">
+      <header><h4>SectionHeader</h4><p>A wall with a door in it, the room tag, Dutch name, English meaning, area, and a key plan with the current room in accent: <span lang="nl">u bent hier</span>.</p></header>
+      <div class="comp__stage">
+        <header class="room-head">
+          <div><div class="room-head__title"><span class="room-tag" aria-hidden="true">03</span><p style="font-family: var(--font-display); font-size: clamp(2.4rem, 1rem + 4vw, 4.4rem); font-weight: 800; font-stretch: 78%; letter-spacing: -0.035em; line-height: .9"><span lang="nl">Meterkast</span><span class="en" style="display:block; font-family: var(--font-body); font-size: var(--step-1); font-weight: 400; letter-spacing: 0; font-stretch: 100%; line-height: 1.3; margin-top: .35em">The homelab</span></p><p class="room-head__meta label-caps"><span>Room 03 · 1,0 m²</span><span>utility cupboard</span></p></div></div>
+          <div class="keyplan-wrap"><svg class="keyplan" viewBox="0 0 136 97.5" style="--kp-meter: var(--c-kp-here)" aria-hidden="true"><use href="#kp" width="136" height="97.5"/></svg><span class="label-caps"><span lang="nl">u bent hier</span> · you are here</span></div>
+        </header>
+      </div>
+    </div>
+
+    <div class="comp">
+      <header><h4>RoleFacts</h4><p>New in round 1. The job titles as plain facts in a ruled strip: mono label, bold value. Confident, small, no headline treatment.</p></header>
+      <div class="comp__stage"><dl class="roles" style="margin:0"><div><dt>Role</dt><dd>Security officer</dd></div><div><dt>Role</dt><dd>Cloud specialist</dd></div><div><dt>Role</dt><dd>Solution architect</dd></div><div><dt>At</dt><dd>Harborn, Rotterdam</dd></div></dl></div>
+    </div>
+
+    <div class="comp">
+      <header><h4>Programme</h4><p>New in round 1. The day job drawn as a <span lang="nl">programma</span>: three jobs as three rooms in one walled block, doors between them. Same visual weight as the homelab's section drawing. Stacks on phones with the doors in the cross walls.</p></header>
+      <div class="comp__stage">
+        <div class="programme" style="margin-top: 2em">
+          <article class="programme__room"><p class="programme__code">P1 · <span class="label-caps">security</span></p><h3>Security</h3><p class="programme__line">Keeping the agency and its clients out of the news.</p><ul><li>Access reviews, secrets handling, and the security questionnaires clients send before signing</li></ul></article>
+          <article class="programme__room"><p class="programme__code">P2 · <span class="label-caps">cloud &amp; platform</span></p><h3>Cloud &amp; platform</h3><p class="programme__line">The layer every client project lands on.</p><ul><li>Environments that can be rebuilt from git, not from someone's memory</li></ul></article>
+          <article class="programme__room"><p class="programme__code">P3 · <span class="label-caps">architecture</span></p><h3>Architecture</h3><p class="programme__line">Turning “we need a portal” into a system that survives year three.</p><ul><li>Writes the decision down (ADRs), including the options we didn't pick and why</li></ul></article>
+        </div>
+      </div>
+    </div>
+
+    <div class="comp">
+      <header><h4>Bridge</h4><p>New in round 1. A doorway from the work section into the homelab: the door symbol plus one line in display type.</p></header>
+      <div class="comp__stage"><div class="bridge" style="border-top:0; padding-top:0"><span class="bridge__door" aria-hidden="true"></span><p class="label-caps">Through the door to 03 · <span lang="nl">meterkast</span></p><p class="bridge__text">Same rules, smaller blast radius.</p></div></div>
+    </div>
+
+    <div class="comp">
+      <header><h4>SpecTable</h4><p>An architect's <span lang="nl">staat</span> (schedule): ref, item, value. Real <code>&lt;table&gt;</code>, tabular numerals, row hover. On phones it reflows into ref + stacked item/value.</p></header>
+      <div class="comp__stage"><table class="schedule"><thead><tr><th scope="col">Ref</th><th scope="col">Item</th><th scope="col">Value</th></tr></thead><tbody>
+        <tr><th class="ref" scope="row">S04</th><th scope="row">VM 100</th><td><code>k3s-01</code>: Ubuntu 26.04, 4 vCPU, 10 GB RAM, 360 GiB thin disk</td></tr>
+        <tr><th class="ref" scope="row">S06</th><th scope="row">Network</th><td>Tailscale only. Zero open ports on the router</td></tr></tbody></table></div>
+    </div>
+
+    <div class="comp">
+      <header><h4>BudgetBar</h4><p>16 GB drawn as a 16 m² floor, one tile per GB, walls between the tenants. The list beside it carries the real values as text.</p></header>
+      <div class="comp__stage budget">
+        <svg viewBox="0 0 440 440" role="img" aria-label="16 GB as 16 tiles: k3s 10, haos 3, host 2, cushion 1"><defs><pattern id="cush-hatch" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line class="hatch-line" x1="0" y1="0" x2="0" y2="10"/></pattern></defs>
+          <polygon class="b-room b-k3s" points="20,20 420,20 420,220 220,220 220,320 20,320"/><polygon class="b-room b-haos" points="220,220 420,220 420,420 320,420 320,320 220,320"/><polygon class="b-room b-host" points="120,320 320,320 320,420 120,420"/><polygon class="b-room b-cush" points="20,320 120,320 120,420 20,420"/>
+          <path class="b-tile" d="M120 20V320M220 20V220M320 20V220M20 120H420M20 220H220M320 320V420M420 320H320M220 320V420"/><text class="b-name" x="40" y="170">k3s-01</text><text class="b-val" x="40" y="215">10 GB</text><text class="b-name" x="232" y="262">haos-01</text><text class="b-val" x="232" y="303">3</text><text class="b-name" x="135" y="360">host</text><text class="b-val" x="135" y="403">~2</text><rect class="b-outer" x="20" y="20" width="400" height="400"/></svg>
+        <ul class="budget-list"><li><span class="gb">10</span><span><span class="what">k3s-01</span><span class="why">Real use 2–4 GB.</span></span></li><li class="total"><span class="gb">16</span><span><span class="what">Total</span><span class="why">Every gigabyte has a room.</span></span></li></ul>
+      </div>
+    </div>
+
+    <div class="comp">
+      <header><h4>ArchDiagram</h4><p><span lang="nl">Doorsnede</span> A–A: a building section read from the foundations (the laptop) up to the roof (three ways in). HTML, not an image: text is selectable, it reflows below 480px via a container query, and a plain-text tree sits in a <code>details</code>.</p></header>
+      <div class="comp__stage section-drawing"><div class="sd">
+        <div class="sd-level"><div class="sd-peil"><b>+1</b>VMs</div><div class="sd-floor"><div class="sd-units"><div class="sd-unit sd-unit--k3s"><h4>VM 100 · k3s-01 <small>4 vCPU · 10 GB</small></h4></div><div class="sd-unit sd-unit--haos"><h4>VM 101 · haos-01 <small>2 vCPU · 3 GB</small></h4></div></div></div></div>
+        <div class="sd-level"><div class="sd-peil"><b>±0</b>hypervisor</div><div class="sd-floor"><div class="sd-slab"><b>Proxmox VE 9.2</b><span>firewall: tailnet-only</span></div></div></div>
+        <div class="sd-level"><div class="sd-peil"><b>−1</b><span lang="nl">fundering</span></div><div class="sd-ground"><p><b>Old laptop</b>, lid shut. The battery is the UPS.</p></div></div>
+      </div></div>
+    </div>
+
+    <div class="comp">
+      <header><h4>DecisionCard</h4><p>A keyed note (N1–N5), as on a drawing's notes column. Hover inverts the key.</p></header>
+      <div class="comp__stage notes" style="grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr))">
+        <div class="decision"><span class="decision__key">N1</span><div><h4>k3s in a VM, not LXC</h4><p>A VM snapshots as one unit.</p></div></div>
+        <div class="decision is-hover"><span class="decision__key">N2</span><div><h4>hover state</h4><p>Key inverts, nothing else moves.</p></div></div>
+      </div>
+    </div>
+
+    <div class="comp">
+      <header><h4>GotchaNote</h4><p>A revision: delta tag with a letter, a hand-drawn-ish cloud border (deliberately uneven radii), a label in <code>--warn</code> or <code>--danger</code> plus the word, never colour alone.</p></header>
+      <div class="comp__stage revisions">
+        <div class="gotcha"><span class="gotcha__delta" aria-hidden="true"><svg viewBox="0 0 42 37"><path d="M21 2L40 35H2z"/></svg><span>B</span></span><div><p class="label-caps">Rev. B · warn <span class="gotcha__date">July 2026</span></p><h4><code>lvextend</code> on the host does nothing for the guest</h4><p>QEMU never hears about it.</p></div></div>
+        <div class="gotcha gotcha--danger"><span class="gotcha__delta" aria-hidden="true"><svg viewBox="0 0 42 37"><path d="M21 2L40 35H2z"/></svg><span>C</span></span><div><p class="label-caps">Rev. C · danger</p><h4>Public DNS broke on every Linux node</h4><p>macOS ignores <code>resolv.conf</code>, so the Mac kept working.</p></div></div>
+      </div>
+    </div>
+
+    <div class="comp">
+      <header><h4>ProjectEntry</h4><p>A box in the <span lang="nl">berging</span>. The box label is tape, stuck on crooked on purpose. Featured: name, line, bullets, stack, status, link. Compact: label, name, line, one sentence.</p></header>
+      <div class="comp__stage">
+        <article class="project project--featured" style="border-top:0; padding-top:0">
+          <div class="project__id"><p class="box-label"><span><span lang="nl">Doos</span> 2</span><span>do not open: still hunting</span></p><p class="project__name">2nd-hand-finds</p><p class="project__line">A bot that reads <span lang="nl">Marktplaats</span> so I don't have to.</p><div class="finds"><div><b>253</b><span>MTG lots</span></div><div><b>30</b><span>homelab parts</span></div><div class="zero"><b>0</b><span>Rover clogs</span></div></div></div>
+          <div class="project__body"><ul><li>Has <strong>Claude judge each listing</strong> against a per-category rubric.</li></ul><div class="project__meta"><ul class="tags" aria-label="Stack"><li class="tag">Python</li><li class="tag">Claude</li><li class="tag">Astro SSR</li></ul><p class="project__status">Running · every 2h</p></div></div>
+        </article>
+        <ul class="projects-compact" style="margin-top: var(--space-l)"><li class="project project--compact"><p class="box-label"><span lang="nl">Doos</span> 5</p><h4>Grimoire</h4><p class="project__line">An MTG deck-builder I run for myself and my playgroup.</p><p>Single pod + PVC.</p></li></ul>
+      </div>
+    </div>
+
+    <div class="comp">
+      <header><h4>Tag</h4><p>Plain mono text separated by middots. No pills, no icons.</p></header>
+      <div class="comp__stage"><ul class="tags"><li class="tag">Java 17</li><li class="tag">Maven</li><li class="tag">React</li><li class="tag">TypeScript</li></ul></div>
+    </div>
+
+    <div class="comp">
+      <header><h4>Principle</h4><p>House rules: light condensed numeral in accent, title, one plain sentence.</p></header>
+      <div class="comp__stage principles"><div class="principle"><span class="principle__n">4</span><h4>Automate the second time</h4><p>Not the first, not the third.</p></div></div>
+    </div>
+
+    <div class="comp">
+      <header><h4>Toolbox</h4><p>The <span lang="nl">voorraadkast</span>: each group is a shelf (a wall-weight line) with jars standing on it. Daily is the front row, set bold.</p></header>
+      <div class="comp__stage pantry"><div class="shelf shelf--daily"><h4>Daily</h4><ul><li>TypeScript</li><li>Python</li><li>Claude Code</li></ul></div><div class="shelf"><h4>Security</h4><ul><li>Access reviews</li><li>Secrets management</li><li>Tailscale ACLs</li></ul></div></div>
+    </div>
+
+    <div class="comp">
+      <header><h4>Footer</h4><p>The <span lang="nl">voordeur</span>: Say hoi, the address, and a drawing title block (project, drawing, scale, revision, drawn by).</p></header>
+      <div class="comp__stage site-footer" style="margin:0; padding: var(--space-l)"><div class="footer__grid" style="grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr))"><div><p style="font-family: var(--font-display); font-size: var(--step-5); font-weight: 800; font-stretch: 75%; line-height: .9">Say <span lang="nl">hoi</span>.</p><a class="footer__mail" href="mailto:hello@ekkelenkamp.dev">hello@ekkelenkamp.dev</a></div><dl class="titleblock" style="grid-column:auto"><div><dt>Project</dt><dd>ekkelenkamp.dev</dd></div><div><dt><span lang="nl">Schaal</span></dt><dd>n.t.s.</dd></div><div class="wide"><dt><span lang="nl">Getekend</span></dt><dd>Guus Ekkelenkamp</dd></div></dl></div></div>
+    </div>
+
+    <div class="comp">
+      <header><h4>Link / Button</h4><p>Body links are always underlined; hover thickens the line and turns it accent. Buttons are drawn boxes: hover inverts, press nudges 1px.</p></header>
+      <div class="comp__stage states">
+        <figure><a href="#components">a link in text</a><figcaption>link</figcaption></figure>
+        <figure><a href="#components" style="text-decoration-color: var(--accent); text-decoration-thickness: 2px">a link in text</a><figcaption>link hover</figcaption></figure>
+        <figure><a class="is-focus" href="#components">a link in text</a><figcaption>link focus</figcaption></figure>
+        <figure><button class="btn" type="button">Last phone leaves</button><figcaption>button</figcaption></figure>
+        <figure><button class="btn is-hover" type="button">Last phone leaves</button><figcaption>hover</figcaption></figure>
+        <figure><button class="btn is-focus" type="button">Last phone leaves</button><figcaption>focus</figcaption></figure>
+        <figure><button class="btn btn--accent" type="button">Last phone leaves</button><figcaption>accent</figcaption></figure>
+        <figure><a class="link-arrow" href="#components">guuse on GitHub</a><figcaption>link-arrow</figcaption></figure>
+      </div>
+    </div>
+
+    <div class="comp">
+      <header><h4>Photo placeholder</h4><p>A crossed box, the drawing convention for "something goes here". Label says exactly what to shoot.</p></header>
+      <div class="comp__stage"><figure class="photo" style="max-width: 420px"><span>PHOTO: the laptop behind the TV, lid shut</span></figure></div>
+    </div>
+  </div>
+</section>
+
+<!-- E MOTION -->
+<section id="motion" class="room-section" aria-labelledby="m-title">
+  <div class="page">
+    <header class="room-head"><div><div class="room-head__title"><span class="room-tag" aria-hidden="true">E</span><h2 id="m-title">Motion<span class="en">Lights go on, lights go off</span></h2></div></div></header>
+    <div class="sys-block motion-demo">
+      <div>
+        <p class="sys-note">The only real motion is light: a room's glow fades in over <code>--dur-slow</code>, the switch rocker slides in <code>--dur-quick</code>, "last phone leaves" turns rooms off one by one, 160ms apart. Under <code>prefers-reduced-motion</code> it all happens at once and the status dot stops pulsing. No scroll effects, no parallax.</p>
+        <div class="dur" id="dur">
+          <div data-d="instant"><code>--dur-instant 80</code><i></i></div>
+          <div data-d="quick"><code>--dur-quick 160</code><i></i></div>
+          <div data-d="base"><code>--dur-base 280</code><i></i></div>
+          <div data-d="slow"><code>--dur-slow 520</code><i></i></div>
+        </div>
+        <p style="margin-top: var(--space-s)"><button class="btn" type="button" id="play-dur">Play durations</button></p>
+      </div>
+      <div>
+        <svg class="plan" viewBox="0 0 320 220" role="img" aria-label="A single demo room with a ceiling light">
+          <rect class="wall" x="0" y="0" width="320" height="220"/>
+          <g class="room" data-room="demo"><rect class="room-fill" style="fill: var(--c-room-woon)" x="20" y="20" width="280" height="180"/><rect class="room-glow" x="20" y="20" width="280" height="180"/></g>
+          <rect class="cut" x="200" y="200" width="70" height="20"/><path class="door-arc" d="M200 130A70 70 0 0 1 270 200"/><path class="door-leaf" d="M200 200V130"/>
+          <g class="bulb" data-room="demo"><circle cx="160" cy="110" r="11"/><path d="M152.2 102.2l15.6 15.6M167.8 102.2l-15.6 15.6"/></g>
+          <g class="label" data-room="woon"><text class="label-name" x="36" y="52">demo</text><text class="label-area" x="36" y="72">1:50</text></g>
+        </svg>
+        <p style="margin-top: var(--space-s); display: flex; align-items: center; gap: .5em"><button class="lightswitch" type="button" data-light="demo" aria-pressed="false" aria-label="Demo room light"><svg viewBox="0 0 26 18" aria-hidden="true"><rect class="sw-plate" x="0.6" y="0.6" width="24.8" height="16.8" rx="8.4"/><circle class="sw-rocker" cx="7" cy="9" r="5"/></svg></button><span class="label-caps">flip the switch</span></p>
+      </div>
+    </div>
+    <div class="sys-block">
+      <h3>Easing</h3>
+      <p class="sys-note"><code>--ease-out</code> for things arriving (glow, hover fills), <code>--ease-in-out</code> for things moving (the durations demo). <code>--ease-spring</code> is not used: a light switch doesn't bounce.</p>
+    </div>
+  </div>
+</section>
+
+<!-- F IMAGERY -->
+<section id="imagery" class="room-section" aria-labelledby="f-title">
+  <div class="page">
+    <header class="room-head"><div><div class="room-head__title"><span class="room-tag" aria-hidden="true">F</span><h2 id="f-title">Imagery<span class="en">Photos of the real thing, drawings for the rest</span></h2></div></div></header>
+    <div class="sys-block">
+      <ul class="rules">
+        <li>Shoot the real setup: the laptop behind the TV, the Zigbee stick on its cable, the wall panel. Flat light, slightly from above, like a site photo. Never show brand or model.</li>
+        <li>Everything else is drawn from the real thing in plan or section, inline SVG, using the line-weight tokens.</li>
+        <li>The plan is illustrative and labelled so: not to scale, not my actual address. No real addresses, no device names, no hostnames.</li>
+        <li>New projects become new boxes in the <span lang="nl">berging</span>; a new big topic becomes a new room (a <span lang="nl">zolder</span> is still available).</li>
+      </ul>
+    </div>
+    <div class="sys-block dodont">
+      <figure class="do"><div class="ex"><span class="status-chip"><span class="status-chip__dot" aria-hidden="true"></span><span><b>Live</b> every 2h</span></span></div><figcaption><b>Do</b>Status as a word plus a dot.</figcaption></figure>
+      <figure class="dont"><div class="ex"><span style="display:inline-block; width:14px; height:14px; border-radius:50%; background: var(--ok)"></span></div><figcaption><b>Don't</b>A coloured dot alone.</figcaption></figure>
+      <figure class="do"><div class="ex"><svg viewBox="0 0 120 60" width="160" aria-hidden="true"><rect x="10" y="10" width="100" height="40" fill="none" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="6 4"/><text x="60" y="35" text-anchor="middle" style="font-family: var(--font-mono); font-size: 10px; fill: var(--ink-muted)">node 2 · planned</text></svg></div><figcaption><b>Do</b>Dashed means not built yet. Use it for plans.</figcaption></figure>
+      <figure class="dont"><div class="ex"><div class="bad-card"><span aria-hidden="true">✦</span>Cloud Expert</div></div><figcaption><b>Don't</b>Rounded cards with an icon tile, soft shadows, job titles as badges.</figcaption></figure>
+      <figure class="do"><div class="ex"><dl class="roles" style="margin:0; grid-template-columns: auto auto"><div><dt>Role</dt><dd>Solution architect</dd></div><div><dt>At</dt><dd>Harborn</dd></div></dl></div><figcaption><b>Do</b>Titles as small facts.</figcaption></figure>
+      <figure class="dont"><div class="ex"><p style="font-family: var(--font-display); font-size: var(--step-3); font-weight: 800; font-stretch: 75%; line-height: 1">SECURITY / CLOUD / ARCHITECT</p></div><figcaption><b>Don't</b>Stacked titles with slashes as the headline.</figcaption></figure>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer" aria-label="Sheet footer">
+  <div class="page footer__small" style="margin-top:0"><span>Direction 02 · <span lang="nl">Plattegrond</span> · system sheet</span><a href="index.html">Back to the homepage</a><a href="README.md">README</a></div>
+</footer>
+
+<aside class="review-bar" aria-label="Design review">
+  <span class="review-bar__name">02 Plattegrond</span>
+  <fieldset role="radiogroup">
+    <legend>Option</legend>
+    <label><input type="radio" name="option" value="daylight">daylight</label>
+    <label><input type="radio" name="option" value="blueprint">blueprint</label>
+    <label><input type="radio" name="option" value="lights-out">lights-out</label>
+  </fieldset>
+  <a href="index.html">index</a>
+  <a class="rb-hub" href="../../../index.html">hub ↩</a>
+</aside>
+
+<script src="plattegrond.js" defer></script>
+<script>
+  document.getElementById('play-dur').addEventListener('click', function () {
+    var d = document.getElementById('dur'); d.classList.remove('play'); void d.offsetWidth;
+    requestAnimationFrame(function () { d.classList.add('play'); });
+  });
+</script>
+</body>
+</html>
