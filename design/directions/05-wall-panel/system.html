@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="en" class="no-js" data-direction="wall-panel">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wandpaneel design system · ekkelenkamp.dev</title>
+<meta name="description" content="Design system sheet for direction 05, Wandpaneel: the wall panel of Guus Ekkelenkamp's house, as a website.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Martian+Mono:wdth,wght@75..112.5,300..700&family=Onest:wght@200..800&display=swap">
+<link rel="stylesheet" href="../../system/base.css">
+<link rel="stylesheet" href="wandpaneel.css">
+<script src="wandpaneel.js" defer></script>
+<style>
+@layer components {
+  .sys { padding-block: 0 120px; }
+  .sys-head { padding-block: clamp(32px, 5vw, 72px) clamp(24px, 4vw, 48px); display: grid; gap: 18px; }
+  .sys-head h1 { font-family: var(--font-display); font-weight: 600; font-size: var(--step-6); letter-spacing: -0.05em; line-height: .9; }
+  .sys-head h1 em { font-style: normal; font-weight: var(--c-num-weight); color: var(--ink-muted); }
+  .sys-toc { display: flex; flex-wrap: wrap; gap: 4px 18px; list-style: none; padding: 0; }
+  .sys-toc a { color: var(--ink-muted); }
+  .sys .view { padding-block: clamp(40px, 5vw, 72px); }
+  .sys .view__title { font-size: var(--step-4); }
+  .principles { list-style: none; padding: 0; display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); }
+  .principles li { padding: 18px; border: 1px solid var(--c-tile-line); border-radius: var(--radius-l); background: var(--c-tile-bg); display: grid; gap: 8px; align-content: start; }
+  .principles b { font-size: var(--step-1); letter-spacing: -0.02em; line-height: 1.2; font-weight: 600; }
+  .principles p { color: var(--ink-muted); font-size: var(--step--1); }
+  .ramps { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); }
+  .ramp ul { list-style: none; padding: 0; margin-block-start: 6px; }
+  .ramp li { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; gap: 0 10px; align-items: center; padding-block: 5px; border-block-end: 1px solid var(--line); font-size: var(--step--2); font-family: var(--font-mono); font-stretch: var(--c-mono-width); }
+  .ramp li i { grid-row: span 2; width: 28px; height: 28px; border-radius: var(--radius-s); border: 1px solid var(--line); }
+  .ramp li b { font-weight: 500; overflow-wrap: anywhere; }
+  .ramp li span:last-child { grid-column: 3; grid-row: 1 / span 2; color: var(--ink-muted); }
+  .ramp li span:nth-of-type(1) { color: var(--ink-subtle); }
+  .scroll-x { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius-m); }
+  .tok { border-collapse: collapse; width: 100%; font-size: var(--step--1); min-width: 720px; }
+  .tok th, .tok td { text-align: start; padding: 8px 12px; border-block-end: 1px solid var(--line); vertical-align: middle; }
+  .tok thead th { font-family: var(--font-mono); font-stretch: var(--c-mono-width); font-size: var(--step--2); text-transform: uppercase; letter-spacing: .07em; color: var(--ink-subtle); font-weight: 500; }
+  .tok th[scope="row"] { font-weight: 400; }
+  .tok small { color: var(--ink-subtle); font-family: var(--font-mono); font-size: 10px; }
+  .tok .num { font-variant-numeric: tabular-nums; white-space: nowrap; font-family: var(--font-mono); font-stretch: var(--c-mono-width); }
+  .sw { display: inline-block; width: 36px; height: 22px; border-radius: var(--radius-s); border: 1px solid var(--line-strong); vertical-align: middle; }
+  .sw2 { display: inline-block; width: 12px; height: 12px; border-radius: 2px; border: 1px solid oklch(50% 0 0 / .4); margin-inline-end: 6px; vertical-align: -1px; }
+  .pass, .fail { font-size: 10px; letter-spacing: .06em; padding: 1px 4px; border: 1px solid currentColor; border-radius: 2px; margin-inline-start: 4px; }
+  .pass { color: var(--ok); } .fail { color: var(--danger); }
+  :root:not([data-option]) .col-daylight, :root[data-option="daylight"] .col-daylight,
+  :root[data-option="oled"] .col-oled, :root[data-option="e-ink"] .col-e-ink { background: var(--accent-soft); color: var(--ink); }
+  .live-tokens { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr)); gap: 6px; margin-block-start: 18px; list-style: none; padding: 0; }
+  .live-tokens li { display: grid; grid-template-columns: 30px 1fr; gap: 0 10px; align-items: center; padding: 8px; border: 1px solid var(--line); border-radius: var(--radius-m); background: var(--surface-raised); font-family: var(--font-mono); font-stretch: var(--c-mono-width); font-size: 10.5px; }
+  .live-tokens i { grid-row: span 2; width: 30px; height: 30px; border-radius: var(--radius-s); border: 1px solid var(--line-strong); }
+  .live-tokens span { color: var(--ink-muted); overflow-wrap: anywhere; }
+  .specimen { display: grid; gap: 0; }
+  .specimen > div { display: grid; grid-template-columns: 1fr; gap: 4px 24px; padding-block: 14px; border-block-end: 1px solid var(--line); align-items: baseline; }
+  @media (min-width: 760px) { .specimen > div { grid-template-columns: 11rem minmax(0, 1fr); } }
+  .specimen p { overflow-wrap: anywhere; line-height: 1.1; }
+  .two { display: grid; gap: 24px; grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 960px) { .two { grid-template-columns: 1fr 1fr; } }
+  .demo { padding: 18px; border: 1px dashed var(--line-strong); border-radius: var(--radius-l); display: grid; gap: 14px; align-content: start; min-width: 0; }
+  .demo > .label:first-child { color: var(--ink); }
+  .is-hover { border-color: var(--c-tile-hover-line) !important; }
+  .is-focus { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .space-row { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr) 2rem; gap: 12px; align-items: center; padding-block: 4px; font-family: var(--font-mono); font-stretch: var(--c-mono-width); font-size: var(--step--2); }
+  .space-row i { max-width: 100%; height: 12px; background: var(--accent); border-radius: 1px; }
+  .cols { display: grid; grid-template-columns: repeat(12, 1fr); gap: 8px; }
+  .cols i { height: 64px; background: var(--accent-soft); border: 1px solid var(--line); border-radius: 2px; }
+  .radii { display: flex; flex-wrap: wrap; gap: 12px; }
+  .radii div { width: 120px; height: 86px; border: 1.5px solid var(--line-strong); background: var(--surface-raised); display: grid; place-items: end start; padding: 8px; font-family: var(--font-mono); font-stretch: var(--c-mono-width); font-size: 10.5px; }
+  .motion-track { position: relative; height: 34px; border-block-end: 1px solid var(--line); }
+  .motion-track i { position: absolute; inset-block-end: 0; inset-inline-start: 0; width: 34px; height: 24px; background: var(--accent); border-radius: var(--radius-s); transition: transform var(--d) var(--e); }
+  .motion-go .motion-track i { transform: translateX(calc(min(100cqi, 520px) - 40px)); }
+  .motion-box { container-type: inline-size; display: grid; gap: 10px; }
+  .btn { appearance: none; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 16px; border-radius: var(--radius-m); border: 1px solid var(--line-strong); background: var(--surface-raised); color: var(--ink); cursor: pointer; font-family: var(--font-mono); font-stretch: var(--c-mono-width); font-size: var(--step--2); letter-spacing: .07em; text-transform: uppercase; text-decoration: none; transition: background-color var(--c-dur), border-color var(--c-dur); }
+  .btn:hover, .btn.is-hover { background: var(--surface-sunken); border-color: var(--ink); }
+  .btn--primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+  .btn--primary:hover { background: var(--accent); color: var(--accent-ink); border-color: var(--ink); }
+  .glyphs { display: flex; flex-wrap: wrap; gap: 10px; list-style: none; padding: 0; }
+  .glyphs li { width: 112px; display: grid; gap: 8px; justify-items: center; padding: 14px 8px; border: 1px solid var(--line); border-radius: var(--radius-m); background: var(--surface-raised); font-family: var(--font-mono); font-stretch: var(--c-mono-width); font-size: 10px; text-align: center; color: var(--ink-muted); }
+  .glyphs svg { width: 40px; height: 32px; color: var(--ink); }
+  .dodont { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); }
+  .dodont > div { padding: 16px; border-radius: var(--radius-l); border: 1px solid var(--line); background: var(--surface-raised); display: grid; gap: 10px; align-content: start; }
+  .dodont .label b { padding: 2px 6px; border: 1.5px solid currentColor; border-radius: 2px; }
+  .do .label b { color: var(--ok); } .dont .label b { color: var(--danger); }
+  .bad-tile { display: grid; place-items: center; gap: 6px; padding: 16px; border-radius: 22px; background: linear-gradient(135deg, oklch(60% 0.2 290 / .18), oklch(70% 0.18 340 / .18)); border: 1px solid oklch(70% 0.1 300 / .5); font-size: var(--step--1); color: var(--ink-muted); text-align: center; }
+  .mini-tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="refresh" aria-hidden="true"></div>
+
+<header class="page">
+  <div class="panel-bar" style="padding-inline:0;padding-block:14px;border-block-end:1px solid var(--line)">
+    <a class="mark" href="index.html" data-keep-option aria-label="Back to the homepage"><span class="mark__ge" aria-hidden="true">GE</span><span class="mark__name">Wandpaneel · System</span></a>
+    <nav class="panel-nav" aria-label="System sections">
+      <ul>
+        <li><a href="#principles">Principles</a></li>
+        <li><a href="#colour">Colour</a></li>
+        <li><a href="#type">Type</a></li>
+        <li><a href="#components">Components</a></li>
+        <li><a href="#motion">Motion</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="page sys">
+  <div class="sys-head">
+    <p class="label">Direction 05 · Design system · v1, November 2026</p>
+    <h1>Wandpaneel <em>system sheet</em></h1>
+    <p class="lead">The wall panel of Guus’s house, as a website. A status interface for a person: live readouts first, the long story in detail views below. Numbers are the imagery.</p>
+    <p class="muted">Switch the option in the review bar (bottom left): every swatch, specimen and component on this page re-renders from the same tokens.</p>
+  </div>
+
+  <!-- PRINCIPLES -->
+  <section class="view" id="principles" aria-labelledby="pr-h">
+    <div class="view__bar label"><span>01 · Principles</span></div>
+    <h2 class="view__title" id="pr-h">Five rules for the panel</h2>
+    <ol class="principles" style="margin-block-start:24px">
+      <li><span class="label">01</span><b>Numbers are the imagery.</b><p>Big light numerals, small mono labels. If a tile has no number or state worth reading from across a room, it isn’t a tile.</p></li>
+      <li><span class="label">02</span><b>Information decides the span.</b><p>A clock gets width, a SHA gets two columns, a RAM split gets the room it needs to show sixteen cells. Tiles are never all the same size.</p></li>
+      <li><span class="label">03</span><b>One hero, one accent.</b><p>The resident tile leads. The accent is the hallway lamp at 20%: it marks the live state and the next thing, nothing else.</p></li>
+      <li><span class="label">04</span><b>Readouts first, story second.</b><p>Every tile links into a detail view: rows, logs, settings. The panel is the summary, the views are the case study.</p></li>
+      <li><span class="label">05</span><b>Honest about fake data.</b><p>Values are illustrative or derived from the viewer’s clock and say so in one plain line. No tracking, ever.</p></li>
+    </ol>
+  </section>
+
+  <!-- COLOUR -->
+  <section class="view" id="colour" aria-labelledby="co-h">
+    <div class="view__bar label"><span>02 · Colour</span><span class="view__meta">OKLCH authored · hex for design tools</span></div>
+    <h2 class="view__title" id="co-h">Colour</h2>
+    <p class="muted" style="max-width:68ch;margin-block:12px 28px">Warm plaster and cream for <b>daylight</b>, true black with one vivid lamp-orange for <b>OLED</b> (no glows, no shadows), and pure greyscale for <b>e-ink</b>, where meters switch from flat fills to CSS dither patterns and status is carried by shape and word only.</p>
+
+    <div class="sub" style="margin-block-start:0">
+      <div class="sub__head"><h3 class="sub__title">Primitives</h3><p class="label">Tier 1 · never used by components</p></div>
+      <div class="ramps" style="padding-block-start:14px"><div class="ramp"><p class="label">plaster</p><ul><li><i style="background:var(--p-plaster-200)"></i><b>--p-plaster-200</b><span>oklch(90.5% 0.016 76)</span><span>#e6ded4</span></li></ul></div><div class="ramp"><p class="label">shell</p><ul><li><i style="background:var(--p-shell-100)"></i><b>--p-shell-100</b><span>oklch(95.5% 0.008 82)</span><span>#f3f0ea</span></li></ul></div><div class="ramp"><p class="label">cream</p><ul><li><i style="background:var(--p-cream-50)"></i><b>--p-cream-50</b><span>oklch(97.2% 0.009 84)</span><span>#f9f5ef</span></li><li><i style="background:var(--p-cream-0)"></i><b>--p-cream-0</b><span>oklch(99.3% 0.004 85)</span><span>#fefdfa</span></li><li><i style="background:var(--p-cream-150)"></i><b>--p-cream-150</b><span>oklch(94.2% 0.011 80)</span><span>#f0ebe4</span></li><li><i style="background:var(--p-cream-250)"></i><b>--p-cream-250</b><span>oklch(89% 0.01 80)</span><span>#dedad3</span></li></ul></div><div class="ramp"><p class="label">umber</p><ul><li><i style="background:var(--p-umber-950)"></i><b>--p-umber-950</b><span>oklch(22% 0.018 60)</span><span>#211912</span></li><li><i style="background:var(--p-umber-900)"></i><b>--p-umber-900</b><span>oklch(24% 0.016 60)</span><span>#251e18</span></li><li><i style="background:var(--p-umber-700)"></i><b>--p-umber-700</b><span>oklch(43% 0.02 62)</span><span>#584e45</span></li><li><i style="background:var(--p-umber-550)"></i><b>--p-umber-550</b><span>oklch(55% 0.018 64)</span><span>#797067</span></li><li><i style="background:var(--p-umber-500)"></i><b>--p-umber-500</b><span>oklch(58% 0.016 66)</span><span>#817971</span></li></ul></div><div class="ramp"><p class="label">amber</p><ul><li><i style="background:var(--p-amber-600)"></i><b>--p-amber-600</b><span>oklch(53% 0.145 46)</span><span>#ac4a09</span></li><li><i style="background:var(--p-amber-650)"></i><b>--p-amber-650</b><span>oklch(48% 0.145 42)</span><span>#9d3900</span></li><li><i style="background:var(--p-amber-100)"></i><b>--p-amber-100</b><span>oklch(92.5% 0.04 72)</span><span>#f7e3ca</span></li><li><i style="background:var(--p-amber-400)"></i><b>--p-amber-400</b><span>oklch(76% 0.16 58)</span><span>#fb9437</span></li><li><i style="background:var(--p-amber-900)"></i><b>--p-amber-900</b><span>oklch(26% 0.06 55)</span><span>#391b03</span></li></ul></div><div class="ramp"><p class="label">moss</p><ul><li><i style="background:var(--p-moss-600)"></i><b>--p-moss-600</b><span>oklch(48% 0.11 152)</span><span>#1f6f3d</span></li><li><i style="background:var(--p-moss-300)"></i><b>--p-moss-300</b><span>oklch(78% 0.15 150)</span><span>#67d283</span></li></ul></div><div class="ramp"><p class="label">ochre</p><ul><li><i style="background:var(--p-ochre-600)"></i><b>--p-ochre-600</b><span>oklch(50% 0.1 72)</span><span>#865812</span></li><li><i style="background:var(--p-ochre-200)"></i><b>--p-ochre-200</b><span>oklch(85% 0.14 88)</span><span>#f4c855</span></li></ul></div><div class="ramp"><p class="label">brick</p><ul><li><i style="background:var(--p-brick-600)"></i><b>--p-brick-600</b><span>oklch(49% 0.17 28)</span><span>#ac2722</span></li><li><i style="background:var(--p-brick-400)"></i><b>--p-brick-400</b><span>oklch(70% 0.18 27)</span><span>#fa695e</span></li></ul></div><div class="ramp"><p class="label">black</p><ul><li><i style="background:var(--p-black)"></i><b>--p-black</b><span>oklch(0% 0 0)</span><span>#000000</span></li></ul></div><div class="ramp"><p class="label">gray</p><ul><li><i style="background:var(--p-gray-40)"></i><b>--p-gray-40</b><span>oklch(4% 0 0)</span><span>#000000</span></li><li><i style="background:var(--p-gray-80)"></i><b>--p-gray-80</b><span>oklch(8% 0 0)</span><span>#020202</span></li><li><i style="background:var(--p-gray-170)"></i><b>--p-gray-170</b><span>oklch(17% 0.003 70)</span><span>#100f0e</span></li><li><i style="background:var(--p-gray-180)"></i><b>--p-gray-180</b><span>oklch(18% 0 0)</span><span>#121212</span></li><li><i style="background:var(--p-gray-250)"></i><b>--p-gray-250</b><span>oklch(25% 0.003 70)</span><span>#232120</span></li><li><i style="background:var(--p-gray-520)"></i><b>--p-gray-520</b><span>oklch(52% 0.004 70)</span><span>#6a6866</span></li><li><i style="background:var(--p-gray-620)"></i><b>--p-gray-620</b><span>oklch(62% 0.006 80)</span><span>#888682</span></li><li><i style="background:var(--p-gray-770)"></i><b>--p-gray-770</b><span>oklch(77% 0.006 80)</span><span>#b6b4b0</span></li><li><i style="background:var(--p-gray-960)"></i><b>--p-gray-960</b><span>oklch(96% 0.004 85)</span><span>#f3f2ef</span></li></ul></div><div class="ramp"><p class="label">paper</p><ul><li><i style="background:var(--p-paper-975)"></i><b>--p-paper-975</b><span>oklch(97.5% 0 0)</span><span>#f7f7f7</span></li><li><i style="background:var(--p-paper-965)"></i><b>--p-paper-965</b><span>oklch(96.5% 0 0)</span><span>#f3f3f3</span></li><li><i style="background:var(--p-paper-935)"></i><b>--p-paper-935</b><span>oklch(93.5% 0 0)</span><span>#e9e9e9</span></li><li><i style="background:var(--p-paper-890)"></i><b>--p-paper-890</b><span>oklch(89% 0 0)</span><span>#dbdbdb</span></li><li><i style="background:var(--p-paper-860)"></i><b>--p-paper-860</b><span>oklch(86% 0 0)</span><span>#d1d1d1</span></li><li><i style="background:var(--p-paper-840)"></i><b>--p-paper-840</b><span>oklch(84% 0 0)</span><span>#cacaca</span></li><li><i style="background:var(--p-paper-720)"></i><b>--p-paper-720</b><span>oklch(72% 0 0)</span><span>#a4a4a4</span></li></ul></div><div class="ramp"><p class="label">carbon</p><ul><li><i style="background:var(--p-carbon-500)"></i><b>--p-carbon-500</b><span>oklch(50% 0 0)</span><span>#636363</span></li><li><i style="background:var(--p-carbon-360)"></i><b>--p-carbon-360</b><span>oklch(36% 0 0)</span><span>#3d3d3d</span></li><li><i style="background:var(--p-carbon-160)"></i><b>--p-carbon-160</b><span>oklch(16% 0 0)</span><span>#0d0d0d</span></li></ul></div></div>
+    </div>
+
+    <div class="sub">
+      <div class="sub__head"><h3 class="sub__title">Semantic tokens, live</h3><p class="label">Computed from the current option</p></div>
+      <ul class="live-tokens" data-live-tokens></ul>
+    </div>
+
+    <div class="sub">
+      <div class="sub__head"><h3 class="sub__title">Semantic tokens per option</h3><p class="label">Highlighted column = active option</p></div>
+      <div class="scroll-x" style="margin-block-start:14px" tabindex="0" role="region" aria-label="Semantic tokens per option"><table class="tok"><thead><tr><th scope="col">Token</th><th scope="col">Live</th><th scope="col" class="col-daylight">daylight</th><th scope="col" class="col-oled">oled</th><th scope="col" class="col-e-ink">e-ink</th></tr></thead><tbody><tr><th scope="row"><code>--surface</code></th><td><i class="sw" style="background:var(--surface)"></i></td><td class="col-daylight"><span class="sw2" style="background:#f9f5ef"></span><code>#f9f5ef</code><br><small>oklch(97.2% 0.009 84)</small></td><td class="col-oled"><span class="sw2" style="background:#000000"></span><code>#000000</code><br><small>oklch(0% 0 0)</small></td><td class="col-e-ink"><span class="sw2" style="background:#e9e9e9"></span><code>#e9e9e9</code><br><small>oklch(93.5% 0 0)</small></td></tr><tr><th scope="row"><code>--surface-raised</code></th><td><i class="sw" style="background:var(--surface-raised)"></i></td><td class="col-daylight"><span class="sw2" style="background:#fefdfa"></span><code>#fefdfa</code><br><small>oklch(99.3% 0.004 85)</small></td><td class="col-oled"><span class="sw2" style="background:#100f0e"></span><code>#100f0e</code><br><small>oklch(17% 0.003 70)</small></td><td class="col-e-ink"><span class="sw2" style="background:#f3f3f3"></span><code>#f3f3f3</code><br><small>oklch(96.5% 0 0)</small></td></tr><tr><th scope="row"><code>--surface-sunken</code></th><td><i class="sw" style="background:var(--surface-sunken)"></i></td><td class="col-daylight"><span class="sw2" style="background:#f0ebe4"></span><code>#f0ebe4</code><br><small>oklch(94.2% 0.011 80)</small></td><td class="col-oled"><span class="sw2" style="background:#020202"></span><code>#020202</code><br><small>oklch(8% 0 0)</small></td><td class="col-e-ink"><span class="sw2" style="background:#dbdbdb"></span><code>#dbdbdb</code><br><small>oklch(89% 0 0)</small></td></tr><tr><th scope="row"><code>--surface-inverse</code></th><td><i class="sw" style="background:var(--surface-inverse)"></i></td><td class="col-daylight"><span class="sw2" style="background:#251e18"></span><code>#251e18</code><br><small>oklch(24% 0.016 60)</small></td><td class="col-oled"><span class="sw2" style="background:#f3f2ef"></span><code>#f3f2ef</code><br><small>oklch(96% 0.004 85)</small></td><td class="col-e-ink"><span class="sw2" style="background:#0d0d0d"></span><code>#0d0d0d</code><br><small>oklch(16% 0 0)</small></td></tr><tr><th scope="row"><code>--ink</code></th><td><i class="sw" style="background:var(--ink)"></i></td><td class="col-daylight"><span class="sw2" style="background:#211912"></span><code>#211912</code><br><small>oklch(22% 0.018 60)</small></td><td class="col-oled"><span class="sw2" style="background:#f3f2ef"></span><code>#f3f2ef</code><br><small>oklch(96% 0.004 85)</small></td><td class="col-e-ink"><span class="sw2" style="background:#0d0d0d"></span><code>#0d0d0d</code><br><small>oklch(16% 0 0)</small></td></tr><tr><th scope="row"><code>--ink-muted</code></th><td><i class="sw" style="background:var(--ink-muted)"></i></td><td class="col-daylight"><span class="sw2" style="background:#584e45"></span><code>#584e45</code><br><small>oklch(43% 0.02 62)</small></td><td class="col-oled"><span class="sw2" style="background:#b6b4b0"></span><code>#b6b4b0</code><br><small>oklch(77% 0.006 80)</small></td><td class="col-e-ink"><span class="sw2" style="background:#3d3d3d"></span><code>#3d3d3d</code><br><small>oklch(36% 0 0)</small></td></tr><tr><th scope="row"><code>--ink-subtle</code></th><td><i class="sw" style="background:var(--ink-subtle)"></i></td><td class="col-daylight"><span class="sw2" style="background:#797067"></span><code>#797067</code><br><small>oklch(55% 0.018 64)</small></td><td class="col-oled"><span class="sw2" style="background:#888682"></span><code>#888682</code><br><small>oklch(62% 0.006 80)</small></td><td class="col-e-ink"><span class="sw2" style="background:#636363"></span><code>#636363</code><br><small>oklch(50% 0 0)</small></td></tr><tr><th scope="row"><code>--ink-inverse</code></th><td><i class="sw" style="background:var(--ink-inverse)"></i></td><td class="col-daylight"><span class="sw2" style="background:#f4f1ec"></span><code>#f4f1ec</code><br><small>oklch(96% 0.008 84)</small></td><td class="col-oled"><span class="sw2" style="background:#060606"></span><code>#060606</code><br><small>oklch(12% 0 0)</small></td><td class="col-e-ink"><span class="sw2" style="background:#f3f3f3"></span><code>#f3f3f3</code><br><small>oklch(96.5% 0 0)</small></td></tr><tr><th scope="row"><code>--accent</code></th><td><i class="sw" style="background:var(--accent)"></i></td><td class="col-daylight"><span class="sw2" style="background:#ac4a09"></span><code>#ac4a09</code><br><small>oklch(53% 0.145 46)</small></td><td class="col-oled"><span class="sw2" style="background:#fb9437"></span><code>#fb9437</code><br><small>oklch(76% 0.16 58)</small></td><td class="col-e-ink"><span class="sw2" style="background:#0d0d0d"></span><code>#0d0d0d</code><br><small>oklch(16% 0 0)</small></td></tr><tr><th scope="row"><code>--accent-ink</code></th><td><i class="sw" style="background:var(--accent-ink)"></i></td><td class="col-daylight"><span class="sw2" style="background:#fefdfa"></span><code>#fefdfa</code><br><small>oklch(99.3% 0.004 85)</small></td><td class="col-oled"><span class="sw2" style="background:#080503"></span><code>#080503</code><br><small>oklch(12% 0.01 55)</small></td><td class="col-e-ink"><span class="sw2" style="background:#f3f3f3"></span><code>#f3f3f3</code><br><small>oklch(96.5% 0 0)</small></td></tr><tr><th scope="row"><code>--accent-soft</code></th><td><i class="sw" style="background:var(--accent-soft)"></i></td><td class="col-daylight"><span class="sw2" style="background:#f7e3ca"></span><code>#f7e3ca</code><br><small>oklch(92.5% 0.04 72)</small></td><td class="col-oled"><span class="sw2" style="background:#391b03"></span><code>#391b03</code><br><small>oklch(26% 0.06 55)</small></td><td class="col-e-ink"><span class="sw2" style="background:#cacaca"></span><code>#cacaca</code><br><small>oklch(84% 0 0)</small></td></tr><tr><th scope="row"><code>--ok</code></th><td><i class="sw" style="background:var(--ok)"></i></td><td class="col-daylight"><span class="sw2" style="background:#1f6f3d"></span><code>#1f6f3d</code><br><small>oklch(48% 0.11 152)</small></td><td class="col-oled"><span class="sw2" style="background:#67d283"></span><code>#67d283</code><br><small>oklch(78% 0.15 150)</small></td><td class="col-e-ink"><span class="sw2" style="background:#0d0d0d"></span><code>#0d0d0d</code><br><small>oklch(16% 0 0)</small></td></tr><tr><th scope="row"><code>--warn</code></th><td><i class="sw" style="background:var(--warn)"></i></td><td class="col-daylight"><span class="sw2" style="background:#865812"></span><code>#865812</code><br><small>oklch(50% 0.1 72)</small></td><td class="col-oled"><span class="sw2" style="background:#f4c855"></span><code>#f4c855</code><br><small>oklch(85% 0.14 88)</small></td><td class="col-e-ink"><span class="sw2" style="background:#0d0d0d"></span><code>#0d0d0d</code><br><small>oklch(16% 0 0)</small></td></tr><tr><th scope="row"><code>--danger</code></th><td><i class="sw" style="background:var(--danger)"></i></td><td class="col-daylight"><span class="sw2" style="background:#ac2722"></span><code>#ac2722</code><br><small>oklch(49% 0.17 28)</small></td><td class="col-oled"><span class="sw2" style="background:#fa695e"></span><code>#fa695e</code><br><small>oklch(70% 0.18 27)</small></td><td class="col-e-ink"><span class="sw2" style="background:#0d0d0d"></span><code>#0d0d0d</code><br><small>oklch(16% 0 0)</small></td></tr><tr><th scope="row"><code>--line</code></th><td><i class="sw" style="background:var(--line)"></i></td><td class="col-daylight"><span class="sw2" style="background:#dedad3"></span><code>#dedad3</code><br><small>oklch(89% 0.01 80)</small></td><td class="col-oled"><span class="sw2" style="background:#232120"></span><code>#232120</code><br><small>oklch(25% 0.003 70)</small></td><td class="col-e-ink"><span class="sw2" style="background:#a4a4a4"></span><code>#a4a4a4</code><br><small>oklch(72% 0 0)</small></td></tr><tr><th scope="row"><code>--line-strong</code></th><td><i class="sw" style="background:var(--line-strong)"></i></td><td class="col-daylight"><span class="sw2" style="background:#817971"></span><code>#817971</code><br><small>oklch(58% 0.016 66)</small></td><td class="col-oled"><span class="sw2" style="background:#6a6866"></span><code>#6a6866</code><br><small>oklch(52% 0.004 70)</small></td><td class="col-e-ink"><span class="sw2" style="background:#0d0d0d"></span><code>#0d0d0d</code><br><small>oklch(16% 0 0)</small></td></tr><tr><th scope="row"><code>--focus</code></th><td><i class="sw" style="background:var(--focus)"></i></td><td class="col-daylight"><span class="sw2" style="background:#9d3900"></span><code>#9d3900</code><br><small>oklch(48% 0.145 42)</small></td><td class="col-oled"><span class="sw2" style="background:#fb9437"></span><code>#fb9437</code><br><small>oklch(76% 0.16 58)</small></td><td class="col-e-ink"><span class="sw2" style="background:#0d0d0d"></span><code>#0d0d0d</code><br><small>oklch(16% 0 0)</small></td></tr></tbody></table></div>
+    </div>
+
+    <div class="sub">
+      <div class="sub__head"><h3 class="sub__title">Measured contrast</h3><p class="label">WCAG 2.2 · computed with a Node script from the OKLCH values</p></div>
+      <div class="scroll-x" style="margin-block-start:14px" tabindex="0" role="region" aria-label="Contrast ratios"><table class="tok contrast"><thead><tr><th scope="col">Pair</th><th scope="col">Use</th><th scope="col">Min</th><th scope="col" class="col-daylight">daylight</th><th scope="col" class="col-oled">oled</th><th scope="col" class="col-e-ink">e-ink</th></tr></thead><tbody><tr><th scope="row"><code>ink</code> on <code>surface</code></th><td>Body</td><td class="num">7:1</td><td class="col-daylight num">16.01:1 <span class="pass">AAA</span></td><td class="col-oled num">18.69:1 <span class="pass">AAA</span></td><td class="col-e-ink num">16.03:1 <span class="pass">AAA</span></td></tr><tr><th scope="row"><code>ink</code> on <code>surface-raised</code></th><td>Body on tile</td><td class="num">7:1</td><td class="col-daylight num">17.01:1 <span class="pass">AAA</span></td><td class="col-oled num">17.03:1 <span class="pass">AAA</span></td><td class="col-e-ink num">17.54:1 <span class="pass">AAA</span></td></tr><tr><th scope="row"><code>ink</code> on <code>surface-sunken</code></th><td>Body in well</td><td class="num">7:1</td><td class="col-daylight num">14.64:1 <span class="pass">AAA</span></td><td class="col-oled num">18.51:1 <span class="pass">AAA</span></td><td class="col-e-ink num">13.96:1 <span class="pass">AAA</span></td></tr><tr><th scope="row"><code>ink-muted</code> on <code>surface</code></th><td>Secondary</td><td class="num">4.5:1</td><td class="col-daylight num">7.51:1 <span class="pass">AAA</span></td><td class="col-oled num">10.13:1 <span class="pass">AAA</span></td><td class="col-e-ink num">8.97:1 <span class="pass">AAA</span></td></tr><tr><th scope="row"><code>ink-muted</code> on <code>surface-raised</code></th><td>Secondary on tile</td><td class="num">4.5:1</td><td class="col-daylight num">7.98:1 <span class="pass">AAA</span></td><td class="col-oled num">9.22:1 <span class="pass">AAA</span></td><td class="col-e-ink num">9.81:1 <span class="pass">AAA</span></td></tr><tr><th scope="row"><code>ink-subtle</code> on <code>surface</code></th><td>Labels only</td><td class="num">3:1</td><td class="col-daylight num">4.49:1 <span class="pass">AA</span></td><td class="col-oled num">5.77:1 <span class="pass">AA</span></td><td class="col-e-ink num">4.96:1 <span class="pass">AA</span></td></tr><tr><th scope="row"><code>ink-subtle</code> on <code>surface-raised</code></th><td>Labels on tile</td><td class="num">3:1</td><td class="col-daylight num">4.77:1 <span class="pass">AA</span></td><td class="col-oled num">5.25:1 <span class="pass">AA</span></td><td class="col-e-ink num">5.42:1 <span class="pass">AA</span></td></tr><tr><th scope="row"><code>ink-subtle</code> on <code>surface-sunken</code></th><td>Labels in well</td><td class="num">3:1</td><td class="col-daylight num">4.11:1 <span class="pass">AA</span></td><td class="col-oled num">5.71:1 <span class="pass">AA</span></td><td class="col-e-ink num">4.31:1 <span class="pass">AA</span></td></tr><tr><th scope="row"><code>accent</code> on <code>surface</code></th><td>Accent as text</td><td class="num">4.5:1</td><td class="col-daylight num">5.17:1 <span class="pass">AA</span></td><td class="col-oled num">9.37:1 <span class="pass">AAA</span></td><td class="col-e-ink num">16.03:1 <span class="pass">AAA</span></td></tr><tr><th scope="row"><code>accent</code> on <code>surface-raised</code></th><td>Accent on tile</td><td class="num">4.5:1</td><td class="col-daylight num">5.49:1 <span class="pass">AA</span></td><td class="col-oled num">8.54:1 <span class="pass">AAA</span></td><td class="col-e-ink num">17.54:1 <span class="pass">AAA</span></td></tr><tr><th scope="row"><code>accent-ink</code> on <code>accent</code></th><td>Text on accent</td><td class="num">4.5:1</td><td class="col-daylight num">5.49:1 <span class="pass">AA</span></td><td class="col-oled num">9.07:1 <span class="pass">AAA</span></td><td class="col-e-ink num">17.54:1 <span class="pass">AAA</span></td></tr><tr><th scope="row"><code>ink</code> on <code>accent-soft</code></th><td>Text on soft accent</td><td class="num">7:1</td><td class="col-daylight num">13.86:1 <span class="pass">AAA</span></td><td class="col-oled num">14.03:1 <span class="pass">AAA</span></td><td class="col-e-ink num">11.88:1 <span class="pass">AAA</span></td></tr><tr><th scope="row"><code>ok</code> on <code>surface-raised</code></th><td>OK signal</td><td class="num">4.5:1</td><td class="col-daylight num">6.08:1 <span class="pass">AA</span></td><td class="col-oled num">10.12:1 <span class="pass">AAA</span></td><td class="col-e-ink num">17.54:1 <span class="pass">AAA</span></td></tr><tr><th scope="row"><code>warn</code> on <code>surface-raised</code></th><td>Warn signal</td><td class="num">4.5:1</td><td class="col-daylight num">6.00:1 <span class="pass">AA</span></td><td class="col-oled num">12.04:1 <span class="pass">AAA</span></td><td class="col-e-ink num">17.54:1 <span class="pass">AAA</span></td></tr><tr><th scope="row"><code>danger</code> on <code>surface-raised</code></th><td>Error signal</td><td class="num">4.5:1</td><td class="col-daylight num">6.70:1 <span class="pass">AA</span></td><td class="col-oled num">6.61:1 <span class="pass">AA</span></td><td class="col-e-ink num">17.54:1 <span class="pass">AAA</span></td></tr><tr><th scope="row"><code>line-strong</code> on <code>surface-raised</code></th><td>UI boundary</td><td class="num">3:1</td><td class="col-daylight num">4.21:1 <span class="pass">AA</span></td><td class="col-oled num">3.47:1 <span class="pass">AA</span></td><td class="col-e-ink num">17.54:1 <span class="pass">AAA</span></td></tr><tr><th scope="row"><code>focus</code> on <code>surface</code></th><td>Focus ring</td><td class="num">3:1</td><td class="col-daylight num">6.43:1 <span class="pass">AA</span></td><td class="col-oled num">9.37:1 <span class="pass">AAA</span></td><td class="col-e-ink num">16.03:1 <span class="pass">AAA</span></td></tr><tr><th scope="row"><code>focus</code> on <code>surface-raised</code></th><td>Focus ring on tile</td><td class="num">3:1</td><td class="col-daylight num">6.84:1 <span class="pass">AA</span></td><td class="col-oled num">8.54:1 <span class="pass">AAA</span></td><td class="col-e-ink num">17.54:1 <span class="pass">AAA</span></td></tr><tr><th scope="row"><code>ink-inverse</code> on <code>surface-inverse</code></th><td>Footer, bridge</td><td class="num">7:1</td><td class="col-daylight num">14.68:1 <span class="pass">AAA</span></td><td class="col-oled num">18.07:1 <span class="pass">AAA</span></td><td class="col-e-ink num">17.54:1 <span class="pass">AAA</span></td></tr></tbody></table></div>
+      <p class="tile__fine" style="margin-block-start:10px">In e-ink, ok/warn/danger are all ink: severity is carried by the square, triangle and circle glyphs plus the word. Never colour alone, in any option.</p>
+    </div>
+
+    <div class="sub">
+      <div class="sub__head"><h3 class="sub__title">Meter fills</h3><p class="label">Component tokens · flat in colour, dithered on e-ink</p></div>
+      <div style="padding-block-start:16px;max-width:640px">
+        <div class="budget" aria-hidden="true"><i class="k3s"></i><i class="k3s"></i><i class="k3s"></i><i class="k3s"></i><i class="k3s"></i><i class="k3s"></i><i class="k3s"></i><i class="k3s"></i><i class="k3s"></i><i class="k3s"></i><i class="haos"></i><i class="haos"></i><i class="haos"></i><i class="host"></i><i class="host"></i><i class="spare"></i></div>
+        <p class="tile__fine" style="margin-block-start:10px"><code>--c-seg-k3s</code> · <code>--c-seg-haos</code> · <code>--c-seg-host</code> · <code>--c-seg-spare</code> (e-ink: solid, 50% checker, 25% dots, empty with dashed hairline)</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- TYPE -->
+  <section class="view" id="type" aria-labelledby="ty-h">
+    <div class="view__bar label"><span>03 · Type</span><span class="view__meta">Onest + Martian Mono</span></div>
+    <h2 class="view__title" id="ty-h">Type</h2>
+    <div class="two" style="margin-block-start:24px">
+      <div class="demo">
+        <p class="label">Display &amp; body · Onest, variable 200–800</p>
+        <p style="font-size:var(--step-5);font-weight:var(--c-num-weight);letter-spacing:-0.05em;line-height:.9">10:24 <span style="color:var(--accent)">283</span> 0</p>
+        <p class="muted">A grotesk with warm, slightly rounded numerals (the flagged 1, the open 4) that stay readable at thermostat sizes in a light weight, and a true <code>tnum</code> feature for anything that ticks. It reads as a product UI without being Inter, and it isn’t on the banned list.</p>
+      </div>
+      <div class="demo">
+        <p class="label">Data &amp; labels · Martian Mono, wdth 75–112.5</p>
+        <p class="mono" style="font-size:var(--step-1);letter-spacing:.02em">ARGO CD 16/16 · a41c9e2 · 0</p>
+        <p class="muted">A wide-set mono with a width axis. Set at 87.5% width and +0.07em tracking in caps it becomes the panel’s label voice: appliance-like, dense, unmistakably not JetBrains Mono. Slashed zero is on.</p>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub__head"><h3 class="sub__title">Scale</h3><p class="label">Fluid 360 → 1440 · ratio 1.2 → 1.333</p></div>
+      <div class="specimen">
+        <div><span class="label">--step-6 · hero</span><p style="font-size:var(--step-6);font-weight:600;letter-spacing:-0.05em">Guus Ekkelenkamp</p></div>
+        <div><span class="label">--step-5 · view title</span><p style="font-size:var(--step-5);font-weight:600;letter-spacing:-0.04em">A data centre with the lid shut</p></div>
+        <div><span class="label">--step-4</span><p style="font-size:var(--step-4);font-weight:var(--c-num-weight);letter-spacing:-0.04em">is at Harborn.</p></div>
+        <div><span class="label">--step-3 · project</span><p style="font-size:var(--step-3);font-weight:600;letter-spacing:-0.035em">Rules of 99</p></div>
+        <div><span class="label">--step-2 · sub title</span><p style="font-size:var(--step-2);font-weight:600;letter-spacing:-0.025em">Learned the hard way</p></div>
+        <div><span class="label">--step-1 · lead</span><p style="font-size:var(--step-1);line-height:1.35">One second-hand laptop, lid closed, behind the TV.</p></div>
+        <div><span class="label">--step-0 · body</span><p style="line-height:1.55">Nothing on it is reachable from the internet unless I explicitly say so. Every change goes through git.</p></div>
+        <div><span class="label">--step--1 · meta</span><p style="font-size:var(--step--1);color:var(--ink-muted)">Security officer, cloud specialist and solution architect at Harborn, Rotterdam.</p></div>
+        <div><span class="label">--step--2 · label</span><p class="label">Finder · next run in 37 min</p></div>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub__head"><h3 class="sub__title">Pairing rules</h3><p class="label">2 families total</p></div>
+      <dl class="rows">
+        <div class="row"><dt>Numbers</dt><dd>Onest, weight <code>--c-num-weight</code> (300 daylight, 250 OLED, 400 e-ink), tracking −0.035 to −0.05em. Units drop to 42% size in <code>--ink-muted</code>.</dd></div>
+        <div class="row"><dt>Tabular</dt><dd><code>tabular-nums slashed-zero</code> on everything that changes faster than once a minute: seconds, countdowns, RAM use, logs, specs. The clock’s HH:MM uses proportional figures on purpose: it changes once a minute and Onest’s tabular 1 opens an ugly gap at 100px.</dd></div>
+        <div class="row"><dt>Labels</dt><dd>Martian Mono, caps, 87.5% width, +0.07em. Never for sentences longer than a line.</dd></div>
+        <div class="row"><dt>Roles</dt><dd>Job titles only ever appear as label-sized facts. Never as a headline, never stacked with slashes.</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- SPACE -->
+  <section class="view" id="space" aria-labelledby="sp-h">
+    <div class="view__bar label"><span>04 · Space, grid, radius, lines</span></div>
+    <h2 class="view__title" id="sp-h">Space &amp; grid</h2>
+    <div class="two" style="margin-block-start:24px">
+      <div class="demo">
+        <p class="label">Spacing · 4px base</p>
+        <div>
+          <div class="space-row"><span>--space-3xs</span><i style="width:4px"></i><span>4</span></div>
+          <div class="space-row"><span>--space-2xs</span><i style="width:8px"></i><span>8</span></div>
+          <div class="space-row"><span>--space-xs</span><i style="width:12px"></i><span>12</span></div>
+          <div class="space-row"><span>--space-s</span><i style="width:16px"></i><span>16</span></div>
+          <div class="space-row"><span>--space-m</span><i style="width:24px"></i><span>24</span></div>
+          <div class="space-row"><span>--space-l</span><i style="width:32px"></i><span>32</span></div>
+          <div class="space-row"><span>--space-xl</span><i style="width:48px"></i><span>48</span></div>
+          <div class="space-row"><span>--space-2xl</span><i style="width:64px"></i><span>64</span></div>
+          <div class="space-row"><span>--space-3xl</span><i style="width:96px"></i><span>96</span></div>
+          <div class="space-row"><span>--space-4xl</span><i style="width:144px;max-width:100%"></i><span>144</span></div>
+        </div>
+        <p class="tile__fine">Panel gap is a fixed 8px: tiles sit like modules in one housing, not cards floating on a page.</p>
+      </div>
+      <div class="demo">
+        <p class="label">Tile grid · 12 / 6 / 2 columns</p>
+        <div class="cols" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <p class="tile__fine">≥960: resident 7×2 rows, clock 5, on duty 5, argo 3, deploy 2, RAM 7, finder 6, finds 3, clogs 3. 600–959: 6 columns. Under 600: 2 columns, resident and on-duty first. The tablet frame appears at ≥1100px.</p>
+        <p class="label" style="margin-block-start:10px">Radius · shadow · lines</p>
+        <div class="radii">
+          <div style="border-radius:var(--radius-s)">--radius-s</div>
+          <div style="border-radius:var(--radius-m)">--radius-m</div>
+          <div style="border-radius:var(--radius-l);box-shadow:var(--shadow-1)">--radius-l · shadow-1</div>
+          <div style="border-radius:var(--radius-l);box-shadow:var(--shadow-2)">shadow-2 (frame)</div>
+        </div>
+        <p class="tile__fine">Lines are 1px <code>--line</code> between rows, <code>--line-strong</code> for boundaries and meters. OLED and e-ink set both shadows to <code>none</code>.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPONENTS -->
+  <section class="view" id="components" aria-labelledby="cm-h">
+    <div class="view__bar label"><span>05 · Components</span><span class="view__meta">FOUNDATIONS §5 + panel additions</span></div>
+    <h2 class="view__title" id="cm-h">Components</h2>
+
+    <div class="sub" style="margin-block-start:24px">
+      <div class="sub__head"><h3 class="sub__title">SiteHeader · panel bar</h3><p class="label">Mark, 5 links, display switch (synced with the review bar)</p></div>
+      <div class="demo" style="margin-block-start:12px">
+        <div class="panel-bar" style="padding:0">
+          <a class="mark" href="#components"><span class="mark__ge" aria-hidden="true">GE</span><span class="mark__name">Wandpaneel</span></a>
+          <nav class="panel-nav" aria-label="Example"><ul><li><a href="#components">Work</a></li><li><a href="#components" style="background:var(--surface-sunken);color:var(--ink)">Homelab · hover</a></li><li><a href="#components" class="is-focus">Projects · focus</a></li></ul></nav>
+          <div class="panel-bar__meta"><div class="seg" role="radiogroup" aria-label="Display (demo)">
+            <label><input type="radio" name="display-sys" value="daylight" data-option-input checked>Day</label>
+            <label><input type="radio" name="display-sys" value="oled" data-option-input>OLED</label>
+            <label><input type="radio" name="display-sys" value="e-ink" data-option-input>E-ink</label>
+          </div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub__head"><h3 class="sub__title">Hero · resident tile</h3><p class="label">Name, live state, one-liner, sub-line, status chip · fits 360×640</p></div>
+      <div class="tiles" style="margin-block-start:12px;grid-template-columns:minmax(0,1fr)">
+        <article class="tile t-hero" style="grid-column:auto;grid-row:auto">
+          <div class="tile__head"><p class="label">Resident <b>1 of 1</b></p><p class="label">Rotterdam, NL</p></div>
+          <p class="hero__name" role="presentation">Guus Ekkelenkamp</p>
+          <p class="hero__state">is <strong data-state>home</strong>.</p>
+          <div class="hero__foot">
+            <p class="hero__line">By day I make sure client platforms are secure and keep running. By night I do the same for a laptop behind the TV.</p>
+            <p class="hero__sub">Security officer, cloud specialist and solution architect at Harborn, Rotterdam.</p>
+            <p class="chip"><span class="chip__k label"><span class="live" aria-hidden="true"></span>Currently</span><span>moving my infra to ekkelenkamp.dev &amp; hunting mini PCs for node #2</span></p>
+          </div>
+        </article>
+      </div>
+      <p class="tile__fine" style="margin-block-start:8px">StatusChip: the live dot pulses at 2.4s, stops under reduced motion and on e-ink.</p>
+    </div>
+
+    <div class="sub">
+      <div class="sub__head"><h3 class="sub__title">Tile · stat readout</h3><p class="label">Default · hover · focus · whole tile is the link</p></div>
+      <div class="mini-tiles" style="margin-block-start:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,14rem),1fr))">
+        <article class="tile"><div class="tile__head"><p class="label"><a class="tile__link" href="#components">Argo CD</a></p><svg class="tile__go glyph" viewBox="0 0 14 14" aria-hidden="true"><path d="M5 3l4 4-4 4"/></svg></div><p class="tile__value">16<small>/16</small></p><p class="tile__sub"><strong>Synced · Healthy</strong></p></article>
+        <article class="tile is-hover"><div class="tile__head"><p class="label"><a class="tile__link" href="#components">Finds · hover</a></p><svg class="tile__go glyph" viewBox="0 0 14 14" aria-hidden="true" style="transform:translateX(2px);color:var(--accent)"><path d="M5 3l4 4-4 4"/></svg></div><p class="tile__value">283</p><p class="tile__fine">253 MTG lots · 30 homelab</p></article>
+        <article class="tile is-focus"><div class="tile__head"><p class="label"><a class="tile__link" href="#components">Clogs · focus</a></p><svg class="tile__go glyph" viewBox="0 0 14 14" aria-hidden="true"><path d="M5 3l4 4-4 4"/></svg></div><p class="tile__value">0</p><p class="tile__sub"><strong>Still looking.</strong></p></article>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub__head"><h3 class="sub__title">On duty · work status tile</h3><p class="label">New · plain status rows, roles as facts</p></div>
+      <div class="tiles" style="margin-block-start:12px;grid-template-columns:minmax(0,1fr);max-width:640px">
+        <article class="tile t-duty" style="grid-column:auto">
+          <div class="tile__head"><p class="label"><a class="tile__link" href="#components">On duty · Harborn</a></p><svg class="tile__go glyph" viewBox="0 0 14 14" aria-hidden="true"><path d="M5 3l4 4-4 4"/></svg></div>
+          <dl class="duty">
+            <div><dt class="label">Security</dt><dd>Policy, access reviews, which vendors get near client data</dd></div>
+            <div><dt class="label">Cloud &amp; platform</dt><dd>Kubernetes on Haven, GitOps with Argo CD, environments rebuilt from git</dd></div>
+            <div><dt class="label">Architecture</dt><dd>Integrations between client systems, decisions written down as ADRs</dd></div>
+          </dl>
+        </article>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub__head"><h3 class="sub__title">Job pane + bridge</h3><p class="label">New · the day-job detail view</p></div>
+      <div class="jobs" style="margin-block-start:12px">
+        <article class="job">
+          <div class="job__head"><p class="label">Job 2 of 3</p><span class="stat-chip">On duty</span></div>
+          <p class="job__title">Cloud &amp; platform</p>
+          <p class="job__line">The layer every client project lands on.</p>
+          <ul class="job__rows"><li>Environments that can be rebuilt from git, not from someone’s memory</li></ul>
+          <a class="job__home" href="#components"><span class="label">Same rule at home</span><span>k3s + Argo CD, 16/16 synced</span></a>
+        </article>
+        <a class="bridge" href="#components" style="margin:0;grid-column:span 2">
+          <span class="label">Next view · Homelab</span>
+          <span class="bridge__text">The homelab is where I try things before I recommend them at work.</span>
+          <svg class="bridge__arrow glyph" viewBox="0 0 22 12" aria-hidden="true"><path d="M1 6h19M16 2l4 4-4 4"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="two" style="margin-block-start:48px">
+      <div class="demo">
+        <p class="label">SectionHeader · detail view bar</p>
+        <div class="view__bar label" style="margin:0"><a class="view__back" href="#components"><svg class="glyph" viewBox="0 0 12 12" aria-hidden="true"><path d="M8 2L4 6l4 4"/></svg>Panel</a><span class="view__crumb">/ Homelab</span><span class="view__meta">03 · Featured</span></div>
+        <p class="label">Homelab · GitOps · 2026–ongoing</p>
+        <p class="view__title" style="font-size:var(--step-4)">A data centre with the lid shut</p>
+        <p class="tile__fine">Numbering: two-digit view index + a plain word. Every view starts with “← Panel”.</p>
+      </div>
+      <div class="demo">
+        <p class="label">NowList · state rows</p>
+        <ol class="now">
+          <li><span class="state state--run">Building</span><p>A 3-node homelab out of ex-office 1-litre mini PCs.</p></li>
+          <li><span class="state">Searching</span><p>For a first home. Yes, there’s a repo for that too.</p></li>
+        </ol>
+      </div>
+      <div class="demo">
+        <p class="label">SpecTable · settings rows</p>
+        <dl class="rows">
+          <div class="row"><dt>Hardware</dt><dd>Second-hand laptop · 11th-gen Intel, 4 cores / 8 threads · 16 GB · ~512 GB SSD</dd></div>
+          <div class="row"><dt>UPS</dt><dd>The laptop battery</dd></div>
+          <div class="row"><dt>Network</dt><dd>Tailscale only. Zero open ports on the router</dd></div>
+        </dl>
+      </div>
+      <div class="demo">
+        <p class="label">BudgetBar · one cell per GB, text values below</p>
+        <div class="budget" aria-hidden="true"><i class="k3s"></i><i class="k3s"></i><i class="k3s"></i><i class="k3s"></i><i class="k3s"></i><i class="k3s"></i><i class="k3s"></i><i class="k3s"></i><i class="k3s"></i><i class="k3s"></i><i class="haos"></i><i class="haos"></i><i class="haos"></i><i class="host"></i><i class="host"></i><i class="spare"></i></div>
+        <div class="budget-key">
+          <div><b>10<small> GB</small></b><span class="label">k3s-01</span></div>
+          <div><b>3<small> GB</small></b><span class="label">haos-01</span></div>
+          <div><b>~2</b><span class="label">Host</span></div>
+          <div><b>~1</b><span class="label">Spare</span></div>
+        </div>
+      </div>
+      <div class="demo">
+        <p class="label">ArchDiagram · nested panels, the list is the diagram</p>
+        <div class="arch"><div class="arch__box"><p class="arch__name"><b>Old laptop</b><span class="label">Bare metal</span></p><div class="arch__box"><p class="arch__name"><b>Proxmox VE 9.2</b></p><ul class="arch__kids arch__kids--vms"><li class="arch__box"><p class="arch__name"><b>VM k3s-01</b></p><ul><li class="arch__leaf"><span>Argo CD</span><span>app-of-apps</span></li></ul></li><li class="arch__box"><p class="arch__name"><b>VM haos-01</b></p><ul><li class="arch__leaf"><span>Zigbee</span><span>USB passthrough</span></li></ul></li></ul></div></div></div>
+      </div>
+      <div class="demo">
+        <p class="label">DecisionCard · record row</p>
+        <ol class="records"><li class="record"><span class="record__n">D-01</span><p class="record__t">k3s in a VM, not LXC.</p><p class="record__why">A VM snapshots as one unit.</p></li></ol>
+      </div>
+      <div class="demo">
+        <p class="label">GotchaNote · event log, error / warn / ok</p>
+        <ol class="log">
+          <li class="event event--error"><span class="sev sev--error"><svg viewBox="0 0 12 12" aria-hidden="true"><rect x="1.5" y="1.5" width="9" height="9" fill="currentColor"/></svg>Error</span><span class="event__when">2026</span><div><p class="event__t">Disk-pressure at 30 GiB.</p></div></li>
+          <li class="event event--warn"><span class="sev sev--warn"><svg viewBox="0 0 12 12" aria-hidden="true"><path d="M6 1.5L11 10.5H1z" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>Warn</span><span class="event__when">Jul 2026</span><div><p class="event__t">lvextend on the host does nothing for the guest.</p></div></li>
+          <li class="event event--ok"><span class="sev sev--ok"><svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="6" cy="6" r="4.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M3.8 6.1l1.5 1.5 3-3" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>OK</span><span class="event__when">Pi → VM</span><div><p class="event__t">Zero re-pairing.</p></div></li>
+        </ol>
+      </div>
+      <div class="demo">
+        <p class="label">Principle · settings toggle (read-only state)</p>
+        <ul class="settings">
+          <li class="setting"><p class="setting__t"><span class="setting__n">04</span>Automate the second time.</p><p class="setting__d">Not the first, not the third.</p><span class="toggle toggle--on"><span>2nd time</span><i aria-hidden="true"></i></span></li>
+          <li class="setting"><p class="setting__t"><span class="setting__n">02</span>Cloudflare Tunnel</p><p class="setting__d">Opt-in state</p><span class="toggle toggle--opt"><span>Per app</span><i aria-hidden="true"></i></span></li>
+        </ul>
+        <p class="label" style="margin-block-start:8px">Automation · trigger → action</p>
+        <ul class="autos"><li class="auto"><p class="auto__flow"><span>Sunset</span><svg class="auto__arrow glyph" viewBox="0 0 22 12" aria-hidden="true"><path d="M1 6h19M16 2l4 4-4 4"/></svg><span>Hallway lights at 20%</span></p><span class="toggle toggle--on"><span>On</span><i aria-hidden="true"></i></span></li></ul>
+      </div>
+      <div class="demo">
+        <p class="label">Tabs · arrow keys, Home/End</p>
+        <div data-tabs>
+          <div class="tabs__list" role="tablist" aria-label="Demo tabs">
+            <button class="tabs__tab" role="tab" id="st-1" aria-controls="sp-1" aria-selected="true">Also · AI tooling</button>
+            <button class="tabs__tab" role="tab" id="st-2" aria-controls="sp-2" aria-selected="false">Also · Hands-on</button>
+          </div>
+          <div class="tabs__panel" role="tabpanel" id="sp-1" aria-labelledby="st-1"><p class="muted">Claude-based agents, skills and plugins, with guardrails on what they can touch.</p></div>
+          <div class="tabs__panel" role="tabpanel" id="sp-2" aria-labelledby="st-2"><p class="muted">TypeScript, Python, a bit of everything client projects need.</p></div>
+        </div>
+      </div>
+      <div class="demo">
+        <p class="label">Tag · Toolbox group</p>
+        <ul class="tags"><li>Java 17</li><li>React</li><li>SQLite</li></ul>
+        <section class="toolgroup" aria-label="Toolbox example"><p class="label" style="padding-block-end:10px;border-block-end:1px solid var(--line);display:flex;justify-content:space-between"><span style="color:var(--ink)">Security</span><span>5</span></p><ul><li>Policy &amp; risk</li><li>Access reviews</li><li>Tailscale ACLs</li></ul></section>
+      </div>
+    </div>
+
+    <div class="sub">
+      <div class="sub__head"><h3 class="sub__title">ProjectEntry · featured + compact</h3><p class="label">Stats row, bullets, tags, status chip</p></div>
+      <div class="two" style="margin-block-start:12px">
+        <article class="project">
+          <div class="project__head"><p class="project__name">2nd-hand-finds</p><span class="stat-chip">Every 2 h</span></div>
+          <p class="project__line">A bot that reads Marktplaats so I don’t have to.</p>
+          <div class="stats"><div><b>283</b><span class="label">Finds</span></div><div><b>2 h</b><span class="label">Between runs</span></div><div><b>0</b><span class="label">Rover clogs</span></div></div>
+          <div class="project__foot"><ul class="tags"><li>Python</li><li>Claude</li><li>Astro SSR</li></ul><a href="#components">On GitHub</a></div>
+        </article>
+        <div class="devices" style="margin:0;align-self:start">
+          <article class="device-row" style="grid-template-columns:minmax(0,1fr)"><div><p style="font-size:var(--step-1);font-weight:600">Quizmaster</p><p class="muted">Made public for the evening through Tailscale Funnel.</p></div><span class="stat-chip stat-chip--idle">On demand</span></article>
+          <article class="device-row" style="grid-template-columns:minmax(0,1fr)"><div><p style="font-size:var(--step-1);font-weight:600">Grimoire</p><p class="muted">Single pod + PVC.</p></div><span class="stat-chip">Self-hosted</span></article>
+        </div>
+      </div>
+    </div>
+
+    <div class="two" style="margin-block-start:48px">
+      <div class="demo">
+        <p class="label">Link / Button · default · hover · focus</p>
+        <p>Body links are <a href="#components">underlined in a hairline</a> that turns accent on hover.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <a class="btn btn--primary" href="#components">Say hoi</a>
+          <a class="btn" href="#components">On GitHub</a>
+          <a class="btn is-hover" href="#components">Hover</a>
+          <a class="btn is-focus" href="#components">Focus</a>
+        </div>
+      </div>
+      <div class="demo">
+        <p class="label">Photo placeholder</p>
+        <div class="photo photo--wide"><span>PHOTO: the real wall panel in the hallway</span></div>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="sub__head"><h3 class="sub__title">Footer</h3><p class="label">Inverse surface, build meta · rendered live at the bottom of this page</p></div>
+    </div>
+  </section>
+
+  <!-- MOTION -->
+  <section class="view" id="motion" aria-labelledby="mo-h" style="border:0;padding-block-start:0">
+    <div class="view__bar label"><span>06 · Motion</span><span class="view__meta">Motion explains, it doesn’t decorate</span></div>
+    <h2 class="view__title" id="mo-h">Motion</h2>
+    <div class="two" style="margin-block-start:24px">
+      <div class="demo motion-box" data-motion>
+        <p class="label">Tokens · press play</p>
+        <div class="motion-track" style="--d:var(--dur-instant);--e:var(--ease-out)"><i></i></div><p class="tile__fine">--dur-instant 80ms · toggles, press</p>
+        <div class="motion-track" style="--d:var(--dur-quick);--e:var(--ease-out)"><i></i></div><p class="tile__fine">--dur-quick 160ms · hover, chevrons (= --c-dur)</p>
+        <div class="motion-track" style="--d:var(--dur-base);--e:var(--ease-in-out)"><i></i></div><p class="tile__fine">--dur-base 280ms · ease-in-out</p>
+        <div class="motion-track" style="--d:var(--dur-slow);--e:var(--ease-in-out)"><i></i></div><p class="tile__fine">--dur-slow 520ms · RAM use meter drift</p>
+        <button class="btn" type="button" data-motion-play>Play</button>
+      </div>
+      <div class="demo">
+        <p class="label">Live behaviour</p>
+        <p class="chip"><span class="chip__k label"><span class="live" aria-hidden="true"></span>Live</span><span>The only loop on the site. Off under reduced motion and on e-ink.</span></p>
+        <dl class="rows">
+          <div class="row"><dt>Clock</dt><dd>Ticks per second; e-ink hides seconds (<code>--c-seconds: none</code>), like a real panel refreshing per minute.</dd></div>
+          <div class="row"><dt>E-ink</dt><dd><code>--c-dur: 0ms</code>: nothing tweens on paper. Switching to e-ink plays a 300ms black/white refresh flash, skipped under reduced motion.</dd></div>
+          <div class="row"><dt>Reduced</dt><dd>No flash, no pulse, no meter drift, instant scroll.</dd></div>
+        </dl>
+        <button class="btn" type="button" data-refresh-demo>Play e-ink refresh</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ICONS -->
+  <section class="view" id="icons" aria-labelledby="ic-h">
+    <div class="view__bar label"><span>07 · Iconography &amp; imagery</span></div>
+    <h2 class="view__title" id="ic-h">Glyphs, not icons</h2>
+    <p class="muted" style="max-width:64ch;margin-block:12px 20px">Six drawn glyphs, 1.5px stroke, square caps, only where a shape carries meaning a word can’t carry as fast. No icon set, no emoji, no logos. Photography is the real setup; until it’s shot, placeholders say exactly what goes there.</p>
+    <ul class="glyphs">
+      <li><svg class="glyph" viewBox="0 0 64 34" aria-hidden="true"><path d="M5 29V20c0-5 5-7 12-7h9c9-4 22-3 30 5 4 4 4 9 2 11z"/><path d="M3 29h58"/><path d="M14 13c3 4 10 5 14 1"/></svg>Rover clog</li>
+      <li><svg class="glyph" viewBox="0 0 20 20" aria-hidden="true"><path d="M7.5 15.5h5M8.5 18h3M10 2.5a5 5 0 0 0-3 9V13h6v-1.5a5 5 0 0 0-3-9z"/></svg>Hallway lamp</li>
+      <li><svg class="glyph" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 6.5h14v7H2zM16 8.5h2v3h-2M5 9v2M8 9v2M11 9v2M14 9v2"/></svg>Battery = UPS</li>
+      <li><svg class="glyph" viewBox="0 0 14 14" aria-hidden="true"><path d="M5 3l4 4-4 4"/></svg>Open view</li>
+      <li><svg class="glyph" viewBox="0 0 22 12" aria-hidden="true"><path d="M1 6h19M16 2l4 4-4 4"/></svg>Trigger → action</li>
+      <li><svg viewBox="0 0 40 12" aria-hidden="true"><rect x="1.5" y="1.5" width="9" height="9" fill="currentColor"/><path d="M20 1.5L25 10.5H15z" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="34" cy="6" r="4.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>Severity shapes</li>
+    </ul>
+  </section>
+
+  <!-- DO / DONT -->
+  <section class="view" id="dodont" aria-labelledby="dd-h">
+    <div class="view__bar label"><span>08 · Do / don’t</span></div>
+    <h2 class="view__title" id="dd-h">Do / don’t</h2>
+    <div class="dodont" style="margin-block-start:24px">
+      <div class="do"><p class="label"><b>Do</b></p><div class="tile"><div class="tile__head"><p class="label">Rover clogs found</p></div><p class="tile__value">0</p><p class="tile__sub"><strong>Still looking.</strong></p></div><p class="muted">A real number, a label, one deadpan line.</p></div>
+      <div class="dont"><p class="label"><b>Don’t</b></p><div class="bad-tile"><span style="font-size:28px" aria-hidden="true">◎</span>Passionate about clean code</div><p class="muted">Gradient card, icon in a circle, nothing to read. That’s the bento template this direction exists to avoid.</p></div>
+      <div class="do"><p class="label"><b>Do</b></p><p class="label">Security officer · Cloud specialist · Solution architect</p><p class="muted">Roles as small plain facts; the copy says what the work is.</p></div>
+      <div class="dont"><p class="label"><b>Don’t</b></p><p style="font-size:var(--step-3);font-weight:700;letter-spacing:-0.03em;line-height:1">SECURITY / CLOUD / ARCHITECT</p><p class="muted">Titles as a stacked, slashed headline.</p></div>
+      <div class="do"><p class="label"><b>Do</b></p><p class="muted">Every tile links into a detail view with the real content.</p></div>
+      <div class="dont"><p class="label"><b>Don’t</b></p><p class="muted">Tiles of identical size, or a tile per technology. The toolbox is a list.</p></div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="page">
+    <div><p class="label">Built with</p><p>Astro. Hosted somewhere more reliable than my laptop.</p></div>
+    <div><p class="label">Last deploy</p><p class="mono tnum">a41c9e2 · 3 Nov 2026</p></div>
+    <div><p class="label">Elsewhere</p><p>© 2026 Guus Ekkelenkamp · No cookies, no trackers, no newsletter.</p></div>
+  </div>
+</footer>
+
+<aside class="review-bar" aria-label="Design review">
+  <span class="review-bar__name"><span>05</span>Wandpaneel</span>
+  <div class="seg" role="radiogroup" aria-label="Option">
+    <label><input type="radio" name="option-rb" value="daylight" data-option-input checked>Daylight</label>
+    <label><input type="radio" name="option-rb" value="oled" data-option-input>OLED</label>
+    <label><input type="radio" name="option-rb" value="e-ink" data-option-input>E-ink</label>
+  </div>
+  <a href="index.html" data-keep-option>Index</a>
+  <a href="../../../index.html">Hub</a>
+</aside>
+
+<script>
+(() => {
+  const toks = ['surface','surface-raised','surface-sunken','surface-inverse','ink','ink-muted','ink-subtle','ink-inverse','accent','accent-ink','accent-soft','ok','warn','danger','line','line-strong','focus','c-wall','c-bezel'];
+  const list = document.querySelector('[data-live-tokens]');
+  const draw = () => {
+    const cs = getComputedStyle(document.documentElement);
+    list.innerHTML = toks.map(t => `<li><i style="background:var(--${t})"></i><b>--${t}</b><span>${cs.getPropertyValue('--' + t).trim()}</span></li>`).join('');
+  };
+  draw();
+  new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-option'] });
+  const m = document.querySelector('[data-motion]');
+  document.querySelector('[data-motion-play]').addEventListener('click', () => m.classList.toggle('motion-go'));
+  document.querySelector('[data-refresh-demo]').addEventListener('click', () => {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const r = document.documentElement, ov = document.querySelector('.refresh');
+    ov.style.setProperty('--c-refresh-ink', 'var(--p-carbon-160)');
+    r.classList.remove('is-refreshing'); void r.offsetWidth; r.classList.add('is-refreshing');
+    setTimeout(() => { r.classList.remove('is-refreshing'); ov.style.removeProperty('--c-refresh-ink'); }, 340);
+  });
+})();
+</script>
+</body>
+</html>
