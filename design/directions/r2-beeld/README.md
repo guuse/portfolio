@@ -226,3 +226,18 @@ Previews: `design/previews/r5-beeld--*.png`. Run `node build-artifact.js` after 
 The highlight gets a facts row (8 clusters · 1,500+ pods on the largest · NL, EU and Japan ·
 client training) and a regions row in the diagram. Operators are written in Python (Go removed),
 and LinkedIn links to the real profile.
+
+### Round 5b (lead's UX review)
+- **Screenshots fill their frames.** Cover fit from the top left, thin border, no dotted mat or
+  crop marks. Those stay on illustrations only.
+- **Calmer project grid.** Four equal 16:10 cards in two columns beside the sticky index, no
+  stagger, and always the desktop screenshot.
+- **Featured illustrations** are drawn clear of the overlapping title card. Checked with every
+  project featured.
+- **Hero prints** are now the portrait plus Grimoire and Rules of 99 screenshots with captions.
+  Bouldering and sunset appear only in About.
+- **Highlight** no longer repeats the strip's numbers. It shows "every project gets, on day one"
+  (namespace, CI/CD pipeline, monitoring & alerts, TLS, access control) and two small facts:
+  NL, EU and Japan; training programmes with clients.
+- **AI illustration:** text on yellow and teal fills is now dark.
+- **Phones:** a round portrait next to the kicker, so a face is on the first screen.
