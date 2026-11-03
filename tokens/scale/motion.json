@@ -2,9 +2,16 @@
   "duration": {
     "$type": "duration",
     "quick": { "$value": "160ms", "$description": "Colour and border changes" },
+    "exit": { "$value": "180ms", "$description": "Things leaving: the outgoing scene in a hand-off" },
     "base": { "$value": "280ms" },
+    "page": { "$value": "420ms", "$description": "View transitions between pages" },
     "slow": { "$value": "520ms", "$description": "Image zooms, scene cross-fades" },
-    "reveal": { "$value": "700ms", "$description": "Sections settling in once" }
+    "reveal": { "$value": "700ms", "$description": "Sections settling in once" },
+    "stagger": { "$value": "60ms", "$description": "The gap between siblings settling in one after another" },
+    "handoff": {
+      "$value": "120ms",
+      "$description": "How long an incoming scene waits for the outgoing one, so they never double-expose"
+    }
   },
   "ease": {
     "$type": "cubicBezier",

@@ -6,9 +6,9 @@ interface Props {
 const { items } = Astro.props;
 ---
 
-<dl class="deflist">
-  {items.map((it) => (
-    <div>
+<dl class="deflist rows reveal-set">
+  {items.map((it, i) => (
+    <div data-i={i}>
       <dt>{it.term}</dt>
       <dd>{it.detail}</dd>
     </div>
@@ -22,15 +22,28 @@ const { items } = Astro.props;
     }
 
     .deflist > div {
+      position: relative;
       display: grid;
       gap: 2px 24px;
       padding-block: 0.8rem;
-      border-top: 1px solid var(--line);
+    }
+
+    /* the hairline between rows; a pseudo-element so it can draw in (src/styles/motion.css) */
+    .deflist > div::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 1px;
+      background: var(--line);
+      transform-origin: left;
     }
 
     .deflist > div:first-child {
-      border-top: 0;
       padding-top: 0;
+    }
+
+    .deflist > div:first-child::before {
+      content: none;
     }
 
     @media (width >= 640px) {

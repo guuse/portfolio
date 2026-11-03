@@ -7,9 +7,9 @@ const { items } = Astro.props;
 const rows = ["Symptom", "Cause", "Fix"] as const;
 ---
 
-<ul class="gotchas" role="list">
-  {items.map((it) => (
-    <li>
+<ul class="gotchas rows reveal-set" role="list">
+  {items.map((it, i) => (
+    <li data-i={i}>
       <dl class="gotcha">
         {rows.map((r) => (
           <div>

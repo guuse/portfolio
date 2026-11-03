@@ -1,7 +1,10 @@
 ---
 import Drawing from "~/components/art/Drawing.astro";
 
-/** A small homelab diagram whose parts settle in one after another (`reveal-set`). */
+/**
+ * A small homelab diagram whose parts settle in one after another (`reveal-set`; only when it
+ * starts below the fold, which is when src/scripts/reveal.ts tags it `.reveal`).
+ */
 interface Props {
   svg: string;
   kind: "apps" | "ways";
@@ -20,24 +23,24 @@ const { svg, kind } = Astro.props;
       margin: 1rem 0 0;
     }
 
-    :global(.js-reveal) .diagram :global(:is(.tile, .way)) {
+    :global(.js-reveal) .diagram:global(.reveal) :global(:is(.tile, .way)) {
       opacity: 0;
       transform: translate3d(0, 8px, 0);
       transition:
-        opacity 500ms var(--ease-out),
-        transform 500ms var(--ease-out);
+        opacity var(--duration-slow) var(--ease-out),
+        transform var(--duration-slow) var(--ease-out);
     }
 
     /* --i comes from each tile's data-i (src/scripts/reveal.ts) */
-    :global(.js-reveal) .diagram :global(.tile) {
-      transition-delay: calc(var(--i, 0) * 60ms);
+    :global(.js-reveal) .diagram:global(.reveal) :global(.tile) {
+      transition-delay: calc(var(--i, 0) * var(--duration-stagger));
     }
 
-    :global(.js-reveal) .diagram :global(.w2) {
+    :global(.js-reveal) .diagram:global(.reveal) :global(.w2) {
       transition-delay: 250ms;
     }
 
-    :global(.js-reveal) .diagram :global(.w3) {
+    :global(.js-reveal) .diagram:global(.reveal) :global(.w3) {
       transition-delay: 500ms;
     }
 

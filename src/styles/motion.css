@@ -1,0 +1,58 @@
+/*
+ * Page motion that more than one component shares: things settling in as they enter the
+ * viewport (src/scripts/reveal.ts tags them `.reveal` and adds `.is-in` once). Utilities
+ * layer, because these are states laid over a component's own styles.
+ *
+ * Everything is gated on `.reveal`, which only JavaScript adds, and only to elements that
+ * start below the fold; without JS or with reduced motion nothing here applies.
+ */
+@layer utilities {
+  .js-reveal .reveal {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+    transition:
+      opacity var(--duration-reveal) var(--ease-out) var(--rd, 0ms),
+      transform var(--duration-reveal) var(--ease-out) var(--rd, 0ms);
+  }
+
+  .js-reveal .reveal.is-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* a whole section only fades; its rows and cards bring the movement */
+  .js-reveal .sec.reveal {
+    transform: none;
+  }
+
+  /*
+   * Rows of a list (skills, what I've learned, lessons) settle one after another, and the
+   * hairline above each row draws in from the left, like the memory bar.
+   */
+  .js-reveal .reveal-set.reveal {
+    opacity: 1;
+    transform: none;
+  }
+
+  .js-reveal .rows.reveal > [data-i] {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+    transition:
+      opacity var(--duration-slow) var(--ease-out) calc(var(--i, 0) * var(--duration-stagger)),
+      transform var(--duration-slow) var(--ease-out) calc(var(--i, 0) * var(--duration-stagger));
+  }
+
+  .js-reveal .rows.reveal > [data-i]::before {
+    transform: scaleX(0);
+    transition: transform var(--duration-reveal) var(--ease-out) calc(var(--i, 0) * var(--duration-stagger));
+  }
+
+  .js-reveal .rows.reveal.is-in > [data-i] {
+    opacity: 1;
+    transform: none;
+  }
+
+  .js-reveal .rows.reveal.is-in > [data-i]::before {
+    transform: none;
+  }
+}

@@ -6,9 +6,9 @@ interface Props {
 const { items } = Astro.props;
 ---
 
-<ul class="lessons" role="list">
-  {items.map((it) => (
-    <li>
+<ul class="lessons rows reveal-set" role="list">
+  {items.map((it, i) => (
+    <li data-i={i}>
       <p class="lessons__h" set:html={it.title} />
       <p>{it.text}</p>
     </li>
@@ -24,10 +24,20 @@ const { items } = Astro.props;
     }
 
     .lessons li {
+      position: relative;
       display: grid;
       gap: 0.25rem;
       padding-block: 1rem;
-      border-bottom: 1px solid var(--line);
+    }
+
+    /* the hairline under each lesson; a pseudo-element so it can draw in (src/styles/motion.css) */
+    .lessons li::before {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 1px;
+      background: var(--line);
+      transform-origin: left;
     }
 
     .lessons__h {
