@@ -14,17 +14,17 @@
       <ul>
         <li><a href="#experience">Experience</a></li>
         <li><a href="#projects">Projects</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
+                <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
   </div>
 </header>
 
 <main id="main" class="wrap">
-  <section class="intro" aria-labelledby="name">
-    <div>
-      <h1 class="intro__name" id="name">Guus Ekkelenkamp</h1>
+  <section class="hero" aria-labelledby="name">
+    <div class="hero__text">
+      <p class="hero__name" id="name">Guus Ekkelenkamp</p>
+      <h1 class="hero__line">I like building things that keep running.</h1>
       <p class="intro__role"><span>Tech lead infrastructure &amp; platform engineering</span><span class="sep" aria-hidden="true">·</span><span>Harborn, Rotterdam</span></p>
       <p class="intro__text">I build and run the platforms our client projects run on: Kubernetes, GitOps and infrastructure as code on AWS and Azure. Ten years at the same agency, from front-end intern to leading the infra team, and I still write code most days.</p>
       <ul class="contact-row">
@@ -33,9 +33,22 @@
         <li><a href="https://github.com/guuse" target="_blank" rel="noopener">GitHub</a></li>
       </ul>
     </div>
-    <figure class="intro__photo">
-      <img src="assets/photos/portrait.webp" width="800" height="800" alt="Guus Ekkelenkamp" fetchpriority="high" decoding="async">
-    </figure>
+    <div class="prints">
+      <figure class="print print--portrait"><img src="assets/photos/portrait.webp" width="800" height="800" alt="Guus Ekkelenkamp" fetchpriority="high" decoding="async"></figure>
+      <figure class="print print--a" data-print="bouldering"><img src="assets/photos/bouldering.webp" width="900" height="1512" alt="Guus bouldering on a sandstone block outdoors" decoding="async"></figure>
+      <figure class="print print--b" data-print="travel"><img src="assets/photos/sunset.webp" width="1000" height="1328" alt="Guus at a railing at sunset over the water" decoding="async"></figure>
+    </div>
+  </section>
+
+  <section class="likes" aria-labelledby="likes-title">
+    <h2 class="visually-hidden" id="likes-title">Outside work</h2>
+    <p class="likes__lead">Outside work, from Rotterdam:</p>
+    <ul class="likes__list">
+      <li class="like" data-lift="bouldering" tabindex="0"><img class="like__chip" src="assets/photos/bouldering.webp" width="900" height="1512" alt="" decoding="async"><span class="like__name">Bouldering</span><span class="like__line">indoors after work, outdoors on sandstone when the weekend is dry.</span></li>
+      <li class="like" data-lift="travel" tabindex="0"><img class="like__chip" src="assets/photos/sunset.webp" width="1000" height="1328" alt="" decoding="async"><span class="like__name">Travel</span><span class="like__line">usually somewhere warm, preferably somewhere I haven&rsquo;t been.</span></li>
+      <li class="like"><span class="like__mark" aria-hidden="true"></span><a class="like__name" href="mtg.html">Magic: The Gathering</a><span class="like__line">Commander with friends, and the tools I built to play it online.</span></li>
+      <li class="like"><span class="like__mark" aria-hidden="true"></span><a class="like__name" href="homelab.html">Tinkering at home</a><span class="like__line">an old laptop that runs my apps, my deployments and the lights.</span></li>
+    </ul>
   </section>
 
   <section class="sec" id="experience" aria-labelledby="experience-title">
@@ -78,6 +91,7 @@
         <div><dt>Delivery and observability</dt><dd>GitHub Actions, Prometheus, Grafana, Loki</dd></div>
         <div><dt>Security</dt><dd>ISO 27001, least-privilege IAM, OIDC, policy as code</dd></div>
         <div><dt>Code</dt><dd>Python, TypeScript, Java</dd></div>
+        <div><dt>Languages</dt><dd>Dutch (native), English (fluent)</dd></div>
         <div><dt>Certifications</dt><dd>AWS Certified (Professional level), Microsoft Azure (Associate level), Certified Kubernetes Administrator (CKA)</dd></div>
       </dl>
     </div>
@@ -106,7 +120,7 @@
           </div>
         </li>
         <li class="work__row">
-          <a class="work__thumb" href="mtg.html" tabindex="-1" aria-hidden="true"><!-- shot:thumb --><img src="assets/shots/r99-home.webp" width="1440" height="900" alt="" loading="lazy" decoding="async"><!-- /shot --></a>
+          <a class="work__thumb" href="mtg.html" tabindex="-1" aria-hidden="true"><!-- shot:thumb --><img src="assets/shots/r99-game.webp" width="1440" height="900" alt="" loading="lazy" decoding="async"><!-- /shot --></a>
           <div>
             <h3 class="work__title"><a href="mtg.html">MTG suite</a></h3>
             <p class="work__type">Personal · 2026</p>
@@ -124,20 +138,6 @@
           <li class="also__row"><span class="also__title">Scouting agents</span><span class="also__line">Claude routines that watch Marktplaats, Vinted and Funda and email me a digest.</span><span class="also__private">Private repository</span></li>
         </ul>
       </div>
-    </div>
-  </section>
-
-  <section class="sec" id="about" aria-labelledby="about-title">
-    <h2 class="sec__h" id="about-title">About</h2>
-    <div class="sec__body">
-      <p class="about__text">I live in Rotterdam. Outside work I&rsquo;m usually bouldering, travelling, or playing Commander with friends.</p>
-      <div class="about__photos">
-        <figure><img src="assets/photos/bouldering.webp" width="900" height="1512" alt="Guus bouldering on a sandstone block outdoors" decoding="async"></figure>
-        <figure><img src="assets/photos/sunset.webp" width="1000" height="1328" alt="Guus at a railing at sunset over the water" decoding="async"></figure>
-      </div>
-      <dl class="deflist deflist--short">
-        <div><dt>Languages</dt><dd>Dutch (native), English (fluent)</dd></div>
-      </dl>
     </div>
   </section>
 

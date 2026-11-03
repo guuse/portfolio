@@ -5,10 +5,10 @@
  *
  * 1. Bakes the diagrams into the project pages (between <!-- dg:id --> markers), so they
  *    read without JS; diagrams.js animates them in the browser.
- * 2. Bakes static thumbnails for Selected work on the CV (<!-- thumb:id --> markers): each is
+ * 2. Bakes static thumbnails for Selected work on the homepage (<!-- thumb:id --> markers): each is
  *    one diagram rendered once in its final state (via Playwright), cropped, not animated.
  * 3. Writes the publishable set to ./artifact/:
- *      index.html     the CV, as a fragment (no doctype/html/head/body; starts with <title>)
+ *      index.html     the homepage, as a fragment (no doctype/html/head/body; starts with <title>)
  *      platform.html, homelab.html, mtg.html   complete documents
  *      site.css, site.js, diagrams.js          shared, referenced by relative paths
  *      assets/...                              the images
@@ -129,7 +129,7 @@ function grid(slot) {
   for (const f of ["site.css", "site.js", "diagrams.js"]) fs.copyFileSync(path.join(dir, f), path.join(out, f));
   for (const f of PAGES) fs.copyFileSync(path.join(dir, f), path.join(out, f));
 
-  // The CV as a fragment: the publisher wraps it in a document.
+  // The homepage as a fragment: the publisher wraps it in a document.
   const head = cv.slice(cv.indexOf("<title>"), cv.indexOf("</head>")).replace(/<meta name="viewport"[^>]*>\n?/, "");
   const body = cv.slice(cv.indexOf("<!-- page:start -->") + "<!-- page:start -->".length, cv.indexOf("<!-- page:end -->"));
   const fragment = head.replace(/^(<title>[^<]*<\/title>)/, '$1\n<meta name="claude:viewport-fit-sides" content="cover">').trim() +

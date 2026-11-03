@@ -45,6 +45,31 @@
   /* Diagrams (project pages): already in the HTML, animated here. */
   if (window.BeeldDiagrams) window.BeeldDiagrams.mount(document);
 
+  /* Hero prints: nudge with a mouse or pen, spring back on release. */
+  Array.prototype.forEach.call(document.querySelectorAll(".print"), function (el) {
+    var sx = 0, sy = 0, id = null, LIM = 60;
+    el.addEventListener("pointerdown", function (e) {
+      if (e.button !== 0 || e.pointerType === "touch") return;
+      id = e.pointerId; sx = e.clientX; sy = e.clientY; el.setPointerCapture(id); el.classList.add("is-dragging"); e.preventDefault();
+    });
+    el.addEventListener("pointermove", function (e) {
+      if (e.pointerId !== id) return;
+      el.style.setProperty("--dx", Math.max(-LIM, Math.min(LIM, e.clientX - sx)) + "px");
+      el.style.setProperty("--dy", Math.max(-LIM, Math.min(LIM, e.clientY - sy)) + "px");
+    });
+    function end(e) { if (e.pointerId !== id) return; id = null; el.classList.remove("is-dragging"); el.style.removeProperty("--dx"); el.style.removeProperty("--dy"); }
+    el.addEventListener("pointerup", end); el.addEventListener("pointercancel", end);
+  });
+
+  /* Interests: hovering or focusing one lifts the matching print. */
+  Array.prototype.forEach.call(document.querySelectorAll("[data-lift]"), function (item) {
+    var print = document.querySelector('[data-print="' + item.getAttribute("data-lift") + '"]');
+    if (!print) return;
+    var on = function () { print.classList.add("is-lifted"); }, off = function () { print.classList.remove("is-lifted"); };
+    item.addEventListener("mouseenter", on); item.addEventListener("mouseleave", off);
+    item.addEventListener("focus", on); item.addEventListener("blur", off);
+  });
+
   /* Lightbox: any button[data-lb] inside a [data-lb-group] list. */
   var lb = document.getElementById("lightbox");
   if (!lb) return;
@@ -102,4 +127,5 @@
   lb.addEventListener("pointerdown", function (e) { if (e.pointerType !== "mouse") sx = e.clientX; });
   lb.addEventListener("pointerup", function (e) { if (sx === null) return; var dx = e.clientX - sx; sx = null; if (Math.abs(dx) > 50) step(dx < 0 ? 1 : -1); });
   void reduce;
+
 })();

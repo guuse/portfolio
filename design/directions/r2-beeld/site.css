@@ -456,3 +456,50 @@ code, pre { font-family: var(--font-mono); font-variant-ligatures: none; }
 .tthumb span:not(:last-child)::after { content: " \2193"; color: var(--ink-subtle); font-family: var(--font-sans); font-size: 0.8em; }
 .tthumb span:last-child { color: var(--ink); }
 .work__thumb { text-decoration: none; }
+
+/* ============================================================ round 10: a warmer hero */
+.hero { display: grid; gap: 2.5rem var(--gutter); align-items: center; padding-block: clamp(2rem, 1rem + 5vw, 5rem) clamp(1.5rem, 1rem + 2vw, 2.5rem); }
+@media (min-width: 960px) { .hero { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); } }
+.hero__name { font-weight: 600; font-size: var(--t-body); color: var(--ink); }
+.hero__line { margin-top: 0.75rem; font-family: var(--font-serif); font-size: clamp(2.6rem, 1.6rem + 4vw, 5.2rem); line-height: 0.98; letter-spacing: -0.02em; max-width: 11em; }
+.hero .intro__role { margin-top: 1.25rem; }
+
+.prints { position: relative; aspect-ratio: 1 / 0.92; width: min(100%, 560px); justify-self: center; border-radius: 10px;
+  background: radial-gradient(70% 60% at 55% 45%, oklch(25% 0.05 266), transparent 75%); }
+.print { position: absolute; margin: 0; padding: clamp(5px, 0.7vw, 9px); background: var(--paper); cursor: grab; user-select: none;
+  box-shadow: 0 14px 40px oklch(5% 0.03 266 / 0.55), 0 1px 2px oklch(0% 0 0 / 0.2);
+  transform: translate(var(--dx, 0px), var(--dy, 0px)) rotate(var(--tilt, 0deg));
+  transition: transform var(--dur-slow) var(--ease-spring), box-shadow var(--dur-base) var(--ease-out); }
+.print img { display: block; width: 100%; height: 100%; object-fit: cover; pointer-events: none; -webkit-user-drag: none; }
+.print--portrait { --tilt: 1.5deg; left: 22%; top: 4%; width: 58%; aspect-ratio: 1; z-index: 2; }
+.print--a { --tilt: -6deg; left: 1%; top: 34%; width: 30%; aspect-ratio: 3 / 4.4; z-index: 3; }
+.print--b { --tilt: 5deg; right: 0; bottom: 0; width: 36%; aspect-ratio: 3 / 4; z-index: 3; }
+.print:hover, .print.is-lifted { transform: translate(var(--dx, 0px), var(--dy, 0px)) rotate(0deg) translateY(-8px) scale(1.04); z-index: 5; box-shadow: 0 24px 60px oklch(5% 0.03 266 / 0.7); }
+.print.is-lifted { box-shadow: 0 24px 60px oklch(5% 0.03 266 / 0.7), 0 0 0 2px var(--accent); }
+.print.is-dragging { transition: none; cursor: grabbing; z-index: 6; }
+
+.likes { display: grid; gap: 0.75rem; padding-block: 0 clamp(3rem, 2rem + 3vw, 4.5rem); }
+.likes__lead { color: var(--ink-subtle); font-size: var(--t-small); }
+.likes__list { list-style: none; padding: 0; display: grid; gap: 0.9rem 2.5rem; }
+@media (min-width: 760px) { .likes__list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1180px) { .likes__list { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.like { display: grid; grid-template-columns: auto 1fr; column-gap: 12px; align-items: start; border-radius: 6px; outline-offset: 4px; }
+.like__name { grid-column: 2; font-family: var(--font-serif); font-size: var(--t-h3); line-height: 1.15; }
+.like a.like__name { text-decoration-color: var(--line-strong); }
+.like__line { grid-column: 2; color: var(--ink-muted); font-size: var(--t-small); line-height: 1.45; margin-top: 2px; }
+.like__mark { grid-row: 1 / span 2; width: 8px; height: 8px; margin: 0.65em 2px 0; border-radius: 50%; background: var(--accent); }
+.like__chip { grid-row: 1 / span 2; display: none; width: 44px; height: 44px; border-radius: 10px; object-fit: cover; border: 2px solid var(--paper); transform: rotate(-3deg); }
+.like[data-lift] .like__name { text-decoration: underline; text-decoration-style: dotted; text-decoration-color: var(--ink-subtle); text-underline-offset: 0.2em; }
+.like[data-lift] { cursor: default; }
+.like[data-lift]::before { content: ""; grid-row: 1 / span 2; width: 12px; height: 12px; margin-top: 0.5em; border: 1.5px solid var(--accent); border-radius: 3px; transform: rotate(-6deg); }
+.like[data-lift]:hover .like__name, .like[data-lift]:focus-visible .like__name { color: var(--accent); }
+@media (max-width: 759px) {
+  .like__chip { display: block; }
+  .like[data-lift]::before { display: none; }
+  .prints { width: min(100%, 420px); }
+}
+@media (prefers-reduced-motion: reduce) { .print { transition: none; } }
+@media (max-width: 959px) {
+  .hero .prints { order: -1; width: min(100%, 340px); justify-self: start; }
+  .hero { padding-top: 1rem; gap: 1.5rem; }
+}
