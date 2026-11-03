@@ -610,7 +610,7 @@
   .detail .plan .switches { display: none; }
   .detail figcaption { display: flex; justify-content: space-between; gap: 0.5em 1em; flex-wrap: wrap; padding: var(--space-2xs) var(--space-xs); border-top: 1px solid var(--line-strong); font-family: var(--font-mono); font-size: var(--step--2); color: var(--ink-muted); }
   .detail__tag { position: absolute; top: var(--space-xs); left: var(--space-xs); display: inline-flex; align-items: center; gap: 0.5em; font-family: var(--font-mono); font-size: var(--step--2); background: var(--surface); padding: 0.25em 0.5em; border: 1px solid var(--line-strong); }
-  .detail .anno-overlay text { font-family: var(--font-mono); font-size: 8.5px; fill: var(--ink); paint-order: stroke; stroke: var(--surface); stroke-width: 4px; stroke-linejoin: round; }
+  .detail .anno-overlay text { font-family: var(--font-mono); font-size: 8.5px; fill: var(--ink); paint-order: stroke; stroke: var(--surface); stroke-width: 3px; stroke-linejoin: round; }
   .detail .anno-overlay path { fill: none; stroke: var(--ink); stroke-width: 0.8px; vector-effect: non-scaling-stroke; }
   .detail .anno-overlay circle { fill: var(--accent); }
   .lights-status { font-family: var(--font-mono); font-size: var(--step--2); color: var(--ink-muted); min-height: 1.5em; }
