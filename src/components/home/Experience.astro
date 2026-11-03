@@ -10,7 +10,8 @@ const phases = await list("experience");
     <h3 class="org__name">Harborn</h3>
     <p class="org__where">Digital agency, Rotterdam and Amsterdam</p>
   </div>
-  <!-- the timeline line draws itself as you read: --p is set by src/scripts/scroll-effects.ts -->
+  <!-- the timeline line draws itself as you read and fills each dot it reaches: --p and
+       .is-reached are set by src/scripts/scroll-effects.ts -->
   <ol class="phases" role="list">
     {phases.map((data) => (
       <li class="phase">
@@ -96,11 +97,22 @@ const phases = await list("experience");
       border-radius: 50%;
       background: var(--surface);
       border: 1.5px solid var(--line-strong);
+      transition:
+        background-color var(--duration-base) var(--ease-out),
+        border-color var(--duration-base) var(--ease-out),
+        transform var(--duration-slow) var(--ease-spring);
     }
 
     .phase:first-child::before {
       top: 0.95rem;
       border-color: var(--accent);
+    }
+
+    /* the dot fills once the line has reached it (src/scripts/scroll-effects.ts) */
+    .phase:global(.is-reached)::before {
+      background: var(--accent);
+      border-color: var(--accent);
+      transform: scale(1.15);
     }
 
     .phase__title {
