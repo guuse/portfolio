@@ -212,13 +212,13 @@
   demo.innerHTML = demote(r.grid).replace(/id="p-[^"]+"/g, "");
   while (demo.children.length > 2) demo.removeChild(demo.lastElementChild);
   demo.children[1].classList.add("is-hot");
-  document.getElementById("illo-demo").innerHTML = P.PROJECTS.map(function (p) { return '<div style="--p: var(--tone-' + p.id + '); --p-ink: var(--pink-' + p.id + ')">' + P.visualHTML(p) + '<p class="meta" style="margin-top: 6px">' + p.id + "</p></div>"; }).join("");
+  document.getElementById("illo-demo").innerHTML = P.PROJECTS.map(function (p) { return '<div style="--p: var(--tone-' + p.id + '); --p-ink: var(--pink-' + p.id + ')">' + P.visualHTML(p, "wide") + '<p class="meta" style="margin-top: 6px">' + p.id + "</p></div>"; }).join("");
   var dd = document.getElementById("detail-demo");
-  dd.innerHTML = P.detailHTML(P.byId("finds")).replace('id="detail-title"', "").replace(/<h2/, "<p").replace(/<\/h2>/, "</p>");
-  dd.setAttribute("style", dd.getAttribute("style") + "; --p: var(--tone-finds); --p-ink: var(--pink-finds)");
+  dd.innerHTML = P.detailHTML(P.byId("scouts")).replace('id="detail-title"', "").replace(/<h2/, "<p").replace(/<\/h2>/, "</p>");
+  dd.setAttribute("style", dd.getAttribute("style") + "; --p: var(--tone-scouts); --p-ink: var(--pink-scouts)");
   var idx = document.getElementById("index-demo");
   idx.innerHTML = r.index;
-  idx.querySelector('[data-project="finds"]').classList.add("is-hot");
+  idx.querySelector('[data-project="mtg"]').classList.add("is-hot");
 
   var sp = ["3xs","2xs","xs","s","m","l","xl","2xl","3xl","4xl"];
   document.getElementById("spaces").innerHTML = sp.map(function (k) {
@@ -248,7 +248,7 @@
     ["--focus","--surface","Focus ring", 3], ["--line-strong","--surface","UI boundary", 3],
     ["--ink-muted","--surface-sunken","Code chip text", 4.5]
   ];
-  var TONES = [["portrait","Portrait"],["homelab","Homelab"],["rules-of-99","Rules of 99"],["finds","Finds"],["quizmaster","Quiz"],["scryfall","Scryfall"],["friends","About"]];
+  var TONES = [["homelab","Homelab"],["home","Home"],["mtg","MTG"],["ai","AI"],["scouts","Scouts"]];
   Array.prototype.forEach.call(document.querySelectorAll("[data-panel]"), function (panel) {
     var s = '<div class="swatches">' + SW.map(function (n) { return '<div class="sw"><i style="background: var(' + n + ')"></i>' + n.slice(2) + '<code>' + hex(tok(panel, n)) + '</code></div>'; }).join("") + "</div>";
     s += '<table class="ratios"><thead><tr><th scope="col">Pair</th><th scope="col">Aa</th><th scope="col">Ratio</th></tr></thead><tbody>';

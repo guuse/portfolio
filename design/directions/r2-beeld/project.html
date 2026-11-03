@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en" data-direction="beeld" data-option="nacht" data-type="a" data-copy-voice="nuchter">
+<html lang="en" data-direction="beeld" data-option="nacht" data-type="a">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Homelab &amp; home automation · Guus Ekkelenkamp</title>
-<meta name="description" content="A small home server that runs my apps and my home automation.">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Homelab platform · Guus Ekkelenkamp</title>
+<meta name="description" content="A small, production-style Kubernetes platform on an old laptop under the TV.">
 <script>(function(){var h=document.documentElement;function pick(k,o){var v=null;try{v=new URLSearchParams(location.search).get(k)}catch(e){}if(o.indexOf(v)<0){try{v=localStorage.getItem("r2-beeld:"+k)}catch(e){}}return o.indexOf(v)<0?o[0]:v}h.setAttribute("data-option",pick("option",["nacht","kobalt","signaal"]));h.setAttribute("data-type",pick("type",["a","b"]))})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,155 +15,77 @@
 <body>
 <a class="skip-link" href="#main">Skip to content</a>
 <div class="site">
-
 <header class="site-header">
   <div class="page site-header__inner">
     <a class="site-header__name" href="index.html">Guus Ekkelenkamp</a>
     <nav class="nav" aria-label="Main">
       <ul>
-        <li><a href="index.html#work" data-copy="nav.work">Work</a></li>
-        <li><a href="index.html#projects" data-copy="nav.projects" aria-current="true">Projects</a></li>
-        <li><a href="index.html#about" data-copy="nav.about">About</a></li>
-        <li><a href="index.html#contact" data-copy="nav.contact">Contact</a></li>
+        <li><a href="index.html#experience">Experience</a></li>
+        <li><a href="index.html#projects" aria-current="page">Projects</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
       </ul>
     </nav>
   </div>
 </header>
 
-<main id="main">
-  <article class="case" aria-labelledby="case-title">
-    <header class="page grid case-head">
-      <p class="case-head__back"><a class="arrow-link arrow-link--back" href="index.html#projects"><span aria-hidden="true">&larr;</span> All projects</a></p>
-      <h1 class="case-head__title display" id="case-title">Homelab &amp; home automation</h1>
-      <p class="case-head__line">A small home server that runs my apps and my home automation.</p>
-      <dl class="case-meta">
-        <dt>project</dt><dd>01 of 05</dd>
-        <dt>year</dt><dd>2026</dd>
-        <dt>built with</dt><dd><ul class="chips"><li>proxmox</li><li>k8s</li><li>home-assistant</li><li>zigbee</li></ul></dd>
-      </dl>
-    </header>
-
-    <figure class="case-hero">
-      <div class="ph" role="img" aria-label="Photo: the setup under the TV"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true"><span class="ph__no">01</span>Photo: the setup under the TV</span></div>
-      <figcaption class="page"><span class="meta">fig.01 &mdash; homelab/under-the-tv.jpg &middot; 16:9</span><span class="caption" style="margin: 0">The whole setup, under the TV.</span></figcaption>
-    </figure>
-
-    <section class="page grid case-section" aria-labelledby="s-what">
-      <h2 class="split__title" id="s-what">What it is</h2>
-      <div class="split__body prose">
-        <p class="lead lead--wide" style="max-width: 46ch">An old laptop under the TV runs everything: my side projects, Home Assistant and the lights.</p>
-        <p>It&rsquo;s only reachable through my own private network, and every change goes through git, so I can rebuild it in an afternoon. Next up: three small second-hand PCs to turn it into a proper cluster.</p>
-      </div>
-    </section>
-
-    <section class="page grid case-section" aria-labelledby="s-why">
-      <h2 class="split__title" id="s-why">Why I built it</h2>
-      <div class="split__body prose">
-        <p>I wanted one place for my side projects, and to try things at home before recommending them at work.</p>
-      </div>
-    </section>
-
-    <section class="page grid case-section" aria-labelledby="s-how">
-      <h2 class="split__title" id="s-how">How it works</h2>
-      <div class="split__body split__body--wide">
-        <div class="how">
-          <p class="prose" id="how-text">The laptop runs two virtual machines. One runs Kubernetes with my apps; the other runs Home Assistant with a Zigbee stick for the lights and sensors. Nothing is open to the internet; I connect through a private network (Tailscale). When I push code to GitHub, it&rsquo;s built and deployed automatically (Argo CD). Each app is described by a small file like the one here; Argo CD keeps the cluster in line with it.</p>
-          <figure class="snippet">
-            <figcaption><span class="meta"><b>apps/rules-of-99.yaml</b></span><span class="meta">Argo CD</span></figcaption>
-<pre tabindex="0" aria-label="Example Argo CD Application file"><code><span class="k">apiVersion:</span> <span class="v">argoproj.io/v1alpha1</span>
+<!-- The case-study page template: the same caseHTML() the in-page detail view uses.
+     project.html?id=<homelab|home|mtg|ai|scouts>. The Homelab is server-rendered. -->
+<main id="main" class="page case-page" data-case="homelab">
+  <p class="case-page__back"><a class="arrow-link arrow-link--back" href="index.html#projects"><span aria-hidden="true">&larr;</span> All projects</a></p>
+  <h1 class="detail__title display" id="case-title">Homelab platform</h1>
+  <div class="case" id="case-body" style="--p: var(--tone-homelab); --p-ink: var(--pink-homelab)"><!-- case:start --><div class="case__visual"><div class="ph il" style="--tone: var(--tone-homelab)"><div class="il__art" role="img" aria-label="Illustration: git push goes to Argo CD, which deploys into k3s with fifteen apps on a laptop that also runs Home Assistant, reachable only over a private network with zero open ports."><svg class="il__svg il__svg--full" viewBox="0 0 480 360" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path class="s-line" d="M128 37 H240 V100 H150 V116"/><path class="s-pulse" pathLength="600" d="M128 37 H240 V100 H150 V116"/><rect x="24" y="20" width="104" height="34" rx="6" class="s-box"/><text x="42" y="42" class="s-m s-ink">git push</text><rect x="188" y="20" width="104" height="34" rx="6" class="s-box s-box--tone"/><text x="208" y="42" class="s-m s-ink">argo cd</text><text x="306" y="42" class="s-m">syncs every app</text><rect x="24" y="84" width="432" height="212" rx="12" class="s-host"/><text x="440" y="289" class="s-m" text-anchor="end">proxmox · the laptop under the TV</text><rect x="40" y="112" width="220" height="158" rx="8" class="s-box"/><text x="56" y="136" class="s-t">k3s</text><text x="246" y="136" class="s-m" text-anchor="end">15 apps</text><rect x="56" y="150" width="104" height="24" rx="5" class="s-chip"/><text x="64" y="166.5" class="s-m s-ink">rules-of-99</text><rect x="168" y="150" width="80" height="24" rx="5" class="s-chip"/><text x="176" y="166.5" class="s-m s-ink">grimoire</text><rect x="56" y="180" width="104" height="24" rx="5" class="s-chip"/><text x="64" y="196.5" class="s-m s-ink">scryfall</text><rect x="168" y="180" width="80" height="24" rx="5" class="s-chip"/><text x="176" y="196.5" class="s-m s-ink">finds</text><rect x="56" y="210" width="104" height="24" rx="5" class="s-chip"/><text x="64" y="226.5" class="s-m s-ink">dashboard</text><rect x="168" y="210" width="80" height="24" rx="5" class="s-chip"/><text x="176" y="226.5" class="s-m s-ink">+10 more</text><rect x="276" y="112" width="164" height="158" rx="8" class="s-box"/><text x="292" y="136" class="s-t">Home Assistant</text><text x="292" y="160" class="s-m">its own VM</text><text x="292" y="180" class="s-m">zigbee over USB</text><circle cx="358" cy="232" r="10" class="s-tone"/><path class="s-line" d="M358 232 L316 214"/><circle cx="316" cy="214" r="5" class="s-node"/><path class="s-line" d="M358 232 L400 212"/><circle cx="400" cy="212" r="5" class="s-node"/><path class="s-line" d="M358 232 L320 254"/><circle cx="320" cy="254" r="5" class="s-node"/><path class="s-line" d="M358 232 L398 254"/><circle cx="398" cy="254" r="5" class="s-node"/><rect x="24" y="314" width="124" height="32" rx="6" class="s-box"/><text x="40" y="335" class="s-m s-ink">me, anywhere</text><path class="s-line s-dash" d="M148 330 H240 V296"/><text x="160" y="322" class="s-m">tailscale</text><text x="456" y="335" class="s-m s-ink" text-anchor="end">0 open ports</text></svg><svg class="il__svg il__svg--compact" viewBox="0 0 320 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path class="s-line" d="M146 36 H174"/><path class="s-line" d="M239 56 V98"/><path class="s-pulse" pathLength="600" d="M146 36 H239 V98"/><rect x="16" y="16" width="130" height="40" rx="8" class="s-box"/><text x="81" y="42" class="s-c s-ink" text-anchor="middle">git push</text><rect x="174" y="16" width="130" height="40" rx="8" class="s-box s-box--tone"/><text x="239" y="42" class="s-c s-ink" text-anchor="middle">argo cd</text><rect x="16" y="84" width="288" height="128" rx="12" class="s-host"/><rect x="30" y="98" width="150" height="100" rx="8" class="s-box"/><text x="46" y="128" class="s-t s-lg">k3s</text><text x="46" y="154" class="s-c">15 apps</text><text x="46" y="178" class="s-c">from git</text><rect x="192" y="98" width="98" height="100" rx="8" class="s-box"/><text x="206" y="128" class="s-t s-lg">Home</text><text x="206" y="152" class="s-t s-lg">Assistant</text><rect x="16" y="242" width="120" height="42" rx="8" class="s-box"/><text x="76" y="268" class="s-c s-ink" text-anchor="middle">me</text><path class="s-line s-dash" d="M136 263 H160 V212"/><text x="304" y="268" class="s-c s-ink" text-anchor="end">0 open ports</text></svg></div><span class="ph__label il__label" aria-hidden="true"><span class="ph__no">01</span>illustration</span></div></div><div class="case__intro"><div class="case__story"><p class="case__line">A small, production-style Kubernetes platform on an old laptop under the TV.</p><p>An old laptop with the lid shut runs Proxmox, a single-node k3s cluster and everything I build. It’s managed the way I’d run a client platform: one git repo, Argo CD syncing every app, wildcard TLS, and no open ports. If the disk dies, I rebuild it from the repo in an afternoon.</p></div><dl class="detail__facts"><div><dt>status</dt><dd><span class="state state--live"><span class="state__dot" aria-hidden="true"></span>Live</span></dd></div><div><dt>year</dt><dd>2026</dd></div><div><dt>built with</dt><dd><ul class="chips" aria-label="Built with"><li>proxmox</li><li>k3s</li><li>argo-cd</li><li>image-updater</li><li>cert-manager</li><li>traefik</li><li>tailscale</li><li>cloudflare</li></ul></dd></div><div><dt>code</dt><dd><span class="meta">Repository is private</span></dd></div></dl></div><section class="case__sec"><h3 class="case__h">in numbers</h3><dl class="stats tnum"><div><dt>memory</dt><dd>16 GB</dd></div><div><dt>virtual machines</dt><dd>2</dd></div><div><dt>Argo CD applications</dt><dd>15</dd></div><div><dt>open ports</dt><dd>0</dd></div></dl></section><section class="case__sec"><h3 class="case__h">where the 16 GB goes</h3><div class="ram" aria-hidden="true"><span class="ram__seg ram__seg--0" style="flex: 10"><b>10 GB</b> k3s</span><span class="ram__seg ram__seg--1" style="flex: 3"><b>3 GB</b> Home Assistant</span><span class="ram__seg ram__seg--2" style="flex: 2"><b>~2 GB</b> host</span><span class="ram__seg ram__seg--3" style="flex: 1"><b>~1 GB</b> spare</span></div><ul class="visually-hidden"><li>10 GB of 16 for k3s</li><li>3 GB of 16 for Home Assistant</li><li>about 2 GB of 16 for host</li><li>about 1 GB of 16 for spare</li></ul></section><section class="case__sec"><h3 class="case__h">how it works</h3><ol class="learned"><li><p>Proxmox runs two VMs: Ubuntu with k3s for the apps, and Home Assistant OS (see the next project). The laptop battery doubles as a UPS.</p></li><li><p>Argo CD watches one repo with an app-of-apps root that manages itself. Each app is one Application file; adding a repo is adding a file.</p></li><li><p>GitHub Actions builds every app to an immutable commit-SHA image on GHCR. Argo CD Image Updater commits the new tag back to git, and Argo rolls it out.</p></li><li><p>cert-manager gets one wildcard Let’s Encrypt certificate via Cloudflare DNS-01; Traefik serves it for every app, so no app needs its own certificate.</p></li><li><p>Three ways in, all opt-in: the private tailnet by default, a Cloudflare Tunnel with Access for a few public hostnames, and Tailscale Funnel for a party-night URL.</p></li></ol></section><section class="case__sec"><h3 class="case__h">decisions</h3><dl class="decisions"><div><dt>k3s in a VM, not LXC</dt><dd>Kubernetes in a container needs privileged mode and breaks on upgrades.</dd></div><div><dt>Home Assistant next to the cluster, not in it</dt><dd>USB passthrough to a VM is one line.</dd></div><div><dt>Snapshots, no off-site backups</dt><dd>Everything is rebuildable from git, by choice.</dd></div></dl></section><section class="case__sec"><h3 class="case__h">learned the hard way</h3><ul class="gotchas"><li>Disk pressure at 30 GiB on a 500 GB SSD: the Ubuntu installer allocated only half the disk. One <code>lvextend</code>, zero downtime.</li><li>Growing a disk on the host doesn’t tell the guest. Resize through Proxmox, not <code>lvextend</code>.</li><li>MagicDNS without a global nameserver broke public DNS on every Linux node.</li></ul></section><section class="case__sec"><h3 class="case__h">one app, one file</h3><p class="case__note-lead">Every app on the platform is one small file like this. Argo CD keeps the cluster in line with it.</p><figure class="snippet"><figcaption><span class="meta"><b>applications/rules-of-99.yaml</b></span><span class="meta">Argo CD</span></figcaption><pre tabindex="0" aria-label="Example Argo CD Application file"><code><span class="k">apiVersion:</span> <span class="v">argoproj.io/v1alpha1</span>
 <span class="k">kind:</span> <span class="v">Application</span>
 <span class="k">metadata:</span> { <span class="k">name:</span> <span class="v">rules-of-99</span> }
 <span class="k">spec:</span>
   <span class="k">source:</span>
-    <span class="k">repoURL:</span> <span class="v">https://github.com/&lt;you&gt;/homeserver.git</span>
-    <span class="k">path:</span> <span class="v">apps/rules-of-99</span>
+    <span class="k">repoURL:</span> <span class="v">…/rules-of-99.git</span>
+    <span class="k">path:</span> <span class="v">deploy</span>
   <span class="k">syncPolicy:</span>
     <span class="c"># fix drift, remove what's gone</span>
-    <span class="k">automated:</span> { <span class="k">prune:</span> <span class="v">true</span>, <span class="k">selfHeal:</span> <span class="v">true</span> }</code></pre>
-          </figure>
-        </div>
-        <figure class="diagram" aria-describedby="how-text">
-          <div class="diagram__box"><h4>Me</h4><p>Phone or laptop, anywhere</p></div>
-          <div class="diagram__arrow">tailscale <span aria-hidden="true"><span class="arr-h">&rarr;</span><span class="arr-v">&darr;</span></span><span class="visually-hidden"> private network to the laptop</span></div>
-          <div class="diagram__box diagram__host">
-            <h4>The laptop under the TV</h4>
-            <div class="diagram__vms">
-              <div class="diagram__box diagram__vm"><h4>VM 1 · Kubernetes</h4><p>My 7 apps, deployed by Argo CD</p></div>
-              <div class="diagram__box diagram__vm"><h4>VM 2 · Home Assistant</h4><p>Zigbee stick for the lights and sensors</p></div>
-            </div>
-          </div>
-          <div class="diagram__arrow"><span aria-hidden="true"><span class="arr-h">&larr;</span><span class="arr-v">&uarr;</span></span> argo cd<span class="visually-hidden"> deploys from GitHub</span></div>
-          <div class="diagram__box"><h4>GitHub</h4><p>I push code, it gets built</p></div>
-        </figure>
-      </div>
-    </section>
-
-    <div class="page grid pair">
-      <figure class="pair__a">
-        <div class="ph" style="--tone: var(--tone-homelab); --ratio: 4 / 5" role="img" aria-label="Photo: the wall panel"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true"><span class="ph__no">02</span>Photo: the wall panel</span></div>
-        <figcaption><p class="meta" style="margin-block-start: var(--space-xs)">fig.02 &mdash; homelab/wall-panel.jpg &middot; 4:5</p><p class="caption">The wall panel, where the house gets switched on and off.</p></figcaption>
-      </figure>
-      <figure class="pair__b">
-        <div class="ph" style="--tone: var(--tone-scryfall); --ratio: 1 / 1" role="img" aria-label="Photo: the Zigbee stick on its cable"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true"><span class="ph__no">03</span>Photo: the Zigbee stick on its cable</span></div>
-        <figcaption><p class="meta" style="margin-block-start: var(--space-xs)">fig.03 &mdash; homelab/zigbee-stick.jpg &middot; 1:1</p><p class="caption">The Zigbee stick that talks to the lights and sensors.</p></figcaption>
-      </figure>
-    </div>
-
-    <section class="page grid case-section" aria-labelledby="s-numbers">
-      <h2 class="split__title" id="s-numbers">A few numbers</h2>
-      <div class="split__body">
-        <dl class="stats tnum">
-          <div><dt>GB memory</dt><dd>16</dd></div>
-          <div><dt>virtual machines</dt><dd>2</dd></div>
-          <div><dt>of my own apps</dt><dd>7</dd></div>
-          <div><dt>open ports</dt><dd>0</dd></div>
-        </dl>
-      </div>
-    </section>
-
-    <section class="page grid case-section" aria-labelledby="s-learned">
-      <h2 class="split__title" id="s-learned">What I learned</h2>
-      <div class="split__body">
-        <ol class="learned">
-          <li><p>Small mistakes in disk setup add up. Check how much space the installer really gave you.</p></li>
-          <li><p>Keep a simple way in that works when everything else breaks.</p></li>
-          <li><p>Writing everything down makes rebuilding boring, which is exactly what you want.</p></li>
-        </ol>
-      </div>
-    </section>
-
-    <section class="page grid case-section" aria-labelledby="s-next">
-      <h2 class="split__title" id="s-next">What&rsquo;s next</h2>
-      <div class="split__body prose">
-        <p>Three small second-hand PCs in a 3D-printed rack.</p>
-      </div>
-    </section>
-  </article>
-
-  <nav class="page next" aria-label="Next project">
-    <a class="next__link" href="project.html" style="--p: var(--tone-rules-of-99); --p-ink: var(--pink-rules-of-99)">
-      <div class="next__text">
-        <p class="meta">next &middot; 02 of 05</p>
-        <p class="next__title">Rules of 99</p>
-        <p class="muted" style="margin-block-start: var(--space-2xs)">Play Commander (Magic: The Gathering) with friends in the browser.</p>
-      </div>
-      <div class="next__media"><div class="ph" style="--tone: var(--tone-rules-of-99)" role="img" aria-label="Screenshot: a 4-player game"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true"><span class="ph__no">02</span>Screenshot: a 4-player game</span></div></div>
-    </a>
-  </nav>
+    <span class="k">automated:</span> { <span class="k">prune:</span> <span class="v">true</span>, <span class="k">selfHeal:</span> <span class="v">true</span> }</code></pre></figure></section><!-- case:end --></div>
 </main>
 
 <footer class="site-footer">
   <div class="page site-footer__inner">
-    <p data-copy="footer.note">&copy; 2026 Guus Ekkelenkamp</p>
+    <p>&copy; 2026 Guus Ekkelenkamp</p>
     <!-- Status line: illustrative values. A build step fills in the real commit and date. -->
     <p class="status"><span class="status__dot" aria-hidden="true"></span><span>all systems normal</span><span aria-hidden="true">&middot;</span><span>last deploy <span data-build="commit">a1c9e2f</span></span><span aria-hidden="true">&middot;</span><span data-build="date">3 Nov 2026</span></p>
-    <a href="#main">Back to top</a>
+    <a href="#main">Back to top <span aria-hidden="true">&uarr;</span></a>
   </div>
 </footer>
-
 </div>
 
-<script src="../../system/copy.js"></script>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Screenshot viewer" hidden>
+  <div class="lightbox__stage"><img class="lightbox__img" alt="" decoding="async"></div>
+  <div class="lightbox__bar">
+    <p class="lightbox__cap" aria-live="polite"></p>
+    <span class="lightbox__count meta"></span>
+    <div class="lightbox__nav">
+      <button type="button" class="detail__btn" data-lb-prev aria-label="Previous screenshot"><span aria-hidden="true">&larr;</span></button>
+      <button type="button" class="detail__btn" data-lb-next aria-label="Next screenshot"><span aria-hidden="true">&rarr;</span></button>
+      <button type="button" class="detail__btn detail__close" data-lb-close aria-label="Close viewer"><span aria-hidden="true">&#x2715;</span><span class="detail__btn-text">Close</span></button>
+    </div>
+  </div>
+</div>
+
+<script src="projects.js"></script>
+<script>
+(function () {
+  var P = window.BeeldProjects, id = null;
+  try { id = new URLSearchParams(location.search).get("id"); } catch (e) {}
+  var p = P.byId(id);
+  if (!p || p.id === "homelab") return;
+  var main = document.getElementById("main");
+  main.setAttribute("data-case", p.id);
+  document.getElementById("case-title").textContent = p.title;
+  document.title = p.title + " · Guus Ekkelenkamp";
+  var body = document.getElementById("case-body");
+  body.setAttribute("style", "--p: var(--tone-" + p.id + "); --p-ink: var(--pink-" + p.id + ")");
+  body.innerHTML = P.caseHTML(p);
+})();
+</script>
+<script src="site.js"></script>
 <script src="review.js"></script>
 </body>
 </html>

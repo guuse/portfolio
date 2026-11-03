@@ -19,6 +19,10 @@ for (const k of ["featured", "grid", "index"]) {
   html = html.replace(new RegExp("<!-- " + k + ":start -->[\\s\\S]*?<!-- " + k + ":end -->"), "<!-- " + k + ":start -->" + out[k] + "<!-- " + k + ":end -->");
 }
 fs.writeFileSync(path.join(dir, "index.html"), html);
+// ...and the Homelab case study into project.html (the page template).
+let proj = read("project.html");
+proj = proj.replace(/<!-- case:start -->[\s\S]*?<!-- case:end -->/, "<!-- case:start -->" + P.caseHTML(P.byId("homelab")) + "<!-- case:end -->");
+fs.writeFileSync(path.join(dir, "project.html"), proj);
 
 // 2. Take the page markup (skip link → detail shell), drop repo-only bits and comments.
 const start = html.indexOf('<a class="skip-link"');
