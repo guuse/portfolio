@@ -503,3 +503,4 @@ code, pre { font-family: var(--font-mono); font-variant-ligatures: none; }
   .hero .prints { order: -1; width: min(100%, 340px); justify-self: start; }
   .hero { padding-top: 1rem; gap: 1.5rem; }
 }
+.shotgrid .is-phone img { max-width: 220px; }

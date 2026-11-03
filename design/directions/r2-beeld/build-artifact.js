@@ -30,11 +30,11 @@ const THUMBS = { delivery: "10 100 360 270", push: "10 10 400 300" };
 /* Screenshot slots. Each slot lists candidate files in order of preference; the build uses the
    first one that exists in assets/shots, so new screenshots drop in without editing HTML. */
 const SHOT = {
-  "r99-game": ["Rules of 99 during a four-player Commander game", "A four-player game in progress."],
-  "r99-game-combat": ["Rules of 99 during combat in a Commander game", "Combat, with every board on screen."],
-  "r99-game-stack": ["Rules of 99 with spells on the stack", "Spells on the stack, waiting for responses."],
+  "r99-game": ["Rules of 99: a four-player Commander table in the main phase, every board on screen", "A four-player game, with every board on screen."],
+  "r99-game-combat": ["Rules of 99 during combat: four attackers, with arrows to the player they attack", "Combat: four attackers, each with an arrow to its target."],
+  "r99-game-stack": ["Rules of 99 with Chaos Warp on the stack and an arrow to its target", "Chaos Warp on the stack, waiting for responses."],
   "r99-game-mobile": ["Rules of 99 game on a phone", "On a phone, one board at a time.", true],
-  "r99-lobby": ["Rules of 99 lobby with open seats", "The lobby: share the room code, fill the seats."],
+  "r99-lobby": ["Rules of 99 home screen after signing in", "Home after signing in: your decks and open tables."],
   "r99-workbench-new": ["Rules of 99 deck workbench", "The workbench for building and tuning a deck."],
   "r99-home": ["Rules of 99 home screen with the last deck played and a Play button", "Home: continue with the last deck, or open a table."],
   "r99-table-setup": ["Rules of 99 table setup with four seats, each with a commander", "Table setup: two to four seats, each with its commander."],
@@ -43,17 +43,19 @@ const SHOT = {
   "r99-home-mobile": ["Rules of 99 home screen on a phone", "On a phone.", true],
   "tutor-library": ["Tutor deck library with commander art for each deck", "The library: every deck at a glance."],
   "tutor-builder": ["Tutor deck builder listing a deck's cards by category", "The builder, with legality and colour identity checked."],
-  "tutor-analysis": ["Tutor deck analysis with mana curve, colour sources and a bracket estimate", "Analysis: mana curve, colour sources and a bracket estimate."],
+  "tutor-analysis": ["Tutor deck insights comparing the deck's shape with 97 real decks, with a 50 euro upgrade suggestion", "Insights: how the deck compares with 97 real decks, and what a €50 upgrade would add."],
+  "tutor-insights": ["Tutor listing staple cards the deck is missing", "Staples the deck is missing."],
   "tutor-mobile": ["Tutor on a phone", "On a phone.", true],
+  "tutor-mobile-deck": ["A Tutor deck on a phone", "A deck on a phone.", true],
   "scryfall-result": ["Scryfall in plain words: a request turned into a query, with a breakdown of each part", "A request in plain words, the query it became, and what each part means."],
   "scryfall-mobile": ["Scryfall in plain words on a phone", "On a phone.", true],
   "mtg-skills-banner": ["MTG Skills for Claude Code banner", "The plugin marketplace."]
 };
 const SLOTS = {
-  hero: [["r99-game", "r99-home"]],
-  thumb: [["r99-game", "r99-home"]],
-  r99: [["r99-game-combat", "r99-game-stack", "r99-table-setup"], ["r99-lobby", "r99-replay"], ["r99-workbench-new", "r99-workbench"], ["r99-game-mobile", "r99-home-mobile"]],
-  tutor: [["tutor-library"], ["tutor-builder"], ["tutor-analysis"], ["tutor-mobile"]],
+  hero: [["r99-game-combat", "r99-game", "r99-home"]],
+  thumb: [["r99-game-combat", "r99-game", "r99-home"]],
+  r99: [["r99-game"], ["r99-game-stack"], ["r99-game-combat"], ["r99-game-mobile"], ["r99-lobby"], ["r99-workbench-new"]],
+  tutor: [["tutor-library"], ["tutor-builder"], ["tutor-analysis"], ["tutor-insights"], ["tutor-mobile"], ["tutor-mobile-deck"]],
   scryfall: [["scryfall-result"], ["scryfall-mobile"]],
   skills: [["mtg-skills-banner"]]
 };
@@ -76,7 +78,8 @@ function pick(slot) {
 function esc(s) { return s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/'/g, "&#39;"); }
 function img(id, lazy) {
   const [w, h] = webpSize(path.join(dir, "assets/shots", id + ".webp"));
-  return '<img src="assets/shots/' + id + '.webp" width="' + w + '" height="' + h + '" alt="' + esc(SHOT[id][0]) + '"' + (lazy ? ' loading="lazy"' : "") + ' decoding="async">';
+  const x2 = fs.existsSync(path.join(dir, "assets/shots", id + "@2x.webp")) ? ' srcset="assets/shots/' + id + '.webp 1x, assets/shots/' + id + '@2x.webp 2x"' : "";
+  return '<img src="assets/shots/' + id + '.webp"' + x2 + ' width="' + w + '" height="' + h + '" alt="' + esc(SHOT[id][0]) + '"' + (lazy ? ' loading="lazy"' : "") + ' decoding="async">';
 }
 function grid(slot) {
   const ids = pick(slot);
@@ -125,7 +128,7 @@ function grid(slot) {
   // 3. the publishable set
   fs.rmSync(out, { recursive: true, force: true });
   fs.mkdirSync(path.join(out, "assets"), { recursive: true });
-  fs.cpSync(path.join(dir, "assets"), path.join(out, "assets"), { recursive: true, filter: (src) => !/grimoire-/.test(src) });
+  fs.cpSync(path.join(dir, "assets"), path.join(out, "assets"), { recursive: true, filter: (src) => !/grimoire-|r99-(home|table-setup|replay|card|workbench)\.webp|r99-home-mobile/.test(src) });
   for (const f of ["site.css", "site.js", "diagrams.js"]) fs.copyFileSync(path.join(dir, f), path.join(out, f));
   for (const f of PAGES) fs.copyFileSync(path.join(dir, f), path.join(out, f));
 
