@@ -394,3 +394,23 @@ Source: `design/CONTENT-v7.md` (synthesis of four reviews). §E (anti-"AI vibe")
 - **Grimoire is now Tutor.** Screenshot slots are filled by `build-artifact.js` from the first
   existing file in each candidate list (`SLOTS`), so the new `tutor-*` and `r99-game*` files
   drop in on the next build. `grimoire-*` is no longer used or copied.
+
+## Round 11: the Rules of 99 home, translated
+- **Home:**
+  - a full-bleed cinematic hero (bouldering photo under a scrim, serif headline, gold kicker);
+  - a stat row (10+ years, 8 clusters, 1,500+ pods, CKA);
+  - a gold "See projects" button with email/copy, LinkedIn and GitHub as secondary actions;
+  - the portrait and sunset as prints (hover lift, drag);
+  - a cover-card strip of the three projects with "All projects";
+  - shortened Experience, Skills and certifications, Outside work (hover lifts the matching
+    photo; Travel now reads "mostly in Asia; Japan is my favourite"), and Contact.
+- **`projects.html`:** big image-led cards (cover, meta, one-liner, 4 facts, stack, case-study
+  button) plus the Also list. Nav: Home, Projects, Experience, Contact.
+- **Case studies:** each opens with its cover as a hero, with a scrim and the title over it.
+  MTG shows each app by its home screen (Rules of 99 lobby, Tutor library, Scryfall home on
+  desktop and phone, skills banner), plus one in-game shot (combat) and Tutor's analysis.
+- **`covers.js`:** renders designed covers with Playwright at 2× and writes
+  `assets/covers/<id>-{wide,card}.webp` with @2x. The platform cover is the delivery flow, the
+  homelab cover is the laptop with three ways in, and the MTG cover is a collage of the three
+  app homes. `build-artifact.js` runs it and copies only the screenshots still in use.
+- **Palette:** near-black base, warm white text, the gold of the Play button.

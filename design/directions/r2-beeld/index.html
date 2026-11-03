@@ -19,45 +19,50 @@
     <a class="site-header__name" href="index.html">Guus Ekkelenkamp</a>
     <nav class="nav" aria-label="Main">
       <ul>
-        <li><a href="#experience">Experience</a></li>
-        <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
+        <li><a href="index.html" aria-current="page">Home</a></li>
+        <li><a href="projects.html">Projects</a></li>
+        <li><a href="index.html#experience">Experience</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
       </ul>
     </nav>
   </div>
 </header>
 
-<main id="main" class="wrap">
-  <section class="hero" aria-labelledby="name">
-    <div class="hero__text">
-      <p class="hero__name" id="name">Guus Ekkelenkamp</p>
-      <h1 class="hero__line">I like building things that keep running.</h1>
-      <p class="intro__role"><span>Tech lead infrastructure &amp; platform engineering</span><span class="sep" aria-hidden="true">·</span><span>Harborn, Rotterdam</span></p>
-      <p class="intro__text">I build and run the platforms our client projects run on: Kubernetes, GitOps and infrastructure as code on AWS and Azure. Ten years at the same agency, from front-end intern to leading the infra team, and I still write code most days.</p>
-      <ul class="contact-row">
-        <li class="email"><span class="email__addr" id="mail-top">ekkelenkampguus@gmail.com</span><button type="button" class="copy" data-copy-target="mail-top" aria-describedby="copy-status-top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="1"/><path d="M16 8V4H4v12h4"/></svg><span class="copy__label">Copy</span></button><span class="visually-hidden" id="copy-status-top" role="status" aria-live="polite"></span></li>
-        <li><a href="https://www.linkedin.com/in/guus-ekkelenkamp/" target="_blank" rel="noopener">LinkedIn</a></li>
-        <li><a href="https://github.com/guuse" target="_blank" rel="noopener">GitHub</a></li>
-      </ul>
-    </div>
-    <div class="prints">
-      <figure class="print print--portrait"><img src="assets/photos/portrait.webp" width="800" height="800" alt="Guus Ekkelenkamp" fetchpriority="high" decoding="async"></figure>
-      <figure class="print print--a" data-print="bouldering"><img src="assets/photos/bouldering.webp" width="900" height="1512" alt="Guus bouldering on a sandstone block outdoors" decoding="async"></figure>
-      <figure class="print print--b" data-print="travel"><img src="assets/photos/sunset.webp" width="1000" height="1328" alt="Guus at a railing at sunset over the water" decoding="async"></figure>
+<main id="main">
+  <section class="stage" aria-labelledby="hero-title">
+    <div class="stage__bg" data-print="bouldering"><img src="assets/photos/bouldering.webp" width="900" height="1512" alt="" decoding="async"></div>
+    <div class="wrap stage__inner">
+      <div class="stage__text">
+        <p class="stage__kicker">Guus Ekkelenkamp · Rotterdam</p>
+        <h1 class="stage__title" id="hero-title">I like building things that keep running.</h1>
+        <p class="stage__role">Tech lead infrastructure &amp; platform engineering at Harborn</p>
+        <p class="stage__intro">I build and run the platforms our client projects run on: Kubernetes, GitOps and infrastructure as code on AWS and Azure. Ten years at the same agency, from front-end intern to leading the infra team, and I still write code most days.</p>
+        <dl class="stats">
+          <div><dd>10+</dd><dt>years</dt></div>
+          <div><dd>8</dd><dt>clusters</dt></div>
+          <div><dd>1,500+</dd><dt>pods</dt></div>
+          <div><dd>CKA</dd><dt>certified</dt></div>
+        </dl>
+        <div class="actions">
+          <a class="btn-gold" href="projects.html">See projects <span aria-hidden="true">&rarr;</span></a>
+          <span class="actions__mail"><span class="email__addr" id="mail-top">ekkelenkampguus@gmail.com</span><button type="button" class="copy" data-copy-target="mail-top" aria-describedby="copy-status-top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="1"/><path d="M16 8V4H4v12h4"/></svg><span class="copy__label">Copy email</span></button><span class="visually-hidden" id="copy-status-top" role="status" aria-live="polite"></span></span>
+          <a class="btn-ghost" href="https://www.linkedin.com/in/guus-ekkelenkamp/" target="_blank" rel="noopener">LinkedIn</a>
+          <a class="btn-ghost" href="https://github.com/guuse" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+      <div class="stage__prints">
+        <figure class="print print--portrait"><img src="assets/photos/portrait.webp" width="800" height="800" alt="Guus Ekkelenkamp" decoding="async"></figure>
+        <figure class="print print--a" data-print="travel"><img src="assets/photos/sunset.webp" width="1000" height="1328" alt="Guus at a railing at sunset over the water" decoding="async"></figure>
+      </div>
     </div>
   </section>
 
-  <section class="likes" aria-labelledby="likes-title">
-    <h2 class="visually-hidden" id="likes-title">Outside work</h2>
-    <p class="likes__lead">Outside work, from Rotterdam:</p>
-    <ul class="likes__list">
-      <li class="like" data-lift="bouldering" tabindex="0"><img class="like__chip" src="assets/photos/bouldering.webp" width="900" height="1512" alt="" decoding="async"><span class="like__name">Bouldering</span><span class="like__line">indoors after work, outdoors on sandstone when the weekend is dry.</span></li>
-      <li class="like" data-lift="travel" tabindex="0"><img class="like__chip" src="assets/photos/sunset.webp" width="1000" height="1328" alt="" decoding="async"><span class="like__name">Travel</span><span class="like__line">usually somewhere warm, preferably somewhere I haven&rsquo;t been.</span></li>
-      <li class="like"><span class="like__mark" aria-hidden="true"></span><a class="like__name" href="mtg.html">Magic: The Gathering</a><span class="like__line">Commander with friends, and the tools I built to play it online.</span></li>
-      <li class="like"><span class="like__mark" aria-hidden="true"></span><a class="like__name" href="homelab.html">Tinkering at home</a><span class="like__line">an old laptop that runs my apps, my deployments and the lights.</span></li>
-    </ul>
+  <section class="wrap strip" id="projects" aria-labelledby="projects-title">
+    <div class="strip__head"><h2 class="strip__h" id="projects-title">Projects</h2><a class="strip__all" href="projects.html">All projects <span aria-hidden="true">&rarr;</span></a></div>
+    <ul class="covers"><li class="cover"><a class="cover__link" href="platform.html"><picture><source media="(max-width: 699px)" srcset="assets/covers/platform-wide.webp 1x, assets/covers/platform-wide@2x.webp 2x" width="1600" height="1000"><img class="cover__img" src="assets/covers/platform-card.webp" srcset="assets/covers/platform-card.webp 1x, assets/covers/platform-card@2x.webp 2x" width="800" height="1000" alt="" loading="lazy" decoding="async"></picture><span class="cover__text"><span class="cover__meta">Work · 2022 to now</span><span class="cover__title">Hosting platform</span><span class="cover__line">The Kubernetes platform our client projects run on: AWS first, the same setup on Azure.</span></span></a></li><li class="cover"><a class="cover__link" href="homelab.html"><picture><source media="(max-width: 699px)" srcset="assets/covers/homelab-wide.webp 1x, assets/covers/homelab-wide@2x.webp 2x" width="1600" height="1000"><img class="cover__img" src="assets/covers/homelab-card.webp" srcset="assets/covers/homelab-card.webp 1x, assets/covers/homelab-card@2x.webp 2x" width="800" height="1000" alt="" loading="lazy" decoding="async"></picture><span class="cover__text"><span class="cover__meta">Personal · 2026</span><span class="cover__title">Homelab</span><span class="cover__line">The patterns I use at work, on one old laptop at home.</span></span></a></li><li class="cover"><a class="cover__link" href="mtg.html"><picture><source media="(max-width: 699px)" srcset="assets/covers/mtg-wide.webp 1x, assets/covers/mtg-wide@2x.webp 2x" width="1600" height="1000"><img class="cover__img" src="assets/covers/mtg-card.webp" srcset="assets/covers/mtg-card.webp 1x, assets/covers/mtg-card@2x.webp 2x" width="800" height="1000" alt="" loading="lazy" decoding="async"></picture><span class="cover__text"><span class="cover__meta">Personal · 2026</span><span class="cover__title">MTG suite</span><span class="cover__line">Four tools for Magic: The Gathering, all running on the homelab.</span></span></a></li></ul>
   </section>
 
+  <div class="wrap">
   <section class="sec" id="experience" aria-labelledby="experience-title">
     <h2 class="sec__h" id="experience-title">Experience</h2>
     <div class="sec__body">
@@ -66,8 +71,8 @@
         <li class="phase">
           <h4 class="phase__title">Tech lead infrastructure <span class="phase__years">2024–now</span></h4>
           <ul>
-            <li>Designed and built the hosting platform our client projects run on: 8 Kubernetes clusters for Dutch and international clients, on AWS (Ireland and Tokyo) and Azure; the largest runs more than 1,500 pods. <a href="platform.html">Hosting platform case study</a></li>
-            <li>Moving infrastructure delivery to Pulumi, with policy checks, a reviewed plan and a plan check before apply, so only the pipeline changes production. <a href="platform.html#infra">How the pipeline works</a></li>
+            <li>Designed and built the <a href="platform.html">hosting platform</a> our client projects run on: 8 Kubernetes clusters on AWS (Ireland and Tokyo) and Azure.</li>
+            <li>Moving infrastructure delivery to Pulumi, so only a reviewed pipeline changes production.</li>
             <li>Lead the infra team (up to four engineers): priorities, reviews, mentoring, and training programmes with clients.</li>
             <li>Security officer for our ISO 27001 certification: I built, run and audit the information security management system.</li>
           </ul>
@@ -89,7 +94,7 @@
   </section>
 
   <section class="sec" id="skills" aria-labelledby="skills-title">
-    <h2 class="sec__h" id="skills-title">Skills</h2>
+    <h2 class="sec__h" id="skills-title">Skills and certifications</h2>
     <div class="sec__body">
       <dl class="deflist">
         <div><dt>Kubernetes and GitOps</dt><dd>EKS, AKS, k3s, Argo CD, Helm, Kustomize, custom operators in Python</dd></div>
@@ -104,47 +109,16 @@
     </div>
   </section>
 
-  <section class="sec" id="projects" aria-labelledby="projects-title">
-    <h2 class="sec__h" id="projects-title">Selected work</h2>
-    <div class="sec__body">
-      <ul class="work">
-        <li class="work__row">
-          <a class="work__thumb" href="platform.html" tabindex="-1" aria-hidden="true"><span class="tthumb" aria-hidden="true"><span>commit</span><span>CI</span><span>registry</span><span>Argo CD</span><span>acceptance, production</span></span></a>
-          <div>
-            <h3 class="work__title"><a href="platform.html">Hosting platform</a></h3>
-            <p class="work__type">Work · 2022 to now</p>
-            <p class="work__line">How our client apps get built, deployed and monitored, and how infrastructure changes reach production through one gated pipeline.</p>
-            <a class="work__link" href="platform.html">Read the case study<span class="visually-hidden">: hosting platform</span></a>
-          </div>
-        </li>
-        <li class="work__row">
-          <a class="work__thumb" href="homelab.html" tabindex="-1" aria-hidden="true"><span class="tthumb" aria-hidden="true"><span>Proxmox</span><span>k3s</span><span>Argo CD</span><span>Home Assistant</span><span>Tailscale</span></span></a>
-          <div>
-            <h3 class="work__title"><a href="homelab.html">Homelab</a></h3>
-            <p class="work__type">Personal · 2026</p>
-            <p class="work__line">The same patterns on one old laptop under the TV: k3s, Argo CD and Home Assistant, with no open ports.</p>
-            <a class="work__link" href="homelab.html">Read the case study<span class="visually-hidden">: homelab</span></a>
-          </div>
-        </li>
-        <li class="work__row">
-          <a class="work__thumb" href="mtg.html" tabindex="-1" aria-hidden="true"><!-- shot:thumb --><img src="assets/shots/r99-game-combat.webp" srcset="assets/shots/r99-game-combat.webp 1x, assets/shots/r99-game-combat@2x.webp 2x" width="1440" height="900" alt="" loading="lazy" decoding="async"><!-- /shot --></a>
-          <div>
-            <h3 class="work__title"><a href="mtg.html">MTG suite</a></h3>
-            <p class="work__type">Personal · 2026</p>
-            <p class="work__line">Four tools for Magic: The Gathering, running on the homelab, including a Commander table in the browser and a deck builder called Tutor.</p>
-            <a class="work__link" href="mtg.html">Read the case study<span class="visually-hidden">: MTG suite</span></a>
-          </div>
-        </li>
-      </ul>
 
-      <div class="also">
-        <h3 class="also__h">Also</h3>
-        <ul class="also__list">
-          <li class="also__row"><span class="also__title" lang="nl">Uren-assistent</span><span class="also__line">A desktop app that turns a day&rsquo;s activity into booked hours.</span><a class="also__link" href="https://github.com/guuse/uren-assistent" target="_blank" rel="noopener">GitHub<span class="visually-hidden">: Uren-assistent</span></a></li>
-          <li class="also__row"><span class="also__title">ux-testing skill</span><span class="also__line">A Claude Code skill that tests a web app&rsquo;s flows in a real browser and fixes what breaks.</span><a class="also__link" href="https://github.com/guuse/claude-marketplace" target="_blank" rel="noopener">GitHub<span class="visually-hidden">: ux-testing skill</span></a></li>
-          <li class="also__row"><span class="also__title">Scouting agents</span><span class="also__line">Claude routines that watch Marktplaats, Vinted and Funda and email me a digest.</span><span class="also__private">Private repository</span></li>
-        </ul>
-      </div>
+  <section class="sec" id="outside" aria-labelledby="outside-title">
+    <h2 class="sec__h" id="outside-title">Outside work</h2>
+    <div class="sec__body">
+      <ul class="likes__list">
+        <li class="like" data-lift="bouldering" tabindex="0"><img class="like__chip" src="assets/photos/bouldering.webp" width="900" height="1512" alt="" loading="lazy" decoding="async"><span class="like__name">Bouldering</span><span class="like__line">Indoors after work, outdoors on sandstone when the weekend is dry.</span></li>
+        <li class="like" data-lift="travel" tabindex="0"><img class="like__chip" src="assets/photos/sunset.webp" width="1000" height="1328" alt="" loading="lazy" decoding="async"><span class="like__name">Travel</span><span class="like__line">Travelling, mostly in Asia; Japan is my favourite.</span></li>
+        <li class="like"><span class="like__mark" aria-hidden="true"></span><a class="like__name" href="mtg.html">Magic: The Gathering</a><span class="like__line">Commander with friends, and the tools I built to play it online.</span></li>
+        <li class="like"><span class="like__mark" aria-hidden="true"></span><a class="like__name" href="homelab.html">Tinkering at home</a><span class="like__line">An old laptop that runs my apps, my deployments and the lights.</span></li>
+      </ul>
     </div>
   </section>
 
@@ -156,6 +130,7 @@
       <p class="contact__line">Email is the quickest way to reach me.</p>
     </div>
   </section>
+  </div>
 </main>
 
 <footer class="site-footer">
