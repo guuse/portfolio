@@ -1003,3 +1003,79 @@ svg.story { border: 0; padding: 0; margin: 0; border-radius: 0; max-width: none;
 .cover__art .scene-svg { width: 100%; height: 100%; }
 .cover__link--mtg .cover__img { background: oklch(21% 0.047 266); }
 .cover__link .cover__art { transition: transform var(--dur-slow) var(--ease-out); }
+
+/* ---- round 17: MTG parts (same kit) */
+.scene-svg .c-face { fill: oklch(84% 0.025 255); stroke: oklch(60% 0.035 258); stroke-width: 1; }
+.scene-svg .c-face--hl { stroke: var(--k-amber); stroke-width: 2; }
+.scene-svg .c-art { fill: oklch(40% 0.05 262); }
+.scene-svg .c-artline { fill: none; stroke: oklch(55% 0.05 258); stroke-width: 1.1; stroke-linejoin: round; }
+.scene-svg .c-txt { fill: oklch(64% 0.03 258); }
+.scene-svg .c-txt--b { fill: oklch(50% 0.04 260); }
+.scene-svg .c-back { fill: oklch(33% 0.055 266); stroke: var(--k-edge); stroke-width: 1; }
+.scene-svg .c-back-in { fill: none; stroke: oklch(45% 0.06 250); stroke-width: 1; }
+.scene-svg .c-back-mark { fill: oklch(42% 0.06 250); }
+.scene-svg .p-shirt { stroke: var(--k-edge); stroke-width: 1.5; }
+.scene-svg .p-shirt--1 { fill: oklch(34% 0.055 266); } .scene-svg .p-shirt--2 { fill: oklch(29% 0.05 250); }
+.scene-svg .p-shirt--3 { fill: oklch(31% 0.05 280); } .scene-svg .p-shirt--4 { fill: oklch(37% 0.045 240); }
+.scene-svg .p-hl { fill: none; stroke: oklch(46% 0.05 262); stroke-width: 1.2; stroke-linecap: round; }
+.scene-svg .p-neck { fill: oklch(58% 0.04 262); }
+.scene-svg .p-head { fill: oklch(66% 0.04 262); stroke: oklch(52% 0.04 262); stroke-width: 1.2; }
+.scene-svg .p-hair { fill: oklch(22% 0.035 266); }
+.scene-svg .p-cap { fill: oklch(48% 0.06 250); }
+.scene-svg .m-tableface { fill: oklch(30% 0.05 266); stroke: var(--k-edge); stroke-width: 1.5; }
+.scene-svg .m-tabletop { fill: oklch(36% 0.05 262); stroke: var(--k-edge); stroke-width: 1.5; stroke-linejoin: round; }
+.scene-svg .b-cover { fill: oklch(31% 0.05 266); stroke: var(--k-edge); stroke-width: 1.5; }
+.scene-svg .b-cover--2 { fill: oklch(28% 0.05 248); } .scene-svg .b-cover--3 { fill: oklch(34% 0.045 280); }
+.scene-svg .b-pages { fill: oklch(78% 0.02 250); }
+.scene-svg .b-pageline { stroke: oklch(62% 0.03 255); stroke-width: 0.8; }
+.scene-svg .b-title { fill: oklch(52% 0.05 255); }
+.scene-svg .b-sheet { fill: oklch(86% 0.02 250); stroke: oklch(62% 0.03 255); stroke-width: 1; }
+.scene-svg .b-sheetline { fill: oklch(66% 0.03 255); }
+.scene-svg .m-bubble { fill: var(--k-face); stroke: var(--k-edge); stroke-width: 1.5; stroke-linejoin: round; }
+.scene-svg .lb-q { fill: var(--k-amber); font-size: 19px; font-weight: 700; }
+.scene-svg .lb-say { fill: var(--ink); font-size: 19px; font-weight: 500; }
+.scene-svg .lb-q-m { fill: var(--k-cool); font-family: var(--font-mono); font-size: 16px; }
+.scene-svg .lb-count { fill: var(--ink-muted); font-size: 12px; font-weight: 600; }
+.scene-svg .m-rim { fill: oklch(31% 0.05 266); stroke: var(--k-edge); stroke-width: 1.5; }
+.scene-svg .m-felt { fill: oklch(23% 0.05 255); }
+.scene-svg .m-felt-edge { fill: none; stroke: oklch(19% 0.04 260); stroke-width: 2; }
+.scene-svg .m-plate { fill: var(--k-face); stroke: var(--k-edge); stroke-width: 1.2; }
+.scene-svg .m-plate--empty { fill: none; stroke-dasharray: 3 3; }
+.scene-svg .m-plateline { fill: oklch(52% 0.04 260); }
+.scene-svg .m-ring { fill: none; stroke: var(--k-amber); stroke-width: 2; }
+.scene-svg .m-avatar { stroke: var(--k-dark); stroke-width: 1.5; }
+.scene-svg .m-avatar--1 { fill: oklch(78% 0.06 250); } .scene-svg .m-avatar--2 { fill: oklch(70% 0.05 220); }
+.scene-svg .m-avatar--3 { fill: oklch(74% 0.04 290); } .scene-svg .m-avatar--4 { fill: oklch(66% 0.05 260); }
+.scene-svg .m-code { fill: var(--k-dark); }
+.scene-svg .m-reload { fill: none; stroke: var(--ink-muted); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.scene-svg .m-track { fill: var(--k-route); } .scene-svg .m-tick { fill: oklch(42% 0.05 264); }
+.scene-svg .m-mark { fill: var(--k-amber); }
+.scene-svg .m-unitback { fill: oklch(19% 0.042 266); stroke: var(--k-edge); stroke-width: 1.2; }
+.scene-svg .m-box { fill: oklch(31% 0.05 266); stroke: var(--k-edge); stroke-width: 1.5; }
+.scene-svg .m-box--hl { stroke: var(--k-amber); }
+.scene-svg .m-boxlabel { fill: oklch(58% 0.04 258); }
+.scene-svg .m-binder { fill: oklch(30% 0.05 255); stroke: var(--k-edge); stroke-width: 1.5; }
+.scene-svg .m-spine { fill: oklch(24% 0.045 260); } .scene-svg .m-ringhole { fill: oklch(60% 0.03 258); }
+.scene-svg .m-pocket { fill: oklch(24% 0.045 262); stroke: oklch(38% 0.05 262); stroke-width: 1; }
+.scene-svg .m-token { fill: var(--k-dark); stroke: oklch(45% 0.06 230); stroke-width: 1.3; }
+.scene-svg .m-tickbg { fill: var(--k-cool); } .scene-svg .m-tickmark { fill: none; stroke: var(--k-dark); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.scene-svg .m-moon { fill: oklch(88% 0.03 90); } .scene-svg .m-sky { fill: var(--surface); }
+.scene-svg .m-strap { fill: var(--k-amber); }
+.scene-svg .m-pole { fill: var(--ink-muted); } .scene-svg .m-flag { fill: var(--k-amber); }
+.scene-svg .m-issue { fill: none; stroke: var(--k-cool); stroke-width: 2.2; } .scene-svg .m-issue-dot { fill: var(--k-cool); }
+.scene-svg .m-lock { fill: var(--ink-muted); } .scene-svg .m-shackle { fill: none; stroke: var(--ink-muted); stroke-width: 2.4; }
+.scene-svg .k-none { fill: none; stroke: none; }
+.scene-svg .k-route--faint { stroke: oklch(30% 0.045 266); stroke-dasharray: 2 5; }
+/* round 17: screenshots inside a scene step, and plain lesson rows */
+.step-shot { margin: 1.25rem 0 0; max-width: 30rem; }
+.step-shot button { display: block; width: 100%; padding: 0; border: 1px solid var(--line); border-radius: 4px; background: none; cursor: zoom-in; overflow: hidden; }
+.step-shot img { display: block; width: 100%; height: auto; transition: transform var(--dur-slow) var(--ease-out); }
+.step-shot button:hover img { transform: scale(1.02); }
+.step-shot figcaption { margin-top: 0.45rem; color: var(--ink-subtle); font-size: var(--t-small); }
+.step-shots { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 1fr); gap: 12px; align-items: start; max-width: 30rem; }
+.step-shots .step-shot { margin-top: 1.25rem; }
+.step-shot.is-phone button { border-radius: 10px; }
+.lessons { list-style: none; padding: 0; display: grid; max-width: 46em; border-top: 1px solid var(--line); }
+.lessons li { padding-block: 1rem; border-bottom: 1px solid var(--line); display: grid; gap: 0.25rem; }
+.lessons__h { font-weight: 600; }
+.lessons li p:not(.lessons__h) { color: var(--ink-muted); }

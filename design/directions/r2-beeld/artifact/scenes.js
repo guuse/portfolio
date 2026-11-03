@@ -89,7 +89,7 @@
     function spawn(segs, o) {
       o = o || {};
       segs.forEach(function (s) { if (!s.len) s.len = s.el.getTotalLength(); });
-      var k = { segs: segs, i: 0, d: 0, v: o.speed || 200, g: make(segs[0].cls), cls: segs[0].cls, stop: o.stop, end: o.end, age: 0, ph: Math.random() * 6, wait: 0 };
+      var k = { segs: segs, i: 0, d: 0, v: o.speed || 200, g: make(segs[0].cls), cls: segs[0].cls, stop: o.stop, end: o.end, age: 0, ph: Math.random() * 6, wait: 0, autofade: o.autofade };
       live.push(k);
       return k;
     }
@@ -114,7 +114,8 @@
         if (k.wait > 0.25) jx = Math.sin(t * 22 + k.ph) * 1.3; // waiting: it keeps retrying
         var fadeIn = clamp(k.age / 0.18, 0, 1), fadeOut = k.i === k.segs.length - 1 ? clamp((s.len - k.d) / 14, 0, 1) : 1;
         k.g.setAttribute("transform", "translate(" + (a.x + jx * Math.cos(ang / 57.2958)).toFixed(2) + " " + (a.y + jx * Math.sin(ang / 57.2958)).toFixed(2) + ") rotate(" + ang.toFixed(1) + ")");
-        O(k.g, s.hide ? 0 : fadeIn * fadeOut * (k.fade === undefined ? 1 : k.fade));
+        var af = k.autofade ? clamp(1.7 - 2.2 * (k.d / s.len), 0, 1) : 1;
+        O(k.g, s.hide ? 0 : fadeIn * fadeOut * af * (k.fade === undefined ? 1 : k.fade));
       }
     }
     function clear() { live.forEach(function (k) { layer.removeChild(k.g); pool.push(k.g); }); live.length = 0; }
@@ -473,6 +474,178 @@
       if (K.buildled) K.buildled.classList.toggle("is-blink", inB && Math.sin(t * 30) > 0);
       var pp = seg(f, fLap, fLap + 0.08), out = seg(f, 0.94, 1);
       T(K.newpod, 0, 0, pp > 0 ? lerp(0.4, 1, E.outBack(pp, 2.2)) : 0.4); O(K.newpod, Math.min(pp * 2.5, 1) * (1 - out));
+    };
+  };
+
+
+  /* ================================================================ MTG suite (round 17) */
+  function center(el) { var b = el.getBBox(); return { x: b.x + b.width / 2, y: b.y + b.height / 2 }; }
+  function smoothO(el, target, dt, rate) { if (!el) return; el.__v = el.__v === undefined ? target : el.__v + (target - el.__v) * (1 - Math.exp(-dt * (rate || 10))); O(el, el.__v); }
+
+  /* The itch: friends sit down, cards are dealt, the rules pile up. */
+  SCENES.itch = function (svg) {
+    var K = keys(svg), deal = [];
+    for (var i = 0; i < 7; i++) { var c = center(K["t" + i]); deal.push({ dx: 300 - c.x, dy: 334 - c.y }); }
+    return function (p, dt, t) {
+      for (var f = 0; f < 3; f++) { var a = seg(p, f * 0.05, 0.16 + f * 0.05); T(K["f" + f], 0, 18 * (1 - E.outBack(a, 1.4))); O(K["f" + f], Math.min(1, a * 2.5)); }
+      var b4 = seg(p, 0.08, 0.24); T(K.f3, 0, 30 * (1 - E.outCubic(b4))); O(K.f3, b4);
+      for (var k = 0; k < 7; k++) {
+        var d = seg(p, 0.16 + k * 0.025, 0.28 + k * 0.025), e = E.outCubic(d);
+        T(K["t" + k], deal[k].dx * (1 - e), deal[k].dy * (1 - e) - 14 * Math.sin(Math.PI * d), null, null, (1 - e) * 40); O(K["t" + k], Math.min(1, d * 4));
+      }
+      // the rules pile up, one book at a time, each landing with a small bounce
+      for (var j = 0; j < 8; j++) {
+        var q = seg(p, 0.32 + j * 0.045, 0.4 + j * 0.045);
+        T(K["bk" + j], 0, -46 * (1 - E.outBack(q, 1.8)), null, null, (1 - q) * (j % 2 ? 4 : -4)); O(K["bk" + j], Math.min(1, q * 5));
+      }
+      for (var h = 0; h < 3; h++) {
+        var r = seg(p, 0.7 + h * 0.05, 0.84 + h * 0.05);
+        T(K["sh" + h], Math.sin(r * 7 + h) * 10 * (1 - r), -70 * (1 - E.outCubic(r)), null, null, Math.sin(r * 9 + h * 2) * 14 * (1 - r)); O(K["sh" + h], Math.min(1, r * 3));
+      }
+      var q0 = seg(p, 0.84, 0.92), q1 = seg(p, 0.89, 0.97);
+      T(K.q0, 0, 0, lerp(0.3, 1, E.outBack(q0, 2.4))); O(K.q0, Math.min(1, q0 * 3));
+      T(K.q1, 0, 0, lerp(0.3, 1, E.outBack(q1, 2.4))); O(K.q1, Math.min(1, q1 * 3));
+    };
+  };
+
+  /* A table in the browser: cards go on the stack, priority goes round, the stack resolves. */
+  SCENES.table = function (svg) {
+    var K = keys(svg); hideStill(svg);
+    var P = Packets(svg, K.pk), emit = Emitter(), blink = leds(svg);
+    var from = [[236, 336], [130, 236], [236, 128]], to = [];
+    for (var i = 0; i < 3; i++) { var c = center(K["st" + i]); to.push({ dx: from[i][0] - c.x, dy: from[i][1] - c.y }); }
+    var rounds = [[0.18, 0.34, [1, 2, 3]], [0.42, 0.52, [2, 3, 0]], [0.6, 0.67, [3, 0, 1]], [0.68, 0.97, [1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0]]];
+    var plays = [[0.08, 0.18], [0.34, 0.42], [0.52, 0.6]], resolves = [[0.88, 0.96], [0.78, 0.86], [0.68, 0.76]];
+    return function (p, dt, t) {
+      blink(dt);
+      for (var s = 0; s < 4; s++) { var a = seg(p, s * 0.025, 0.08 + s * 0.025); T(K["seat" + s], 0, 0, lerp(0.7, 1, E.outBack(a, 2))); O(K["seat" + s], a); }
+      var on = 0;
+      for (var k = 0; k < 3; k++) {
+        var pl = seg(p, plays[k][0], plays[k][1]), rs = seg(p, resolves[k][0], resolves[k][1]), e = E.inOutCubic(pl);
+        T(K["st" + k], to[k].dx * (1 - e), to[k].dy * (1 - e) - 26 * Math.sin(Math.PI * pl) - 12 * E.outCubic(rs), lerp(0.85, 1, e) * lerp(1, 1.08, rs), null, (1 - e) * (k === 1 ? 20 : -14));
+        O(K["st" + k], (pl > 0 ? 1 : 0) * (1 - E.inCubic(rs)));
+        if (pl > 0 && rs < 1) on++;
+      }
+      O(K.hc2, 1 - seg(p, 0.08, 0.1));
+      O(K.stacklbl, on ? 1 : 0.35);
+      // who has priority now
+      var who = -1, auto = false;
+      rounds.forEach(function (r, ri) { if (p >= r[0] && p < r[1]) { who = r[2][Math.min(r[2].length - 1, Math.floor(seg(p, r[0], r[1]) * r[2].length))]; auto = ri === 3; } });
+      for (var q = 0; q < 4; q++) smoothO(K["seat" + q + "-ring"], q === who ? 1 : 0, dt, 14);
+      smoothO(K.auto, p > 0.68 && p < 0.98 ? 1 : 0, dt, 6);
+      emit(dt, who >= 0 ? 2.2 : 0, function () {
+        if (who === 3 && auto) P.spawn([{ el: K.lane3, cls: "" }], { speed: 230, autofade: true });
+        else P.spawn([{ el: K["lane" + who], cls: "" }, { el: K["back" + who], cls: "pk--ink" }], { speed: 260 + Math.random() * 60 });
+      });
+      P.update(dt, t);
+    };
+  };
+
+  /* Four players, one game: each screen gets its own view, one reloads, a replay rewinds. */
+  SCENES.hands = function (svg) {
+    var K = keys(svg); hideStill(svg);
+    var P = Packets(svg, K.pk), emit = Emitter(), emit3 = Emitter(), blink = leds(svg), lane = 0;
+    var bw = 228;
+    return function (p, dt, t) {
+      blink(dt);
+      for (var i = 0; i < 4; i++) {
+        var a = seg(p, i * 0.03, 0.12 + i * 0.03);
+        T(K["scr" + i], 0, 12 * (1 - E.outBack(a, 1.6))); O(K["scr" + i], a);
+        var c = seg(p, 0.18 + i * 0.03, 0.28 + i * 0.03);
+        if (i === 3) c *= 1 - seg(p, 0.4, 0.45) * (1 - seg(p, 0.56, 0.62));
+        O(K["scr" + i + "-c"], c);
+      }
+      var re = seg(p, 0.42, 0.46) * (1 - seg(p, 0.55, 0.59));
+      O(K["scr3-re"], re); T(K["scr3-re"], 0, 0, 1, 1, (t * 300) % 360);
+      emit(dt, p > 0.1 && p < 0.34 ? 6 : 0, function () { P.spawn([{ el: K["lane" + lane], cls: "" }], { speed: 240 }); lane = (lane + 1) % 4; });
+      emit3(dt, p > 0.5 && p < 0.6 ? 4 : 0, function () { P.spawn([{ el: K.lane3, cls: "" }], { speed: 240 }); });
+      // replay: the bar slides in, the marker scrubs back, the boards rewind
+      var bs = seg(p, 0.62, 0.7), r = E.inOutCubic(seg(p, 0.72, 0.98));
+      T(K.bar, 0, 14 * (1 - E.outCubic(bs))); O(K.bar, bs);
+      T(K.mark, -bw * r, 0);
+      for (var s = 0; s < 4; s++) for (var k = 0; k < 5; k++) {
+        var v = clamp(((5 - k) / 6 - r) * 10, 0, 1), el = K["scr" + s + "-bf" + k];
+        O(el, v); T(el, 0, (1 - v) * -6, lerp(0.7, 1, v));
+      }
+      P.update(dt, t);
+    };
+  };
+
+  /* Decks: the library fills in, the playgroup shelf arrives, one deck goes to the table. */
+  SCENES.decks = function (svg) {
+    var K = keys(svg);
+    var dx = 114 - 400, dy = 0; // from its shelf slot to the seat (art-mtg.js M4)
+    return function (p) {
+      for (var i = 0; i < 14; i++) {
+        if (!K["bx" + i]) continue;
+        var a = seg(p, 0.02 + i * 0.022, 0.12 + i * 0.022);
+        T(K["bx" + i], 0, -34 * (1 - E.outBack(a, 1.8))); O(K["bx" + i], Math.min(1, a * 4));
+      }
+      for (var k = 0; k < 4; k++) { var b = seg(p, 0.34 + k * 0.045, 0.46 + k * 0.045); T(K["bd" + k], 36 * (1 - E.outBack(b, 1.5)), 0); O(K["bd" + k], b); }
+      for (var s = 1; s < 4; s++) { var c = seg(p, 0.44 + s * 0.03, 0.54 + s * 0.03); T(K["s" + s], 0, 0, lerp(0.7, 1, E.outBack(c, 2))); O(K["s" + s], c); }
+      var s0 = seg(p, 0.46, 0.56); O(K.s0, s0);
+      // the deck: lifts out of its slot, travels on an arc, lands next to the empty seat
+      var up = seg(p, 0.56, 0.62), go = seg(p, 0.62, 0.86), land = seg(p, 0.84, 0.92);
+      var gx = E.inOutCubic(go);
+      T(K.deck, dx * (1 - gx), dy - 12 * E.outCubic(up) * (1 - go) - 110 * Math.sin(Math.PI * gx) + 6 * Math.sin(Math.PI * land) * (1 - land), null, null, Math.sin(Math.PI * go) * 8);
+      O(K.deck, Math.min(1, seg(p, 0.5, 0.56) * 2));
+      O(K.route, 0.8 * seg(p, 0.58, 0.64) * (1 - seg(p, 0.9, 0.98)));
+      smoothO(K["s0-ring"], p > 0.88 ? 1 : 0, 1 / 60, 8);
+      O(K.gap, 1);
+    };
+  };
+
+  /* Plain words: the sentence breaks into a query, Scryfall checks it, two readings fan out. */
+  SCENES.search = function (svg) {
+    var K = keys(svg), put = Courier(svg, K.pk);
+    var angles = [-28, -16.8, -5.6, 5.6, 16.8, 28];
+    return function (p) {
+      var b = seg(p, 0, 0.12);
+      T(K.bub, 0, 0, lerp(0.6, 1, E.outBack(b, 2))); O(K.bub, Math.min(1, b * 3));
+      O(K.words, 1 - 0.6 * seg(p, 0.16, 0.34));
+      for (var i = 0; i < 3; i++) {
+        var a = seg(p, 0.14 + i * 0.06, 0.3 + i * 0.06);
+        T(K["tk" + i], 0, -92 * (1 - E.outBack(a, 1.4)), lerp(0.6, 1, E.outCubic(a))); O(K["tk" + i], Math.min(1, a * 3));
+        var l = seg(p, 0.26 + i * 0.06, 0.36 + i * 0.06); T(K["tl" + i], 0, 6 * (1 - l)); O(K["tl" + i], l);
+      }
+      O(K.rq, seg(p, 0.36, 0.4)); O(K.rb, seg(p, 0.48, 0.52));
+      if (p > 0.4 && p < 0.47) put(K.rq, E.inOutCubic(seg(p, 0.4, 0.47)), "pk--cool");
+      else if (p > 0.5 && p < 0.57) put(K.rb, E.inOutCubic(seg(p, 0.5, 0.57)), "pk--ink");
+      else put(null);
+      var tk = seg(p, 0.47, 0.53); T(K.tick, 0, 0, lerp(0.2, 1, E.outBack(tk, 2.6))); O(K.tick, Math.min(1, tk * 3));
+      // both readings start as one pile in the middle, fan out, then move apart
+      var apart = E.inOutCubic(seg(p, 0.74, 0.94));
+      [[0, 126], [1, -126]].forEach(function (f) {
+        var j = f[0];
+        T(K["fan" + j], f[1] * (1 - apart), 0); O(K["fan" + j], seg(p, 0.56, 0.62));
+        for (var c = 0; c < 6; c++) {
+          var el = K["fc" + j + "-" + c]; if (!el) continue;
+          var fo = E.outBack(seg(p, 0.58 + c * 0.02, 0.7 + c * 0.02), 1.6);
+          T(el, 0, 0, null, null, -angles[c] * (1 - fo));
+        }
+      });
+    };
+  };
+
+  /* Building for friends: a report goes round the loop and comes back as a fix. */
+  SCENES.friends = function (svg) {
+    var K = keys(svg); hideStill(svg);
+    var put = Courier(svg, K.pk), blink = leds(svg);
+    return function (p, dt) {
+      blink(dt);
+      T(K.moon, lerp(-260, 200, p), -10 * Math.sin(Math.PI * p));
+      var fl = seg(p, 0.04, 0.12); T(K.flag, 0, 0, 1, Math.max(0.001, E.outBack(fl, 2.4))); O(K.flag, Math.min(1, fl * 3));
+      var is = seg(p, 0.3, 0.36); T(K.issue, 0, 0, lerp(0.7, 1, E.outBack(is, 2))); O(K.issue, Math.min(1, is * 3));
+      var fx = seg(p, 0.44, 0.5); T(K.fix, 0, 0, lerp(0.2, 1, E.outBack(fx, 2.6))); O(K.fix, Math.min(1, fx * 3));
+      var im = seg(p, 0.62, 0.68); T(K.img, 0, -22 * (1 - E.outBack(im, 1.8))); O(K.img, Math.min(1, im * 3));
+      var pc = seg(p, 0.4, 0.54); T(K.parcel, 0, -80 * (1 - E.outBack(pc, 1.3)), null, null, (1 - pc) * 18); O(K.parcel, Math.min(1, pc * 3) * (1 - seg(p, 0.62, 0.7)));
+      if (p > 0.12 && p < 0.3) put(K.r0, E.inOutCubic(seg(p, 0.12, 0.3)), "pk--ink");
+      else if (p > 0.36 && p < 0.44) put(K.r1, E.inOutCubic(seg(p, 0.36, 0.44)), "pk--ink");
+      else if (p > 0.5 && p < 0.62) put(K.r2, E.inOutCubic(seg(p, 0.5, 0.62)), "");
+      else if (p > 0.68 && p < 0.84) put(K.r3, E.inOutCubic(seg(p, 0.68, 0.84)), "");
+      else put(null);
+      var lit = seg(p, 0.84, 0.9);
+      O(K["p0-ring"], lit); T(K.p0, 0, 0, 1 + 0.08 * Math.sin(Math.PI * lit));
     };
   };
 
