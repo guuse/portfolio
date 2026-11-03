@@ -254,7 +254,13 @@ const stats = [
       transition:
         transform var(--duration-slow) var(--ease-spring),
         box-shadow var(--duration-base) var(--ease-out);
-      animation: settle 900ms var(--ease-out) both;
+      /*
+       * The prints drop in once, after the text. "backwards" so that once it's over the
+       * animation no longer holds the transform (hover and drag own it), and nothing ever
+       * toggles `animation` again: src/scripts/prints.ts marks each print .is-settled on
+       * animationend, which retires it for good. (Toggling it used to restart the drop.)
+       */
+      animation: settle 900ms var(--ease-out) calc(var(--duration-stagger) * 6) backwards;
     }
 
     .print :global(img) {
@@ -283,7 +289,7 @@ const stats = [
       width: 36%;
       aspect-ratio: 3 / 4;
       z-index: 3;
-      animation-delay: 220ms;
+      animation-delay: calc(var(--duration-stagger) * 6 + 220ms);
     }
 
     .print:hover,
@@ -291,7 +297,6 @@ const stats = [
       transform: translate(var(--dx, 0), var(--dy, 0)) rotate(0deg) translateY(-8px) scale(1.04);
       z-index: 5;
       box-shadow: 0 18px 44px var(--shadow-print-lifted);
-      animation: none;
     }
 
     .print:global(.is-lifted) {
@@ -304,7 +309,58 @@ const stats = [
       transition: none;
       cursor: grabbing;
       z-index: 6;
+    }
+
+    .print:global(.is-settled) {
       animation: none;
+    }
+
+    /* the Konami untap (src/scripts/eggs.ts), here so it outranks .is-settled */
+    :global(.is-untapping) .print {
+      animation: untap 1.5s var(--ease-in-out);
+    }
+
+    /*
+     * The text arrives first, one line after another. The heading starts nearly visible, so
+     * it paints at once and never holds back the page's first paint.
+     */
+    .stage__text > * {
+      animation: rise var(--duration-reveal) var(--ease-out) backwards;
+    }
+
+    .stage__text > .stage__title {
+      animation-name: rise-soft;
+      animation-delay: var(--duration-stagger);
+    }
+
+    .stage__text > .stage__role {
+      animation-delay: calc(var(--duration-stagger) * 2);
+    }
+
+    .stage__text > .stage__intro {
+      animation-delay: calc(var(--duration-stagger) * 3);
+    }
+
+    .stage__text > .stats {
+      animation-delay: calc(var(--duration-stagger) * 4);
+    }
+
+    .stage__text > .actions {
+      animation-delay: calc(var(--duration-stagger) * 5);
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translate3d(0, 12px, 0);
+      }
+    }
+
+    @keyframes rise-soft {
+      from {
+        opacity: 0.4;
+        transform: translate3d(0, 8px, 0);
+      }
     }
 
     @keyframes settle {
@@ -357,7 +413,8 @@ const stats = [
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .print {
+      .print,
+      .stage__text > * {
         transition: none;
         animation: none;
       }

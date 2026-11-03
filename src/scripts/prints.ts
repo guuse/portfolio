@@ -1,12 +1,16 @@
 /**
  * The hero photos are loose prints. With a mouse or pen they can be nudged (up to 60px) and
  * spring back on release; touch keeps scrolling. Hovering an interest in About lifts the
- * matching print (decorative only, so the interests are not tab stops).
+ * matching print (decorative only, so the interests are not tab stops). None of this touches
+ * the prints' `animation` (see .is-settled in Hero.astro).
  */
 const LIMIT = 60;
 
 export function initPrints(): void {
   for (const el of document.querySelectorAll<HTMLElement>(".print")) {
+    // once the drop-in (or an untap that interrupted it) is over, retire the animation for
+    // good, so hovering, lifting or dragging can never start it again
+    el.addEventListener("animationend", () => el.classList.add("is-settled"), { once: true });
     let id: number | null = null,
       sx = 0,
       sy = 0;
