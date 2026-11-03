@@ -47,6 +47,17 @@ const { scene, range, continues, caption } = Astro.props;
       min-width: 0;
     }
 
+    /*
+     * On a short screen (a phone on its side) a full-width drawing is taller than the window;
+     * cap it so the whole drawing fits, with room for the header and its caption.
+     * 600:440 is the drawings' aspect ratio.
+     */
+    .scene-step > .scene {
+      width: 100%;
+      max-width: calc((100svh - 120px) * 600 / 440);
+      margin-inline: auto;
+    }
+
     .scene figcaption {
       margin-top: 0.5rem;
       color: var(--ink-subtle);
