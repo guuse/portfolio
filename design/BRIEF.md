@@ -5,8 +5,8 @@
 
 ## 1. Who this is for
 
-**Guus Ekkelenkamp**, security officer, cloud specialist and solution architect at
-[Harborn](https://harborn.com) in Rotterdam. By day: deciding how client systems are built,
+**Guus Ekkelenkamp**, tech lead of the infra team at [Harborn](https://harborn.com) in
+Rotterdam. The job covers security, the cloud platform and architecture. By day: deciding how client systems are built,
 where they run and who gets in. By night: a homelab that grew into a small platform: an
 old laptop with the lid shut running Proxmox, k3s, Argo CD and Home Assistant, plus a handful
 of side projects deployed to it.
@@ -23,7 +23,7 @@ and **the source code behind it**. Both have to hold up when someone looks close
 | # | Who | What they want in 30 seconds | What they want in 5 minutes |
 |---|-----|------------------------------|-----------------------------|
 | 1 | Developers, tech leads, CTOs (peers, possible employers or collaborators) | Is this person serious? What do they actually own? | Depth: decisions, trade-offs, the gotchas they have hit |
-| 2 | Recruiters | Roles (security, cloud, architecture), location, stack, contact | A clear and current story |
+| 2 | Recruiters | Role (tech lead infra: security, cloud, architecture), location, stack, contact | A clear and current story |
 | 3 | Friends and the homelab crowd | The fun stuff | The setup, the numbers, a few laughs |
 
 Harborn clients and colleagues are explicitly **not** a target audience: the site isn't a sales
@@ -32,7 +32,7 @@ without client case studies.
 
 ## 2. What the site has to do
 
-1. **Say who, what and where in one screen.** Name, the three roles, city, one sentence
+1. **Say who, what and where in one screen.** Name, role (tech lead infra), city, one sentence
    with some personality. No hunting for it.
 2. **Show depth instead of claiming it.** One project told properly (the homelab) is worth more
    than twelve project cards. Real numbers, real decisions, real mistakes.
@@ -74,7 +74,7 @@ setup at a borrel, not like a LinkedIn post.
 |----|-------|
 | "It runs on a laptop with the lid shut. The battery is the UPS." | "Leveraging cost-effective edge hardware" |
 | "I decide which AI tools are allowed near client data." | "Passionate about security" / "guardian of the cloud" |
-| Titles in small print, as facts | Titles as a headline, stacked with slashes and emoji |
+| One title, "tech lead, infra team", in small print | A stack of titles ("security officer / cloud specialist / architect") |
 | "Learned the hard way, July 2026." | "Overcame challenges" |
 | "Git is the source of truth. Claude does the boring part." | "AI-powered workflows" |
 | One joke per section, at most | Puns in every heading |
