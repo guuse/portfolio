@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="en" data-direction="beeld" data-option="wit">
+<html lang="en" data-direction="beeld" data-option="wit" data-type="a" data-copy-voice="nuchter">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Homelab &amp; home automation · Guus Ekkelenkamp</title>
 <meta name="description" content="A small home server that runs my apps and my home automation.">
-<script>(function(){var o=["wit","donker"],v=null;try{v=new URLSearchParams(location.search).get("option")}catch(e){}if(o.indexOf(v)<0){try{v=localStorage.getItem("r2-beeld:option")}catch(e){}}if(o.indexOf(v)<0)v=o[0];document.documentElement.setAttribute("data-option",v)})();</script>
+<script>(function(){var h=document.documentElement;function pick(k,o){var v=null;try{v=new URLSearchParams(location.search).get(k)}catch(e){}if(o.indexOf(v)<0){try{v=localStorage.getItem("r2-beeld:"+k)}catch(e){}}return o.indexOf(v)<0?o[0]:v}h.setAttribute("data-option",pick("option",["wit","donker"]));h.setAttribute("data-type",pick("type",["a","b"]))})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Schibsted+Grotesk:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
@@ -20,17 +20,17 @@
     <a class="site-header__name" href="index.html">Guus Ekkelenkamp</a>
     <nav class="nav" aria-label="Main">
       <ul>
-        <li><a href="index.html#work">Work</a></li>
-        <li><a href="index.html#projects" aria-current="true">Projects</a></li>
-        <li><a href="index.html#about">About</a></li>
-        <li><a href="index.html#contact">Contact</a></li>
+        <li><a href="index.html#work" data-copy="nav.work">Work</a></li>
+        <li><a href="index.html#projects" data-copy="nav.projects" aria-current="true">Projects</a></li>
+        <li><a href="index.html#about" data-copy="nav.about">About</a></li>
+        <li><a href="index.html#contact" data-copy="nav.contact">Contact</a></li>
       </ul>
     </nav>
   </div>
 </header>
 
 <main id="main">
-  <article aria-labelledby="case-title">
+  <article class="case" aria-labelledby="case-title">
     <header class="page grid case-head">
       <p class="case-head__back"><a class="arrow-link arrow-link--back" href="index.html#projects"><span aria-hidden="true">&larr;</span> All projects</a></p>
       <h1 class="case-head__title display" id="case-title">Homelab &amp; home automation</h1>
@@ -123,7 +123,7 @@
   </article>
 
   <nav class="page next" aria-label="Next project">
-    <a class="next__link" href="project.html">
+    <a class="next__link" href="project.html" style="--p: var(--tone-rules-of-99); --p-ink: var(--pink-rules-of-99)">
       <div class="next__text">
         <p class="eyebrow">Next project</p>
         <p class="next__title">Rules of 99</p>
@@ -136,11 +136,12 @@
 
 <footer class="site-footer">
   <div class="page site-footer__inner">
-    <p>&copy; 2026 Guus Ekkelenkamp</p>
+    <p data-copy="footer.note">&copy; 2026 Guus Ekkelenkamp</p>
     <a href="#main">Back to top</a>
   </div>
 </footer>
 
+<script src="../../system/copy.js"></script>
 <script src="review.js"></script>
 </body>
 </html>

@@ -8,10 +8,11 @@
 <meta name="theme-color" content="#121110">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../system/base.css">
 <link rel="stylesheet" href="donker.css">
 <script src="review.js"></script>
+<script src="../../system/copy.js" defer></script>
 <script src="projects.js" defer></script>
 </head>
 <body>
@@ -22,10 +23,10 @@
     <a class="site-header__name" href="#top">Guus Ekkelenkamp <span>· Rotterdam</span></a>
     <nav class="site-nav" aria-label="Main">
       <ul>
-        <li><a href="#work">Work</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="#work" data-copy="nav.work">Work</a></li>
+        <li><a href="#projects" data-copy="nav.projects">Projects</a></li>
+        <li><a href="#about" data-copy="nav.about">About</a></li>
+        <li><a href="#contact" data-copy="nav.contact">Contact</a></li>
       </ul>
     </nav>
   </div>
@@ -34,13 +35,17 @@
 <main id="main">
   <section class="page intro" id="top" aria-labelledby="intro-title">
     <div class="intro__body">
-      <h1 class="intro__title rise" id="intro-title" style="--i:0">I’m Guus. <em>I lead the infra team at Harborn in Rotterdam.</em></h1>
-      <p class="intro__text rise" style="--i:1">I make sure the platforms our clients run on are secure, reliable and well thought out. At home I build things too: a small server setup, some web apps, and more automation than one apartment needs.</p>
-      <div class="intro__meta rise" style="--i:2">
-        <a class="btn btn--solid" href="#contact">Get in touch <span class="arrow" aria-hidden="true">→</span></a>
-        <a class="btn" href="#projects">See projects</a>
-        <span class="dotsep">Tech lead, infra team at Harborn</span>
+      <p class="intro__kicker rise" style="--i:0" data-copy="hero.kicker">Rotterdam</p>
+      <h1 class="intro__title rise" id="intro-title" style="--i:1" data-copy="hero.headline">I like building things that <em>keep running</em>.</h1>
+      <p class="intro__text rise" style="--i:2" data-copy="hero.intro">I’m Guus. At Harborn I make sure client platforms are secure and reliable. At home I keep going: a few web apps, a small server and more home automation than one apartment needs.</p>
+      <div class="intro__actions rise" style="--i:3">
+        <a class="btn btn--solid" href="#contact"><span data-copy="cta.primary">Get in touch</span> <span class="arrow" aria-hidden="true">→</span></a>
+        <a class="btn" href="#projects"><span data-copy="cta.secondary">See projects</span></a>
       </div>
+      <dl class="intro__facts rise" style="--i:4">
+        <div><dt class="visually-hidden">Role</dt><dd data-copy="hero.role">Tech lead, infra team at Harborn</dd></div>
+        <div class="now"><dt>Now</dt><dd>building a 3-node cluster from second-hand mini PCs</dd></div>
+      </dl>
     </div>
     <div class="intro__portrait rise-img" style="--i:1">
       <div class="ph" data-tone="portrait" style="--ar:4/5" role="img" aria-label="Placeholder: portrait of Guus">
@@ -51,8 +56,8 @@
 
   <section class="page section" id="work" aria-labelledby="work-title">
     <div class="section-head">
-      <h2 class="section-title" id="work-title">Work</h2>
-      <p class="lead">I’m tech lead of the infra team at Harborn, a digital agency in Rotterdam and Amsterdam. <b>Before a client project gets built, we decide where it runs, how it’s set up and who gets access to what.</b></p>
+      <h2 class="section-title" id="work-title" data-copy="work.title">Work</h2>
+      <p class="lead" data-copy="work.intro">I’m tech lead of the infra team at Harborn, a digital agency in Rotterdam and Amsterdam. Before a client project gets built, we decide where it runs, how it’s set up and who gets access to what.</p>
     </div>
     <ul class="work-cols">
       <li class="work-col">
@@ -72,16 +77,16 @@
 
   <section class="page section" id="projects" aria-labelledby="projects-title">
     <div class="section-head">
-      <h2 class="section-title" id="projects-title">Projects</h2>
-      <p class="projects-sub">Things I build outside work.</p>
+      <h2 class="section-title" id="projects-title" data-copy="projects.title">Projects</h2>
+      <p class="projects-sub" data-copy="projects.sub">Things I build outside work.</p>
     </div>
 
-    <article class="feature" id="feature" data-id="homelab" aria-label="Featured project">
+    <article class="feature" id="feature" data-id="homelab" data-tone="homelab" aria-label="Featured project">
       <div class="feature__media">
         <div class="ph" data-tone="homelab" role="img" aria-label="Placeholder: Photo: the setup under the TV"><span class="ph__cap" aria-hidden="true">Photo: the setup under the TV</span></div>
       </div>
       <div class="feature__body">
-        <p class="feature__eyebrow">Featured project</p>
+        <p class="feature__eyebrow" data-copy="projects.featured">Featured</p>
         <h3 class="feature__title"><a href="project.html">Homelab &amp; home automation</a></h3>
         <p class="feature__story">An old laptop under the TV runs everything: my side projects, Home Assistant and the lights. It’s only reachable through my own private network, and every change goes through git, so I can rebuild it in an afternoon. Next up: three small second-hand PCs to turn it into a proper cluster.</p>
         <ul class="tags" aria-label="Built with"><li class="tag">Proxmox</li><li class="tag">Kubernetes</li><li class="tag">Home Assistant</li><li class="tag">Zigbee</li></ul>
@@ -89,26 +94,27 @@
       </div>
     </article>
 
+    <h3 class="more-label" data-copy="projects.more">More projects</h3>
     <ul class="cards" id="project-list" aria-label="More projects">
-      <li class="card" data-id="rules-of-99">
+      <li class="card" data-id="rules-of-99" data-tone="rules-of-99">
         <div class="card__media"><div class="ph" data-tone="rules-of-99" role="img" aria-label="Placeholder: Screenshot: a 4-player game"><span class="ph__cap" aria-hidden="true">Screenshot: a 4-player game</span></div></div>
         <div class="card__head"><h3 class="card__title"><a href="project.html">Rules of 99</a></h3><span class="arrow" aria-hidden="true">→</span></div>
         <p class="card__line">Play Commander (Magic: The Gathering) with friends in the browser.</p>
         <ul class="tags" aria-label="Built with"><li class="tag">Java</li><li class="tag">React</li><li class="tag">TypeScript</li><li class="tag">WebSockets</li></ul>
       </li>
-      <li class="card" data-id="finds">
+      <li class="card" data-id="finds" data-tone="finds">
         <div class="card__media"><div class="ph" data-tone="finds" role="img" aria-label="Placeholder: Screenshot: the finds overview"><span class="ph__cap" aria-hidden="true">Screenshot: the finds overview</span></div></div>
         <div class="card__head"><h3 class="card__title"><a href="project.html">2nd-hand finds</a></h3><span class="arrow" aria-hidden="true">→</span></div>
         <p class="card__line">A tool that keeps an eye on Marktplaats and Vinted for me.</p>
         <ul class="tags" aria-label="Built with"><li class="tag">Python</li><li class="tag">Claude</li><li class="tag">Astro</li></ul>
       </li>
-      <li class="card" data-id="quizmaster">
+      <li class="card" data-id="quizmaster" data-tone="quizmaster">
         <div class="card__media"><div class="ph" data-tone="quizmaster" role="img" aria-label="Placeholder: Screenshot: the quiz on a phone"><span class="ph__cap" aria-hidden="true">Screenshot: the quiz on a phone</span></div></div>
         <div class="card__head"><h3 class="card__title"><a href="project.html">Quizmaster</a></h3><span class="arrow" aria-hidden="true">→</span></div>
         <p class="card__line">A live party quiz with questions generated on the spot.</p>
         <ul class="tags" aria-label="Built with"><li class="tag tag--todo">Stack to confirm</li></ul>
       </li>
-      <li class="card" data-id="scryfall">
+      <li class="card" data-id="scryfall" data-tone="scryfall">
         <div class="card__media"><div class="ph" data-tone="scryfall" role="img" aria-label="Placeholder: Screenshot: search box and results"><span class="ph__cap" aria-hidden="true">Screenshot: search box and results</span></div></div>
         <div class="card__head"><h3 class="card__title"><a href="project.html">Scryfall, in plain words</a></h3><span class="arrow" aria-hidden="true">→</span></div>
         <p class="card__line">Search Magic cards by describing what you want.</p>
@@ -119,9 +125,9 @@
 
   <section class="page section" id="about" aria-labelledby="about-title">
     <div class="section-head">
-      <h2 class="section-title" id="about-title">About</h2>
+      <h2 class="section-title" id="about-title" data-copy="about.title">About</h2>
       <div class="about-body">
-        <p class="lead">I live in Rotterdam. When I’m not working I’m usually tinkering with something at home, playing Magic with friends, or scrolling <span lang="nl">Marktplaats</span> for things I don’t need.</p>
+        <p class="lead" data-copy="about.body">I live in Rotterdam. When I’m not working I’m usually tinkering with something at home, playing Magic with friends, or scrolling <span lang="nl">Marktplaats</span> for things I don’t need.</p>
         <dl class="tools">
           <dt>Tools I use a lot</dt>
           <dd>Kubernetes, Argo CD, Terraform, Cloudflare, Tailscale, TypeScript, Python, Home Assistant.</dd>
@@ -132,10 +138,13 @@
 
   <section class="page section contact" id="contact" aria-labelledby="contact-title">
     <div class="section-head">
-      <h2 class="section-title" id="contact-title">Contact</h2>
-      <p class="contact__intro">Want to work together or just say hi? Send me an email.</p>
+      <h2 class="section-title" id="contact-title" data-copy="contact.title">Contact</h2>
+      <p class="contact__intro" data-copy="contact.body">Want to work together or just say hi? Send me an email.</p>
     </div>
-    <a class="contact__email" href="mailto:hello@ekkelenkamp.dev">hello@ekkelenkamp.dev<span class="arrow arrow--ne" aria-hidden="true">↗</span></a>
+    <a class="say-hi" href="mailto:hello@ekkelenkamp.dev">
+      <span class="say-hi__big"><span class="say-hi__word">Say hi</span><span class="say-hi__arrow" aria-hidden="true">↗</span></span>
+      <span class="say-hi__email">hello@ekkelenkamp.dev</span>
+    </a>
     <ul class="contact__links">
       <li><a href="https://github.com/guuse">GitHub <span class="arrow arrow--ne" aria-hidden="true">↗</span></a></li>
       <li><a href="#" title="LinkedIn URL to confirm">LinkedIn <span class="arrow arrow--ne" aria-hidden="true">↗</span></a></li>
@@ -145,7 +154,7 @@
 
 <footer class="site-footer">
   <div class="page site-footer__inner">
-    <span>© 2026 Guus Ekkelenkamp</span>
+    <span data-copy="footer.note">© 2026 Guus Ekkelenkamp</span>
     <a href="#top">Back to top ↑</a>
   </div>
 </footer>

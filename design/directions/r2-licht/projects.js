@@ -81,7 +81,7 @@
       ph(p) +
       '<div class="feature__body">' +
         "<div>" +
-          '<p class="feature__eyebrow">Featured · a different one each visit</p>' +
+          '<p class="feature__eyebrow"><span data-copy="projects.featured">Featured</span>&nbsp;· a different one each visit</p>' +
           '<h3 class="feature__title">' + esc(p.title) + "</h3>" +
           '<div class="feature__meta">' + tags(p, false) +
             '<span class="feature__year">' + p.year + "</span></div>" +
@@ -136,5 +136,43 @@
       list.innerHTML = out.list;
     }
     document.documentElement.setAttribute("data-featured", f.id);
+  }
+
+  // Cursor-following thumbnail on the project list (fine pointers, motion allowed).
+  var mq = root.matchMedia && root.matchMedia("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)");
+  if (list && mq && mq.matches) {
+    var box = document.createElement("div");
+    box.className = "cursor-thumb";
+    box.setAttribute("aria-hidden", "true");
+    box.innerHTML = '<div class="ph"><span class="ph__cap"></span></div>';
+    document.body.appendChild(box);
+    document.documentElement.classList.add("has-cursor-thumb");
+    var ph = box.firstChild, cap = ph.firstChild;
+    var x = 0, y = 0, tx = 0, ty = 0, raf = 0, on = false, current = "";
+
+    var tick = function () {
+      var dx = tx - x;
+      x += dx * 0.18; y += (ty - y) * 0.18;
+      box.style.transform = "translate3d(" + (x + 28) + "px," + (y - 110) + "px,0)";
+      ph.style.setProperty("--tilt", Math.max(-6, Math.min(6, dx * 0.08)).toFixed(2) + "deg");
+      raf = (on || Math.abs(dx) > 0.5) ? requestAnimationFrame(tick) : 0;
+    };
+    list.addEventListener("pointermove", function (e) {
+      var row = e.target.closest(".prow");
+      if (!row) return;
+      if (!on) { x = tx = e.clientX; y = ty = e.clientY; }
+      tx = e.clientX; ty = e.clientY;
+      var id = row.getAttribute("data-id");
+      if (id !== current) {
+        current = id;
+        var p = api.byId(id);
+        ph.setAttribute("data-tone", id);
+        cap.textContent = p ? p.photo : "";
+      }
+      on = true; box.classList.add("is-on");
+      if (!raf) raf = requestAnimationFrame(tick);
+    });
+    list.addEventListener("pointerleave", function () { on = false; box.classList.remove("is-on"); });
+    root.addEventListener("scroll", function () { if (on) { on = false; box.classList.remove("is-on"); } }, { passive: true });
   }
 })(this);

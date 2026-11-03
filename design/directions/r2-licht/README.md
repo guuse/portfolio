@@ -7,6 +7,16 @@ sections, a serif headline says who Guus is, a quiet sans does everything else. 
 decoration; the details are in the hovers (the list thumbnail grows, the title turns accent, an
 arrow slides in), a gentle fade on load, and good focus states.
 
+**Round 2b (warmer, more playful).** Four copy voices from `system/copy.js` (`data-copy`,
+Nuchter server-rendered), the job moved to a small role line, and four quiet playful moves:
+a hand-drawn accent underline under the headline `<em>` (an inline-SVG token per option, draws
+itself in once), a round portrait chip in the header that waves on hover, each project its own
+soft tone + deeper accent (placeholder, row wash, hover title, links), and a cursor-following
+preview on the project list (mouse only, off under reduced motion). Plus a "Now" line with a
+live dot. **Koppen** (`data-type`): `a` Serif (Newsreader 400) · `b` Sans (Hanken Grotesk 650,
+tighter, 90% scale). The review bar has Kleur / Tekst / Koppen (`?option=`, `?copy=`, `?type=`,
+persisted + replaceState) and collapses behind "Opties" under 760px.
+
 **Options** (tokens only, `data-option` on `<html>`):
 - `licht` (default): near-white with a hint of blue (#f9fcfe), ink #131921, one clear blue accent (#1e59cd).
 - `zacht`: pale sage ground (#e8f4eb), deep green ink and accent (#005c3b). Same layout.

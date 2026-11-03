@@ -10,19 +10,20 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400..700;1,400..700&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&display=swap">
   <link rel="stylesheet" href="../../system/base.css">
   <link rel="stylesheet" href="style.css">
+  <script src="../../system/copy.js"></script>
   <script src="review.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="page site-header fade">
-    <a class="site-header__name" href="#main">Guus Ekkelenkamp</a>
+    <a class="site-header__name" href="#main"><span class="chip-portrait" aria-hidden="true"></span>Guus Ekkelenkamp</a>
     <nav class="site-nav" aria-label="Main">
       <ul>
-        <li><a href="#work">Work</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="#work" data-copy="nav.work">Work</a></li>
+        <li><a href="#projects" data-copy="nav.projects">Projects</a></li>
+        <li><a href="#about" data-copy="nav.about">About</a></li>
+        <li><a href="#contact" data-copy="nav.contact">Contact</a></li>
       </ul>
     </nav>
   </header>
@@ -33,15 +34,23 @@
         <span class="ph__cap" aria-hidden="true">Photo: portrait of Guus</span>
       </div>
       <div class="fade" style="--i:1">
-        <h1 class="intro__title" id="intro-title">I’m Guus. I lead the infra team at Harborn in Rotterdam.</h1>
-        <p class="intro__text">I make sure the platforms our clients run on are secure, reliable and well thought out. At home I build things too: a small server setup, some web apps, and more automation than one apartment needs.</p>
-        <p class="intro__meta"><a class="link" href="mailto:hello@ekkelenkamp.dev">hello@ekkelenkamp.dev</a><a class="link" href="https://github.com/guuse">GitHub</a><a class="link" href="#contact">LinkedIn</a></p>
+        <p class="intro__kicker" data-copy="hero.kicker">Rotterdam</p>
+        <h1 class="intro__title" id="intro-title" data-copy="hero.headline">I like building things that <em>keep running</em>.</h1>
+        <p class="intro__text" data-copy="hero.intro">I'm Guus. At Harborn I make sure client platforms are secure and reliable. At home I keep going: a few web apps, a small server and more home automation than one apartment needs.</p>
+        <div class="intro__facts">
+          <p class="intro__role" data-copy="hero.role">Tech lead, infra team at Harborn</p>
+          <p class="now"><span class="now__dot" aria-hidden="true"></span><span>Now: turning three second-hand mini PCs into a small cluster.</span></p>
+        </div>
+        <p class="intro__ctas">
+          <a class="btn" href="#contact"><span data-copy="cta.primary">Get in touch</span></a>
+          <a class="btn btn--quiet" href="#projects"><span data-copy="cta.secondary">See projects</span> <span class="arrow" aria-hidden="true">↓</span></a>
+        </p>
       </div>
     </section>
 
     <section id="work" aria-labelledby="work-title" class="fade" style="--i:3">
-      <div class="section-head"><h2 id="work-title">Work</h2></div>
-      <p class="lead col">I’m tech lead of the infra team at Harborn, a digital agency in Rotterdam and Amsterdam. Before a client project gets built, we decide where it runs, how it’s set up and who gets access to what.</p>
+      <div class="section-head"><h2 id="work-title" data-copy="work.title">Work</h2></div>
+      <p class="lead col" data-copy="work.intro">I'm tech lead of the infra team at Harborn, a digital agency in Rotterdam and Amsterdam. Before a client project gets built, we decide where it runs, how it's set up and who gets access to what.</p>
       <ul class="work__cols">
         <li><h3>Security</h3><p>Policies people actually follow, access reviews, and deciding which tools are allowed near client data.</p></li>
         <li><h3>Cloud &amp; platform</h3><p>The Kubernetes platform our projects run on, set up so it can be rebuilt from code.</p></li>
@@ -50,28 +59,28 @@
     </section>
 
     <section id="projects" aria-labelledby="projects-title">
-      <div class="section-head"><h2 id="projects-title">Projects</h2><p>Things I build outside work.</p></div>
+      <div class="section-head"><h2 id="projects-title" data-copy="projects.title">Projects</h2><p data-copy="projects.sub">Things I build outside work.</p></div>
       <div id="featured">
-<!--FEATURE--><a class="feature" href="project.html" data-id="homelab"><div class="ph" data-tone="homelab" role="img" aria-label="Photo: the setup under the TV"><span class="ph__cap" aria-hidden="true">Photo: the setup under the TV</span></div><div class="feature__body"><div><p class="feature__eyebrow">Featured · a different one each visit</p><h3 class="feature__title">Homelab &amp; home automation</h3><div class="feature__meta"><ul class="tags" aria-label="Built with"><li class="tag">Proxmox</li><li class="tag">Kubernetes</li><li class="tag">Home Assistant</li><li class="tag">Zigbee</li></ul><span class="feature__year">2026</span></div></div><div><p class="feature__story">An old laptop under the TV runs everything: my side projects, Home Assistant and the lights. It’s only reachable through my own private network, and every change goes through git, so I can rebuild it in an afternoon. Next up: three small second-hand PCs to turn it into a proper cluster.</p><span class="feature__cta">Read about the project <span class="arrow" aria-hidden="true">→</span></span></div></div></a><!--/FEATURE-->
+<!--FEATURE--><a class="feature" href="project.html" data-id="homelab"><div class="ph" data-tone="homelab" role="img" aria-label="Photo: the setup under the TV"><span class="ph__cap" aria-hidden="true">Photo: the setup under the TV</span></div><div class="feature__body"><div><p class="feature__eyebrow"><span data-copy="projects.featured">Featured</span>&nbsp;· a different one each visit</p><h3 class="feature__title">Homelab &amp; home automation</h3><div class="feature__meta"><ul class="tags" aria-label="Built with"><li class="tag">Proxmox</li><li class="tag">Kubernetes</li><li class="tag">Home Assistant</li><li class="tag">Zigbee</li></ul><span class="feature__year">2026</span></div></div><div><p class="feature__story">An old laptop under the TV runs everything: my side projects, Home Assistant and the lights. It’s only reachable through my own private network, and every change goes through git, so I can rebuild it in an afternoon. Next up: three small second-hand PCs to turn it into a proper cluster.</p><span class="feature__cta">Read about the project <span class="arrow" aria-hidden="true">→</span></span></div></div></a><!--/FEATURE-->
       </div>
-      <h3 class="plist__head">More projects</h3>
+      <h3 class="plist__head" data-copy="projects.more">More projects</h3>
       <ul class="plist" id="project-list">
 <!--LIST--><li><a class="prow" href="project.html" data-id="rules-of-99"><div class="ph" data-tone="rules-of-99" role="img" aria-label="Screenshot: a four-player game"><span class="ph__cap" aria-hidden="true">Screenshot: a four-player game</span></div><div><h4 class="prow__title">Rules of 99 <span class="arrow" aria-hidden="true">→</span></h4><p class="prow__line">Play Commander (Magic: The Gathering) with friends in the browser.</p></div><div class="prow__side"><ul class="tags tags--plain" aria-label="Built with"><li class="tag">Java</li><li class="tag">React</li><li class="tag">TypeScript</li><li class="tag">WebSockets</li></ul><span class="prow__year">2025</span></div></a></li><li><a class="prow" href="project.html" data-id="finds"><div class="ph" data-tone="finds" role="img" aria-label="Screenshot: the finds overview"><span class="ph__cap" aria-hidden="true">Screenshot: the finds overview</span></div><div><h4 class="prow__title">2nd-hand finds <span class="arrow" aria-hidden="true">→</span></h4><p class="prow__line">A tool that keeps an eye on Marktplaats and Vinted for me.</p></div><div class="prow__side"><ul class="tags tags--plain" aria-label="Built with"><li class="tag">Python</li><li class="tag">Claude</li><li class="tag">Astro</li></ul><span class="prow__year">2026</span></div></a></li><li><a class="prow" href="project.html" data-id="quizmaster"><div class="ph" data-tone="quizmaster" role="img" aria-label="Screenshot: the quiz on a phone"><span class="ph__cap" aria-hidden="true">Screenshot: the quiz on a phone</span></div><div><h4 class="prow__title">Quizmaster <span class="arrow" aria-hidden="true">→</span></h4><p class="prow__line">A live party quiz with questions generated on the spot.</p></div><div class="prow__side"><span></span><span class="prow__year">2025</span></div></a></li><li><a class="prow" href="project.html" data-id="scryfall"><div class="ph" data-tone="scryfall" role="img" aria-label="Screenshot: search box and results"><span class="ph__cap" aria-hidden="true">Screenshot: search box and results</span></div><div><h4 class="prow__title">Scryfall, in plain words <span class="arrow" aria-hidden="true">→</span></h4><p class="prow__line">Search Magic cards by describing what you want.</p></div><div class="prow__side"><ul class="tags tags--plain" aria-label="Built with"><li class="tag">Claude</li><li class="tag">TypeScript</li></ul><span class="prow__year">2025</span></div></a></li><!--/LIST-->
       </ul>
     </section>
 
     <section id="about" aria-labelledby="about-title">
-      <div class="section-head"><h2 id="about-title">About</h2></div>
+      <div class="section-head"><h2 id="about-title" data-copy="about.title">About</h2></div>
       <div class="col">
-        <p class="lead">I live in Rotterdam. When I’m not working I’m usually tinkering with something at home, playing Magic with friends, or scrolling <span lang="nl">Marktplaats</span> for things I don’t need.</p>
+        <p class="lead" data-copy="about.body">I live in Rotterdam. When I'm not working I'm usually tinkering with something at home, playing Magic with friends, or scrolling Marktplaats for things I don't need.</p>
         <p class="about__tools"><strong>Tools I use a lot:</strong> Kubernetes, Argo CD, Terraform, Cloudflare, Tailscale, TypeScript, Python, Home Assistant.</p>
       </div>
     </section>
 
     <section id="contact" aria-labelledby="contact-title">
-      <div class="section-head"><h2 id="contact-title">Contact</h2></div>
+      <div class="section-head"><h2 id="contact-title" data-copy="contact.title">Contact</h2></div>
       <div class="col">
-        <p class="lead">Want to work together or just say hi? Send me an email.</p>
+        <p class="lead" data-copy="contact.body">Want to work together or just say hi? Send me an email.</p>
         <a class="contact__mail" href="mailto:hello@ekkelenkamp.dev">hello@ekkelenkamp.dev</a>
         <ul class="contact__links">
           <li><a class="link" href="https://github.com/guuse">GitHub</a></li>
@@ -82,15 +91,31 @@
   </main>
 
   <footer class="page site-footer">
-    <span>© 2026 Guus Ekkelenkamp</span>
+    <span data-copy="footer.note">© 2026 Guus Ekkelenkamp</span>
     <a href="#main">Back to top</a>
   </footer>
 
   <aside class="review-bar" aria-label="Review tools">
     <strong>Licht &amp; rustig</strong>
-    <div role="radiogroup" aria-label="Option">
-      <button type="button" role="radio" data-value="licht" aria-checked="true">licht</button>
-      <button type="button" role="radio" data-value="zacht" aria-checked="false" tabindex="-1">zacht</button>
+    <button class="review-bar__toggle" type="button" aria-expanded="false" aria-controls="rb-groups">Opties</button>
+    <div class="review-bar__groups" id="rb-groups">
+      <div class="rb-group"><span id="rb-kleur">Kleur</span>
+        <div role="radiogroup" aria-labelledby="rb-kleur" data-group="option">
+          <button type="button" role="radio" data-value="licht" aria-checked="true">Licht</button>
+          <button type="button" role="radio" data-value="zacht" aria-checked="false" tabindex="-1">Zacht</button>
+        </div></div>
+      <div class="rb-group"><span id="rb-tekst">Tekst</span>
+        <div role="radiogroup" aria-labelledby="rb-tekst" data-group="copy">
+          <button type="button" role="radio" data-value="nuchter" aria-checked="true">Nuchter</button>
+          <button type="button" role="radio" data-value="speels" aria-checked="false" tabindex="-1">Speels</button>
+          <button type="button" role="radio" data-value="persoonlijk" aria-checked="false" tabindex="-1">Persoonlijk</button>
+          <button type="button" role="radio" data-value="kort" aria-checked="false" tabindex="-1">Kort</button>
+        </div></div>
+      <div class="rb-group"><span id="rb-koppen">Koppen</span>
+        <div role="radiogroup" aria-labelledby="rb-koppen" data-group="type">
+          <button type="button" role="radio" data-value="a" aria-checked="true">Serif</button>
+          <button type="button" role="radio" data-value="b" aria-checked="false" tabindex="-1">Sans</button>
+        </div></div>
     </div>
     <span class="review-bar__sep" aria-hidden="true"></span>
     <a href="index.html" aria-current="page">index</a>

@@ -66,12 +66,14 @@
       '<div class="ph__inner"></div><span class="ph__label" aria-hidden="true">' + esc(p.photo) + "</span></div>";
   }
 
+  function colourVars(p) { return "--p: var(--tone-" + p.id + "); --p-ink: var(--pink-" + p.id + ")"; }
+
   function featuredHTML(p) {
-    return '<article class="feature" data-project="' + p.id + '" aria-labelledby="feature-title">' +
+    return '<article class="feature" data-project="' + p.id + '" style="' + colourVars(p) + '" aria-labelledby="feature-title">' +
       '<a class="feature__media" href="' + p.href + '" tabindex="-1" aria-hidden="true">' + photoHTML(p) + "</a>" +
       '<div class="page grid feature__body">' +
         '<div class="feature__head">' +
-          '<p class="eyebrow">Featured project</p>' +
+          '<p class="eyebrow" data-copy="projects.featured">Featured</p>' +
           '<h3 class="feature__title display" id="feature-title"><a href="' + p.href + '">' + esc(p.title) + "</a></h3>" +
           '<p class="feature__line">' + esc(p.line) + "</p>" +
         "</div>" +
@@ -85,7 +87,7 @@
   }
 
   function itemHTML(p) {
-    return '<li class="item" data-project="' + p.id + '">' +
+    return '<li class="item" data-project="' + p.id + '" style="' + colourVars(p) + '">' +
       '<a class="item__media" href="' + p.href + '" tabindex="-1" aria-hidden="true">' + photoHTML(p) + "</a>" +
       '<div class="item__caption">' +
         '<h3 class="item__title"><a href="' + p.href + '">' + esc(p.title) + "</a></h3>" +
@@ -126,5 +128,6 @@
     grid.innerHTML = out.grid;
     slot.setAttribute("data-current", id);
   }
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", run); else run();
+  // Scripts sit at the end of <body>, so the slots exist: render now, before the voice is applied.
+  run();
 })(this);

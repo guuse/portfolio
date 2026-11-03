@@ -78,7 +78,7 @@
   function featureHTML(p) {
     return '<div class="feature__media">' + phHTML(p) + "</div>" +
       '<div class="feature__body">' +
-        '<p class="feature__eyebrow">Featured project</p>' +
+        '<p class="feature__eyebrow" data-copy="projects.featured">Featured</p>' +
         '<h3 class="feature__title"><a href="' + withOption(HREF) + '">' + esc(p.title) + "</a></h3>" +
         '<p class="feature__story">' + esc(p.story) + "</p>" +
         tagsHTML(p) +
@@ -87,7 +87,7 @@
   }
 
   function cardHTML(p, wide) {
-    return '<li class="card' + (wide ? " card--wide" : "") + '" data-id="' + esc(p.id) + '">' +
+    return '<li class="card' + (wide ? " card--wide" : "") + '" data-id="' + esc(p.id) + '" data-tone="' + esc(p.id) + '">' +
       '<div class="card__media">' + phHTML(p) + "</div>" +
       '<div class="card__head"><h3 class="card__title"><a href="' + withOption(HREF) + '">' + esc(p.title) + '</a></h3><span class="arrow" aria-hidden="true">→</span></div>' +
       '<p class="card__line">' + esc(p.line) + "</p>" +
@@ -111,6 +111,9 @@
     var rest = PROJECTS.filter(function (p) { return p.id !== id; });
     featureEl.innerHTML = featureHTML(featured);
     featureEl.setAttribute("data-id", id);
+    featureEl.setAttribute("data-tone", id);
+    var voice = document.documentElement.getAttribute("data-copy-voice");
+    if (window.EkkCopy && voice) window.EkkCopy.apply(voice, featureEl);
     // Odd count -> last card spans the full row, so the grid never leaves a lonely card.
     listEl.innerHTML = rest.map(function (p, i) {
       return cardHTML(p, rest.length % 2 === 1 && i === rest.length - 1);
@@ -126,6 +129,7 @@
     el.querySelector("[data-next-title]").textContent = next.title;
     el.querySelector("[data-next-line]").textContent = next.line;
     el.querySelector("[data-next-media]").innerHTML = phHTML(next);
+    el.setAttribute("data-tone", next.id);
   }
 
   window.DonkerProjects = { list: PROJECTS, render: renderHome };
