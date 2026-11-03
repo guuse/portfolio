@@ -1,0 +1,14 @@
+# Voluntary disruptions (node drain, cluster upgrades) take one pod at a time.
+# On a single node the drain waits on the last pod until you let it go
+# (README, "Maintenance"); that pause is the point.
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: portfolio
+  labels:
+    app.kubernetes.io/name: portfolio
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: portfolio
