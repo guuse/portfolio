@@ -630,9 +630,10 @@
   .dayjob { border-top: 0 !important; }
   .dayjob .folio { color: var(--ink-inverse); border-color: var(--c-flood-rule); }
   .dayjob .folio__page { color: var(--ink-inverse); }
-  .roles { display: flex; flex-wrap: wrap; gap: .3em 1.4em; list-style: none; padding: 0; font-size: var(--step--1); font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+  .title-fact { display: block; font-family: var(--font-body); font-size: var(--step--1); font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
   .dayjob__title { font-family: var(--font-display); font-size: var(--step-5); line-height: .95; letter-spacing: -.01em; color: var(--c-flood-accent); max-width: 14ch; margin-top: var(--space-s); }
   .dayjob__intro { align-self: end; }
+  .title-fact + .jobs { margin-top: var(--space-2xs); }
   .jobs { display: grid; gap: var(--space-xl) var(--gutter); list-style: none; padding: 0; border-top: 3px solid var(--ink-inverse); padding-top: var(--space-m); }
   @media (min-width: 840px) { .jobs { grid-template-columns: repeat(3, minmax(0, 1fr)); } .job + .job { border-left: 1px solid var(--c-flood-rule); padding-left: var(--gutter); } }
   .job { display: flex; flex-direction: column; gap: var(--space-xs); }

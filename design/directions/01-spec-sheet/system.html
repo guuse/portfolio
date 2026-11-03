@@ -309,7 +309,7 @@
   </div>
 
   <div class="cmp"><div class="cmp__h"><span class="label label--accent">F-02</span><h3>Hero</h3><p>Model line, expanded name, one-liner, sub-line, status tape. Fits above the fold at 360×640.</p></div>
-    <div class="mini-hero"><p class="label hero__ident"><b>GE-1</b><span>Dual-function unit</span><span>Rev. 2026.11</span></p><p class="hero__name">Guus Ekkelenkamp</p><p class="hero__line mt-s" style="font-size:var(--step-1)">By day I make sure client platforms are secure and keep running. By night I do the same for a laptop behind the TV.</p><p class="hero__sub">Security officer, cloud specialist and solution architect at Harborn, Rotterdam.</p></div>
+    <div class="mini-hero"><p class="label hero__ident"><b>GE-1</b><span>Dual-function unit</span><span>Rev. 2026.11</span></p><p class="hero__name">Guus Ekkelenkamp</p><p class="hero__line mt-s" style="font-size:var(--step-1)">By day I make sure client platforms are secure and keep running. By night I do the same for a laptop behind the TV.</p><p class="hero__sub">Tech lead of the infra team at Harborn, Rotterdam.</p></div>
   </div>
 
   <div class="cmp"><div class="cmp__h"><span class="label label--accent">F-03</span><h3>StatusChip / Tape</h3><p>Embossed label-maker tape. Default tilt −1.6°, clockwise variant, ink variant for photo tags, flat variant for UI. Blinking dot stops under reduced motion.</p></div>
@@ -372,10 +372,10 @@
     <ul class="tags" aria-label="Example stack"><li>Python</li><li>Claude</li><li>Astro SSR</li><li>Resend</li><li>k3s</li></ul>
   </div>
 
-  <div class="cmp"><div class="cmp__h"><span class="label label--accent">F-13</span><h3>Role table, flow and function sheet (work)</h3><p>New in round 1. Roles are plain facts in a small spec table (FN-01…03), never a headline. The flow figure maps the three questions to the three functions. Function sheets sit in a three-column ruled block with an area title, one line and three numbered bullets.</p></div>
-    <table class="spec roles" style="max-width:28rem"><caption class="label">Roles</caption><tbody><tr><th scope="row">FN-01</th><td>Security officer</td></tr><tr><th scope="row">FN-02</th><td>Cloud specialist</td></tr><tr><th scope="row">FN-03</th><td>Solution architect</td></tr></tbody></table>
-    <ol class="flow__steps mt-l" aria-label="Example flow"><li class="flow__in"><span class="label">Input</span><b>“We need a portal”</b></li><li class="flow__q"><span class="label label--accent">FN-03</span><b>What does it look like?</b></li><li class="flow__q"><span class="label label--accent">FN-02</span><b>Where does it run?</b></li><li class="flow__q"><span class="label label--accent">FN-01</span><b>Who gets access to what?</b></li><li class="flow__in"><span class="label">Output</span><b>Survives year three</b></li></ol>
-    <div class="fns mt-l"><article class="fn"><div class="fn__head"><span class="label label--accent">FN-02</span><span class="label">Function sheet</span></div><p style="font-size:var(--step-3);font-stretch:118%;font-weight:800;letter-spacing:-.035em;line-height:.95;margin-top:var(--space-m)">Cloud &amp; platform</p><p class="fn__line">The layer every client project lands on.</p><ul class="fn__list"><li>Environments that can be rebuilt from git, not from someone's memory.</li></ul></article></div>
+  <div class="cmp"><div class="cmp__h"><span class="label label--accent">F-13</span><h3>Title fact, flow and area sheet (work)</h3><p>The job title is one plain fact in a small spec table (“Tech lead · Infra team”), never a headline. The flow figure maps the three questions to the three areas the job covers (AR-01…03). Area sheets sit in a three-column ruled block with an area name, one line and three numbered bullets.</p></div>
+    <table class="spec title-fact" style="max-width:28rem"><caption class="label">Unit at Harborn</caption><tbody><tr><th scope="row">Title</th><td>Tech lead · Infra team</td></tr><tr><th scope="row">Covers</th><td class="muted">Security · cloud &amp; platform · architecture</td></tr></tbody></table>
+    <ol class="flow__steps mt-l" aria-label="Example flow"><li class="flow__in"><span class="label">Input</span><b>“We need a portal”</b></li><li class="flow__q"><span class="label label--accent">AR-03</span><b>What does it look like?</b></li><li class="flow__q"><span class="label label--accent">AR-02</span><b>Where does it run?</b></li><li class="flow__q"><span class="label label--accent">AR-01</span><b>Who gets access to what?</b></li><li class="flow__in"><span class="label">Output</span><b>Survives year three</b></li></ol>
+    <div class="fns mt-l"><article class="fn"><div class="fn__head"><span class="label label--accent">AR-02</span><span class="label">What the job covers</span></div><p style="font-size:var(--step-3);font-stretch:118%;font-weight:800;letter-spacing:-.035em;line-height:.95;margin-top:var(--space-m)">Cloud &amp; platform</p><p class="fn__line">The layer every client project lands on.</p><ul class="fn__list"><li>Environments that can be rebuilt from git, not from someone's memory.</li></ul></article></div>
   </div>
 
   <div class="cmp"><div class="cmp__h"><span class="label label--accent">F-14</span><h3>Bridge · test rig</h3><p>The transition from day job to homelab: the bridge line set large on a sunken panel, with a rule-to-homelab mapping table and a dashed coupling line running down into §03.</p></div>
@@ -451,8 +451,8 @@
     <div><span class="sig sig--danger">Don't</span><p>“Scalable infrastructure” on a card with an icon.</p></div>
     <div><span class="sig sig--ok">Do</span><p>One crooked tape per view, carrying the status: <span class="tape tape--s">Currently: hunting mini PCs</span></p></div>
     <div><span class="sig sig--danger">Don't</span><p>Tilt the headings, the tables or three tapes next to each other. Crooked only works when everything else is straight.</p></div>
-    <div><span class="sig sig--ok">Do</span><p>Roles as plain facts in a small table: <span class="label label--ink">FN-01 · Security officer</span></p></div>
-    <div><span class="sig sig--danger">Don't</span><p>Job titles as the big headline, or stacked with slashes.</p></div>
+    <div><span class="sig sig--ok">Do</span><p>The title as one plain fact in small type: <span class="label label--ink">Tech lead · Infra team</span></p></div>
+    <div><span class="sig sig--danger">Don't</span><p>The title as the big headline, or the areas dressed up as extra job titles.</p></div>
   </div>
   <footer class="site-footer"><p class="label">01 · Spec Sheet · design system · Rev. 2026.11</p><p class="label"><a href="index.html" data-keep-option>Homepage</a> · <a href="#main">Top ↑</a></p></footer>
 </section>

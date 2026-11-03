@@ -464,10 +464,10 @@
   .sig--ink { color: var(--ink); }
   .sig--accent { color: var(--accent-ink); background: var(--accent); border-color: var(--c-bar-edge); }
 
-  /* ── Work: roles, flow, function sheets, bridge ── */
+  /* ── Work: title fact, flow, area sheets, bridge ── */
   .lead { font-size: var(--step-1); line-height: 1.4; font-stretch: 96%; max-width: 46ch; }
-  .roles td { font-weight: 650; font-stretch: 100%; }
-  .roles th[scope="row"] { color: var(--accent-text); }
+  .title-fact td { font-weight: 650; font-stretch: 100%; }
+  .title-fact th[scope="row"] { color: var(--accent-text); }
 
   .flow__steps { list-style: none; padding: 0; margin-top: var(--space-s); display: grid; gap: 1.75rem; grid-template-columns: minmax(0, 1fr); counter-reset: none; }
   @media (min-width: 960px) { .flow__steps { grid-template-columns: 0.8fr 1fr 1fr 1fr 0.9fr; gap: 2.25rem; } }

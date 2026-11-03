@@ -166,7 +166,7 @@
     <li><i aria-hidden="true">2</i><b>Width is the voice.</b><p>Anybody runs from 50% to 150% wide. Ultra-condensed for weight and density, ultra-expanded for a shout across the page. Size and weight are secondary; width is the expressive axis.</p></li>
     <li><i aria-hidden="true">3</i><b>Grid first, then break it.</b><p>Every block snaps to 12 columns. Then one thing per section ignores it: bleeds off the edge, overlaps, or turns 90°. Never two things breaking at once.</p></li>
     <li><i aria-hidden="true">4</i><b>Flat print.</b><p>Fields of solid colour with hard edges. Radius 0, shadow none, gradients never (a hard hatch is a pattern, not a gradient). Depth comes from overlap and scale.</p></li>
-    <li><i aria-hidden="true">5</i><b>Shout in display, explain in serif.</b><p>Display type never carries a paragraph. Long copy is Newsreader at a readable measure. Day-job titles stay small: facts in mono, not headlines.</p></li>
+    <li><i aria-hidden="true">5</i><b>Shout in display, explain in serif.</b><p>Display type never carries a paragraph. Long copy is Newsreader at a readable measure. The day-job title stays small: a fact in mono, not a headline.</p></li>
   </ol>
 </section>
 
@@ -352,7 +352,7 @@
     <li>In one headline, contrast width, not family: one line at 50%, the next at 150%.</li>
     <li>Body copy is Newsreader at 68ch max. Never set more than two lines of display type as running text.</li>
     <li>Numerals in data: <code>tabular-nums slashed-zero</code>. Big numerals are always Anybody, condensed or expanded, never normal width for the hero numbers.</li>
-    <li>Roles and job titles are facts: mono caps at step −1. They never become the headline.</li>
+    <li>The job title is one plain fact: mono caps at step −1 (“Tech lead · Infra team”). It never becomes the headline. Security, cloud and architecture are areas of work, not titles.</li>
   </ul>
 </section>
 
@@ -396,7 +396,7 @@
     <div class="stage stage--flush"><header class="masthead"><div class="page masthead__bar" style="padding-inline: var(--space-s)"><a class="mark" href="#components">G.E.<span class="mark__dot" aria-hidden="true"></span><span class="mark__dom">ekkelenkamp.dev</span></a><nav class="nav" aria-label="Example"><ul><li><a href="#components"><span>01</span>Now</a></li><li><a href="#components" class="force-hover" style="font-stretch:125%;text-decoration:underline;text-decoration-thickness:3px;text-decoration-color:var(--accent)"><span>02</span>Work (hover)</a></li><li><a href="#components" class="force-focus"><span>03</span>Homelab (focus)</a></li></ul></nav></div></header></div>
   </div>
 
-  <div class="comp"><p class="comp__label"><b>Hero</b><span>fitted name, number field, one-liner, roles sub-line, status. Fits 360×640.</span></p>
+  <div class="comp"><p class="comp__label"><b>Hero</b><span>fitted name, number field, one-liner, title sub-line, status. Fits 360×640.</span></p>
     <div class="stage"><div class="hero mini-hero"><div class="grid hero__grid" style="grid-template-columns: repeat(12, minmax(0,1fr))">
       <h2 class="hero__name fit-box" style="grid-column:1/span 7; grid-row:1"><span class="fit hero__first">Guus</span><span class="fit hero__last">Ekkelenkamp</span></h2>
       <div class="hero__field" style="grid-column:8/-1; grid-row:1 / span 2; margin:0; padding: var(--space-s)" aria-hidden="true"><span class="hero__fifteen" style="inset-inline-end:0">15</span><span class="hero__fifteen-cap">services at home</span></div>
@@ -420,12 +420,12 @@
     <div class="stage stage--flush"><div class="band band--inverse feature" style="padding: var(--space-m)"><div class="grid feature__grid"><div class="feature__top"><span class="feature__num" aria-hidden="true">02</span><p class="feature__kicker label">Work · the day job</p></div><h3 class="feature__title fit-box work__title"><span class="fit work__t1">How it’s built.</span><span class="fit work__t2">Where it runs.</span><span class="fit work__t3">Who gets in.</span></h3></div></div></div>
   </div>
 
-  <div class="comp"><p class="comp__label"><b>RolesLine</b> <span>new · titles as plain facts: mono caps between two rules, never a headline</span></p>
-    <div class="stage band--inverse" style="background:var(--surface-inverse); color: var(--ink-inverse)"><dl class="roles"><div><dt class="label">Roles</dt><dd>Security officer · Cloud specialist · Solution architect</dd></div><div><dt class="label">At</dt><dd>Harborn, Rotterdam &amp; Amsterdam</dd></div></dl></div>
+  <div class="comp"><p class="comp__label"><b>TitleLine</b> <span>new · the one title as a plain fact: mono caps between two rules, never a headline</span></p>
+    <div class="stage band--inverse" style="background:var(--surface-inverse); color: var(--ink-inverse)"><dl class="roles"><div><dt class="label">Title</dt><dd>Tech lead · Infra team</dd></div><div><dt class="label">At</dt><dd>Harborn, Rotterdam &amp; Amsterdam</dd></div></dl></div>
   </div>
 
-  <div class="comp"><p class="comp__label"><b>RoleBlock</b> <span>new · one of the three jobs: flat field (accent / surface / outlined), condensed title, italic line, three square-bullet facts</span></p>
-    <div class="stage" style="background:var(--surface-inverse)"><ol class="jobs" style="margin:0"><li class="job job--a"><p class="job__n label">Job 1 of 3</p><h3 class="job__title">Security</h3><p class="job__line">Keeping the agency and its clients out of the news.</p><ul class="job__bullets"><li>Access reviews, secrets handling, and the security questionnaires clients send before signing.</li></ul></li><li class="job job--b" style="margin:0"><p class="job__n label">Job 2 of 3</p><h3 class="job__title">Cloud &amp; platform</h3><p class="job__line">The layer every client project lands on.</p><ul class="job__bullets"><li>Environments that can be rebuilt from git, not from someone’s memory.</li></ul></li><li class="job job--c" style="margin:0"><p class="job__n label">Job 3 of 3</p><h3 class="job__title">Architecture</h3><p class="job__line">Turning “we need a portal” into a system that survives year three.</p><ul class="job__bullets"><li>Writes the decision down (ADRs), including the options we didn’t pick.</li></ul></li></ol></div>
+  <div class="comp"><p class="comp__label"><b>AreaBlock</b> <span>new · one of three areas the job covers (not roles): flat field (accent / surface / outlined), condensed title, italic line, three square-bullet facts</span></p>
+    <div class="stage" style="background:var(--surface-inverse)"><ol class="jobs" style="margin:0"><li class="job job--a"><p class="job__n label">Area 1 of 3</p><h3 class="job__title">Security</h3><p class="job__line">Keeping the agency and its clients out of the news.</p><ul class="job__bullets"><li>Access reviews, secrets handling, and the security questionnaires clients send before signing.</li></ul></li><li class="job job--b" style="margin:0"><p class="job__n label">Area 2 of 3</p><h3 class="job__title">Cloud &amp; platform</h3><p class="job__line">The layer every client project lands on.</p><ul class="job__bullets"><li>Environments that can be rebuilt from git, not from someone’s memory.</li></ul></li><li class="job job--c" style="margin:0"><p class="job__n label">Area 3 of 3</p><h3 class="job__title">Architecture</h3><p class="job__line">Turning “we need a portal” into a system that survives year three.</p><ul class="job__bullets"><li>Writes the decision down (ADRs), including the options we didn’t pick.</li></ul></li></ol></div>
   </div>
 
   <div class="comp"><p class="comp__label"><b>BridgeQuote</b> <span>new · the transition from day job to homelab; also the pull quote</span></p>
@@ -533,8 +533,8 @@
   <div class="dodont">
     <div class="dd dd--do"><header><span aria-hidden="true">■</span>Do</header><div><p style="font-family:var(--font-display);font-weight:900;font-stretch:150%;font-size:var(--step-6);line-height:.8;color:var(--c-num)">0</p><p class="cap">One number, set enormous, with a tiny caption: “Rover clogs found”.</p></div></div>
     <div class="dd dd--dont"><header><span aria-hidden="true">✕</span>Don’t</header><div><div class="bad-card">🚀 280+ finds!</div><p class="cap">Rounded gradient cards with an emoji and a glow. Not this system, not this site.</p></div></div>
-    <div class="dd dd--do"><header><span aria-hidden="true">■</span>Do</header><div><p class="label" style="color:var(--ink)">Roles · Security officer · Cloud specialist · Solution architect</p><p class="cap">Titles as small facts. Let the work description carry the weight.</p></div></div>
-    <div class="dd dd--dont"><header><span aria-hidden="true">✕</span>Don’t</header><div><p style="font-family:var(--font-display);font-weight:900;font-stretch:125%;font-size:var(--step-3);line-height:.95;text-transform:uppercase">Security / Cloud / Architect</p><p class="cap">Job titles as the big headline, stacked with slashes.</p></div></div>
+    <div class="dd dd--do"><header><span aria-hidden="true">■</span>Do</header><div><p class="label" style="color:var(--ink)">Title · Tech lead · Infra team</p><p class="cap">One title, as a small fact. Let the areas and the work description carry the weight.</p></div></div>
+    <div class="dd dd--dont"><header><span aria-hidden="true">✕</span>Don’t</header><div><p style="font-family:var(--font-display);font-weight:900;font-stretch:125%;font-size:var(--step-3);line-height:.95;text-transform:uppercase">Security / Cloud / Architect</p><p class="cap">Areas of work dressed up as job titles, set as the big headline, stacked with slashes.</p></div></div>
     <div class="dd dd--do"><header><span aria-hidden="true">■</span>Do</header><div><p style="font-family:var(--font-display);font-weight:900;line-height:.85"><span style="display:block;font-stretch:50%;font-size:var(--step-5)">A data centre</span><span style="display:block;font-stretch:150%;font-size:var(--step-2)">with the lid shut</span></p><p class="cap">Contrast width between lines.</p></div></div>
     <div class="dd dd--dont"><header><span aria-hidden="true">✕</span>Don’t</header><div><p style="font-family:var(--font-display);font-weight:400;font-stretch:100%;font-size:var(--step-1)">A data centre with the lid shut, everything at one size and one width, centred and polite.</p><p class="cap">Same volume everywhere means no poster.</p></div></div>
   </div>
