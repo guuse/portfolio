@@ -70,7 +70,7 @@ I'm proudest of is project #1 below.*
 
 ## 6. Projects (static order, no rotation)
 
-### 6.1 Hosting platform · `platform` · Work · 2019–now `[CONFIRM start year]`
+### 6.1 Hosting platform · `platform` · Work · 2022–now
 - **Title:** *A cloud-agnostic Kubernetes hosting platform*
 - **One-liner:** *The platform our client projects run on: eight clusters, one way of working.*
 - **Story:** *Every client used to get a slightly different setup. I designed one platform
@@ -159,3 +159,44 @@ Keep the four parts and galleries. Add one line at the top: *All four run on the
   digest. (private)
 
 ## 7. Contact (unchanged)
+
+---
+
+## Addendum: platform details from the internal repos and docs (public-safe)
+
+Guus: started in **2022**; "we built" is right for the CLI. Use these to make project #1 richer.
+Never publish CIDRs, account IDs, cluster names, client names or internal hostnames.
+
+### The foundation (AWS first, Azure where the client lives)
+- Terraform modules for the building blocks: **EKS**, a **dual-stack (IPv4 + IPv6) VPC across
+  three availability zones**, **Aurora** databases, **Redis**, **OpenSearch / Elasticsearch**,
+  **EFS** shared storage, a **bastion**, and NAT.
+- **Autoscaling nodes** (Karpenter) so the cluster grows and shrinks with load.
+- Traffic: a Network Load Balancer with fixed IPs → **ingress-nginx** (as a DaemonSet, with
+  proxy protocol and HSTS) → apps; certificates by **cert-manager**.
+- **Rancher** to manage the fleet of clusters from one place.
+
+### Multi-region, including Japan
+- A second cluster in **Asia Pacific (Tokyo)** next to the European one, for users in Asia and
+  Oceania. **CloudFront** routes by path and region and caches at the edge; dynamic requests go
+  to the nearest cluster.
+- A small **resource syncer** (a CronJob we built) keeps chosen Deployments, ConfigMaps and
+  Secrets in the Asia cluster in step with the main cluster, so there is still one place to make
+  changes.
+
+### Reliability
+- **Disaster recovery with Velero** on both AWS and Azure: cluster resources and volume snapshots
+  backed up and restorable.
+- A **supported-services lifecycle**: published end-of-support dates per version (databases,
+  search, ingress), so upgrades are planned instead of urgent.
+
+### How it evolved (a nice small timeline for the detail view)
+- **2022:** first standardised hosting cluster on AWS EKS with Terraform modules and Rancher.
+- **Then:** multi-region (EU + Tokyo) with CloudFront; disaster recovery with Velero on AWS and
+  Azure; Terraform state centralised.
+- **Then:** deployments move to **GitOps**: GitHub Actions builds, Argo CD deploys, Image Updater
+  promotes. Production and acceptance per app; onboarding by GitHub topic.
+- **Now:** infrastructure moves to **Pulumi in Python** with push-based GitOps: policy-first,
+  tests, saved plans, review gate, drift gate, OIDC, self-hosted runners. Plus a logging pipeline
+  (Alloy → Loki → encrypted S3) and an internal CLI to operate every environment.
+- Present the timeline carefully as "how it grew", without exact dates except 2022 and "now".
