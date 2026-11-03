@@ -10,7 +10,7 @@ tools, each told in small animated drawings.
 
 |                                               |                                                                                                                                                                              |
 | --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Astro 7**, static, TypeScript strict        | Every page is pre-rendered HTML. No UI framework; about 15 KB of script on the heaviest page. ([ADR 0001](docs/adr/0001-static-astro.md))                                    |
+| **Astro 7**, static, TypeScript strict        | Every page is pre-rendered HTML. No UI framework; about 17 KB of script on the heaviest page. ([ADR 0001](docs/adr/0001-static-astro.md))                                    |
 | **Design tokens** (DTCG → Style Dictionary 5) | One token edit restyles the site, drawings included. ([0002](docs/adr/0002-design-tokens.md))                                                                                |
 | **Build-time SVG + a tiny motion runtime**    | The drawings are complete without JavaScript; the runtime only moves them, on one shared animation loop. ([0003](docs/adr/0003-build-time-svg-and-a-tiny-motion-runtime.md)) |
 | **Native CSS** with cascade layers            | Scoped component styles, fluid type, no Tailwind.                                                                                                                            |
