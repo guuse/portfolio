@@ -3,6 +3,7 @@
  * Renders three posters (platform, homelab, MTG) in two shapes, wide 16:10 and card 4:5,
  * at 2x with Playwright, and writes assets/covers/<id>-<shape>.webp plus @2x.
  * Called from build-artifact.js. Static art: no animation, few big elements, sharp text.
+ * Round 16: platform and homelab are stills of the art.js illustrations; MTG sits on the same flat ground.
  */
 "use strict";
 const fs = require("fs");
@@ -14,7 +15,7 @@ const BASE = `
 *{box-sizing:border-box;margin:0}
 html,body{width:100%;height:100%}
 body{font-family:"Schibsted Grotesk",system-ui,sans-serif;color:#f0f3fa;overflow:hidden;
-  background:radial-gradient(70% 60% at 70% 15%, rgba(60,90,170,.22), transparent 70%), linear-gradient(170deg,#0f1b36 0%,#0a1328 60%,#081022 100%)}
+  background:oklch(21% 0.047 266)}
 .serif{font-family:"Instrument Serif",Georgia,serif;font-weight:400}
 .node{border:1.5px solid rgba(240,243,250,.22);background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.02));border-radius:10px;padding:22px 30px;background:#121f3d}
 .node b{display:block;font-family:"Instrument Serif",Georgia,serif;font-weight:400;font-size:54px;line-height:1}
@@ -121,6 +122,13 @@ function mtg(shape, shots) {
 <div class="phone" style="${abs(560, 90, 190)}height:410px;transform:rotate(6deg);padding:9px;border-radius:30px"><img src="${s("scryfall-home-mobile.webp")}" style="border-radius:22px"></div>`, css);
 }
 
+/* --- platform and homelab (round 16): stills of the same illustrations the site animates */
+function art(id, shape, dir) {
+  const A = require(path.resolve(dir, "art.js"));
+  return "<!doctype html><html><head><meta charset=utf-8>" + FONTS + '<link rel="stylesheet" href="file://' + path.join(dir, "site.css") + '">' +
+    "<style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:oklch(21% 0.047 266)}.scene-svg{width:100%;height:100%}</style></head><body>" + A.cover(id, shape) + "</body></html>";
+}
+
 async function render(dir) {
   const { chromium } = require("playwright");
   const outDir = path.join(dir, "assets/covers");
@@ -130,7 +138,7 @@ async function render(dir) {
   const jobs = [];
   for (const shape of ["wide", "card"]) {
     const [w, h] = shape === "wide" ? [1600, 1000] : [800, 1000];
-    for (const [id, fn] of [["platform", platform], ["homelab", homelab], ["mtg", mtg]]) jobs.push({ id, shape, w, h, html: fn(shape, shots) });
+    for (const [id, fn] of [["platform", (sh) => art("platform", sh, dir)], ["homelab", (sh) => art("homelab", sh, dir)], ["mtg", mtg]]) jobs.push({ id, shape, w, h, html: fn(shape, shots) });
   }
   const ctx = await browser.newContext({ deviceScaleFactor: 2 });
   for (const j of jobs) {

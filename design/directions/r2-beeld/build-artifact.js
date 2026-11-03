@@ -21,6 +21,7 @@ const out = path.join(dir, "artifact");
 const read = (f) => fs.readFileSync(path.join(dir, f), "utf8");
 const write = (f, s) => fs.writeFileSync(path.join(dir, f), s);
 const D = require(path.join(dir, "diagrams.js"));
+const ART = require(path.join(dir, "art.js"));
 
 const PAGES = ["projects.html", "platform.html", "homelab.html", "mtg.html"];
 const BAKE = PAGES.concat(["system.html"]);
@@ -100,6 +101,7 @@ function grid(slot) {
     s = s.replace(/<!-- stack:mtg -->[\s\S]*?<!-- \/stack -->/g, () => "<!-- stack:mtg -->" + S.mtgStack((id) => img(id, true)) + "<!-- /stack -->");
     s = s.replace(/<!-- shots:([a-z0-9]+) -->[\s\S]*?<!-- \/shots -->/g, (m, slot) => "<!-- shots:" + slot + " -->" + grid(slot) + "<!-- /shots -->");
     s = s.replace(/<!-- shot:hero -->[\s\S]*?<!-- \/shot -->/g, () => { const id = pick("hero")[0]; return "<!-- shot:hero -->" + (id ? '<figure class="hero-shot">' + img(id, false) + "</figure>" : "") + "<!-- /shot -->"; });
+    s = s.replace(/<!-- scene:([a-z0-9]+) -->[\s\S]*?<!-- \/scene -->/g, (m, id) => "<!-- scene:" + id + " -->" + ART.scene(id) + "<!-- /scene -->");
     s = s.replace(/<!-- dg:([a-z]+) -->[\s\S]*?<!-- \/dg -->/g, (m, id) => "<!-- dg:" + id + " -->" + D.html(id) + "<!-- /dg -->");
     write(f, s);
   }
@@ -131,6 +133,7 @@ function grid(slot) {
   await browser.close();
   let cv = read("index.html");
   cv = cv.replace(/<!-- thumb:([a-z]+) -->[\s\S]*?<!-- \/thumb -->/g, (m, id) => "<!-- thumb:" + id + " -->" + thumbs[id] + "<!-- /thumb -->");
+  cv = cv.replace(/<!-- card:([a-z]+) -->[\s\S]*?<!-- \/card -->/g, (m, id) => "<!-- card:" + id + " -->" + ART.card(id) + "<!-- /card -->");
   cv = cv.replace(/<!-- shot:thumb -->[\s\S]*?<!-- \/shot -->/g, () => { const id = pick("thumb")[0]; return "<!-- shot:thumb -->" + (id ? img(id, true).replace(/alt="[^"]*"/, 'alt=""') : "") + "<!-- /shot -->"; });
   write("index.html", cv);
 
@@ -138,17 +141,17 @@ function grid(slot) {
   fs.rmSync(out, { recursive: true, force: true });
   fs.mkdirSync(path.join(out, "assets"), { recursive: true });
   fs.cpSync(path.join(dir, "assets"), path.join(out, "assets"), { recursive: true, filter: (src) => !/grimoire-|finds-|r99-(home|table-setup|replay|card|workbench|game|game-stack|game-mobile|workbench-new)(@2x)?\.webp|r99-home-mobile|tutor-(builder|insights|mobile|mobile-deck)(@2x)?\.webp|scryfall-(result|mobile)\.webp/.test(src) });
-  for (const f of ["site.css", "site.js", "diagrams.js"]) fs.copyFileSync(path.join(dir, f), path.join(out, f));
+  for (const f of ["site.css", "site.js", "diagrams.js", "scenes.js"]) fs.copyFileSync(path.join(dir, f), path.join(out, f));
   for (const f of PAGES) fs.copyFileSync(path.join(dir, f), path.join(out, f));
 
   // The homepage as a fragment: the publisher wraps it in a document.
   const head = cv.slice(cv.indexOf("<title>"), cv.indexOf("</head>")).replace(/<meta name="viewport"[^>]*>\n?/, "");
   const body = cv.slice(cv.indexOf("<!-- page:start -->") + "<!-- page:start -->".length, cv.indexOf("<!-- page:end -->"));
   const fragment = head.replace(/^(<title>[^<]*<\/title>)/, '$1\n<meta name="claude:viewport-fit-sides" content="cover">').trim() +
-    "\n" + body.trim() + '\n<script src="site.js"></script>\n';
+    "\n" + body.trim() + '\n<script src="site.js"></script>\n<script src="scenes.js"></script>\n';
   fs.writeFileSync(path.join(out, "index.html"), fragment);
 
   const size = (f) => (fs.statSync(path.join(out, f)).size / 1024).toFixed(1) + " KB";
   if (missing.length) console.log("screenshot slots with no file yet:\n  " + missing.join("\n  "));
-  console.log("artifact/", ["index.html", ...PAGES, "site.css", "site.js", "diagrams.js"].map((f) => f + " " + size(f)).join(", "));
+  console.log("artifact/", ["index.html", ...PAGES, "site.css", "site.js", "diagrams.js", "scenes.js"].map((f) => f + " " + size(f)).join(", "));
 })().catch((e) => { console.error(e); process.exit(1); });
