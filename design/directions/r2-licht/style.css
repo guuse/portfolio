@@ -321,7 +321,7 @@
   .prow:hover .prow__title .arrow, .prow:focus-visible .prow__title .arrow { opacity: 1; transform: translateX(0); }
   .prow:focus-visible { outline-offset: 2px; border-radius: var(--radius-s); }
   @media (min-width: 860px) {
-    .prow { grid-template-columns: var(--c-thumb-w) minmax(0, 1fr) minmax(0, 18rem) 3.5rem; gap: var(--space-l); --c-thumb-w: 7.5rem; }
+    .prow { grid-template-columns: var(--c-thumb-w) minmax(0, 1fr) minmax(0, 21rem) 3.5rem; gap: var(--space-l); --c-thumb-w: 7.5rem; }
     .prow .ph { grid-row: auto; align-self: center; }
     .prow__side { display: contents; }
     .prow__side > span:empty { display: block; }
