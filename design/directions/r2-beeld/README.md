@@ -69,3 +69,20 @@ show the intended mood: muted slate, moss, sand, rose and sea-grey, never satura
   the link button. All of it is cut by `prefers-reduced-motion` through `base.css`.
 - Open copy items: Quizmaster stack and story, the Scryfall stack, LinkedIn URL, Terraform in the
   tools line, and "Before Harborn" (left out until confirmed).
+
+## Round 2b: a bit more playful
+- **Voices:** `../../system/copy.js` is loaded on index and project; every keyed element carries
+  `data-copy`, the HTML ships the *nuchter* strings and the review bar swaps the voice. The headline
+  no longer holds the job: `hero.role` is a small role line under it. Long headlines (Persoonlijk)
+  get `data-len="long"` and step down in size, so every voice fits from 320px up.
+- **`<em>`:** italic Instrument Serif in the accent, with a hand-drawn line (inline SVG) that draws
+  itself in once. It works in both Koppen styles; in Sans it's the one serif moment.
+- **Koppen (`data-type`, tokens only):** `a` "Serif" (Instrument Serif, big and tight) and `b` "Sans"
+  (Schibsted Grotesk 600, 0.8× scale, tighter tracking).
+- **Playful moves:** two loose prints overlap the portrait at slight angles and straighten on hover
+  (spring ease); each project has its own ink (dot before the title, hover colour, image-label
+  chip); a "Now" line with a live dot; the primary CTA arrow bounces once on hover. Everything
+  respects `prefers-reduced-motion`.
+- **Review bar:** Kleur · Tekst · Koppen, from `?option=`, `?copy=`, `?type=`, then localStorage;
+  changes update the URL with `replaceState`. Below 600px the groups fold behind "Opties".
+- Shoot two extra hero photos: the wall panel (4:5) and a game night on the table (3:2).
