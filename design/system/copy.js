@@ -36,7 +36,7 @@
       label: "Speels",
       "hero.kicker": "Hey, I'm Guus",
       "hero.headline": "Infrastructure by day. <em>Side projects</em> by night.",
-      "hero.intro": "I lead the infra team at Harborn in Rotterdam. Outside work there's a tiny server under my TV, a Magic deck on the table and lights that switch themselves off.",
+      "hero.intro": "By day I keep client platforms at Harborn in good shape. After hours there's a tiny server under my TV, a Magic deck on the table and lights that switch themselves off.",
       "hero.role": "Tech lead, infra team at Harborn",
       "cta.primary": "Say hi",
       "cta.secondary": "See what I made",

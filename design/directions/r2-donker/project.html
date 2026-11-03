@@ -8,10 +8,11 @@
 <meta name="theme-color" content="#121110">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../system/base.css">
 <link rel="stylesheet" href="donker.css">
 <script src="review.js"></script>
+<script src="../../system/copy.js" defer></script>
 <script src="projects.js" defer></script>
 </head>
 <body>
@@ -22,10 +23,10 @@
     <a class="site-header__name" href="index.html">Guus Ekkelenkamp <span>· Rotterdam</span></a>
     <nav class="site-nav" aria-label="Main">
       <ul>
-        <li><a href="index.html#work">Work</a></li>
-        <li><a href="index.html#projects" aria-current="page">Projects</a></li>
-        <li><a href="index.html#about">About</a></li>
-        <li><a href="index.html#contact">Contact</a></li>
+        <li><a href="index.html#work" data-copy="nav.work">Work</a></li>
+        <li><a href="index.html#projects" data-copy="nav.projects" aria-current="page">Projects</a></li>
+        <li><a href="index.html#about" data-copy="nav.about">About</a></li>
+        <li><a href="index.html#contact" data-copy="nav.contact">Contact</a></li>
       </ul>
     </nav>
   </div>
@@ -126,7 +127,7 @@
     </div>
   </section>
 
-  <nav class="next" id="next-project" data-current="homelab" aria-label="Next project">
+  <nav class="next" id="next-project" data-current="homelab" data-tone="rules-of-99" aria-label="Next project">
     <div>
       <p class="next__label">Next project</p>
       <p class="next__title"><a href="project.html"><span data-next-title>Rules of 99</span> <span class="arrow" aria-hidden="true">→</span></a></p>
@@ -140,7 +141,7 @@
 
 <footer class="site-footer">
   <div class="page site-footer__inner">
-    <span>© 2026 Guus Ekkelenkamp</span>
+    <span data-copy="footer.note">© 2026 Guus Ekkelenkamp</span>
     <a href="mailto:hello@ekkelenkamp.dev">hello@ekkelenkamp.dev</a>
   </div>
 </footer>

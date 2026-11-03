@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400..700;1,400..700&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&display=swap">
   <link rel="stylesheet" href="../../system/base.css">
   <link rel="stylesheet" href="style.css">
+  <script src="../../system/copy.js"></script>
   <script src="review.js"></script>
   <style>
     @layer components {
@@ -48,7 +49,7 @@
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="page site-header">
-    <a class="site-header__name" href="index.html">Guus Ekkelenkamp</a>
+    <a class="site-header__name" href="index.html"><span class="chip-portrait" aria-hidden="true"></span>Guus Ekkelenkamp</a>
     <nav class="site-nav" aria-label="Main"><ul><li><a href="index.html">Home</a></li><li><a href="project.html">Project page</a></li></ul></nav>
   </header>
 
@@ -74,7 +75,7 @@
         <div class="swatch"><div style="background:var(--line)"></div><p>line<br><code>--line</code></p></div>
         <div class="swatch"><div style="background:var(--line-strong)"></div><p>line strong<br><code>--line-strong</code></p></div>
       </div>
-      <h3 class="sg__k">Project tones (placeholders, one per project)</h3>
+      <h3 class="sg__k">Project colours: a soft tone for the image, a deeper accent for hover and links</h3>
       <div class="swatches">
         <div class="swatch"><div class="ph" data-tone="homelab" style="border-radius:0;aspect-ratio:auto;height:4.5rem"></div><p>homelab</p></div>
         <div class="swatch"><div class="ph" data-tone="rules-of-99" style="border-radius:0;aspect-ratio:auto;height:4.5rem"></div><p>rules-of-99</p></div>
@@ -97,6 +98,7 @@
             <tr><td>accent ink on accent (button)</td><td>4.5:1</td><td><span class="chip"><i style="background:#ffffff"></i>#ffffff on #1e59cd · 6.24</span></td><td><span class="chip"><i style="background:#f6fcf7"></i>#f6fcf7 on #005c3b · 7.72</span></td></tr>
             <tr><td>line strong / focus ring on surface</td><td>3:1</td><td><span class="chip"><i style="background:#81878d"></i>#81878d · 3.53 · focus 6.04</span></td><td><span class="chip"><i style="background:#697d71"></i>#697d71 · 3.89 · focus 7.14</span></td></tr>
             <tr><td>ink on project tones</td><td>4.5:1</td><td>11.8 – 12.8</td><td>10.5 – 11.5</td></tr>
+            <tr><td>project accents on surface (hover titles, links)</td><td>4.5:1</td><td><span class="chip"><i style="background:#125ca1"></i>6.64</span> <span class="chip"><i style="background:#a83634"></i>6.28</span> <span class="chip"><i style="background:#815709"></i>6.18</span> <span class="chip"><i style="background:#046b55"></i>6.30</span> <span class="chip"><i style="background:#6d469e"></i>6.76</span></td><td><span class="chip"><i style="background:#005783"></i>6.89</span> <span class="chip"><i style="background:#933428"></i>6.73</span> <span class="chip"><i style="background:#694e00"></i>6.93</span> <span class="chip"><i style="background:#005c43"></i>7.09</span> <span class="chip"><i style="background:#5d408a"></i>7.25</span></td></tr>
           </tbody>
         </table>
       </div>
@@ -116,6 +118,11 @@
         <div><code>step-0 · body</code><p>Every two hours it checks for things I’m looking for, like Magic card collections or cheap mini PCs, and uses AI to filter out the noise.</p></div>
         <div><code>step--1 · meta</code><p style="font-size:var(--step--1);color:var(--ink-muted)">Featured · a different one each visit · 2026</p></div>
       </div>
+      <h3 class="sg__k">Koppen: two heading styles (tokens only, <code>data-type</code>)</h3>
+      <p class="sg__note"><strong>a · Serif</strong>: Newsreader 400, optical sizing, slightly negative tracking. <strong>b · Sans</strong>: Hanken Grotesk 650, tracking −0.018em extra, 90% of the size scale; the <code>&lt;em&gt;</code> drops the italic and keeps the colour and the line. Switch them in the review bar; the specimen above follows.</p>
+
+      <h3 class="sg__k">The headline <code>&lt;em&gt;</code>: italic in the accent, with a hand-drawn underline that draws itself in once</h3>
+      <div class="demo" id="em-demo"></div>
     </section>
 
     <section aria-labelledby="c-space">
@@ -149,15 +156,23 @@
       <div class="demo">
         <div class="intro">
           <div class="ph ph--portrait intro__portrait" role="img" aria-label="Photo: portrait of Guus" style="width:7rem"><span class="ph__cap" aria-hidden="true">Photo: portrait of Guus</span></div>
-          <div><p class="intro__title" style="font-size:var(--step-4)">I’m Guus. I lead the infra team at Harborn in Rotterdam.</p><p class="intro__text" style="font-size:var(--step-0)">Headline in Newsreader, one sentence, max 15ch wide. Portrait sits to the right from 760px, above the headline on phones.</p></div>
+          <div><p class="intro__kicker">Rotterdam</p><p class="intro__title" style="font-size:calc(var(--step-4) * var(--h-scale))">I like building things that <em>keep running</em>.</p><p class="intro__text" style="font-size:var(--step-0)">Kicker, headline with one <code>&lt;em&gt;</code>, intro, then the role line and two CTAs. The job is never in the headline. Portrait sits to the right from 760px; on phones the header chip stands in for it.</p></div>
         </div>
       </div>
+
+      <h3 class="sg__k">Portrait chip, role line and Now line</h3>
+      <div class="demo states">
+        <a class="site-header__name" href="#c-comp"><span class="chip-portrait" aria-hidden="true"></span>Guus Ekkelenkamp</a>
+        <div class="intro__facts" style="margin:0"><p class="intro__role">Tech lead, infra team at Harborn</p><p class="now"><span class="now__dot" aria-hidden="true"></span><span>Now: turning three second-hand mini PCs into a small cluster.</span></p></div>
+      </div>
+      <p class="sg__note" style="font-size:var(--step--1);margin-top:var(--space-2xs)">Hover the name: the chip waves once. The dot pulses (the only loop on the site) and stops under reduced motion.</p>
 
       <h3 class="sg__k">Project feature (picked at random per load; <code>?featured=&lt;id&gt;</code> pins it)</h3>
       <div class="demo" id="demo-feature"></div>
 
       <h3 class="sg__k">Project list item (rest · hover/focus)</h3>
       <div class="demo"><ul class="plist" style="margin:0" id="demo-rows"></ul></div>
+      <p class="sg__note" style="font-size:var(--step--1);margin-top:var(--space-2xs)">On hover the row takes a wash of the project's tone and its title turns the project's accent. With a mouse, a larger preview follows the cursor with a slight lag and tilts with the movement; on touch, keyboard or reduced motion the small thumbnail grows instead.</p>
 
       <h3 class="sg__k">Tag (outlined in the feature, plain in the list)</h3>
       <div class="demo states">
@@ -181,10 +196,10 @@
       </div>
 
       <h3 class="sg__k">Footer</h3>
-      <div class="demo"><div class="site-footer" style="margin:0;padding:0;border:0"><span>© 2026 Guus Ekkelenkamp</span><a href="#main">Back to top</a></div></div>
+      <div class="demo"><div class="site-footer" style="margin:0;padding:0;border:0"><span data-copy="footer.note">© 2026 Guus Ekkelenkamp</span><a href="#main">Back to top</a></div></div>
 
       <h3 class="sg__k">Motion</h3>
-      <p class="sg__note">A 520ms fade-and-rise on load, staggered 90ms (header, intro, portrait, work). Hovers are 160ms: the list thumbnail grows to 112%, the title turns accent and an arrow slides in. All of it switches off under <code>prefers-reduced-motion</code>.</p>
+      <p class="sg__note">A 520ms fade-and-rise on load, staggered 90ms; the headline underline draws in at 650ms. Hovers are 160ms: rows tint, arrows slide in, the "See projects" arrow bounces once, the chip waves. The cursor preview eases with a lerp. All of it switches off under <code>prefers-reduced-motion</code>.</p>
     </section>
   </main>
 
@@ -192,9 +207,25 @@
 
   <aside class="review-bar" aria-label="Review tools">
     <strong>Licht &amp; rustig</strong>
-    <div role="radiogroup" aria-label="Option">
-      <button type="button" role="radio" data-value="licht" aria-checked="true">licht</button>
-      <button type="button" role="radio" data-value="zacht" aria-checked="false" tabindex="-1">zacht</button>
+    <button class="review-bar__toggle" type="button" aria-expanded="false" aria-controls="rb-groups">Opties</button>
+    <div class="review-bar__groups" id="rb-groups">
+      <div class="rb-group"><span id="rb-kleur">Kleur</span>
+        <div role="radiogroup" aria-labelledby="rb-kleur" data-group="option">
+          <button type="button" role="radio" data-value="licht" aria-checked="true">Licht</button>
+          <button type="button" role="radio" data-value="zacht" aria-checked="false" tabindex="-1">Zacht</button>
+        </div></div>
+      <div class="rb-group"><span id="rb-tekst">Tekst</span>
+        <div role="radiogroup" aria-labelledby="rb-tekst" data-group="copy">
+          <button type="button" role="radio" data-value="nuchter" aria-checked="true">Nuchter</button>
+          <button type="button" role="radio" data-value="speels" aria-checked="false" tabindex="-1">Speels</button>
+          <button type="button" role="radio" data-value="persoonlijk" aria-checked="false" tabindex="-1">Persoonlijk</button>
+          <button type="button" role="radio" data-value="kort" aria-checked="false" tabindex="-1">Kort</button>
+        </div></div>
+      <div class="rb-group"><span id="rb-koppen">Koppen</span>
+        <div role="radiogroup" aria-labelledby="rb-koppen" data-group="type">
+          <button type="button" role="radio" data-value="a" aria-checked="true">Serif</button>
+          <button type="button" role="radio" data-value="b" aria-checked="false" tabindex="-1">Sans</button>
+        </div></div>
     </div>
     <span class="review-bar__sep" aria-hidden="true"></span>
     <a href="index.html">index</a>
@@ -209,6 +240,12 @@
       var P = window.Projects; if (!P) return;
       var out = P.render(P.byId("rules-of-99"));
       document.getElementById("demo-feature").innerHTML = out.feature;
+      if (window.EkkCopy) {
+        var em = document.getElementById("em-demo");
+        em.innerHTML = window.EkkCopy.ORDER.map(function (v) {
+          return '<p class="feature__eyebrow" style="margin-top:var(--space-m)">' + window.EkkCopy.VOICES[v].label + '</p><p class="intro__title" style="font-size:calc(var(--step-4) * var(--h-scale));max-width:22ch">' + window.EkkCopy.VOICES[v]["hero.headline"] + '</p>';
+        }).join("");
+      }
       var rows = document.getElementById("demo-rows");
       rows.innerHTML = out.list;
       while (rows.children.length > 2) rows.lastElementChild.remove();

@@ -10,19 +10,20 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400..700;1,400..700&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&display=swap">
   <link rel="stylesheet" href="../../system/base.css">
   <link rel="stylesheet" href="style.css">
+  <script src="../../system/copy.js"></script>
   <script src="review.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
   <header class="page site-header fade">
-    <a class="site-header__name" href="index.html">Guus Ekkelenkamp</a>
+    <a class="site-header__name" href="index.html"><span class="chip-portrait" aria-hidden="true"></span>Guus Ekkelenkamp</a>
     <nav class="site-nav" aria-label="Main">
       <ul>
-        <li><a href="index.html#work">Work</a></li>
-        <li><a href="index.html#projects" aria-current="true">Projects</a></li>
-        <li><a href="index.html#about">About</a></li>
-        <li><a href="index.html#contact">Contact</a></li>
+        <li><a href="index.html#work" data-copy="nav.work">Work</a></li>
+        <li><a href="index.html#projects" aria-current="true" data-copy="nav.projects">Projects</a></li>
+        <li><a href="index.html#about" data-copy="nav.about">About</a></li>
+        <li><a href="index.html#contact" data-copy="nav.contact">Contact</a></li>
       </ul>
     </nav>
   </header>
@@ -114,15 +115,31 @@
   </main>
 
   <footer class="page site-footer">
-    <span>© 2026 Guus Ekkelenkamp</span>
+    <span data-copy="footer.note">© 2026 Guus Ekkelenkamp</span>
     <a href="#main">Back to top</a>
   </footer>
 
   <aside class="review-bar" aria-label="Review tools">
     <strong>Licht &amp; rustig</strong>
-    <div role="radiogroup" aria-label="Option">
-      <button type="button" role="radio" data-value="licht" aria-checked="true">licht</button>
-      <button type="button" role="radio" data-value="zacht" aria-checked="false" tabindex="-1">zacht</button>
+    <button class="review-bar__toggle" type="button" aria-expanded="false" aria-controls="rb-groups">Opties</button>
+    <div class="review-bar__groups" id="rb-groups">
+      <div class="rb-group"><span id="rb-kleur">Kleur</span>
+        <div role="radiogroup" aria-labelledby="rb-kleur" data-group="option">
+          <button type="button" role="radio" data-value="licht" aria-checked="true">Licht</button>
+          <button type="button" role="radio" data-value="zacht" aria-checked="false" tabindex="-1">Zacht</button>
+        </div></div>
+      <div class="rb-group"><span id="rb-tekst">Tekst</span>
+        <div role="radiogroup" aria-labelledby="rb-tekst" data-group="copy">
+          <button type="button" role="radio" data-value="nuchter" aria-checked="true">Nuchter</button>
+          <button type="button" role="radio" data-value="speels" aria-checked="false" tabindex="-1">Speels</button>
+          <button type="button" role="radio" data-value="persoonlijk" aria-checked="false" tabindex="-1">Persoonlijk</button>
+          <button type="button" role="radio" data-value="kort" aria-checked="false" tabindex="-1">Kort</button>
+        </div></div>
+      <div class="rb-group"><span id="rb-koppen">Koppen</span>
+        <div role="radiogroup" aria-labelledby="rb-koppen" data-group="type">
+          <button type="button" role="radio" data-value="a" aria-checked="true">Serif</button>
+          <button type="button" role="radio" data-value="b" aria-checked="false" tabindex="-1">Sans</button>
+        </div></div>
     </div>
     <span class="review-bar__sep" aria-hidden="true"></span>
     <a href="index.html">index</a>

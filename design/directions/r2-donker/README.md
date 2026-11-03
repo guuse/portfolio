@@ -14,6 +14,19 @@ that scale slowly on hover, and accent lines that draw in under links.
 
 Switch with the review bar, `?option=grafiet`, or localStorage (`r2-donker-option`).
 
+## Round 2b: voices, Koppen, a bit more playful
+- **Tekst**: loads `../../system/copy.js`; every keyed string has `data-copy`, Nuchter is
+  server-rendered. `?copy=`, localStorage `r2-donker-copy`. The headline no longer holds the job;
+  `hero.role` is a small fact line under the CTAs, next to a **Now** line with a live dot.
+- **Koppen** (`data-type`, `?type=`): **Strak** (a) Schibsted Grotesk 600, tight; **Serif** (b)
+  Instrument Serif 400, 14% larger, italic `<em>`. Tokens only (`--font-display`, `--h-*`).
+- **Playful moves**: the `<em>` phrase on a slightly tilted accent block that swipes in on load
+  and tips the other way on hover; a per-project accent (`--proj`, one hue each) for the title
+  dot, the hover colour and the border; cards that lift 6px and tilt 0.8° (alternating); and a
+  big "Say hi" contact link whose accent block draws in on hover. All motion is off under reduced motion.
+- The review bar has three groups (Kleur · Tekst · Koppen), syncs the URL with replaceState, and
+  collapses behind "Opties" under 900px.
+
 ## Why it fits Guus
 He asked for "just a normal website". This is the quietest possible version of a *good* one. It's
 dark because an infra person's work happens on dark screens, but it never borrows terminal
@@ -21,7 +34,7 @@ clichés: no mono, no green, no glow. The warmth (a warm black, bone ink, aprico
 personal rather than corporate.
 
 ## Type
-**Schibsted Grotesk** (Google Fonts, variable 400–900) for everything. It's a grotesk with real
+**Schibsted Grotesk** (Google Fonts, variable 400–900) for everything (plus Instrument Serif for headings in Koppen b). It's a grotesk with real
 details (the compact *a*, the sharp *t*, the open *G*) that stay calm in paragraphs, so a single
 family can carry both the 100px headline and the body text. There is no mono: meta uses
 tabular numerals, which keeps the page away from "techy".
