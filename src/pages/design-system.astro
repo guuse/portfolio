@@ -27,7 +27,7 @@ const art = by((n) => n.startsWith("art-"));
 const ramps = by((n, t) => t === "color" && /^(navy|cloud|amber|sky|bone)-/.test(n));
 const text = by((n) => n.startsWith("text-") && n !== "text-code");
 const space = by((n) => /^(space|radius)-/.test(n) && n !== "space-edge" && n !== "space-edge-end");
-const motion = by((n, t) => t === "duration" || t === "cubicBezier");
+const motion = by((_n, t) => t === "duration" || t === "cubicBezier");
 
 /** An easing curve as an SVG path, sampled at build time from the runtime's own functions. */
 const curve = (f: (t: number) => number): string =>
@@ -54,7 +54,7 @@ const curves = [
     <h1>Design system</h1>
     <p>
       Everything this site is made of, rendered from the same source as the pages. Colours, type and space are
-      design tokens in <code>tokens/</code>; change one there and this page, and the site, follow.
+      design tokens in the repo’s tokens folder; change one there and this page, and the site, follow.
     </p>
   </header>
 

@@ -18,6 +18,7 @@ const { cover, meta, title, line } = Astro.props;
       src={cover}
       alt=""
       formats={["avif", "webp"]}
+      fallbackFormat="webp"
       widths={[800, 1200, 1600, 2400]}
       sizes="(width < 1212px) 100vw, 1180px"
       loading="eager"

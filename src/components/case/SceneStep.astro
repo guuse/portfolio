@@ -123,13 +123,23 @@ const { scene, range, continues, caption } = Astro.props;
         display: none;
       }
 
-      :global(.is-staged) .scene-step__text {
-        opacity: 0.4;
-        transition: opacity 400ms var(--ease-out);
+      /* Steps that aren't playing step back. The mock faded them to 40% opacity, which took
+         the text below 4.5:1; quieter colours keep it readable. */
+      :global(.is-staged) .scene-step__text :global(:is(h3, p)) {
+        transition: color 400ms var(--ease-out);
       }
 
-      :global(.is-staged) .scene-step:global(.is-active) .scene-step__text {
-        opacity: 1;
+      :global(.is-staged) .scene-step:not(:global(.is-active)) .scene-step__text :global(h3) {
+        color: var(--ink-muted);
+      }
+
+      :global(.is-staged) .scene-step:not(:global(.is-active)) .scene-step__text :global(p) {
+        color: var(--ink-subtle);
+      }
+
+      :global(.is-staged) .scene-step:not(:global(.is-active)) .scene-step__text :global(.step-shot button) {
+        opacity: 0.4;
+        transition: opacity 400ms var(--ease-out);
       }
     }
   }

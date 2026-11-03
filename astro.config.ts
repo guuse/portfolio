@@ -12,7 +12,7 @@ export default defineConfig({
   output: "static",
   trailingSlash: "always",
   // Stylesheets stay files (cached, and no inline style hashes in the CSP); see layer-order.
-  build: { format: "directory", inlineStylesheets: "never" },
+  build: { format: "directory", inlineStylesheets: "always" },
   vite: { plugins: [layerOrder()] },
   compressHTML: true,
   // Shiki writes inline styles, which the CSP would block; the site has no highlighted code.
@@ -66,18 +66,6 @@ export default defineConfig({
       subsets: ["latin"],
       fallbacks: ["Arial", "sans-serif"],
       options: { package: "@fontsource-variable/schibsted-grotesk" },
-    },
-    {
-      // The italic ships as a separate stylesheet in the variable package. Same family name,
-      // so `font-style: italic` on --font-sans picks it up; never preloaded (rarely used).
-      provider: fontProviders.npm(),
-      name: "Schibsted Grotesk Variable",
-      cssVariable: "--font-sans-italic",
-      weights: ["400 900"],
-      styles: ["italic"],
-      subsets: ["latin"],
-      fallbacks: ["Arial", "sans-serif"],
-      options: { package: "@fontsource-variable/schibsted-grotesk", file: "wght-italic.css" },
     },
     {
       provider: fontProviders.npm(),

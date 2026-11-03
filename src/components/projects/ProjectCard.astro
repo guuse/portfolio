@@ -23,6 +23,7 @@ const href = caseStudyHref(p.id);
       src={covers[p.id]}
       alt=""
       formats={["avif", "webp"]}
+      fallbackFormat="webp"
       widths={[700, 1400, 2000]}
       sizes="(width < 960px) 100vw, 680px"
     />

@@ -21,8 +21,16 @@ initEasterEggs();
 if (motionOk() && "IntersectionObserver" in window) {
   initReveal();
   initScrollEffects(scheduler);
-  // the drawings' runtime is only fetched on pages that have drawings
+  // The drawings' runtime is only fetched on pages that have drawings, and only once the
+  // page has loaded and the main thread is idle: the stills are already on screen.
   if (document.querySelector(".scenes, [data-card]")) {
-    void import("~/lib/motion/controller").then(({ startMotion }) => startMotion(scheduler));
+    const start = (): void =>
+      void import("~/lib/motion/controller").then(({ startMotion }) => startMotion(scheduler));
+    const idle = (): void =>
+      void ("requestIdleCallback" in window
+        ? requestIdleCallback(start, { timeout: 1500 })
+        : setTimeout(start, 200));
+    if (document.readyState === "complete") idle();
+    else addEventListener("load", idle, { once: true });
   }
 }

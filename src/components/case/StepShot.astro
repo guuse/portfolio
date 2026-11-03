@@ -29,6 +29,7 @@ const full = await getImage({ src, format: "webp", width: Math.min(src.width, 28
       src={src}
       alt={alt}
       formats={["avif", "webp"]}
+      fallbackFormat="webp"
       widths={phone ? [160, 320] : [480, 960]}
       sizes={phone ? "120px" : "(width < 520px) 100vw, 480px"}
     />

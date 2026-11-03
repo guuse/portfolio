@@ -26,7 +26,11 @@ export const H = {
 /** The homepage card: one packet going round repo → build → laptop. */
 export const CL = {
   loop: "M86 120C86 170 86 196 96 214C112 244 160 250 214 250C262 250 280 206 296 172C312 138 300 92 262 78C220 62 132 58 104 70C92 76 86 92 86 120",
-  /** Points on the loop where the build happens and where the pod lands. */
-  buildAt: { x: 112, y: 243 },
-  laptopAt: { x: 250, y: 180 },
+  /**
+   * How far round the loop (0..1) the build happens and the pod lands: the points nearest
+   * (112, 243) and (250, 180). Precomputed so the browser doesn't search the path on load;
+   * tests/unit/art.test.ts checks them.
+   */
+  buildAt: 0.186,
+  laptopAt: 0.4705,
 } as const;
