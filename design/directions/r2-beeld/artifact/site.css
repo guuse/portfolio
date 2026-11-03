@@ -831,3 +831,19 @@ svg.story { border: 0; padding: 0; margin: 0; border-radius: 0; max-width: none;
 .story--platform .t { font-size: 16px; }
 .mstack__l--3 { inset: 6% 24% 44% 0; }
 .mstack__l--4 { inset: auto 6% 4% 4%; aspect-ratio: 1200 / 450; }
+/* round 15b: compact diagrams for narrow screens, no sideways scrolling */
+.scrolly__compact { display: none; }
+@media (max-width: 700px) {
+  .scrolly__fig > .story:not(.story--compact) { display: none; }
+  .scrolly__compact { display: block; }
+}
+.scrolly__mini { overflow: visible; }
+.scrolly__mini .story { width: 100%; max-width: 460px; }
+/* in the per-step copies: what this step adds is bright, the rest dims */
+.scrolly__mini .story [data-show] { opacity: 0.45; }
+.scrolly__mini .story.at1 [data-show="1"], .scrolly__mini .story.at2 [data-show="2"], .scrolly__mini .story.at3 [data-show="3"], .scrolly__mini .story.at4 [data-show="4"],
+.scrolly__mini .story.at5 [data-show="5"], .scrolly__mini .story.at6 [data-show="6"], .scrolly__mini .story.at7 [data-show="7"] { opacity: 1; }
+.scrolly__mini .story:not(.s2) [data-show="2"], .scrolly__mini .story:not(.s3) [data-show="3"], .scrolly__mini .story:not(.s4) [data-show="4"],
+.scrolly__mini .story:not(.s5) [data-show="5"], .scrolly__mini .story:not(.s6) [data-show="6"], .scrolly__mini .story:not(.s7) [data-show="7"] { opacity: 0; }
+.story .tl { fill: var(--ink-subtle); font-size: 14.5px; }
+.story--compact .t { font-size: 16px; } .story--compact .ts { font-size: 14.5px; }

@@ -47,7 +47,7 @@ function frame(x, y, w, h, kind, label, n, extra) {
 function svc(id, x, y, name, n, sub, size) {
   const s = size || 40;
   return "<g" + show(n) + ' class="svc">' + use(id, x, y, s) +
-    text(x + s / 2, y + s + 17, name, "t", 0, "middle") + (sub ? text(x + s / 2, y + s + 34, sub, "ts", 0, "middle") : "") + "</g>";
+    text(x + s / 2, y + s + 17, name, "t", 0, "middle") + (sub ? text(x + s / 2, y + s + 36, sub, "ts", 0, "middle") : "") + "</g>";
 }
 function line(d, n, cls) { return '<path class="ln' + (cls ? " " + cls : "") + '" d="' + d + '"' + show(n) + "/>"; }
 function wrap(cls, vb, label, body, steps) {
@@ -71,8 +71,8 @@ function platformSVG() {
     b += frame(x + 8, 200, azW - 16, 104, "pub", "Public subnet", 1, { icon: "aws-Publicsubnet" });
     b += frame(x + 8, 316, azW - 16, 338, "priv", "Private subnet", 1, { icon: "aws-Privatesubnet" });
     // step 3: an NLB in each public subnet; step 4: NAT gateway (bastion in A)
-    b += svc("aws-ElasticLoadBalancingNetworkLoadBalancer", x + 22, 232, "NLB", 4, "", 34);
-    b += "<g" + show(3) + ' class="svc">' + use("aws-AmazonVPCNATGateway", x + 104, 232, 34) + '<g class="ipv">' + text(x + 121, 283, "NAT", "t v4", 0, "middle") + text(x + 121, 283, "NAT64", "t v6", 0, "middle") + "</g></g>";
+    b += svc("aws-ElasticLoadBalancingNetworkLoadBalancer", x + 14, 234, "NLB", 4, "", 30);
+    b += "<g" + show(3) + ' class="svc">' + use("aws-AmazonVPCNATGateway", x + 62, 234, 30) + '<g class="ipv">' + text(x + 77, 281, "NAT", "t v4", 0, "middle") + text(x + 77, 281, "NAT64", "t v6", 0, "middle") + "</g></g>";
     // step 2: Karpenter nodes, staggered so they appear to scale out
     b += use("aws-AmazonEC2Instance", x + 66, 350, 40, 4, "node node--extra") + '<g class="nodes">' + [0, 1].map((k) => use("aws-AmazonEC2Instance", x + 12 + k * 108, 350, 40, 2, "node node--" + (i * 2 + k))).join("") +
       text(x + azW / 2, 410, "nodes", "ts", 2, "middle") + "</g>";
@@ -84,18 +84,18 @@ function platformSVG() {
   b += svc("aws-AmazonAurora", AZ[0] + 66, 500, "Aurora", 3);
   b += svc("aws-AmazonElastiCache", AZ[1] + 66, 500, "ElastiCache", 3, "Redis");
   b += svc("aws-AmazonOpenSearchService", AZ[2] + 66, 500, "OpenSearch", 3);
-  b += '<g' + show(3) + ' class="efs">' + AZ.map((x) => use("aws-AmazonEFS", x + 72, 598, 28)).join("") + text(332, 692, "EFS, mounted in every zone", "ts", 0, "middle") + "</g>";
-  b += text(AZ[0] + 121, 296, "+ bastion", "ts", 3, "middle");
+  b += '<g' + show(3) + ' class="efs">' + AZ.map((x) => use("aws-AmazonEFS", x + 72, 594, 28) + text(x + 86, 640, "EFS", "ts", 0, "middle")).join("") + "</g>";
+  b += svc("aws-AmazonEC2Instance", AZ[0] + 120, 234, "bastion", 3, "", 30);
   // step 2: Karpenter label
   // step 3: DNS and the way in
   b += svc("aws-AmazonRoute53", 660, 60, "Route 53", 4);
   b += line("M680 122 V164 H600 V250 H584", 4, "ln--in");
   // step 5: CloudFront, Tokyo, backups
   b += svc("aws-AmazonCloudFront", 790, 60, "CloudFront", 5);
-  b += frame(640, 240, 244, 196, "region", "Region · ap-northeast-1 (Tokyo)", 5, { icon: "aws-Region" });
+  b += frame(640, 240, 244, 196, "region", "ap-northeast-1 (Tokyo)", 5, { icon: "aws-Region" });
   b += svc("aws-AmazonElasticKubernetesService", 742, 290, "EKS", 5, "second cluster");
   b += line("M810 122 V240", 5, "ln--edge");
-  b += text(804, 176, "/<region>/*", "tc", 5, "end");
+  b += text(790, 176, "/<region>/*", "tc", 5, "end");
   b += line("M800 122 V214 H624", 5, "ln--edge");
   b += text(712, 208, "default", "tc", 5, "middle");
   b += svc("aws-AmazonSimpleStorageService", 742, 470, "S3", 5, "Velero backups");
@@ -103,7 +103,7 @@ function platformSVG() {
   // step 7: the same platform on Azure
   b += '<g' + show(7) + ' class="fr fr--azure"><rect x="640" y="580" width="244" height="116"/>' + text(652, 600, "Microsoft Azure · AKS", "fl") +
     use("si-pulumi", 660, 618, 28) + text(696, 638, "Pulumi", "t") +
-    text(652, 680, "the same platform, adapted for AKS", "ts") + "</g>";
+    text(652, 680, "adapted for AKS", "ts") + "</g>";
   return wrap("story--platform", "0 0 900 720", "Architecture of the hosting platform on AWS: a VPC in eu-west-1 across three availability zones with public and private subnets; EKS with Karpenter nodes; Route 53 and a Network Load Balancer in front of the ingress controller; Aurora, ElastiCache, OpenSearch and EFS in the private subnets; a second EKS cluster in Tokyo behind CloudFront path behaviours; Velero backups to S3; IPv6-only egress with DNS64 and NAT64; and the same platform, adapted for Azure AKS, delivered through Pulumi.", b, 7);
 }
 
@@ -113,28 +113,88 @@ function homelabSVG() {
   let b = "";
   b += frame(16, 24, 300, 552, "gh", "GitHub", 1, { icon: "si-github" });
   b += frame(380, 24, 504, 552, "box", "The laptop · Proxmox", 1, { icon: "si-proxmox" });
-  b += frame(400, 72, 464, 380, "vm", "VM · Ubuntu + k3s", 1, { icon: "si-kubernetes" });
+  b += frame(400, 72, 296, 420, "vm", "VM · Ubuntu + k3s", 1, { icon: "si-kubernetes" });
   const node = (id, x, y, name, sub, n) => "<g" + show(n) + ' class="hn">' + '<rect x="' + x + '" y="' + y + '" width="236" height="72" rx="4"/>' + use(id, x + 16, y + 18, 36, 0, "mono") +
     text(x + 66, y + 32, name, "t") + text(x + 66, y + 54, sub, "ts") + "</g>";
-  b += node("si-github", 48, 72, "App repo", "main + deploy/", 1);
-  b += node("si-githubactions", 48, 236, "GitHub Actions", "build and test", 2);
-  b += node("si-docker", 48, 400, "GHCR", "tagged with the SHA", 3);
-  b += node("si-argo", 420, 116, "Image Updater", "watches GHCR", 4);
-  b += node("si-argo", 420, 236, "Argo CD", "syncs from git", 5);
-  b += node("si-kubernetes", 420, 356, "app pod", "running the new image", 6);
-  // edges, each the move of one step
-  b += line("M166 144 V236", 2, "e e2");
-  b += line("M166 308 V400", 3, "e e3");
-  b += line("M284 436 H332 V160 H420", 4, "e e4a");
-  b += line("M420 136 H352 V108 H284", 4, "e e4b");
-  b += line("M284 92 H372 V272 H420", 5, "e e5");
-  b += line("M538 308 V356", 6, "e e6");
-  b += text(100, 520, "Push to main and it rolls out", "ts", 1);
-  // step 7: the loop. The tag commit lands in the same repo, CI builds again…
-  b += '<g class="loop"' + show(7) + ">" + '<path class="loopring" d="M140 196 a 26 26 0 1 1 0.1 0"/>' +
-    '<path class="cut" d="M120 170 L190 222"/>' + text(206, 192, "paths-ignore:", "tc") + text(206, 212, "deploy/**", "tc") + "</g>";
-  b += '<g' + show(1) + ">" + use("si-tailscale", 420, 486, 24, 0, "mono") + text(452, 503, "reached over my tailnet; no open ports", "ts") + "</g>";
-  return wrap("story--homelab", "0 0 900 600", "One change travelling from git push to running: the app repo on GitHub, a GitHub Actions build, an image on GHCR tagged with the commit SHA, Argo CD Image Updater committing the new tag back to the repo, Argo CD syncing, and the pod running in k3s on the laptop. Because the tag commit lands in the same repo, CI would build again in a loop; paths-ignore on deploy/ cuts it.", b, 7);
+  // left column: the repo, the build, the registry. Right column: Argo CD, the pod, Image Updater.
+  b += node("si-github", 48, 104, "App repo", "main and deploy/", 1);
+  b += node("si-githubactions", 48, 256, "GitHub Actions", "build and test", 2);
+  b += node("si-docker", 48, 408, "GHCR", "tagged with the SHA", 3);
+  b += node("si-argo", 440, 104, "Argo CD", "syncs from git", 5);
+  b += node("si-kubernetes", 440, 256, "app pod", "running the new image", 6);
+  b += node("si-argo", 440, 408, "Image Updater", "watches GHCR", 4);
+  // one connector per relation
+  b += line("M166 176 V256", 2, "e");                       // repo → Actions
+  b += line("M166 328 V408", 3, "e");                       // Actions → GHCR
+  b += line("M284 444 H440", 4, "e");                       // GHCR ← Image Updater watches
+  b += text(362, 434, "watches", "tl", 4, "middle");
+  b += line("M676 444 H760 V56 H166 V104", 4, "e");         // Image Updater commits the tag back to the repo
+  b += text(772, 244, "commits the", "tl", 4) + text(772, 264, "new tag", "tl", 4);
+  b += line("M284 140 H440", 5, "e");                       // Argo CD syncs from the repo
+  b += text(362, 130, "syncs", "tl", 5, "middle");
+  b += line("M558 176 V256", 6, "e");                       // Argo CD → pod
+  // step 7: the loop on repo → Actions, cut by paths-ignore
+  b += '<g class="loop"' + show(7) + ">" + '<path class="loopring" d="M166 190 a 26 26 0 1 1 0.1 0"/>' +
+    '<path class="cut" d="M140 196 L196 238"/>' + text(196, 208, "paths-ignore:", "tc") + text(196, 228, "deploy/**", "tc") + "</g>";
+  b += '<g' + show(1) + ">" + use("si-tailscale", 420, 516, 24, 0, "mono") + text(452, 533, "reached over my tailnet; no open ports", "ts") + "</g>";
+  return wrap("story--homelab", "0 0 900 600", "One change travelling from git push to running: the app repo on GitHub, a GitHub Actions build, an image on GHCR tagged with the commit SHA, Argo CD Image Updater watching GHCR and committing the new tag back to the repo, Argo CD syncing from the repo, and the pod running in k3s on the laptop. Because the tag commit lands in the same repo, CI would build again in a loop; paths-ignore on deploy/ cuts it.", b, 7);
+}
+
+/* ------------------------------------------------------------------ compact (≤ 700px) versions */
+function platformCompactSVG() {
+  let b = "";
+  b += frame(4, 4, 352, 1000, "cloud", "AWS Cloud", 1, { icon: "aws-AWSCloudDark" });
+  b += svc("aws-AmazonRoute53", 70, 40, "Route 53", 4, "", 36);
+  b += svc("aws-AmazonCloudFront", 254, 40, "CloudFront", 5, "", 36);
+  b += frame(16, 120, 328, 656, "region", "eu-west-1 (Ireland)", 1, { icon: "aws-Region" });
+  b += "<g" + show(2) + ' class="svc">' + use("aws-AmazonElasticKubernetesService", 30, 152, 30) + text(70, 166, "EKS", "t") + text(70, 184, "managed control plane", "ts") + "</g>";
+  b += frame(28, 200, 304, 560, "vpc", "VPC", 1, { icon: "aws-VirtualprivatecloudVPC" });
+  b += '<g class="ipv"' + show(1) + ">" + text(104, 216, "dual-stack: IPv4 + IPv6", "ts v4") + text(104, 216, "IPv6-only, DNS64/NAT64", "ts v6") + "</g>";
+  b += '<g class="fr fr--az"' + show(1) + '><rect x="40" y="230" width="280" height="486"/>' + text(180, 248, "Availability Zone A", "fl", 0, "middle") + "</g>";
+  b += frame(48, 258, 264, 104, "pub", "Public subnet", 1, { icon: "aws-Publicsubnet" });
+  b += svc("aws-ElasticLoadBalancingNetworkLoadBalancer", 66, 290, "NLB", 4, "", 30);
+  b += "<g" + show(3) + ' class="svc">' + use("aws-AmazonVPCNATGateway", 165, 290, 30) + '<g class="ipv">' + text(180, 337, "NAT", "t v4", 0, "middle") + text(180, 337, "NAT64", "t v6", 0, "middle") + "</g></g>";
+  b += svc("aws-AmazonEC2Instance", 264, 290, "bastion", 3, "", 30);
+  b += frame(48, 374, 264, 330, "priv", "Private subnet", 1, { icon: "aws-Privatesubnet" });
+  b += use("aws-AmazonEC2Instance", 76, 404, 36, 2, "node") + use("aws-AmazonEC2Instance", 162, 404, 36, 4, "node node--extra") + use("aws-AmazonEC2Instance", 248, 404, 36, 2, "node");
+  b += text(180, 458, "nodes, scaled by Karpenter", "ts", 2, "middle");
+  b += '<g class="pods"' + show(4) + ">" + [96, 136, 176, 216].map((x) => use("si-kubernetes", x + 8, 472, 20, 0, "k8s")).join("") + text(180, 512, "ingress + app pods", "ts", 0, "middle") + "</g>";
+  b += svc("aws-AmazonAurora", 62, 530, "Aurora", 3, "", 36);
+  b += svc("aws-AmazonElastiCache", 152, 530, "ElastiCache", 3, "", 36);
+  b += svc("aws-AmazonOpenSearchService", 250, 530, "Search", 3, "", 36);
+  b += "<g" + show(3) + ">" + use("aws-AmazonEFS", 64, 616, 28) + text(102, 636, "EFS, in every zone", "ts") + "</g>";
+  b += text(180, 742, "× 3 availability zones, the same in each", "ts", 1, "middle");
+  b += frame(16, 792, 328, 96, "region", "ap-northeast-1 (Tokyo)", 5, { icon: "aws-Region" });
+  b += "<g" + show(5) + ' class="svc">' + use("aws-AmazonElasticKubernetesService", 30, 830, 30) + text(70, 844, "EKS", "t") + text(70, 862, "second cluster", "ts") + "</g>";
+  b += text(24, 912, "/<region>/* → Tokyo", "tc", 5) + text(24, 932, "default → Ireland", "tc", 5);
+  b += "<g" + show(5) + ' class="svc">' + use("aws-AmazonSimpleStorageService", 24, 950, 30) + text(64, 964, "S3", "t") + text(64, 982, "Velero backups", "ts") + "</g>";
+  b += '<g' + show(7) + ' class="fr fr--azure"><rect x="4" y="1020" width="352" height="72"/>' + text(16, 1042, "Microsoft Azure · AKS", "fl") +
+    use("si-pulumi", 16, 1052, 24) + text(48, 1070, "the same platform, adapted", "ts") + "</g>";
+  return wrap("story--platform story--compact", "0 0 360 1100", "The hosting platform on AWS: one of the three availability zones shown in full, with the NLB, NAT and bastion in the public subnet; nodes, pods, Aurora, ElastiCache, OpenSearch and EFS in the private subnet; Route 53 and CloudFront in front; a second cluster in Tokyo; Velero backups to S3; and the same platform adapted for Azure AKS.", b, 7);
+}
+
+function homelabCompactSVG() {
+  let b = "";
+  b += frame(8, 8, 344, 314, "gh", "GitHub", 1, { icon: "si-github" });
+  b += frame(8, 336, 344, 334, "box", "Laptop, k3s", 1, { icon: "si-proxmox" });
+  const node = (id, y, name, sub, n) => "<g" + show(n) + ' class="hn">' + '<rect x="40" y="' + y + '" width="280" height="64" rx="4"/>' + use(id, 54, y + 16, 32, 0, "mono") +
+    text(98, y + 28, name, "t") + text(98, y + 48, sub, "ts") + "</g>";
+  b += node("si-github", 40, "App repo", "main and deploy/", 1);
+  b += node("si-githubactions", 150, "GitHub Actions", "build and test", 2);
+  b += node("si-docker", 242, "GHCR", "tagged with the SHA", 3);
+  b += node("si-argo", 372, "Image Updater", "commits the new tag", 4);
+  b += node("si-argo", 464, "Argo CD", "syncs from git", 5);
+  b += node("si-kubernetes", 556, "app pod", "running the new image", 6);
+  b += line("M180 104 V150", 2, "e");
+  b += line("M180 214 V242", 3, "e");
+  b += line("M180 306 V372", 4, "e");
+  b += line("M320 404 H338 V72 H320", 4, "e");
+  b += line("M40 72 H22 V496 H40", 5, "e");
+  b += line("M180 528 V556", 6, "e");
+  b += '<g class="loop"' + show(7) + ">" + '<path class="loopring" d="M180 107 a 20 20 0 1 1 0.1 0"/>' +
+    '<path class="cut" d="M160 112 L200 146"/>' + text(206, 122, "paths-ignore:", "tc") + text(206, 140, "deploy/**", "tc") + "</g>";
+  b += '<g' + show(1) + ">" + use("si-tailscale", 40, 632, 22, 0, "mono") + text(70, 648, "over my tailnet; no open ports", "ts") + "</g>";
+  return wrap("story--homelab story--compact", "0 0 360 680", "One change from git push to running: app repo, GitHub Actions, GHCR, Image Updater committing the new tag back to the repo, Argo CD syncing, and the running pod. paths-ignore on deploy/ stops the build loop.", b, 7);
 }
 
 /* ------------------------------------------------------------------ homelab: ways in, inside the box */
@@ -153,17 +213,17 @@ function waysSVG() {
 /* ------------------------------------------------------------------ platform: the two delivery lanes (secondary) */
 function pipelineSVG() {
   const lane = (y, items, label) => {
-    let g = text(16, y - 30, label, "fl") + '<path class="ln" d="M40 ' + y + ' H' + (40 + (items.length - 1) * 168) + '"/>';
+    let g = text(16, y - 52, label, "fl") + '<path class="ln" d="M90 ' + y + ' H' + (90 + (items.length - 1) * 160) + '"/>';
     items.forEach((it, i) => {
-      const x = 40 + i * 168;
+      const x = 90 + i * 160;
       g += '<circle cx="' + x + '" cy="' + y + '" r="6" class="pdot"/>' + (it[1] ? use(it[1], x - 14, y - 26 - 22, 24, 0, "mono") : "") +
         text(x, y + 28, it[0], "t", 0, "middle") + (it[2] ? text(x, y + 48, it[2], "ts", 0, "middle") : "");
     });
-    return g + '<circle class="ptoken" cx="40" cy="' + y + '" r="7" style="--len:' + (items.length - 1) * 168 + 'px"/>';
+    return g + '<circle class="ptoken" cx="90" cy="' + y + '" r="7" style="--len:' + (items.length - 1) * 160 + 'px"/>';
   };
   const b = lane(80, [["Pull request", "si-github"], ["Preview", "si-pulumi", "+ CrossGuard"], ["Saved plan"], ["Approved", "", "not by the author"], ["Apply", "", "AWS and Azure"]], "Infrastructure") +
-    lane(220, [["CI", "si-githubactions"], ["Registry", "si-docker"], ["Image Updater", "si-argo", "watches"], ["Commit to git", "si-github"], ["Argo CD", "si-argo", "acceptance, then production"]], "Apps");
-  return '<svg class="story story--pipe" viewBox="0 0 760 290" role="img" aria-label="Two delivery lanes. Infrastructure: pull request, Pulumi preview with the CrossGuard policy pack, saved plan, approval by someone other than the author, apply to AWS and Azure. Apps: CI, registry, Argo CD Image Updater watching it, commit to git, Argo CD syncing acceptance and then production.">' + b + "</svg>";
+    lane(220, [["CI", "si-githubactions"], ["Registry", "si-docker"], ["Image Updater", "si-argo", "watches"], ["Commit to git", "si-github"], ["Argo CD", "si-argo", "acceptance → production"]], "Apps");
+  return '<svg class="story story--pipe" viewBox="0 0 860 300" role="img" aria-label="Two delivery lanes. Infrastructure: pull request, Pulumi preview with the CrossGuard policy pack, saved plan, approval by someone other than the author, apply to AWS and Azure. Apps: CI, registry, Argo CD Image Updater watching it, commit to git, Argo CD syncing acceptance and then production.">' + b + "</svg>";
 }
 
 /* ------------------------------------------------------------------ homelab: app-of-apps */
@@ -171,7 +231,7 @@ function appsSVG() {
   let b = '<rect class="hn-r" x="300" y="10" width="200" height="56" rx="4"/>' + use("si-argo", 316, 22, 32, 0, "mono") + text(358, 44, "root application", "t");
   for (let i = 0; i < 15; i++) {
     const c = i % 5, r = Math.floor(i / 5), x = 40 + c * 148, y = 110 + r * 64;
-    b += '<g class="tile" style="--i:' + i + '"><path class="ln" d="M400 66 V88 H' + (x + 60) + " V" + y + '"/><rect class="hn-r" x="' + x + '" y="' + y + '" width="120" height="44" rx="4"/>' +
+    b += '<g class="tile" style="--i:' + i + '"><path class="ln" d="' + (r === 0 ? "M400 66 V88 H" + (x + 60) + " V" + y : "M" + (x + 60) + " " + (y - 20) + " V" + y) + '"/><rect class="hn-r" x="' + x + '" y="' + y + '" width="120" height="44" rx="4"/>' +
       (i === 0 ? use("si-argo", x + 10, y + 10, 24, 0, "mono") + text(x + 42, y + 28, "Argo CD", "ts") : '<rect class="tile__bar" x="' + (x + 14) + '" y="' + (y + 18) + '" width="' + (50 + (i * 23) % 40) + '" height="8" rx="2"/>') + "</g>";
   }
   return '<svg class="story story--apps" viewBox="0 0 800 300" role="img" aria-label="One root Argo CD application with fifteen child applications beneath it, one of them Argo CD itself.">' + b + "</svg>";
@@ -185,4 +245,4 @@ function mtgStack(img) {
     '<figure class="mstack__phone" data-show="4">' + img("scryfall-home-mobile") + "</figure></div>";
 }
 
-module.exports = { platformSVG, homelabSVG, waysSVG, pipelineSVG, appsSVG, mtgStack, sprite };
+module.exports = { platformCompactSVG, homelabCompactSVG, platformSVG, homelabSVG, waysSVG, pipelineSVG, appsSVG, mtgStack, sprite };
