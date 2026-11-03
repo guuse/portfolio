@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head><style>body{margin:0;font:14px system-ui;color:#000}</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MTG suite · Guus Ekkelenkamp</title>
+<meta name="description" content="Case study: four tools for Magic: The Gathering, from a Commander table in the browser to Claude Code skills.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Schibsted+Grotesk:ital,wght@0,400..700;1,400..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="site.css">
+</head>
+<body style="background: #0a1328; color: #f0f2f7">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="site">
+<header class="site-header">
+  <div class="wrap">
+    <a class="site-header__name" href="index.html">Guus Ekkelenkamp</a>
+    <nav class="nav" aria-label="Main">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="projects.html" aria-current="page">Projects</a></li>
+        <li><a href="index.html#experience">Experience</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+  <header class="ph-hero">
+    <div class="ph-hero__bg"><img src="assets/covers/mtg-wide.webp" srcset="assets/covers/mtg-wide.webp 1x, assets/covers/mtg-wide@2x.webp 2x" width="1600" height="1000" alt="" decoding="async"></div>
+    <div class="ph-hero__text">
+      <a class="back" href="projects.html">&larr; All projects</a>
+      <p class="ph-meta">Personal · 2026 · one tool is open source</p>
+      <h1 class="ph-title">MTG suite</h1>
+      <p class="ph-line">Four tools for Magic: The Gathering, all deployed on my homelab.</p>
+    </div>
+  </header>
+
+
+  <div class="ph-lead">
+    <p>Commander is the format I play most with friends. When we can&rsquo;t meet up we play on <a href="#rules-of-99">Rules of 99</a>, I keep my decks in <a href="#tutor">Tutor</a>, look up cards with <a href="#scryfall">Scryfall, in plain words</a>, and brew with <a href="#mtg-skills">claude-mtg-skills</a>.</p>
+  </div>
+
+  <section class="sec" id="rules-of-99" aria-labelledby="r99-h">
+    <h2 class="sec__h" id="r99-h">Rules of 99</h2>
+    <div class="sec__body">
+      <!-- shots:r99 --><ul class="shotgrid" data-lb-group><li><figure><button type="button" data-lb aria-label="Enlarge: Home after signing in: your decks and open tables."><img src="assets/shots/r99-lobby.webp" srcset="assets/shots/r99-lobby.webp 1x, assets/shots/r99-lobby@2x.webp 2x" width="1440" height="900" alt="Rules of 99 home screen after signing in" loading="lazy" decoding="async"></button><figcaption>Home after signing in: your decks and open tables.</figcaption></figure></li><li><figure><button type="button" data-lb aria-label="Enlarge: Combat: four attackers, each with an arrow to its target."><img src="assets/shots/r99-game-combat.webp" srcset="assets/shots/r99-game-combat.webp 1x, assets/shots/r99-game-combat@2x.webp 2x" width="1440" height="900" alt="Rules of 99 during combat: four attackers, with arrows to the player they attack" loading="lazy" decoding="async"></button><figcaption>Combat: four attackers, each with an arrow to its target.</figcaption></figure></li></ul><!-- /shots -->
+      <div class="prose">
+        <p>Commander in the browser for two to four players. The open-source Forge engine runs headless on the server and handles the full rules, including commander tax, commander damage and colour identity.</p>
+        <p>A WebSocket gateway sends each player only what they&rsquo;re allowed to see, so the other players&rsquo; hands never leave the server. Rooms use a six-character code and survive a dropped connection, finished games can be replayed, and on a phone the table shows one board at a time.</p>
+        <p>Forge is vendored at a pinned commit, so I decide when the engine changes but have to bring in upstream fixes myself. The card data tracks upstream nightly.</p>
+        <p class="stack-line">Java, React, TypeScript, WebSockets and SQLite.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="tutor" aria-labelledby="tutor-h">
+    <h2 class="sec__h" id="tutor-h">Tutor</h2>
+    <div class="sec__body">
+      <!-- shots:tutor --><ul class="shotgrid" data-lb-group><li><figure><button type="button" data-lb aria-label="Enlarge: The library: every deck at a glance."><img src="assets/shots/tutor-library.webp" srcset="assets/shots/tutor-library.webp 1x, assets/shots/tutor-library@2x.webp 2x" width="1440" height="900" alt="Tutor deck library with commander art for each deck" loading="lazy" decoding="async"></button><figcaption>The library: every deck at a glance.</figcaption></figure></li><li><figure><button type="button" data-lb aria-label="Enlarge: Insights: how the deck compares with 97 real decks, and what a €50 upgrade would add."><img src="assets/shots/tutor-analysis.webp" srcset="assets/shots/tutor-analysis.webp 1x, assets/shots/tutor-analysis@2x.webp 2x" width="1440" height="900" alt="Tutor deck insights comparing the deck&#39;s shape with 97 real decks, with a 50 euro upgrade suggestion" loading="lazy" decoding="async"></button><figcaption>Insights: how the deck compares with 97 real decks, and what a €50 upgrade would add.</figcaption></figure></li></ul><!-- /shots -->
+      <div class="prose">
+        <p>A deck library and builder, with an MCP server so Claude can search the whole card pool. Card data sits in SQLite with full-text search and exact colour-identity and legality filters, and each deck shows its mana curve, colour sources, categories and an estimate of its power bracket.</p>
+        <p class="stack-line">Node, SQLite with FTS5, and MCP.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="scryfall" aria-labelledby="sf-h">
+    <h2 class="sec__h" id="sf-h">Scryfall, in plain words</h2>
+    <div class="sec__body">
+      <!-- shots:scryfall --><ul class="shotgrid" data-lb-group><li><figure><button type="button" data-lb aria-label="Enlarge: Describe the cards; Claude writes and checks the Scryfall search."><img src="assets/shots/scryfall-home.webp" srcset="assets/shots/scryfall-home.webp 1x, assets/shots/scryfall-home@2x.webp 2x" width="1440" height="900" alt="Scryfall in plain words: a search box with a plain-language request and suggestion chips" loading="lazy" decoding="async"></button><figcaption>Describe the cards; Claude writes and checks the Scryfall search.</figcaption></figure></li><li class="is-phone"><figure><button type="button" data-lb aria-label="Enlarge: On a phone."><img src="assets/shots/scryfall-home-mobile.webp" width="1170" height="2532" alt="Scryfall in plain words on a phone" loading="lazy" decoding="async"></button><figcaption>On a phone.</figcaption></figure></li></ul><!-- /shots -->
+      <div class="prose">
+        <p>Scryfall is the card search most players use, but its query syntax takes practice. Here you describe the cards you want. The Claude Agent SDK writes a query, tests it against Scryfall before showing it, and offers a stricter and a broader reading, each with a breakdown of what every part of the query means.</p>
+        <p class="stack-line">The Claude Agent SDK, Node and server-sent events.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="mtg-skills" aria-labelledby="sk-h">
+    <h2 class="sec__h" id="sk-h">claude-mtg-skills</h2>
+    <div class="sec__body">
+      <!-- shots:skills --><ul class="shotgrid" data-lb-group><li style="grid-column: 1 / -1"><figure><button type="button" data-lb aria-label="Enlarge: The plugin marketplace."><img src="assets/shots/mtg-skills-banner.webp" width="1200" height="450" alt="MTG Skills for Claude Code banner" loading="lazy" decoding="async"></button><figcaption>The plugin marketplace.</figcaption></figure></li></ul><!-- /shots -->
+      <div class="prose">
+        <p>Seven Claude Code skills that build, upgrade, rate and explain real decks, grounded in proven decklists and live prices. They install as a Claude Code plugin marketplace, and its helper scripts are tested to 95%+ coverage in CI.</p>
+        <p>Open source under the MIT licence: <a href="https://github.com/guuse/claude-mtg-skills" target="_blank" rel="noopener">github.com/guuse/claude-mtg-skills</a></p>
+      </div>
+    </div>
+  </section>
+
+  <nav class="ph-next" aria-label="More projects">
+    <a href="homelab.html"><small>Previous project</small>&larr; Homelab</a>
+    <a href="index.html"><small>Back to</small>Guus Ekkelenkamp</a>
+  </nav>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p>&copy; 2026 Guus Ekkelenkamp</p>
+    <ul><li><a href="https://www.linkedin.com/in/guus-ekkelenkamp/" target="_blank" rel="noopener">LinkedIn</a></li><li><a href="https://github.com/guuse" target="_blank" rel="noopener">GitHub</a></li></ul>
+  </div>
+</footer>
+</div>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Screenshot viewer" hidden>
+  <div class="lightbox__stage"><img class="lightbox__img" alt="" decoding="async"></div>
+  <div class="lightbox__bar">
+    <p class="lightbox__cap" aria-live="polite"></p>
+    <span class="lightbox__count"></span>
+    <div class="lightbox__nav">
+      <button type="button" class="lb-btn" data-lb-prev aria-label="Previous screenshot"><span aria-hidden="true">&larr;</span></button>
+      <button type="button" class="lb-btn" data-lb-next aria-label="Next screenshot"><span aria-hidden="true">&rarr;</span></button>
+      <button type="button" class="lb-btn lb-btn--close" data-lb-close aria-label="Close viewer">Close</button>
+    </div>
+  </div>
+</div>
+<script src="site.js"></script>
+</body>
+</html>
