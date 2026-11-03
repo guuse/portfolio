@@ -212,7 +212,7 @@ Motion explains, it doesn't decorate.
 - **Prefer type, rules and shapes over icons.** If an icon is needed, draw it (inline SVG,
   1.5px stroke at 24px, square caps) in the direction's style. No icon-font, no generic
   Lucide-everything.
-- **Photography:** real photos of the actual setup (the ThinkPad, the Zigbee stick on its
+- **Photography:** real photos of the actual setup (the laptop, the Zigbee stick on its
   cable, the wall panel) beat any illustration. Mocks use placeholders labelled
   `PHOTO: …` so it's clear what to shoot. `[TODO Guus: shoot these]`
 - Illustrations/diagrams are inline SVG drawn from the real architecture.

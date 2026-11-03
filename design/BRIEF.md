@@ -5,9 +5,15 @@
 
 ## 1. Who this is for
 
-**Guus Ekkelenkamp**, developer at [Harborn](https://harborn.com) in Rotterdam. Client work by
-day. By night, a homelab that grew into a small platform: a ThinkPad with the lid shut running
-Proxmox, k3s, ArgoCD and Home Assistant, plus a handful of side projects deployed to it.
+**Guus Ekkelenkamp**, security officer, cloud specialist and solution architect at
+[Harborn](https://harborn.com) in Rotterdam. By day: deciding how client systems are built,
+where they run and who gets in. By night: a homelab that grew into a small platform: an
+old laptop with the lid shut running Proxmox, k3s, Argo CD and Home Assistant, plus a handful
+of side projects deployed to it.
+
+**The day job and the homelab get equal weight.** The homelab shows the same principles
+(zero open ports, everything in git, explicit access) applied for fun, which is what makes the
+day-job claims believable.
 
 The site is a business card in a public repo. Two things are on show at once: **the page itself**
 and **the source code behind it**. Both have to hold up when someone looks closely.
@@ -16,15 +22,18 @@ and **the source code behind it**. Both have to hold up when someone looks close
 
 | # | Who | What they want in 30 seconds | What they want in 5 minutes |
 |---|-----|------------------------------|-----------------------------|
-| 1 | Developers and tech leads (peers, possible employers or collaborators) | Is this person serious? What do they actually build? | Depth: decisions, trade-offs, the gotchas they've hit |
-| 2 | Clients and colleagues at Harborn | Who is Guus, what does he do here? | Proof he's good with both infra and product |
-| 3 | Recruiters | Role, location, stack, contact | A clear and current story |
-| 4 | Friends and the homelab crowd | The fun stuff | The setup, the numbers, a few laughs |
+| 1 | Developers, tech leads, CTOs (peers, possible employers or collaborators) | Is this person serious? What do they actually own? | Depth: decisions, trade-offs, the gotchas they have hit |
+| 2 | Recruiters | Roles (security, cloud, architecture), location, stack, contact | A clear and current story |
+| 3 | Friends and the homelab crowd | The fun stuff | The setup, the numbers, a few laughs |
+
+Harborn clients and colleagues are explicitly **not** a target audience: the site isn't a sales
+page for the agency. Day-job work is described in terms of responsibilities and approach,
+without client case studies.
 
 ## 2. What the site has to do
 
-1. **Say who, what and where in one screen.** Name, role, city, one sentence with some
-   personality. No hunting for it.
+1. **Say who, what and where in one screen.** Name, the three roles, city, one sentence
+   with some personality. No hunting for it.
 2. **Show depth instead of claiming it.** One project told properly (the homelab) is worth more
    than twelve project cards. Real numbers, real decisions, real mistakes.
 3. **Feel fresh and young**, made by a person with taste, without being try-hard.
@@ -64,6 +73,8 @@ setup at a borrel, not like a LinkedIn post.
 | Do | Don't |
 |----|-------|
 | "It runs on a laptop with the lid shut. The battery is the UPS." | "Leveraging cost-effective edge hardware" |
+| "I decide which AI tools are allowed near client data." | "Passionate about security" / "guardian of the cloud" |
+| Titles in small print, as facts | Titles as a headline, stacked with slashes and emoji |
 | "Learned the hard way, July 2026." | "Overcame challenges" |
 | "Git is the source of truth. Claude does the boring part." | "AI-powered workflows" |
 | One joke per section, at most | Puns in every heading |
@@ -78,6 +89,7 @@ used as flavour where they're naturally Dutch (*borrel*, *huisjes*, *gezellig* a
 - **Hosting:** `ekkelenkamp.dev`, HSTS-preloaded, so HTTPS only. See the hosting note in the
   root README: the zone currently has a tailnet-only wildcard.
 - **Performance budget:** see `system/FOUNDATIONS.md` §9.
+- **No hardware brands:** the homelab laptop is "an old laptop", never named by brand/model.
 - **Privacy:** this is a public repo. No tailnet names, IPs, LAN addresses, hardware serials,
   secret names or internal hostnames ever appear in copy or code. Describe the architecture,
   not the address book.
