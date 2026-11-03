@@ -11,6 +11,10 @@ updates:
     groups:
       npm:
         patterns: ["*"]
+    ignore:
+      # Node moves with the LTS line on purpose (engines, .nvmrc, Dockerfile), not with a bot.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
     commit-message:
       prefix: chore
       include: scope
@@ -39,6 +43,10 @@ updates:
     groups:
       docker:
         patterns: ["*"]
+    ignore:
+      # Same LTS rule as npm: a Node major is a deliberate upgrade, together with engines and .nvmrc.
+      - dependency-name: node
+        update-types: ["version-update:semver-major"]
     commit-message:
       prefix: chore
       include: scope
