@@ -120,3 +120,35 @@ cobalt or amber italic with a hand-drawn line, or ink on a tangerine marker bloc
    Confirm that the repo path (`guuse/homeserver`, `apps/rules-of-99`) may be shown.
 
 Fonts: Instrument Serif, Schibsted Grotesk and Geist Mono (the allowed third family, for meta only).
+
+## Round 4: Nacht × Nuchter, fuller and interactive
+Guus chose **Beeld voorop × Nacht × Nuchter**, heading style `a`. Those are now the defaults: with
+no params the repo pages open in `nacht` (`:where(:root)` tokens) with the nuchter copy
+server-rendered. Kobalt, Signaal, the other voices and Sans headings stay switchable in the
+review bar.
+
+- **Illustrations instead of empty boxes.** Each project's visual is an inline SVG drawn in
+  `projects.js` (`ILLO`). The SVGs use CSS classes, so they pick up each project's tone and every
+  option. Each one is labelled `illustration` and none of them pretends to be a screenshot:
+  homelab (git push → Argo CD → k3s with app chips + Home Assistant with a Zigbee mesh, over
+  Tailscale; a pulse travels along the deploy line), Rules of 99 (a four-seat table, life totals,
+  room code `K7QX2P`), finds (an email digest, every 2 h 08:00–23:00), Quizmaster (a phone with a
+  timer ring), Scryfall (plain words → `c:g otag:ramp -t:land usd<1` → 128 cards). The portrait
+  and personal photos stay as tasteful photo placeholders.
+- **More substance.** A "recently" line per Work area (kept generic). In About, a *currently*
+  list and a grouped toolbox. Per project: year, status (Live / In progress / Personal), stack
+  chips, story and 2–3 "how it works" points (facts from the project READMEs, public-safe only).
+- **Detail view.** Every project opens an in-page sheet at `#<id>` (plain names, no `#p/…`), with
+  a larger visual, facts, story, how it works and links. There's previous/next inside. Esc, the
+  close button, the backdrop or browser back closes it. Focus moves to the title, stays inside
+  the sheet, and returns to the trigger when it closes. The page behind is `inert`.
+- **Prints** can be nudged with a mouse or pen (up to 70px) and spring back. Touch keeps scrolling.
+- **Email** is selectable text with a Copy button (`navigator.clipboard`, falls back to selecting
+  the text). No `mailto:`. External links open in a new tab with `rel="noopener"`.
+- **Artifact.** `node design/directions/r2-beeld/build-artifact.js` re-bakes `index.html` and
+  writes `artifact.html`: one self-contained file (about 105 KB) with no doctype/html/head/body
+  tags. It starts with `<title>`, the viewport-fit meta and Google Fonts, then the inlined CSS
+  (base + beeld), the markup and the inlined JS (projects + site). It is nacht + nuchter only,
+  with no review bar, no copy.js, no localStorage and no external requests besides fonts. The
+  side gutter sits on `.site` as `padding-left/right: max(16px, env(safe-area-inset-*, 0px))`.
+- New files: `site.js` (prints, copy button) and `build-artifact.js`.
