@@ -138,17 +138,14 @@
         </div>
       </div></div>
 
-      <p class="sg-label">project feature · image bleeds right, title card overlaps</p>
+      <p class="sg-label">project feature · big visual bleeding to the edge, text beside it, alternating sides</p>
       <div class="demo-box" id="feature-demo" style="padding: var(--space-m) 0"></div>
 
-      <p class="sg-label">project illustrations · HTML/SVG, per-project tone, labelled "illustration"</p>
-      <div class="demo-box"><div id="illo-demo" style="display: grid; gap: var(--gutter); grid-template-columns: repeat(auto-fill, minmax(240px, 1fr))"></div></div>
+      <p class="sg-label">animated diagrams · run in view, loop calmly, replay button · reduced motion shows the final state · compact layout under 620px</p>
+      <div class="demo-box"><div id="dg-demo" style="display: grid; gap: var(--gutter); grid-template-columns: repeat(auto-fill, minmax(420px, 1fr))"></div></div>
 
-      <p class="sg-label">detail view · opens in-page at #&lt;id&gt; · Esc, close, backdrop or back closes · prev/next inside</p>
-      <div class="demo-box" style="padding: 0; max-height: 640px; overflow: hidden"><div class="detail__panel" id="detail-demo" style="position: relative; width: 100%; height: auto; opacity: 1; transform: none; box-shadow: none; border: 0"></div></div>
-
-      <p class="sg-label">index + project list item · hover a line or an image: its partner lights up</p>
-      <div class="demo-box"><div class="demo-projects"><nav class="index" aria-label="Example index"><div class="index__head"><span class="eyebrow">More projects</span><span class="meta">05 total</span></div><ol id="index-demo"></ol></nav><ul class="project-grid" id="items-demo"></ul></div></div>
+      <p class="sg-label">case-study section · key, title, lead, bullets, visual</p>
+      <div class="demo-box" style="padding: 0; max-height: 720px; overflow: hidden"><div class="detail__panel" id="detail-demo" style="position: relative; width: 100%; height: auto; opacity: 1; transform: none; box-shadow: none; border: 0"></div></div>
 
       <p class="sg-label">caption / metadata · code chip · status line</p>
       <div class="demo-box">
@@ -199,26 +196,20 @@
 
 </div>
 
+<script src="diagrams.js"></script>
 <script src="projects.js"></script>
 <script src="site.js"></script>
 <script>
 (function () {
   "use strict";
   var P = window.BeeldProjects;
-  var r = P.render("homelab");
-  function demote(h) { return h.replace(/<h3/g, "<p").replace(/<\/h3>/g, "</p>"); }
-  document.getElementById("feature-demo").innerHTML = demote(r.featured).replace(/id="p-[^"]+"/g, "").replace('id="feature-title"', "").replace('aria-labelledby="feature-title"', 'aria-label="Example feature"');
-  var demo = document.getElementById("items-demo");
-  demo.innerHTML = demote(r.grid).replace(/id="p-[^"]+"/g, "");
-  while (demo.children.length > 2) demo.removeChild(demo.lastElementChild);
-  demo.children[1].classList.add("is-hot");
-  document.getElementById("illo-demo").innerHTML = P.PROJECTS.map(function (p) { return '<div style="--p: var(--tone-' + p.id + '); --p-ink: var(--pink-' + p.id + ')">' + P.visualHTML(p, "wide") + '<p class="meta" style="margin-top: 6px">' + p.id + "</p></div>"; }).join("");
+  function demote(h) { return h.replace(/<h3/g, "<p").replace(/<\/h3>/g, "</p>").replace(/<h2/g, "<p").replace(/<\/h2>/g, "</p>"); }
+  document.getElementById("feature-demo").innerHTML = demote(P.featureHTML(P.byId("mtg"), 0)).replace(/id="[^"]+"/g, "").replace(/aria-labelledby="[^"]+"/g, 'aria-label="Example feature"');
+  document.getElementById("dg-demo").innerHTML = window.BeeldDiagrams.ids.map(function (id) { return window.BeeldDiagrams.html(id); }).join("");
   var dd = document.getElementById("detail-demo");
-  dd.innerHTML = P.detailHTML(P.byId("scouts")).replace('id="detail-title"', "").replace(/<h2/, "<p").replace(/<\/h2>/, "</p>");
-  dd.setAttribute("style", dd.getAttribute("style") + "; --p: var(--tone-scouts); --p-ink: var(--pink-scouts)");
-  var idx = document.getElementById("index-demo");
-  idx.innerHTML = r.index;
-  idx.querySelector('[data-project="mtg"]').classList.add("is-hot");
+  dd.innerHTML = demote(P.detailHTML(P.byId("homelab"))).replace(/id="[^"]+"/g, "");
+  dd.setAttribute("style", dd.getAttribute("style") + "; --p: var(--tone-homelab); --p-ink: var(--pink-homelab)");
+  window.BeeldDiagrams.mount(document);
 
   var sp = ["3xs","2xs","xs","s","m","l","xl","2xl","3xl","4xl"];
   document.getElementById("spaces").innerHTML = sp.map(function (k) {
@@ -248,7 +239,7 @@
     ["--focus","--surface","Focus ring", 3], ["--line-strong","--surface","UI boundary", 3],
     ["--ink-muted","--surface-sunken","Code chip text", 4.5]
   ];
-  var TONES = [["homelab","Homelab"],["home","Home"],["mtg","MTG"],["ai","AI"],["scouts","Scouts"]];
+  var TONES = [["platform","Platform"],["homelab","Homelab"],["mtg","MTG"]];
   Array.prototype.forEach.call(document.querySelectorAll("[data-panel]"), function (panel) {
     var s = '<div class="swatches">' + SW.map(function (n) { return '<div class="sw"><i style="background: var(' + n + ')"></i>' + n.slice(2) + '<code>' + hex(tok(panel, n)) + '</code></div>'; }).join("") + "</div>";
     s += '<table class="ratios"><thead><tr><th scope="col">Pair</th><th scope="col">Aa</th><th scope="col">Ratio</th></tr></thead><tbody>';

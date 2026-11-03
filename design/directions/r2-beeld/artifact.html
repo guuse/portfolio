@@ -1048,9 +1048,277 @@
   @media (min-width: 1280px) { .detail__panel { width: min(100%, 1120px); } }
 }
 @layer components { .stage .il__label { display: none; } }
-/* artifact: dark by design, nothing repo-only */
+/* ============================================================ round 6 */
+@layer tokens {
+  :root, [data-option] {
+    --tone-platform: var(--tone-rules-of-99); --pink-platform: var(--pink-rules-of-99);
+    /* diagram palette: layered navy panels, one hot colour per project, amber packets */
+    --dg-bg-1: oklch(21.5% 0.05 266);
+    --dg-bg-2: oklch(16.5% 0.045 266);
+    --dg-card: oklch(25.5% 0.052 266);
+    --dg-card-2: oklch(22.5% 0.05 266);
+    --dg-stroke: oklch(40% 0.05 266);
+    --dg-dim: oklch(46% 0.045 266);
+    --dg-ink: oklch(96% 0.008 260);
+    --dg-muted: oklch(80% 0.03 262);
+    --dg-subtle: oklch(68% 0.035 262);
+    --t1: var(--tone-homelab); --t2: oklch(84% 0.15 82); --t3: oklch(78% 0.12 300);
+  }
+}
+@layer components {
+  /* ---------- diagrams */
+  .dg { --dg-hot: var(--p, var(--accent)); margin: 0; position: relative; container-type: inline-size; border-radius: 18px; overflow: hidden;
+        padding: clamp(12px, 2.4vw, 28px) clamp(12px, 2.4vw, 28px) 0; border: 1px solid oklch(34% 0.05 266);
+        background:
+          radial-gradient(70% 60% at 15% 0%, color-mix(in oklch, var(--dg-hot) 14%, transparent), transparent 70%),
+          radial-gradient(60% 50% at 100% 100%, oklch(84% 0.15 82 / 0.06), transparent 70%),
+          radial-gradient(oklch(100% 0 0 / 0.05) 1px, transparent 1.4px) 0 0 / 22px 22px,
+          linear-gradient(180deg, var(--dg-bg-1), var(--dg-bg-2));
+        box-shadow: inset 0 1px 0 oklch(100% 0 0 / 0.05), 0 24px 60px oklch(5% 0.03 266 / 0.35); }
+  .dg__svg { display: block; width: 100%; height: auto; overflow: visible; font-family: var(--font-body); }
+  .dg__svg--compact { display: none; }
+  @container (max-width: 620px) { .dg__svg--full { display: none; } .dg__svg--compact { display: block; } }
+  .dg__cap { display: flex; justify-content: space-between; align-items: center; gap: var(--space-s); padding: 12px 0 14px; margin-block-start: 8px; border-block-start: 1px solid oklch(100% 0 0 / 0.06); }
+  .dg__title { font-family: var(--font-mono); font-size: var(--step-meta); color: var(--dg-muted); }
+  .dg__replay { all: unset; cursor: pointer; font-family: var(--font-mono); font-size: var(--step-meta); color: var(--dg-muted); padding: 6px 10px; border-radius: 999px; border: 1px solid oklch(42% 0.05 266); min-height: 20px; }
+  .dg__replay:hover { color: var(--dg-ink); border-color: var(--dg-hot); }
+  .dg__replay:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .dg-l { fill: var(--dg-ink); font-size: 16px; font-weight: 600; letter-spacing: -0.005em; }
+  .dg-s { fill: var(--dg-muted); font-family: var(--font-mono); font-size: 13.5px; transition: fill var(--dur-base) var(--ease-out); }
+  .dg-m { fill: var(--dg-muted); font-family: var(--font-mono); font-size: 13px; }
+  .dg-m--ink { fill: var(--dg-ink); }
+  .dg-m--note { fill: var(--dg-subtle); }
+  .dg-v { fill: oklch(84% 0.15 82); font-family: var(--font-mono); font-size: 14px; font-weight: 500; }
+  .dg-gl { fill: var(--dg-muted); font-family: var(--font-mono); font-size: 13px; }
+  .dg-big { fill: var(--dg-ink); font-family: var(--font-display); font-size: 40px; }
+  .dg-st { fill: var(--dg-subtle); font-family: var(--font-mono); font-size: 12.5px; }
+  .dg-card { fill: var(--dg-card); stroke: var(--dg-stroke); stroke-width: 1.25; transition: stroke var(--dur-base) var(--ease-out), fill var(--dur-base) var(--ease-out), filter var(--dur-base) var(--ease-out); }
+  .dg-sheen { fill: oklch(100% 0 0 / 0.035); pointer-events: none; }
+  .dg-g { fill: none; stroke: var(--dg-muted); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; transition: stroke var(--dur-base) var(--ease-out); }
+  .is-lit > .dg-card, .is-lit > rect.dg-card { stroke: var(--dg-hot); fill: color-mix(in oklch, var(--dg-hot) 11%, var(--dg-card)); filter: drop-shadow(0 0 12px color-mix(in oklch, var(--dg-hot) 30%, transparent)); }
+  .is-lit .dg-g { stroke: var(--dg-hot); }
+  .is-lit .dg-s { fill: var(--dg-ink); }
+  .dg-e__base { fill: none; stroke: var(--dg-dim); stroke-width: 1.5; stroke-dasharray: 3 5; stroke-linecap: round; }
+  .dg-e__hot { fill: none; stroke: var(--dg-hot); stroke-width: 2.25; stroke-linecap: round; stroke-dasharray: 100; stroke-dashoffset: calc(100 - var(--p, 0) * 100); opacity: 0; transition: opacity var(--dur-quick) var(--ease-out);
+               filter: drop-shadow(0 0 4px color-mix(in oklch, var(--dg-hot) 60%, transparent)); }
+  .dg-e.is-lit .dg-e__hot { opacity: 1; }
+  .dg-e.is-done .dg-e__hot { opacity: 0.7; stroke-dashoffset: 0; filter: none; }
+  .dg-e--t1 { --dg-hot: var(--t1); } .dg-e--t2 { --dg-hot: var(--t2); } .dg-e--t3 { --dg-hot: var(--t3); }
+  .dg-pk { fill: oklch(88% 0.15 82); opacity: 0; filter: drop-shadow(0 0 6px oklch(84% 0.15 82)); transition: opacity 120ms; pointer-events: none; }
+  .dg-pk.is-on { opacity: 1; }
+  .dg-pk--2 { display: none; }
+  .dg-rail { fill: var(--dg-card-2); stroke: var(--dg-stroke); stroke-width: 1.25; }
+  .dg-mark circle { fill: var(--dg-card); stroke: var(--dg-dim); stroke-width: 1.5; transition: fill var(--dur-base), stroke var(--dur-base); }
+  .dg-mark.is-lit circle { fill: oklch(84% 0.15 82); stroke: oklch(84% 0.15 82); filter: drop-shadow(0 0 6px oklch(84% 0.15 82 / 0.7)); }
+  .dg-grp rect { fill: oklch(100% 0 0 / 0.018); stroke: oklch(44% 0.05 266); stroke-width: 1.25; stroke-dasharray: 4 6; }
+  .dg-grp--host rect { stroke: color-mix(in oklch, var(--dg-hot) 45%, oklch(40% 0.05 266)); stroke-dasharray: none; fill: color-mix(in oklch, var(--dg-hot) 4%, transparent); }
+  .dg-pod path { fill: oklch(30% 0.05 266); stroke: var(--dg-dim); stroke-width: 1.25; transition: fill 240ms var(--ease-out), stroke 240ms var(--ease-out); }
+  .dg-pods.is-on .dg-pod path, .dg-pod.is-on path { fill: color-mix(in oklch, var(--dg-hot) 55%, var(--dg-card)); stroke: var(--dg-hot); }
+  .dg-pod.is-run path { fill: oklch(84% 0.15 82); stroke: oklch(84% 0.15 82); }
+  .dg-env.is-lit .dg-card { stroke: var(--dg-hot); }
+  .dg-chip rect { fill: oklch(29% 0.05 266); stroke: var(--dg-stroke); stroke-width: 1.25; transition: stroke var(--dur-base); }
+  .dg-chip text { fill: var(--dg-ink); font-family: var(--font-mono); font-size: 13px; }
+  .dg-chip.is-lit rect { stroke: var(--dg-hot); fill: color-mix(in oklch, var(--dg-hot) 16%, oklch(29% 0.05 266)); }
+  .dg-pill rect { fill: oklch(24% 0.05 266); stroke: var(--dg-stroke); stroke-width: 1.25; transition: stroke var(--dur-base), fill var(--dur-base); }
+  .dg-pill text { fill: var(--dg-muted); font-family: var(--font-mono); font-size: 13px; }
+  .dg-pill.is-lit rect { stroke: var(--pill-hot, oklch(78% 0.13 155)); fill: color-mix(in oklch, var(--pill-hot, oklch(78% 0.13 155)) 12%, oklch(24% 0.05 266)); }
+  .dg-pill.is-lit text { fill: var(--dg-ink); }
+  .dg-pill.is-lit .dg-g { stroke: var(--pill-hot, oklch(78% 0.13 155)); }
+  .dg-pill--t1 { --pill-hot: var(--t1); } .dg-pill--t2 { --pill-hot: var(--t2); } .dg-pill--t3 { --pill-hot: var(--t3); }
+  .dg-pill--pulse rect { stroke: oklch(78% 0.13 155 / 0.6); }
+  .dg-pill--pulse .dg-g { stroke: oklch(78% 0.13 155); animation: dg-breathe 2.6s var(--ease-in-out) infinite; }
+  @keyframes dg-breathe { 50% { opacity: 0.35; } }
+  .dg-track { stroke: var(--dg-dim); stroke-width: 2; stroke-dasharray: 2 6; fill: none; }
+  .dg-stage rect { fill: var(--dg-card); stroke: var(--dg-stroke); stroke-width: 1.25; transition: stroke var(--dur-base), fill var(--dur-base); }
+  .dg-stage .dg-state { display: none; }
+  .dg-stage.is-ok rect { stroke: oklch(78% 0.13 155); fill: color-mix(in oklch, oklch(78% 0.13 155) 10%, var(--dg-card)); }
+  .dg-stage.is-ok .dg-g { stroke: oklch(78% 0.13 155); }
+  .dg-stage.is-ok .dg-st { fill: oklch(82% 0.12 155); }
+  .dg-stage.is-bad rect { stroke: oklch(70% 0.17 25); fill: color-mix(in oklch, oklch(70% 0.17 25) 16%, var(--dg-card)); filter: drop-shadow(0 0 10px oklch(70% 0.17 25 / 0.4)); }
+  .dg-stage.is-bad .dg-g { stroke: oklch(74% 0.16 25); }
+  .dg-stage.is-bad .dg-st { fill: oklch(78% 0.14 25); }
+  .dg-pr { transform: translate(var(--x, 0px), var(--y, 0px)); transition: transform 500ms var(--ease-in-out); }
+  .dg-pr > rect:first-child { fill: oklch(28% 0.055 266); stroke: oklch(84% 0.15 82 / 0.8); stroke-width: 1.5; filter: drop-shadow(0 10px 24px oklch(5% 0.03 266 / 0.6)); transition: stroke var(--dur-base); }
+  .dg-pr .dg-g { stroke: oklch(84% 0.15 82); }
+  .dg-pr__pin { stroke: oklch(84% 0.15 82 / 0.7); stroke-width: 1.5; stroke-dasharray: 3 4; fill: none; }
+  .dg-pr.is-bad > rect:first-child { stroke: oklch(70% 0.17 25); }
+  .dg-pr.is-bad [data-prm] { fill: oklch(80% 0.13 25); }
+  .dg-pr.is-bad { animation: dg-shake 420ms var(--ease-out) 1; }
+  @keyframes dg-shake { 25% { translate: -5px 0; } 50% { translate: 4px 0; } 75% { translate: -2px 0; } }
+  .dg-zone rect { fill: oklch(100% 0 0 / 0.025); stroke: oklch(40% 0.05 266); stroke-width: 1.25; }
+  .dg-lat { stroke: oklch(40% 0.05 266); stroke-dasharray: 2 8; fill: none; }
+  .dg-cl__dot { fill: color-mix(in oklch, var(--dg-hot) 50%, var(--dg-card)); stroke: var(--dg-hot); stroke-width: 1.5; }
+  .dg-cl__ring { fill: none; stroke: var(--dg-hot); stroke-width: 1.5; opacity: 0; transform-box: fill-box; transform-origin: center; }
+  .dg-live .dg-cl__ring { animation: dg-ring 2.8s var(--ease-out) infinite; animation-delay: var(--d, 0ms); }
+  @keyframes dg-ring { 0% { opacity: 0.7; transform: scale(1); } 80%, 100% { opacity: 0; transform: scale(2.1); } }
+  .dg-callout { fill: none; stroke: var(--dg-subtle); stroke-width: 1.25; }
+  .dg-bar { fill: oklch(34% 0.05 266); transform-box: fill-box; transform-origin: center bottom; transform: scaleY(0.35); transition: transform 520ms var(--ease-out) var(--d, 0ms), fill 320ms var(--ease-out) var(--d, 0ms); }
+  .dg-graf.is-lit .dg-bar { fill: var(--dg-hot); transform: scaleY(1); }
+  .dg-badge rect { fill: oklch(28% 0.05 266); stroke: oklch(78% 0.13 155 / 0.6); }
+  .dg-badge text { fill: var(--dg-ink); font-family: var(--font-mono); font-size: 12.5px; }
+  .dg-badge .dg-g { stroke: oklch(78% 0.13 155); }
+  .dg-shield circle { fill: oklch(26% 0.05 266); stroke: oklch(78% 0.13 155 / 0.7); stroke-width: 1.5; }
+  .dg-shield .dg-g { stroke: oklch(80% 0.13 155); }
+  .dg-shield.is-lit circle { filter: drop-shadow(0 0 10px oklch(78% 0.13 155 / 0.5)); }
+  .dg-apps rect { fill: oklch(28% 0.05 266); stroke: var(--dg-stroke); }
+  .dg-apps text { fill: var(--dg-muted); font-family: var(--font-mono); font-size: 13px; }
+  .dg-mem__track { fill: oklch(19% 0.045 266); stroke: var(--dg-stroke); }
+  .dg-mem__seg rect { transform: scaleX(0); transition: transform 700ms var(--ease-out); }
+  .dg-mem__seg.is-on rect { transform: scaleX(1); }
+  .dg-mem__seg text { fill: oklch(19% 0.045 266); font-family: var(--font-mono); font-size: 13px; font-weight: 500; opacity: 0; transition: opacity 300ms 400ms; }
+  .dg-mem__seg.is-on text { opacity: 1; }
+  .dg-mem__seg--0 rect { fill: var(--dg-hot); }
+  .dg-mem__seg--1 rect { fill: var(--t3); }
+  .dg-mem__seg--2 rect { fill: oklch(52% 0.04 266); }
+  .dg-mem__seg--3 rect { fill: oklch(30% 0.05 266); stroke: var(--dg-dim); stroke-dasharray: 3 4; }
+  .dg-mem__seg--2 text, .dg-mem__seg--3 text { fill: var(--dg-ink); }
+  .dg-waves path { fill: none; stroke: var(--t3); stroke-width: 1.5; stroke-linecap: round; opacity: 0.25; }
+  .dg-radio .dg-waves path { animation: dg-wave 1.8s var(--ease-out) infinite; }
+  .dg-radio .dg-waves path:nth-child(2) { animation-delay: 200ms; } .dg-radio .dg-waves path:nth-child(3) { animation-delay: 400ms; }
+  @keyframes dg-wave { 0%, 100% { opacity: 0.2; } 40% { opacity: 1; } }
+  .dg-still .dg-waves path { opacity: 0.8; }
+  .dg-cdn .dg-m { fill: var(--dg-subtle); }
+  .dg--feature { border-radius: 18px; }
+  /* ---------- Off the clock */
+  .otc__head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: var(--space-xs) var(--gutter); margin-block-end: var(--space-xl); }
+  .otc__sub { color: var(--ink-muted); font-size: var(--step-0); }
+  .otc { padding-block-start: var(--space-3xl); }
+  .otc__list { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--gutter); grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 600px) { .otc__list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 1100px) { .otc__list { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .otc__item { position: relative; display: flex; flex-direction: column; gap: var(--space-2xs); padding: var(--space-m); border-radius: var(--radius-l); border: 1px solid var(--line);
+               background: linear-gradient(160deg, var(--surface-raised), var(--surface)); transition: transform var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out); }
+  .otc__item:hover, .otc__item:focus-within, .otc__item:focus-visible { transform: translateY(-3px); border-color: var(--line-strong); }
+  .otc__item p:not(.otc__no):not(.otc__hint) { color: var(--ink-muted); font-size: var(--step-small); line-height: 1.5; }
+  .otc__no { font-family: var(--font-mono); font-size: var(--step-meta); color: var(--accent-text); }
+  .otc__title { font-family: var(--font-heading); font-weight: var(--heading-weight); letter-spacing: var(--heading-tracking); font-size: calc(var(--step-2) * var(--heading-scale)); line-height: 1.1; }
+  .otc__hint { margin-block-start: auto; padding-block-start: var(--space-xs); color: var(--ink-subtle); }
+  .otc__item .arrow-link { margin-block-start: auto; }
+  .print.is-lifted { transform: translate(var(--dx, 0px), var(--dy, 0px)) rotate(0deg) translateY(-12px) scale(1.06); z-index: 4; box-shadow: 0 24px 60px oklch(0% 0 0 / 0.5), 0 0 0 2px var(--accent); }
+  /* ---------- Experience pointer */
+  .pointer { display: flex; align-items: baseline; gap: 0.7em; margin-block-start: var(--space-xl); font-size: var(--step-1); line-height: 1.4; }
+  .pointer a { color: var(--accent-text); }
+  .pointer__dot { flex: none; width: 10px; height: 10px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px color-mix(in oklch, var(--accent) 22%, transparent); transform: translateY(-2px); }
+  /* ---------- How I work */
+  .hiw__list { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--gutter); grid-template-columns: minmax(0, 1fr); counter-reset: none; }
+  @media (min-width: 760px) { .hiw__list { grid-template-columns: repeat(6, minmax(0, 1fr)); } .hiw__item { grid-column: span 2; } .hiw__item--wide { grid-column: span 3; } }
+  .hiw__item { position: relative; overflow: hidden; display: grid; gap: var(--space-xs); align-content: start; padding: var(--space-l) var(--space-m) var(--space-m); border-radius: var(--radius-l); border: 1px solid var(--line);
+               background: radial-gradient(90% 70% at 100% 0%, color-mix(in oklch, var(--accent) 9%, transparent), transparent 65%), var(--surface-raised); }
+  .hiw__no { position: absolute; inset-block-start: 6px; inset-inline-end: 16px; font-family: var(--font-display); font-size: 5.5rem; line-height: 1; color: transparent; -webkit-text-stroke: 1px color-mix(in oklch, var(--ink) 18%, transparent); pointer-events: none; }
+  .hiw__glyph { width: 44px; height: 44px; fill: none; stroke: var(--accent-text); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 160; stroke-dashoffset: 0; }
+  .js-reveal .hiw__item:not(.is-in) .hiw__glyph { stroke-dashoffset: 160; }
+  .hiw__item.is-in .hiw__glyph { transition: stroke-dashoffset 1200ms var(--ease-out) 200ms; }
+  .hiw__title { font-family: var(--font-heading); font-weight: var(--heading-weight); letter-spacing: var(--heading-tracking); font-size: calc(var(--step-3) * var(--heading-scale)); line-height: 1.08; max-width: 18ch; position: relative; }
+  .hiw__item p { color: var(--ink-muted); font-size: var(--step-small); line-height: 1.55; max-width: 52ch; position: relative; }
+  /* ---------- Project features */
+  .pf-list { display: grid; gap: clamp(4rem, 9vw, 9rem); margin-block-start: var(--space-xl); }
+  .pf { display: grid; gap: var(--space-l); align-items: center; width: min(100% - 2 * max(0px, var(--page-margin) - 16px), var(--content-max)); margin-inline: auto; }
+  .pf__media { min-width: 0; }
+  .pf__media .dg, .pf__media .shotstack { margin-inline: calc(-1 * var(--page-margin)); border-radius: 0; }
+  @media (min-width: 600px) { .pf__media .dg, .pf__media .shotstack { margin-inline: 0; border-radius: 18px; } }
+  @media (min-width: 1100px) {
+    .pf { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); }
+    .pf--right .pf__media { grid-column: 6 / 13; grid-row: 1; margin-inline-end: calc(-1 * var(--page-margin) + 16px); }
+    .pf--right .pf__body { grid-column: 1 / 6; grid-row: 1; }
+    .pf--left .pf__media { grid-column: 1 / 8; grid-row: 1; margin-inline-start: calc(-1 * var(--page-margin) + 16px); }
+    .pf--left .pf__body { grid-column: 8 / 13; grid-row: 1; }
+    .pf--right .pf__media .dg { border-start-end-radius: 0; border-end-end-radius: 0; border-inline-end: 0; }
+    .pf--left .pf__media .dg { border-start-start-radius: 0; border-end-start-radius: 0; border-inline-start: 0; }
+  }
+  .pf__body { display: grid; gap: var(--space-s); justify-items: start; }
+  .pf__kicker { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; }
+  .pf__no { font-family: var(--font-display); font-size: 2.4rem; line-height: 1; color: var(--p-ink, var(--accent-text)); }
+  .pf__title { font-size: calc(var(--step-4) * var(--heading-scale)); line-height: 1.02; max-width: 16ch; }
+  .pf__title a { text-decoration: none; background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size var(--dur-base) var(--ease-out), color var(--dur-quick); }
+  .pf__title a:hover { background-size: 100% 1px; color: var(--p-ink); }
+  .pf__line { font-size: var(--step-1); line-height: 1.4; max-width: 34ch; }
+  .pf__story { color: var(--ink-muted); max-width: 56ch; }
+  .pf__nums { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gutter); margin: var(--space-2xs) 0; width: 100%; }
+  .pf__nums div { display: grid; gap: 4px; align-content: start; padding-block-start: var(--space-2xs); border-block-start: 2px solid var(--p, var(--accent)); }
+  .pf__nums dd { font-family: var(--font-heading); font-size: calc(var(--step-3) * var(--heading-scale)); line-height: 1; font-variant-numeric: lining-nums; }
+  .pf__nums dt { font-size: var(--step-small); color: var(--ink-muted); line-height: 1.35; }
+  .pf__parts { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .pf__parts li { padding: 7px 12px; border-radius: 999px; border: 1px solid color-mix(in oklch, var(--p) 55%, var(--line)); font-size: var(--step-small); }
+  .pf__cta { margin-block-start: var(--space-2xs); }
+  /* MTG: Rules of 99 with Grimoire layered over it */
+  .shotstack { position: relative; aspect-ratio: 16 / 10.5; padding: 0 0 6% 0; }
+  .shotstack img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top left; border-radius: 12px; box-shadow: 0 0 0 1px oklch(100% 0 0 / 0.08), 0 30px 70px oklch(5% 0.03 266 / 0.55); }
+  .shotstack__back { position: absolute; inset: 0 0 8% 0; }
+  .shotstack__front { position: absolute; width: 40%; aspect-ratio: 1 / 0.97; inset-block-end: 0; inset-inline-start: 4%; transform: rotate(-2.5deg); transition: transform var(--dur-slow) var(--ease-spring); }
+  .pf:hover .shotstack__front { transform: rotate(0deg) translateY(-8px); }
+  .pf--left .shotstack__front { inset-inline-start: auto; inset-inline-end: 4%; transform: rotate(2.5deg); }
+  /* ---------- Also */
+  .also { margin-block-start: var(--space-3xl); }
+  .also__list { list-style: none; padding: 0; margin: 0; }
+  .also__row { display: grid; gap: 4px var(--gutter); padding-block: var(--space-s); border-block-end: 1px solid var(--line); align-items: baseline; }
+  @media (min-width: 760px) { .also__row { grid-template-columns: minmax(0, 14rem) minmax(0, 1fr) auto; } }
+  .also__title { font-weight: 600; }
+  .also__line { color: var(--ink-muted); font-size: var(--step-small); }
+  .also__link { justify-self: start; }
+  .also__link.meta { color: var(--ink-subtle); }
+  /* ---------- Case study sections */
+  .detail__kicker { margin-block-start: var(--space-l); color: var(--ink-subtle); }
+  .detail__title { margin-block-start: var(--space-2xs); max-width: 20ch; font-size: calc(var(--step-5) * var(--heading-scale)); }
+  .case__nums { margin: 0; }
+  .cs { display: grid; gap: var(--space-l); padding-block-start: var(--space-xl); border-block-start: 1px solid var(--line-strong); }
+  .cs__text { display: grid; gap: var(--space-xs); }
+  .cs__k { display: flex; align-items: center; gap: 10px; font-family: var(--font-mono); font-size: var(--step-meta); color: var(--ink-muted); }
+  .cs__k span { display: inline-grid; place-items: center; min-width: 26px; height: 26px; padding-inline: 4px; border-radius: 999px; border: 1px solid var(--p, var(--accent)); color: var(--p-ink, var(--accent-text)); }
+  .cs__title { font-family: var(--font-heading); font-weight: var(--heading-weight); letter-spacing: var(--heading-tracking); font-size: calc(var(--step-3) * var(--heading-scale)); line-height: 1.05; max-width: 26ch; }
+  .cs__lead { font-size: var(--step-1); line-height: 1.4; max-width: 46ch; }
+  .cs__list { margin: var(--space-2xs) 0 0; padding: 0; list-style: none; display: grid; gap: var(--space-xs); max-width: 70ch; }
+  .cs__list li { position: relative; padding-inline-start: 1.4em; color: var(--ink-muted); line-height: 1.55; }
+  .cs__list li::before { content: ""; position: absolute; inset-inline-start: 0; inset-block-start: 0.62em; width: 7px; height: 7px; border-radius: 2px; background: var(--p, var(--accent)); transform: rotate(45deg); }
+  .cs__list strong { color: var(--ink); font-weight: 600; }
+  .cs__list code, .gotchas code { font-size: 0.88em; padding: 1px 5px; border-radius: 4px; background: var(--surface-sunken); color: var(--ink); }
+  @media (min-width: 960px) { .cs--dg .cs__list { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: var(--space-xl); max-width: none; } }
+  .cli { margin: 0; padding: 6px 14px 12px; display: grid; }
+  .cli div { display: grid; grid-template-columns: 7rem 1fr; gap: var(--space-s); padding-block: 9px; border-block-end: 1px solid var(--line); align-items: baseline; }
+  .cli div:last-child { border: 0; }
+  .cli dt code { color: var(--p-ink, var(--accent-text)); font-size: var(--step-small); }
+  .cli dd { color: var(--ink-muted); font-size: var(--step-small); }
+  .cli--no dt code { color: var(--ink-subtle); text-decoration: line-through; }
+  .cli--no dd { color: var(--ink-subtle); font-style: italic; }
+  .cs__cli { max-width: 640px; }
+  .timeline { list-style: none; padding: 0; margin: 0; display: grid; gap: 0; position: relative; max-width: 760px; }
+  .timeline::before { content: ""; position: absolute; inset-block: 10px 10px; inset-inline-start: 5.5rem; width: 1px; background: linear-gradient(var(--line-strong), var(--p, var(--accent))); }
+  .timeline__item { display: grid; grid-template-columns: 5rem 1fr; gap: var(--space-l); padding-block: var(--space-s); position: relative; }
+  .timeline__item::after { content: ""; position: absolute; inset-inline-start: calc(5.5rem - 5px); inset-block-start: calc(var(--space-s) + 7px); width: 11px; height: 11px; border-radius: 50%; background: var(--surface); border: 2px solid var(--line-strong); }
+  .timeline__item--now::after { background: var(--p, var(--accent)); border-color: var(--p, var(--accent)); box-shadow: 0 0 0 5px color-mix(in oklch, var(--p, var(--accent)) 25%, transparent); }
+  .timeline__when { font-family: var(--font-mono); font-size: var(--step-meta); color: var(--p-ink, var(--accent-text)); padding-block-start: 3px; }
+  .timeline__item p { color: var(--ink-muted); max-width: 60ch; padding-inline-start: var(--space-s); }
+  .case__also { padding: var(--space-s) var(--space-m); border-inline-start: 3px solid var(--p, var(--accent)); background: var(--surface-raised); border-radius: var(--radius-m); color: var(--ink-muted); max-width: 70ch; }
+  /* ---------- Reveal once */
+  .js-reveal .reveal { opacity: 0; transform: translateY(18px); transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out); transition-delay: var(--rd, 0ms); }
+  .js-reveal .reveal.is-in { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dg-pill--pulse .dg-g, .dg-live .dg-cl__ring, .dg-radio .dg-waves path, .dg-pr.is-bad { animation: none !important; }
+  .js-reveal .reveal { opacity: 1; transform: none; transition: none; }
+  .shotstack__front, .print.is-lifted { transition: none; }
+}
+@layer components {
+  .detail__title:focus, .detail__title:focus-visible { outline: none; }
+  .dg-pr [data-prs], .dg-pr [data-prm] { font-size: 13px; }
+}
+@layer components {
+  .dg-key--0 rect { fill: var(--dg-hot); } .dg-key--1 rect { fill: var(--t3); } .dg-key--2 rect { fill: oklch(52% 0.04 266); } .dg-key--3 rect { fill: oklch(30% 0.05 266); stroke: var(--dg-dim); }
+}
+@layer components {
+  @media (max-width: 599px) { .nav ul { gap: 0 var(--space-s); } .nav a { font-size: var(--step-small); } }
+}
+@media (prefers-reduced-motion: reduce) { .dg-mem__seg text, .dg-bar { transition-delay: 0ms !important; } }
+@layer components {
+  .pointer { display: block; padding-inline-start: 1.6em; position: relative; max-width: 60ch; }
+  .pointer__dot { position: absolute; inset-inline-start: 0; inset-block-start: 0.55em; transform: none; }
+}
+/* artifact: dark by design, nothing repo-only.
+   Unlayered on purpose: the viewer injects an unlayered reset on body (font, colour), which
+   would beat every @layer rule and leave inherited text dark on navy. */
 :root { color-scheme: dark; }
-html, body { background: var(--surface); }
+html, body { background: var(--surface); color: var(--ink); }
+body { margin: 0; font-family: var(--font-body); font-size: var(--step-0); line-height: 1.55; font-weight: 400; letter-spacing: normal; text-align: left;
+       -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
 [data-repo-only] { display: none !important; }
 .review-bar { display: none !important; }
 </style>
@@ -1061,9 +1329,9 @@ html, body { background: var(--surface); }
     <a class="site-header__name" href="#main">Guus Ekkelenkamp</a>
     <nav class="nav" aria-label="Main">
       <ul>
+        <li><a href="#off-the-clock">Off the clock</a></li>
         <li><a href="#experience">Experience</a></li>
         <li><a href="#projects">Projects</a></li>
-        <li><a href="#about">About</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
@@ -1077,7 +1345,7 @@ html, body { background: var(--surface); }
         <p class="intro__kicker"><img class="intro__avatar" src="assets/photos/portrait.webp" width="800" height="800" alt="" decoding="async">Rotterdam</p>
         <h1 class="intro__title display" id="intro-title">I like building things that <em>keep running</em>.</h1>
         <p class="intro__role">Tech lead, infra team at Harborn</p>
-        <p class="intro__para">Ten years in development agencies, eight of them in infrastructure. I build and run the platforms client projects land on: Kubernetes, GitOps and cloud, set up so they&rsquo;re secure, repeatable and boring to operate. At home I do the same on a smaller scale.</p>
+        <p class="intro__para">Ten years in development agencies, eight of them in infrastructure. I build the platforms client projects run on, and automate them until they mostly run themselves. Outside work you&rsquo;ll find me on a boulder, on a plane, or behind a deck of Magic cards.</p>
         <div class="intro__ctas">
           <a class="button" href="#contact">Get in touch <span aria-hidden="true">&rarr;</span></a>
           <a class="arrow-link" href="#projects">See projects <span aria-hidden="true">&darr;</span></a>
@@ -1090,15 +1358,44 @@ html, body { background: var(--surface); }
         <figure class="print print--portrait">
           <img src="assets/photos/portrait.webp" width="800" height="800" alt="Guus Ekkelenkamp, portrait" fetchpriority="high" decoding="async">
         </figure>
-        <figure class="print print--a print--shot">
-          <img src="assets/shots/grimoire-library.webp" width="1440" height="1400" alt="Grimoire, a Magic deck library, showing a grid of decks" decoding="async">
-          <figcaption>Grimoire</figcaption>
+        <figure class="print print--a" data-print="bouldering">
+          <img src="assets/photos/bouldering.webp" width="900" height="1512" alt="Guus bouldering on a sandstone block outdoors" decoding="async">
         </figure>
-        <figure class="print print--b print--shot">
-          <img src="assets/shots/r99-home.webp" width="1440" height="900" alt="Rules of 99, Commander in the browser, home screen" decoding="async">
-          <figcaption>Rules of 99</figcaption>
+        <figure class="print print--b" data-print="travel">
+          <img src="assets/photos/sunset.webp" width="1000" height="1328" alt="Guus at a railing at sunset over the water" decoding="async">
         </figure>
       </div>
+    </div>
+  </section>
+
+  <section class="section otc" id="off-the-clock" aria-labelledby="otc-title">
+    <div class="page">
+      <div class="otc__head">
+        <h2 class="h2" id="otc-title">Off the clock</h2>
+        <p class="otc__sub">What I do when I&rsquo;m not doing infra.</p>
+      </div>
+      <ul class="otc__list">
+        <li class="otc__item" data-lift="bouldering" tabindex="0">
+          <p class="otc__no" aria-hidden="true">01</p><h3 class="otc__title">Bouldering</h3>
+          <p>Indoors after work, outdoors on sandstone whenever there&rsquo;s a weekend and dry weather. It&rsquo;s problem-solving with your whole body.</p>
+          <p class="otc__hint meta" aria-hidden="true">&uarr; the photo up top</p>
+        </li>
+        <li class="otc__item" data-lift="travel" tabindex="0">
+          <p class="otc__no" aria-hidden="true">02</p><h3 class="otc__title">Travel</h3>
+          <p>Somewhere warm, somewhere new. Ideally both, ideally with a sunset.</p>
+          <p class="otc__hint meta" aria-hidden="true">&uarr; the photo up top</p>
+        </li>
+        <li class="otc__item">
+          <p class="otc__no" aria-hidden="true">03</p><h3 class="otc__title">Magic: The Gathering</h3>
+          <p>Commander with friends. It got out of hand: I built my own suite of tools for it.</p>
+          <p><a class="arrow-link" href="#mtg" data-open="mtg">The MTG suite <span aria-hidden="true">&rarr;</span></a></p>
+        </li>
+        <li class="otc__item">
+          <p class="otc__no" aria-hidden="true">04</p><h3 class="otc__title">Tinkering at home</h3>
+          <p>An old laptop under the TV runs a production-grade Kubernetes platform. Nobody asked for it.</p>
+          <p><a class="arrow-link" href="#homelab" data-open="homelab">The homelab <span aria-hidden="true">&rarr;</span></a></p>
+        </li>
+      </ul>
     </div>
   </section>
 
@@ -1120,24 +1417,7 @@ html, body { background: var(--surface); }
     </div>
 
     <div class="page">
-      <article class="highlight" aria-labelledby="hl-title">
-        <div class="highlight__text">
-          <p class="meta">highlight</p>
-          <h3 class="highlight__title" id="hl-title">A standardised, cloud-agnostic Kubernetes hosting platform.</h3>
-          <p>I designed and built the hosting platform our client projects run on. It&rsquo;s the same setup on every cloud, driven from git, and it now runs <strong>8 clusters</strong>, from small to large: the biggest runs <strong>more than 1,500 pods</strong>. They&rsquo;re in the Netherlands and abroad, including a cluster in <strong>Japan</strong>. The focus is automation and scaling: new projects get a namespace, a pipeline and monitoring on day one, and the platform grows without hand work. I also run <strong>training programmes with clients</strong>, so their own teams can work on it.</p>
-          <div class="hl-gets">
-            <p class="meta">every project gets, on day one</p>
-            <ul><li>its own namespace</li><li>a CI/CD pipeline</li><li>monitoring &amp; alerts</li><li>TLS</li><li>access control</li></ul>
-          </div>
-          <p class="hl-small"><span>NL, EU and Japan</span><span>training programmes with clients</span></p>
-          <ul class="chips" aria-label="Built with"><li>kubernetes</li><li>argo-cd</li><li>terraform</li><li>helm</li><li>prometheus</li></ul>
-        </div>
-        <figure class="stack" aria-label="Diagram: every new project gets a namespace, a pipeline and monitoring from one platform, driven from git, that runs the same on AWS and Azure on clusters in the Netherlands, elsewhere in Europe and Japan.">
-          <div class="stack__row stack__row--apps"><span class="meta">client projects</span><div class="stack__cells"><span>app</span><span>app</span><span>app</span><span>&hellip;</span></div></div>
-          <div class="stack__row stack__row--platform"><span class="meta">one platform</span><strong>The same setup, driven from git</strong><span class="stack__git"><code>git</code> &rarr; <code>argo cd</code></span></div>
-          <div class="stack__row stack__row--clouds"><span class="meta">any cloud, small to large clusters</span><div class="stack__cells"><span>AWS &middot; EKS</span><span>Azure &middot; AKS</span></div><div class="stack__regions"><span>NL</span><span>EU</span><span>Japan</span></div></div>
-        </figure>
-      </article>
+      <p class="pointer"><span class="pointer__dot" aria-hidden="true"></span>The platform I&rsquo;m proudest of is <a href="#platform" data-open="platform">project #1 below</a>: eight clusters, one way of working.</p>
 
       <h3 class="sub-head"><span class="meta">what I work on</span></h3>
       <ol class="skills">
@@ -1147,9 +1427,9 @@ html, body { background: var(--surface); }
         <li class="skill"><p class="skill__no">02</p><h4 class="skill__title">GitOps &amp; delivery</h4><p class="skill__line">Git is the source of truth; the cluster follows.</p>
           <ul class="skill__list"><li>Argo CD for every environment, with app-of-apps</li><li>CI with GitHub Actions: build, test and push immutable images</li><li>Promotion and rollbacks by commit, not by hand</li></ul>
           <ul class="chips" aria-label="Tools"><li>argo-cd</li><li>github-actions</li><li>gitops</li></ul></li>
-        <li class="skill"><p class="skill__no">03</p><h4 class="skill__title">Infrastructure as Code</h4><p class="skill__line">Environments you can rebuild from a repo.</p>
-          <ul class="skill__list"><li>Terraform / OpenTofu modules for networks, clusters, databases and identity</li><li>The same building blocks reused across clients and clouds</li><li>Reviews and plans in pull requests before anything changes</li></ul>
-          <ul class="chips" aria-label="Tools"><li>terraform</li><li>opentofu</li></ul></li>
+        <li class="skill"><p class="skill__no">03</p><h4 class="skill__title">Infrastructure as Code: Terraform &amp; Pulumi</h4><p class="skill__line">Environments you can rebuild from a repo.</p>
+          <ul class="skill__list"><li>Terraform modules and Pulumi in Python for networks, clusters, databases and identity</li><li>Policy-as-code: a change that breaks a rule can&rsquo;t even be previewed</li><li>Applied only by the pipeline, after a reviewed plan</li></ul>
+          <ul class="chips" aria-label="Tools"><li>terraform</li><li>pulumi</li><li>python</li><li>crossguard</li></ul></li>
         <li class="skill"><p class="skill__no">04</p><h4 class="skill__title">Cloud: AWS &amp; Azure</h4><p class="skill__line">Mostly AWS, Azure where the client lives there.</p>
           <ul class="skill__list"><li>AWS: EKS, IAM, VPC, RDS</li><li>Azure: AKS, Entra ID</li><li>Landing the same platform on either, without rewriting the apps</li></ul>
           <ul class="chips" aria-label="Tools"><li>aws</li><li>eks</li><li>iam</li><li>vpc</li><li>rds</li><li>azure</li><li>aks</li><li>entra-id</li></ul></li>
@@ -1162,73 +1442,48 @@ html, body { background: var(--surface); }
         <li class="skill"><p class="skill__no">07</p><h4 class="skill__title">Architecture &amp; leadership</h4><p class="skill__line">Decide early, write it down, bring the team along.</p>
           <ul class="skill__list"><li>Tech lead of the infra team: priorities, reviews and mentoring</li><li>Training programmes with clients, so their teams can run what we build</li><li>Architecture for client systems: where it runs, how it connects, who gets access</li><li>Decision records, so the reasoning outlives the meeting</li></ul></li>
         <li class="skill"><p class="skill__no">08</p><h4 class="skill__title">AI tooling</h4><p class="skill__line">Let agents do the boring parts, with guardrails.</p>
-          <ul class="skill__list"><li>Claude-based agents, skills and plugins for day-to-day work</li><li>See the <a href="#ai" data-open="ai">AI tooling project</a> below</li></ul>
+          <ul class="skill__list"><li>Claude-based agents, skills and plugins for day-to-day work</li><li>The ones I&rsquo;ve published are in the <a href="#also-list">Also list</a> below</li></ul>
           <ul class="chips" aria-label="Tools"><li>claude-code</li><li>mcp</li><li>agents</li></ul></li>
       </ol>
 
-      <div class="grid work-bottom">
-        <div class="principles-wrap">
-          <h3 class="sub-head"><span class="meta">how I work</span></h3>
-          <ol class="principles">
-            <li><strong>Boring is a feature.</strong> If a platform is exciting to run, something&rsquo;s wrong.</li>
-            <li><strong>Everything in git.</strong> Infrastructure, config and decisions. If it&rsquo;s not in a repo, it doesn&rsquo;t exist.</li>
-            <li><strong>Automate the second time.</strong> Not the first, and certainly not the third.</li>
-            <li><strong>Write it down.</strong> Every repo of mine starts with a context file and decision records.</li>
-          </ol>
-        </div>
-        <div class="toolbox-wrap">
-          <h3 class="sub-head"><span class="meta">toolbox</span></h3>
-          <dl class="toolbox-list">
-            <div><dt>platform</dt><dd>Kubernetes, k3s, Helm, Kustomize, Argo CD, Argo CD Image Updater, cert-manager, Traefik</dd></div>
-            <div><dt>infrastructure</dt><dd>Terraform / OpenTofu, AWS, Azure, Proxmox</dd></div>
-            <div><dt>delivery</dt><dd>GitHub Actions, Docker, GHCR</dd></div>
-            <div><dt>observability</dt><dd>Prometheus, Grafana, Loki</dd></div>
-            <div><dt>network &amp; security</dt><dd>Tailscale, Cloudflare (DNS, Tunnel, Access), ISO 27001</dd></div>
-            <div><dt>code</dt><dd>Python (incl. Kubernetes operators), TypeScript, Java, Bash</dd></div>
-            <div><dt>ai</dt><dd>Claude Code, MCP, Claude Agent SDK</dd></div>
-          </dl>
-        </div>
+    </div>
+  </section>
+
+  <section class="section hiw" id="how-i-work" aria-labelledby="hiw-title">
+    <div class="page">
+      <div class="otc__head">
+        <h2 class="h2" id="hiw-title">How I work</h2>
+        <p class="otc__sub">Five habits, each with what it looks like in practice.</p>
       </div>
+      <ol class="hiw__list">
+        <li class="hiw__item hiw__item--wide"><span class="hiw__no" aria-hidden="true">01</span>
+          <svg class="hiw__glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M36 16a14 14 0 0 0-24 3M12 32a14 14 0 0 0 24-3"/><path d="M36 8v8h-8M12 40v-8h8"/></svg>
+          <h3 class="hiw__title">If I do it twice, I automate it.</h3><p>Onboarding a new app is adding a topic to its repo; the platform does the rest.</p></li>
+        <li class="hiw__item hiw__item--wide"><span class="hiw__no" aria-hidden="true">02</span>
+          <svg class="hiw__glyph" viewBox="0 0 48 48" aria-hidden="true"><circle cx="14" cy="10" r="4"/><circle cx="14" cy="38" r="4"/><circle cx="34" cy="38" r="4"/><path d="M14 14v20M14 18c0 10 20 8 20 16"/></svg>
+          <h3 class="hiw__title">Every change goes through a pull request.</h3><p>Even infrastructure: the review shows exactly what will change, and merging is the deploy. Nobody runs commands against production from a laptop.</p></li>
+        <li class="hiw__item"><span class="hiw__no" aria-hidden="true">03</span>
+          <svg class="hiw__glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 5 39 11v11c0 10-7 16-15 20C16 38 9 32 9 22V11z"/><path d="m17 24 5 5 9-10"/></svg>
+          <h3 class="hiw__title">Guardrails before features.</h3><p>I write the rule that blocks a mistake before I build the thing it protects. A misconfigured bucket can&rsquo;t even be previewed.</p></li>
+        <li class="hiw__item"><span class="hiw__no" aria-hidden="true">04</span>
+          <svg class="hiw__glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M30 8a16 16 0 1 0 10 26A13 13 0 0 1 30 8z"/><path d="M33 17h6l-6 7h6"/></svg>
+          <h3 class="hiw__title">Make it boring to run.</h3><p>A good platform doesn&rsquo;t need heroes at 3 a.m.: it heals itself, alerts with a reason, and anyone on the team can operate it.</p></li>
+        <li class="hiw__item"><span class="hiw__no" aria-hidden="true">05</span>
+          <svg class="hiw__glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M8 10h12a4 4 0 0 1 4 4v26a3 3 0 0 0-3-3H8zM40 10H28a4 4 0 0 0-4 4v26a3 3 0 0 1 3-3h13z"/></svg>
+          <h3 class="hiw__title">Write down why, and teach it.</h3><p>Decision records in every repo, and training sessions with clients, so the knowledge doesn&rsquo;t live only in my head.</p></li>
+      </ol>
     </div>
   </section>
 
   <section class="section" id="projects" aria-labelledby="projects-title">
     <div class="page grid section-head">
       <h2 class="section-head__title h2" id="projects-title">Projects</h2>
-      <p class="section-head__sub">Things I build outside work. Open one for the full story, screenshots and how it works.</p>
+      <p class="section-head__sub">One from work, two from home. Open one for the full story and how it works.</p>
     </div>
-    <div id="featured-slot" data-current="homelab"><article class="page feature" id="p-homelab" data-project="homelab" style="--p: var(--tone-homelab); --p-ink: var(--pink-homelab)" aria-labelledby="feature-title"><a class="feature__media" href="#homelab" data-open="homelab" tabindex="-1" aria-hidden="true"><div class="ph il" style="--tone: var(--tone-homelab)"><div class="il__art" role="img" aria-label="Illustration: git push goes to Argo CD, which deploys into k3s with fifteen apps on a laptop that also runs Home Assistant, reachable only over a private network with zero open ports."><svg class="il__svg il__svg--full" viewBox="0 0 480 360" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path class="s-line" d="M128 37 H240 V100 H150 V116"/><path class="s-pulse" pathLength="600" d="M128 37 H240 V100 H150 V116"/><rect x="24" y="20" width="104" height="34" rx="6" class="s-box"/><text x="42" y="42" class="s-m s-ink">git push</text><rect x="188" y="20" width="104" height="34" rx="6" class="s-box s-box--tone"/><text x="208" y="42" class="s-m s-ink">argo cd</text><text x="306" y="42" class="s-m">syncs every app</text><rect x="24" y="84" width="432" height="212" rx="12" class="s-host"/><text x="440" y="289" class="s-m" text-anchor="end">proxmox · the laptop under the TV</text><rect x="40" y="112" width="220" height="158" rx="8" class="s-box"/><text x="56" y="136" class="s-t">k3s</text><text x="246" y="136" class="s-m" text-anchor="end">15 apps</text><rect x="56" y="150" width="104" height="24" rx="5" class="s-chip"/><text x="64" y="166.5" class="s-m s-ink">rules-of-99</text><rect x="168" y="150" width="80" height="24" rx="5" class="s-chip"/><text x="176" y="166.5" class="s-m s-ink">grimoire</text><rect x="56" y="180" width="104" height="24" rx="5" class="s-chip"/><text x="64" y="196.5" class="s-m s-ink">scryfall</text><rect x="168" y="180" width="80" height="24" rx="5" class="s-chip"/><text x="176" y="196.5" class="s-m s-ink">finds</text><rect x="56" y="210" width="104" height="24" rx="5" class="s-chip"/><text x="64" y="226.5" class="s-m s-ink">dashboard</text><rect x="168" y="210" width="80" height="24" rx="5" class="s-chip"/><text x="176" y="226.5" class="s-m s-ink">+10 more</text><rect x="276" y="112" width="164" height="158" rx="8" class="s-box"/><text x="292" y="136" class="s-t">Home Assistant</text><text x="292" y="160" class="s-m">its own VM</text><text x="292" y="180" class="s-m">zigbee over USB</text><circle cx="358" cy="232" r="10" class="s-tone"/><path class="s-line" d="M358 232 L316 214"/><circle cx="316" cy="214" r="5" class="s-node"/><path class="s-line" d="M358 232 L400 212"/><circle cx="400" cy="212" r="5" class="s-node"/><path class="s-line" d="M358 232 L320 254"/><circle cx="320" cy="254" r="5" class="s-node"/><path class="s-line" d="M358 232 L398 254"/><circle cx="398" cy="254" r="5" class="s-node"/><rect x="24" y="314" width="124" height="32" rx="6" class="s-box"/><text x="40" y="335" class="s-m s-ink">me, anywhere</text><path class="s-line s-dash" d="M148 330 H240 V296"/><text x="160" y="322" class="s-m">tailscale</text><text x="456" y="335" class="s-m s-ink" text-anchor="end">0 open ports</text></svg><svg class="il__svg il__svg--compact" viewBox="0 0 320 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><path class="s-line" d="M146 36 H174"/><path class="s-line" d="M239 56 V98"/><path class="s-pulse" pathLength="600" d="M146 36 H239 V98"/><rect x="16" y="16" width="130" height="40" rx="8" class="s-box"/><text x="81" y="42" class="s-c s-ink" text-anchor="middle">git push</text><rect x="174" y="16" width="130" height="40" rx="8" class="s-box s-box--tone"/><text x="239" y="42" class="s-c s-ink" text-anchor="middle">argo cd</text><rect x="16" y="84" width="288" height="128" rx="12" class="s-host"/><rect x="30" y="98" width="150" height="100" rx="8" class="s-box"/><text x="46" y="128" class="s-t s-lg">k3s</text><text x="46" y="154" class="s-c">15 apps</text><text x="46" y="178" class="s-c">from git</text><rect x="192" y="98" width="98" height="100" rx="8" class="s-box"/><text x="206" y="128" class="s-t s-lg">Home</text><text x="206" y="152" class="s-t s-lg">Assistant</text><rect x="16" y="242" width="120" height="42" rx="8" class="s-box"/><text x="76" y="268" class="s-c s-ink" text-anchor="middle">me</text><path class="s-line s-dash" d="M136 263 H160 V212"/><text x="304" y="268" class="s-c s-ink" text-anchor="end">0 open ports</text></svg></div><span class="ph__label il__label" aria-hidden="true"><span class="ph__no">01</span>illustration</span></div></a><div class="feature__head"><div class="feature__kicker"><p class="eyebrow"><span class="feature__dot" aria-hidden="true"></span>Featured</p><p class="meta">fig.01 — homelab/illustration.svg · 16:9</p></div><h3 class="feature__title display" id="feature-title"><a href="#homelab" data-open="homelab">Homelab platform</a></h3><p class="feature__line">A small, production-style Kubernetes platform on an old laptop under the TV.</p></div><div class="feature__story"><p class="facts"><span class="state state--live"><span class="state__dot" aria-hidden="true"></span>Live</span><span class="meta">2026</span></p><p>An old laptop with the lid shut runs Proxmox, a single-node k3s cluster and everything I build. It’s managed the way I’d run a client platform: one git repo, Argo CD syncing every app, wildcard TLS, and no open ports. If the disk dies, I rebuild it from the repo in an afternoon.</p><ul class="chips" aria-label="Built with"><li>proxmox</li><li>k3s</li><li>argo-cd</li><li>image-updater</li><li>cert-manager</li><li>traefik</li><li>tailscale</li><li>cloudflare</li></ul><p><a class="button button--ghost" href="#homelab" data-open="homelab">Open the case study <span aria-hidden="true">→</span></a></p></div></article></div>
-    <div class="page projects-body">
-      <nav class="index" aria-labelledby="index-label">
-        <div class="index__head"><h3 class="eyebrow" id="index-label">All projects</h3><span class="meta" aria-hidden="true">05</span></div>
-        <ol id="project-index"><li data-project="homelab" style="--p: var(--tone-homelab); --p-ink: var(--pink-homelab)"><a href="#homelab" data-open="homelab"><span class="index__no">01</span><span class="index__title">Homelab platform</span><span class="index__mark">↑ featured</span></a></li><li data-project="home" style="--p: var(--tone-home); --p-ink: var(--pink-home)"><a href="#home" data-open="home"><span class="index__no">02</span><span class="index__title">Home automation</span><span class="index__mark">live</span></a></li><li data-project="mtg" style="--p: var(--tone-mtg); --p-ink: var(--pink-mtg)"><a href="#mtg" data-open="mtg"><span class="index__no">03</span><span class="index__title">MTG suite</span><span class="index__mark">live</span></a></li><li data-project="ai" style="--p: var(--tone-ai); --p-ink: var(--pink-ai)"><a href="#ai" data-open="ai"><span class="index__no">04</span><span class="index__title">AI tooling</span><span class="index__mark">live</span></a></li><li data-project="scouts" style="--p: var(--tone-scouts); --p-ink: var(--pink-scouts)"><a href="#scouts" data-open="scouts"><span class="index__no">05</span><span class="index__title">Scouting agents</span><span class="index__mark">personal</span></a></li></ol>
-      </nav>
-      <ul class="project-grid" id="project-grid" aria-label="More projects"><li class="item" id="p-home" data-project="home" style="--p: var(--tone-home); --p-ink: var(--pink-home)"><a class="item__media" href="#home" data-open="home" tabindex="-1" aria-hidden="true"><div class="ph il" style="--tone: var(--tone-home)"><div class="il__art" role="img" aria-label="Illustration: a wall-mounted tablet showing three rooms with their lights and who is home, next to a Zigbee mesh of lamps and sensors, and two automations: someone home turns the screen on, docking brings the dashboard forward."><svg class="il__svg il__svg--full" viewBox="0 0 480 360" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><text x="24" y="28" class="s-m">wall panel · kiosk browser</text><rect x="20" y="40" width="312" height="200" rx="16" class="s-phone"/><rect x="32" y="52" width="288" height="176" rx="8" class="s-box"/><text x="54" y="82" class="s-t s-strong">Home</text><rect x="234" y="64" width="74" height="26" rx="13" class="s-verdict"/><text x="271" y="81.5" class="s-m s-on" text-anchor="middle">2 home</text><rect x="44" y="100" width="84" height="112" rx="8" class="s-tile s-tile--on"/><text x="86" y="124" class="s-s s-xs" text-anchor="middle" lang="nl">Woonkamer</text><circle cx="66" cy="160" r="11" class="s-tone"/><text x="54" y="198" class="s-m">on · 60%</text><rect x="134" y="100" width="84" height="112" rx="8" class="s-tile"/><text x="176" y="124" class="s-s s-xs" text-anchor="middle" lang="nl">Keuken</text><circle cx="156" cy="160" r="11" class="s-node"/><text x="144" y="198" class="s-m">off</text><rect x="224" y="100" width="84" height="112" rx="8" class="s-tile s-tile--on"/><text x="266" y="124" class="s-s s-xs" text-anchor="middle" lang="nl">Slaapkamer</text><circle cx="246" cy="160" r="11" class="s-tone"/><text x="234" y="198" class="s-m">on · 20%</text><text x="346" y="58" class="s-m">zigbee mesh</text><path class="s-line" d="M404 146 L354 98"/><path class="s-line" d="M404 146 L458 104"/><path class="s-line" d="M404 146 L352 206"/><path class="s-line" d="M404 146 L460 208"/><path class="s-line s-faint" d="M354 98 L458 104 M352 206 L460 208"/><circle cx="404" cy="146" r="13" class="s-tone"/><text x="404" y="176" class="s-m s-ink" text-anchor="middle">zha</text><circle cx="354" cy="98" r="7" class="s-node"/><text x="354" y="86" class="s-m" text-anchor="middle">lamp</text><circle cx="458" cy="104" r="7" class="s-node"/><text x="458" y="92" class="s-m" text-anchor="middle">sensor</text><circle cx="352" cy="206" r="7" class="s-node"/><text x="352" y="230" class="s-m" text-anchor="middle">door</text><circle cx="460" cy="208" r="7" class="s-node"/><text x="460" y="232" class="s-m" text-anchor="middle">plug</text><rect x="24" y="262" width="186" height="32" rx="16" class="s-chip"/><text x="117" y="283" class="s-m s-ink" text-anchor="middle">someone home</text><path class="s-line" d="M218 278 H250 M244 272 L250 278 L244 284"/><rect x="258" y="262" width="198" height="32" rx="16" class="s-box s-box--tone"/><text x="357" y="283" class="s-m s-ink" text-anchor="middle">screen on</text><rect x="24" y="304" width="186" height="32" rx="16" class="s-chip"/><text x="117" y="325" class="s-m s-ink" text-anchor="middle">tablet docked</text><path class="s-line" d="M218 320 H250 M244 314 L250 320 L244 326"/><rect x="258" y="304" width="198" height="32" rx="16" class="s-box s-box--tone"/><text x="357" y="325" class="s-m s-ink" text-anchor="middle">dashboard to front</text></svg><svg class="il__svg il__svg--compact" viewBox="0 0 320 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><rect x="16" y="12" width="288" height="178" rx="16" class="s-phone"/><rect x="28" y="24" width="264" height="154" rx="8" class="s-box"/><text x="42" y="54" class="s-t s-lg">Home</text><rect x="196" y="34" width="84" height="28" rx="14" class="s-verdict"/><text x="238" y="53" class="s-c s-on" text-anchor="middle">2 home</text><rect x="40" y="74" width="76" height="92" rx="8" class="s-tile s-tile--on"/><circle cx="60" cy="104" r="11" class="s-tone"/><text x="78" y="152" class="s-s s-xs s-ink" text-anchor="middle" lang="nl">Woonkamer</text><rect x="124" y="74" width="76" height="92" rx="8" class="s-tile"/><circle cx="144" cy="104" r="11" class="s-node"/><text x="162" y="152" class="s-s s-xs s-ink" text-anchor="middle" lang="nl">Keuken</text><rect x="208" y="74" width="76" height="92" rx="8" class="s-tile s-tile--on"/><circle cx="228" cy="104" r="11" class="s-tone"/><text x="246" y="152" class="s-s s-xs s-ink" text-anchor="middle" lang="nl">Slaapkamer</text><rect x="16" y="208" width="288" height="36" rx="18" class="s-chip"/><text x="160" y="231" class="s-c s-ink" text-anchor="middle">someone home → screen on</text><rect x="16" y="254" width="288" height="36" rx="18" class="s-box s-box--tone"/><text x="160" y="277" class="s-c s-ink" text-anchor="middle">docked → dashboard</text></svg></div><span class="ph__label il__label" aria-hidden="true"><span class="ph__no">02</span>illustration</span></div></a><div class="item__caption"><p class="meta">fig.02 — home/illustration.svg · 16:10</p><h3 class="item__title"><a href="#home" data-open="home">Home automation</a></h3><p class="item__line">Home Assistant, a Zigbee mesh and a wall panel that knows when we’re home.</p><div class="item__facts"><span class="state state--live"><span class="state__dot" aria-hidden="true"></span>Live</span></div></div></li><li class="item" id="p-mtg" data-project="mtg" style="--p: var(--tone-mtg); --p-ink: var(--pink-mtg)"><a class="item__media" href="#mtg" data-open="mtg" tabindex="-1" aria-hidden="true"><div class="ph stage" style="--tone: var(--tone-mtg)"><img src="assets/shots/r99-home.webp" width="1440" height="900" alt="Rules of 99 home screen: the last deck played, its record and a Play button" loading="lazy" decoding="async"><span class="ph__label il__label" aria-hidden="true"><span class="ph__no">03</span>screenshot</span></div></a><div class="item__caption"><p class="meta">fig.03 — r99-home.webp · 16:10</p><h3 class="item__title"><a href="#mtg" data-open="mtg">MTG suite</a></h3><p class="item__line">Four tools for Magic: The Gathering: play, build, search and brew.</p><div class="item__facts"><span class="state state--live"><span class="state__dot" aria-hidden="true"></span>Live</span><span class="meta">4 parts</span></div></div></li><li class="item" id="p-ai" data-project="ai" style="--p: var(--tone-ai); --p-ink: var(--pink-ai)"><a class="item__media" href="#ai" data-open="ai" tabindex="-1" aria-hidden="true"><div class="ph il" style="--tone: var(--tone-ai)"><div class="il__art" role="img" aria-label="Illustration: a day of work turned into time blocks and booked as 7.5 hours, and a Playwright checklist where a failing checkout flow gets a fix task and then passes."><svg class="il__svg il__svg--full" viewBox="0 0 480 360" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><text x="24" y="30" class="s-m">uren-assistent · one day</text><rect x="26" y="44" width="74" height="46" rx="6" class="s-tone-3"/><text x="63" y="72" class="s-s s-ink" text-anchor="middle">standup</text><rect x="104" y="44" width="104" height="46" rx="6" class="s-tone"/><text x="156" y="72" class="s-s s-on" text-anchor="middle">PR review</text><rect x="212" y="44" width="134" height="46" rx="6" class="s-tone-2"/><text x="279" y="72" class="s-s s-on" text-anchor="middle">Linear issue</text><rect x="350" y="44" width="50" height="46" rx="6" class="s-tone-3"/><text x="375" y="72" class="s-s s-ink" text-anchor="middle">call</text><rect x="404" y="44" width="50" height="46" rx="6" class="s-tone"/><text x="429" y="72" class="s-s s-on" text-anchor="middle">deploy</text><line x1="24" y1="102" x2="456" y2="102" class="s-line"/><text x="24" y="122" class="s-m">09</text><text x="78" y="122" class="s-m" text-anchor="middle">10</text><text x="132" y="122" class="s-m" text-anchor="middle">11</text><text x="186" y="122" class="s-m" text-anchor="middle">12</text><text x="240" y="122" class="s-m" text-anchor="middle">13</text><text x="294" y="122" class="s-m" text-anchor="middle">14</text><text x="348" y="122" class="s-m" text-anchor="middle">15</text><text x="402" y="122" class="s-m" text-anchor="middle">16</text><text x="456" y="122" class="s-m" text-anchor="end">17</text><path class="s-line" d="M240 130 V148 M234 142 L240 148 L246 142"/><rect x="24" y="156" width="432" height="40" rx="8" class="s-box"/><text x="40" y="181" class="s-t">7.5 h booked</text><text x="150" y="181" class="s-m">classified, then submitted</text><rect x="358" y="164" width="86" height="24" rx="12" class="s-verdict"/><text x="401" y="180.5" class="s-m s-on" text-anchor="middle">submitted</text><text x="24" y="228" class="s-m">ux-testing · playwright</text><rect x="24" y="240" width="432" height="30" rx="6" class="s-box"/><circle cx="42" cy="255" r="6" class="s-tone"/><text x="58" y="260" class="s-s s-ink">sign-up flow</text><text x="444" y="260" class="s-m" text-anchor="end">passes</text><rect x="24" y="278" width="432" height="30" rx="6" class="s-box s-box--tone"/><circle cx="42" cy="293" r="6" class="s-warn"/><text x="58" y="298" class="s-s s-ink">checkout flow</text><text x="444" y="298" class="s-m" text-anchor="end">broke → fix task → passes</text><rect x="24" y="316" width="432" height="30" rx="6" class="s-box"/><circle cx="42" cy="331" r="6" class="s-tone"/><text x="58" y="336" class="s-s s-ink">settings flow</text><text x="444" y="336" class="s-m" text-anchor="end">passes</text></svg><svg class="il__svg il__svg--compact" viewBox="0 0 320 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><text x="16" y="26" class="s-c">hours, booked</text><rect x="16" y="38" width="84" height="48" rx="6" class="s-tone-3"/><rect x="106" y="38" width="112" height="48" rx="6" class="s-tone"/><rect x="224" y="38" width="80" height="48" rx="6" class="s-tone-2"/><text x="24" y="68" class="s-c s-ink">standup</text><text x="114" y="68" class="s-c s-on">PR review</text><text x="232" y="68" class="s-c s-on">issue</text><rect x="16" y="98" width="288" height="44" rx="8" class="s-box"/><text x="30" y="126" class="s-t s-lg">7.5 h</text><rect x="194" y="108" width="98" height="26" rx="13" class="s-verdict"/><text x="243" y="126" class="s-c s-on" text-anchor="middle">submitted</text><text x="16" y="176" class="s-c">flows, tested</text><rect x="16" y="188" width="288" height="32" rx="6" class="s-box"/><circle cx="34" cy="204" r="6" class="s-tone"/><text x="50" y="209" class="s-c s-ink">sign-up</text><text x="292" y="209" class="s-c" text-anchor="end">passes</text><rect x="16" y="226" width="288" height="32" rx="6" class="s-box s-box--tone"/><circle cx="34" cy="242" r="6" class="s-warn"/><text x="50" y="247" class="s-c s-ink">checkout</text><text x="292" y="247" class="s-c" text-anchor="end">fixed</text><rect x="16" y="264" width="288" height="32" rx="6" class="s-box"/><circle cx="34" cy="280" r="6" class="s-tone"/><text x="50" y="285" class="s-c s-ink">settings</text><text x="292" y="285" class="s-c" text-anchor="end">passes</text></svg></div><span class="ph__label il__label" aria-hidden="true"><span class="ph__no">04</span>illustration</span></div></a><div class="item__caption"><p class="meta">fig.04 — ai/illustration.svg · 16:10</p><h3 class="item__title"><a href="#ai" data-open="ai">AI tooling</a></h3><p class="item__line">Agents and apps that take the boring parts of the job off my hands.</p><div class="item__facts"><span class="state state--live"><span class="state__dot" aria-hidden="true"></span>Live</span><span class="meta">3 parts</span></div></div></li><li class="item" id="p-scouts" data-project="scouts" style="--p: var(--tone-scouts); --p-ink: var(--pink-scouts)"><a class="item__media" href="#scouts" data-open="scouts" tabindex="-1" aria-hidden="true"><div class="ph stage" style="--tone: var(--tone-scouts)"><img src="assets/shots/finds-overview.webp" width="1440" height="900" alt="The 2nd-hand finds web app: a grid of kept Magic listings with price, distance and verdict" loading="lazy" decoding="async"><span class="ph__label il__label" aria-hidden="true"><span class="ph__no">05</span>screenshot</span></div></a><div class="item__caption"><p class="meta">fig.05 — finds-overview.webp · 16:10</p><h3 class="item__title"><a href="#scouts" data-open="scouts">Scouting agents</a></h3><p class="item__line">Two agents that watch Marktplaats, Vinted and Funda so I don’t have to.</p><div class="item__facts"><span class="state state--personal"><span class="state__dot" aria-hidden="true"></span>Personal</span></div></div></li></ul>
-    </div>
-  </section>
-
-  <section class="section" id="about" aria-labelledby="about-title">
-    <div class="page grid about__grid">
-      <div class="about__text">
-        <h2 class="h2" id="about-title">About</h2>
-        <p class="lead">I live in Rotterdam. Outside work you&rsquo;ll find me bouldering, around a table playing Magic with friends, or tinkering with the setup under the TV. I like a weekend with nothing planned and a trip somewhere warm.</p><!-- [CONFIRM / personalise] -->
-        <div>
-          <h3 class="about__sub">currently</h3>
-          <dl class="currently">
-            <div><dt>climbing</dt><dd>Bouldering, mostly outdoors when the weather allows</dd></div><!-- [CONFIRM] -->
-            <div><dt>playing</dt><dd>Commander with friends, on Rules of 99 when we can&rsquo;t meet up</dd></div>
-            <div><dt>building</dt><dd><span class="now__dot" aria-hidden="true"></span>The 3-node homelab cluster</dd></div>
-          </dl>
-        </div>
-      </div>
-      <figure class="about__photo about__photo--a">
-        <img src="assets/photos/bouldering.webp" width="900" height="1512" alt="Guus bouldering on a sandstone block outdoors" loading="lazy" decoding="async">
-        <figcaption class="meta">fig. &mdash; bouldering</figcaption>
-      </figure>
-      <figure class="about__photo about__photo--b">
-        <img src="assets/photos/sunset.webp" width="1000" height="1328" alt="Guus at a railing at sunset over the water" loading="lazy" decoding="async">
-        <figcaption class="meta">fig. &mdash; somewhere warm</figcaption>
-      </figure>
+    <div class="pf-list" id="project-features"><article class="pf pf--right" id="platform-feature" data-project="platform" style="--p: var(--tone-platform); --p-ink: var(--pink-platform)" aria-labelledby="pf-platform"><div class="pf__media"><figure class="dg dg--feature" data-dg="delivery" role="img" aria-label="Diagram: a commit lands in the git repo, CI builds an immutable image tag, Argo CD Image Updater writes the tag back to git, and Argo CD syncs it: the release candidate rolls out to acceptance first, and the stable release to production."><svg class="dg__svg dg__svg--full" viewBox="0 0 760 380" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><g class="dg-root"><rect class="dg-rail" x="20" y="20" width="720" height="48" rx="12"/><g class="dg-g" transform="translate(34 34)" aria-hidden="true"><circle cx="6" cy="5" r="2"/><circle cx="6" cy="15" r="2"/><circle cx="14" cy="8" r="2"/><path d="M6 7v6M14 10c0 3-4 3-8 3"/></g><text class="dg-l" x="62" y="49">Git repo</text><text class="dg-m" x="150" y="49">the single source of truth</text><g class="dg-n dg-mark" data-n="commit"><circle cx="420" cy="44" r="6"/><text class="dg-m dg-m--ink" x="432" y="49">commit</text></g><g class="dg-n dg-mark" data-n="tagged"><circle cx="560" cy="44" r="6"/><text class="dg-m dg-m--ink" x="572" y="49">tag in git</text></g><g class="dg-e" data-e="c2ci"><path class="dg-e__base" d="M420 68 V96 H145 V112"/><path class="dg-e__hot" pathLength="100" d="M420 68 V96 H145 V112"/></g><g class="dg-e" data-e="ci2iu"><path class="dg-e__base" d="M250 146 H290"/><path class="dg-e__hot" pathLength="100" d="M250 146 H290"/></g><g class="dg-e" data-e="iu2git"><path class="dg-e__base" d="M395 112 V92 H560 V68"/><path class="dg-e__hot" pathLength="100" d="M395 112 V92 H560 V68"/></g><g class="dg-e" data-e="git2argo"><path class="dg-e__base" d="M660 68 V112"/><path class="dg-e__hot" pathLength="100" d="M660 68 V112"/></g><g class="dg-n" data-n="ci"><rect class="dg-card" x="40" y="112" width="210" height="68" rx="12"/><rect class="dg-sheen" x="41" y="113" width="208" height="22" rx="11"/><g class="dg-g" transform="translate(56 136)" aria-hidden="true"><path d="M3 6.5 10 3l7 3.5v7L10 17l-7-3.5z"/><path d="M3 6.5 10 10l7-3.5M10 10v7"/></g><text class="dg-l" x="88" y="143">CI build</text><text class="dg-s" data-s x="88" y="162">image tag</text></g><g class="dg-n" data-n="iu"><rect class="dg-card" x="290" y="112" width="210" height="68" rx="12"/><rect class="dg-sheen" x="291" y="113" width="208" height="22" rx="11"/><g class="dg-g" transform="translate(306 136)" aria-hidden="true"><path d="M3 3h7l7 7-7 7-7-7z"/><circle cx="7" cy="7" r="1.3"/></g><text class="dg-l" x="338" y="143">Image Updater</text><text class="dg-s" data-s x="338" y="162">watches registry</text></g><g class="dg-n" data-n="argo"><rect class="dg-card" x="560" y="112" width="180" height="68" rx="12"/><rect class="dg-sheen" x="561" y="113" width="178" height="22" rx="11"/><g class="dg-g" transform="translate(576 136)" aria-hidden="true"><path d="M16 7a7 7 0 0 0-12 1M4 13a7 7 0 0 0 12-1M16 3v4h-4M4 17v-4h4"/></g><text class="dg-l" x="608" y="143">Argo CD</text><text class="dg-s" data-s x="608" y="162">in sync</text></g><g class="dg-e" data-e="argo2acc"><path class="dg-e__base" d="M610 180 V204 H205 V226"/><path class="dg-e__hot" pathLength="100" d="M610 180 V204 H205 V226"/></g><g class="dg-e" data-e="argo2prod"><path class="dg-e__base" d="M690 180 V226"/><path class="dg-e__hot" pathLength="100" d="M690 180 V226"/></g><g class="dg-n dg-env" data-n="acc"><rect class="dg-card" x="40" y="226" width="330" height="132" rx="14"/><rect class="dg-sheen" x="41" y="227" width="328" height="22" rx="13"/><text class="dg-l" x="58" y="256">acceptance</text><text class="dg-s" x="58" y="276">newest release candidate</text><g class="dg-pods" data-pods="acc"><g class="dg-pod" transform="translate(58 314)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"/></g><g class="dg-pod" transform="translate(90 314)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"/></g><g class="dg-pod" transform="translate(122 314)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"/></g><g class="dg-pod" transform="translate(154 314)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"/></g><g class="dg-pod" transform="translate(186 314)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"/></g></g><text class="dg-v" data-s x="354" y="334" text-anchor="end">v2.3.0</text></g><g class="dg-n dg-env" data-n="prod"><rect class="dg-card" x="410" y="226" width="330" height="132" rx="14"/><rect class="dg-sheen" x="411" y="227" width="328" height="22" rx="13"/><text class="dg-l" x="428" y="256">production</text><text class="dg-s" x="428" y="276">newest stable release</text><g class="dg-pods" data-pods="prod"><g class="dg-pod" transform="translate(428 314)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"/></g><g class="dg-pod" transform="translate(460 314)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"/></g><g class="dg-pod" transform="translate(492 314)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"/></g><g class="dg-pod" transform="translate(524 314)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"/></g><g class="dg-pod" transform="translate(556 314)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"/></g></g><text class="dg-v" data-s x="724" y="334" text-anchor="end">v2.3.0</text></g></g><circle class="dg-pk" r="5" cx="-20" cy="-20"/><circle class="dg-pk dg-pk--2" r="4" cx="-20" cy="-20"/></svg><svg class="dg__svg dg__svg--compact" viewBox="0 0 340 590" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><g class="dg-root"><rect class="dg-rail" x="10" y="10" width="320" height="44" rx="12"/><g class="dg-g" transform="translate(22 22)" aria-hidden="true"><circle cx="6" cy="5" r="2"/><circle cx="6" cy="15" r="2"/><circle cx="14" cy="8" r="2"/><path d="M6 7v6M14 10c0 3-4 3-8 3"/></g><text class="dg-l" x="50" y="37">Git repo</text><g class="dg-n dg-mark" data-n="commit"><circle cx="160" cy="32" r="6"/><text class="dg-m dg-m--ink" x="170" y="37">commit</text></g><g class="dg-n dg-mark" data-n="tagged"><circle cx="250" cy="32" r="6"/><text class="dg-m dg-m--ink" x="260" y="37">tag</text></g><g class="dg-e" data-e="c2ci"><path class="dg-e__base" d="M160 54 V80"/><path class="dg-e__hot" pathLength="100" d="M160 54 V80"/></g><g class="dg-e" data-e="ci2iu"><path class="dg-e__base" d="M160 140 V160"/><path class="dg-e__hot" pathLength="100" d="M160 140 V160"/></g><g class="dg-e" data-e="iu2git"><path class="dg-e__base" d="M300 190 H318 V54"/><path class="dg-e__hot" pathLength="100" d="M300 190 H318 V54"/></g><g class="dg-e" data-e="git2argo"><path class="dg-e__base" d="M22 54 V256 H60"/><path class="dg-e__hot" pathLength="100" d="M22 54 V256 H60"/></g><g class="dg-n" data-n="ci"><rect class="dg-card" x="60" y="80" width="220" height="60" rx="12"/><rect class="dg-sheen" x="61" y="81" width="218" height="22" rx="11"/><g class="dg-g" transform="translate(76 100)" aria-hidden="true"><path d="M3 6.5 10 3l7 3.5v7L10 17l-7-3.5z"/><path d="M3 6.5 10 10l7-3.5M10 10v7"/></g><text class="dg-l" x="108" y="107">CI build</text><text class="dg-s" data-s x="108" y="126">image tag</text></g><g class="dg-n" data-n="iu"><rect class="dg-card" x="60" y="160" width="240" height="60" rx="12"/><rect class="dg-sheen" x="61" y="161" width="238" height="22" rx="11"/><g class="dg-g" transform="translate(76 180)" aria-hidden="true"><path d="M3 3h7l7 7-7 7-7-7z"/><circle cx="7" cy="7" r="1.3"/></g><text class="dg-l" x="108" y="187">Image Updater</text><text class="dg-s" data-s x="108" y="206">watches registry</text></g><g class="dg-n" data-n="argo"><rect class="dg-card" x="60" y="240" width="220" height="60" rx="12"/><rect class="dg-sheen" x="61" y="241" width="218" height="22" rx="11"/><g class="dg-g" transform="translate(76 260)" aria-hidden="true"><path d="M16 7a7 7 0 0 0-12 1M4 13a7 7 0 0 0 12-1M16 3v4h-4M4 17v-4h4"/></g><text class="dg-l" x="108" y="267">Argo CD</text><text class="dg-s" data-s x="108" y="286">in sync</text></g><g class="dg-e" data-e="argo2acc"><path class="dg-e__base" d="M120 300 V326"/><path class="dg-e__hot" pathLength="100" d="M120 300 V326"/></g><g class="dg-e" data-e="argo2prod"><path class="dg-e__base" d="M250 300 V316 H324 V466 H300"/><path class="dg-e__hot" pathLength="100" d="M250 300 V316 H324 V466 H300"/></g><g class="dg-n dg-env" data-n="acc"><rect class="dg-card" x="10" y="326" width="290" height="118" rx="14"/><rect class="dg-sheen" x="11" y="327" width="288" height="22" rx="13"/><text class="dg-l" x="28" y="356">acceptance</text><text class="dg-s" x="28" y="376">release candidate</text><g class="dg-pods" data-pods="acc"><g class="dg-pod" transform="translate(28 400)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"/></g><g class="dg-pod" transform="translate(60 400)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"/></g><g class="dg-pod" transform="translate(92 400)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"/></g><g class="dg-pod" transform="translate(124 400)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"/></g></g><text class="dg-v" data-s x="284" y="420" text-anchor="end">v2.3.0</text></g><g class="dg-n dg-env" data-n="prod"><rect class="dg-card" x="10" y="456" width="290" height="118" rx="14"/><rect class="dg-sheen" x="11" y="457" width="288" height="22" rx="13"/><text class="dg-l" x="28" y="486">production</text><text class="dg-s" x="28" y="506">stable release</text><g class="dg-pods" data-pods="prod"><g class="dg-pod" transform="translate(28 530)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"/></g><g class="dg-pod" transform="translate(60 530)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"/></g><g class="dg-pod" transform="translate(92 530)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"/></g><g class="dg-pod" transform="translate(124 530)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"/></g></g><text class="dg-v" data-s x="284" y="550" text-anchor="end">v2.3.0</text></g></g><circle class="dg-pk" r="5" cx="-20" cy="-20"/><circle class="dg-pk dg-pk--2" r="4" cx="-20" cy="-20"/></svg><figcaption class="dg__cap"><span class="dg__title">App delivery with GitOps</span><button type="button" class="dg__replay" aria-label="Replay animation: App delivery with GitOps">replay</button></figcaption></figure></div><div class="pf__body"><p class="pf__kicker"><span class="pf__no">01</span><span class="meta">hosting platform</span><span class="state state--work"><span class="state__dot" aria-hidden="true"></span>Work</span><span class="meta">2022–now</span></p><h3 class="pf__title display" id="pf-platform"><a href="#platform" data-open="platform">A cloud-agnostic Kubernetes hosting platform</a></h3><p class="pf__line">The platform our client projects run on: eight clusters, one way of working.</p><p class="pf__story">Every client used to get a slightly different setup. I designed one platform instead: the same building blocks on AWS or Azure, the same pipelines, the same monitoring. It now runs eight clusters, from small to large, in the Netherlands and abroad, including Japan. The biggest runs more than 1,500 pods. New apps get production and acceptance environments, TLS, logging and dashboards on day one, without anyone touching the cluster.</p><dl class="pf__nums"><div><dd>8</dd><dt>clusters</dt></div><div><dd>1,500+</dd><dt>pods on the largest</dt></div><div><dd>~80</dd><dt>Argo CD apps on the main cluster</dt></div></dl><p class="pf__cta"><a class="button button--ghost" href="#platform" data-open="platform">Open the case study <span aria-hidden="true">→</span></a></p></div></article><article class="pf pf--left" id="homelab-feature" data-project="homelab" style="--p: var(--tone-homelab); --p-ink: var(--pink-homelab)" aria-labelledby="pf-homelab"><div class="pf__media"><figure class="dg dg--feature" data-dg="push" role="img" aria-label="Diagram: a git push triggers GitHub Actions, which builds an image tagged with the commit SHA on GHCR. On the laptop under the TV, Argo CD Image Updater notices the new tag and writes it to git, Argo CD syncs, and the pods roll over. The laptop runs with its lid shut, and its battery doubles as a UPS."><svg class="dg__svg dg__svg--full" viewBox="0 0 760 376" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><g class="dg-root"><g class="dg-grp"><rect x="16" y="16" width="300" height="344" rx="16"/><g class="dg-g dg-g--grp" transform="translate(30 28)" aria-hidden="true"><path d="M10 2.5a7.5 7.5 0 0 0-2.4 14.6c.4 0 .5-.2.5-.4v-1.4c-2.1.5-2.5-1-2.5-1-.4-.9-.9-1.1-.9-1.1-.7-.5 0-.5 0-.5.8.1 1.2.8 1.2.8.7 1.2 1.8.8 2.2.6 0-.5.3-.8.5-1-1.7-.2-3.4-.8-3.4-3.7 0-.8.3-1.5.8-2-.1-.2-.3-1 .1-2 0 0 .6-.2 2 .8a7 7 0 0 1 3.8 0c1.4-1 2-.8 2-.8.4 1 .2 1.8.1 2 .5.5.8 1.2.8 2 0 2.9-1.8 3.5-3.4 3.7.3.2.5.7.5 1.4v2.1c0 .2.1.4.5.4A7.5 7.5 0 0 0 10 2.5z"/></g><text class="dg-gl" x="58" y="43">GitHub</text></g><g class="dg-n" data-n="push"><rect class="dg-card" x="40" y="64" width="252" height="66" rx="12"/><rect class="dg-sheen" x="41" y="65" width="250" height="22" rx="11"/><g class="dg-g" transform="translate(56 87)" aria-hidden="true"><circle cx="6" cy="5" r="2"/><circle cx="6" cy="15" r="2"/><circle cx="14" cy="8" r="2"/><path d="M6 7v6M14 10c0 3-4 3-8 3"/></g><text class="dg-l" x="88" y="94">git push</text><text class="dg-s" data-s x="88" y="113">to main</text></g><g class="dg-n" data-n="actions"><rect class="dg-card" x="40" y="166" width="252" height="66" rx="12"/><rect class="dg-sheen" x="41" y="167" width="250" height="22" rx="11"/><g class="dg-g" transform="translate(56 189)" aria-hidden="true"><path d="M3 6.5 10 3l7 3.5v7L10 17l-7-3.5z"/><path d="M3 6.5 10 10l7-3.5M10 10v7"/></g><text class="dg-l" x="88" y="196">GitHub Actions</text><text class="dg-s" data-s x="88" y="215">build and test</text></g><g class="dg-n" data-n="ghcr"><rect class="dg-card" x="40" y="268" width="252" height="66" rx="12"/><rect class="dg-sheen" x="41" y="269" width="250" height="22" rx="11"/><g class="dg-g" transform="translate(56 291)" aria-hidden="true"><path d="M3 3h7l7 7-7 7-7-7z"/><circle cx="7" cy="7" r="1.3"/></g><text class="dg-l" x="88" y="298">GHCR</text><text class="dg-s" data-s x="88" y="317">image registry</text></g><g class="dg-e" data-e="p2a"><path class="dg-e__base" d="M166 130 V166"/><path class="dg-e__hot" pathLength="100" d="M166 130 V166"/></g><g class="dg-e" data-e="a2g"><path class="dg-e__base" d="M166 232 V268"/><path class="dg-e__hot" pathLength="100" d="M166 232 V268"/></g><g class="dg-grp dg-grp--host"><rect x="350" y="16" width="394" height="344" rx="16"/><g class="dg-g dg-g--grp" transform="translate(364 28)" aria-hidden="true"><rect x="4" y="5" width="12" height="8" rx="1"/><path d="M2 15.5h16"/></g><text class="dg-gl" x="392" y="43">the laptop under the TV</text></g><g class="dg-badge"><rect x="594" y="30" width="136" height="26" rx="13"/><g class="dg-g dg-g--sm" transform="translate(602 33)" aria-hidden="true"><rect x="2" y="6" width="14" height="8" rx="1.5"/><path d="M17.5 9v2"/><path d="M5 9h6v2H5z"/></g><text x="628" y="48">battery = UPS</text></g><g class="dg-n" data-n="iu"><rect class="dg-card" x="374" y="76" width="220" height="66" rx="12"/><rect class="dg-sheen" x="375" y="77" width="218" height="22" rx="11"/><g class="dg-g" transform="translate(390 99)" aria-hidden="true"><path d="M3 3h7l7 7-7 7-7-7z"/><circle cx="7" cy="7" r="1.3"/></g><text class="dg-l" x="422" y="106">Image Updater</text><text class="dg-s" data-s x="422" y="125">watching GHCR</text></g><g class="dg-n" data-n="argo"><rect class="dg-card" x="374" y="176" width="220" height="66" rx="12"/><rect class="dg-sheen" x="375" y="177" width="218" height="22" rx="11"/><g class="dg-g" transform="translate(390 199)" aria-hidden="true"><path d="M16 7a7 7 0 0 0-12 1M4 13a7 7 0 0 0 12-1M16 3v4h-4M4 17v-4h4"/></g><text class="dg-l" x="422" y="206">Argo CD</text><text class="dg-s" data-s x="422" y="225">in sync</text></g><g class="dg-e" data-e="g2iu"><path class="dg-e__base" d="M292 301 H330 V109 H374"/><path class="dg-e__hot" pathLength="100" d="M292 301 H330 V109 H374"/></g><g class="dg-e" data-e="iu2argo"><path class="dg-e__base" d="M484 142 V176"/><path class="dg-e__hot" pathLength="100" d="M484 142 V176"/></g><g class="dg-e" data-e="argo2pods"><path class="dg-e__base" d="M594 209 H640 V262"/><path class="dg-e__hot" pathLength="100" d="M594 209 H640 V262"/></g><g class="dg-n dg-env dg-env--slim" data-n="run"><rect class="dg-card" x="374" y="262" width="346" height="80" rx="14"/><text class="dg-l" x="392" y="288">pods</text><text class="dg-v" data-s x="702" y="288" text-anchor="end">sha-41f0c2e</text><g class="dg-pods" data-pods="run"><g class="dg-pod" transform="translate(392 302)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"/></g><g class="dg-pod" transform="translate(424 302)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"/></g><g class="dg-pod" transform="translate(456 302)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"/></g><g class="dg-pod" transform="translate(488 302)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"/></g><g class="dg-pod" transform="translate(520 302)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"/></g><g class="dg-pod" transform="translate(552 302)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"/></g></g></g></g><circle class="dg-pk" r="5" cx="-20" cy="-20"/><circle class="dg-pk dg-pk--2" r="4" cx="-20" cy="-20"/></svg><svg class="dg__svg dg__svg--compact" viewBox="0 0 340 628" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><g class="dg-root"><g class="dg-grp"><rect x="8" y="8" width="324" height="262" rx="16"/><g class="dg-g dg-g--grp" transform="translate(22 20)" aria-hidden="true"><path d="M10 2.5a7.5 7.5 0 0 0-2.4 14.6c.4 0 .5-.2.5-.4v-1.4c-2.1.5-2.5-1-2.5-1-.4-.9-.9-1.1-.9-1.1-.7-.5 0-.5 0-.5.8.1 1.2.8 1.2.8.7 1.2 1.8.8 2.2.6 0-.5.3-.8.5-1-1.7-.2-3.4-.8-3.4-3.7 0-.8.3-1.5.8-2-.1-.2-.3-1 .1-2 0 0 .6-.2 2 .8a7 7 0 0 1 3.8 0c1.4-1 2-.8 2-.8.4 1 .2 1.8.1 2 .5.5.8 1.2.8 2 0 2.9-1.8 3.5-3.4 3.7.3.2.5.7.5 1.4v2.1c0 .2.1.4.5.4A7.5 7.5 0 0 0 10 2.5z"/></g><text class="dg-gl" x="50" y="35">GitHub</text></g><g class="dg-n" data-n="push"><rect class="dg-card" x="24" y="48" width="292" height="56" rx="12"/><rect class="dg-sheen" x="25" y="49" width="290" height="22" rx="11"/><g class="dg-g" transform="translate(40 66)" aria-hidden="true"><circle cx="6" cy="5" r="2"/><circle cx="6" cy="15" r="2"/><circle cx="14" cy="8" r="2"/><path d="M6 7v6M14 10c0 3-4 3-8 3"/></g><text class="dg-l" x="72" y="73">git push</text><text class="dg-s" data-s x="72" y="92">to main</text></g><g class="dg-n" data-n="actions"><rect class="dg-card" x="24" y="120" width="292" height="56" rx="12"/><rect class="dg-sheen" x="25" y="121" width="290" height="22" rx="11"/><g class="dg-g" transform="translate(40 138)" aria-hidden="true"><path d="M3 6.5 10 3l7 3.5v7L10 17l-7-3.5z"/><path d="M3 6.5 10 10l7-3.5M10 10v7"/></g><text class="dg-l" x="72" y="145">GitHub Actions</text><text class="dg-s" data-s x="72" y="164">build and test</text></g><g class="dg-n" data-n="ghcr"><rect class="dg-card" x="24" y="192" width="292" height="56" rx="12"/><rect class="dg-sheen" x="25" y="193" width="290" height="22" rx="11"/><g class="dg-g" transform="translate(40 210)" aria-hidden="true"><path d="M3 3h7l7 7-7 7-7-7z"/><circle cx="7" cy="7" r="1.3"/></g><text class="dg-l" x="72" y="217">GHCR</text><text class="dg-s" data-s x="72" y="236">image registry</text></g><g class="dg-e" data-e="p2a"><path class="dg-e__base" d="M170 104 V120"/><path class="dg-e__hot" pathLength="100" d="M170 104 V120"/></g><g class="dg-e" data-e="a2g"><path class="dg-e__base" d="M170 176 V192"/><path class="dg-e__hot" pathLength="100" d="M170 176 V192"/></g><g class="dg-grp dg-grp--host"><rect x="8" y="290" width="324" height="330" rx="16"/><g class="dg-g dg-g--grp" transform="translate(22 302)" aria-hidden="true"><rect x="4" y="5" width="12" height="8" rx="1"/><path d="M2 15.5h16"/></g><text class="dg-gl" x="50" y="317">laptop under the TV</text></g><g class="dg-badge"><rect x="212" y="300" width="108" height="26" rx="13"/><g class="dg-g dg-g--sm" transform="translate(220 303)" aria-hidden="true"><rect x="2" y="6" width="14" height="8" rx="1.5"/><path d="M17.5 9v2"/><path d="M5 9h6v2H5z"/></g><text x="246" y="318">UPS</text></g><g class="dg-n" data-n="iu"><rect class="dg-card" x="24" y="340" width="292" height="56" rx="12"/><rect class="dg-sheen" x="25" y="341" width="290" height="22" rx="11"/><g class="dg-g" transform="translate(40 358)" aria-hidden="true"><path d="M3 3h7l7 7-7 7-7-7z"/><circle cx="7" cy="7" r="1.3"/></g><text class="dg-l" x="72" y="365">Image Updater</text><text class="dg-s" data-s x="72" y="384">watching GHCR</text></g><g class="dg-n" data-n="argo"><rect class="dg-card" x="24" y="420" width="292" height="56" rx="12"/><rect class="dg-sheen" x="25" y="421" width="290" height="22" rx="11"/><g class="dg-g" transform="translate(40 438)" aria-hidden="true"><path d="M16 7a7 7 0 0 0-12 1M4 13a7 7 0 0 0 12-1M16 3v4h-4M4 17v-4h4"/></g><text class="dg-l" x="72" y="445">Argo CD</text><text class="dg-s" data-s x="72" y="464">in sync</text></g><g class="dg-e" data-e="g2iu"><path class="dg-e__base" d="M316 220 H326 V368 H316"/><path class="dg-e__hot" pathLength="100" d="M316 220 H326 V368 H316"/></g><g class="dg-e" data-e="iu2argo"><path class="dg-e__base" d="M170 396 V420"/><path class="dg-e__hot" pathLength="100" d="M170 396 V420"/></g><g class="dg-e" data-e="argo2pods"><path class="dg-e__base" d="M170 476 V500"/><path class="dg-e__hot" pathLength="100" d="M170 476 V500"/></g><g class="dg-n dg-env dg-env--slim" data-n="run"><rect class="dg-card" x="24" y="500" width="292" height="104" rx="14"/><text class="dg-l" x="40" y="526">pods</text><text class="dg-v" data-s x="300" y="526" text-anchor="end">sha-41f0c2e</text><g class="dg-pods" data-pods="run"><g class="dg-pod" transform="translate(40 548)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"/></g><g class="dg-pod" transform="translate(74 548)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"/></g><g class="dg-pod" transform="translate(108 548)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"/></g><g class="dg-pod" transform="translate(142 548)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"/></g><g class="dg-pod" transform="translate(176 548)"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"/></g></g></g></g><circle class="dg-pk" r="5" cx="-20" cy="-20"/><circle class="dg-pk dg-pk--2" r="4" cx="-20" cy="-20"/></svg><figcaption class="dg__cap"><span class="dg__title">From git push to running</span><button type="button" class="dg__replay" aria-label="Replay animation: From git push to running">replay</button></figcaption></figure></div><div class="pf__body"><p class="pf__kicker"><span class="pf__no">02</span><span class="meta">homelab &amp; home automation</span><span class="state state--personal"><span class="state__dot" aria-hidden="true"></span>Personal</span><span class="meta">2026</span></p><h3 class="pf__title display" id="pf-homelab"><a href="#homelab" data-open="homelab">A fully automated Kubernetes platform, for one apartment</a></h3><p class="pf__line">Complete overkill for a home. Great fun to maintain.</p><p class="pf__story">An old laptop under the TV, lid shut, runs the same kind of platform I build at work, just smaller. Proxmox hosts a k3s cluster and Home Assistant. Every app is built, tagged and rolled out from git without me touching anything. It has its own domain, real certificates, and no open ports. The battery doubles as a UPS.</p><dl class="pf__nums"><div><dd>15</dd><dt>Argo CD apps</dt></div><div><dd>2</dd><dt>virtual machines</dt></div><div><dd>0</dd><dt>open ports</dt></div></dl><p class="pf__cta"><a class="button button--ghost" href="#homelab" data-open="homelab">Open the case study <span aria-hidden="true">→</span></a></p></div></article><article class="pf pf--right" id="mtg-feature" data-project="mtg" style="--p: var(--tone-mtg); --p-ink: var(--pink-mtg)" aria-labelledby="pf-mtg"><div class="pf__media"><div class="shotstack"><div class="shotstack__back"><img src="assets/shots/r99-home.webp" width="1440" height="900" alt="Rules of 99 home screen: the last deck played, its record and a Play button" loading="lazy" decoding="async"></div><div class="shotstack__front"><img src="assets/shots/grimoire-library.webp" width="1440" height="1400" alt="Grimoire deck library with commander art for each deck" loading="lazy" decoding="async"></div></div></div><div class="pf__body"><p class="pf__kicker"><span class="pf__no">03</span><span class="meta">mtg suite</span><span class="state state--personal"><span class="state__dot" aria-hidden="true"></span>Personal</span><span class="meta">2026</span></p><h3 class="pf__title display" id="pf-mtg"><a href="#mtg" data-open="mtg">MTG suite</a></h3><p class="pf__line">Four tools for Magic: The Gathering: play, build, search and brew.</p><p class="pf__story">Magic is my favourite hobby with friends, and it turned into a small suite of software. All four run on the homelab above.</p><ul class="pf__parts"><li>Rules of 99</li><li>Grimoire</li><li>Scryfall, in plain words</li><li>claude-mtg-skills</li></ul><p class="pf__cta"><a class="button button--ghost" href="#mtg" data-open="mtg">Open the case study <span aria-hidden="true">→</span></a></p></div></article></div>
+    <div class="page also">
+      <h3 class="sub-head"><span class="meta">also</span></h3>
+      <ul class="also__list" id="also-list"><li class="also__row"><span class="also__title" lang="nl">Uren-assistent</span><span class="also__line">A desktop app that turns a day’s activity into booked hours.</span><a class="also__link arrow-link" href="https://github.com/guuse/uren-assistent" target="_blank" rel="noopener">github <span aria-hidden="true">↗</span><span class="visually-hidden"> (Uren-assistent)</span></a></li><li class="also__row"><span class="also__title">ux-testing skill</span><span class="also__line">A Claude Code skill that tests a web app’s flows in a real browser and fixes what breaks.</span><a class="also__link arrow-link" href="https://github.com/guuse/claude-marketplace" target="_blank" rel="noopener">github <span aria-hidden="true">↗</span><span class="visually-hidden"> (ux-testing skill)</span></a></li><li class="also__row"><span class="also__title">Scouting agents</span><span class="also__line">Claude routines that watch Marktplaats, Vinted and Funda and email a digest.</span><span class="also__link meta">private</span></li></ul>
     </div>
   </section>
 
@@ -1278,10 +1533,574 @@ html, body { background: var(--surface); }
 </div>
 <script>
 /*
- * r2-beeld · projects (round 5): data from CONTENT-v5 §5, cards, featured rotation,
- * index ↔ image highlight, case-study detail view (#<id>) and the image lightbox.
- * One project is featured per page load (random, or ?featured=<id>); the other four fill
- * the grid in their normal order. Without JS the server-rendered Homelab state stays.
+ * r2-beeld · animated diagrams (round 6).
+ * Seven technical diagrams that explain how things work. Each has a full layout (wide
+ * containers) and a compact one (narrow containers, ≤ 620px), picked by a container query.
+ * They animate only while in view, loop calmly, and replay on hover. With
+ * prefers-reduced-motion they show their final, fully labelled state and stay still.
+ *
+ * Exports window.BeeldDiagrams = { html(id), mount(root) } (and module.exports for the build).
+ */
+(function (root) {
+  "use strict";
+
+  /* ------------------------------------------------------------------ glyphs */
+  // 20×20, stroke-based, drawn to sit at 1.5px. Colour comes from currentColor.
+  var G = {
+    git: '<circle cx="6" cy="5" r="2"/><circle cx="6" cy="15" r="2"/><circle cx="14" cy="8" r="2"/><path d="M6 7v6M14 10c0 3-4 3-8 3"/>',
+    box: '<path d="M3 6.5 10 3l7 3.5v7L10 17l-7-3.5z"/><path d="M3 6.5 10 10l7-3.5M10 10v7"/>',
+    tag: '<path d="M3 3h7l7 7-7 7-7-7z"/><circle cx="7" cy="7" r="1.3"/>',
+    sync: '<path d="M16 7a7 7 0 0 0-12 1M4 13a7 7 0 0 0 12-1M16 3v4h-4M4 17v-4h4"/>',
+    lock: '<rect x="4" y="9" width="12" height="9" rx="2"/><path d="M7 9V6.5a3 3 0 0 1 6 0V9"/>',
+    shield: '<path d="M10 2.5 16.5 5v5c0 4-3 6.6-6.5 7.5C6.5 16.6 3.5 14 3.5 10V5z"/><path d="m7 10 2 2 4-4"/>',
+    cloud: '<path d="M6 15h9a3.5 3.5 0 0 0 0-7 5 5 0 0 0-9.6 1.6A2.8 2.8 0 0 0 6 15z"/>',
+    bucket: '<ellipse cx="10" cy="5" rx="6" ry="2.5"/><path d="M4 5v10c0 1.4 2.7 2.5 6 2.5s6-1.1 6-2.5V5"/>',
+    chart: '<path d="M3 17h14M6 14v-4M10 14V6M14 14V9"/>',
+    laptop: '<rect x="4" y="5" width="12" height="8" rx="1"/><path d="M2 15.5h16"/>',
+    user: '<circle cx="10" cy="7" r="3"/><path d="M4 17c1-4 11-4 12 0"/>',
+    users: '<circle cx="7.5" cy="7.5" r="2.5"/><circle cx="13.5" cy="8.5" r="2"/><path d="M3 16c.8-3.4 8.2-3.4 9 0M12 15c.5-2 4.5-2.3 5.5 0"/>',
+    globe: '<circle cx="10" cy="10" r="7"/><path d="M3 10h14M10 3c3 3 3 11 0 14M10 3c-3 3-3 11 0 14"/>',
+    check: '<path d="m5 10 3 3 7-7"/>',
+    cross: '<path d="m6 6 8 8M14 6l-8 8"/>',
+    merge: '<circle cx="6" cy="4" r="2"/><circle cx="6" cy="16" r="2"/><circle cx="14" cy="16" r="2"/><path d="M6 6v8M6 8c0 4 8 3 8 6"/>',
+    eye: '<path d="M2 10c4-6 12-6 16 0-4 6-12 6-16 0z"/><circle cx="10" cy="10" r="2.5"/>',
+    gauge: '<path d="M3.5 14a6.5 6.5 0 1 1 13 0"/><path d="m10 14 3-4"/>',
+    rocket: '<path d="M10 2c4 3 5 8 3 12H7C5 10 6 5 10 2z"/><path d="m7 14-2 4M13 14l2 4"/><circle cx="10" cy="8" r="1.5"/>',
+    pod: '<path d="M10 3 16 6.5v7L10 17l-6-3.5v-7z"/>',
+    radio: '<circle cx="10" cy="13" r="1.5"/><path d="M6.5 9.5a5 5 0 0 1 7 0M4 7a8.5 8.5 0 0 1 12 0"/>',
+    tunnel: '<path d="M3 16V9a7 7 0 0 1 14 0v7"/><path d="M7 16v-5a3 3 0 0 1 6 0v5"/>',
+    funnel: '<path d="M3 4h14l-6 7v5l-2 1v-6z"/>',
+    battery: '<rect x="2" y="6" width="14" height="8" rx="1.5"/><path d="M17.5 9v2"/><path d="M5 9h6v2H5z"/>',
+    code: '<path d="M7 6 3 10l4 4M13 6l4 4-4 4"/>',
+    bell: '<path d="M10 3c-3 0-5 2-5 5v3l-2 3h14l-2-3V8c0-3-2-5-5-5zM8 17h4"/>',
+    gh: '<path d="M10 2.5a7.5 7.5 0 0 0-2.4 14.6c.4 0 .5-.2.5-.4v-1.4c-2.1.5-2.5-1-2.5-1-.4-.9-.9-1.1-.9-1.1-.7-.5 0-.5 0-.5.8.1 1.2.8 1.2.8.7 1.2 1.8.8 2.2.6 0-.5.3-.8.5-1-1.7-.2-3.4-.8-3.4-3.7 0-.8.3-1.5.8-2-.1-.2-.3-1 .1-2 0 0 .6-.2 2 .8a7 7 0 0 1 3.8 0c1.4-1 2-.8 2-.8.4 1 .2 1.8.1 2 .5.5.8 1.2.8 2 0 2.9-1.8 3.5-3.4 3.7.3.2.5.7.5 1.4v2.1c0 .2.1.4.5.4A7.5 7.5 0 0 0 10 2.5z"/>',
+    stack: '<path d="m10 3 7 3.5-7 3.5-7-3.5z"/><path d="m3 10 7 3.5 7-3.5M3 13.5 10 17l7-3.5"/>',
+    usb: '<rect x="7" y="2" width="6" height="7" rx="1"/><path d="M5 9h10v5a5 5 0 0 1-10 0z"/><path d="M10 16v2"/>'
+  };
+  function glyph(name, x, y, cls) {
+    return '<g class="dg-g' + (cls ? " " + cls : "") + '" transform="translate(' + x + " " + y + ')" aria-hidden="true">' + (G[name] || "") + "</g>";
+  }
+  function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+
+  /* ------------------------------------------------------------- primitives */
+  // A node: rounded card with a glyph, label and a mono sub-label that steps can rewrite.
+  function card(id, b, label, sub, g, extra) {
+    extra = extra || {};
+    var cx = b.x + 16, gy = b.y + (b.h - 20) / 2;
+    var tx = g ? b.x + 48 : b.x + 16;
+    var single = !sub;
+    return '<g class="dg-n' + (extra.cls ? " " + extra.cls : "") + '" data-n="' + id + '">' +
+      '<rect class="dg-card" x="' + b.x + '" y="' + b.y + '" width="' + b.w + '" height="' + b.h + '" rx="' + (extra.rx || 12) + '"/>' +
+      '<rect class="dg-sheen" x="' + (b.x + 1) + '" y="' + (b.y + 1) + '" width="' + (b.w - 2) + '" height="' + Math.min(22, b.h / 2) + '" rx="' + ((extra.rx || 12) - 1) + '"/>' +
+      (g ? glyph(g, cx, gy) : "") +
+      '<text class="dg-l" x="' + tx + '" y="' + (single ? b.y + b.h / 2 + 5.5 : b.y + b.h / 2 - 3) + '">' + esc(label) + "</text>" +
+      (sub ? '<text class="dg-s" data-s x="' + tx + '" y="' + (b.y + b.h / 2 + 16) + '">' + esc(sub) + "</text>" : "") +
+      "</g>";
+  }
+  function group(b, label, cls, g) {
+    return '<g class="dg-grp' + (cls ? " " + cls : "") + '"><rect x="' + b.x + '" y="' + b.y + '" width="' + b.w + '" height="' + b.h + '" rx="16"/>' +
+      (g ? glyph(g, b.x + 14, b.y + 12, "dg-g--grp") : "") +
+      '<text class="dg-gl" x="' + (b.x + (g ? 42 : 16)) + '" y="' + (b.y + 27) + '">' + esc(label) + "</text></g>";
+  }
+  function edge(id, d, cls) {
+    return '<g class="dg-e' + (cls ? " " + cls : "") + '" data-e="' + id + '"><path class="dg-e__base" d="' + d + '"/><path class="dg-e__hot" pathLength="100" d="' + d + '"/></g>';
+  }
+  function label(x, y, s, cls, anchor) {
+    return '<text class="' + (cls || "dg-m") + '" x="' + x + '" y="' + y + '"' + (anchor ? ' text-anchor="' + anchor + '"' : "") + ">" + esc(s) + "</text>";
+  }
+  function pill(id, x, y, w, s, cls, g) {
+    return '<g class="dg-pill' + (cls ? " " + cls : "") + '" data-n="' + id + '"><rect x="' + x + '" y="' + y + '" width="' + w + '" height="30" rx="15"/>' +
+      (g ? glyph(g, x + 9, y + 5, "dg-g--sm") : "") +
+      '<text x="' + (x + (g ? 32 : w / 2)) + '" y="' + (y + 20) + '"' + (g ? "" : ' text-anchor="middle"') + ">" + esc(s) + "</text></g>";
+  }
+  function pods(id, x, y, n, gap) {
+    var s = '<g class="dg-pods" data-pods="' + id + '">';
+    for (var i = 0; i < n; i++) s += '<g class="dg-pod" transform="translate(' + (x + i * (gap || 30)) + " " + y + ')"><path d="M12 1 22 6.8v11.4L12 24 2 18.2V6.8z"/></g>';
+    return s + "</g>";
+  }
+  function env(id, b, name, sub, n, ver) {
+    return '<g class="dg-n dg-env" data-n="' + id + '">' +
+      '<rect class="dg-card" x="' + b.x + '" y="' + b.y + '" width="' + b.w + '" height="' + b.h + '" rx="14"/>' +
+      '<rect class="dg-sheen" x="' + (b.x + 1) + '" y="' + (b.y + 1) + '" width="' + (b.w - 2) + '" height="22" rx="13"/>' +
+      '<text class="dg-l" x="' + (b.x + 18) + '" y="' + (b.y + 30) + '">' + esc(name) + "</text>" +
+      '<text class="dg-s" x="' + (b.x + 18) + '" y="' + (b.y + 50) + '">' + esc(sub) + "</text>" +
+      pods(id, b.x + 18, b.y + b.h - 44, n, 32) +
+      '<text class="dg-v" data-s x="' + (b.x + b.w - 16) + '" y="' + (b.y + b.h - 24) + '" text-anchor="end">' + esc(ver) + "</text></g>";
+  }
+  function svg(cls, vb, title, body) {
+    return '<svg class="dg__svg ' + cls + '" viewBox="' + vb + '" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><g class="dg-root">' + body + '</g><circle class="dg-pk" r="5" cx="-20" cy="-20"/><circle class="dg-pk dg-pk--2" r="4" cx="-20" cy="-20"/></svg>';
+  }
+
+  /* ------------------------------------------------------------- diagrams */
+  var D = {};
+
+  /* 1. Platform: app delivery (GitOps) */
+  D.delivery = {
+    title: "App delivery with GitOps",
+    alt: "Diagram: a commit lands in the git repo, CI builds an immutable image tag, Argo CD Image Updater writes the tag back to git, and Argo CD syncs it: the release candidate rolls out to acceptance first, and the stable release to production.",
+    full: function () {
+      return '<rect class="dg-rail" x="20" y="20" width="720" height="48" rx="12"/>' + glyph("git", 34, 34) + label(62, 49, "Git repo", "dg-l") + label(150, 49, "the single source of truth", "dg-m") +
+        '<g class="dg-n dg-mark" data-n="commit"><circle cx="420" cy="44" r="6"/>' + label(432, 49, "commit", "dg-m dg-m--ink") + '</g>' +
+        '<g class="dg-n dg-mark" data-n="tagged"><circle cx="560" cy="44" r="6"/>' + label(572, 49, "tag in git", "dg-m dg-m--ink") + '</g>' +
+        edge("c2ci", "M420 68 V96 H145 V112") + edge("ci2iu", "M250 146 H290") + edge("iu2git", "M395 112 V92 H560 V68") + edge("git2argo", "M660 68 V112") +
+        card("ci", { x: 40, y: 112, w: 210, h: 68 }, "CI build", "image tag", "box") +
+        card("iu", { x: 290, y: 112, w: 210, h: 68 }, "Image Updater", "watches registry", "tag") +
+        card("argo", { x: 560, y: 112, w: 180, h: 68 }, "Argo CD", "in sync", "sync") +
+        edge("argo2acc", "M610 180 V204 H205 V226") + edge("argo2prod", "M690 180 V226") +
+        env("acc", { x: 40, y: 226, w: 330, h: 132 }, "acceptance", "newest release candidate", 5, "v2.3.0") +
+        env("prod", { x: 410, y: 226, w: 330, h: 132 }, "production", "newest stable release", 5, "v2.3.0");
+    },
+    compact: function () {
+      return '<rect class="dg-rail" x="10" y="10" width="320" height="44" rx="12"/>' + glyph("git", 22, 22) + label(50, 37, "Git repo", "dg-l") +
+        '<g class="dg-n dg-mark" data-n="commit"><circle cx="160" cy="32" r="6"/>' + label(170, 37, "commit", "dg-m dg-m--ink") + '</g>' +
+        '<g class="dg-n dg-mark" data-n="tagged"><circle cx="250" cy="32" r="6"/>' + label(260, 37, "tag", "dg-m dg-m--ink") + '</g>' +
+        edge("c2ci", "M160 54 V80") + edge("ci2iu", "M160 140 V160") + edge("iu2git", "M300 190 H318 V54") + edge("git2argo", "M22 54 V256 H60") +
+        card("ci", { x: 60, y: 80, w: 220, h: 60 }, "CI build", "image tag", "box") +
+        card("iu", { x: 60, y: 160, w: 240, h: 60 }, "Image Updater", "watches registry", "tag") +
+        card("argo", { x: 60, y: 240, w: 220, h: 60 }, "Argo CD", "in sync", "sync") +
+        edge("argo2acc", "M120 300 V326") + edge("argo2prod", "M250 300 V316 H324 V466 H300") +
+        env("acc", { x: 10, y: 326, w: 290, h: 118 }, "acceptance", "release candidate", 4, "v2.3.0") +
+        env("prod", { x: 10, y: 456, w: 290, h: 118 }, "production", "stable release", 4, "v2.3.0");
+    },
+    vb: ["0 0 760 380", "0 0 340 590"],
+    seq: [
+      ["lit", "commit"], ["go", "c2ci", 900], ["lit", "ci"], ["text", "ci", "builds v2.4.0-rc.1"], ["wait", 600], ["text", "ci", "pushed v2.4.0-rc.1"],
+      ["go", "ci2iu", 700], ["lit", "iu"], ["text", "iu", "new tag found"], ["go", "iu2git", 900], ["lit", "tagged"], ["text", "iu", "wrote tag to git"],
+      ["go", "git2argo", 600], ["lit", "argo"], ["text", "argo", "syncing"], ["go", "argo2acc", 900], ["roll", "acc", "v2.4.0-rc.1"], ["lit", "acc"], ["text", "argo", "acceptance ok"],
+      ["wait", 900], ["text", "ci", "pushed v2.4.0"], ["text", "argo", "stable release"], ["go", "argo2prod", 800], ["roll", "prod", "v2.4.0"], ["lit", "prod"], ["text", "argo", "in sync"], ["wait", 2600]
+    ]
+  };
+
+  /* 2. Platform: infrastructure pipeline (Pulumi, push-based GitOps) */
+  var STAGES = [["tests", "check"], ["policy", "shield"], ["preview", "eye"], ["review", "users"], ["merge", "merge"], ["drift gate", "gauge"], ["apply", "rocket"]];
+  D.infra = {
+    title: "Infrastructure pipeline",
+    alt: "Diagram: a pull request moves through tests, a mandatory policy check, a saved preview plan, a review by someone other than the author, merge, a drift gate and finally apply. In the first run the policy blocks a public bucket; after the fix every stage passes. A daily drift check runs on the side.",
+    full: function () {
+      var s = '<path class="dg-track" d="M48 236 H712"/>';
+      STAGES.forEach(function (st, i) {
+        var x = 20 + i * 104;
+        s += '<g class="dg-stage" data-st="' + i + '"><rect x="' + x + '" y="214" width="96" height="88" rx="14"/>' + glyph(st[1], x + 38, 226) +
+          '<text class="dg-l dg-l--c" x="' + (x + 48) + '" y="270" text-anchor="middle">' + st[0] + "</text>" +
+          '<g class="dg-state"><circle cx="' + (x + 48) + '" cy="290" r="0"/></g>' +
+          '<text class="dg-st" data-sts x="' + (x + 48) + '" y="292" text-anchor="middle">waiting</text></g>';
+      });
+      s += '<g class="dg-pr" data-pr style="--x: 0px"><rect x="20" y="40" width="250" height="118" rx="14"/>' +
+        '<rect class="dg-sheen" x="21" y="41" width="248" height="22" rx="13"/>' + glyph("merge", 36, 54) +
+        '<text class="dg-l" x="64" y="70">PR #128</text><text class="dg-s" data-prs x="36" y="102">add a storage bucket</text>' +
+        '<text class="dg-m" data-prm x="36" y="132">opened by an engineer</text><path class="dg-pr__pin" d="M70 158 V206"/></g>';
+      s += pill("drift", 470, 330, 270, "daily drift check: no drift", "dg-pill--pulse", "gauge") + pill("slack", 20, 330, 230, "result posted to Slack", "", "bell");
+      return s;
+    },
+    compact: function () {
+      var s = '<g class="dg-pr dg-pr--fixed" data-pr><rect x="10" y="10" width="320" height="92" rx="14"/>' +
+        '<rect class="dg-sheen" x="11" y="11" width="318" height="22" rx="13"/>' + glyph("merge", 24, 22) +
+        '<text class="dg-l" x="52" y="38">PR #128</text><text class="dg-s" data-prs x="24" y="64">add a storage bucket</text>' +
+        '<text class="dg-m" data-prm x="24" y="88">opened by an engineer</text><path class="dg-pr__pin" d="M0 0"/></g>';
+      s += '<path class="dg-track" d="M40 118 V520"/>';
+      STAGES.forEach(function (st, i) {
+        var y = 118 + i * 58;
+        s += '<g class="dg-stage" data-st="' + i + '"><rect x="10" y="' + y + '" width="320" height="48" rx="12"/>' + glyph(st[1], 24, y + 14) +
+          '<text class="dg-l" x="56" y="' + (y + 30) + '">' + st[0] + "</text>" +
+          '<g class="dg-state"><circle cx="0" cy="0" r="0"/></g>' +
+          '<text class="dg-st" data-sts x="314" y="' + (y + 29) + '" text-anchor="end">waiting</text></g>';
+      });
+      s += pill("drift", 10, 538, 320, "daily drift check: no drift", "dg-pill--pulse", "gauge") + pill("slack", 10, 580, 320, "result posted to Slack", "", "bell");
+      return s;
+    },
+    vb: ["0 0 760 380", "0 0 340 622"],
+    seq: [
+      ["pr", 0, "add a public bucket", "opened by an engineer"], ["stage", 0, "ok", "passed"], ["wait", 500],
+      ["pr", 1], ["stage", 1, "bad", "blocked"], ["prbad", true, "blocked: bucket is public"], ["wait", 1700],
+      ["prbad", false, "fixed in a new commit"], ["prtext", "add a private bucket"], ["reset-stages"], ["pr", 0], ["stage", 0, "ok", "passed"], ["wait", 350],
+      ["pr", 1], ["stage", 1, "ok", "passed"], ["wait", 350], ["pr", 2], ["stage", 2, "ok", "plan saved"], ["wait", 450],
+      ["pr", 3], ["stage", 3, "ok", "approved"], ["prm", "reviewed by a colleague"], ["wait", 450], ["pr", 4], ["stage", 4, "ok", "merged"], ["wait", 350],
+      ["pr", 5], ["stage", 5, "ok", "no drift"], ["wait", 450], ["pr", 6], ["stage", 6, "ok", "applied"], ["prm", "applied by the pipeline"], ["lit", "slack"], ["wait", 2800]
+    ]
+  };
+
+  /* 3. Platform: logging pipeline */
+  D.logs = {
+    title: "Logging pipeline",
+    alt: "Diagram: log lines stream from pods on three nodes into Alloy on each node, then into Loki on a dedicated node pool. Loki stores them in an encrypted object-storage bucket with 90-day retention, owned by Loki's compactor, and Grafana queries them.",
+    full: function () {
+      var s = "";
+      [20, 140, 260].forEach(function (y, i) {
+        s += '<g class="dg-n dg-knode" data-n="node' + i + '"><rect class="dg-card" x="20" y="' + y + '" width="250" height="100" rx="14"/>' +
+          '<text class="dg-m" x="38" y="' + (y + 28) + '">node ' + (i + 1) + "</text>" + pods("p" + i, 36, y + 44, 3, 30) +
+          '<g class="dg-chip" data-n="alloy' + i + '"><rect x="146" y="' + (y + 40) + '" width="108" height="36" rx="10"/>' + glyph("stack", 156, y + 48, "dg-g--sm") + '<text x="184" y="' + (y + 63) + '">Alloy</text></g></g>';
+        s += edge("a" + i, "M254 " + (y + 58) + " C 296 " + (y + 58) + ", 286 190, 326 190");
+      });
+      s += card("loki", { x: 326, y: 150, w: 206, h: 80 }, "Loki", "platform node pool", "stack");
+      s += edge("l2b", "M532 176 C 550 176, 540 92, 560 92") + edge("l2g", "M532 206 C 550 206, 540 282, 560 282");
+      s += card("bucket", { x: 560, y: 46, w: 180, h: 92 }, "Object storage", "encrypted", "lock");
+      s += label(560, 162, "kept 90 days, by Loki", "dg-m dg-m--note");
+      s += '<g class="dg-n dg-graf" data-n="grafana"><rect class="dg-card" x="560" y="214" width="180" height="140" rx="14"/>' + glyph("chart", 576, 228) +
+        '<text class="dg-l" x="606" y="244">Grafana</text>' +
+        [0, 1, 2, 3, 4, 5, 6].map(function (k) { var h = [20, 34, 26, 48, 30, 56, 40][k]; return '<rect class="dg-bar" x="' + (580 + k * 21) + '" y="' + (338 - h) + '" width="13" height="' + h + '" rx="3" style="--d:' + k * 60 + 'ms"/>'; }).join("") +
+        "</g>";
+      return s;
+    },
+    compact: function () {
+      var s = "";
+      [10, 120, 230].forEach(function (x, i) {
+        s += '<g class="dg-n dg-knode" data-n="node' + i + '"><rect class="dg-card" x="' + x + '" y="10" width="100" height="120" rx="12"/>' +
+          '<text class="dg-m" x="' + (x + 12) + '" y="32">node ' + (i + 1) + "</text>" + pods("p" + i, x + 12, 42, 2, 30) +
+          '<g class="dg-chip" data-n="alloy' + i + '"><rect x="' + (x + 10) + '" y="86" width="80" height="32" rx="9"/><text x="' + (x + 50) + '" y="107" text-anchor="middle">Alloy</text></g></g>';
+        s += edge("a" + i, "M" + (x + 50) + " 130 C " + (x + 50) + " 160, 170 150, 170 180");
+      });
+      s += card("loki", { x: 70, y: 180, w: 200, h: 66 }, "Loki", "platform pool", "stack");
+      s += edge("l2b", "M130 246 V290") + edge("l2g", "M220 246 V290");
+      s += card("bucket", { x: 10, y: 290, w: 150, h: 74 }, "Storage", "encrypted", "lock");
+      s += label(10, 386, "kept 90 days", "dg-m dg-m--note");
+      s += '<g class="dg-n dg-graf" data-n="grafana"><rect class="dg-card" x="176" y="290" width="154" height="120" rx="12"/><text class="dg-l" x="192" y="316">Grafana</text>' +
+        [0, 1, 2, 3, 4, 5].map(function (k) { var h = [16, 30, 22, 40, 26, 46][k]; return '<rect class="dg-bar" x="' + (192 + k * 21) + '" y="' + (398 - h) + '" width="13" height="' + h + '" rx="3" style="--d:' + k * 60 + 'ms"/>'; }).join("") + "</g>";
+      return s;
+    },
+    vb: ["0 0 760 370", "0 0 340 420"],
+    seq: [
+      ["podsOn", "p0"], ["podsOn", "p1"], ["podsOn", "p2"],
+      ["lit", "alloy0"], ["go", "a0", 700], ["lit", "loki"], ["lit", "alloy1"], ["go", "a1", 600], ["lit", "alloy2"], ["go", "a2", 650],
+      ["text", "loki", "indexing labels"], ["go", "l2b", 700], ["lit", "bucket"], ["text", "bucket", "one reader only", true],
+      ["go", "l2g", 700], ["lit", "grafana"], ["text", "loki", "platform node pool"], ["wait", 2600]
+    ]
+  };
+
+  /* 4. Platform: where it runs (map strip) */
+  // Cluster sizes and positions are illustrative; only the totals are real.
+  var CL = { NL: [26, 14, 10, 8], EU: [16, 11, 8], JP: [13] };
+  D.map = {
+    title: "Where the clusters run",
+    alt: "Diagram: eight Kubernetes clusters of different sizes, in the Netherlands, elsewhere in Europe and in Japan. The largest runs more than 1,500 pods. Positions and sizes are illustrative.",
+    full: function () {
+      var s = '<path class="dg-lat" d="M20 190 H740"/>';
+      var zones = [["NL", "the Netherlands", 20, 270], ["EU", "elsewhere in Europe", 306, 250], ["JP", "Japan", 572, 168]];
+      zones.forEach(function (z) {
+        s += '<g class="dg-zone"><rect x="' + z[2] + '" y="96" width="' + z[3] + '" height="190" rx="16"/>' + glyph("globe", z[2] + 14, 108, "dg-g--grp") + '<text class="dg-gl" x="' + (z[2] + 42) + '" y="123">' + z[1] + "</text></g>";
+        var list = CL[z[0]], x = z[2] + 46;
+        list.forEach(function (r, k) {
+          s += '<g class="dg-cl" style="--d:' + (k * 420 + (z[0] === "EU" ? 200 : z[0] === "JP" ? 500 : 0)) + 'ms"><circle class="dg-cl__ring" cx="' + x + '" cy="210" r="' + r + '"/><circle class="dg-cl__dot" cx="' + x + '" cy="210" r="' + r + '"/></g>';
+          x += r * 2 + 22;
+        });
+      });
+      s += '<text class="dg-big" x="20" y="58">8 clusters</text><text class="dg-m" x="190" y="56">small to large, one way of working</text>';
+      s += '<path class="dg-callout" d="M66 238 V266 H96"/><text class="dg-m dg-m--ink" x="102" y="270">1,500+ pods</text>';
+      s += label(740, 330, "positions and sizes are illustrative", "dg-m dg-m--note", "end");
+      return s;
+    },
+    compact: function () {
+      var s = '<text class="dg-big" x="10" y="40">8 clusters</text>';
+      var zones = [["NL", "the Netherlands", 64], ["EU", "elsewhere in Europe", 190], ["JP", "Japan", 316]];
+      zones.forEach(function (z) {
+        s += '<g class="dg-zone"><rect x="10" y="' + z[2] + '" width="320" height="110" rx="14"/><text class="dg-gl" x="26" y="' + (z[2] + 26) + '">' + z[1] + "</text></g>";
+        var x = 40;
+        CL[z[0]].forEach(function (r, k) {
+          s += '<g class="dg-cl" style="--d:' + k * 400 + 'ms"><circle class="dg-cl__ring" cx="' + x + '" cy="' + (z[2] + 68) + '" r="' + r + '"/><circle class="dg-cl__dot" cx="' + x + '" cy="' + (z[2] + 68) + '" r="' + r + '"/></g>';
+          x += r * 2 + 18;
+        });
+      });
+      s += '<text class="dg-m dg-m--ink" x="314" y="90" text-anchor="end">largest: 1,500+ pods</text>';
+      s += label(10, 448, "positions and sizes are illustrative", "dg-m dg-m--note");
+      return s;
+    },
+    vb: ["0 0 760 340", "0 0 340 460"],
+    seq: [["cls", "dg-live", true], ["wait", 6000]]
+  };
+
+  /* 5. Homelab: git push to running */
+  D.push = {
+    title: "From git push to running",
+    alt: "Diagram: a git push triggers GitHub Actions, which builds an image tagged with the commit SHA on GHCR. On the laptop under the TV, Argo CD Image Updater notices the new tag and writes it to git, Argo CD syncs, and the pods roll over. The laptop runs with its lid shut, and its battery doubles as a UPS.",
+    full: function () {
+      return group({ x: 16, y: 16, w: 300, h: 344 }, "GitHub", "", "gh") +
+        card("push", { x: 40, y: 64, w: 252, h: 66 }, "git push", "to main", "git") +
+        card("actions", { x: 40, y: 166, w: 252, h: 66 }, "GitHub Actions", "build and test", "box") +
+        card("ghcr", { x: 40, y: 268, w: 252, h: 66 }, "GHCR", "image registry", "tag") +
+        edge("p2a", "M166 130 V166") + edge("a2g", "M166 232 V268") +
+        group({ x: 350, y: 16, w: 394, h: 344 }, "the laptop under the TV", "dg-grp--host", "laptop") +
+        '<g class="dg-badge"><rect x="594" y="30" width="136" height="26" rx="13"/>' + glyph("battery", 602, 33, "dg-g--sm") + '<text x="628" y="48">battery = UPS</text></g>' +
+        card("iu", { x: 374, y: 76, w: 220, h: 66 }, "Image Updater", "watching GHCR", "tag") +
+        card("argo", { x: 374, y: 176, w: 220, h: 66 }, "Argo CD", "in sync", "sync") +
+        edge("g2iu", "M292 301 H330 V109 H374") + edge("iu2argo", "M484 142 V176") + edge("argo2pods", "M594 209 H640 V262") +
+        '<g class="dg-n dg-env dg-env--slim" data-n="run"><rect class="dg-card" x="374" y="262" width="346" height="80" rx="14"/>' +
+        '<text class="dg-l" x="392" y="288">pods</text><text class="dg-v" data-s x="702" y="288" text-anchor="end">sha-41f0c2e</text>' + pods("run", 392, 302, 6, 32) + "</g>";
+    },
+    compact: function () {
+      return group({ x: 8, y: 8, w: 324, h: 262 }, "GitHub", "", "gh") +
+        card("push", { x: 24, y: 48, w: 292, h: 56 }, "git push", "to main", "git") +
+        card("actions", { x: 24, y: 120, w: 292, h: 56 }, "GitHub Actions", "build and test", "box") +
+        card("ghcr", { x: 24, y: 192, w: 292, h: 56 }, "GHCR", "image registry", "tag") +
+        edge("p2a", "M170 104 V120") + edge("a2g", "M170 176 V192") +
+        group({ x: 8, y: 290, w: 324, h: 330 }, "laptop under the TV", "dg-grp--host", "laptop") +
+        '<g class="dg-badge"><rect x="212" y="300" width="108" height="26" rx="13"/>' + glyph("battery", 220, 303, "dg-g--sm") + '<text x="246" y="318">UPS</text></g>' +
+        card("iu", { x: 24, y: 340, w: 292, h: 56 }, "Image Updater", "watching GHCR", "tag") +
+        card("argo", { x: 24, y: 420, w: 292, h: 56 }, "Argo CD", "in sync", "sync") +
+        edge("g2iu", "M316 220 H326 V368 H316") + edge("iu2argo", "M170 396 V420") + edge("argo2pods", "M170 476 V500") +
+        '<g class="dg-n dg-env dg-env--slim" data-n="run"><rect class="dg-card" x="24" y="500" width="292" height="104" rx="14"/>' +
+        '<text class="dg-l" x="40" y="526">pods</text><text class="dg-v" data-s x="300" y="526" text-anchor="end">sha-41f0c2e</text>' + pods("run", 40, 548, 5, 34) + "</g>";
+    },
+    vb: ["0 0 760 376", "0 0 340 628"],
+    seq: [
+      ["lit", "push"], ["text", "push", "commit a1c9e2f"], ["go", "p2a", 700], ["lit", "actions"], ["text", "actions", "tests pass, image built"],
+      ["go", "a2g", 700], ["lit", "ghcr"], ["text", "ghcr", "sha-a1c9e2f"], ["go", "g2iu", 1000], ["lit", "iu"], ["text", "iu", "tag written to git"],
+      ["go", "iu2argo", 600], ["lit", "argo"], ["text", "argo", "syncing"], ["go", "argo2pods", 600], ["roll", "run", "sha-a1c9e2f"], ["lit", "run"], ["text", "argo", "in sync"], ["wait", 2600]
+    ]
+  };
+
+  /* 6. Homelab: ways in */
+  D.ways = {
+    title: "Three ways in",
+    alt: "Diagram: three ways into the laptop, all opt-in. By default my own devices come in over the private Tailscale network. A few apps are public through a Cloudflare Tunnel with a login in front. For a party, Tailscale Funnel gives a temporary public URL. All of them end at Traefik, which serves one wildcard TLS certificate. There are no open ports.",
+    full: function () {
+      return card("me", { x: 20, y: 30, w: 200, h: 70 }, "My devices", "phone, laptop", "laptop") +
+        card("pub", { x: 20, y: 150, w: 200, h: 70 }, "Visitor", "public, with login", "globe") +
+        card("guest", { x: 20, y: 270, w: 200, h: 70 }, "Party guest", "one evening", "users") +
+        edge("w1", "M220 65 C 330 65, 360 165, 520 165", "dg-e--t1") +
+        edge("w2", "M220 185 H520", "dg-e--t2") +
+        edge("w3", "M220 305 C 330 305, 360 205, 520 205", "dg-e--t3") +
+        pill("l1", 256, 76, 172, "tailnet, default", "dg-pill--t1", "lock") +
+        pill("l2", 256, 152, 182, "Cloudflare Tunnel", "dg-pill--t2", "tunnel") +
+        pill("l3", 256, 262, 178, "Funnel, temporary", "dg-pill--t3", "funnel") +
+        group({ x: 494, y: 20, w: 250, h: 330 }, "the laptop", "dg-grp--host", "laptop") +
+        '<g class="dg-shield" data-n="shield"><circle cx="494" cy="290" r="22"/>' + glyph("shield", 484, 280) + '</g><text class="dg-m dg-m--ink" x="524" y="296">0 open ports</text>' +
+        card("traefik", { x: 520, y: 150, w: 204, h: 70 }, "Traefik", "wildcard TLS", "lock") +
+        '<g class="dg-apps"><rect x="520" y="76" width="96" height="30" rx="8"/><rect x="626" y="76" width="98" height="30" rx="8"/><text x="568" y="96" text-anchor="middle">app</text><text x="675" y="96" text-anchor="middle">app</text></g>';
+    },
+    compact: function () {
+      return card("me", { x: 44, y: 10, w: 286, h: 56 }, "My devices", "tailnet, the default", "laptop") +
+        card("pub", { x: 44, y: 80, w: 286, h: 56 }, "Visitor", "Cloudflare Tunnel + login", "globe") +
+        card("guest", { x: 44, y: 150, w: 286, h: 56 }, "Party guest", "Funnel, one evening", "users") +
+        edge("w1", "M44 38 H18 V306 H70", "dg-e--t1") + edge("w2", "M44 108 H26 V321 H70", "dg-e--t2") + edge("w3", "M44 178 H34 V336 H70", "dg-e--t3") +
+        group({ x: 50, y: 250, w: 280, h: 180 }, "the laptop", "dg-grp--host", "laptop") +
+        card("traefik", { x: 70, y: 290, w: 240, h: 62 }, "Traefik", "wildcard TLS", "lock") +
+        '<g class="dg-shield" data-n="shield"><circle cx="92" cy="392" r="18"/>' + glyph("shield", 82, 382) + '</g><text class="dg-m dg-m--ink" x="120" y="397">0 open ports</text>';
+    },
+    vb: ["0 0 760 366", "0 0 340 440"],
+    seq: [
+      ["lit", "shield"], ["lit", "me"], ["lit", "l1"], ["go", "w1", 1100], ["lit", "traefik"], ["wait", 300],
+      ["lit", "pub"], ["lit", "l2"], ["go", "w2", 1000], ["wait", 300], ["lit", "guest"], ["lit", "l3"], ["go", "w3", 1100], ["wait", 2600]
+    ]
+  };
+
+  /* 7. Homelab: inside the box */
+  var MEM = [[10, "k3s"], [3, "Home Assistant"], [2, "host"], [1, "spare"]];
+  function memBar(x, y, w, h, small) {
+    var s = '<g class="dg-mem"><rect class="dg-mem__track" x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="10"/>', cx = x;
+    MEM.forEach(function (m, i) {
+      var sw = w * m[0] / 16;
+      s += '<g class="dg-mem__seg dg-mem__seg--' + i + '" data-seg="' + i + '"><rect x="' + (cx + 2) + '" y="' + (y + 2) + '" width="' + (sw - 4) + '" height="' + (h - 4) + '" rx="8" style="transform-origin:' + (cx + 2) + 'px 0"/>' +
+        '<text x="' + (cx + 12) + '" y="' + (y + h / 2 + 5) + '">' + (small && i > 1 ? "" : i > 1 ? "~" + m[0] : m[0] + " GB") + "</text></g>";
+      cx += sw;
+    });
+    return s + "</g>";
+  }
+  D.box = {
+    title: "Inside the box",
+    alt: "Diagram: Proxmox on the laptop runs two virtual machines: Ubuntu with k3s, using 10 GB of the 16 GB memory, and Home Assistant OS with 3 GB, which gets the Zigbee USB stick passed straight through. The host uses about 2 GB and about 1 GB is spare. Snapshots are taken before every upgrade.",
+    full: function () {
+      return group({ x: 16, y: 16, w: 728, h: 340 }, "Proxmox, on the laptop under the TV", "dg-grp--host", "laptop") +
+        card("vm1", { x: 40, y: 62, w: 300, h: 110 }, "VM 1: Ubuntu + k3s", "the apps, 15 of them", "box") + pods("vm1p", 88, 136, 6, 30) +
+        card("vm2", { x: 360, y: 62, w: 220, h: 110 }, "VM 2: Home Assistant", "lights and sensors", "radio") +
+        card("usb", { x: 600, y: 62, w: 124, h: 110 }, "Zigbee", "USB stick") +
+        edge("z2ha", "M600 128 H580", "dg-e--t3") +
+        '<g class="dg-waves"><path d="M676 156 a10 10 0 0 1 20 0"/><path d="M670 156 a16 16 0 0 1 32 0"/><path d="M664 156 a22 22 0 0 1 44 0"/></g>' +
+        label(40, 208, "memory, 16 GB", "dg-m") + memBar(40, 218, 684, 48) +
+        '<g class="dg-legend">' + MEM.map(function (m, i) { return '<g class="dg-key dg-key--' + i + '"><rect x="' + [40, 170, 390, 530][i] + '" y="280" width="10" height="10" rx="3"/><text class="dg-m" x="' + ([40, 170, 390, 530][i] + 18) + '" y="290">' + (i > 1 ? "~" : "") + m[0] + " GB " + m[1] + "</text></g>"; }).join("") + "</g>" +
+        pill("snap", 40, 312, 270, "snapshot before every upgrade", "", "check") + label(724, 332, "USB passthrough, not in the cluster", "dg-m", "end");
+    },
+    compact: function () {
+      return group({ x: 8, y: 8, w: 324, h: 470 }, "Proxmox, on the laptop", "dg-grp--host", "laptop") +
+        card("vm1", { x: 24, y: 50, w: 292, h: 70 }, "VM 1: Ubuntu + k3s", "15 apps", "box") +
+        card("vm2", { x: 24, y: 134, w: 292, h: 70 }, "VM 2: Home Assistant", "lights and sensors", "radio") +
+        card("usb", { x: 24, y: 218, w: 292, h: 62 }, "Zigbee USB stick", "passed through", "usb") +
+        edge("z2ha", "M170 218 V204", "dg-e--t3") +
+        label(24, 312, "memory, 16 GB", "dg-m") + memBar(24, 322, 292, 48, true) +
+        '<g class="dg-legend">' + MEM.map(function (m, i) { return '<text class="dg-m" x="' + (24 + (i % 2) * 150) + '" y="' + (398 + Math.floor(i / 2) * 22) + '">' + (i > 1 ? "~" : "") + m[0] + " GB " + m[1] + "</text>"; }).join("") + "</g>" +
+        pill("snap", 24, 434, 292, "snapshot before every upgrade", "", "check");
+    },
+    vb: ["0 0 760 372", "0 0 340 486"],
+    seq: [["mem", 0], ["lit", "vm1"], ["podsOn", "vm1p"], ["wait", 500], ["mem", 1], ["lit", "vm2"], ["wait", 400], ["lit", "usb"], ["go", "z2ha", 500], ["cls", "dg-radio", true], ["mem", 2], ["wait", 300], ["mem", 3], ["lit", "snap"], ["wait", 3200]]
+  };
+
+  /* 8. Platform: multi-region with CloudFront at the edge */
+  D.edge = {
+    title: "Europe and Tokyo, one edge",
+    alt: "Diagram: users in Europe and in Asia and Oceania reach CloudFront at the edge, which caches static content and routes dynamic requests by path and region to the nearest cluster: the European cluster or the cluster in Tokyo. A resource syncer we built keeps chosen Deployments, ConfigMaps and Secrets in Tokyo in step with the main cluster.",
+    full: function () {
+      return card("ueu", { x: 20, y: 40, w: 200, h: 68 }, "Users in Europe", "nearest: EU", "users") +
+        card("uap", { x: 20, y: 262, w: 200, h: 68 }, "Users in Asia", "and Oceania", "users") +
+        edge("e1", "M220 74 C 280 74, 270 170, 300 170") + edge("e2", "M220 296 C 280 296, 270 204, 300 204") +
+        '<g class="dg-n dg-cdn" data-n="cdn"><rect class="dg-card" x="300" y="128" width="170" height="114" rx="16"/><rect class="dg-sheen" x="301" y="129" width="168" height="22" rx="15"/>' + glyph("cloud", 316, 144) +
+        '<text class="dg-l" x="346" y="160">CloudFront</text><text class="dg-s" data-s x="316" y="190">edge cache</text><text class="dg-m" x="316" y="220">routes by region</text></g>' +
+        edge("e3", "M470 160 C 520 160, 510 74, 540 74") + edge("e4", "M470 212 C 520 212, 510 296, 540 296") +
+        card("eu", { x: 540, y: 34, w: 200, h: 80 }, "EU cluster", "main cluster", "stack") +
+        card("jp", { x: 540, y: 256, w: 200, h: 80 }, "Tokyo cluster", "Asia Pacific", "stack") +
+        edge("sync", "M700 114 V256", "dg-e--t3") + pill("syncp", 560, 168, 180, "resource syncer", "dg-pill--t3", "sync");
+    },
+    compact: function () {
+      return card("ueu", { x: 10, y: 10, w: 154, h: 60 }, "Europe", "users", "users") +
+        card("uap", { x: 176, y: 10, w: 154, h: 60 }, "Asia", "and Oceania", "users") +
+        edge("e1", "M87 70 V110") + edge("e2", "M253 70 V110") +
+        '<g class="dg-n dg-cdn" data-n="cdn"><rect class="dg-card" x="10" y="110" width="320" height="76" rx="14"/>' + glyph("cloud", 26, 126) +
+        '<text class="dg-l" x="56" y="140">CloudFront</text><text class="dg-s" data-s x="56" y="164">edge cache, nearest cluster</text></g>' +
+        edge("e3", "M87 186 V226") + edge("e4", "M253 186 V226") +
+        card("eu", { x: 10, y: 226, w: 154, h: 70 }, "EU", "main cluster", "stack") +
+        card("jp", { x: 176, y: 226, w: 154, h: 70 }, "Tokyo", "Asia Pacific", "stack") +
+        edge("sync", "M164 276 H176", "dg-e--t3") + pill("syncp", 10, 312, 320, "resource syncer keeps Tokyo in step", "dg-pill--t3", "sync");
+    },
+    vb: ["0 0 760 370", "0 0 340 352"],
+    seq: [
+      ["lit", "ueu"], ["go", "e1", 700], ["lit", "cdn"], ["text", "cdn", "cache hit? no: route"], ["go", "e3", 700], ["lit", "eu"], ["wait", 300],
+      ["lit", "uap"], ["go", "e2", 700], ["text", "cdn", "nearest: Tokyo"], ["go", "e4", 700], ["lit", "jp"], ["wait", 300],
+      ["lit", "syncp"], ["go", "sync", 900], ["text", "cdn", "edge cache"], ["wait", 2600]
+    ]
+  };
+
+  /* ------------------------------------------------------------- render */
+  function html(id, opts) {
+    var d = D[id];
+    opts = opts || {};
+    return '<figure class="dg' + (opts.cls ? " " + opts.cls : "") + '" data-dg="' + id + '" role="img" aria-label="' + esc(d.alt) + '">' +
+      svg("dg__svg--full", d.vb[0], d.title, d.full()) + svg("dg__svg--compact", d.vb[1], d.title, d.compact()) +
+      (opts.caption === false ? "" : '<figcaption class="dg__cap"><span class="dg__title">' + esc(d.title) + '</span><button type="button" class="dg__replay" aria-label="Replay animation: ' + esc(d.title) + '">replay</button></figcaption>') +
+      "</figure>";
+  }
+
+  /* ------------------------------------------------------------- animation */
+  var reduce = function () { return !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches); };
+
+  function Player(fig) {
+    this.fig = fig; this.id = fig.getAttribute("data-dg"); this.run = 0; this.visible = false;
+  }
+  Player.prototype.svg = function () {
+    var svgs = this.fig.querySelectorAll(".dg__svg");
+    for (var i = 0; i < svgs.length; i++) if (svgs[i].getBoundingClientRect().width > 0) return svgs[i];
+    return svgs[0];
+  };
+  Player.prototype.reset = function (s) {
+    Array.prototype.forEach.call(s.querySelectorAll(".is-lit, .is-done, .is-on, .is-bad, .is-ok, .is-run"), function (el) { el.classList.remove("is-lit", "is-done", "is-on", "is-bad", "is-ok", "is-run"); });
+    Array.prototype.forEach.call(s.querySelectorAll("[data-s]"), function (t) { if (t.__orig === undefined) t.__orig = t.textContent; t.textContent = t.__orig; });
+    Array.prototype.forEach.call(s.querySelectorAll("[data-sts]"), function (t) { t.textContent = "waiting"; });
+    var pr = s.querySelector("[data-pr]");
+    if (pr) { pr.style.setProperty("--x", "0px"); pr.style.setProperty("--y", "0px"); pr.classList.remove("is-bad"); var a = pr.querySelector("[data-prs]"), b = pr.querySelector("[data-prm]"); if (a.__orig === undefined) { a.__orig = a.textContent; b.__orig = b.textContent; } a.textContent = a.__orig; b.textContent = b.__orig; }
+    s.classList.remove("dg-live", "dg-radio");
+    s.querySelectorAll(".dg-pk").forEach(function (p) { p.setAttribute("cx", -20); p.setAttribute("cy", -20); p.classList.remove("is-on"); });
+  };
+  function q(s, sel) { return s.querySelector(sel); }
+  function node(s, id) { return q(s, '[data-n="' + id + '"]'); }
+
+  Player.prototype.step = function (s, st, instant) {
+    var self = this, run = this.run, k = st[0];
+    var wait = function (ms) { return new Promise(function (r) { if (instant) return r(); setTimeout(r, ms); }); };
+    if (k === "wait") return wait(st[1]);
+    if (k === "lit") { var n = node(s, st[1]); if (n) n.classList.add("is-lit"); return wait(120); }
+    if (k === "text" && st[3] && s.classList.contains("dg__svg--compact")) return wait(0);
+    if (k === "text") { var n2 = node(s, st[1]); var t = n2 && n2.querySelector("[data-s]"); if (t) { if (t.__orig === undefined) t.__orig = t.textContent; t.textContent = st[2]; } return wait(160); }
+    if (k === "cls") { s.classList.toggle(st[1], st[2]); return wait(100); }
+    if (k === "podsOn") { var pg = q(s, '[data-pods="' + st[1] + '"]'); if (pg) pg.classList.add("is-on"); return wait(150); }
+    if (k === "mem") { var sg = q(s, '[data-seg="' + st[1] + '"]'); if (sg) sg.classList.add("is-on"); return wait(500); }
+    if (k === "roll") {
+      var e = node(s, st[1]); if (!e) return wait(0);
+      var ps = e.querySelectorAll(".dg-pod"), v = e.querySelector("[data-s]");
+      if (v && v.__orig === undefined) v.__orig = v.textContent;
+      if (instant) { Array.prototype.forEach.call(ps, function (p) { p.classList.add("is-on"); }); if (v) v.textContent = st[2]; return wait(0); }
+      return new Promise(function (res) {
+        var i = 0;
+        (function next() {
+          if (self.run !== run) return res();
+          if (i >= ps.length) { if (v) v.textContent = st[2]; return res(); }
+          ps[i].classList.add("is-run"); var p = ps[i];
+          setTimeout(function () { p.classList.remove("is-run"); p.classList.add("is-on"); i++; next(); }, 260);
+        })();
+      });
+    }
+    if (k === "stage" || k === "reset-stages" || k === "pr" || k === "prbad" || k === "prtext" || k === "prm") {
+      if (k === "reset-stages") { s.querySelectorAll(".dg-stage").forEach(function (g) { g.classList.remove("is-ok", "is-bad"); g.querySelector("[data-sts]").textContent = "waiting"; }); return wait(200); }
+      var pr = q(s, "[data-pr]");
+      if (k === "pr") {
+        var full = s.classList.contains("dg__svg--full");
+        if (full) {
+          var off = Math.min(st[1] * 104, 470);
+          pr.style.setProperty("--x", off + "px");
+          pr.querySelector(".dg-pr__pin").setAttribute("d", "M" + (68 + st[1] * 104 - off) + " 158 V214");
+        }
+        if (st[2]) { pr.querySelector("[data-prs]").textContent = st[2]; pr.querySelector("[data-prm]").textContent = st[3]; }
+        return wait(520);
+      }
+      if (k === "prbad") { pr.classList.toggle("is-bad", st[1]); pr.querySelector("[data-prm]").textContent = st[2]; return wait(200); }
+      if (k === "prtext") { pr.querySelector("[data-prs]").textContent = st[1]; return wait(100); }
+      if (k === "prm") { pr.querySelector("[data-prm]").textContent = st[1]; return wait(100); }
+      var g2 = q(s, '[data-st="' + st[1] + '"]'); g2.classList.remove("is-ok", "is-bad"); g2.classList.add(st[2] === "ok" ? "is-ok" : "is-bad"); g2.querySelector("[data-sts]").textContent = st[3]; return wait(200);
+    }
+    if (k === "go") {
+      var eg = q(s, '[data-e="' + st[1] + '"]'); if (!eg) return wait(0);
+      var base = eg.querySelector(".dg-e__base");
+      if (instant) { eg.classList.add("is-done"); return wait(0); }
+      eg.classList.add("is-lit");
+      var pk = s.querySelector(".dg-pk"), len = base.getTotalLength(), t0 = null, dur = st[2] || 800;
+      pk.classList.add("is-on");
+      return new Promise(function (res) {
+        function frame(ts) {
+          if (self.run !== run) return res();
+          if (t0 === null) t0 = ts;
+          var p = Math.min(1, (ts - t0) / dur), e = p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+          var pt = base.getPointAtLength(len * e);
+          pk.setAttribute("cx", pt.x); pk.setAttribute("cy", pt.y);
+          eg.style.setProperty("--p", e);
+          if (p < 1) requestAnimationFrame(frame);
+          else { eg.classList.remove("is-lit"); eg.classList.add("is-done"); pk.classList.remove("is-on"); res(); }
+        }
+        requestAnimationFrame(frame);
+      });
+    }
+    return wait(0);
+  };
+
+  Player.prototype.play = function (once) {
+    var self = this, d = D[this.id], s = this.svg(), run = ++this.run;
+    this.reset(s); this.idle = false;
+    if (reduce()) { d.seq.forEach(function (st) { self.step(s, st, true); }); s.classList.add("dg-still"); return; }
+    var i = 0;
+    (function next() {
+      if (self.run !== run) return;
+      if (i >= d.seq.length) {
+        if (once || !self.visible) { self.idle = true; return; }
+        setTimeout(function () { if (self.run === run && self.visible) self.play(); }, 400);
+        return;
+      }
+      self.step(s, d.seq[i++], false).then(next);
+    })();
+  };
+  Player.prototype.stop = function () { this.run++; };
+
+  function mount(rootEl) {
+    var figs = (rootEl || document).querySelectorAll(".dg:not([data-mounted])");
+    var io = "IntersectionObserver" in window ? new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        var pl = en.target.__player;
+        if (en.isIntersecting) { if (!pl.visible) { pl.visible = true; pl.play(); } }
+        else if (pl.visible) { pl.visible = false; pl.stop(); }
+      });
+    }, { threshold: 0.35 }) : null;
+    Array.prototype.forEach.call(figs, function (f) {
+      f.setAttribute("data-mounted", "");
+      var pl = new Player(f); f.__player = pl;
+      var btn = f.querySelector(".dg__replay");
+      if (btn) btn.addEventListener("click", function () { pl.visible = true; pl.play(); });
+      f.addEventListener("mouseenter", function () { if (!reduce() && pl.idle) pl.play(); });
+      if (io) io.observe(f); else { pl.visible = true; pl.play(); }
+    });
+    return io;
+  }
+
+  var api = { html: html, mount: mount, ids: Object.keys(D), D: D };
+  if (typeof module !== "undefined" && module.exports) { module.exports = api; return; }
+  root.BeeldDiagrams = api;
+})(this);
+
+/*
+ * r2-beeld · projects (round 6): three static project features, the "Also" list, the
+ * case-study detail view (#<id>) with animated diagrams, and the screenshot lightbox.
  */
 (function (root) {
   "use strict";
@@ -1309,26 +2128,111 @@ html, body { background: var(--surface); }
   };
   function shot(id) { var s = SHOTS[id]; return { id: id, src: "assets/shots/" + id + ".webp", w: s[0], h: s[1], alt: s[2], cap: s[3] }; }
 
+  /* ------------------------------------------------------------- the projects */
+  // Content: design/CONTENT-v6.md §6 and its addendum. Three static projects, in this order.
   var PROJECTS = [
     {
-      id: "homelab", no: "01", year: "2026", status: "Live",
-      title: "Homelab platform",
-      line: "A small, production-style Kubernetes platform on an old laptop under the TV.",
-      story: "An old laptop with the lid shut runs Proxmox, a single-node k3s cluster and everything I build. It’s managed the way I’d run a client platform: one git repo, Argo CD syncing every app, wildcard TLS, and no open ports. If the disk dies, I rebuild it from the repo in an afternoon.",
-      cover: { illo: "homelab" },
-      numbers: [["16 GB", "memory"], ["2", "virtual machines"], ["15", "Argo CD applications"], ["0", "open ports"]],
-      ram: [[10, "k3s"], [3, "Home Assistant"], [2, "host", "~"], [1, "spare", "~"]],
-      how: [
-        "Proxmox runs two VMs: Ubuntu with k3s for the apps, and Home Assistant OS (see the next project). The laptop battery doubles as a UPS.",
-        "Argo CD watches one repo with an app-of-apps root that manages itself. Each app is one Application file; adding a repo is adding a file.",
-        "GitHub Actions builds every app to an immutable commit-SHA image on GHCR. Argo CD Image Updater commits the new tag back to git, and Argo rolls it out.",
-        "cert-manager gets one wildcard Let’s Encrypt certificate via Cloudflare DNS-01; Traefik serves it for every app, so no app needs its own certificate.",
-        "Three ways in, all opt-in: the private tailnet by default, a Cloudflare Tunnel with Access for a few public hostnames, and Tailscale Funnel for a party-night URL."
+      id: "platform", no: "01", year: "2022–now", status: "Work",
+      title: "A cloud-agnostic Kubernetes hosting platform",
+      short: "Hosting platform",
+      line: "The platform our client projects run on: eight clusters, one way of working.",
+      story: "Every client used to get a slightly different setup. I designed one platform instead: the same building blocks on AWS or Azure, the same pipelines, the same monitoring. It now runs eight clusters, from small to large, in the Netherlands and abroad, including Japan. The biggest runs more than 1,500 pods. New apps get production and acceptance environments, TLS, logging and dashboards on day one, without anyone touching the cluster.",
+      feature: { dg: "delivery" },
+      lead: { dg: "map" },
+      numbers: [["8", "clusters"], ["1,500+", "pods on the largest"], ["~80", "Argo CD apps on the main cluster"], ["0", "static cloud keys in CI"]],
+      sections: [
+        { k: "foundation", title: "The foundation", lead: "Terraform modules for every building block, AWS first and Azure where the client lives.",
+          bullets: [
+            "<strong>EKS</strong> on a dual-stack (IPv4 and IPv6) network across three availability zones, with Aurora databases, Redis, OpenSearch, shared EFS storage and a bastion as ready-made modules.",
+            "Nodes scale with load through <strong>Karpenter</strong>, so the cluster grows and shrinks on its own.",
+            "Traffic: a Network Load Balancer with fixed IPs → ingress-nginx on every node (proxy protocol, HSTS) → the apps, with certificates by cert-manager.",
+            "<strong>Rancher</strong> to manage the whole fleet of clusters from one place."
+          ] },
+        { k: "delivery", title: "App delivery: GitOps with Argo CD", dg: "delivery", lead: "Nobody edits the cluster by hand. A commit becomes a running release through git alone.",
+          bullets: [
+            "A root app-of-apps manages everything; Argo CD projects act as guardrails per team or client.",
+            "Every app gets <strong>production</strong> and <strong>acceptance</strong>: production follows the newest stable release, acceptance the newest release candidate. Builds from main never deploy.",
+            "CI builds immutable version tags; Argo CD Image Updater commits the new tag back to git, and Argo CD syncs.",
+            "Onboarding a conventional repo is adding a GitHub topic: an ApplicationSet creates both environments."
+          ] },
+        { k: "infra", title: "Infrastructure delivery: Pulumi, policy first", dg: "infra", lead: "Infrastructure changes go through the same kind of pipeline as app code, with stricter gates.",
+          bullets: [
+            "Pulumi in Python, one independent state per concern, each with its own foundation.",
+            "<strong>Policy first:</strong> a mandatory CrossGuard policy pack means a resource that breaks a rule can’t even be previewed, let alone applied.",
+            "<strong>Tested:</strong> the logic lives in importable modules, and resource shapes are tested with Pulumi mocks.",
+            "<strong>The pipeline is the only writer to production.</strong> Apply re-plans against fresh state and refuses anything destructive the reviewers didn’t approve (a fail-closed drift gate).",
+            "<strong>No static keys:</strong> GitHub OIDC into short-lived cloud roles, on self-hosted runners in the cluster. The deploy role can never widen its own permissions.",
+            "Reusable GitHub Actions for preview, deploy and drift, shared by every infrastructure repo. A daily drift check reports to Slack."
+          ] },
+        { k: "logs", title: "Logging pipeline", dg: "logs", lead: "Every log line from every pod, searchable in Grafana, stored encrypted.",
+          bullets: [
+            "Alloy runs on every node; Loki and its caches run on a dedicated platform node pool.",
+            "Logs land in encrypted object storage. Retention (90 days) is owned by Loki’s compactor, never by bucket lifecycle rules, because those would corrupt queries.",
+            "Exactly one service account can reach the bucket, through workload identity."
+          ] },
+        { k: "edge", title: "Multi-region: Europe and Tokyo", dg: "edge", lead: "One platform, closer to users in Asia and Oceania.",
+          bullets: [
+            "A second cluster in Asia Pacific (Tokyo) runs next to the European one.",
+            "CloudFront routes by path and region and caches at the edge; dynamic requests go to the nearest cluster.",
+            "A small resource syncer we built (a Kubernetes CronJob) keeps chosen Deployments, ConfigMaps and Secrets in Tokyo in step with the main cluster, so there’s still one place to make changes."
+          ] },
+        { k: "reliability", title: "Reliability", lead: "Planned, not urgent.",
+          bullets: [
+            "<strong>Disaster recovery with Velero</strong> on AWS and Azure: cluster resources and volume snapshots, backed up and restorable.",
+            "A <strong>supported-services lifecycle</strong> with published end-of-support dates per version of databases, search and ingress, so upgrades are planned instead of urgent."
+          ] },
+        { k: "operate", title: "Operating it: a CLI that knows every environment", lead: "We built a small Python CLI so nobody needs a wiki page to get in.",
+          bullets: [
+            "SSO login with an admin or read-only role, per environment.",
+            "A bastion shell without opening ports, policy-enforced previews, and bootstrapping a new environment’s foundation.",
+            "It deliberately has no <code>apply</code>: only the pipeline changes production."
+          ],
+          cli: [["login", "SSO into an environment, admin or read-only"], ["shell", "a bastion session, no open ports"], ["preview", "a policy-enforced plan of a change"], ["bootstrap", "the foundation for a new environment"], ["apply", "not here: only the pipeline applies", true]] }
       ],
-      decisions: [
-        ["k3s in a VM, not LXC", "Kubernetes in a container needs privileged mode and breaks on upgrades."],
-        ["Home Assistant next to the cluster, not in it", "USB passthrough to a VM is one line."],
-        ["Snapshots, no off-site backups", "Everything is rebuildable from git, by choice."]
+      timeline: [
+        ["2022", "A first standardised hosting cluster on AWS EKS, built from Terraform modules and managed with Rancher."],
+        ["then", "Multi-region (Europe + Tokyo) behind CloudFront; disaster recovery with Velero on AWS and Azure; Terraform state in one place."],
+        ["then", "Deployments move to GitOps: GitHub Actions builds, Argo CD deploys, Image Updater promotes. Production and acceptance per app; onboarding by GitHub topic."],
+        ["now", "Infrastructure moves to Pulumi in Python with push-based GitOps: policy first, tests, saved plans, review and drift gates, OIDC, self-hosted runners. Plus the logging pipeline and the CLI."]
+      ],
+      also: "Also running on the platform: metrics and dashboards (Grafana), network observability, an LLM gateway in front of a GPU machine, and MCP servers so AI agents can read the cluster safely.",
+      chips: ["kubernetes", "argo-cd", "image-updater", "pulumi", "python", "crossguard", "terraform", "karpenter", "github-actions", "oidc", "loki", "alloy", "grafana", "velero", "rancher", "aws", "azure"],
+      note: "Work project: no client names, no code, no screenshots."
+    },
+    {
+      id: "homelab", no: "02", year: "2026", status: "Personal",
+      title: "A fully automated Kubernetes platform, for one apartment",
+      short: "Homelab & home automation",
+      line: "Complete overkill for a home. Great fun to maintain.",
+      story: "An old laptop under the TV, lid shut, runs the same kind of platform I build at work, just smaller. Proxmox hosts a k3s cluster and Home Assistant. Every app is built, tagged and rolled out from git without me touching anything. It has its own domain, real certificates, and no open ports. The battery doubles as a UPS.",
+      feature: { dg: "push" },
+      numbers: [["15", "Argo CD apps"], ["2", "virtual machines"], ["0", "open ports"], ["3", "ways in, all opt-in"]],
+      sections: [
+        { k: "push", title: "From git push to running", dg: "push", lead: "Push to main and walk away.",
+          bullets: [
+            "GitHub Actions builds every app into an image tagged with its commit SHA, on GHCR.",
+            "Argo CD Image Updater sees the new tag and writes it to git; Argo CD syncs and the pods roll over.",
+            "One repo holds an app-of-apps root that manages itself. Adding an app is adding one file."
+          ] },
+        { k: "ways", title: "Getting in", dg: "ways", lead: "Private by default, public only on purpose.",
+          bullets: [
+            "<strong>Tailnet</strong> (the default): my devices → Tailscale → Traefik → app. DNS for my own domain points at the tailnet, so names only resolve to something reachable on my devices.",
+            "<strong>Cloudflare Tunnel + Access:</strong> a few apps are public on a friendly hostname, behind a login, without opening a port.",
+            "<strong>Tailscale Funnel:</strong> a temporary public URL, for the quiz at a party.",
+            "TLS everywhere: one wildcard Let’s Encrypt certificate via Cloudflare DNS-01, served by Traefik for every app."
+          ] },
+        { k: "box", title: "Inside the box", dg: "box", lead: "16 GB of memory, carefully split.",
+          bullets: [
+            "Proxmox runs VM 1 (Ubuntu + k3s, 10 GB) and VM 2 (Home Assistant OS, 3 GB). The host keeps about 2 GB, and about 1 GB is spare.",
+            "Snapshots before every upgrade; everything else is rebuildable from git."
+          ] },
+        { k: "ha", title: "Home Assistant, the DevOps way", lead: "The lights get the same treatment as the apps.",
+          bullets: [
+            "In its own VM next to the cluster, not in it: USB passthrough of the Zigbee stick is one line.",
+            "TLS through an NGINX proxy, a plain-HTTP fallback on the home network for when things break, and a monthly automation that renews its certificate.",
+            "Moved from a Raspberry Pi with a full restore: the whole Zigbee mesh came across without re-pairing a single device.",
+            "Dashboards and automations live in git. A tablet on the wall shows it all."
+          ] }
       ],
       learned: [
         "Disk pressure at 30 GiB on a 500 GB SSD: the Ubuntu installer allocated only half the disk. One <code>lvextend</code>, zero downtime.",
@@ -1336,42 +2240,17 @@ html, body { background: var(--surface); }
         "MagicDNS without a global nameserver broke public DNS on every Linux node."
       ],
       snippet: true,
-      chips: ["proxmox", "k3s", "argo-cd", "image-updater", "cert-manager", "traefik", "tailscale", "cloudflare"],
-      privateRepo: true,
-      alt: "Illustration: git push goes to Argo CD, which deploys into k3s with fifteen apps on a laptop that also runs Home Assistant, reachable only over a private network with zero open ports."
+      chips: ["proxmox", "k3s", "argo-cd", "image-updater", "github-actions", "ghcr", "cert-manager", "traefik", "tailscale", "cloudflare", "home-assistant", "zigbee"],
+      note: "The repository is private."
     },
     {
-      id: "home", no: "02", year: "2026", status: "Live",
-      title: "Home automation",
-      line: "Home Assistant, a Zigbee mesh and a wall panel that knows when we’re home.",
-      story: "Home Assistant runs in its own VM next to the cluster, with the Zigbee stick passed straight through. A tablet on the wall is the control panel; lift it off and it’s a normal tablet again, put it back and it returns to the dashboard. The automations and dashboards are versioned in git like everything else.",
-      cover: { illo: "home" },
-      how: [
-        "Home Assistant OS in a VM, with a Zigbee coordinator over USB on an extension cable (USB3 noise and 2.4 GHz don’t mix).",
-        "Moved from a Raspberry Pi to the VM with a full backup restore: the whole Zigbee mesh came across without re-pairing a single device.",
-        "HTTPS through an NGINX proxy in front of Home Assistant, with a plain-HTTP fallback on the home network for when it’s having a bad day. A monthly automation renews the certificate.",
-        "The wall panel is a Galaxy Tab in a kiosk browser. Charging state tells it it’s docked; NFC tags tell the wall dock from the desk dock."
-      ],
-      automations: [
-        ["Someone is home", "Wall panel screen on"],
-        ["Nobody home", "Wall panel screen off"],
-        ["Tablet docked", "Dashboard to the foreground"],
-        ["Wall-dock NFC tag", "Control dashboard"],
-        ["Desk-dock NFC tag", "Ops dashboard"],
-        ["Time of day", "Panel brightness"],
-        ["Monthly", "Renew the certificate (restart the Let’s Encrypt and NGINX add-ons)"]
-      ],
-      photoSlot: "Photo of the wall panel: coming soon",
-      chips: ["home-assistant", "zigbee", "zha", "fully-kiosk", "nfc"],
-      privateRepo: true,
-      alt: "Illustration: a wall-mounted tablet showing three rooms with their lights and who is home, next to a Zigbee mesh of lamps and sensors, and two automations: someone home turns the screen on, docking brings the dashboard forward."
-    },
-    {
-      id: "mtg", no: "03", year: "2026", status: "Live",
+      id: "mtg", no: "03", year: "2026", status: "Personal",
       title: "MTG suite",
+      short: "MTG suite",
       line: "Four tools for Magic: The Gathering: play, build, search and brew.",
-      story: "Magic is my favourite hobby with friends, and it turned into a small suite of software. All of it runs on the homelab.",
-      cover: { shot: "r99-home", tall: "r99-home-mobile" },
+      story: "Magic is my favourite hobby with friends, and it turned into a small suite of software. All four run on the homelab above.",
+      feature: { shots: ["r99-home", "grimoire-library"] },
+      lead: { shots: ["r99-home", "grimoire-library"] },
       parts: [
         { title: "Rules of 99", line: "Commander in the browser, with full rules enforcement.",
           body: "An open-source rules engine (Forge) runs headless behind a WebSocket gateway; each player only receives what they’re allowed to see. Rooms with a 6-character code, 2–4 seats, reconnect-safe, replays, and a phone layout.",
@@ -1383,246 +2262,63 @@ html, body { background: var(--surface); }
           chips: ["node", "sqlite", "fts5", "mcp"] },
         { title: "Scryfall, in plain words", line: "Describe the cards you want; get a working Scryfall query.",
           body: "The Claude Agent SDK writes a query, tests it against Scryfall, and offers stricter and broader readings, each with a breakdown of what every part means. The screenshots are the real UI with live Scryfall data.",
-          shots: ["scryfall-result", "scryfall-mobile"],
-          chips: ["claude-agent-sdk", "node", "sse"] },
+          shots: ["scryfall-result", "scryfall-mobile"], chips: ["claude-agent-sdk", "node", "sse"] },
         { title: "claude-mtg-skills", line: "Claude Code skills that build, upgrade, rate and explain real decks.",
           body: "Seven skills grounded in proven decklists and live prices, installable as a Claude Code plugin marketplace. MIT licensed, with at least 95% test coverage.",
           shots: ["mtg-skills-banner"], chips: ["claude-code", "skills"], link: ["github.com/guuse/claude-mtg-skills", "https://github.com/guuse/claude-mtg-skills"], public: true }
       ],
-      chips: ["java", "react", "typescript", "node", "sqlite", "claude"]
-    },
-    {
-      id: "ai", no: "04", year: "2026", status: "Live",
-      title: "AI tooling",
-      line: "Agents and apps that take the boring parts of the job off my hands.",
-      story: "I use Claude every day, and when something is repetitive I’d rather build a tool than do it a fourth time. These are the ones I’ve published.",
-      cover: { illo: "ai" },
-      parts: [
-        { title: "Uren-assistent", lang: "nl", line: "From a day’s activity to booked hours in one click.",
-          body: "A Tauri 2 desktop app (React 19, TypeScript, Rust) that turns browser history, calendar and GitHub/Linear activity into time blocks, classifies them with an LLM, and books and submits them to Simplicate. At least 95% test coverage, MIT licensed.",
-          chips: ["tauri", "rust", "react", "typescript"], link: ["github.com/guuse/uren-assistent", "https://github.com/guuse/uren-assistent"], public: true },
-        { title: "ux-testing skill", line: "Autonomous, adversarial UX testing.",
-          body: "It maps a web app’s user flows, drives a real browser with Playwright, tries to break each flow, files a fix task per bug, dispatches an agent to fix it, and re-runs until it passes. Part of my Claude marketplace.",
-          chips: ["claude-code", "skills", "playwright"], link: ["github.com/guuse/claude-marketplace", "https://github.com/guuse/claude-marketplace"], public: true },
-        { title: "claude-mtg-skills", line: "Seven Claude Code skills for Magic decks.", body: "Part of the MTG suite.", ref: "mtg",
-          chips: [], link: ["github.com/guuse/claude-mtg-skills", "https://github.com/guuse/claude-mtg-skills"], public: true }
-      ],
-      chips: ["claude-code", "skills", "playwright", "tauri", "rust", "react"],
-      alt: "Illustration: a day of work turned into time blocks and booked as 7.5 hours, and a Playwright checklist where a failing checkout flow gets a fix task and then passes."
-    },
-    {
-      id: "scouts", no: "05", year: "2026", status: "Personal",
-      title: "Scouting agents",
-      line: "Two agents that watch Marktplaats, Vinted and Funda so I don’t have to.",
-      story: "Both run as scheduled Claude routines on my laptop: search, filter, let Claude judge each listing against a short brief, and email a digest only when something’s worth it. One hunts second-hand finds, the other helped us search for a first home.",
-      cover: { shot: "finds-overview", tall: "finds-mobile" },
-      numbers: [["281", "finds recorded"], ["2 h", "between runs"], ["2", "platforms, plus Funda"]],
-      how: [
-        "Search the platforms every two hours (08:00–23:00), skip what was seen, apply hard filters.",
-        "Claude judges each survivor against a short brief per category.",
-        "A short email digest, price-drop alerts, and a small web app to keep or hide finds."
-      ],
-      shots: ["finds-overview", "finds-mobile"],
-      shotsNote: "The house search stays private, so there are no screenshots of it.",
-      chips: ["python", "claude", "astro", "resend"],
-      privateRepo: true
+      chips: ["java", "react", "typescript", "node", "sqlite", "claude"],
+      note: "One part is public; the links are below."
     }
   ];
 
-  /* ------------------------------------------------------------ illustrations */
-  // Two drawings per illustration: a full one (480×360) and a compact one (320×300) with
-  // fewer, larger labels for narrow containers. CSS picks one with a container query.
+  var ALSO = [
+    { title: "Uren-assistent", lang: "nl", line: "A desktop app that turns a day’s activity into booked hours.", link: ["github", "https://github.com/guuse/uren-assistent"] },
+    { title: "ux-testing skill", line: "A Claude Code skill that tests a web app’s flows in a real browser and fixes what breaks.", link: ["github", "https://github.com/guuse/claude-marketplace"] },
+    { title: "Scouting agents", line: "Claude routines that watch Marktplaats, Vinted and Funda and email a digest.", priv: true }
+  ];
+
+  /* ---------------------------------------------------------------- helpers */
   function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
-  function T(x, y, s, cls, anchor, lang) { return '<text x="' + x + '" y="' + y + '" class="' + (cls || "s-t") + '"' + (anchor ? ' text-anchor="' + anchor + '"' : "") + (lang ? ' lang="' + lang + '"' : "") + ">" + s + "</text>"; }
-  function R(x, y, w, h, rx, cls) { return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="' + rx + '" class="' + cls + '"/>'; }
-  function chip(x, y, w, s) { return R(x, y, w, 24, 5, "s-chip") + T(x + 8, y + 16.5, s, "s-m s-ink"); }
-
-  var ILLO = {
-    homelab: {
-      full: function () {
-        var apps = [["rules-of-99", 56, 150, 104], ["grimoire", 168, 150, 80], ["scryfall", 56, 180, 104], ["finds", 168, 180, 80], ["dashboard", 56, 210, 104], ["+10 more", 168, 210, 80]];
-        return '<path class="s-line" d="M128 37 H240 V100 H150 V116"/>' +
-          '<path class="s-pulse" pathLength="600" d="M128 37 H240 V100 H150 V116"/>' +
-          R(24, 20, 104, 34, 6, "s-box") + T(42, 42, "git push", "s-m s-ink") +
-          R(188, 20, 104, 34, 6, "s-box s-box--tone") + T(208, 42, "argo cd", "s-m s-ink") +
-          T(306, 42, "syncs every app", "s-m") +
-          R(24, 84, 432, 212, 12, "s-host") + T(440, 289, "proxmox · the laptop under the TV", "s-m", "end") +
-          R(40, 112, 220, 158, 8, "s-box") + T(56, 136, "k3s") + T(246, 136, "15 apps", "s-m", "end") +
-          apps.map(function (a) { return chip(a[1], a[2], a[3], a[0]); }).join("") +
-          R(276, 112, 164, 158, 8, "s-box") + T(292, 136, "Home Assistant") +
-          T(292, 160, "its own VM", "s-m") + T(292, 180, "zigbee over USB", "s-m") +
-          '<circle cx="358" cy="232" r="10" class="s-tone"/>' +
-          [[316, 214], [400, 212], [320, 254], [398, 254]].map(function (n) { return '<path class="s-line" d="M358 232 L' + n[0] + " " + n[1] + '"/><circle cx="' + n[0] + '" cy="' + n[1] + '" r="5" class="s-node"/>'; }).join("") +
-          R(24, 314, 124, 32, 6, "s-box") + T(40, 335, "me, anywhere", "s-m s-ink") +
-          '<path class="s-line s-dash" d="M148 330 H240 V296"/>' + T(160, 322, "tailscale", "s-m") +
-          T(456, 335, "0 open ports", "s-m s-ink", "end");
-      },
-      compact: function () {
-        return '<path class="s-line" d="M146 36 H174"/><path class="s-line" d="M239 56 V98"/>' +
-          '<path class="s-pulse" pathLength="600" d="M146 36 H239 V98"/>' +
-          R(16, 16, 130, 40, 8, "s-box") + T(81, 42, "git push", "s-c s-ink", "middle") +
-          R(174, 16, 130, 40, 8, "s-box s-box--tone") + T(239, 42, "argo cd", "s-c s-ink", "middle") +
-          R(16, 84, 288, 128, 12, "s-host") +
-          R(30, 98, 150, 100, 8, "s-box") + T(46, 128, "k3s", "s-t s-lg") + T(46, 154, "15 apps", "s-c") + T(46, 178, "from git", "s-c") +
-          R(192, 98, 98, 100, 8, "s-box") + T(206, 128, "Home", "s-t s-lg") + T(206, 152, "Assistant", "s-t s-lg") +
-          R(16, 242, 120, 42, 8, "s-box") + T(76, 268, "me", "s-c s-ink", "middle") +
-          '<path class="s-line s-dash" d="M136 263 H160 V212"/>' +
-          T(304, 268, "0 open ports", "s-c s-ink", "end");
-      }
-    },
-    home: {
-      full: function () {
-        var rooms = [["Woonkamer", "on · 60%", 1], ["Keuken", "off", 0], ["Slaapkamer", "on · 20%", 1]];
-        var nodes = [[354, 98, "lamp", -12], [458, 104, "sensor", -12], [352, 206, "door", 24], [460, 208, "plug", 24]];
-        return T(24, 28, "wall panel · kiosk browser", "s-m") +
-          R(20, 40, 312, 200, 16, "s-phone") + R(32, 52, 288, 176, 8, "s-box") +
-          T(54, 82, "Home", "s-t s-strong") + R(234, 64, 74, 26, 13, "s-verdict") + T(271, 81.5, "2 home", "s-m s-on", "middle") +
-          rooms.map(function (r, i) {
-            var x = 44 + i * 90;
-            return R(x, 100, 84, 112, 8, r[2] ? "s-tile s-tile--on" : "s-tile") +
-              T(x + 42, 124, r[0], "s-s s-xs", "middle", "nl") +
-              '<circle cx="' + (x + 22) + '" cy="160" r="11" class="' + (r[2] ? "s-tone" : "s-node") + '"/>' +
-              T(x + 10, 198, r[1], "s-m");
-          }).join("") +
-          T(346, 58, "zigbee mesh", "s-m") +
-          nodes.map(function (n) { return '<path class="s-line" d="M404 146 L' + n[0] + " " + n[1] + '"/>'; }).join("") +
-          '<path class="s-line s-faint" d="M354 98 L458 104 M352 206 L460 208"/>' +
-          '<circle cx="404" cy="146" r="13" class="s-tone"/>' + T(404, 176, "zha", "s-m s-ink", "middle") +
-          nodes.map(function (n) { return '<circle cx="' + n[0] + '" cy="' + n[1] + '" r="7" class="s-node"/>' + T(n[0], n[1] + n[3], n[2], "s-m", "middle"); }).join("") +
-          [["someone home", "screen on", 262], ["tablet docked", "dashboard to front", 304]].map(function (a) {
-            return R(24, a[2], 186, 32, 16, "s-chip") + T(117, a[2] + 21, a[0], "s-m s-ink", "middle") +
-              '<path class="s-line" d="M218 ' + (a[2] + 16) + " H250 M244 " + (a[2] + 10) + " L250 " + (a[2] + 16) + " L244 " + (a[2] + 22) + '"/>' +
-              R(258, a[2], 198, 32, 16, "s-box s-box--tone") + T(357, a[2] + 21, a[1], "s-m s-ink", "middle");
-          }).join("");
-      },
-      compact: function () {
-        var rooms = [["Woonkamer", 1], ["Keuken", 0], ["Slaapkamer", 1]];
-        return R(16, 12, 288, 178, 16, "s-phone") + R(28, 24, 264, 154, 8, "s-box") +
-          T(42, 54, "Home", "s-t s-lg") + R(196, 34, 84, 28, 14, "s-verdict") + T(238, 53, "2 home", "s-c s-on", "middle") +
-          rooms.map(function (r, i) {
-            var x = 40 + i * 84;
-            return R(x, 74, 76, 92, 8, r[1] ? "s-tile s-tile--on" : "s-tile") +
-              '<circle cx="' + (x + 20) + '" cy="104" r="11" class="' + (r[1] ? "s-tone" : "s-node") + '"/>' +
-              T(x + 38, 152, r[0], "s-s s-xs s-ink", "middle", "nl");
-          }).join("") +
-          R(16, 208, 288, 36, 18, "s-chip") + T(160, 231, "someone home → screen on", "s-c s-ink", "middle") +
-          R(16, 254, 288, 36, 18, "s-box s-box--tone") + T(160, 277, "docked → dashboard", "s-c s-ink", "middle");
-      }
-    },
-    ai: {
-      full: function () {
-        var blocks = [["standup", 24, 78, "s-tone-3"], ["PR review", 102, 108, "s-tone"], ["Linear issue", 210, 138, "s-tone-2"], ["call", 348, 54, "s-tone-3"], ["deploy", 402, 54, "s-tone"]];
-        var hours = ["09", "10", "11", "12", "13", "14", "15", "16", "17"];
-        return T(24, 30, "uren-assistent · one day", "s-m") +
-          blocks.map(function (b) { return R(b[1] + 2, 44, b[2] - 4, 46, 6, b[3]) + T(b[1] + b[2] / 2, 72, b[0], b[3] === "s-tone-3" ? "s-s s-ink" : "s-s s-on", "middle"); }).join("") +
-          '<line x1="24" y1="102" x2="456" y2="102" class="s-line"/>' +
-          hours.map(function (h, i) { return T(24 + i * 54, 122, h, "s-m", i === 0 ? null : i === 8 ? "end" : "middle"); }).join("") +
-          '<path class="s-line" d="M240 130 V148 M234 142 L240 148 L246 142"/>' +
-          R(24, 156, 432, 40, 8, "s-box") + T(40, 181, "7.5 h booked", "s-t") + T(150, 181, "classified, then submitted", "s-m") +
-          R(358, 164, 86, 24, 12, "s-verdict") + T(401, 180.5, "submitted", "s-m s-on", "middle") +
-          T(24, 228, "ux-testing · playwright", "s-m") +
-          [["sign-up flow", "passes", 0], ["checkout flow", "broke → fix task → passes", 1], ["settings flow", "passes", 0]].map(function (r, i) {
-            var y = 240 + i * 38;
-            return R(24, y, 432, 30, 6, r[2] ? "s-box s-box--tone" : "s-box") +
-              '<circle cx="42" cy="' + (y + 15) + '" r="6" class="' + (r[2] ? "s-warn" : "s-tone") + '"/>' +
-              T(58, y + 20, r[0], "s-s s-ink") + T(444, y + 20, r[1], "s-m", "end");
-          }).join("");
-      },
-      compact: function () {
-        return T(16, 26, "hours, booked", "s-c") +
-          R(16, 38, 84, 48, 6, "s-tone-3") + R(106, 38, 112, 48, 6, "s-tone") + R(224, 38, 80, 48, 6, "s-tone-2") +
-          T(24, 68, "standup", "s-c s-ink") + T(114, 68, "PR review", "s-c s-on") + T(232, 68, "issue", "s-c s-on") +
-          R(16, 98, 288, 44, 8, "s-box") + T(30, 126, "7.5 h", "s-t s-lg") + R(194, 108, 98, 26, 13, "s-verdict") + T(243, 126, "submitted", "s-c s-on", "middle") +
-          T(16, 176, "flows, tested", "s-c") +
-          [["sign-up", "passes", 0], ["checkout", "fixed", 1], ["settings", "passes", 0]].map(function (r, i) {
-            var y = 188 + i * 38;
-            return R(16, y, 288, 32, 6, r[2] ? "s-box s-box--tone" : "s-box") +
-              '<circle cx="34" cy="' + (y + 16) + '" r="6" class="' + (r[2] ? "s-warn" : "s-tone") + '"/>' +
-              T(50, y + 21, r[0], "s-c s-ink") + T(292, y + 21, r[1], "s-c", "end");
-          }).join("");
-      }
-    }
-  };
-
-  function illoHTML(p) {
-    var il = ILLO[p.cover.illo];
-    return '<div class="il__art" role="img" aria-label="' + esc(p.alt) + '">' +
-      '<svg class="il__svg il__svg--full" viewBox="0 0 480 360" preserveAspectRatio="xMidYMid meet" aria-hidden="true">' + il.full() + "</svg>" +
-      '<svg class="il__svg il__svg--compact" viewBox="0 0 320 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true">' + il.compact() + "</svg></div>";
-  }
-
-  /* ---------------------------------------------------------------- templates */
-  var SLOT = ["3:2", "4:5", "1:1", "4:3"];
-  function slotRatio(i, n) {
-    if (i === n - 1 && (i % 4 === 0 || i % 4 === 2)) return "21:9";
-    return SLOT[i % 4];
-  }
+  var DG = function () { return root.BeeldDiagrams || (typeof require === "function" ? require("./diagrams.js") : null); };
+  function dgHTML(id, opts) { var d = DG(); return d ? d.html(id, opts) : ""; }
   function vars(p) { return "--p: var(--tone-" + p.id + "); --p-ink: var(--pink-" + p.id + ")"; }
   function chipsHTML(list, label) {
     if (!list || !list.length) return "";
     return '<ul class="chips" aria-label="' + (label || "Built with") + '">' + list.map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") + "</ul>";
   }
   function statusHTML(p) {
-    var k = p.status === "Live" ? "live" : p.status === "In progress" ? "wip" : "personal";
+    var k = p.status === "Work" ? "work" : p.status === "Live" ? "live" : "personal";
     return '<span class="state state--' + k + '"><span class="state__dot" aria-hidden="true"></span>' + esc(p.status) + "</span>";
   }
-  function imgHTML(s, eager) {
-    return '<img src="' + s.src + '" width="' + s.w + '" height="' + s.h + '" alt="' + esc(s.alt) + '" ' + (eager ? 'fetchpriority="high"' : 'loading="lazy"') + ' decoding="async">';
+  function imgHTML(s, lazy) {
+    return '<img src="' + s.src + '" width="' + s.w + '" height="' + s.h + '" alt="' + esc(s.alt) + '" ' + (lazy === false ? "" : 'loading="lazy" ') + 'decoding="async">';
   }
-  // A card visual: a real screenshot on a tonal stage, or the illustration. `shape` picks the tall shot where one exists.
-  function visualHTML(p, shape, eager) {
-    if (p.cover.illo) {
-      return '<div class="ph il" style="--tone: var(--tone-' + p.id + ')">' + illoHTML(p) +
-        '<span class="ph__label il__label" aria-hidden="true"><span class="ph__no">' + p.no + "</span>illustration</span></div>";
-    }
-    var tall = false; // round 5b: cards always use the desktop screenshot
-    var s = shot(tall ? p.cover.tall : p.cover.shot);
-    return '<div class="ph stage' + (tall ? " stage--tall" : "") + '" style="--tone: var(--tone-' + p.id + ')">' + imgHTML(s, eager) +
-      '<span class="ph__label il__label" aria-hidden="true"><span class="ph__no">' + p.no + "</span>screenshot</span></div>";
+  function stackHTML(ids) {
+    var a = shot(ids[0]), b = shot(ids[1]);
+    return '<div class="shotstack"><div class="shotstack__back">' + imgHTML(a) + '</div><div class="shotstack__front">' + imgHTML(b) + "</div></div>";
   }
-  function coverFile(p, shape) {
-    if (p.cover.illo) return p.id + "/illustration.svg";
-    return p.cover.shot + ".webp";
-  }
-  function metaHTML(p, ratio, shape) { return '<p class="meta">fig.' + p.no + " — " + coverFile(p, shape) + " · " + ratio + "</p>"; }
   function openAttrs(p) { return 'href="#' + p.id + '" data-open="' + p.id + '"'; }
 
-  function featuredHTML(p) {
-    return '<article class="page feature" id="p-' + p.id + '" data-project="' + p.id + '" style="' + vars(p) + '" aria-labelledby="feature-title">' +
-      '<a class="feature__media" ' + openAttrs(p) + ' tabindex="-1" aria-hidden="true">' + visualHTML(p, "wide") + "</a>" +
-      '<div class="feature__head">' +
-        '<div class="feature__kicker"><p class="eyebrow"><span class="feature__dot" aria-hidden="true"></span>Featured</p>' + metaHTML(p, "16:9") + "</div>" +
-        '<h3 class="feature__title display" id="feature-title"><a ' + openAttrs(p) + ">" + esc(p.title) + "</a></h3>" +
-        '<p class="feature__line">' + esc(p.line) + "</p>" +
-      "</div>" +
-      '<div class="feature__story">' +
-        '<p class="facts">' + statusHTML(p) + '<span class="meta">' + p.year + "</span>" + (p.parts ? '<span class="meta">' + p.parts.length + " parts</span>" : "") + "</p>" +
-        "<p>" + esc(p.story) + "</p>" +
-        chipsHTML(p.chips) +
-        '<p><a class="button button--ghost" ' + openAttrs(p) + '>Open the case study <span aria-hidden="true">→</span></a></p>' +
-      "</div>" +
-    "</article>";
+  /* ---------------------------------------------------------- homepage feature */
+  function featureHTML(p, i) {
+    var media = p.feature.dg ? dgHTML(p.feature.dg, { cls: "dg--feature" }) : stackHTML(p.feature.shots);
+    return '<article class="pf pf--' + (i % 2 ? "left" : "right") + '" id="' + p.id + '-feature" data-project="' + p.id + '" style="' + vars(p) + '" aria-labelledby="pf-' + p.id + '">' +
+      '<div class="pf__media">' + media + "</div>" +
+      '<div class="pf__body">' +
+        '<p class="pf__kicker"><span class="pf__no">' + p.no + '</span><span class="meta">' + esc(p.short.toLowerCase()) + "</span>" + statusHTML(p) + '<span class="meta">' + p.year + "</span></p>" +
+        '<h3 class="pf__title display" id="pf-' + p.id + '"><a ' + openAttrs(p) + ">" + esc(p.title) + "</a></h3>" +
+        '<p class="pf__line">' + esc(p.line) + "</p>" +
+        '<p class="pf__story">' + esc(p.story) + "</p>" +
+        (p.numbers ? '<dl class="pf__nums">' + p.numbers.slice(0, 3).map(function (n) { return "<div><dd>" + esc(n[0]) + "</dd><dt>" + esc(n[1]) + "</dt></div>"; }).join("") + "</dl>" : "") +
+        (p.parts ? '<ul class="pf__parts">' + p.parts.map(function (pt) { return "<li>" + esc(pt.title) + "</li>"; }).join("") + "</ul>" : "") +
+        '<p class="pf__cta"><a class="button button--ghost" ' + openAttrs(p) + '>Open the case study <span aria-hidden="true">→</span></a></p>' +
+      "</div></article>";
   }
-
-  function itemHTML(p, i, n) {
-    var ratio = "16:10", shape = "wide";
-    return '<li class="item" id="p-' + p.id + '" data-project="' + p.id + '" style="' + vars(p) + '">' +
-      '<a class="item__media" ' + openAttrs(p) + ' tabindex="-1" aria-hidden="true">' + visualHTML(p, shape) + "</a>" +
-      '<div class="item__caption">' +
-        metaHTML(p, ratio, shape) +
-        '<h3 class="item__title"><a ' + openAttrs(p) + ">" + esc(p.title) + "</a></h3>" +
-        '<p class="item__line">' + esc(p.line) + "</p>" +
-        '<div class="item__facts">' + statusHTML(p) + (p.parts ? '<span class="meta">' + p.parts.length + " parts</span>" : "") + "</div>" +
-      "</div>" +
-    "</li>";
-  }
-
-  function indexHTML(f) {
-    return PROJECTS.map(function (p) {
-      return '<li data-project="' + p.id + '" style="' + vars(p) + '"><a ' + openAttrs(p) + ">" +
-        '<span class="index__no">' + p.no + "</span>" +
-        '<span class="index__title">' + esc(p.title) + "</span>" +
-        '<span class="index__mark">' + (p === f ? "↑ featured" : esc(p.status.toLowerCase())) + "</span></a></li>";
+  function alsoHTML() {
+    return ALSO.map(function (a) {
+      return '<li class="also__row"><span class="also__title"' + (a.lang ? ' lang="' + a.lang + '"' : "") + ">" + esc(a.title) + '</span><span class="also__line">' + esc(a.line) + "</span>" +
+        (a.priv ? '<span class="also__link meta">private</span>' : '<a class="also__link arrow-link" href="' + a.link[1] + '" target="_blank" rel="noopener">' + a.link[0] + ' <span aria-hidden="true">↗</span><span class="visually-hidden"> (' + esc(a.title) + ")</span></a>") + "</li>";
     }).join("");
   }
 
@@ -1631,57 +2327,52 @@ html, body { background: var(--surface); }
     if (!ids || !ids.length) return "";
     return '<ul class="gallery" aria-label="Screenshots">' + ids.map(function (id, i) {
       var s = shot(id);
-      return '<li class="gallery__item' + (s.w < s.h ? " gallery__item--tall" : "") + '"><figure>' +
+      return '<li class="gallery__item"><figure>' +
         '<button type="button" class="gallery__open" data-lightbox="' + group + '" data-index="' + i + '" aria-label="Enlarge: ' + esc(s.cap) + '">' +
         imgHTML(s) + '<span class="gallery__zoom" aria-hidden="true">⤢</span></button>' +
-        '<figcaption><span class="meta">' + id + ".webp</span> " + esc(s.cap) + "</figcaption></figure></li>";
+        "<figcaption>" + esc(s.cap) + "</figcaption></figure></li>";
     }).join("") + "</ul>";
   }
-  function linkHTML(l) {
-    return '<a class="arrow-link" href="' + l[1] + '" target="_blank" rel="noopener">' + esc(l[0]) + ' <span aria-hidden="true">↗</span></a>';
-  }
-  function section(title, body, cls) { return '<section class="case__sec' + (cls ? " " + cls : "") + '"><h3 class="case__h">' + title + "</h3>" + body + "</section>"; }
+  function linkHTML(l) { return '<a class="arrow-link" href="' + l[1] + '" target="_blank" rel="noopener">' + esc(l[0]) + ' <span aria-hidden="true">↗</span></a>'; }
 
   function caseHTML(p) {
     var h = "";
-    // lead visual: the illustration, or the first screenshot set as a gallery
-    h += '<div class="case__visual">' + visualHTML(p, "wide") + "</div>";
+    if (p.lead) h += '<div class="case__visual">' + (p.lead.dg ? dgHTML(p.lead.dg) : stackHTML(p.lead.shots)) + "</div>";
     h += '<div class="case__intro">' +
       '<div class="case__story"><p class="case__line">' + esc(p.line) + "</p><p>" + esc(p.story) + "</p></div>" +
       '<dl class="detail__facts">' +
-        "<div><dt>status</dt><dd>" + statusHTML(p) + "</dd></div>" +
-        "<div><dt>year</dt><dd>" + p.year + "</dd></div>" +
+        "<div><dt>type</dt><dd>" + statusHTML(p) + "</dd></div>" +
+        "<div><dt>years</dt><dd>" + p.year + "</dd></div>" +
         (p.chips && p.chips.length ? "<div><dt>built with</dt><dd>" + chipsHTML(p.chips) + "</dd></div>" : "") +
-        "<div><dt>code</dt><dd>" + (p.privateRepo ? '<span class="meta">Repository is private</span>' : (p.parts ? '<span class="meta">Public parts are linked below</span>' : "")) + "</dd></div>" +
+        (p.note ? '<div><dt>code</dt><dd><span class="meta">' + esc(p.note) + "</span></dd></div>" : "") +
       "</dl></div>";
-
-    if (p.numbers) h += section("in numbers", '<dl class="stats tnum">' + p.numbers.map(function (n) { return "<div><dt>" + esc(n[1]) + "</dt><dd>" + esc(n[0]) + "</dd></div>"; }).join("") + "</dl>");
-    if (p.ram) {
-      var total = p.ram.reduce(function (a, r) { return a + r[0]; }, 0);
-      h += section("where the 16 GB goes",
-        '<div class="ram" aria-hidden="true">' + p.ram.map(function (r, i) { return '<span class="ram__seg ram__seg--' + i + '" style="flex: ' + r[0] + '"><b>' + (r[2] || "") + r[0] + " GB</b> " + esc(r[1]) + "</span>"; }).join("") + "</div>" +
-        '<ul class="visually-hidden">' + p.ram.map(function (r) { return "<li>" + (r[2] ? "about " : "") + r[0] + " GB of " + total + " for " + esc(r[1]) + "</li>"; }).join("") + "</ul>");
-    }
-    if (p.shots) h += section("screenshots", galleryHTML(p.shots, p.id) + (p.shotsNote ? '<p class="meta case__note">' + esc(p.shotsNote) + "</p>" : ""));
-    if (p.how) h += section("how it works", '<ol class="learned">' + p.how.map(function (x) { return "<li><p>" + esc(x) + "</p></li>"; }).join("") + "</ol>");
-    if (p.automations) h += section("automations that run every day",
-      '<ul class="autos">' + p.automations.map(function (a) { return '<li><span class="autos__when"><span class="meta">when</span> ' + esc(a[0]) + '</span><span class="autos__arrow" aria-hidden="true">→</span><span class="autos__then"><span class="meta">then</span> ' + esc(a[1]) + "</span></li>"; }).join("") + "</ul>" +
-      (p.photoSlot ? '<div class="ph case__photo" style="--tone: var(--tone-home); --ratio: 16 / 9" role="img" aria-label="' + esc(p.photoSlot) + '"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true">' + esc(p.photoSlot) + "</span></div>" : ""));
-    if (p.decisions) h += section("decisions", '<dl class="decisions">' + p.decisions.map(function (d) { return "<div><dt>" + esc(d[0]) + "</dt><dd>" + esc(d[1]) + "</dd></div>"; }).join("") + "</dl>");
-    if (p.learned) h += section("learned the hard way", '<ul class="gotchas">' + p.learned.map(function (x) { return "<li>" + x + "</li>"; }).join("") + "</ul>");
-    if (p.snippet) h += section("one app, one file",
-      '<p class="case__note-lead">Every app on the platform is one small file like this. Argo CD keeps the cluster in line with it.</p>' +
+    if (p.numbers) h += '<dl class="stats tnum case__nums">' + p.numbers.map(function (n) { return "<div><dt>" + esc(n[1]) + "</dt><dd>" + esc(n[0]) + "</dd></div>"; }).join("") + "</dl>";
+    if (p.sections) h += p.sections.map(function (sec, i) {
+      return '<section class="cs' + (sec.dg ? " cs--dg" : "") + '" aria-labelledby="cs-' + p.id + "-" + sec.k + '">' +
+        '<div class="cs__text"><p class="cs__k"><span>' + String.fromCharCode(97 + i) + "</span>" + esc(sec.k) + "</p>" +
+        '<h3 class="cs__title" id="cs-' + p.id + "-" + sec.k + '">' + esc(sec.title) + "</h3>" +
+        '<p class="cs__lead">' + esc(sec.lead) + "</p>" +
+        '<ul class="cs__list">' + sec.bullets.map(function (b) { return "<li>" + b + "</li>"; }).join("") + "</ul></div>" +
+        (sec.dg ? '<div class="cs__visual">' + dgHTML(sec.dg) + "</div>" : "") +
+        (sec.cli ? '<figure class="snippet cs__cli"><figcaption><span class="meta"><b>platform CLI</b></span><span class="meta">commands, in plain words</span></figcaption><dl class="cli">' +
+          sec.cli.map(function (c) { return '<div class="' + (c[2] ? "cli--no" : "") + '"><dt><code>' + c[0] + "</code></dt><dd>" + esc(c[1]) + "</dd></div>"; }).join("") + "</dl></figure>" : "") +
+      "</section>";
+    }).join("");
+    if (p.timeline) h += '<section class="cs cs--timeline" aria-labelledby="cs-' + p.id + '-tl"><div class="cs__text"><p class="cs__k"><span>→</span>timeline</p><h3 class="cs__title" id="cs-' + p.id + '-tl">How it grew</h3></div>' +
+      '<ol class="timeline">' + p.timeline.map(function (t, i) { return '<li class="timeline__item' + (i === p.timeline.length - 1 ? " timeline__item--now" : "") + '"><span class="timeline__when">' + esc(t[0]) + "</span><p>" + esc(t[1]) + "</p></li>"; }).join("") + "</ol></section>";
+    if (p.also) h += '<p class="case__also">' + esc(p.also) + "</p>";
+    if (p.learned) h += '<section class="cs" aria-labelledby="cs-' + p.id + '-lh"><div class="cs__text"><p class="cs__k"><span>!</span>gotchas</p><h3 class="cs__title" id="cs-' + p.id + '-lh">Learned the hard way</h3></div><ul class="gotchas">' + p.learned.map(function (x) { return "<li>" + x + "</li>"; }).join("") + "</ul></section>";
+    if (p.snippet) h += '<section class="cs" aria-labelledby="cs-' + p.id + '-sn"><div class="cs__text"><p class="cs__k"><span>{}</span>config</p><h3 class="cs__title" id="cs-' + p.id + '-sn">One app, one file</h3><p class="cs__lead">Every app is one small file like this. Argo CD keeps the cluster in line with it.</p></div>' +
       '<figure class="snippet"><figcaption><span class="meta"><b>applications/rules-of-99.yaml</b></span><span class="meta">Argo CD</span></figcaption>' +
       '<pre tabindex="0" aria-label="Example Argo CD Application file"><code>' +
       '<span class="k">apiVersion:</span> <span class="v">argoproj.io/v1alpha1</span>\n<span class="k">kind:</span> <span class="v">Application</span>\n<span class="k">metadata:</span> { <span class="k">name:</span> <span class="v">rules-of-99</span> }\n<span class="k">spec:</span>\n  <span class="k">source:</span>\n    <span class="k">repoURL:</span> <span class="v">…/rules-of-99.git</span>\n    <span class="k">path:</span> <span class="v">deploy</span>\n  <span class="k">syncPolicy:</span>\n    <span class="c"># fix drift, remove what\'s gone</span>\n    <span class="k">automated:</span> { <span class="k">prune:</span> <span class="v">true</span>, <span class="k">selfHeal:</span> <span class="v">true</span> }' +
-      "</code></pre></figure>");
+      "</code></pre></figure></section>";
     if (p.parts) h += '<div class="parts">' + p.parts.map(function (pt, i) {
       return '<section class="part">' +
         '<div class="part__head"><p class="meta">' + p.no + "." + (i + 1) + (pt.public ? " · public" : "") + "</p>" +
-        '<h3 class="part__title"' + (pt.lang ? ' lang="' + pt.lang + '"' : "") + ">" + esc(pt.title) + "</h3>" +
+        '<h3 class="part__title">' + esc(pt.title) + "</h3>" +
         '<p class="part__line">' + esc(pt.line) + "</p></div>" +
-        '<div class="part__body"><p>' + esc(pt.body) + (pt.ref ? ' <a href="#' + pt.ref + '" data-go="' + pt.ref + '">Open the MTG suite</a>.' : "") + "</p>" +
-        chipsHTML(pt.chips) + (pt.link ? "<p>" + linkHTML(pt.link) + "</p>" : "") + "</div>" +
+        '<div class="part__body"><p>' + esc(pt.body) + "</p>" + chipsHTML(pt.chips) + (pt.link ? "<p>" + linkHTML(pt.link) + "</p>" : "") + "</div>" +
         galleryHTML(pt.shots, p.id + "-" + i) +
       "</section>";
     }).join("") + "</div>";
@@ -1694,24 +2385,21 @@ html, body { background: var(--surface); }
     return '<div class="detail__bar">' +
         '<p class="meta">project ' + p.no + " of 0" + n + "</p>" +
         '<div class="detail__nav">' +
-          '<button type="button" class="detail__btn" data-go="' + prev.id + '" aria-label="Previous project: ' + esc(prev.title) + '"><span aria-hidden="true">←</span><span class="detail__btn-text">' + esc(prev.title) + "</span></button>" +
-          '<button type="button" class="detail__btn" data-go="' + next.id + '" aria-label="Next project: ' + esc(next.title) + '"><span class="detail__btn-text">' + esc(next.title) + '</span><span aria-hidden="true">→</span></button>' +
+          '<button type="button" class="detail__btn" data-go="' + prev.id + '" aria-label="Previous project: ' + esc(prev.short) + '"><span aria-hidden="true">←</span><span class="detail__btn-text">' + esc(prev.short) + "</span></button>" +
+          '<button type="button" class="detail__btn" data-go="' + next.id + '" aria-label="Next project: ' + esc(next.short) + '"><span class="detail__btn-text">' + esc(next.short) + '</span><span aria-hidden="true">→</span></button>' +
           '<button type="button" class="detail__btn detail__close" data-close aria-label="Close project"><span aria-hidden="true">✕</span><span class="detail__btn-text">Close</span></button>' +
         "</div>" +
       "</div>" +
+      '<p class="meta detail__kicker">' + p.no + " · " + esc(p.short.toLowerCase()) + "</p>" +
       '<h2 class="detail__title display" id="detail-title" tabindex="-1">' + esc(p.title) + "</h2>" +
       '<div class="case">' + caseHTML(p) + "</div>" +
       '<nav class="detail__next" aria-label="More projects">' +
-        '<button type="button" class="detail__card" data-go="' + prev.id + '" style="' + vars(prev) + '"><span class="meta">← previous</span><span class="detail__card-title">' + esc(prev.title) + "</span></button>" +
-        '<button type="button" class="detail__card detail__card--next" data-go="' + next.id + '" style="' + vars(next) + '"><span class="meta">next →</span><span class="detail__card-title">' + esc(next.title) + "</span></button>" +
+        '<button type="button" class="detail__card" data-go="' + prev.id + '" style="' + vars(prev) + '"><span class="meta">← previous</span><span class="detail__card-title">' + esc(prev.short) + "</span></button>" +
+        '<button type="button" class="detail__card detail__card--next" data-go="' + next.id + '" style="' + vars(next) + '"><span class="meta">next →</span><span class="detail__card-title">' + esc(next.short) + "</span></button>" +
       "</nav>";
   }
 
-  function render(featuredId) {
-    var f = byId(featuredId) || PROJECTS[0];
-    var rest = PROJECTS.filter(function (p) { return p !== f; });
-    return { featured: featuredHTML(f), grid: rest.map(function (p, i) { return itemHTML(p, i, rest.length); }).join(""), index: indexHTML(f) };
-  }
+  function render() { return { features: PROJECTS.map(featureHTML).join(""), also: alsoHTML() }; }
   function byId(id) { return PROJECTS.filter(function (p) { return p.id === id; })[0] || null; }
   function groupShots(group) {
     var parts = group.split("-"), p = byId(parts[0]);
@@ -1720,45 +2408,12 @@ html, body { background: var(--surface); }
     return p.shots || [];
   }
 
-  var api = { PROJECTS: PROJECTS, SHOTS: SHOTS, render: render, detailHTML: detailHTML, caseHTML: caseHTML, visualHTML: visualHTML, byId: byId, shot: shot };
+  var api = { PROJECTS: PROJECTS, ALSO: ALSO, SHOTS: SHOTS, render: render, detailHTML: detailHTML, caseHTML: caseHTML, featureHTML: featureHTML, byId: byId, shot: shot };
   if (typeof module !== "undefined" && module.exports) { module.exports = api; return; }
   root.BeeldProjects = api;
 
   /* ================================================================ behaviour */
-  var slot = document.getElementById("featured-slot");
-  var grid = document.getElementById("project-grid");
-  var index = document.getElementById("project-index");
-
-  function pickId() {
-    var wanted = null;
-    try { wanted = new URLSearchParams(location.search).get("featured"); } catch (e) {}
-    if (wanted && byId(wanted)) return wanted;
-    return PROJECTS[Math.floor(Math.random() * PROJECTS.length)].id;
-  }
-  if (slot && grid) {
-    var id = pickId();
-    if (slot.getAttribute("data-current") !== id) {
-      var out = render(id);
-      slot.innerHTML = out.featured; grid.innerHTML = out.grid;
-      if (index) index.innerHTML = out.index;
-      slot.setAttribute("data-current", id);
-    }
-    // two-way highlight: index lines and images
-    var hot = function (pid) {
-      Array.prototype.forEach.call(document.querySelectorAll("#projects [data-project]"), function (el) {
-        el.classList.toggle("is-hot", !!pid && el.getAttribute("data-project") === pid);
-      });
-      grid.classList.toggle("has-hot", !!pid && !!grid.querySelector('[data-project="' + pid + '"]'));
-    };
-    var from = function (e) { var el = e.target.closest && e.target.closest("[data-project]"); return el ? el.getAttribute("data-project") : null; };
-    [index, grid].forEach(function (zone) {
-      if (!zone) return;
-      zone.addEventListener("mouseover", function (e) { hot(from(e)); });
-      zone.addEventListener("mouseleave", function () { hot(null); });
-      zone.addEventListener("focusin", function (e) { hot(from(e)); });
-      zone.addEventListener("focusout", function () { hot(null); });
-    });
-  }
+  if (root.BeeldDiagrams) root.BeeldDiagrams.mount(document);
 
   /* ------------------------------------------------------------- detail view */
   var dlg = document.getElementById("detail");
@@ -1783,6 +2438,7 @@ html, body { background: var(--surface); }
     if (!p || !dlg) return;
     panel.innerHTML = detailHTML(p);
     panel.setAttribute("style", vars(p));
+    if (root.BeeldDiagrams) root.BeeldDiagrams.mount(panel);
     panel.scrollTop = 0;
     if (!openId) {
       dlg.hidden = false;
@@ -1967,6 +2623,32 @@ html, body { background: var(--surface); }
   window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(function () { ticking = false; track(); }); } }, { passive: true });
   window.addEventListener("resize", track);
   track();
+
+  /* Off the clock: hovering or focusing an interest lifts the matching print in the hero. */
+  Array.prototype.forEach.call(document.querySelectorAll("[data-lift]"), function (item) {
+    var print = document.querySelector('[data-print="' + item.getAttribute("data-lift") + '"]');
+    if (!print) return;
+    var on = function () { print.classList.add("is-lifted"); }, off = function () { print.classList.remove("is-lifted"); };
+    item.addEventListener("mouseenter", on); item.addEventListener("mouseleave", off);
+    item.addEventListener("focusin", on); item.addEventListener("focusout", off);
+  });
+
+  /* Reveal sections once as they scroll in (skipped with reduced motion). */
+  var reduceMotion = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!reduceMotion && "IntersectionObserver" in window) {
+    var sel = ".otc__item, .numbers__list > div, .skill, .hiw__item, .pf, .also__row";
+    var els = Array.prototype.slice.call(document.querySelectorAll(sel));
+    els.forEach(function (el) {
+      el.classList.add("reveal");
+      var sib = Array.prototype.indexOf.call(el.parentNode.children, el);
+      el.style.setProperty("--rd", Math.min(sib, 5) * 70 + "ms");
+    });
+    document.documentElement.classList.add("js-reveal");
+    var ro = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add("is-in"); ro.unobserve(en.target); } });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
+    els.forEach(function (el) { ro.observe(el); });
+  }
 })();
 
 </script>

@@ -73,4 +73,30 @@
   window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(function () { ticking = false; track(); }); } }, { passive: true });
   window.addEventListener("resize", track);
   track();
+
+  /* Off the clock: hovering or focusing an interest lifts the matching print in the hero. */
+  Array.prototype.forEach.call(document.querySelectorAll("[data-lift]"), function (item) {
+    var print = document.querySelector('[data-print="' + item.getAttribute("data-lift") + '"]');
+    if (!print) return;
+    var on = function () { print.classList.add("is-lifted"); }, off = function () { print.classList.remove("is-lifted"); };
+    item.addEventListener("mouseenter", on); item.addEventListener("mouseleave", off);
+    item.addEventListener("focusin", on); item.addEventListener("focusout", off);
+  });
+
+  /* Reveal sections once as they scroll in (skipped with reduced motion). */
+  var reduceMotion = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (!reduceMotion && "IntersectionObserver" in window) {
+    var sel = ".otc__item, .numbers__list > div, .skill, .hiw__item, .pf, .also__row";
+    var els = Array.prototype.slice.call(document.querySelectorAll(sel));
+    els.forEach(function (el) {
+      el.classList.add("reveal");
+      var sib = Array.prototype.indexOf.call(el.parentNode.children, el);
+      el.style.setProperty("--rd", Math.min(sib, 5) * 70 + "ms");
+    });
+    document.documentElement.classList.add("js-reveal");
+    var ro = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add("is-in"); ro.unobserve(en.target); } });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
+    els.forEach(function (el) { ro.observe(el); });
+  }
 })();

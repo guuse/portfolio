@@ -1,8 +1,6 @@
 /*
- * r2-beeld · projects (round 5): data from CONTENT-v5 §5, cards, featured rotation,
- * index ↔ image highlight, case-study detail view (#<id>) and the image lightbox.
- * One project is featured per page load (random, or ?featured=<id>); the other four fill
- * the grid in their normal order. Without JS the server-rendered Homelab state stays.
+ * r2-beeld · projects (round 6): three static project features, the "Also" list, the
+ * case-study detail view (#<id>) with animated diagrams, and the screenshot lightbox.
  */
 (function (root) {
   "use strict";
@@ -30,26 +28,111 @@
   };
   function shot(id) { var s = SHOTS[id]; return { id: id, src: "assets/shots/" + id + ".webp", w: s[0], h: s[1], alt: s[2], cap: s[3] }; }
 
+  /* ------------------------------------------------------------- the projects */
+  // Content: design/CONTENT-v6.md §6 and its addendum. Three static projects, in this order.
   var PROJECTS = [
     {
-      id: "homelab", no: "01", year: "2026", status: "Live",
-      title: "Homelab platform",
-      line: "A small, production-style Kubernetes platform on an old laptop under the TV.",
-      story: "An old laptop with the lid shut runs Proxmox, a single-node k3s cluster and everything I build. It’s managed the way I’d run a client platform: one git repo, Argo CD syncing every app, wildcard TLS, and no open ports. If the disk dies, I rebuild it from the repo in an afternoon.",
-      cover: { illo: "homelab" },
-      numbers: [["16 GB", "memory"], ["2", "virtual machines"], ["15", "Argo CD applications"], ["0", "open ports"]],
-      ram: [[10, "k3s"], [3, "Home Assistant"], [2, "host", "~"], [1, "spare", "~"]],
-      how: [
-        "Proxmox runs two VMs: Ubuntu with k3s for the apps, and Home Assistant OS (see the next project). The laptop battery doubles as a UPS.",
-        "Argo CD watches one repo with an app-of-apps root that manages itself. Each app is one Application file; adding a repo is adding a file.",
-        "GitHub Actions builds every app to an immutable commit-SHA image on GHCR. Argo CD Image Updater commits the new tag back to git, and Argo rolls it out.",
-        "cert-manager gets one wildcard Let’s Encrypt certificate via Cloudflare DNS-01; Traefik serves it for every app, so no app needs its own certificate.",
-        "Three ways in, all opt-in: the private tailnet by default, a Cloudflare Tunnel with Access for a few public hostnames, and Tailscale Funnel for a party-night URL."
+      id: "platform", no: "01", year: "2022–now", status: "Work",
+      title: "A cloud-agnostic Kubernetes hosting platform",
+      short: "Hosting platform",
+      line: "The platform our client projects run on: eight clusters, one way of working.",
+      story: "Every client used to get a slightly different setup. I designed one platform instead: the same building blocks on AWS or Azure, the same pipelines, the same monitoring. It now runs eight clusters, from small to large, in the Netherlands and abroad, including Japan. The biggest runs more than 1,500 pods. New apps get production and acceptance environments, TLS, logging and dashboards on day one, without anyone touching the cluster.",
+      feature: { dg: "delivery" },
+      lead: { dg: "map" },
+      numbers: [["8", "clusters"], ["1,500+", "pods on the largest"], ["~80", "Argo CD apps on the main cluster"], ["0", "static cloud keys in CI"]],
+      sections: [
+        { k: "foundation", title: "The foundation", lead: "Terraform modules for every building block, AWS first and Azure where the client lives.",
+          bullets: [
+            "<strong>EKS</strong> on a dual-stack (IPv4 and IPv6) network across three availability zones, with Aurora databases, Redis, OpenSearch, shared EFS storage and a bastion as ready-made modules.",
+            "Nodes scale with load through <strong>Karpenter</strong>, so the cluster grows and shrinks on its own.",
+            "Traffic: a Network Load Balancer with fixed IPs → ingress-nginx on every node (proxy protocol, HSTS) → the apps, with certificates by cert-manager.",
+            "<strong>Rancher</strong> to manage the whole fleet of clusters from one place."
+          ] },
+        { k: "delivery", title: "App delivery: GitOps with Argo CD", dg: "delivery", lead: "Nobody edits the cluster by hand. A commit becomes a running release through git alone.",
+          bullets: [
+            "A root app-of-apps manages everything; Argo CD projects act as guardrails per team or client.",
+            "Every app gets <strong>production</strong> and <strong>acceptance</strong>: production follows the newest stable release, acceptance the newest release candidate. Builds from main never deploy.",
+            "CI builds immutable version tags; Argo CD Image Updater commits the new tag back to git, and Argo CD syncs.",
+            "Onboarding a conventional repo is adding a GitHub topic: an ApplicationSet creates both environments."
+          ] },
+        { k: "infra", title: "Infrastructure delivery: Pulumi, policy first", dg: "infra", lead: "Infrastructure changes go through the same kind of pipeline as app code, with stricter gates.",
+          bullets: [
+            "Pulumi in Python, one independent state per concern, each with its own foundation.",
+            "<strong>Policy first:</strong> a mandatory CrossGuard policy pack means a resource that breaks a rule can’t even be previewed, let alone applied.",
+            "<strong>Tested:</strong> the logic lives in importable modules, and resource shapes are tested with Pulumi mocks.",
+            "<strong>The pipeline is the only writer to production.</strong> Apply re-plans against fresh state and refuses anything destructive the reviewers didn’t approve (a fail-closed drift gate).",
+            "<strong>No static keys:</strong> GitHub OIDC into short-lived cloud roles, on self-hosted runners in the cluster. The deploy role can never widen its own permissions.",
+            "Reusable GitHub Actions for preview, deploy and drift, shared by every infrastructure repo. A daily drift check reports to Slack."
+          ] },
+        { k: "logs", title: "Logging pipeline", dg: "logs", lead: "Every log line from every pod, searchable in Grafana, stored encrypted.",
+          bullets: [
+            "Alloy runs on every node; Loki and its caches run on a dedicated platform node pool.",
+            "Logs land in encrypted object storage. Retention (90 days) is owned by Loki’s compactor, never by bucket lifecycle rules, because those would corrupt queries.",
+            "Exactly one service account can reach the bucket, through workload identity."
+          ] },
+        { k: "edge", title: "Multi-region: Europe and Tokyo", dg: "edge", lead: "One platform, closer to users in Asia and Oceania.",
+          bullets: [
+            "A second cluster in Asia Pacific (Tokyo) runs next to the European one.",
+            "CloudFront routes by path and region and caches at the edge; dynamic requests go to the nearest cluster.",
+            "A small resource syncer we built (a Kubernetes CronJob) keeps chosen Deployments, ConfigMaps and Secrets in Tokyo in step with the main cluster, so there’s still one place to make changes."
+          ] },
+        { k: "reliability", title: "Reliability", lead: "Planned, not urgent.",
+          bullets: [
+            "<strong>Disaster recovery with Velero</strong> on AWS and Azure: cluster resources and volume snapshots, backed up and restorable.",
+            "A <strong>supported-services lifecycle</strong> with published end-of-support dates per version of databases, search and ingress, so upgrades are planned instead of urgent."
+          ] },
+        { k: "operate", title: "Operating it: a CLI that knows every environment", lead: "We built a small Python CLI so nobody needs a wiki page to get in.",
+          bullets: [
+            "SSO login with an admin or read-only role, per environment.",
+            "A bastion shell without opening ports, policy-enforced previews, and bootstrapping a new environment’s foundation.",
+            "It deliberately has no <code>apply</code>: only the pipeline changes production."
+          ],
+          cli: [["login", "SSO into an environment, admin or read-only"], ["shell", "a bastion session, no open ports"], ["preview", "a policy-enforced plan of a change"], ["bootstrap", "the foundation for a new environment"], ["apply", "not here: only the pipeline applies", true]] }
       ],
-      decisions: [
-        ["k3s in a VM, not LXC", "Kubernetes in a container needs privileged mode and breaks on upgrades."],
-        ["Home Assistant next to the cluster, not in it", "USB passthrough to a VM is one line."],
-        ["Snapshots, no off-site backups", "Everything is rebuildable from git, by choice."]
+      timeline: [
+        ["2022", "A first standardised hosting cluster on AWS EKS, built from Terraform modules and managed with Rancher."],
+        ["then", "Multi-region (Europe + Tokyo) behind CloudFront; disaster recovery with Velero on AWS and Azure; Terraform state in one place."],
+        ["then", "Deployments move to GitOps: GitHub Actions builds, Argo CD deploys, Image Updater promotes. Production and acceptance per app; onboarding by GitHub topic."],
+        ["now", "Infrastructure moves to Pulumi in Python with push-based GitOps: policy first, tests, saved plans, review and drift gates, OIDC, self-hosted runners. Plus the logging pipeline and the CLI."]
+      ],
+      also: "Also running on the platform: metrics and dashboards (Grafana), network observability, an LLM gateway in front of a GPU machine, and MCP servers so AI agents can read the cluster safely.",
+      chips: ["kubernetes", "argo-cd", "image-updater", "pulumi", "python", "crossguard", "terraform", "karpenter", "github-actions", "oidc", "loki", "alloy", "grafana", "velero", "rancher", "aws", "azure"],
+      note: "Work project: no client names, no code, no screenshots."
+    },
+    {
+      id: "homelab", no: "02", year: "2026", status: "Personal",
+      title: "A fully automated Kubernetes platform, for one apartment",
+      short: "Homelab & home automation",
+      line: "Complete overkill for a home. Great fun to maintain.",
+      story: "An old laptop under the TV, lid shut, runs the same kind of platform I build at work, just smaller. Proxmox hosts a k3s cluster and Home Assistant. Every app is built, tagged and rolled out from git without me touching anything. It has its own domain, real certificates, and no open ports. The battery doubles as a UPS.",
+      feature: { dg: "push" },
+      numbers: [["15", "Argo CD apps"], ["2", "virtual machines"], ["0", "open ports"], ["3", "ways in, all opt-in"]],
+      sections: [
+        { k: "push", title: "From git push to running", dg: "push", lead: "Push to main and walk away.",
+          bullets: [
+            "GitHub Actions builds every app into an image tagged with its commit SHA, on GHCR.",
+            "Argo CD Image Updater sees the new tag and writes it to git; Argo CD syncs and the pods roll over.",
+            "One repo holds an app-of-apps root that manages itself. Adding an app is adding one file."
+          ] },
+        { k: "ways", title: "Getting in", dg: "ways", lead: "Private by default, public only on purpose.",
+          bullets: [
+            "<strong>Tailnet</strong> (the default): my devices → Tailscale → Traefik → app. DNS for my own domain points at the tailnet, so names only resolve to something reachable on my devices.",
+            "<strong>Cloudflare Tunnel + Access:</strong> a few apps are public on a friendly hostname, behind a login, without opening a port.",
+            "<strong>Tailscale Funnel:</strong> a temporary public URL, for the quiz at a party.",
+            "TLS everywhere: one wildcard Let’s Encrypt certificate via Cloudflare DNS-01, served by Traefik for every app."
+          ] },
+        { k: "box", title: "Inside the box", dg: "box", lead: "16 GB of memory, carefully split.",
+          bullets: [
+            "Proxmox runs VM 1 (Ubuntu + k3s, 10 GB) and VM 2 (Home Assistant OS, 3 GB). The host keeps about 2 GB, and about 1 GB is spare.",
+            "Snapshots before every upgrade; everything else is rebuildable from git."
+          ] },
+        { k: "ha", title: "Home Assistant, the DevOps way", lead: "The lights get the same treatment as the apps.",
+          bullets: [
+            "In its own VM next to the cluster, not in it: USB passthrough of the Zigbee stick is one line.",
+            "TLS through an NGINX proxy, a plain-HTTP fallback on the home network for when things break, and a monthly automation that renews its certificate.",
+            "Moved from a Raspberry Pi with a full restore: the whole Zigbee mesh came across without re-pairing a single device.",
+            "Dashboards and automations live in git. A tablet on the wall shows it all."
+          ] }
       ],
       learned: [
         "Disk pressure at 30 GiB on a 500 GB SSD: the Ubuntu installer allocated only half the disk. One <code>lvextend</code>, zero downtime.",
@@ -57,42 +140,17 @@
         "MagicDNS without a global nameserver broke public DNS on every Linux node."
       ],
       snippet: true,
-      chips: ["proxmox", "k3s", "argo-cd", "image-updater", "cert-manager", "traefik", "tailscale", "cloudflare"],
-      privateRepo: true,
-      alt: "Illustration: git push goes to Argo CD, which deploys into k3s with fifteen apps on a laptop that also runs Home Assistant, reachable only over a private network with zero open ports."
+      chips: ["proxmox", "k3s", "argo-cd", "image-updater", "github-actions", "ghcr", "cert-manager", "traefik", "tailscale", "cloudflare", "home-assistant", "zigbee"],
+      note: "The repository is private."
     },
     {
-      id: "home", no: "02", year: "2026", status: "Live",
-      title: "Home automation",
-      line: "Home Assistant, a Zigbee mesh and a wall panel that knows when we’re home.",
-      story: "Home Assistant runs in its own VM next to the cluster, with the Zigbee stick passed straight through. A tablet on the wall is the control panel; lift it off and it’s a normal tablet again, put it back and it returns to the dashboard. The automations and dashboards are versioned in git like everything else.",
-      cover: { illo: "home" },
-      how: [
-        "Home Assistant OS in a VM, with a Zigbee coordinator over USB on an extension cable (USB3 noise and 2.4 GHz don’t mix).",
-        "Moved from a Raspberry Pi to the VM with a full backup restore: the whole Zigbee mesh came across without re-pairing a single device.",
-        "HTTPS through an NGINX proxy in front of Home Assistant, with a plain-HTTP fallback on the home network for when it’s having a bad day. A monthly automation renews the certificate.",
-        "The wall panel is a Galaxy Tab in a kiosk browser. Charging state tells it it’s docked; NFC tags tell the wall dock from the desk dock."
-      ],
-      automations: [
-        ["Someone is home", "Wall panel screen on"],
-        ["Nobody home", "Wall panel screen off"],
-        ["Tablet docked", "Dashboard to the foreground"],
-        ["Wall-dock NFC tag", "Control dashboard"],
-        ["Desk-dock NFC tag", "Ops dashboard"],
-        ["Time of day", "Panel brightness"],
-        ["Monthly", "Renew the certificate (restart the Let’s Encrypt and NGINX add-ons)"]
-      ],
-      photoSlot: "Photo of the wall panel: coming soon",
-      chips: ["home-assistant", "zigbee", "zha", "fully-kiosk", "nfc"],
-      privateRepo: true,
-      alt: "Illustration: a wall-mounted tablet showing three rooms with their lights and who is home, next to a Zigbee mesh of lamps and sensors, and two automations: someone home turns the screen on, docking brings the dashboard forward."
-    },
-    {
-      id: "mtg", no: "03", year: "2026", status: "Live",
+      id: "mtg", no: "03", year: "2026", status: "Personal",
       title: "MTG suite",
+      short: "MTG suite",
       line: "Four tools for Magic: The Gathering: play, build, search and brew.",
-      story: "Magic is my favourite hobby with friends, and it turned into a small suite of software. All of it runs on the homelab.",
-      cover: { shot: "r99-home", tall: "r99-home-mobile" },
+      story: "Magic is my favourite hobby with friends, and it turned into a small suite of software. All four run on the homelab above.",
+      feature: { shots: ["r99-home", "grimoire-library"] },
+      lead: { shots: ["r99-home", "grimoire-library"] },
       parts: [
         { title: "Rules of 99", line: "Commander in the browser, with full rules enforcement.",
           body: "An open-source rules engine (Forge) runs headless behind a WebSocket gateway; each player only receives what they’re allowed to see. Rooms with a 6-character code, 2–4 seats, reconnect-safe, replays, and a phone layout.",
@@ -104,246 +162,63 @@
           chips: ["node", "sqlite", "fts5", "mcp"] },
         { title: "Scryfall, in plain words", line: "Describe the cards you want; get a working Scryfall query.",
           body: "The Claude Agent SDK writes a query, tests it against Scryfall, and offers stricter and broader readings, each with a breakdown of what every part means. The screenshots are the real UI with live Scryfall data.",
-          shots: ["scryfall-result", "scryfall-mobile"],
-          chips: ["claude-agent-sdk", "node", "sse"] },
+          shots: ["scryfall-result", "scryfall-mobile"], chips: ["claude-agent-sdk", "node", "sse"] },
         { title: "claude-mtg-skills", line: "Claude Code skills that build, upgrade, rate and explain real decks.",
           body: "Seven skills grounded in proven decklists and live prices, installable as a Claude Code plugin marketplace. MIT licensed, with at least 95% test coverage.",
           shots: ["mtg-skills-banner"], chips: ["claude-code", "skills"], link: ["github.com/guuse/claude-mtg-skills", "https://github.com/guuse/claude-mtg-skills"], public: true }
       ],
-      chips: ["java", "react", "typescript", "node", "sqlite", "claude"]
-    },
-    {
-      id: "ai", no: "04", year: "2026", status: "Live",
-      title: "AI tooling",
-      line: "Agents and apps that take the boring parts of the job off my hands.",
-      story: "I use Claude every day, and when something is repetitive I’d rather build a tool than do it a fourth time. These are the ones I’ve published.",
-      cover: { illo: "ai" },
-      parts: [
-        { title: "Uren-assistent", lang: "nl", line: "From a day’s activity to booked hours in one click.",
-          body: "A Tauri 2 desktop app (React 19, TypeScript, Rust) that turns browser history, calendar and GitHub/Linear activity into time blocks, classifies them with an LLM, and books and submits them to Simplicate. At least 95% test coverage, MIT licensed.",
-          chips: ["tauri", "rust", "react", "typescript"], link: ["github.com/guuse/uren-assistent", "https://github.com/guuse/uren-assistent"], public: true },
-        { title: "ux-testing skill", line: "Autonomous, adversarial UX testing.",
-          body: "It maps a web app’s user flows, drives a real browser with Playwright, tries to break each flow, files a fix task per bug, dispatches an agent to fix it, and re-runs until it passes. Part of my Claude marketplace.",
-          chips: ["claude-code", "skills", "playwright"], link: ["github.com/guuse/claude-marketplace", "https://github.com/guuse/claude-marketplace"], public: true },
-        { title: "claude-mtg-skills", line: "Seven Claude Code skills for Magic decks.", body: "Part of the MTG suite.", ref: "mtg",
-          chips: [], link: ["github.com/guuse/claude-mtg-skills", "https://github.com/guuse/claude-mtg-skills"], public: true }
-      ],
-      chips: ["claude-code", "skills", "playwright", "tauri", "rust", "react"],
-      alt: "Illustration: a day of work turned into time blocks and booked as 7.5 hours, and a Playwright checklist where a failing checkout flow gets a fix task and then passes."
-    },
-    {
-      id: "scouts", no: "05", year: "2026", status: "Personal",
-      title: "Scouting agents",
-      line: "Two agents that watch Marktplaats, Vinted and Funda so I don’t have to.",
-      story: "Both run as scheduled Claude routines on my laptop: search, filter, let Claude judge each listing against a short brief, and email a digest only when something’s worth it. One hunts second-hand finds, the other helped us search for a first home.",
-      cover: { shot: "finds-overview", tall: "finds-mobile" },
-      numbers: [["281", "finds recorded"], ["2 h", "between runs"], ["2", "platforms, plus Funda"]],
-      how: [
-        "Search the platforms every two hours (08:00–23:00), skip what was seen, apply hard filters.",
-        "Claude judges each survivor against a short brief per category.",
-        "A short email digest, price-drop alerts, and a small web app to keep or hide finds."
-      ],
-      shots: ["finds-overview", "finds-mobile"],
-      shotsNote: "The house search stays private, so there are no screenshots of it.",
-      chips: ["python", "claude", "astro", "resend"],
-      privateRepo: true
+      chips: ["java", "react", "typescript", "node", "sqlite", "claude"],
+      note: "One part is public; the links are below."
     }
   ];
 
-  /* ------------------------------------------------------------ illustrations */
-  // Two drawings per illustration: a full one (480×360) and a compact one (320×300) with
-  // fewer, larger labels for narrow containers. CSS picks one with a container query.
+  var ALSO = [
+    { title: "Uren-assistent", lang: "nl", line: "A desktop app that turns a day’s activity into booked hours.", link: ["github", "https://github.com/guuse/uren-assistent"] },
+    { title: "ux-testing skill", line: "A Claude Code skill that tests a web app’s flows in a real browser and fixes what breaks.", link: ["github", "https://github.com/guuse/claude-marketplace"] },
+    { title: "Scouting agents", line: "Claude routines that watch Marktplaats, Vinted and Funda and email a digest.", priv: true }
+  ];
+
+  /* ---------------------------------------------------------------- helpers */
   function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
-  function T(x, y, s, cls, anchor, lang) { return '<text x="' + x + '" y="' + y + '" class="' + (cls || "s-t") + '"' + (anchor ? ' text-anchor="' + anchor + '"' : "") + (lang ? ' lang="' + lang + '"' : "") + ">" + s + "</text>"; }
-  function R(x, y, w, h, rx, cls) { return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="' + h + '" rx="' + rx + '" class="' + cls + '"/>'; }
-  function chip(x, y, w, s) { return R(x, y, w, 24, 5, "s-chip") + T(x + 8, y + 16.5, s, "s-m s-ink"); }
-
-  var ILLO = {
-    homelab: {
-      full: function () {
-        var apps = [["rules-of-99", 56, 150, 104], ["grimoire", 168, 150, 80], ["scryfall", 56, 180, 104], ["finds", 168, 180, 80], ["dashboard", 56, 210, 104], ["+10 more", 168, 210, 80]];
-        return '<path class="s-line" d="M128 37 H240 V100 H150 V116"/>' +
-          '<path class="s-pulse" pathLength="600" d="M128 37 H240 V100 H150 V116"/>' +
-          R(24, 20, 104, 34, 6, "s-box") + T(42, 42, "git push", "s-m s-ink") +
-          R(188, 20, 104, 34, 6, "s-box s-box--tone") + T(208, 42, "argo cd", "s-m s-ink") +
-          T(306, 42, "syncs every app", "s-m") +
-          R(24, 84, 432, 212, 12, "s-host") + T(440, 289, "proxmox · the laptop under the TV", "s-m", "end") +
-          R(40, 112, 220, 158, 8, "s-box") + T(56, 136, "k3s") + T(246, 136, "15 apps", "s-m", "end") +
-          apps.map(function (a) { return chip(a[1], a[2], a[3], a[0]); }).join("") +
-          R(276, 112, 164, 158, 8, "s-box") + T(292, 136, "Home Assistant") +
-          T(292, 160, "its own VM", "s-m") + T(292, 180, "zigbee over USB", "s-m") +
-          '<circle cx="358" cy="232" r="10" class="s-tone"/>' +
-          [[316, 214], [400, 212], [320, 254], [398, 254]].map(function (n) { return '<path class="s-line" d="M358 232 L' + n[0] + " " + n[1] + '"/><circle cx="' + n[0] + '" cy="' + n[1] + '" r="5" class="s-node"/>'; }).join("") +
-          R(24, 314, 124, 32, 6, "s-box") + T(40, 335, "me, anywhere", "s-m s-ink") +
-          '<path class="s-line s-dash" d="M148 330 H240 V296"/>' + T(160, 322, "tailscale", "s-m") +
-          T(456, 335, "0 open ports", "s-m s-ink", "end");
-      },
-      compact: function () {
-        return '<path class="s-line" d="M146 36 H174"/><path class="s-line" d="M239 56 V98"/>' +
-          '<path class="s-pulse" pathLength="600" d="M146 36 H239 V98"/>' +
-          R(16, 16, 130, 40, 8, "s-box") + T(81, 42, "git push", "s-c s-ink", "middle") +
-          R(174, 16, 130, 40, 8, "s-box s-box--tone") + T(239, 42, "argo cd", "s-c s-ink", "middle") +
-          R(16, 84, 288, 128, 12, "s-host") +
-          R(30, 98, 150, 100, 8, "s-box") + T(46, 128, "k3s", "s-t s-lg") + T(46, 154, "15 apps", "s-c") + T(46, 178, "from git", "s-c") +
-          R(192, 98, 98, 100, 8, "s-box") + T(206, 128, "Home", "s-t s-lg") + T(206, 152, "Assistant", "s-t s-lg") +
-          R(16, 242, 120, 42, 8, "s-box") + T(76, 268, "me", "s-c s-ink", "middle") +
-          '<path class="s-line s-dash" d="M136 263 H160 V212"/>' +
-          T(304, 268, "0 open ports", "s-c s-ink", "end");
-      }
-    },
-    home: {
-      full: function () {
-        var rooms = [["Woonkamer", "on · 60%", 1], ["Keuken", "off", 0], ["Slaapkamer", "on · 20%", 1]];
-        var nodes = [[354, 98, "lamp", -12], [458, 104, "sensor", -12], [352, 206, "door", 24], [460, 208, "plug", 24]];
-        return T(24, 28, "wall panel · kiosk browser", "s-m") +
-          R(20, 40, 312, 200, 16, "s-phone") + R(32, 52, 288, 176, 8, "s-box") +
-          T(54, 82, "Home", "s-t s-strong") + R(234, 64, 74, 26, 13, "s-verdict") + T(271, 81.5, "2 home", "s-m s-on", "middle") +
-          rooms.map(function (r, i) {
-            var x = 44 + i * 90;
-            return R(x, 100, 84, 112, 8, r[2] ? "s-tile s-tile--on" : "s-tile") +
-              T(x + 42, 124, r[0], "s-s s-xs", "middle", "nl") +
-              '<circle cx="' + (x + 22) + '" cy="160" r="11" class="' + (r[2] ? "s-tone" : "s-node") + '"/>' +
-              T(x + 10, 198, r[1], "s-m");
-          }).join("") +
-          T(346, 58, "zigbee mesh", "s-m") +
-          nodes.map(function (n) { return '<path class="s-line" d="M404 146 L' + n[0] + " " + n[1] + '"/>'; }).join("") +
-          '<path class="s-line s-faint" d="M354 98 L458 104 M352 206 L460 208"/>' +
-          '<circle cx="404" cy="146" r="13" class="s-tone"/>' + T(404, 176, "zha", "s-m s-ink", "middle") +
-          nodes.map(function (n) { return '<circle cx="' + n[0] + '" cy="' + n[1] + '" r="7" class="s-node"/>' + T(n[0], n[1] + n[3], n[2], "s-m", "middle"); }).join("") +
-          [["someone home", "screen on", 262], ["tablet docked", "dashboard to front", 304]].map(function (a) {
-            return R(24, a[2], 186, 32, 16, "s-chip") + T(117, a[2] + 21, a[0], "s-m s-ink", "middle") +
-              '<path class="s-line" d="M218 ' + (a[2] + 16) + " H250 M244 " + (a[2] + 10) + " L250 " + (a[2] + 16) + " L244 " + (a[2] + 22) + '"/>' +
-              R(258, a[2], 198, 32, 16, "s-box s-box--tone") + T(357, a[2] + 21, a[1], "s-m s-ink", "middle");
-          }).join("");
-      },
-      compact: function () {
-        var rooms = [["Woonkamer", 1], ["Keuken", 0], ["Slaapkamer", 1]];
-        return R(16, 12, 288, 178, 16, "s-phone") + R(28, 24, 264, 154, 8, "s-box") +
-          T(42, 54, "Home", "s-t s-lg") + R(196, 34, 84, 28, 14, "s-verdict") + T(238, 53, "2 home", "s-c s-on", "middle") +
-          rooms.map(function (r, i) {
-            var x = 40 + i * 84;
-            return R(x, 74, 76, 92, 8, r[1] ? "s-tile s-tile--on" : "s-tile") +
-              '<circle cx="' + (x + 20) + '" cy="104" r="11" class="' + (r[1] ? "s-tone" : "s-node") + '"/>' +
-              T(x + 38, 152, r[0], "s-s s-xs s-ink", "middle", "nl");
-          }).join("") +
-          R(16, 208, 288, 36, 18, "s-chip") + T(160, 231, "someone home → screen on", "s-c s-ink", "middle") +
-          R(16, 254, 288, 36, 18, "s-box s-box--tone") + T(160, 277, "docked → dashboard", "s-c s-ink", "middle");
-      }
-    },
-    ai: {
-      full: function () {
-        var blocks = [["standup", 24, 78, "s-tone-3"], ["PR review", 102, 108, "s-tone"], ["Linear issue", 210, 138, "s-tone-2"], ["call", 348, 54, "s-tone-3"], ["deploy", 402, 54, "s-tone"]];
-        var hours = ["09", "10", "11", "12", "13", "14", "15", "16", "17"];
-        return T(24, 30, "uren-assistent · one day", "s-m") +
-          blocks.map(function (b) { return R(b[1] + 2, 44, b[2] - 4, 46, 6, b[3]) + T(b[1] + b[2] / 2, 72, b[0], b[3] === "s-tone-3" ? "s-s s-ink" : "s-s s-on", "middle"); }).join("") +
-          '<line x1="24" y1="102" x2="456" y2="102" class="s-line"/>' +
-          hours.map(function (h, i) { return T(24 + i * 54, 122, h, "s-m", i === 0 ? null : i === 8 ? "end" : "middle"); }).join("") +
-          '<path class="s-line" d="M240 130 V148 M234 142 L240 148 L246 142"/>' +
-          R(24, 156, 432, 40, 8, "s-box") + T(40, 181, "7.5 h booked", "s-t") + T(150, 181, "classified, then submitted", "s-m") +
-          R(358, 164, 86, 24, 12, "s-verdict") + T(401, 180.5, "submitted", "s-m s-on", "middle") +
-          T(24, 228, "ux-testing · playwright", "s-m") +
-          [["sign-up flow", "passes", 0], ["checkout flow", "broke → fix task → passes", 1], ["settings flow", "passes", 0]].map(function (r, i) {
-            var y = 240 + i * 38;
-            return R(24, y, 432, 30, 6, r[2] ? "s-box s-box--tone" : "s-box") +
-              '<circle cx="42" cy="' + (y + 15) + '" r="6" class="' + (r[2] ? "s-warn" : "s-tone") + '"/>' +
-              T(58, y + 20, r[0], "s-s s-ink") + T(444, y + 20, r[1], "s-m", "end");
-          }).join("");
-      },
-      compact: function () {
-        return T(16, 26, "hours, booked", "s-c") +
-          R(16, 38, 84, 48, 6, "s-tone-3") + R(106, 38, 112, 48, 6, "s-tone") + R(224, 38, 80, 48, 6, "s-tone-2") +
-          T(24, 68, "standup", "s-c s-ink") + T(114, 68, "PR review", "s-c s-on") + T(232, 68, "issue", "s-c s-on") +
-          R(16, 98, 288, 44, 8, "s-box") + T(30, 126, "7.5 h", "s-t s-lg") + R(194, 108, 98, 26, 13, "s-verdict") + T(243, 126, "submitted", "s-c s-on", "middle") +
-          T(16, 176, "flows, tested", "s-c") +
-          [["sign-up", "passes", 0], ["checkout", "fixed", 1], ["settings", "passes", 0]].map(function (r, i) {
-            var y = 188 + i * 38;
-            return R(16, y, 288, 32, 6, r[2] ? "s-box s-box--tone" : "s-box") +
-              '<circle cx="34" cy="' + (y + 16) + '" r="6" class="' + (r[2] ? "s-warn" : "s-tone") + '"/>' +
-              T(50, y + 21, r[0], "s-c s-ink") + T(292, y + 21, r[1], "s-c", "end");
-          }).join("");
-      }
-    }
-  };
-
-  function illoHTML(p) {
-    var il = ILLO[p.cover.illo];
-    return '<div class="il__art" role="img" aria-label="' + esc(p.alt) + '">' +
-      '<svg class="il__svg il__svg--full" viewBox="0 0 480 360" preserveAspectRatio="xMidYMid meet" aria-hidden="true">' + il.full() + "</svg>" +
-      '<svg class="il__svg il__svg--compact" viewBox="0 0 320 300" preserveAspectRatio="xMidYMid meet" aria-hidden="true">' + il.compact() + "</svg></div>";
-  }
-
-  /* ---------------------------------------------------------------- templates */
-  var SLOT = ["3:2", "4:5", "1:1", "4:3"];
-  function slotRatio(i, n) {
-    if (i === n - 1 && (i % 4 === 0 || i % 4 === 2)) return "21:9";
-    return SLOT[i % 4];
-  }
+  var DG = function () { return root.BeeldDiagrams || (typeof require === "function" ? require("./diagrams.js") : null); };
+  function dgHTML(id, opts) { var d = DG(); return d ? d.html(id, opts) : ""; }
   function vars(p) { return "--p: var(--tone-" + p.id + "); --p-ink: var(--pink-" + p.id + ")"; }
   function chipsHTML(list, label) {
     if (!list || !list.length) return "";
     return '<ul class="chips" aria-label="' + (label || "Built with") + '">' + list.map(function (t) { return "<li>" + esc(t) + "</li>"; }).join("") + "</ul>";
   }
   function statusHTML(p) {
-    var k = p.status === "Live" ? "live" : p.status === "In progress" ? "wip" : "personal";
+    var k = p.status === "Work" ? "work" : p.status === "Live" ? "live" : "personal";
     return '<span class="state state--' + k + '"><span class="state__dot" aria-hidden="true"></span>' + esc(p.status) + "</span>";
   }
-  function imgHTML(s, eager) {
-    return '<img src="' + s.src + '" width="' + s.w + '" height="' + s.h + '" alt="' + esc(s.alt) + '" ' + (eager ? 'fetchpriority="high"' : 'loading="lazy"') + ' decoding="async">';
+  function imgHTML(s, lazy) {
+    return '<img src="' + s.src + '" width="' + s.w + '" height="' + s.h + '" alt="' + esc(s.alt) + '" ' + (lazy === false ? "" : 'loading="lazy" ') + 'decoding="async">';
   }
-  // A card visual: a real screenshot on a tonal stage, or the illustration. `shape` picks the tall shot where one exists.
-  function visualHTML(p, shape, eager) {
-    if (p.cover.illo) {
-      return '<div class="ph il" style="--tone: var(--tone-' + p.id + ')">' + illoHTML(p) +
-        '<span class="ph__label il__label" aria-hidden="true"><span class="ph__no">' + p.no + "</span>illustration</span></div>";
-    }
-    var tall = false; // round 5b: cards always use the desktop screenshot
-    var s = shot(tall ? p.cover.tall : p.cover.shot);
-    return '<div class="ph stage' + (tall ? " stage--tall" : "") + '" style="--tone: var(--tone-' + p.id + ')">' + imgHTML(s, eager) +
-      '<span class="ph__label il__label" aria-hidden="true"><span class="ph__no">' + p.no + "</span>screenshot</span></div>";
+  function stackHTML(ids) {
+    var a = shot(ids[0]), b = shot(ids[1]);
+    return '<div class="shotstack"><div class="shotstack__back">' + imgHTML(a) + '</div><div class="shotstack__front">' + imgHTML(b) + "</div></div>";
   }
-  function coverFile(p, shape) {
-    if (p.cover.illo) return p.id + "/illustration.svg";
-    return p.cover.shot + ".webp";
-  }
-  function metaHTML(p, ratio, shape) { return '<p class="meta">fig.' + p.no + " — " + coverFile(p, shape) + " · " + ratio + "</p>"; }
   function openAttrs(p) { return 'href="#' + p.id + '" data-open="' + p.id + '"'; }
 
-  function featuredHTML(p) {
-    return '<article class="page feature" id="p-' + p.id + '" data-project="' + p.id + '" style="' + vars(p) + '" aria-labelledby="feature-title">' +
-      '<a class="feature__media" ' + openAttrs(p) + ' tabindex="-1" aria-hidden="true">' + visualHTML(p, "wide") + "</a>" +
-      '<div class="feature__head">' +
-        '<div class="feature__kicker"><p class="eyebrow"><span class="feature__dot" aria-hidden="true"></span>Featured</p>' + metaHTML(p, "16:9") + "</div>" +
-        '<h3 class="feature__title display" id="feature-title"><a ' + openAttrs(p) + ">" + esc(p.title) + "</a></h3>" +
-        '<p class="feature__line">' + esc(p.line) + "</p>" +
-      "</div>" +
-      '<div class="feature__story">' +
-        '<p class="facts">' + statusHTML(p) + '<span class="meta">' + p.year + "</span>" + (p.parts ? '<span class="meta">' + p.parts.length + " parts</span>" : "") + "</p>" +
-        "<p>" + esc(p.story) + "</p>" +
-        chipsHTML(p.chips) +
-        '<p><a class="button button--ghost" ' + openAttrs(p) + '>Open the case study <span aria-hidden="true">→</span></a></p>' +
-      "</div>" +
-    "</article>";
+  /* ---------------------------------------------------------- homepage feature */
+  function featureHTML(p, i) {
+    var media = p.feature.dg ? dgHTML(p.feature.dg, { cls: "dg--feature" }) : stackHTML(p.feature.shots);
+    return '<article class="pf pf--' + (i % 2 ? "left" : "right") + '" id="' + p.id + '-feature" data-project="' + p.id + '" style="' + vars(p) + '" aria-labelledby="pf-' + p.id + '">' +
+      '<div class="pf__media">' + media + "</div>" +
+      '<div class="pf__body">' +
+        '<p class="pf__kicker"><span class="pf__no">' + p.no + '</span><span class="meta">' + esc(p.short.toLowerCase()) + "</span>" + statusHTML(p) + '<span class="meta">' + p.year + "</span></p>" +
+        '<h3 class="pf__title display" id="pf-' + p.id + '"><a ' + openAttrs(p) + ">" + esc(p.title) + "</a></h3>" +
+        '<p class="pf__line">' + esc(p.line) + "</p>" +
+        '<p class="pf__story">' + esc(p.story) + "</p>" +
+        (p.numbers ? '<dl class="pf__nums">' + p.numbers.slice(0, 3).map(function (n) { return "<div><dd>" + esc(n[0]) + "</dd><dt>" + esc(n[1]) + "</dt></div>"; }).join("") + "</dl>" : "") +
+        (p.parts ? '<ul class="pf__parts">' + p.parts.map(function (pt) { return "<li>" + esc(pt.title) + "</li>"; }).join("") + "</ul>" : "") +
+        '<p class="pf__cta"><a class="button button--ghost" ' + openAttrs(p) + '>Open the case study <span aria-hidden="true">→</span></a></p>' +
+      "</div></article>";
   }
-
-  function itemHTML(p, i, n) {
-    var ratio = "16:10", shape = "wide";
-    return '<li class="item" id="p-' + p.id + '" data-project="' + p.id + '" style="' + vars(p) + '">' +
-      '<a class="item__media" ' + openAttrs(p) + ' tabindex="-1" aria-hidden="true">' + visualHTML(p, shape) + "</a>" +
-      '<div class="item__caption">' +
-        metaHTML(p, ratio, shape) +
-        '<h3 class="item__title"><a ' + openAttrs(p) + ">" + esc(p.title) + "</a></h3>" +
-        '<p class="item__line">' + esc(p.line) + "</p>" +
-        '<div class="item__facts">' + statusHTML(p) + (p.parts ? '<span class="meta">' + p.parts.length + " parts</span>" : "") + "</div>" +
-      "</div>" +
-    "</li>";
-  }
-
-  function indexHTML(f) {
-    return PROJECTS.map(function (p) {
-      return '<li data-project="' + p.id + '" style="' + vars(p) + '"><a ' + openAttrs(p) + ">" +
-        '<span class="index__no">' + p.no + "</span>" +
-        '<span class="index__title">' + esc(p.title) + "</span>" +
-        '<span class="index__mark">' + (p === f ? "↑ featured" : esc(p.status.toLowerCase())) + "</span></a></li>";
+  function alsoHTML() {
+    return ALSO.map(function (a) {
+      return '<li class="also__row"><span class="also__title"' + (a.lang ? ' lang="' + a.lang + '"' : "") + ">" + esc(a.title) + '</span><span class="also__line">' + esc(a.line) + "</span>" +
+        (a.priv ? '<span class="also__link meta">private</span>' : '<a class="also__link arrow-link" href="' + a.link[1] + '" target="_blank" rel="noopener">' + a.link[0] + ' <span aria-hidden="true">↗</span><span class="visually-hidden"> (' + esc(a.title) + ")</span></a>") + "</li>";
     }).join("");
   }
 
@@ -352,57 +227,52 @@
     if (!ids || !ids.length) return "";
     return '<ul class="gallery" aria-label="Screenshots">' + ids.map(function (id, i) {
       var s = shot(id);
-      return '<li class="gallery__item' + (s.w < s.h ? " gallery__item--tall" : "") + '"><figure>' +
+      return '<li class="gallery__item"><figure>' +
         '<button type="button" class="gallery__open" data-lightbox="' + group + '" data-index="' + i + '" aria-label="Enlarge: ' + esc(s.cap) + '">' +
         imgHTML(s) + '<span class="gallery__zoom" aria-hidden="true">⤢</span></button>' +
-        '<figcaption><span class="meta">' + id + ".webp</span> " + esc(s.cap) + "</figcaption></figure></li>";
+        "<figcaption>" + esc(s.cap) + "</figcaption></figure></li>";
     }).join("") + "</ul>";
   }
-  function linkHTML(l) {
-    return '<a class="arrow-link" href="' + l[1] + '" target="_blank" rel="noopener">' + esc(l[0]) + ' <span aria-hidden="true">↗</span></a>';
-  }
-  function section(title, body, cls) { return '<section class="case__sec' + (cls ? " " + cls : "") + '"><h3 class="case__h">' + title + "</h3>" + body + "</section>"; }
+  function linkHTML(l) { return '<a class="arrow-link" href="' + l[1] + '" target="_blank" rel="noopener">' + esc(l[0]) + ' <span aria-hidden="true">↗</span></a>'; }
 
   function caseHTML(p) {
     var h = "";
-    // lead visual: the illustration, or the first screenshot set as a gallery
-    h += '<div class="case__visual">' + visualHTML(p, "wide") + "</div>";
+    if (p.lead) h += '<div class="case__visual">' + (p.lead.dg ? dgHTML(p.lead.dg) : stackHTML(p.lead.shots)) + "</div>";
     h += '<div class="case__intro">' +
       '<div class="case__story"><p class="case__line">' + esc(p.line) + "</p><p>" + esc(p.story) + "</p></div>" +
       '<dl class="detail__facts">' +
-        "<div><dt>status</dt><dd>" + statusHTML(p) + "</dd></div>" +
-        "<div><dt>year</dt><dd>" + p.year + "</dd></div>" +
+        "<div><dt>type</dt><dd>" + statusHTML(p) + "</dd></div>" +
+        "<div><dt>years</dt><dd>" + p.year + "</dd></div>" +
         (p.chips && p.chips.length ? "<div><dt>built with</dt><dd>" + chipsHTML(p.chips) + "</dd></div>" : "") +
-        "<div><dt>code</dt><dd>" + (p.privateRepo ? '<span class="meta">Repository is private</span>' : (p.parts ? '<span class="meta">Public parts are linked below</span>' : "")) + "</dd></div>" +
+        (p.note ? '<div><dt>code</dt><dd><span class="meta">' + esc(p.note) + "</span></dd></div>" : "") +
       "</dl></div>";
-
-    if (p.numbers) h += section("in numbers", '<dl class="stats tnum">' + p.numbers.map(function (n) { return "<div><dt>" + esc(n[1]) + "</dt><dd>" + esc(n[0]) + "</dd></div>"; }).join("") + "</dl>");
-    if (p.ram) {
-      var total = p.ram.reduce(function (a, r) { return a + r[0]; }, 0);
-      h += section("where the 16 GB goes",
-        '<div class="ram" aria-hidden="true">' + p.ram.map(function (r, i) { return '<span class="ram__seg ram__seg--' + i + '" style="flex: ' + r[0] + '"><b>' + (r[2] || "") + r[0] + " GB</b> " + esc(r[1]) + "</span>"; }).join("") + "</div>" +
-        '<ul class="visually-hidden">' + p.ram.map(function (r) { return "<li>" + (r[2] ? "about " : "") + r[0] + " GB of " + total + " for " + esc(r[1]) + "</li>"; }).join("") + "</ul>");
-    }
-    if (p.shots) h += section("screenshots", galleryHTML(p.shots, p.id) + (p.shotsNote ? '<p class="meta case__note">' + esc(p.shotsNote) + "</p>" : ""));
-    if (p.how) h += section("how it works", '<ol class="learned">' + p.how.map(function (x) { return "<li><p>" + esc(x) + "</p></li>"; }).join("") + "</ol>");
-    if (p.automations) h += section("automations that run every day",
-      '<ul class="autos">' + p.automations.map(function (a) { return '<li><span class="autos__when"><span class="meta">when</span> ' + esc(a[0]) + '</span><span class="autos__arrow" aria-hidden="true">→</span><span class="autos__then"><span class="meta">then</span> ' + esc(a[1]) + "</span></li>"; }).join("") + "</ul>" +
-      (p.photoSlot ? '<div class="ph case__photo" style="--tone: var(--tone-home); --ratio: 16 / 9" role="img" aria-label="' + esc(p.photoSlot) + '"><div class="ph__inner"></div><span class="ph__label" aria-hidden="true">' + esc(p.photoSlot) + "</span></div>" : ""));
-    if (p.decisions) h += section("decisions", '<dl class="decisions">' + p.decisions.map(function (d) { return "<div><dt>" + esc(d[0]) + "</dt><dd>" + esc(d[1]) + "</dd></div>"; }).join("") + "</dl>");
-    if (p.learned) h += section("learned the hard way", '<ul class="gotchas">' + p.learned.map(function (x) { return "<li>" + x + "</li>"; }).join("") + "</ul>");
-    if (p.snippet) h += section("one app, one file",
-      '<p class="case__note-lead">Every app on the platform is one small file like this. Argo CD keeps the cluster in line with it.</p>' +
+    if (p.numbers) h += '<dl class="stats tnum case__nums">' + p.numbers.map(function (n) { return "<div><dt>" + esc(n[1]) + "</dt><dd>" + esc(n[0]) + "</dd></div>"; }).join("") + "</dl>";
+    if (p.sections) h += p.sections.map(function (sec, i) {
+      return '<section class="cs' + (sec.dg ? " cs--dg" : "") + '" aria-labelledby="cs-' + p.id + "-" + sec.k + '">' +
+        '<div class="cs__text"><p class="cs__k"><span>' + String.fromCharCode(97 + i) + "</span>" + esc(sec.k) + "</p>" +
+        '<h3 class="cs__title" id="cs-' + p.id + "-" + sec.k + '">' + esc(sec.title) + "</h3>" +
+        '<p class="cs__lead">' + esc(sec.lead) + "</p>" +
+        '<ul class="cs__list">' + sec.bullets.map(function (b) { return "<li>" + b + "</li>"; }).join("") + "</ul></div>" +
+        (sec.dg ? '<div class="cs__visual">' + dgHTML(sec.dg) + "</div>" : "") +
+        (sec.cli ? '<figure class="snippet cs__cli"><figcaption><span class="meta"><b>platform CLI</b></span><span class="meta">commands, in plain words</span></figcaption><dl class="cli">' +
+          sec.cli.map(function (c) { return '<div class="' + (c[2] ? "cli--no" : "") + '"><dt><code>' + c[0] + "</code></dt><dd>" + esc(c[1]) + "</dd></div>"; }).join("") + "</dl></figure>" : "") +
+      "</section>";
+    }).join("");
+    if (p.timeline) h += '<section class="cs cs--timeline" aria-labelledby="cs-' + p.id + '-tl"><div class="cs__text"><p class="cs__k"><span>→</span>timeline</p><h3 class="cs__title" id="cs-' + p.id + '-tl">How it grew</h3></div>' +
+      '<ol class="timeline">' + p.timeline.map(function (t, i) { return '<li class="timeline__item' + (i === p.timeline.length - 1 ? " timeline__item--now" : "") + '"><span class="timeline__when">' + esc(t[0]) + "</span><p>" + esc(t[1]) + "</p></li>"; }).join("") + "</ol></section>";
+    if (p.also) h += '<p class="case__also">' + esc(p.also) + "</p>";
+    if (p.learned) h += '<section class="cs" aria-labelledby="cs-' + p.id + '-lh"><div class="cs__text"><p class="cs__k"><span>!</span>gotchas</p><h3 class="cs__title" id="cs-' + p.id + '-lh">Learned the hard way</h3></div><ul class="gotchas">' + p.learned.map(function (x) { return "<li>" + x + "</li>"; }).join("") + "</ul></section>";
+    if (p.snippet) h += '<section class="cs" aria-labelledby="cs-' + p.id + '-sn"><div class="cs__text"><p class="cs__k"><span>{}</span>config</p><h3 class="cs__title" id="cs-' + p.id + '-sn">One app, one file</h3><p class="cs__lead">Every app is one small file like this. Argo CD keeps the cluster in line with it.</p></div>' +
       '<figure class="snippet"><figcaption><span class="meta"><b>applications/rules-of-99.yaml</b></span><span class="meta">Argo CD</span></figcaption>' +
       '<pre tabindex="0" aria-label="Example Argo CD Application file"><code>' +
       '<span class="k">apiVersion:</span> <span class="v">argoproj.io/v1alpha1</span>\n<span class="k">kind:</span> <span class="v">Application</span>\n<span class="k">metadata:</span> { <span class="k">name:</span> <span class="v">rules-of-99</span> }\n<span class="k">spec:</span>\n  <span class="k">source:</span>\n    <span class="k">repoURL:</span> <span class="v">…/rules-of-99.git</span>\n    <span class="k">path:</span> <span class="v">deploy</span>\n  <span class="k">syncPolicy:</span>\n    <span class="c"># fix drift, remove what\'s gone</span>\n    <span class="k">automated:</span> { <span class="k">prune:</span> <span class="v">true</span>, <span class="k">selfHeal:</span> <span class="v">true</span> }' +
-      "</code></pre></figure>");
+      "</code></pre></figure></section>";
     if (p.parts) h += '<div class="parts">' + p.parts.map(function (pt, i) {
       return '<section class="part">' +
         '<div class="part__head"><p class="meta">' + p.no + "." + (i + 1) + (pt.public ? " · public" : "") + "</p>" +
-        '<h3 class="part__title"' + (pt.lang ? ' lang="' + pt.lang + '"' : "") + ">" + esc(pt.title) + "</h3>" +
+        '<h3 class="part__title">' + esc(pt.title) + "</h3>" +
         '<p class="part__line">' + esc(pt.line) + "</p></div>" +
-        '<div class="part__body"><p>' + esc(pt.body) + (pt.ref ? ' <a href="#' + pt.ref + '" data-go="' + pt.ref + '">Open the MTG suite</a>.' : "") + "</p>" +
-        chipsHTML(pt.chips) + (pt.link ? "<p>" + linkHTML(pt.link) + "</p>" : "") + "</div>" +
+        '<div class="part__body"><p>' + esc(pt.body) + "</p>" + chipsHTML(pt.chips) + (pt.link ? "<p>" + linkHTML(pt.link) + "</p>" : "") + "</div>" +
         galleryHTML(pt.shots, p.id + "-" + i) +
       "</section>";
     }).join("") + "</div>";
@@ -415,24 +285,21 @@
     return '<div class="detail__bar">' +
         '<p class="meta">project ' + p.no + " of 0" + n + "</p>" +
         '<div class="detail__nav">' +
-          '<button type="button" class="detail__btn" data-go="' + prev.id + '" aria-label="Previous project: ' + esc(prev.title) + '"><span aria-hidden="true">←</span><span class="detail__btn-text">' + esc(prev.title) + "</span></button>" +
-          '<button type="button" class="detail__btn" data-go="' + next.id + '" aria-label="Next project: ' + esc(next.title) + '"><span class="detail__btn-text">' + esc(next.title) + '</span><span aria-hidden="true">→</span></button>' +
+          '<button type="button" class="detail__btn" data-go="' + prev.id + '" aria-label="Previous project: ' + esc(prev.short) + '"><span aria-hidden="true">←</span><span class="detail__btn-text">' + esc(prev.short) + "</span></button>" +
+          '<button type="button" class="detail__btn" data-go="' + next.id + '" aria-label="Next project: ' + esc(next.short) + '"><span class="detail__btn-text">' + esc(next.short) + '</span><span aria-hidden="true">→</span></button>' +
           '<button type="button" class="detail__btn detail__close" data-close aria-label="Close project"><span aria-hidden="true">✕</span><span class="detail__btn-text">Close</span></button>' +
         "</div>" +
       "</div>" +
+      '<p class="meta detail__kicker">' + p.no + " · " + esc(p.short.toLowerCase()) + "</p>" +
       '<h2 class="detail__title display" id="detail-title" tabindex="-1">' + esc(p.title) + "</h2>" +
       '<div class="case">' + caseHTML(p) + "</div>" +
       '<nav class="detail__next" aria-label="More projects">' +
-        '<button type="button" class="detail__card" data-go="' + prev.id + '" style="' + vars(prev) + '"><span class="meta">← previous</span><span class="detail__card-title">' + esc(prev.title) + "</span></button>" +
-        '<button type="button" class="detail__card detail__card--next" data-go="' + next.id + '" style="' + vars(next) + '"><span class="meta">next →</span><span class="detail__card-title">' + esc(next.title) + "</span></button>" +
+        '<button type="button" class="detail__card" data-go="' + prev.id + '" style="' + vars(prev) + '"><span class="meta">← previous</span><span class="detail__card-title">' + esc(prev.short) + "</span></button>" +
+        '<button type="button" class="detail__card detail__card--next" data-go="' + next.id + '" style="' + vars(next) + '"><span class="meta">next →</span><span class="detail__card-title">' + esc(next.short) + "</span></button>" +
       "</nav>";
   }
 
-  function render(featuredId) {
-    var f = byId(featuredId) || PROJECTS[0];
-    var rest = PROJECTS.filter(function (p) { return p !== f; });
-    return { featured: featuredHTML(f), grid: rest.map(function (p, i) { return itemHTML(p, i, rest.length); }).join(""), index: indexHTML(f) };
-  }
+  function render() { return { features: PROJECTS.map(featureHTML).join(""), also: alsoHTML() }; }
   function byId(id) { return PROJECTS.filter(function (p) { return p.id === id; })[0] || null; }
   function groupShots(group) {
     var parts = group.split("-"), p = byId(parts[0]);
@@ -441,45 +308,12 @@
     return p.shots || [];
   }
 
-  var api = { PROJECTS: PROJECTS, SHOTS: SHOTS, render: render, detailHTML: detailHTML, caseHTML: caseHTML, visualHTML: visualHTML, byId: byId, shot: shot };
+  var api = { PROJECTS: PROJECTS, ALSO: ALSO, SHOTS: SHOTS, render: render, detailHTML: detailHTML, caseHTML: caseHTML, featureHTML: featureHTML, byId: byId, shot: shot };
   if (typeof module !== "undefined" && module.exports) { module.exports = api; return; }
   root.BeeldProjects = api;
 
   /* ================================================================ behaviour */
-  var slot = document.getElementById("featured-slot");
-  var grid = document.getElementById("project-grid");
-  var index = document.getElementById("project-index");
-
-  function pickId() {
-    var wanted = null;
-    try { wanted = new URLSearchParams(location.search).get("featured"); } catch (e) {}
-    if (wanted && byId(wanted)) return wanted;
-    return PROJECTS[Math.floor(Math.random() * PROJECTS.length)].id;
-  }
-  if (slot && grid) {
-    var id = pickId();
-    if (slot.getAttribute("data-current") !== id) {
-      var out = render(id);
-      slot.innerHTML = out.featured; grid.innerHTML = out.grid;
-      if (index) index.innerHTML = out.index;
-      slot.setAttribute("data-current", id);
-    }
-    // two-way highlight: index lines and images
-    var hot = function (pid) {
-      Array.prototype.forEach.call(document.querySelectorAll("#projects [data-project]"), function (el) {
-        el.classList.toggle("is-hot", !!pid && el.getAttribute("data-project") === pid);
-      });
-      grid.classList.toggle("has-hot", !!pid && !!grid.querySelector('[data-project="' + pid + '"]'));
-    };
-    var from = function (e) { var el = e.target.closest && e.target.closest("[data-project]"); return el ? el.getAttribute("data-project") : null; };
-    [index, grid].forEach(function (zone) {
-      if (!zone) return;
-      zone.addEventListener("mouseover", function (e) { hot(from(e)); });
-      zone.addEventListener("mouseleave", function () { hot(null); });
-      zone.addEventListener("focusin", function (e) { hot(from(e)); });
-      zone.addEventListener("focusout", function () { hot(null); });
-    });
-  }
+  if (root.BeeldDiagrams) root.BeeldDiagrams.mount(document);
 
   /* ------------------------------------------------------------- detail view */
   var dlg = document.getElementById("detail");
@@ -504,6 +338,7 @@
     if (!p || !dlg) return;
     panel.innerHTML = detailHTML(p);
     panel.setAttribute("style", vars(p));
+    if (root.BeeldDiagrams) root.BeeldDiagrams.mount(panel);
     panel.scrollTop = 0;
     if (!openId) {
       dlg.hidden = false;
