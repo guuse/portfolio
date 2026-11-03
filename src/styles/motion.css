@@ -56,3 +56,82 @@
     transform: none;
   }
 }
+
+/*
+ * Page to page: a cross-document view transition (CSS only, no router). Each project's
+ * drawing and title carry a shared name, so they morph from the homepage card to the
+ * projects-page card to the case-study hero; everything else cross-fades. Browsers without
+ * cross-document view transitions ignore all of it and simply navigate. The names are
+ * classes, not style attributes (the CSP allows none), so each project is listed here.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+
+  @layer utilities {
+    .vt-art--hosting-platform {
+      view-transition-name: art-hosting-platform;
+    }
+
+    .vt-art--homelab {
+      view-transition-name: art-homelab;
+    }
+
+    .vt-art--mtg-suite {
+      view-transition-name: art-mtg-suite;
+    }
+
+    .vt-title--hosting-platform {
+      view-transition-name: title-hosting-platform;
+    }
+
+    .vt-title--homelab {
+      view-transition-name: title-homelab;
+    }
+
+    .vt-title--mtg-suite {
+      view-transition-name: title-mtg-suite;
+    }
+
+    .vt-art--hosting-platform,
+    .vt-art--homelab,
+    .vt-art--mtg-suite {
+      view-transition-class: art;
+    }
+
+    .vt-title--hosting-platform,
+    .vt-title--homelab,
+    .vt-title--mtg-suite {
+      view-transition-class: title;
+    }
+
+    /* the header stays put while the page changes under it */
+    @media (width >= 600px) {
+      .site-header {
+        view-transition-name: site-header;
+      }
+    }
+
+    ::view-transition-group(*) {
+      animation-duration: var(--duration-page);
+      animation-timing-function: var(--ease-in-out);
+    }
+
+    ::view-transition-old(root) {
+      animation-duration: var(--duration-exit);
+    }
+
+    ::view-transition-new(root) {
+      animation-duration: var(--duration-base);
+      animation-delay: var(--duration-handoff);
+    }
+
+    /* the drawings are different shapes on each page: keep each one whole while it morphs */
+    ::view-transition-old(*.art),
+    ::view-transition-new(*.art) {
+      height: 100%;
+      object-fit: contain;
+    }
+  }
+}

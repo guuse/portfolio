@@ -3,15 +3,11 @@ import { Picture } from "astro:assets";
 import { list } from "~/lib/content";
 import Drawing from "~/components/art/Drawing.astro";
 import { card } from "~/lib/art";
-import { caseStudyHref } from "~/lib/projects";
+import { caseStudyHref, liveArt } from "~/lib/projects";
 import mtgCover from "~/assets/covers/mtg-card.webp";
 
 const projects = await list("projects");
-/** Platform and homelab get a live miniature; the MTG card is a collage of the app homes. */
-const art = {
-  "hosting-platform": { id: "cardscale", svg: card("platform") },
-  homelab: { id: "cardloop", svg: card("homelab") },
-} as const;
+/* Platform and homelab get their live miniature; the MTG card is a collage of the app homes. */
 ---
 
 <section class="wrap strip" id="projects" aria-labelledby="projects-title">
@@ -25,17 +21,17 @@ const art = {
   </div>
   <ul class="covers" role="list">
     {projects.map((data) => {
-      const live = data.id === "mtg-suite" ? null : art[data.id];
+      const live = data.id === "mtg-suite" ? null : liveArt[data.id];
       return (
         <li class="cover">
           <a class:list={["cover__link", !live && "cover__link--photo"]} href={caseStudyHref(data.id)}>
             {live ? (
-              <span class="cover__art" data-card={live.id}>
-                <Drawing svg={live.svg} />
+              <span class={`cover__art vt-art--${data.id}`} data-card={live.motion}>
+                <Drawing svg={card(live.card)} />
               </span>
             ) : (
               <Picture
-                class="cover__img"
+                class={`cover__img vt-art--${data.id}`}
                 src={mtgCover}
                 alt=""
                 widths={[400, 800, 1200]}
@@ -46,7 +42,7 @@ const art = {
             )}
             <span class="cover__text">
               <span class="cover__meta">{data.meta}</span>
-              <span class="cover__title">{data.title}</span>
+              <span class={`cover__title vt-title--${data.id}`}>{data.title}</span>
               <span class="cover__line">{data.card}</span>
             </span>
           </a>
@@ -107,6 +103,17 @@ const art = {
         border-color var(--duration-base) var(--ease-out);
     }
 
+    /* a card lifts a little and takes the accent edge; pressing it (touch too) gives way */
+    .cover__link:is(:hover, :focus-visible) {
+      transform: translate3d(0, -3px, 0);
+      border-color: var(--accent);
+    }
+
+    .cover__link:active {
+      transform: translate3d(0, -1px, 0) scale(0.985);
+      transition-duration: var(--duration-quick);
+    }
+
     .cover__link::after {
       content: "";
       position: absolute;
@@ -120,7 +127,6 @@ const art = {
 
     .cover__link:hover {
       color: var(--ink);
-      border-color: var(--line-strong);
     }
 
     .cover__link:focus-visible {
@@ -152,18 +158,23 @@ const art = {
       transition: transform 120ms linear;
     }
 
-    .cover__link--photo:hover :global(.cover__img) {
+    /*
+     * The collage shuffles while the card is hovered or focused. It moves the image with the
+     * `translate` property, which composites (object-position repainted every frame) and
+     * composes with the parallax `transform` that scroll-effects.ts sets.
+     */
+    .cover__link--photo:is(:hover, :focus-visible) :global(.cover__img) {
       animation: shuffle 1.6s var(--ease-in-out) infinite;
     }
 
     @keyframes shuffle {
       0%,
       100% {
-        object-position: 50% 20%;
+        translate: 0 0;
       }
 
       50% {
-        object-position: 46% 26%;
+        translate: 1% -1%;
       }
     }
 
@@ -200,8 +211,12 @@ const art = {
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .cover__link--photo:hover :global(.cover__img) {
+      .cover__link--photo:is(:hover, :focus-visible) :global(.cover__img) {
         animation: none;
+      }
+
+      .cover__link:is(:hover, :focus-visible, :active) {
+        transform: none;
       }
     }
   }

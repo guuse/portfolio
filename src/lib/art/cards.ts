@@ -1,13 +1,15 @@
 /**
- * The two live miniatures on the homepage project cards (the MTG card is a photo collage).
- * Both are decorative: the card's text says what the project is.
+ * The live miniatures of the projects: on the homepage and projects-page cards (platform and
+ * homelab; the MTG cards are a photo collage) and in the case-study heroes (all three).
+ * All decorative: the card's text says what the project is.
  */
 import { commit, laptop, nodeBody, packetAt, pod, podSlot, shadow, slab } from "./kit";
+import { table } from "./scenes/mtg";
 import { scale } from "./scenes/platform";
 import { CL } from "./scenes/homelab.layout";
 import { circle, g, path, rect, svg } from "./svg";
 
-export type CardId = "platform" | "homelab";
+export type CardId = "platform" | "homelab" | "mtg";
 
 const frame = (id: string, inner: string): string =>
   svg(id, "0 0 400 500", "", `<rect class="k-cardbg" width="400" height="500"/>${inner}`, {
@@ -53,7 +55,16 @@ function cardLoop(): string {
   return b;
 }
 
+/** MTG hero: the table scene, whole, as a decorative drawing (it plays on a clock there). */
+function cardTable(): string {
+  const inner = table()
+    .replace(/^<svg[^>]*>/, "")
+    .replace(/<\/svg>$/, "");
+  return svg("cardtable", "0 0 600 440", "", inner, { decorative: true, cls: "scene-svg--card" });
+}
+
 export function card(id: CardId): string {
+  if (id === "mtg") return cardTable();
   if (id === "platform") {
     // the scaling scene, smaller, without labels
     return frame(

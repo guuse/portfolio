@@ -9,7 +9,6 @@ import NextNav from "~/components/case/NextNav.astro";
 import Scenes from "~/components/case/Scenes.astro";
 import SceneStep from "~/components/case/SceneStep.astro";
 import Section from "~/components/ui/Section.astro";
-import cover from "~/assets/covers/platform-wide.webp";
 
 const hood = [
   {
@@ -52,7 +51,7 @@ const icons = hood.flatMap((h) => ("icon" in h ? [h.icon] : []));
   icons={icons}
 >
   <CaseHero
-    cover={cover}
+    project="hosting-platform"
     meta="Work at Harborn · 2022 to now · I designed and built it, and lead the team that runs it"
     title="Hosting platform"
     line="The AWS platform our client projects run on, and the same setup, adapted, on Azure where a client lives there."

@@ -1,36 +1,46 @@
 ---
 import { Picture } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
+import Drawing from "~/components/art/Drawing.astro";
 import TextLink from "~/components/ui/TextLink.astro";
-import { caseStudyHref } from "~/lib/projects";
-import platform from "~/assets/covers/platform-wide.webp";
-import homelab from "~/assets/covers/homelab-wide.webp";
+import { card } from "~/lib/art";
+import { caseStudyHref, liveArt } from "~/lib/projects";
 import mtg from "~/assets/covers/mtg-wide.webp";
 
-/** A project on the projects page: its cover, why it exists, four facts and the stack. */
+/**
+ * A project on the projects page: its cover, why it exists, four facts and the stack. The
+ * cover is the same live drawing as on the homepage card (the MTG one the same collage), so
+ * it plays here too, faster while the card is hovered or focused.
+ */
 interface Props {
   project: CollectionEntry<"projects">["data"];
 }
 const { project: p } = Astro.props;
-const covers = { "hosting-platform": platform, homelab, "mtg-suite": mtg };
+const live = p.id === "mtg-suite" ? null : liveArt[p.id];
 const href = caseStudyHref(p.id);
 ---
 
-<article class="pcard" aria-labelledby={`pc-${p.id}`}>
+<article class="pcard" aria-labelledby={`pc-${p.id}`} data-card-host>
   <!-- the cover repeats the title link, so it's hidden from assistive tech and the tab order -->
-  <a class="pcard__media" href={href} tabindex="-1" aria-hidden="true">
-    <Picture
-      src={covers[p.id]}
-      alt=""
-      formats={["avif", "webp"]}
-      fallbackFormat="webp"
-      widths={[700, 1400, 2000]}
-      sizes="(width < 960px) 100vw, 680px"
-    />
+  <a class={`pcard__media vt-art--${p.id}`} href={href} tabindex="-1" aria-hidden="true">
+    {live ? (
+      <span class="pcard__art" data-card={live.motion}>
+        <Drawing svg={card(live.card)} />
+      </span>
+    ) : (
+      <Picture
+        src={mtg}
+        alt=""
+        formats={["avif", "webp"]}
+        fallbackFormat="webp"
+        widths={[700, 1400, 2000]}
+        sizes="(width < 960px) 100vw, 680px"
+      />
+    )}
   </a>
   <div class="pcard__body">
     <p class="pcard__meta">{p.meta}</p>
-    <h2 class="pcard__title" id={`pc-${p.id}`}>
+    <h2 class={`pcard__title vt-title--${p.id}`} id={`pc-${p.id}`}>
       <a href={href}>{p.title}</a>
     </h2>
     <p class="pcard__line">{p.line}</p>
@@ -64,19 +74,53 @@ const href = caseStudyHref(p.id);
 
     .pcard__media {
       display: block;
+      aspect-ratio: 16 / 10;
       overflow: hidden;
       border: 1px solid var(--line);
       border-radius: var(--radius-s);
+      background: var(--surface-card);
+      transition:
+        transform var(--duration-base) var(--ease-out),
+        border-color var(--duration-base) var(--ease-out);
+    }
+
+    /* the cover lifts and takes the accent edge while its card is hovered or focused */
+    .pcard:is(:hover, :focus-within) .pcard__media {
+      transform: translate3d(0, -3px, 0);
+      border-color: var(--accent);
+    }
+
+    .pcard__media:active {
+      transform: translate3d(0, -1px, 0) scale(0.985);
+      transition-duration: var(--duration-quick);
     }
 
     .pcard__media :global(img) {
       width: 100%;
-      height: auto;
+      height: 100%;
+      object-fit: cover;
       transition: transform var(--duration-slow) var(--ease-out);
     }
 
-    .pcard:hover .pcard__media :global(img) {
+    .pcard:is(:hover, :focus-within) .pcard__media :global(img) {
       transform: scale(1.02);
+    }
+
+    /*
+     * The drawing is a 4:5 card that keeps its bottom fifth for the homepage card's text; here
+     * it stands in the middle, a little taller than the cover, so the drawing itself is centred.
+     */
+    .pcard__art {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+
+    .pcard__art :global(.scene-svg) {
+      flex: none;
+      width: auto;
+      height: 118%;
     }
 
     .pcard__body {
@@ -91,6 +135,8 @@ const href = caseStudyHref(p.id);
     }
 
     .pcard__title {
+      /* hugs its text, so the view transition carries the words and not the empty line */
+      width: fit-content;
       font-family: var(--font-heading);
       font-size: var(--text-h2);
       line-height: 1;
@@ -118,6 +164,13 @@ const href = caseStudyHref(p.id);
 
     .pcard__facts li::marker {
       color: var(--ink-subtle);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .pcard:is(:hover, :focus-within) .pcard__media,
+      .pcard__media:active {
+        transform: none;
+      }
     }
 
     .pcard__stack {

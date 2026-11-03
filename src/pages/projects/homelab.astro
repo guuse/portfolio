@@ -12,7 +12,6 @@ import SceneStep from "~/components/case/SceneStep.astro";
 import Snippet from "~/components/case/Snippet.astro";
 import Section from "~/components/ui/Section.astro";
 import { apps, ways } from "~/lib/art";
-import cover from "~/assets/covers/homelab-wide.webp";
 import appSnippet from "~/content/snippets/argocd-application.html?raw";
 
 const icons = ["si-argo", "si-tailscale", "si-cloudflare", "si-traefikproxy", "si-letsencrypt"] as const;
@@ -25,7 +24,7 @@ const icons = ["si-argo", "si-tailscale", "si-cloudflare", "si-traefikproxy", "s
   icons={icons}
 >
   <CaseHero
-    cover={cover}
+    project="homelab"
     meta="Personal · 2026"
     title="Homelab"
     line="The patterns I use at work, on one old laptop under the TV."
