@@ -1,0 +1,33 @@
+# Default deny, both directions. In: only the ingress controller, and the
+# tunnel connector in case a hostname is ever pointed straight at the Service.
+# Out: nothing. nginx serves files from its own image and never dials anywhere,
+# not even DNS. (Kubelet probes come from the node and are not subject to this.)
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: portfolio
+  labels:
+    app.kubernetes.io/name: portfolio
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: portfolio
+  policyTypes: [Ingress, Egress]
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: traefik
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: cloudflared
+          podSelector:
+            matchLabels:
+              app: cloudflared
+      ports:
+        - port: http
+          protocol: TCP
+  egress: []
