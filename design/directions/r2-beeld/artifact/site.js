@@ -70,6 +70,95 @@
     item.addEventListener("focus", on); item.addEventListener("blur", off);
   });
 
+  /* ---------------------------------------------------------------- round 15: motion */
+  var RM = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+  var hasIO = "IntersectionObserver" in window;
+
+  /* Scrollytelling: each step sets a state on the sticky figure (classes s1..sN). */
+  function setState(el, n) {
+    var max = +el.getAttribute("data-steps") || 7, prev = el.__state || 0;
+    for (var i = 1; i <= max; i++) el.classList.toggle("s" + i, i <= n);
+    for (var j = 1; j <= max; j++) el.classList.toggle("at" + j, j === n);
+    Array.prototype.forEach.call(el.querySelectorAll(".e"), function (e) {
+      var k = +e.getAttribute("data-show");
+      e.classList.toggle("is-cur", k > (n > prev ? prev : n - 1) && k <= n);
+    });
+    el.classList.add("is-live");
+    el.__state = n;
+  }
+  if (!RM && hasIO) {
+    Array.prototype.forEach.call(document.querySelectorAll(".scrolly"), function (sc) {
+      var fig = sc.querySelector(".scrolly__fig .story, .scrolly__fig .mstack");
+      var steps = Array.prototype.slice.call(sc.querySelectorAll(".scrolly__step"));
+      if (!fig || !steps.length) return;
+      document.documentElement.classList.add("js-scrolly");
+      // mobile: a copy of the figure above each step, frozen at that step's state
+      steps.forEach(function (st) {
+        var mini = st.querySelector(".scrolly__mini");
+        if (!mini) return;
+        var c = fig.cloneNode(true);
+        c.removeAttribute("role"); c.setAttribute("aria-hidden", "true");
+        var vb = st.getAttribute("data-vb");
+        if (vb && c.tagName.toLowerCase() === "svg") {
+          c.setAttribute("viewBox", vb);
+          c.style.width = Math.max(340, Math.round(+vb.split(" ")[2] * 0.78)) + "px";
+        }
+        mini.appendChild(c);
+        setState(c, +st.getAttribute("data-state"));
+        c.classList.remove("is-live");
+      });
+      setState(fig, +steps[0].getAttribute("data-state"));
+      var io = new IntersectionObserver(function (en) {
+        en.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          steps.forEach(function (s) { s.classList.toggle("is-active", s === e.target); });
+          setState(fig, +e.target.getAttribute("data-state"));
+        });
+      }, { rootMargin: "-45% 0px -45% 0px" });
+      steps.forEach(function (s) { io.observe(s); });
+    });
+  }
+
+  /* Reveal once: sections, cards, list items; and sets that animate their children. */
+  if (!RM && hasIO) {
+    var rsel = ".sec, .cover, .phase, .like, .pcard, .also__row, .reveal-set, .pipe";
+    var rels = Array.prototype.slice.call(document.querySelectorAll(rsel));
+    rels.forEach(function (el) {
+      el.classList.add("reveal");
+      var i = Array.prototype.indexOf.call(el.parentNode.children, el);
+      el.style.setProperty("--rd", Math.min(i, 5) * 70 + "ms");
+    });
+    document.documentElement.classList.add("js-reveal");
+    var rio = new IntersectionObserver(function (en) {
+      en.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("is-in"); rio.unobserve(e.target); } });
+    }, { rootMargin: "0px 0px -10% 0px", threshold: 0.08 });
+    rels.forEach(function (el) { rio.observe(el); });
+  }
+
+  /* Scroll-linked: cover parallax and the Experience line drawing itself. */
+  if (!RM) {
+    var covers = Array.prototype.slice.call(document.querySelectorAll(".cover__img"));
+    var phases = document.querySelector(".phases");
+    var tick = false;
+    var onScroll = function () {
+      var vh = window.innerHeight;
+      covers.forEach(function (img) {
+        var r = img.parentNode.getBoundingClientRect();
+        if (r.bottom < 0 || r.top > vh) return;
+        var p = (r.top + r.height / 2) / vh - 0.5;
+        img.style.transform = "translate3d(0," + (p * -22).toFixed(1) + "px,0) scale(1.06)";
+      });
+      if (phases) {
+        var b = phases.getBoundingClientRect();
+        var pr = Math.max(0, Math.min(1, (vh * 0.7 - b.top) / b.height));
+        phases.style.setProperty("--p", pr.toFixed(3));
+      }
+    };
+    window.addEventListener("scroll", function () { if (!tick) { tick = true; requestAnimationFrame(function () { tick = false; onScroll(); }); } }, { passive: true });
+    onScroll();
+    document.documentElement.classList.add("js-motion");
+  }
+
   /* Lightbox: any button[data-lb] inside a [data-lb-group] list. */
   var lb = document.getElementById("lightbox");
   if (!lb) return;

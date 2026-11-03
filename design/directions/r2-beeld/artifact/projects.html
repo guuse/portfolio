@@ -30,7 +30,7 @@
 <main id="main" class="wrap">
   <header class="plist-head">
     <h1 class="plist-title">Projects</h1>
-    <p class="plist-line">One platform from work and two things I built at home. Each case study covers how it works, the trade-offs and what went wrong.</p>
+    <p class="plist-line">One platform I built at work and have been growing since 2022, and two things I built at home because I wanted them to exist. Each case study says why I made it, how it works, and what broke along the way.</p>
   </header>
   <div class="pcards">
     <article class="pcard" aria-labelledby="pc-platform">
@@ -38,9 +38,9 @@
       <div class="pcard__body">
         <p class="pcard__meta">Work · 2022 to now</p>
         <h2 class="pcard__title" id="pc-platform"><a href="platform.html">Hosting platform</a></h2>
-        <p class="pcard__line">The Kubernetes platform our client projects run on: AWS first, the same setup on Azure.</p>
-        <ul class="pcard__facts"><li>8 Kubernetes clusters, the largest above 1,500 pods</li><li>Deploys through git with Argo CD: acceptance, then production</li><li>Infrastructure changes only through a gated Pulumi pipeline</li><li>Logs from every pod in Loki, encrypted at rest</li></ul>
-        <p class="pcard__stack">Kubernetes, Argo CD, Pulumi, Terraform, GitHub Actions, Loki, AWS, Azure</p>
+        <p class="pcard__line">The AWS platform our client projects run on, with the same setup, adapted, on Azure where a client lives there.</p><p class="pcard__why">Every client project used to get its own hand-built setup, so every upgrade and every incident was a one-off. I started one standard platform that every client runs on, built from the same modules, on AWS or Azure. It&rsquo;s the multi-year project I&rsquo;ve learned the most from.</p>
+        <ul class="pcard__facts"><li>EKS on a dual-stack VPC across three availability zones</li><li>A second region in Tokyo, with CloudFront routing by path</li><li>8 Kubernetes clusters, the largest above 1,500 pods</li><li>Delivered as code: Pulumi for infrastructure, Argo CD for apps</li></ul>
+        <p class="pcard__stack">AWS (EKS, Aurora, Redis, OpenSearch, CloudFront), Azure (AKS), Karpenter, cert-manager, Velero, Pulumi, Terraform, Argo CD</p>
         <a class="btn-gold btn-gold--sm" href="platform.html">Read the case study<span class="visually-hidden">: Hosting platform</span> <span aria-hidden="true">&rarr;</span></a>
       </div>
     </article>
@@ -49,9 +49,9 @@
       <div class="pcard__body">
         <p class="pcard__meta">Personal · 2026</p>
         <h2 class="pcard__title" id="pc-homelab"><a href="homelab.html">Homelab</a></h2>
-        <p class="pcard__line">The patterns I use at work, on one old laptop at home.</p>
-        <ul class="pcard__facts"><li>15 apps, each deployed from git by Argo CD</li><li>Home Assistant in its own VM, with the Zigbee stick passed through</li><li>Private by default over Tailscale; nothing is open to the internet</li><li>One wildcard certificate for every app</li></ul>
-        <p class="pcard__stack">Proxmox, k3s, Argo CD, GitHub Actions, Traefik, Tailscale, Cloudflare, Home Assistant</p>
+        <p class="pcard__line">The patterns I use at work, on one old laptop at home.</p><p class="pcard__why">I like tinkering, and I wanted somewhere to try things before I suggest them at work. So an old laptop runs the same git-driven delivery we use for clients: I push, and a few minutes later the new version is running. It also hosts my side projects, including the MTG tools.</p>
+        <ul class="pcard__facts"><li>From git push to running with no manual step, through Argo CD Image Updater</li><li>15 apps, all managed from one repo</li><li>Private over Tailscale by default; public only per app, on purpose</li><li>Proxmox on 16 GB, with Home Assistant in its own VM</li></ul>
+        <p class="pcard__stack">Proxmox, k3s, Argo CD, GitHub Actions, GHCR, Traefik, cert-manager, Tailscale, Cloudflare, Home Assistant</p>
         <a class="btn-gold btn-gold--sm" href="homelab.html">Read the case study<span class="visually-hidden">: Homelab</span> <span aria-hidden="true">&rarr;</span></a>
       </div>
     </article>
@@ -60,9 +60,9 @@
       <div class="pcard__body">
         <p class="pcard__meta">Personal · 2026</p>
         <h2 class="pcard__title" id="pc-mtg"><a href="mtg.html">MTG suite</a></h2>
-        <p class="pcard__line">Four tools for Magic: The Gathering, all running on the homelab.</p>
-        <ul class="pcard__facts"><li>Rules of 99: Commander in the browser for up to four players</li><li>Tutor: a deck library and builder that Claude can search</li><li>Scryfall, in plain words: card search without the syntax</li><li>claude-mtg-skills: open-source Claude Code skills for decks</li></ul>
-        <p class="pcard__stack">Java, React, TypeScript, Node, SQLite, the Claude Agent SDK</p>
+        <p class="pcard__line">Four tools my friends and I use to learn and play Magic: The Gathering.</p><p class="pcard__why">Commander is the format we play most, and we wanted a better way to learn the game and play it together, also when we can&rsquo;t meet up. Each tool fixes one thing that got in our way, from finding the right card to playing a game across four houses. I like building stuff like that, and they all run on my homelab.</p>
+        <ul class="pcard__facts"><li>Rules of 99: Commander in the browser for up to four players</li><li>Tutor: a deck library and builder that Claude can search</li><li>Scryfall, in plain words: card search without the syntax</li><li>claude-mtg-skills: open-source Claude Code skills for building decks</li></ul>
+        <p class="pcard__stack">Java, React, TypeScript, Node, SQLite, MCP, the Claude Agent SDK</p>
         <a class="btn-gold btn-gold--sm" href="mtg.html">Read the case study<span class="visually-hidden">: MTG suite</span> <span aria-hidden="true">&rarr;</span></a>
       </div>
     </article>
@@ -72,9 +72,9 @@
     <div class="sec__body">
       <div class="also" style="margin-top:0">
                 <ul class="also__list">
-          <li class="also__row"><span class="also__title" lang="nl">Uren-assistent</span><span class="also__line">A desktop app that turns a day&rsquo;s activity into booked hours.</span><a class="also__link" href="https://github.com/guuse/uren-assistent" target="_blank" rel="noopener">GitHub<span class="visually-hidden">: Uren-assistent</span></a></li>
-          <li class="also__row"><span class="also__title">ux-testing skill</span><span class="also__line">A Claude Code skill that tests a web app&rsquo;s flows in a real browser and fixes what breaks.</span><a class="also__link" href="https://github.com/guuse/claude-marketplace" target="_blank" rel="noopener">GitHub<span class="visually-hidden">: ux-testing skill</span></a></li>
-          <li class="also__row"><span class="also__title">Scouting agents</span><span class="also__line">Claude routines that watch Marktplaats, Vinted and Funda and email me a digest.</span><span class="also__private">Private repository</span></li>
+          <li class="also__row"><span class="also__title" lang="nl">Uren-assistent</span><span class="also__line">A desktop app that reads my calendar, browser and GitHub activity and turns the day into hours I can book in our time-tracking system with one click.</span><a class="also__link" href="https://github.com/guuse/uren-assistent" target="_blank" rel="noopener">GitHub<span class="visually-hidden">: Uren-assistent</span></a></li>
+          <li class="also__row"><span class="also__title">ux-testing skill</span><span class="also__line">A Claude Code skill that clicks through every flow of a web app in a real browser, tries to break it, then fixes what it finds and tests it again.</span><a class="also__link" href="https://github.com/guuse/claude-marketplace" target="_blank" rel="noopener">GitHub<span class="visually-hidden">: ux-testing skill</span></a></li>
+          <li class="also__row"><span class="also__title">Scouting agents</span><span class="also__line">Claude routines that watch Marktplaats, Vinted and Funda for things I&rsquo;m after and mail me what&rsquo;s worth a look.</span><span class="also__private">Private repository</span></li>
         </ul>
       </div>
 
