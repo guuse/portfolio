@@ -49,7 +49,8 @@
   .sw { display: inline-block; width: 1.1em; height: 1.1em; vertical-align: -.2em; margin-inline-end: .5em; border: 1px solid var(--line-strong); }
   .semtable__p { font-family: var(--font-mono); font-size: .9em; }
   .semtable__hex { font-family: var(--font-mono); font-size: .8em; color: var(--ink-muted); }
-  .ctables { display: grid; gap: var(--space-xl); }
+  .ctables { display: grid; gap: var(--space-xl); grid-template-columns: minmax(0, 1fr); }
+  .ctable, .comp, .stage { min-width: 0; }
   .ctable__title { font-family: var(--font-display); font-weight: 900; font-stretch: 125%; text-transform: uppercase; font-size: var(--step-2); }
   .ctable__note { color: var(--ink-muted); margin-block-end: var(--space-xs); }
   .ctable { border-inline-start: var(--rule-heavy) solid transparent; padding-inline-start: var(--space-s); }
