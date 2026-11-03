@@ -436,3 +436,25 @@ interests), Projects, Experience, What I've learned, Skills and certifications, 
   added to `platform.html`.
 - **Skills:** reordered by strength, plus "Currently exploring" and "Knowledge sharing".
 - **Contact:** "Want to talk platforms, homelabs or games? Mail me."
+
+## Round 15: real icons, scrollytelling, a site that moves
+- **Icons:** official AWS Architecture Icons (`aws-icons@3.3.0`) in `assets/icons/aws/` and
+  `simple-icons@13.21.0` brand marks in `assets/icons/brand/` (licences included). The build
+  inlines them as an SVG sprite on each case page.
+- **`stories.js`:** the diagrams, drawn on a grid with the AWS group frames (Cloud, Region, VPC,
+  AZ, public and private subnets).
+  - The platform diagram has 7 states: VPC and zones, EKS and nodes, data services, traffic and
+    Karpenter scaling, Tokyo, CloudFront and S3, the IPv6-only flip (NAT becomes NAT64), and
+    Azure (AKS).
+  - The homelab diagram follows one change from git push to a running pod, ending with the
+    spinning loop that `paths-ignore` cuts.
+  - Plus a two-lane delivery pipeline (secondary), the app-of-apps tiles, the ways in, and the
+    MTG screen stack.
+- **`site.js`:**
+  - scrolly steps set the state on the sticky figure (desktop); on mobile each step gets a
+    frozen, cropped copy;
+  - reveal-once for sections and list items;
+  - rAF-throttled cover parallax and the Experience line drawing itself;
+  - hover micro-animations on the cards; the hero prints settle in on load.
+- Reduced motion and no-JS both show the final states. Copy comes from `copy-r15-projects.md`
+  with Guus's corrections.
