@@ -319,3 +319,46 @@ detail-*-N, mobile-detail-*, lightbox, reduced-motion, lift, system).
 9. The footer status line has `title="Illustrative for now: filled in at build time"`.
 10. Re-checked with the hostile reset at 1440, 390 and 320px: no errors, no horizontal scroll,
     no label overflow. Previews: `design/previews/r7-beeld--*.png`.
+
+## Round 8: a calm CV and separate project pages
+Source: `design/CONTENT-v7.md` (synthesis of four reviews). §E (anti-"AI vibe") is treated as hard rules.
+
+- **Pages:**
+  - `index.html` is the CV (≈430 words): intro with a straight portrait and contact row,
+    Experience as phases at one employer, Skills as a typeset list, Selected work (3 rows with
+    static thumbnails) plus Also, About with two photos and languages, Contact.
+  - `platform.html`, `homelab.html` and `mtg.html` are the case studies. Each follows: context,
+    an overview visual, deep dives with their diagram alongside, results, trade-offs, lessons
+    (symptom → cause → fix), stack, next.
+  - `project.html` now redirects to `platform.html`. The modal, the rotation, the tabs, the
+    review bar and the voices are gone.
+- **Removed:**
+  - all numbering;
+  - mono micro-labels;
+  - the status line, the "Now" dot, the ruler and mat;
+  - tilted prints and the italic squiggle word;
+  - card grids and chips on the CV;
+  - the three accent colours (diagrams now use the single amber accent; the three ways in
+    differ by line style).
+- **Diagram corrections (§D):**
+  - delivery now reads CI → registry ← Image Updater → commits the new image version to git →
+    Argo CD;
+  - "fails at preview";
+  - Tailnet is the default, the others opt-in;
+  - CloudFront cache behaviours route by path;
+  - no `sha-` labels.
+- **Files:**
+  - `site.css` is one unlayered stylesheet (replaces `beeld.css`);
+  - `site.js` handles the copy button, nav tracking, diagram mount and lightbox;
+  - `diagrams.js`;
+  - `build-artifact.js` bakes diagrams into the pages and renders the CV thumbnails once in
+    their final state (needs Playwright). It writes `artifact/` with the CV fragment, the three
+    full documents, the shared CSS and JS, and `assets/`.
+- **Iterations:**
+  1. Built everything, screenshotted it behind the hostile reset, and grepped for the banned
+     patterns (none left).
+  2. Merged the two-line Languages section into About. Calmer section spacing, larger phase
+     titles, and the diagram sections laid out text + visual in two columns under a full-width
+     heading.
+  3. Smaller intro block (no forced height), photos before the languages line, remaining
+     "nearest cluster" wording fixed, new `system.html`.

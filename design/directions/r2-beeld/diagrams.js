@@ -102,39 +102,42 @@
 
   /* 1. Platform: app delivery (GitOps) */
   D.delivery = {
-    title: "App delivery with GitOps",
-    alt: "Diagram: a commit lands in the git repo, CI builds an immutable image tag, Argo CD Image Updater writes the tag back to git, and Argo CD syncs it: the release candidate rolls out to acceptance first, and the stable release to production.",
+    title: "App delivery: from commit to production",
+    alt: "Diagram: a commit lands in the app's git repo. CI builds and tests it and pushes an image to the registry. Argo CD Image Updater watches the registry, and when a new version appears it commits that version to git. Argo CD syncs from git: a release candidate rolls out to acceptance first; later the stable release is cut and rolls out to production. Version numbers are examples.",
     full: function () {
-      return '<rect class="dg-rail" x="20" y="20" width="720" height="48" rx="12"/>' + glyph("git", 34, 34) + label(62, 49, "Git repo", "dg-l") + label(150, 49, "the single source of truth", "dg-m") +
-        '<g class="dg-n dg-mark" data-n="commit"><circle cx="420" cy="44" r="6"/>' + label(432, 49, "commit", "dg-m dg-m--ink") + '</g>' +
-        '<g class="dg-n dg-mark" data-n="tagged"><circle cx="560" cy="44" r="6"/>' + label(572, 49, "tag in git", "dg-m dg-m--ink") + '</g>' +
-        edge("c2ci", "M420 68 V96 H145 V112") + edge("ci2iu", "M250 146 H290") + edge("iu2git", "M395 112 V92 H560 V68") + edge("git2argo", "M660 68 V112") +
-        card("ci", { x: 40, y: 112, w: 210, h: 68 }, "CI build", "image tag", "box") +
-        card("iu", { x: 290, y: 112, w: 210, h: 68 }, "Image Updater", "watches registry", "tag") +
-        card("argo", { x: 560, y: 112, w: 180, h: 68 }, "Argo CD", "in sync", "sync") +
-        edge("argo2acc", "M610 180 V204 H205 V226") + edge("argo2prod", "M690 180 V226") +
-        env("acc", { x: 40, y: 226, w: 330, h: 132 }, "acceptance", "newest release candidate", 5, "v2.3.0") +
-        env("prod", { x: 410, y: 226, w: 330, h: 132 }, "production", "newest stable release", 5, "v2.3.0");
+      return '<rect class="dg-rail" x="20" y="20" width="720" height="48" rx="12"/>' + glyph("git", 34, 34) + label(62, 49, "Git", "dg-l") + label(104, 49, "source of truth", "dg-m") +
+        '<g class="dg-n dg-mark" data-n="commit"><circle cx="300" cy="44" r="6"/>' + label(312, 49, "code commit", "dg-m dg-m--ink") + '</g>' +
+        '<g class="dg-n dg-mark" data-n="tagged"><circle cx="500" cy="44" r="6"/>' + label(512, 49, "new image version", "dg-m dg-m--ink") + '</g>' +
+        edge("c2ci", "M300 68 V90 H100 V112") + edge("ci2reg", "M180 146 H206") + edge("reg2iu", "M356 146 H382") + edge("iu2git", "M467 112 V90 H500 V68") + edge("git2argo", "M659 68 V112") +
+        card("ci", { x: 20, y: 112, w: 160, h: 68 }, "CI", "build and test", "box") +
+        card("reg", { x: 206, y: 112, w: 150, h: 68 }, "Registry", "images", "tag") +
+        card("iu", { x: 382, y: 112, w: 170, h: 68 }, "Image Updater", "watches registry", "eye") +
+        card("argo", { x: 578, y: 112, w: 162, h: 68 }, "Argo CD", "in sync", "sync") +
+        edge("argo2acc", "M620 180 V204 H185 V226") + edge("argo2prod", "M700 180 V226") +
+        env("acc", { x: 20, y: 226, w: 345, h: 132 }, "Acceptance", "follows release candidates", 5, "v2.3.0") +
+        env("prod", { x: 395, y: 226, w: 345, h: 132 }, "Production", "follows stable releases", 5, "v2.3.0");
     },
     compact: function () {
-      return '<rect class="dg-rail" x="10" y="10" width="320" height="44" rx="12"/>' + glyph("git", 22, 22) + label(50, 37, "Git repo", "dg-l") +
-        '<g class="dg-n dg-mark" data-n="commit"><circle cx="160" cy="32" r="6"/>' + label(170, 37, "commit", "dg-m dg-m--ink") + '</g>' +
-        '<g class="dg-n dg-mark" data-n="tagged"><circle cx="250" cy="32" r="6"/>' + label(260, 37, "tag", "dg-m dg-m--ink") + '</g>' +
-        edge("c2ci", "M160 54 V80") + edge("ci2iu", "M160 140 V160") + edge("iu2git", "M300 190 H318 V54") + edge("git2argo", "M22 54 V256 H60") +
-        card("ci", { x: 60, y: 80, w: 220, h: 60 }, "CI build", "image tag", "box") +
-        card("iu", { x: 60, y: 160, w: 240, h: 60 }, "Image Updater", "watches registry", "tag") +
-        card("argo", { x: 60, y: 240, w: 220, h: 60 }, "Argo CD", "in sync", "sync") +
-        edge("argo2acc", "M120 300 V326") + edge("argo2prod", "M250 300 V316 H324 V466 H300") +
-        env("acc", { x: 10, y: 326, w: 290, h: 118 }, "acceptance", "release candidate", 4, "v2.3.0") +
-        env("prod", { x: 10, y: 456, w: 290, h: 118 }, "production", "stable release", 4, "v2.3.0");
+      return '<rect class="dg-rail" x="10" y="10" width="320" height="44" rx="12"/>' + glyph("git", 22, 22) + label(50, 37, "Git", "dg-l") +
+        '<g class="dg-n dg-mark" data-n="commit"><circle cx="102" cy="32" r="6"/>' + label(112, 37, "commit", "dg-m dg-m--ink") + '</g>' +
+        '<g class="dg-n dg-mark" data-n="tagged"><circle cx="196" cy="32" r="6"/>' + label(206, 37, "new version", "dg-m dg-m--ink") + '</g>' +
+        edge("c2ci", "M102 54 V80") + edge("ci2reg", "M170 136 V152") + edge("reg2iu", "M170 208 V224") + edge("iu2git", "M300 252 H322 V54") + edge("git2argo", "M22 54 V324 H60") +
+        card("ci", { x: 60, y: 80, w: 240, h: 56 }, "CI", "build and test", "box") +
+        card("reg", { x: 60, y: 152, w: 240, h: 56 }, "Registry", "images", "tag") +
+        card("iu", { x: 60, y: 224, w: 240, h: 56 }, "Image Updater", "watches registry", "eye") +
+        card("argo", { x: 60, y: 296, w: 240, h: 56 }, "Argo CD", "in sync", "sync") +
+        edge("argo2acc", "M120 352 V372") + edge("argo2prod", "M260 352 V362 H326 V560 H300") +
+        env("acc", { x: 10, y: 372, w: 290, h: 118 }, "Acceptance", "release candidates", 4, "v2.3.0") +
+        env("prod", { x: 10, y: 502, w: 290, h: 118 }, "Production", "stable releases", 4, "v2.3.0");
     },
-    vb: ["0 0 760 380", "0 0 340 590"],
+    vb: ["0 0 760 380", "0 0 340 636"],
     seq: [
-      ["lit", "commit"], ["go", "c2ci", 900], ["lit", "ci"], ["text", "ci", "builds v2.4.0-rc.1"], ["wait", 600], ["text", "ci", "pushed v2.4.0-rc.1"],
-      ["go", "ci2iu", 700], ["lit", "iu"], ["text", "iu", "new tag found"], ["go", "iu2git", 900], ["lit", "tagged"], ["text", "iu", "wrote tag to git"],
-      ["go", "git2argo", 600], ["lit", "argo"], ["text", "argo", "syncing"], ["go", "argo2acc", 900], ["roll", "acc", "v2.4.0-rc.1"], ["lit", "acc"], ["text", "argo", "rc.1 in acceptance"],
-      ["wait", 2200], ["text", "ci", "release v2.4.0 cut"], ["wait", 700], ["text", "ci", "pushed v2.4.0"], ["text", "iu", "stable tag found"], ["text", "argo", "promoting v2.4.0"],
-      ["go", "argo2prod", 900], ["roll", "prod", "v2.4.0"], ["lit", "prod"], ["text", "argo", "in sync"], ["wait", 2800]
+      ["lit", "commit"], ["go", "c2ci", 800], ["lit", "ci"], ["text", "ci", "building 2.4.0-rc.1"], ["wait", 500],
+      ["go", "ci2reg", 600], ["lit", "reg"], ["text", "reg", "2.4.0-rc.1 pushed"], ["go", "reg2iu", 600], ["lit", "iu"], ["text", "iu", "new rc found"],
+      ["go", "iu2git", 800], ["lit", "tagged"], ["text", "iu", "committed to git"], ["go", "git2argo", 600], ["lit", "argo"], ["text", "argo", "syncing"],
+      ["go", "argo2acc", 800], ["roll", "acc", "v2.4.0-rc.1"], ["lit", "acc"], ["text", "argo", "rc in acceptance"], ["wait", 2200],
+      ["text", "ci", "release 2.4.0 cut"], ["wait", 500], ["text", "reg", "2.4.0 pushed"], ["go", "reg2iu", 500], ["text", "iu", "stable release found"], ["go", "iu2git", 600], ["text", "iu", "committed to git"],
+      ["go", "git2argo", 500], ["text", "argo", "syncing"], ["go", "argo2prod", 800], ["roll", "prod", "v2.4.0"], ["lit", "prod"], ["text", "argo", "in sync"], ["wait", 2800]
     ]
   };
 
@@ -178,7 +181,7 @@
     vb: ["0 0 760 380", "0 0 340 622"],
     seq: [
       ["pr", 0, "add a public bucket", "opened by an engineer"], ["stage", 0, "ok", "passed"], ["wait", 500],
-      ["pr", 1], ["stage", 1, "bad", "blocked"], ["prbad", true, "blocked: bucket is public"], ["wait", 1700],
+      ["pr", 1], ["stage", 1, "bad", "blocked"], ["prbad", true, "fails at preview: public bucket"], ["wait", 1700],
       ["prbad", false, "fixed in a new commit"], ["prtext", "add a private bucket"], ["reset-stages"], ["pr", 0], ["stage", 0, "ok", "passed"], ["wait", 350],
       ["pr", 1], ["stage", 1, "ok", "passed"], ["wait", 350], ["pr", 2], ["stage", 2, "ok", "plan saved"], ["wait", 450],
       ["pr", 3], ["stage", 3, "ok", "approved"], ["prm", "reviewed by a colleague"], ["wait", 450], ["pr", 4], ["stage", 4, "ok", "merged"], ["wait", 350],
@@ -286,11 +289,11 @@
         edge("p2a", "M166 130 V166") + edge("a2g", "M166 232 V268") +
         group({ x: 350, y: 16, w: 394, h: 344 }, "the laptop under the TV", "dg-grp--host", "laptop") +
         '<g class="dg-badge"><rect x="594" y="30" width="136" height="26" rx="13"/>' + glyph("battery", 602, 33, "dg-g--sm") + '<text x="628" y="48">battery = UPS</text></g>' +
-        card("iu", { x: 374, y: 76, w: 220, h: 66 }, "Image Updater", "watching GHCR", "tag") +
+        card("iu", { x: 374, y: 76, w: 220, h: 66 }, "Image Updater", "watches GHCR", "eye") +
         card("argo", { x: 374, y: 176, w: 220, h: 66 }, "Argo CD", "in sync", "sync") +
         edge("g2iu", "M292 301 H330 V109 H374") + edge("iu2argo", "M484 142 V176") + edge("argo2pods", "M594 209 H640 V262") +
         '<g class="dg-n dg-env dg-env--slim" data-n="run"><rect class="dg-card" x="374" y="262" width="346" height="80" rx="14"/>' +
-        '<text class="dg-l" x="392" y="288">pods</text><text class="dg-v" data-s x="702" y="288" text-anchor="end">sha-41f0c2e</text>' + pods("run", 392, 302, 6, 32) + "</g>";
+        '<text class="dg-l" x="392" y="288">pods</text><text class="dg-v" data-s x="702" y="288" text-anchor="end">41f0c2e</text>' + pods("run", 392, 302, 6, 32) + "</g>";
     },
     compact: function () {
       return group({ x: 8, y: 8, w: 324, h: 262 }, "GitHub", "", "gh") +
@@ -300,17 +303,17 @@
         edge("p2a", "M170 104 V120") + edge("a2g", "M170 176 V192") +
         group({ x: 8, y: 290, w: 324, h: 330 }, "laptop under the TV", "dg-grp--host", "laptop") +
         '<g class="dg-badge"><rect x="212" y="300" width="108" height="26" rx="13"/>' + glyph("battery", 220, 303, "dg-g--sm") + '<text x="246" y="318">UPS</text></g>' +
-        card("iu", { x: 24, y: 340, w: 292, h: 56 }, "Image Updater", "watching GHCR", "tag") +
+        card("iu", { x: 24, y: 340, w: 292, h: 56 }, "Image Updater", "watches GHCR", "eye") +
         card("argo", { x: 24, y: 420, w: 292, h: 56 }, "Argo CD", "in sync", "sync") +
         edge("g2iu", "M316 220 H326 V368 H316") + edge("iu2argo", "M170 396 V420") + edge("argo2pods", "M170 476 V500") +
         '<g class="dg-n dg-env dg-env--slim" data-n="run"><rect class="dg-card" x="24" y="500" width="292" height="104" rx="14"/>' +
-        '<text class="dg-l" x="40" y="526">pods</text><text class="dg-v" data-s x="300" y="526" text-anchor="end">sha-41f0c2e</text>' + pods("run", 40, 548, 5, 34) + "</g>";
+        '<text class="dg-l" x="40" y="526">pods</text><text class="dg-v" data-s x="300" y="526" text-anchor="end">41f0c2e</text>' + pods("run", 40, 548, 5, 34) + "</g>";
     },
     vb: ["0 0 760 376", "0 0 340 628"],
     seq: [
       ["lit", "push"], ["text", "push", "commit a1c9e2f"], ["go", "p2a", 700], ["lit", "actions"], ["text", "actions", "tests pass, image built"],
-      ["go", "a2g", 700], ["lit", "ghcr"], ["text", "ghcr", "sha-a1c9e2f"], ["go", "g2iu", 1000], ["lit", "iu"], ["text", "iu", "tag written to git"],
-      ["go", "iu2argo", 600], ["lit", "argo"], ["text", "argo", "syncing"], ["go", "argo2pods", 600], ["roll", "run", "sha-a1c9e2f"], ["lit", "run"], ["text", "argo", "in sync"], ["wait", 2600]
+      ["go", "a2g", 700], ["lit", "ghcr"], ["text", "ghcr", "image a1c9e2f"], ["go", "g2iu", 1000], ["lit", "iu"], ["text", "iu", "committed to git"],
+      ["go", "iu2argo", 600], ["lit", "argo"], ["text", "argo", "syncing"], ["go", "argo2pods", 600], ["roll", "run", "a1c9e2f"], ["lit", "run"], ["text", "argo", "in sync"], ["wait", 2600]
     ]
   };
 
@@ -326,8 +329,8 @@
         edge("w2", "M220 185 H520", "dg-e--t2") +
         edge("w3", "M220 305 C 330 305, 360 205, 520 205", "dg-e--t3") +
         pill("l1", 256, 76, 172, "tailnet, default", "dg-pill--t1", "lock") +
-        pill("l2", 256, 152, 182, "Cloudflare Tunnel", "dg-pill--t2", "tunnel") +
-        pill("l3", 256, 262, 178, "Funnel, temporary", "dg-pill--t3", "funnel") +
+        pill("l2", 256, 152, 182, "Tunnel, opt-in", "dg-pill--t2", "tunnel") +
+        pill("l3", 256, 262, 178, "Funnel, opt-in", "dg-pill--t3", "funnel") +
         group({ x: 494, y: 20, w: 250, h: 330 }, "the laptop", "dg-grp--host", "laptop") +
         '<g class="dg-shield" data-n="shield"><circle cx="494" cy="290" r="22"/>' + glyph("shield", 484, 280) + '</g><text class="dg-m dg-m--ink" x="524" y="296">0 open ports</text>' +
         card("traefik", { x: 520, y: 150, w: 204, h: 70 }, "Traefik", "wildcard TLS", "lock") +
@@ -392,13 +395,13 @@
   /* 8. Platform: multi-region with CloudFront at the edge */
   D.edge = {
     title: "Europe and Tokyo, one edge",
-    alt: "Diagram: users in Europe and in Asia and Oceania reach CloudFront at the edge, which caches static content and routes dynamic requests by path and region to the nearest cluster: the European cluster or the cluster in Tokyo. A resource syncer we built keeps chosen Deployments, ConfigMaps and Secrets in Tokyo in step with the main cluster.",
+    alt: "Diagram: users in Europe and in Asia and Oceania reach CloudFront at the edge, which serves cached content from the edge and uses cache behaviours to route requests by path to the regional origin: the European cluster or the cluster in Tokyo. A resource syncer we built keeps chosen Deployments, ConfigMaps and Secrets in Tokyo in step with the main cluster.",
     full: function () {
-      return card("ueu", { x: 20, y: 40, w: 200, h: 68 }, "Users in Europe", "nearest: EU", "users") +
+      return card("ueu", { x: 20, y: 40, w: 200, h: 68 }, "Users in Europe", "EU origin", "users") +
         card("uap", { x: 20, y: 262, w: 200, h: 68 }, "Users in Asia", "and Oceania", "users") +
         edge("e1", "M220 74 C 280 74, 270 170, 300 170") + edge("e2", "M220 296 C 280 296, 270 204, 300 204") +
         '<g class="dg-n dg-cdn" data-n="cdn"><rect class="dg-card" x="300" y="128" width="170" height="114" rx="16"/><rect class="dg-sheen" x="301" y="129" width="168" height="22" rx="15"/>' + glyph("cloud", 316, 144) +
-        '<text class="dg-l" x="346" y="160">CloudFront</text><text class="dg-s" data-s x="316" y="190">edge cache</text><text class="dg-m" x="316" y="220">routes by region</text></g>' +
+        '<text class="dg-l" x="346" y="160">CloudFront</text><text class="dg-s" data-s x="316" y="190">edge cache</text><text class="dg-m" x="316" y="220">routes by path</text></g>' +
         edge("e3", "M470 160 C 520 160, 510 74, 540 74") + edge("e4", "M470 212 C 520 212, 510 296, 540 296") +
         card("eu", { x: 540, y: 34, w: 200, h: 80 }, "EU cluster", "main cluster", "stack") +
         card("jp", { x: 540, y: 256, w: 200, h: 80 }, "Tokyo cluster", "Asia Pacific", "stack") +
@@ -409,7 +412,7 @@
         card("uap", { x: 176, y: 10, w: 154, h: 60 }, "Asia", "and Oceania", "users") +
         edge("e1", "M87 70 V110") + edge("e2", "M253 70 V110") +
         '<g class="dg-n dg-cdn" data-n="cdn"><rect class="dg-card" x="10" y="110" width="320" height="76" rx="14"/>' + glyph("cloud", 26, 126) +
-        '<text class="dg-l" x="56" y="140">CloudFront</text><text class="dg-s" data-s x="56" y="164">edge cache, nearest cluster</text></g>' +
+        '<text class="dg-l" x="56" y="140">CloudFront</text><text class="dg-s" data-s x="56" y="164">edge cache, routes by path</text></g>' +
         edge("e3", "M87 186 V226") + edge("e4", "M253 186 V226") +
         card("eu", { x: 10, y: 226, w: 154, h: 70 }, "EU", "main cluster", "stack") +
         card("jp", { x: 176, y: 226, w: 154, h: 70 }, "Tokyo", "Asia Pacific", "stack") +
@@ -417,8 +420,8 @@
     },
     vb: ["0 0 760 370", "0 0 340 352"],
     seq: [
-      ["lit", "ueu"], ["go", "e1", 700], ["lit", "cdn"], ["text", "cdn", "cache hit? no: route"], ["go", "e3", 700], ["lit", "eu"], ["wait", 300],
-      ["lit", "uap"], ["go", "e2", 700], ["text", "cdn", "nearest: Tokyo"], ["go", "e4", 700], ["lit", "jp"], ["wait", 300],
+      ["lit", "ueu"], ["go", "e1", 700], ["lit", "cdn"], ["text", "cdn", "no cache hit: to origin"], ["go", "e3", 700], ["lit", "eu"], ["wait", 300],
+      ["lit", "uap"], ["go", "e2", 700], ["text", "cdn", "to the Tokyo origin"], ["go", "e4", 700], ["lit", "jp"], ["wait", 300],
       ["lit", "syncp"], ["go", "sync", 900], ["text", "cdn", "edge cache"], ["wait", 2600]
     ]
   };
@@ -429,7 +432,7 @@
     opts = opts || {};
     return '<figure class="dg' + (opts.cls ? " " + opts.cls : "") + '" data-dg="' + id + '" role="img" aria-label="' + esc(d.alt) + '">' +
       svg("dg__svg--full", d.vb[0], d.title, d.full()) + svg("dg__svg--compact", d.vb[1], d.title, d.compact()) +
-      (opts.caption === false ? "" : '<figcaption class="dg__cap"><span class="dg__title">' + esc(d.title) + '</span><button type="button" class="dg__replay" aria-label="Replay animation: ' + esc(d.title) + '">replay</button></figcaption>') +
+      (opts.caption === false ? "" : '<figcaption class="dg__cap"><span class="dg__title">' + esc(d.title) + '</span><button type="button" class="dg__replay" aria-label="Replay animation: ' + esc(d.title) + '">Replay</button></figcaption>') +
       "</figure>";
   }
 
