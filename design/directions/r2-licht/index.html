@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en" data-direction="r2-licht" data-option="licht">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Guus Ekkelenkamp</title>
+  <meta name="description" content="Tech lead of the infra team at Harborn in Rotterdam. Security, cloud and architecture, plus a few side projects.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400..700;1,400..700&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&display=swap">
+  <link rel="stylesheet" href="../../system/base.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="review.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="page site-header fade">
+    <a class="site-header__name" href="#main">Guus Ekkelenkamp</a>
+    <nav class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="#work">Work</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main" class="page">
+    <section class="intro" aria-labelledby="intro-title">
+      <div class="ph ph--portrait intro__portrait fade" style="--i:2" role="img" aria-label="Photo: portrait of Guus">
+        <span class="ph__cap" aria-hidden="true">Photo: portrait of Guus</span>
+      </div>
+      <div class="fade" style="--i:1">
+        <h1 class="intro__title" id="intro-title">I’m Guus. I lead the infra team at Harborn in Rotterdam.</h1>
+        <p class="intro__text">I make sure the platforms our clients run on are secure, reliable and well thought out. At home I build things too: a small server setup, some web apps, and more automation than one apartment needs.</p>
+        <p class="intro__meta"><a class="link" href="mailto:hello@ekkelenkamp.dev">hello@ekkelenkamp.dev</a><a class="link" href="https://github.com/guuse">GitHub</a><a class="link" href="#contact">LinkedIn</a></p>
+      </div>
+    </section>
+
+    <section id="work" aria-labelledby="work-title" class="fade" style="--i:3">
+      <div class="section-head"><h2 id="work-title">Work</h2></div>
+      <p class="lead col">I’m tech lead of the infra team at Harborn, a digital agency in Rotterdam and Amsterdam. Before a client project gets built, we decide where it runs, how it’s set up and who gets access to what.</p>
+      <ul class="work__cols">
+        <li><h3>Security</h3><p>Policies people actually follow, access reviews, and deciding which tools are allowed near client data.</p></li>
+        <li><h3>Cloud &amp; platform</h3><p>The Kubernetes platform our projects run on, set up so it can be rebuilt from code.</p></li>
+        <li><h3>Architecture</h3><p>How client systems connect, and writing down why we chose what we chose.</p></li>
+      </ul>
+    </section>
+
+    <section id="projects" aria-labelledby="projects-title">
+      <div class="section-head"><h2 id="projects-title">Projects</h2><p>Things I build outside work.</p></div>
+      <div id="featured">
+<!--FEATURE--><a class="feature" href="project.html" data-id="homelab"><div class="ph" data-tone="homelab" role="img" aria-label="Photo: the setup under the TV"><span class="ph__cap" aria-hidden="true">Photo: the setup under the TV</span></div><div class="feature__body"><div><p class="feature__eyebrow">Featured · a different one each visit</p><h3 class="feature__title">Homelab &amp; home automation</h3><div class="feature__meta"><ul class="tags" aria-label="Built with"><li class="tag">Proxmox</li><li class="tag">Kubernetes</li><li class="tag">Home Assistant</li><li class="tag">Zigbee</li></ul><span class="feature__year">2026</span></div></div><div><p class="feature__story">An old laptop under the TV runs everything: my side projects, Home Assistant and the lights. It’s only reachable through my own private network, and every change goes through git, so I can rebuild it in an afternoon. Next up: three small second-hand PCs to turn it into a proper cluster.</p><span class="feature__cta">Read about the project <span class="arrow" aria-hidden="true">→</span></span></div></div></a><!--/FEATURE-->
+      </div>
+      <h3 class="plist__head">More projects</h3>
+      <ul class="plist" id="project-list">
+<!--LIST--><li><a class="prow" href="project.html" data-id="rules-of-99"><div class="ph" data-tone="rules-of-99" role="img" aria-label="Screenshot: a four-player game"><span class="ph__cap" aria-hidden="true">Screenshot: a four-player game</span></div><div><h4 class="prow__title">Rules of 99 <span class="arrow" aria-hidden="true">→</span></h4><p class="prow__line">Play Commander (Magic: The Gathering) with friends in the browser.</p></div><div class="prow__side"><ul class="tags tags--plain" aria-label="Built with"><li class="tag">Java</li><li class="tag">React</li><li class="tag">TypeScript</li><li class="tag">WebSockets</li></ul><span class="prow__year">2025</span></div></a></li><li><a class="prow" href="project.html" data-id="finds"><div class="ph" data-tone="finds" role="img" aria-label="Screenshot: the finds overview"><span class="ph__cap" aria-hidden="true">Screenshot: the finds overview</span></div><div><h4 class="prow__title">2nd-hand finds <span class="arrow" aria-hidden="true">→</span></h4><p class="prow__line">A tool that keeps an eye on Marktplaats and Vinted for me.</p></div><div class="prow__side"><ul class="tags tags--plain" aria-label="Built with"><li class="tag">Python</li><li class="tag">Claude</li><li class="tag">Astro</li></ul><span class="prow__year">2026</span></div></a></li><li><a class="prow" href="project.html" data-id="quizmaster"><div class="ph" data-tone="quizmaster" role="img" aria-label="Screenshot: the quiz on a phone"><span class="ph__cap" aria-hidden="true">Screenshot: the quiz on a phone</span></div><div><h4 class="prow__title">Quizmaster <span class="arrow" aria-hidden="true">→</span></h4><p class="prow__line">A live party quiz with questions generated on the spot.</p></div><div class="prow__side"><span></span><span class="prow__year">2025</span></div></a></li><li><a class="prow" href="project.html" data-id="scryfall"><div class="ph" data-tone="scryfall" role="img" aria-label="Screenshot: search box and results"><span class="ph__cap" aria-hidden="true">Screenshot: search box and results</span></div><div><h4 class="prow__title">Scryfall, in plain words <span class="arrow" aria-hidden="true">→</span></h4><p class="prow__line">Search Magic cards by describing what you want.</p></div><div class="prow__side"><ul class="tags tags--plain" aria-label="Built with"><li class="tag">Claude</li><li class="tag">TypeScript</li></ul><span class="prow__year">2025</span></div></a></li><!--/LIST-->
+      </ul>
+    </section>
+
+    <section id="about" aria-labelledby="about-title">
+      <div class="section-head"><h2 id="about-title">About</h2></div>
+      <div class="col">
+        <p class="lead">I live in Rotterdam. When I’m not working I’m usually tinkering with something at home, playing Magic with friends, or scrolling <span lang="nl">Marktplaats</span> for things I don’t need.</p>
+        <p class="about__tools"><strong>Tools I use a lot:</strong> Kubernetes, Argo CD, Terraform, Cloudflare, Tailscale, TypeScript, Python, Home Assistant.</p>
+      </div>
+    </section>
+
+    <section id="contact" aria-labelledby="contact-title">
+      <div class="section-head"><h2 id="contact-title">Contact</h2></div>
+      <div class="col">
+        <p class="lead">Want to work together or just say hi? Send me an email.</p>
+        <a class="contact__mail" href="mailto:hello@ekkelenkamp.dev">hello@ekkelenkamp.dev</a>
+        <ul class="contact__links">
+          <li><a class="link" href="https://github.com/guuse">GitHub</a></li>
+          <li><a class="link" href="https://www.linkedin.com/">LinkedIn</a></li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="page site-footer">
+    <span>© 2026 Guus Ekkelenkamp</span>
+    <a href="#main">Back to top</a>
+  </footer>
+
+  <aside class="review-bar" aria-label="Review tools">
+    <strong>Licht &amp; rustig</strong>
+    <div role="radiogroup" aria-label="Option">
+      <button type="button" role="radio" data-value="licht" aria-checked="true">licht</button>
+      <button type="button" role="radio" data-value="zacht" aria-checked="false" tabindex="-1">zacht</button>
+    </div>
+    <span class="review-bar__sep" aria-hidden="true"></span>
+    <a href="index.html" aria-current="page">index</a>
+    <a href="project.html">project</a>
+    <a href="system.html">system</a>
+    <a href="../../../index.html">← all</a>
+  </aside>
+
+  <script src="projects.js"></script>
+</body>
+</html>

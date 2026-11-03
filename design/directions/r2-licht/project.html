@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en" data-direction="r2-licht" data-option="licht">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Homelab &amp; home automation · Guus Ekkelenkamp</title>
+  <meta name="description" content="A small home server that runs my apps and my home automation.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,400..700;1,400..700&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..600&display=swap">
+  <link rel="stylesheet" href="../../system/base.css">
+  <link rel="stylesheet" href="style.css">
+  <script src="review.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="page site-header fade">
+    <a class="site-header__name" href="index.html">Guus Ekkelenkamp</a>
+    <nav class="site-nav" aria-label="Main">
+      <ul>
+        <li><a href="index.html#work">Work</a></li>
+        <li><a href="index.html#projects" aria-current="true">Projects</a></li>
+        <li><a href="index.html#about">About</a></li>
+        <li><a href="index.html#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main" class="page">
+    <article aria-labelledby="case-title">
+      <header class="case__head fade" style="--i:1">
+        <a class="back" href="index.html#projects"><span class="arrow" aria-hidden="true">←</span> All projects</a>
+        <h1 class="case__title" id="case-title">Homelab &amp; home automation</h1>
+        <p class="case__line">A small home server that runs my apps and my home automation.</p>
+        <div class="case__meta">
+          <ul class="tags" aria-label="Built with">
+            <li class="tag">Proxmox</li><li class="tag">Kubernetes</li><li class="tag">Home Assistant</li><li class="tag">Zigbee</li>
+          </ul>
+          <span class="feature__year">2026</span>
+        </div>
+      </header>
+
+      <figure class="case__hero fade" style="--i:2">
+        <div class="ph" data-tone="homelab" role="img" aria-label="Photo: the setup under the TV">
+          <span class="ph__cap" aria-hidden="true">Photo: the setup under the TV, with the wall panel</span>
+        </div>
+      </figure>
+
+      <div class="case__body">
+        <div class="col">
+          <h2>What it is</h2>
+          <p>An old laptop under the TV runs everything: my side projects, Home Assistant and the lights. It’s only reachable through my own private network, and every change goes through git, so I can rebuild it in an afternoon.</p>
+          <p>Everything it runs is written down as code, from the virtual machines to the apps on them, so nothing important lives only in my head.</p>
+
+          <h2>Why I built it</h2>
+          <p>I wanted one place for my side projects, and to try things at home before recommending them at work.</p>
+
+          <h2>How it works</h2>
+          <p>The laptop runs two virtual machines. One runs Kubernetes with my apps; the other runs Home Assistant with a Zigbee stick for the lights and sensors. Nothing is open to the internet; I connect through a private network (Tailscale). When I push code to GitHub, it’s built and deployed automatically (Argo CD).</p>
+        </div>
+
+        <figure class="diagram" aria-labelledby="dg-cap">
+          <div class="dg">
+            <div class="dg__in dg__in--git">
+              <div class="dg__node"><b>GitHub</b><span>I push code</span></div>
+              <p class="dg__edge"><span aria-hidden="true">↓</span> Argo CD builds and deploys</p>
+            </div>
+            <div class="dg__in dg__in--me">
+              <div class="dg__node"><b>Me</b><span>phone or laptop</span></div>
+              <p class="dg__edge"><span aria-hidden="true">↓</span> through Tailscale, a private network</p>
+            </div>
+            <div class="dg__host">
+              <p class="dg__label"><b>The laptop under the TV</b> <span>Proxmox · 16 GB memory</span></p>
+              <div class="dg__vms">
+                <div class="dg__vm dg__vm--accent"><b>VM 1 · Kubernetes</b><span>7 of my own apps</span></div>
+                <div class="dg__vm"><b>VM 2 · Home Assistant</b><span>Zigbee stick → lights and sensors</span></div>
+              </div>
+              <p class="dg__foot">Open to the internet: nothing. 0 open ports.</p>
+            </div>
+          </div>
+          <figcaption id="dg-cap">How it fits together. Code comes in from GitHub, I come in through the private network, and nothing else gets in.</figcaption>
+        </figure>
+
+        <div class="col">
+          <h2>A few numbers</h2>
+          <dl class="stats">
+            <div><dt>memory</dt><dd>16 GB</dd></div>
+            <div><dt>virtual machines</dt><dd>2</dd></div>
+            <div><dt>of my own apps</dt><dd>7</dd></div>
+            <div><dt>open ports</dt><dd>0</dd></div>
+          </dl>
+
+          <h2>What I learned</h2>
+          <ol class="learned">
+            <li>Small mistakes in disk setup add up. Check how much space the installer really gave you.</li>
+            <li>Keep a simple way in that works when everything else breaks.</li>
+            <li>Writing everything down makes rebuilding boring, which is exactly what you want.</li>
+          </ol>
+
+          <h2>What’s next</h2>
+          <p>Three small second-hand PCs in a 3D-printed rack, so it becomes a proper cluster.</p>
+        </div>
+      </div>
+
+      <a class="next" id="next" href="project.html">
+        <div>
+          <p class="next__label">Next project</p>
+          <p class="next__title">Rules of 99</p>
+        </div>
+        <div class="ph" data-tone="rules-of-99" aria-hidden="true"><span class="ph__cap"></span></div>
+      </a>
+    </article>
+  </main>
+
+  <footer class="page site-footer">
+    <span>© 2026 Guus Ekkelenkamp</span>
+    <a href="#main">Back to top</a>
+  </footer>
+
+  <aside class="review-bar" aria-label="Review tools">
+    <strong>Licht &amp; rustig</strong>
+    <div role="radiogroup" aria-label="Option">
+      <button type="button" role="radio" data-value="licht" aria-checked="true">licht</button>
+      <button type="button" role="radio" data-value="zacht" aria-checked="false" tabindex="-1">zacht</button>
+    </div>
+    <span class="review-bar__sep" aria-hidden="true"></span>
+    <a href="index.html">index</a>
+    <a href="project.html" aria-current="page">project</a>
+    <a href="system.html">system</a>
+    <a href="../../../index.html">← all</a>
+  </aside>
+
+  <script src="projects.js"></script>
+  <script>
+    /* Next project: the one after this page's project in the list. */
+    (function () {
+      var P = window.Projects; if (!P) return;
+      var ids = P.PROJECTS.map(function (p) { return p.id; });
+      var next = P.PROJECTS[(ids.indexOf("homelab") + 1) % ids.length];
+      var a = document.getElementById("next");
+      a.href = next.href;
+      a.querySelector(".next__title").textContent = next.title;
+      a.querySelector(".ph").setAttribute("data-tone", next.id);
+    })();
+  </script>
+</body>
+</html>
