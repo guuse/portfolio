@@ -137,15 +137,15 @@
 <div class="page">
   <header class="masthead">
     <div class="masthead__top">
-      <span class="label">ekkelenkamp.dev · design review · phase 1</span>
+      <span class="label">ekkelenkamp.dev · design review · round 2</span>
       <span class="label">November 2026</span>
     </div>
-    <h1>Five ways to be <em>Guus</em> on the internet.</h1>
+    <h1>Three normal ways to be <em>Guus</em> online.</h1>
     <div class="masthead__intro">
-      <p>Five directions for one portfolio, each with three options and a full design-system sheet. They share one content model and one token contract, so you can mix the system of one with the hero of another.</p>
+      <p>Three plain, well-made portfolio directions, each with two options, a project page and a style guide. They share one copy deck and one token contract, so parts can be mixed.</p>
       <ul class="docs" aria-label="Phase 1 documents">
         <li><a href="design/BRIEF.md"><span class="mono">01</span><span class="docs__name">Brief</span><span class="mono">goals · tone · how to pick</span></a></li>
-        <li><a href="design/archive/round-1/CONTENT.md"><span class="mono">02</span><span class="docs__name">Content &amp; copy</span><span class="mono">shared by all</span></a></li>
+        <li><a href="design/CONTENT.md"><span class="mono">02</span><span class="docs__name">Content &amp; copy</span><span class="mono">shared by all</span></a></li>
         <li><a href="design/system/FOUNDATIONS.md"><span class="mono">03</span><span class="docs__name">System foundations</span><span class="mono">tokens · scales · a11y</span></a></li>
         <li><a href="design/system/tokens.schema.json"><span class="mono">04</span><span class="docs__name">Token contract</span><span class="mono">JSON schema</span></a></li>
       </ul>
@@ -158,11 +158,9 @@
       <div id="directions"><!-- rendered below; static fallback list for no-JS -->
         <noscript>
           <ul>
-            <li><a href="design/archive/round-1/directions/01-spec-sheet/index.html">01 · Spec Sheet</a></li>
-            <li><a href="design/archive/round-1/directions/02-floor-plan/index.html">02 · Plattegrond</a></li>
-            <li><a href="design/archive/round-1/directions/03-poster/index.html">03 · Affiche</a></li>
-            <li><a href="design/archive/round-1/directions/04-zine/index.html">04 · Zine</a></li>
-            <li><a href="design/archive/round-1/directions/05-wall-panel/index.html">05 · Wandpaneel</a></li>
+            <li><a href="design/directions/r2-licht/index.html">01 · Licht &amp; rustig</a></li>
+            <li><a href="design/directions/r2-donker/index.html">02 · Donker &amp; strak</a></li>
+            <li><a href="design/directions/r2-beeld/index.html">03 · Beeld voorop</a></li>
           </ul>
         </noscript>
       </div>
@@ -190,8 +188,8 @@
       <ul class="checklist">
         <li>Pick a direction (or a mix) and an option. Leave dark mode to <code>prefers-color-scheme</code>, or offer a manual switch?</li>
         <li>Confirm the <code>[CONFIRM]</code> items in CONTENT.md: since when, the security framework(s), which clients may be named, Quizmaster's stack, contact address.</li>
-        <li>Pick the hero one-liner: A ("secure by day, a laptop behind the TV by night"), B ("fifteen services, lid shut") or C ("how it's built, where it runs, who gets in").</li>
-        <li>Real home automations and devices for §4.7, to replace the placeholders.</li>
+        <li>Pick the headline: A ("I'm Guus. I lead the infra team…") or B ("Guus Ekkelenkamp. Tech lead, infrastructure, Rotterdam.").</li>
+        <li>Years per project, and a "Before Harborn" line if you want one.</li>
         <li>Photos: the laptop behind the TV, the Zigbee stick on its extension cable, the wall panel, and one of you.</li>
         <li>Is <em>huisjes</em> (the house hunt) public-OK, or does it stay off the site?</li>
         <li>Hosting: Cloudflare Pages on the apex (recommended) or self-hosted through the tunnel.</li>
@@ -207,51 +205,40 @@
 
 <script>
 const DIRS = [
-  { slug: "01-spec-sheet", name: "Spec Sheet", nl: "Industrial datasheet & label tape",
-    blurb: "Guus documented like a well-made piece of hardware: part numbers, ruled spec tables, technical-drawing callouts, crooked label-maker tape. The day job and the homelab both get the engineering treatment.",
-    fonts: "Archivo (wdth) · Martian Mono",
-    options: [["paper","#f3efe6","Paper"],["night-shift","#1c1b19","Night shift"],["hi-vis","#d7f34a","Hi-vis"]] },
-  { slug: "02-floor-plan", name: "Plattegrond", nl: "The site as a floor plan of a smart home",
-    blurb: "The hero is a drawn floor plan. Rooms are the navigation: the meterkast holds the homelab, the living room holds the home automation, and a Zigbee mesh runs through the walls.",
-    fonts: "Bricolage Grotesque · Atkinson Hyperlegible Next · Fragment Mono",
-    options: [["daylight","#f6f1e7","Daylight"],["blueprint","#1f3fae","Blueprint"],["lights-out","#15151a","Lights out"]] },
-  { slug: "03-poster", name: "Affiche", nl: "Rotterdam editorial poster, type as image",
-    blurb: "Dutch graphic-design confidence. Giant variable-width type, numbers as graphics (16 GB as colour fields, a huge 0 clogs found), a strict grid broken on purpose.",
-    fonts: "Anybody (wdth 50–150) · Newsreader · IBM Plex Mono",
-    options: [["rotterdam","#e3261c","Rotterdam"],["polder","#3d9a4a","Polder"],["nachtdruk","#ff3d9a","Nachtdruk"]] },
-  { slug: "04-zine", name: "Zine", nl: "Risograph DIY zine, two-ink overprint",
-    blurb: "A home-printed zine about building things at home: two-ink overprint, stickers, tape, hand-drawn arrows and margin notes, with a disciplined grid underneath.",
-    fonts: "Bagel Fat One · Atkinson Hyperlegible Next · Shantell Sans",
-    options: [["fluor-pink-teal","#ff5ea8","Pink & teal"],["yellow-blue","#ffd23f","Yellow & blue"],["nachtdruk","#1d1b1f","Nachtdruk"]] },
-  { slug: "05-wall-panel", name: "Wandpaneel", nl: "The site as a home-dashboard wall panel",
-    blurb: "A status interface for a person: Rotterdam time, where Guus probably is, Argo sync state, the next finder run, and rover clogs found: 0. Every tile opens into the full story.",
-    fonts: "Onest · Martian Mono (wdth)",
-    options: [["daylight","#f4f2ee","Daylight"],["oled","#000000","OLED"],["e-ink","#e7e6e1","E-ink"]] },
+  { slug: "r2-licht", name: "Licht & rustig", nl: "Veel wit, grote leesbare tekst, projecten als nette lijst",
+    blurb: "A calm, personal site that mostly reads. One left edge, a narrow reading column, wider moments for images and the project list. Sections are separated by space and a thin line.",
+    fonts: "Newsreader · Hanken Grotesk",
+    options: [["licht","#f9fcfe","Licht"],["zacht","#e8f4eb","Zacht"]] },
+  { slug: "r2-donker", name: "Donker & strak", nl: "Donkere basis, moderne sans, projectkaarten met groot beeld",
+    blurb: "A sleek modern portfolio on a warm near-black. One grid everywhere, project cards with big images, subtle motion on load and hover.",
+    fonts: "Schibsted Grotesk",
+    options: [["nacht","#0f0c0a","Nacht"],["grafiet","#1f2226","Grafiet"]] },
+  { slug: "r2-beeld", name: "Beeld voorop", nl: "Grote foto's in een editorial grid, tekst ondersteunt",
+    blurb: "Image-led, like a photographer's or studio's site. A big portrait next to a serif headline, a full-width featured project, and an asymmetric photo grid with captions.",
+    fonts: "Instrument Serif · Schibsted Grotesk",
+    options: [["wit","#f8fafc","Wit"],["donker","#0c0d10","Donker"]] },
 ];
 
 const SCORES = [
-  // [recognisable, credible, personal, durable, buildable, bestFor]
-  [4, 5, 4, 5, 5, "Tech leads & recruiters. The safest strong choice, and it scales to any number of projects"],
-  [5, 4, 5, 3, 3, "Maximum memorability. Strongest as the homelab/home-automation page"],
-  [5, 4, 3, 3, 4, "A loud Rotterdam identity. Can read as designer more than tech lead"],
-  [5, 3, 4, 2, 4, "Personality first. Friends and the homelab crowd love it; CTOs may not"],
-  [4, 5, 5, 3, 4, "Show, don't tell. The same-rule-at-home links tie the day job to the lab"],
+  [3, 4, 4, 5, 5, "Timeless and calm; the safest long-term choice"],
+  [4, 4, 3, 4, 5, "Feels the most finished and premium"],
+  [4, 4, 5, 4, 4, "The most personal, provided you shoot good photos"],
 ];
 
 const MIXES = [
-  { h: "If you pick one", body: "<p><strong>01 Spec Sheet.</strong> Of the five it fits a tech lead infra best: precise, calm, credible for CTOs and recruiters, and still funny in the details (errata, the bill of materials, the declaration of conformity). It is also the easiest to keep growing.</p>" },
-  { h: "Best mixes", body: "<ul><li><strong>01 system + 05 hero</strong>: the datasheet as the site, opening on a live <em>Guus is at Harborn</em> panel.</li><li><strong>01 site + 02 homelab page</strong>: the floor plan as the visual of the home-automation case study only.</li><li><strong>03 type in 01</strong>: the width axis of Anybody for big headlines on top of the spec-sheet tables.</li></ul>" },
-  { h: "What every option shares", body: "<ul><li>One copy deck, one token contract, one component inventory</li><li>Fluid type 360→1440, 12/6/4 grid, 4px spacing</li><li>Measured contrast per option, reduced motion, readable without JS</li><li>No horizontal scroll at 320px, no console errors</li></ul>" },
+  { h: "What changed in round 2", body: "<p>No concepts, no in-jokes, plain copy. Three normal portfolio directions, one per mood you picked. The featured project rotates on every page load; the rest are listed below it.</p>" },
+  { h: "Possible mixes", body: "<ul><li><strong>Licht + Beeld</strong>: the calm reading column, with Beeld's photo grid for projects.</li><li><strong>Donker</strong> with Licht's serif headline for a bit more warmth.</li></ul>" },
+  { h: "Round 1", body: "<p>The five concept directions are archived in <a href=\"design/archive/round-1/\">design/archive/round-1</a>.</p>" },
 ];
 
 const root = document.getElementById("directions");
 root.innerHTML = DIRS.map((d, i) => {
-  const base = `design/archive/round-1/directions/${d.slug}/`;
+  const base = `design/directions/${d.slug}/`;
   const first = d.options[0][0];
   return `
   <article class="dir" data-slug="${d.slug}">
     <div>
-      <div class="dir__num">0${i + 1} / 05</div>
+      <div class="dir__num">0${i + 1} / 0${DIRS.length}</div>
       <h3>${d.name}<span>${d.nl}</span></h3>
       <p>${d.blurb}</p>
       <div class="dir__meta">
@@ -264,13 +251,13 @@ root.innerHTML = DIRS.map((d, i) => {
         <div class="dir__links">
           <a class="open-home" href="${base}index.html?option=${first}">Open homepage</a>
           <a class="open-sys" href="${base}system.html?option=${first}">Design system</a>
-          <a href="${base}README.md">Rationale</a>
+          <a href="${base}project.html?option=${first}">Project page</a><a href="${base}README.md">Rationale</a>
         </div>
       </div>
     </div>
     <div class="shots">
-      <figure class="shot shot--desktop"><a class="open-home" href="${base}index.html?option=${first}"><img loading="lazy" width="1440" height="900" alt="${d.name} homepage, desktop" src="design/archive/round-1/previews/${d.slug}--${first}--desktop.png"></a><figcaption>1440 × 900</figcaption></figure>
-      <figure class="shot shot--mobile"><a class="open-home" href="${base}index.html?option=${first}"><img loading="lazy" width="390" height="844" alt="${d.name} homepage, mobile" src="design/archive/round-1/previews/${d.slug}--${first}--mobile.png"></a><figcaption>390 × 844</figcaption></figure>
+      <figure class="shot shot--desktop"><a class="open-home" href="${base}index.html?option=${first}"><img loading="lazy" width="1440" height="900" alt="${d.name} homepage, desktop" src="design/previews/${d.slug}--${first}--desktop.png"></a><figcaption>1440 × 900</figcaption></figure>
+      <figure class="shot shot--mobile"><a class="open-home" href="${base}index.html?option=${first}"><img loading="lazy" width="390" height="844" alt="${d.name} homepage, mobile" src="design/previews/${d.slug}--${first}--mobile.png"></a><figcaption>390 × 844</figcaption></figure>
     </div>
   </article>`;
 }).join("");
@@ -280,10 +267,10 @@ root.addEventListener("click", (e) => {
   if (!btn) return;
   const art = btn.closest(".dir"), slug = art.dataset.slug, opt = btn.dataset.opt;
   art.querySelectorAll("[data-opt]").forEach(b => b.setAttribute("aria-pressed", b === btn));
-  art.querySelectorAll(".shot--desktop img").forEach(img => img.src = `design/archive/round-1/previews/${slug}--${opt}--desktop.png`);
-  art.querySelectorAll(".shot--mobile img").forEach(img => img.src = `design/archive/round-1/previews/${slug}--${opt}--mobile.png`);
-  art.querySelectorAll("a.open-home").forEach(a => a.href = `design/archive/round-1/directions/${slug}/index.html?option=${opt}`);
-  art.querySelectorAll("a.open-sys").forEach(a => a.href = `design/archive/round-1/directions/${slug}/system.html?option=${opt}`);
+  art.querySelectorAll(".shot--desktop img").forEach(img => img.src = `design/previews/${slug}--${opt}--desktop.png`);
+  art.querySelectorAll(".shot--mobile img").forEach(img => img.src = `design/previews/${slug}--${opt}--mobile.png`);
+  art.querySelectorAll("a.open-home").forEach(a => a.href = `design/directions/${slug}/index.html?option=${opt}`);
+  art.querySelectorAll("a.open-sys").forEach(a => a.href = `design/directions/${slug}/system.html?option=${opt}`);
 });
 
 const dots = n => `<span class="dots">${"●".repeat(n)}<span>${"●".repeat(5 - n)}</span></span> ${n}`;

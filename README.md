@@ -11,24 +11,20 @@ The personal site of **Guus Ekkelenkamp**, tech lead of the infra team at Harbor
 ```
 index.html                     ← design review hub: start here
 design/
-├── BRIEF.md                   ← goals, audiences, tone, the "not AI built" test, how to pick
-├── CONTENT.md                 ← content inventory + copy deck (shared by all directions)
-├── system/
-│   ├── FOUNDATIONS.md         ← token architecture, type/space scales, grid, motion, a11y, perf budget
-│   ├── tokens.schema.json     ← the semantic token contract every direction implements
-│   └── base.css               ← shared reset + scales (cascade layers)
+├── BRIEF.md                   ← goals, audiences, tone (round-2 note at the top)
+├── CONTENT.md                 ← round-2 copy deck: plain, with a rotating featured project
+├── system/                    ← shared foundations, token contract, base.css
 ├── directions/
-│   ├── 01-spec-sheet/         ← "Spec Sheet": industrial datasheet & label tape
-│   ├── 02-floor-plan/         ← "Plattegrond": the site as a floor plan of a smart home
-│   ├── 03-poster/             ← "Affiche": Rotterdam editorial poster, type as image
-│   ├── 04-zine/               ← "Zine": risograph DIY zine, two-ink overprint
-│   └── 05-wall-panel/         ← "Wandpaneel": the site as a home-dashboard wall panel
-│       each with index.html (homepage) · system.html (design system sheet) · README.md
-└── previews/                  ← screenshots per direction × option × viewport
+│   ├── r2-licht/              ← Licht & rustig
+│   ├── r2-donker/             ← Donker & strak
+│   └── r2-beeld/              ← Beeld voorop
+│       each with index.html · project.html · system.html · README.md
+├── previews/                  ← screenshots per direction × option × viewport
+└── archive/round-1/           ← the five concept directions from round 1
 ```
 
-Each direction ships **three options** (palette and mood) that you switch with the review bar in
-the bottom-left corner, or deep-link with `?option=<name>`.
+Each direction has two options (switch with the review bar bottom-left, or `?option=<name>`).
+The featured project changes on every load; pin one with `?featured=<id>`.
 
 ## Review locally
 
