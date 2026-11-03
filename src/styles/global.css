@@ -1,0 +1,11 @@
+/*
+ * The cascade, in order of precedence (later wins). Component styles live next to their
+ * component in `@layer components`; nothing on the site is unlayered except Astro's font faces.
+ */
+@layer reset, tokens, base, layout, components, utilities;
+
+@import "./tokens.css";
+@import "./reset.css";
+@import "./base.css";
+@import "./layout.css";
+@import "./utilities.css";

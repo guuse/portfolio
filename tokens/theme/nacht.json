@@ -1,0 +1,60 @@
+{
+  "surface": {
+    "$type": "color",
+    "base": { "$value": "{navy.190}", "$description": "The page" },
+    "raised": { "$value": "{navy.230}" },
+    "sunken": { "$value": "{navy.155}", "$description": "Code and inline code" },
+    "card": { "$value": "{navy.210}", "$description": "Behind drawings and covers" }
+  },
+  "ink": {
+    "$type": "color",
+    "base": { "$value": "{cloud.960}", "$description": "Headings and body copy that leads" },
+    "muted": { "$value": "{cloud.800}", "$description": "Body copy" },
+    "subtle": { "$value": "{cloud.680}", "$description": "Meta, captions, markers" }
+  },
+  "accent": {
+    "$type": "color",
+    "base": {
+      "$value": "{amber.840}",
+      "$description": "Used rarely: hovers, the timeline, one highlight per drawing"
+    },
+    "ink": { "$value": "{navy.190}", "$description": "Text on the accent" }
+  },
+  "line": {
+    "$type": "color",
+    "base": { "$value": "{navy.310}", "$description": "Hairline rules" },
+    "strong": { "$value": "{navy.480}", "$description": "Borders that must meet 3:1" }
+  },
+  "focus": { "$type": "color", "$value": "{amber.840}" },
+  "paper": { "$type": "color", "$value": "{bone.970}" },
+  "scrim": {
+    "$type": "color",
+    "lightbox": { "$value": "oklch(7% 0.03 {hue.navy} / 0.97)" }
+  },
+  "shadow": {
+    "$type": "color",
+    "print": { "$value": "oklch(8% 0.04 {hue.navy} / 0.55)" },
+    "print-lifted": { "$value": "oklch(8% 0.04 {hue.navy} / 0.65)" }
+  },
+  "art": {
+    "$type": "color",
+    "$description": "The illustration kit's shared materials (see src/lib/art). Part-specific tints live in src/styles/art.css.",
+    "face": { "$value": "{navy.280}", "$description": "Front face of every solid object" },
+    "top": { "$value": "{navy.390}", "$description": "The lit top plane" },
+    "edge": { "$value": "{navy.470}", "$description": "1.5-unit outlines" },
+    "hl": { "$value": "{navy.410}", "$description": "Inner highlight under the top edge" },
+    "dark": { "$value": "{navy.165}", "$description": "Recesses: bays, slots, screens" },
+    "det": { "$value": "{navy.430}", "$description": "Detail lines" },
+    "shadow": { "$value": "{navy.130}", "$description": "Flat contact shadows" },
+    "ground": { "$value": "{navy.300}" },
+    "route": { "$value": "{navy.360}", "$description": "Paths packets travel" },
+    "pod": { "$value": "{cloud.760}" },
+    "cool": { "$value": "{sky.800}", "$description": "Things that are on" },
+    "amber": { "$value": "{accent.base}", "$description": "The thing in motion" },
+    "packet-band": { "$value": "{amber.660}" },
+    "packet-seam": { "$value": "{amber.500}" },
+    "cool-band": { "$value": "{sky.640}" },
+    "cool-seam": { "$value": "{sky.480}" },
+    "card": { "$value": "{surface.card}" }
+  }
+}

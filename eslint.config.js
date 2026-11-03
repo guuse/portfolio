@@ -29,6 +29,8 @@ export default tseslint.config(
       "@typescript-eslint/consistent-type-imports": "error",
       "@typescript-eslint/no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
       eqeqeq: ["error", "smart"],
+      // `role="list"` restores list semantics that Safari drops when list-style is none.
+      "astro/jsx-a11y/no-redundant-roles": ["error", { ul: ["list"], ol: ["list"] }],
       "no-console": ["error", { allow: ["info", "warn", "error"] }],
     },
   },

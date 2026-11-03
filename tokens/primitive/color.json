@@ -1,0 +1,54 @@
+{
+  "hue": {
+    "$type": "number",
+    "navy": {
+      "$value": 266,
+      "$description": "The one hue the whole Nacht palette is built on. Change it and every surface, line and drawing follows."
+    }
+  },
+  "navy": {
+    "$type": "color",
+    "130": { "$value": "oklch(13% 0.035 {hue.navy})" },
+    "155": { "$value": "oklch(15.5% 0.04 {hue.navy})" },
+    "165": { "$value": "oklch(16.5% 0.04 {hue.navy})" },
+    "180": { "$value": "oklch(18% 0.04 {hue.navy})" },
+    "190": { "$value": "oklch(19% 0.045 {hue.navy})", "$description": "#0a1328, the page" },
+    "210": { "$value": "oklch(21% 0.047 {hue.navy})" },
+    "230": { "$value": "oklch(23% 0.05 {hue.navy})" },
+    "280": { "$value": "oklch(28% 0.05 {hue.navy})" },
+    "300": { "$value": "oklch(30% 0.045 {hue.navy})" },
+    "310": { "$value": "oklch(31% 0.045 {hue.navy})" },
+    "360": { "$value": "oklch(36% 0.05 {hue.navy})" },
+    "390": { "$value": "oklch(39% 0.052 {hue.navy})" },
+    "410": { "$value": "oklch(41% 0.052 {hue.navy})" },
+    "430": { "$value": "oklch(43% 0.05 {hue.navy})" },
+    "470": { "$value": "oklch(47% 0.05 {hue.navy})" },
+    "480": { "$value": "oklch(48% 0.05 {hue.navy})" }
+  },
+  "cloud": {
+    "$type": "color",
+    "$description": "Cool near-whites for text on navy.",
+    "680": { "$value": "oklch(68% 0.035 262)" },
+    "760": { "$value": "oklch(76% 0.035 255)" },
+    "800": { "$value": "oklch(80% 0.03 262)" },
+    "960": { "$value": "oklch(96% 0.008 260)" }
+  },
+  "amber": {
+    "$type": "color",
+    "$description": "Sodium amber, the single accent.",
+    "500": { "$value": "oklch(50% 0.1 70)" },
+    "660": { "$value": "oklch(66% 0.13 70)" },
+    "840": { "$value": "oklch(84% 0.15 82)", "$description": "#fbc044" }
+  },
+  "sky": {
+    "$type": "color",
+    "$description": "One cool blue for things that are on.",
+    "480": { "$value": "oklch(48% 0.07 230)" },
+    "640": { "$value": "oklch(64% 0.09 230)" },
+    "800": { "$value": "oklch(80% 0.09 228)" }
+  },
+  "bone": {
+    "$type": "color",
+    "970": { "$value": "oklch(97% 0.006 85)", "$description": "The white border of a photo print" }
+  }
+}

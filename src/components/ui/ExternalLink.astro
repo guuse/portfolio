@@ -1,0 +1,11 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+/** A link that leaves the site. Opens in a new tab, as the rest of the site does. */
+type Props = HTMLAttributes<"a"> & { href: string };
+const { href, ...rest } = Astro.props;
+---
+
+<a href={href} target="_blank" rel="noopener" {...rest}>
+  <slot />
+</a>

@@ -1,0 +1,45 @@
+---
+import { site } from "~/lib/site";
+import ExternalLink from "~/components/ui/ExternalLink.astro";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="wrap site-footer__inner">
+    <p>
+      &copy; {year} {site.name}
+    </p>
+    <ul role="list">
+      <li>
+        <ExternalLink href={site.linkedin}>LinkedIn</ExternalLink>
+      </li>
+      <li>
+        <ExternalLink href={site.github}>GitHub</ExternalLink>
+      </li>
+    </ul>
+  </div>
+</footer>
+
+<style>
+  @layer components {
+    .site-footer {
+      border-top: 1px solid var(--line);
+      padding-block: 2rem 3rem;
+      color: var(--ink-subtle);
+      font-size: var(--text-small);
+    }
+
+    .site-footer__inner {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 8px 24px;
+    }
+
+    .site-footer ul {
+      display: flex;
+      gap: 20px;
+    }
+  }
+</style>

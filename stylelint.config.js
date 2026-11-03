@@ -9,6 +9,7 @@ export default {
       { message: "Use lowercase BEM: block__element--modifier" },
     ],
     "custom-property-pattern": null,
+    "import-notation": "string",
     "keyframes-name-pattern": null,
     // oklch() channels read better as percentages next to the token file.
     "lightness-notation": null,

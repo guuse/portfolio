@@ -1,0 +1,25 @@
+---
+/** The first focusable element on every page: jumps over the header to the content. */
+---
+
+<a class="skip-link" href="#main">
+  Skip to content
+</a>
+
+<style>
+  @layer components {
+    .skip-link {
+      position: absolute;
+      left: 16px;
+      top: -100px;
+      z-index: 100;
+      padding: 8px 16px;
+      background: var(--ink);
+      color: var(--surface);
+    }
+
+    .skip-link:focus {
+      top: 16px;
+    }
+  }
+</style>
