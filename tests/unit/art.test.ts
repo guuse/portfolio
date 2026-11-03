@@ -44,6 +44,12 @@ const KEYS: Record<string, string[]> = {
     "bar",
     "r-push",
     "r-roll",
+    "lbl-repo",
+    "lbl-build",
+    "lbl-reg",
+    "lbl-lap",
+    "argo",
+    "upd",
   ],
   itch: ["f0", "f3", "t6", "bk7", "sh2", "q0", "q1"],
   table: ["seat3", "seat3-ring", "st2", "hc2", "stacklbl", "auto", "lane3", "back3"],
@@ -67,6 +73,7 @@ describe("illustration kit", () => {
       ...Object.keys(KEYS).map((id) => scenes[id]!()),
       card("platform"),
       card("homelab"),
+      card("mtg"),
       apps(),
       ways(),
       sketch(),
@@ -74,9 +81,13 @@ describe("illustration kit", () => {
     for (const svg of all) expect(svg).not.toMatch(/\sstyle=/);
   });
 
-  it("hides the homepage cards from assistive tech", () => {
-    expect(card("platform")).toContain('aria-hidden="true"');
-    expect(card("homelab")).toContain('aria-hidden="true"');
+  it("hides the live project drawings from assistive tech", () => {
+    for (const id of ["platform", "homelab", "mtg"] as const) {
+      expect(card(id)).toContain('aria-hidden="true"');
+      expect(card(id)).not.toContain("role=");
+    }
+    // the MTG hero is the table scene, whole, with what its animator reaches for
+    for (const key of KEYS["table"]!) expect(card("mtg"), key).toContain(`data-k="${key}"`);
   });
 
   it("is deterministic", () => {
