@@ -7,6 +7,7 @@ import { initSmoothAnchors } from "./anchors";
 import { initCopyEmail } from "./copy-email";
 import { initEasterEggs } from "./eggs";
 import { initLightbox } from "./lightbox";
+import { initNav } from "./nav";
 import { motionOk } from "./motion-ok";
 import { initPrints } from "./prints";
 import { initReveal } from "./reveal";
@@ -16,6 +17,7 @@ const scheduler = browserScheduler();
 
 initCopyEmail();
 initSmoothAnchors();
+initNav();
 initPrints();
 initLightbox();
 initEasterEggs();

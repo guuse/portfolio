@@ -12,10 +12,18 @@ export const site = {
   themeColor: "#0a1328",
 } as const;
 
-/** The main navigation. `match` decides which entry is the current page. */
+/**
+ * The main navigation. `match` decides which entry is the current page; `section` is the
+ * homepage section an entry stands for, so the nav can follow along as you scroll there.
+ */
 export const nav = [
   { label: "Home", href: "/", match: (path: string) => path === "/" },
-  { label: "Projects", href: "/projects/", match: (path: string) => path.startsWith("/projects/") },
-  { label: "Experience", href: "/#experience", match: () => false },
-  { label: "Contact", href: "/#contact", match: () => false },
+  {
+    label: "Projects",
+    href: "/projects/",
+    match: (path: string) => path.startsWith("/projects/"),
+    section: "projects",
+  },
+  { label: "Experience", href: "/#experience", match: () => false, section: "experience" },
+  { label: "Contact", href: "/#contact", match: () => false, section: "contact" },
 ] as const;

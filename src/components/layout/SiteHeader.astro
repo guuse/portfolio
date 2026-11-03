@@ -2,6 +2,7 @@
 import { nav, site } from "~/lib/site";
 
 const path = Astro.url.pathname;
+const home = path === "/";
 ---
 
 <header class="site-header">
@@ -13,12 +14,18 @@ const path = Astro.url.pathname;
       <ul role="list">
         {nav.map((item) => (
           <li>
-            <a href={item.href} aria-current={item.match(path) ? "page" : undefined}>
+            <a
+              href={item.href}
+              aria-current={item.match(path) ? "page" : undefined}
+              data-spy={home && "section" in item ? item.section : undefined}
+            >
               {item.label}
             </a>
           </li>
         ))}
       </ul>
+      <!-- one underline that slides to the current entry (src/scripts/nav.ts) -->
+      <span class="nav__mark" aria-hidden="true"></span>
     </nav>
   </div>
 </header>
@@ -71,6 +78,46 @@ const path = Astro.url.pathname;
       text-decoration: underline;
       text-decoration-color: var(--accent);
       text-underline-offset: 0.4em;
+    }
+
+    /*
+     * With JS the current entry's underline is one element that slides between entries
+     * (transform only). Without JS, the text underline above stays.
+     */
+    .nav {
+      position: relative;
+    }
+
+    .nav__mark {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100px;
+      height: 1px;
+      background: var(--accent);
+      transform-origin: 0 0;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .nav:global(.has-mark) .nav__mark {
+      opacity: 1;
+    }
+
+    .nav:global(.is-tracking) .nav__mark {
+      transition:
+        transform var(--duration-base) var(--ease-out),
+        opacity var(--duration-quick);
+    }
+
+    .nav:global(.has-mark) a:global(.is-marked) {
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav:global(.has-mark) a[aria-current]:not(:global(.is-marked)):not(:hover) {
+      color: var(--ink-muted);
+      text-decoration: none;
     }
 
     @media (width < 600px) {
