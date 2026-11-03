@@ -1,0 +1,67 @@
+---
+/**
+ * A homepage or case-study section: a hairline on top, the heading in the left column and
+ * the body in the right one from 900px. `variant` covers the two sections that differ.
+ */
+interface Props {
+  id?: string | undefined;
+  title?: string | undefined;
+  /** about: no rule, less space on top. closing: no heading. */
+  variant?: "about" | "closing" | undefined;
+  /** Extra classes for the body (e.g. "prose"). */
+  bodyClass?: string | undefined;
+}
+const { id, title, variant, bodyClass } = Astro.props;
+const headingId = id ? `${id}-title` : undefined;
+---
+
+<section
+  class:list={["sec", variant && `sec--${variant}`]}
+  id={id}
+  aria-labelledby={title ? headingId : undefined}
+>
+  {title && <h2 class="sec__h" id={headingId} set:html={title} />}
+  <div class:list={["sec__body", bodyClass]}>
+    <slot />
+  </div>
+</section>
+
+<style>
+  @layer components {
+    .sec {
+      padding-block: var(--space-section);
+      border-top: 1px solid var(--line);
+      display: grid;
+      gap: 1.5rem var(--space-gutter);
+    }
+
+    @media (width >= 900px) {
+      .sec {
+        grid-template-columns: minmax(0, 3fr) minmax(0, 9fr);
+      }
+
+      .sec__body {
+        grid-column: 2;
+      }
+    }
+
+    .sec__h {
+      font-family: var(--font-heading);
+      font-size: var(--text-h2);
+      line-height: 1;
+      letter-spacing: -0.01em;
+    }
+
+    .sec__body {
+      min-width: 0;
+      display: grid;
+      gap: 1.5rem;
+      align-content: start;
+    }
+
+    .sec--about {
+      border-top: 0;
+      padding-top: clamp(2.5rem, 1.5rem + 3vw, 4rem);
+    }
+  }
+</style>

@@ -1,0 +1,921 @@
+/*
+ * The illustration kit's materials (see src/lib/art). Shared materials come from the art.*
+ * tokens; the per-part tints of people, books and cards are local to the drawings.
+ */
+@layer components {
+  .story {
+    display: block;
+    width: 100%;
+    height: auto;
+    font-family: var(--font-body);
+    overflow: visible;
+  }
+
+  .story .t {
+    fill: var(--ink);
+    font-size: 17px;
+    font-weight: 500;
+  }
+
+  .story .ts {
+    fill: var(--ink-muted);
+    font-size: 15.5px;
+  }
+
+  .story .tb {
+    fill: var(--ink);
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .story .mono {
+    color: var(--ink);
+    fill: currentcolor;
+  }
+
+  .ln {
+    fill: none;
+    stroke: var(--ink-subtle);
+    stroke-width: 1.5;
+  }
+
+  .hn rect,
+  .hn-r {
+    fill: var(--surface-raised);
+    stroke: var(--line-strong);
+    stroke-width: 1.25;
+  }
+
+  .story use {
+    fill: var(--ink);
+  }
+
+  .tile__bar {
+    fill: var(--line-strong);
+  }
+
+  .scene-svg {
+    --k-face: var(--art-face);
+    --k-top: var(--art-top);
+    --k-edge: var(--art-edge);
+    --k-hl: var(--art-hl);
+    --k-dark: var(--art-dark);
+    --k-det: var(--art-det);
+    --k-shadow: var(--art-shadow);
+    --k-ground: var(--art-ground);
+    --k-route: var(--art-route);
+    --k-pod: var(--art-pod);
+    --k-cool: var(--art-cool);
+    --k-amber: var(--art-amber);
+
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    font-family: var(--font-body);
+  }
+
+  .scene-svg .k-face {
+    fill: var(--k-face);
+    stroke: var(--k-edge);
+    stroke-width: 1.5;
+  }
+
+  .scene-svg .k-top {
+    fill: var(--k-top);
+    stroke: var(--k-edge);
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+  }
+
+  .scene-svg .k-hl {
+    fill: none;
+    stroke: var(--k-hl);
+    stroke-width: 1;
+    stroke-linecap: round;
+  }
+
+  .scene-svg .k-dark {
+    fill: var(--k-dark);
+  }
+
+  .scene-svg .k-det {
+    fill: none;
+    stroke: var(--k-det);
+    stroke-width: 1.2;
+    stroke-linecap: round;
+  }
+
+  .scene-svg .k-det-f {
+    fill: var(--k-det);
+  }
+
+  .scene-svg .k-det-ring {
+    fill: none;
+    stroke: var(--k-det);
+    stroke-width: 1.3;
+  }
+
+  .scene-svg .k-vent {
+    stroke: var(--k-dark);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+  }
+
+  .scene-svg .k-shadow {
+    fill: var(--k-shadow);
+    opacity: 0.8;
+  }
+
+  .scene-svg .k-ground {
+    stroke: var(--k-ground);
+    stroke-width: 1;
+    fill: none;
+  }
+
+  .scene-svg .k-ear {
+    fill: oklch(31% 0.05 var(--hue-navy));
+    stroke: var(--k-edge);
+    stroke-width: 1;
+  }
+
+  .scene-svg .k-screw {
+    fill: var(--k-dark);
+  }
+
+  .scene-svg .k-led {
+    fill: var(--k-cool);
+  }
+
+  .scene-svg .k-led--act {
+    fill: var(--k-det);
+  }
+
+  .scene-svg .k-led--warn {
+    fill: var(--k-amber);
+    transition: fill 200ms;
+  }
+
+  .scene-svg .k-slot {
+    fill: var(--k-dark);
+    stroke: oklch(22% 0.045 var(--hue-navy));
+    stroke-width: 1;
+  }
+
+  .scene-svg .k-pod {
+    fill: var(--k-pod);
+  }
+
+  .scene-svg .k-pod--new {
+    fill: var(--k-amber);
+  }
+
+  .scene-svg .k-pod-l {
+    stroke: oklch(62% 0.04 260);
+    stroke-width: 1.2;
+    stroke-linecap: round;
+  }
+
+  .scene-svg .k-pend {
+    fill: none;
+    stroke: var(--k-amber);
+    stroke-width: 1.5;
+    stroke-dasharray: 3, 3;
+  }
+
+  .scene-svg .k-back {
+    fill: oklch(19% 0.042 var(--hue-navy));
+  }
+
+  .scene-svg .k-rail {
+    fill: oklch(30% 0.05 var(--hue-navy));
+    stroke: var(--k-edge);
+    stroke-width: 1;
+  }
+
+  .scene-svg .k-hole {
+    fill: var(--k-dark);
+  }
+
+  .scene-svg .k-foot {
+    fill: var(--k-dark);
+  }
+
+  .scene-svg .k-seam {
+    stroke: var(--k-dark);
+    stroke-width: 2;
+  }
+
+  .scene-svg .k-cable {
+    fill: none;
+    stroke: var(--k-det);
+    stroke-width: 2.2;
+    stroke-linecap: round;
+  }
+
+  .scene-svg .k-win {
+    fill: oklch(31% 0.05 var(--hue-navy));
+    stroke: var(--k-edge);
+    stroke-width: 1.5;
+  }
+
+  .scene-svg .k-edge-line {
+    stroke: var(--k-edge);
+    stroke-width: 1;
+  }
+
+  .scene-svg .k-tab {
+    fill: oklch(36% 0.052 var(--hue-navy));
+    stroke: var(--k-edge);
+    stroke-width: 1;
+  }
+
+  .scene-svg .k-img {
+    fill: oklch(23% 0.045 var(--hue-navy));
+  }
+
+  .scene-svg .k-imgline {
+    fill: none;
+    stroke: oklch(40% 0.05 var(--hue-navy));
+    stroke-width: 1.3;
+    stroke-linejoin: round;
+  }
+
+  .scene-svg .k-txt {
+    fill: oklch(48% 0.045 264);
+  }
+
+  .scene-svg .k-txt--b {
+    fill: oklch(66% 0.035 262);
+  }
+
+  .scene-svg .k-mark {
+    fill: var(--k-pod);
+  }
+
+  .scene-svg .k-markline {
+    fill: none;
+    stroke: var(--k-pod);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+  }
+
+  .scene-svg .k-field {
+    fill: oklch(23% 0.045 var(--hue-navy));
+    stroke: oklch(40% 0.05 var(--hue-navy));
+    stroke-width: 1;
+  }
+
+  .scene-svg .k-keys {
+    fill: oklch(24% 0.045 var(--hue-navy));
+  }
+
+  .scene-svg .k-screen {
+    fill: oklch(18% 0.04 var(--hue-navy));
+  }
+
+  .scene-svg .k-sheen {
+    fill: oklch(1 0 0 / 0.035);
+  }
+
+  .scene-svg .k-lo {
+    fill: none;
+    stroke: oklch(22% 0.045 var(--hue-navy));
+    stroke-width: 1.4;
+    stroke-linecap: round;
+  }
+
+  .scene-svg .k-pod-d {
+    fill: oklch(58% 0.04 258);
+  }
+
+  .scene-svg .pk-h {
+    fill: var(--art-packet-band);
+  }
+
+  .scene-svg .k-band {
+    fill: none;
+    stroke: var(--k-det);
+    stroke-width: 1.2;
+  }
+
+  .scene-svg .k-port {
+    fill: oklch(30% 0.05 var(--hue-navy));
+  }
+
+  .scene-svg .k-bar {
+    fill: var(--ink);
+  }
+
+  .scene-svg .k-stripe {
+    fill: var(--k-face);
+  }
+
+  .scene-svg .k-doorway {
+    fill: var(--k-dark);
+  }
+
+  .scene-svg .k-globe {
+    fill: oklch(21.5% 0.045 var(--hue-navy));
+  }
+
+  .scene-svg .k-globe-edge {
+    fill: none;
+    stroke: var(--k-edge);
+    stroke-width: 1.5;
+  }
+
+  .scene-svg .k-grat {
+    fill: none;
+    stroke: oklch(29% 0.045 var(--hue-navy));
+    stroke-width: 1;
+  }
+
+  .scene-svg .k-route {
+    fill: none;
+    stroke: var(--k-route);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .scene-svg .k-route--dash {
+    stroke-dasharray: 2, 6;
+  }
+
+  .scene-svg .k-route--idle {
+    stroke-dasharray: 2, 4;
+  }
+
+  .scene-svg .k-tag {
+    fill: var(--k-face);
+    stroke: var(--k-edge);
+    stroke-width: 1.5;
+  }
+
+  .scene-svg .k-tag--v6 {
+    stroke: var(--k-amber);
+  }
+
+  .scene-svg .k-plate {
+    fill: var(--k-dark);
+    stroke: var(--k-edge);
+    stroke-width: 1;
+  }
+
+  .scene-svg .k-plate--v6 {
+    stroke: var(--k-amber);
+  }
+
+  .scene-svg .k-git {
+    stroke: var(--k-det);
+    stroke-width: 2;
+    fill: none;
+    stroke-linecap: round;
+  }
+
+  .scene-svg .k-commit {
+    fill: var(--k-amber);
+  }
+
+  .scene-svg .k-commit-core {
+    fill: var(--k-dark);
+  }
+
+  .scene-svg .k-commit-old {
+    fill: var(--k-dark);
+    stroke: var(--k-det);
+    stroke-width: 2;
+  }
+
+  .scene-svg .k-commit-tag {
+    fill: var(--ink);
+  }
+
+  .scene-svg .k-wire {
+    fill: none;
+    stroke: var(--k-route);
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+
+  .scene-svg .k-wire--lit {
+    stroke: oklch(62% 0.04 262);
+  }
+
+  .scene-svg .k-flag {
+    fill: var(--ink);
+  }
+
+  .scene-svg .k-flag--old {
+    fill: var(--k-det);
+  }
+
+  .scene-svg .k-chip {
+    fill: var(--k-face);
+    stroke: var(--k-edge);
+    stroke-width: 1.2;
+  }
+
+  .scene-svg .k-cardbg {
+    fill: var(--art-card);
+  }
+
+  .scene-svg .pk-b {
+    fill: var(--k-amber);
+  }
+
+  .scene-svg .pk-s {
+    stroke: var(--art-packet-seam);
+    stroke-width: 1.2;
+    stroke-linecap: round;
+  }
+
+  .scene-svg .pk--cool .pk-b {
+    fill: var(--k-cool);
+  }
+
+  .scene-svg .pk--cool .pk-h {
+    fill: var(--art-cool-band);
+  }
+
+  .scene-svg .pk--cool .pk-s {
+    stroke: var(--art-cool-seam);
+  }
+
+  .scene-svg .pk--ink .pk-b {
+    fill: var(--ink);
+  }
+
+  .scene-svg .pk--ink .pk-h {
+    fill: oklch(76% 0.02 262);
+  }
+
+  .scene-svg .pk--ink .pk-s {
+    stroke: oklch(58% 0.03 262);
+  }
+
+  .scene-svg .lb {
+    fill: var(--ink-muted);
+    font-size: 15px;
+    font-weight: 500;
+  }
+
+  .scene-svg .lb--s {
+    font-size: 13.5px;
+  }
+
+  .scene-svg .lb-m {
+    fill: var(--k-cool);
+    font-family: var(--font-code);
+    font-size: 13.5px;
+  }
+
+  .scene-svg .lb-m--s {
+    font-size: 12.5px;
+    fill: var(--ink-muted);
+  }
+
+  .scene-svg .lb-chip {
+    fill: var(--ink-muted);
+    font-size: 14.5px;
+    font-weight: 500;
+  }
+
+  .scene-svg .lb-tag {
+    fill: var(--ink);
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .scene-svg .lb-tag--v6 {
+    fill: var(--k-amber);
+  }
+
+  .scene-svg .lb-port {
+    fill: var(--ink-muted);
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .scene-svg .lb-port--v6 {
+    fill: var(--k-amber);
+  }
+
+  .scene-svg [data-k] {
+    transform-box: fill-box;
+  }
+
+  .scene-svg .k-origin-b {
+    transform-origin: 50% 100%;
+  }
+
+  .scene-svg .k-origin-t {
+    transform-origin: 50% 0;
+  }
+
+  .scene-svg .k-origin-c {
+    transform-origin: 50% 50%;
+  }
+
+  .scene-svg .k-origin-l {
+    transform-origin: 0 50%;
+  }
+
+  .scene-svg .k-gatebar {
+    transform-origin: 50% 0;
+  }
+
+  .scene-svg .k-pulse {
+    fill: var(--k-amber);
+  }
+
+  .scene-svg .k-led--act.is-blink {
+    fill: var(--k-cool);
+  }
+
+  .scene-svg .c-face {
+    fill: oklch(84% 0.025 255);
+    stroke: oklch(60% 0.035 258);
+    stroke-width: 1;
+  }
+
+  .scene-svg .c-face--hl {
+    stroke: var(--k-amber);
+    stroke-width: 2;
+  }
+
+  .scene-svg .c-art {
+    fill: oklch(40% 0.05 262);
+  }
+
+  .scene-svg .c-artline {
+    fill: none;
+    stroke: oklch(55% 0.05 258);
+    stroke-width: 1.1;
+    stroke-linejoin: round;
+  }
+
+  .scene-svg .c-txt {
+    fill: oklch(64% 0.03 258);
+  }
+
+  .scene-svg .c-txt--b {
+    fill: oklch(50% 0.04 260);
+  }
+
+  .scene-svg .c-back {
+    fill: oklch(33% 0.055 var(--hue-navy));
+    stroke: var(--k-edge);
+    stroke-width: 1;
+  }
+
+  .scene-svg .c-back-in {
+    fill: none;
+    stroke: oklch(45% 0.06 250);
+    stroke-width: 1;
+  }
+
+  .scene-svg .c-back-mark {
+    fill: oklch(42% 0.06 250);
+  }
+
+  .scene-svg .p-shirt {
+    stroke: var(--k-edge);
+    stroke-width: 1.5;
+  }
+
+  .scene-svg .p-shirt--1 {
+    fill: oklch(34% 0.055 var(--hue-navy));
+  }
+
+  .scene-svg .p-shirt--2 {
+    fill: oklch(29% 0.05 250);
+  }
+
+  .scene-svg .p-shirt--3 {
+    fill: oklch(31% 0.05 280);
+  }
+
+  .scene-svg .p-shirt--4 {
+    fill: oklch(37% 0.045 240);
+  }
+
+  .scene-svg .p-hl {
+    fill: none;
+    stroke: oklch(46% 0.05 262);
+    stroke-width: 1.2;
+    stroke-linecap: round;
+  }
+
+  .scene-svg .p-neck {
+    fill: oklch(58% 0.04 262);
+  }
+
+  .scene-svg .p-head {
+    fill: oklch(66% 0.04 262);
+    stroke: oklch(52% 0.04 262);
+    stroke-width: 1.2;
+  }
+
+  .scene-svg .p-hair {
+    fill: oklch(22% 0.035 var(--hue-navy));
+  }
+
+  .scene-svg .p-cap {
+    fill: oklch(48% 0.06 250);
+  }
+
+  .scene-svg .m-tableface {
+    fill: oklch(30% 0.05 var(--hue-navy));
+    stroke: var(--k-edge);
+    stroke-width: 1.5;
+  }
+
+  .scene-svg .m-tabletop {
+    fill: oklch(36% 0.05 262);
+    stroke: var(--k-edge);
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+  }
+
+  .scene-svg .b-cover {
+    fill: oklch(31% 0.05 var(--hue-navy));
+    stroke: var(--k-edge);
+    stroke-width: 1.5;
+  }
+
+  .scene-svg .b-cover--2 {
+    fill: oklch(28% 0.05 248);
+  }
+
+  .scene-svg .b-cover--3 {
+    fill: oklch(34% 0.045 280);
+  }
+
+  .scene-svg .b-pages {
+    fill: oklch(78% 0.02 250);
+  }
+
+  .scene-svg .b-pageline {
+    stroke: oklch(62% 0.03 255);
+    stroke-width: 0.8;
+  }
+
+  .scene-svg .b-title {
+    fill: oklch(52% 0.05 255);
+  }
+
+  .scene-svg .b-sheet {
+    fill: oklch(86% 0.02 250);
+    stroke: oklch(62% 0.03 255);
+    stroke-width: 1;
+  }
+
+  .scene-svg .b-sheetline {
+    fill: oklch(66% 0.03 255);
+  }
+
+  .scene-svg .m-bubble {
+    fill: var(--k-face);
+    stroke: var(--k-edge);
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+  }
+
+  .scene-svg .lb-q {
+    fill: var(--k-amber);
+    font-size: 19px;
+    font-weight: 700;
+  }
+
+  .scene-svg .lb-say {
+    fill: var(--ink);
+    font-size: 19px;
+    font-weight: 500;
+  }
+
+  .scene-svg .lb-q-m {
+    fill: var(--k-cool);
+    font-family: var(--font-code);
+    font-size: 16px;
+  }
+
+  .scene-svg .lb-count {
+    fill: var(--ink-muted);
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .scene-svg .m-rim {
+    fill: oklch(31% 0.05 var(--hue-navy));
+    stroke: var(--k-edge);
+    stroke-width: 1.5;
+  }
+
+  .scene-svg .m-felt {
+    fill: oklch(23% 0.05 255);
+  }
+
+  .scene-svg .m-felt-edge {
+    fill: none;
+    stroke: oklch(19% 0.04 260);
+    stroke-width: 2;
+  }
+
+  .scene-svg .m-plate {
+    fill: var(--k-face);
+    stroke: var(--k-edge);
+    stroke-width: 1.2;
+  }
+
+  .scene-svg .m-plateline {
+    fill: oklch(52% 0.04 260);
+  }
+
+  .scene-svg .m-ring {
+    fill: none;
+    stroke: var(--k-amber);
+    stroke-width: 2;
+  }
+
+  .scene-svg .m-avatar {
+    stroke: var(--k-dark);
+    stroke-width: 1.5;
+  }
+
+  .scene-svg .m-avatar--1 {
+    fill: oklch(78% 0.06 250);
+  }
+
+  .scene-svg .m-avatar--2 {
+    fill: oklch(70% 0.05 220);
+  }
+
+  .scene-svg .m-avatar--3 {
+    fill: oklch(74% 0.04 290);
+  }
+
+  .scene-svg .m-avatar--4 {
+    fill: oklch(66% 0.05 260);
+  }
+
+  .scene-svg .m-code {
+    fill: var(--k-dark);
+  }
+
+  .scene-svg .m-reload {
+    fill: none;
+    stroke: var(--ink-muted);
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .scene-svg .m-track {
+    fill: var(--k-route);
+  }
+
+  .scene-svg .m-tick {
+    fill: oklch(42% 0.05 264);
+  }
+
+  .scene-svg .m-mark {
+    fill: var(--k-amber);
+  }
+
+  .scene-svg .m-unitback {
+    fill: oklch(19% 0.042 var(--hue-navy));
+    stroke: var(--k-edge);
+    stroke-width: 1.2;
+  }
+
+  .scene-svg .m-box {
+    fill: oklch(31% 0.05 var(--hue-navy));
+    stroke: var(--k-edge);
+    stroke-width: 1.5;
+  }
+
+  .scene-svg .m-box--hl {
+    stroke: var(--k-amber);
+  }
+
+  .scene-svg .m-boxlabel {
+    fill: oklch(58% 0.04 258);
+  }
+
+  .scene-svg .m-binder {
+    fill: oklch(30% 0.05 255);
+    stroke: var(--k-edge);
+    stroke-width: 1.5;
+  }
+
+  .scene-svg .m-spine {
+    fill: oklch(24% 0.045 260);
+  }
+
+  .scene-svg .m-ringhole {
+    fill: oklch(60% 0.03 258);
+  }
+
+  .scene-svg .m-pocket {
+    fill: oklch(24% 0.045 262);
+    stroke: oklch(38% 0.05 262);
+    stroke-width: 1;
+  }
+
+  .scene-svg .m-token {
+    fill: var(--k-dark);
+    stroke: oklch(45% 0.06 230);
+    stroke-width: 1.3;
+  }
+
+  .scene-svg .m-tickbg {
+    fill: var(--k-cool);
+  }
+
+  .scene-svg .m-tickmark {
+    fill: none;
+    stroke: var(--k-dark);
+    stroke-width: 2.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .scene-svg .m-moon {
+    fill: oklch(88% 0.03 90);
+  }
+
+  .scene-svg .m-sky {
+    fill: var(--surface);
+  }
+
+  .scene-svg .m-strap {
+    fill: var(--k-amber);
+  }
+
+  .scene-svg .m-pole {
+    fill: var(--ink-muted);
+  }
+
+  .scene-svg .m-flag {
+    fill: var(--k-amber);
+  }
+
+  .scene-svg .m-issue {
+    fill: none;
+    stroke: var(--k-cool);
+    stroke-width: 2.2;
+  }
+
+  .scene-svg .m-issue-dot {
+    fill: var(--k-cool);
+  }
+
+  .scene-svg .m-lock {
+    fill: var(--ink-muted);
+  }
+
+  .scene-svg .m-shackle {
+    fill: none;
+    stroke: var(--ink-muted);
+    stroke-width: 2.4;
+  }
+
+  .scene-svg .k-none {
+    fill: none;
+    stroke: none;
+  }
+
+  .scene-svg .k-route--faint {
+    stroke: oklch(30% 0.045 var(--hue-navy));
+    stroke-dasharray: 2, 5;
+  }
+
+  @media (width < 700px) {
+    .scene-svg .lb {
+      font-size: 21px;
+    }
+
+    .scene-svg .lb--s {
+      font-size: 18.5px;
+    }
+
+    .scene-svg .lb-m {
+      font-size: 17.5px;
+    }
+
+    .scene-svg .lb-m--s {
+      font-size: 15px;
+    }
+
+    .scene-svg .lb-chip {
+      font-size: 18.5px;
+    }
+  }
+
+  .scene-svg .k-led--warn.is-open {
+    fill: var(--k-cool);
+  }
+}

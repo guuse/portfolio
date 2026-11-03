@@ -10,6 +10,7 @@ export default {
     ],
     "custom-property-pattern": null,
     "import-notation": "string",
+    "selector-pseudo-class-no-unknown": [true, { ignorePseudoClasses: ["global"] }],
     "keyframes-name-pattern": null,
     // oklch() channels read better as percentages next to the token file.
     "lightness-notation": null,

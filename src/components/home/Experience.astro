@@ -1,0 +1,161 @@
+---
+import { list } from "~/lib/content";
+import Section from "~/components/ui/Section.astro";
+
+const phases = await list("experience");
+---
+
+<Section id="experience" title="Experience">
+  <div class="org">
+    <h3 class="org__name">Harborn</h3>
+    <p class="org__where">Digital agency, Rotterdam and Amsterdam</p>
+  </div>
+  <!-- the timeline line draws itself as you read: --p is set by src/scripts/scroll-effects.ts -->
+  <ol class="phases" role="list">
+    {phases.map((data) => (
+      <li class="phase">
+        <h4 class="phase__title">
+          {data.title} <span class="phase__years">{data.years}</span>
+        </h4>
+        <p class="phase__intro">{data.intro}</p>
+        <ul>
+          {data.bullets.map((b) => (
+            <li set:html={b} />
+          ))}
+        </ul>
+        <p class="phase__learned">{data.learned}</p>
+      </li>
+    ))}
+  </ol>
+</Section>
+
+<style>
+  @layer components {
+    .org {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 4px 16px;
+      padding-bottom: 0.25rem;
+    }
+
+    .org__name {
+      font-family: var(--font-heading);
+      font-size: var(--text-h3);
+      line-height: 1.2;
+    }
+
+    .org__where {
+      color: var(--ink-muted);
+    }
+
+    .phases {
+      position: relative;
+      display: grid;
+      padding-left: 26px;
+    }
+
+    .phases::before,
+    .phases::after {
+      content: "";
+      position: absolute;
+      left: 4px;
+      top: 0.9rem;
+      bottom: 0.5rem;
+      width: 1px;
+      background: var(--line);
+    }
+
+    .phases::after {
+      background: var(--accent);
+      transform-origin: center top;
+      transform: scaleY(var(--p, 1));
+    }
+
+    .phase {
+      position: relative;
+      padding-block: 1.25rem;
+      border-top: 1px solid var(--line);
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    .phase:first-child {
+      border-top: 0;
+      padding-top: 0.5rem;
+    }
+
+    .phase::before {
+      content: "";
+      position: absolute;
+      left: -26px;
+      top: 1.75rem;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 1.5px solid var(--line-strong);
+    }
+
+    .phase:first-child::before {
+      top: 0.95rem;
+      border-color: var(--accent);
+    }
+
+    .phase__title {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 4px 10px;
+      font-size: var(--text-lead);
+      font-weight: 600;
+      letter-spacing: -0.005em;
+    }
+
+    .phase__years {
+      font-weight: 400;
+      font-size: var(--text-small);
+      color: var(--ink-subtle);
+      font-variant-numeric: tabular-nums lining-nums;
+      white-space: nowrap;
+    }
+
+    .phase__intro {
+      color: var(--ink-muted);
+      max-width: var(--size-measure);
+    }
+
+    .phase ul {
+      padding-left: 1.1em;
+      display: grid;
+      gap: 0.4rem;
+      margin-top: 0.25rem;
+      max-width: 42em;
+    }
+
+    .phase li::marker {
+      color: var(--ink-subtle);
+    }
+
+    .phase li :global(a) {
+      white-space: nowrap;
+    }
+
+    .phase__learned {
+      margin-top: 0.4rem;
+      max-width: var(--size-measure);
+      font-family: var(--font-sans-italic);
+      font-size: var(--text-small);
+      font-style: italic;
+      color: var(--ink-subtle);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .phases::after {
+        transform: none;
+      }
+    }
+  }
+</style>

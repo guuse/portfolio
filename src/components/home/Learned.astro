@@ -1,0 +1,44 @@
+---
+import { list } from "~/lib/content";
+import DefList from "~/components/ui/DefList.astro";
+import Section from "~/components/ui/Section.astro";
+
+const principles = await list("principles");
+---
+
+<Section id="learned" title="What I’ve learned">
+  <DefList items={principles.map((data) => ({ term: data.title, detail: data.text }))} />
+  <div class="story">
+    <p class="story__h">From the IPv6 move</p>
+    <p>
+      After we moved the clusters to IPv6-only, apps started hanging when they connected to a database. The
+      database had a dual-stack address, so the apps resolved both an IPv4 and an IPv6 address, and the IPv6
+      connections hung because the security group only allowed IPv4. Allowing IPv6 there fixed it. The bigger
+      lesson: IPv6-only egress only works with DNS64 and NAT64, so everything around the clusters needs
+      testing too.
+    </p>
+  </div>
+</Section>
+
+<style>
+  @layer components {
+    .story {
+      margin-top: 0.5rem;
+      padding: 1rem 1.25rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-s);
+      max-width: 46em;
+    }
+
+    .story__h {
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+    }
+
+    .story p:not(.story__h) {
+      color: var(--ink-muted);
+      font-size: var(--text-small);
+      line-height: 1.55;
+    }
+  }
+</style>

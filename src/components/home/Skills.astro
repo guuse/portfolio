@@ -1,0 +1,11 @@
+---
+import { list } from "~/lib/content";
+import DefList from "~/components/ui/DefList.astro";
+import Section from "~/components/ui/Section.astro";
+
+const skills = await list("skills");
+---
+
+<Section id="skills" title="Skills and certifications">
+  <DefList items={skills.map((data) => ({ term: data.label, detail: data.value }))} />
+</Section>

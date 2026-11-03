@@ -1,0 +1,5 @@
+{
+  "//": "The design archive is plain CommonJS scripts; this keeps them runnable under the root \"type\": \"module\".",
+  "type": "commonjs",
+  "private": true
+}

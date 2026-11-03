@@ -1,0 +1,207 @@
+---
+import { Picture } from "astro:assets";
+import { list } from "~/lib/content";
+import Drawing from "~/components/art/Drawing.astro";
+import { card } from "~/lib/art";
+import { caseStudyHref } from "~/lib/projects";
+import mtgCover from "~/assets/covers/mtg-card.webp";
+
+const projects = await list("projects");
+/** Platform and homelab get a live miniature; the MTG card is a collage of the app homes. */
+const art = {
+  "hosting-platform": { id: "cardscale", svg: card("platform") },
+  homelab: { id: "cardloop", svg: card("homelab") },
+} as const;
+---
+
+<section class="wrap strip" id="projects" aria-labelledby="projects-title">
+  <div class="strip__head">
+    <h2 class="strip__h" id="projects-title">
+      Projects
+    </h2>
+    <a class="strip__all" href="/projects/">
+      All projects <span aria-hidden="true">&rarr;</span>
+    </a>
+  </div>
+  <ul class="covers" role="list">
+    {projects.map((data) => {
+      const live = data.id === "mtg-suite" ? null : art[data.id];
+      return (
+        <li class="cover">
+          <a class:list={["cover__link", !live && "cover__link--photo"]} href={caseStudyHref(data.id)}>
+            {live ? (
+              <span class="cover__art" data-card={live.id}>
+                <Drawing svg={live.svg} />
+              </span>
+            ) : (
+              <Picture
+                class="cover__img"
+                src={mtgCover}
+                alt=""
+                widths={[400, 800, 1200]}
+                sizes="(width < 700px) 100vw, 380px"
+                formats={["avif", "webp"]}
+              />
+            )}
+            <span class="cover__text">
+              <span class="cover__meta">{data.meta}</span>
+              <span class="cover__title">{data.title}</span>
+              <span class="cover__line">{data.card}</span>
+            </span>
+          </a>
+        </li>
+      );
+    })}
+  </ul>
+</section>
+
+<style>
+  @layer components {
+    .strip {
+      padding-block: clamp(2rem, 1rem + 3vw, 3.5rem) clamp(3rem, 2rem + 3vw, 5rem);
+    }
+
+    .strip__head {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .strip__h {
+      font-family: var(--font-heading);
+      font-size: var(--text-h2);
+      line-height: 1;
+    }
+
+    .strip__all {
+      font-weight: 500;
+    }
+
+    .covers {
+      display: grid;
+      gap: var(--space-gutter);
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    @media (width >= 700px) {
+      .covers {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    .cover__link {
+      position: relative;
+      isolation: isolate;
+      display: block;
+      aspect-ratio: 4 / 5;
+      border-radius: var(--radius-s);
+      border: 1px solid var(--line);
+      overflow: hidden;
+      text-decoration: none;
+      color: var(--ink);
+      transition:
+        transform var(--duration-base) var(--ease-out),
+        border-color var(--duration-base) var(--ease-out);
+    }
+
+    .cover__link::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        transparent 50%,
+        color-mix(in oklch, var(--surface) 94%, transparent) 86%
+      );
+    }
+
+    .cover__link:hover {
+      color: var(--ink);
+      border-color: var(--line-strong);
+    }
+
+    .cover__link:focus-visible {
+      outline-offset: 4px;
+    }
+
+    .cover__art {
+      position: absolute;
+      inset: 0;
+      display: block;
+      background: var(--surface-card);
+    }
+
+    .cover__art :global(.scene-svg) {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* the collage drifts with scroll (src/scripts/scroll-effects.ts) and shuffles on hover */
+    .cover__link :global(.cover__img) {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 20%;
+      background: var(--surface-card);
+      will-change: transform;
+      transition: transform 120ms linear;
+    }
+
+    .cover__link--photo:hover :global(.cover__img) {
+      animation: shuffle 1.6s var(--ease-in-out) infinite;
+    }
+
+    @keyframes shuffle {
+      0%,
+      100% {
+        object-position: 50% 20%;
+      }
+
+      50% {
+        object-position: 46% 26%;
+      }
+    }
+
+    .cover__text {
+      position: absolute;
+      inset: auto 0 0;
+      z-index: 1;
+      padding: 1.25rem 1.4rem 1.4rem;
+      display: grid;
+      gap: 4px;
+    }
+
+    .cover__meta {
+      font-size: var(--text-small);
+      color: var(--ink-subtle);
+    }
+
+    .cover__title {
+      font-family: var(--font-heading);
+      font-size: var(--text-card-title);
+      line-height: 1.05;
+    }
+
+    .cover__line {
+      color: var(--ink-muted);
+      font-size: var(--text-small);
+      line-height: 1.4;
+    }
+
+    @media (width < 700px) {
+      .cover__link :global(.cover__img) {
+        object-position: center;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cover__link--photo:hover :global(.cover__img) {
+        animation: none;
+      }
+    }
+  }
+</style>

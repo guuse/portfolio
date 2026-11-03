@@ -29,6 +29,10 @@ const path = Astro.url.pathname;
       position: sticky;
       top: env(safe-area-inset-top, 0);
       z-index: 20;
+
+      /* full-bleed, so the bar spans the window and not just the content column */
+      margin-inline: calc(-1 * var(--space-edge)) calc(-1 * var(--space-edge-end));
+      padding-inline: var(--space-edge) var(--space-edge-end);
       background: color-mix(in oklch, var(--surface) 92%, transparent);
       backdrop-filter: blur(8px);
     }

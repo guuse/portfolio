@@ -1,0 +1,56 @@
+---
+/**
+ * Copies the text of another element (`target` is its id). The status is announced to
+ * screen readers through a polite live region. Behaviour: src/scripts/copy-email.ts.
+ */
+interface Props {
+  target: string;
+  label: string;
+}
+const { target, label } = Astro.props;
+const status = `${target}-status`;
+---
+
+<button type="button" class="copy" data-copy-target={target} aria-describedby={status}>
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
+    <rect x="8" y="8" width="12" height="12" rx="1"></rect>
+    <path d="M16 8V4H4v12h4"></path>
+  </svg>
+  <span class="copy__label">{label}</span>
+</button>
+<span class="visually-hidden" id={status} role="status" aria-live="polite"></span>
+
+<style>
+  @layer components {
+    .copy {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 36px;
+      padding: 0 12px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--line-strong);
+      background: transparent;
+      color: var(--ink-muted);
+      font-size: var(--text-small);
+      cursor: pointer;
+      transition:
+        color var(--duration-quick),
+        border-color var(--duration-quick);
+    }
+
+    .copy:hover {
+      color: var(--ink);
+      border-color: var(--ink-muted);
+    }
+
+    .copy:active {
+      transform: translateY(1px);
+    }
+
+    .copy svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+</style>

@@ -1,10 +1,28 @@
 ---
+// Base first: its global.css declares the cascade layer order before any component CSS.
 import Base from "~/layouts/Base.astro";
+import About from "~/components/home/About.astro";
+import Contact from "~/components/home/Contact.astro";
+import Experience from "~/components/home/Experience.astro";
+import Hero from "~/components/home/Hero.astro";
+import Learned from "~/components/home/Learned.astro";
+import ProjectCovers from "~/components/home/ProjectCovers.astro";
+import Skills from "~/components/home/Skills.astro";
 ---
 
 <Base
   title="Guus Ekkelenkamp, tech lead infrastructure"
   description="Tech lead infrastructure at Harborn in Rotterdam: Kubernetes, GitOps and infrastructure as code on AWS and Azure."
 >
-  <h1>I like building things that keep running.</h1>
+  <Hero />
+  <div class="wrap">
+    <About />
+  </div>
+  <ProjectCovers />
+  <div class="wrap">
+    <Experience />
+    <Learned />
+    <Skills />
+    <Contact />
+  </div>
 </Base>

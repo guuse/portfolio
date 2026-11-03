@@ -1,0 +1,18 @@
+---
+import { sprite, type IconId } from "~/lib/art";
+
+/** The icon symbols a page uses, inlined once at the top of the body. */
+interface Props {
+  icons: readonly IconId[];
+}
+---
+
+<Fragment set:html={sprite(Astro.props.icons)} />
+
+<style is:global>
+  @layer components {
+    .sprite {
+      position: absolute;
+    }
+  }
+</style>
