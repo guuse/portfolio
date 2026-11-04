@@ -48,8 +48,18 @@ import { evicted } from "~/lib/art/scenes/evicted";
       }
     }
 
+    /* like a case-study hero, the drawing stays small enough for the heading to be on screen */
     .lost__art {
+      display: flex;
+      justify-content: center;
+      height: min(clamp(200px, 58vw, 320px), 45svh);
       margin: 0;
+    }
+
+    .lost__art :global(.scene-svg) {
+      width: auto;
+      max-width: 100%;
+      height: 100%;
     }
 
     .lost__code {
@@ -57,7 +67,14 @@ import { evicted } from "~/lib/art/scenes/evicted";
       font-family: var(--font-code);
     }
 
+    /*
+     * Two balanced lines in the web font and in the (much wider) fallback alike, so nothing
+     * below it moves when the font arrives.
+     */
     .lost h1 {
+      max-width: 8em;
+      min-height: 2lh;
+      text-wrap: balance;
       margin-block: 0.5rem 1rem;
       font-family: var(--font-heading);
       font-size: var(--text-h1);
@@ -79,10 +96,10 @@ import { evicted } from "~/lib/art/scenes/evicted";
       margin-top: 2rem;
     }
 
-    /* the evicted pod drifts up and away and comes back to try again, twice, then gives up */
+    /* the evicted pod drifts up and away and comes back to try again, twice, then gives up (under 5 s) */
     .lost__art :global(.evicted) {
       transform-box: fill-box;
-      animation: evict 4s var(--ease-in-out) 2 both;
+      animation: evict 2.4s var(--ease-in-out) 2 both;
     }
 
     @keyframes evict {
