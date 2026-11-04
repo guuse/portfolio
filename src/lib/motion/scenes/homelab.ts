@@ -19,7 +19,7 @@ const loop: SceneFactory = (svg) => {
     blink = blinker(svg);
   hideStill(svg);
   const put = courier(K["pk"] as SVGGElement);
-  const r = (k: keyof typeof H.routes): Path => K[`r-${k}`] as Path;
+  const r = (k: keyof typeof H.routes): Path => K[`route-${k}`] as Path;
   // how far along repo → Actions the gate sits: the looping build waits there
   const push = r("push"),
     pushTrack = track(push),
@@ -60,8 +60,8 @@ const loop: SceneFactory = (svg) => {
       el?.classList.toggle("is-ping", bump > 0.15);
     }
     const a = seg(p, 0, 0.05);
-    move(K["c-push"], 0, 0, lerp(0.3, 1, E.outBack(a, 2.4)));
-    fade(K["c-push"], Math.min(1, a * 3));
+    move(K["commit-push"], 0, 0, lerp(0.3, 1, E.outBack(a, 2.4)));
+    fade(K["commit-push"], Math.min(1, a * 3));
     // the build works while the packet is inside
     const bw = seg(p, 0.16, 0.24),
       busy = bw > 0 && bw < 1;
@@ -70,10 +70,10 @@ const loop: SceneFactory = (svg) => {
     const cr = seg(p, 0.29, 0.35);
     move(K["crate"], 0, -26 * (1 - E.outBack(cr, 1.8)));
     fade(K["crate"], Math.min(1, cr * 3));
-    fade(K["r-watch"], 0.35 + 0.65 * Math.sin(Math.PI * seg(p, 0.33, 0.44)));
+    fade(K["route-watch"], 0.35 + 0.65 * Math.sin(Math.PI * seg(p, 0.33, 0.44)));
     const tg = seg(p, 0.5, 0.55);
-    move(K["c-tag"], 0, 0, lerp(0.3, 1, E.outBack(tg, 2.4)));
-    fade(K["c-tag"], Math.min(1, tg * 3));
+    move(K["commit-tag"], 0, 0, lerp(0.3, 1, E.outBack(tg, 2.4)));
+    fade(K["commit-tag"], Math.min(1, tg * 3));
     const sw = seg(p, 0.64, 0.74);
     fade(K["oldpod"], 1 - seg(sw, 0, 0.4));
     move(K["oldpod"], 0, 0, lerp(1, 0.6, seg(sw, 0, 0.4)));
@@ -126,7 +126,7 @@ const cardLoop: SceneFactory = (svg) => {
     else blink(dt);
     const f = 0.9 * p;
     put(loopPath, f, f > fLap ? "pk--ink" : "", 1 - seg(p, 0.86, 1));
-    move(K["c-new"], 0, 0, 1 + 0.35 * Math.sin(Math.PI * seg(f, 0, 0.06)));
+    move(K["commit-new"], 0, 0, 1 + 0.35 * Math.sin(Math.PI * seg(f, 0, 0.06)));
     const inBuild = Math.abs(f - fBuild) < 0.05;
     move(K["hatch"], 0, inBuild ? Math.sin(t * 40) : 0);
     K["buildled"]?.classList.toggle("is-blink", inBuild && Math.sin(t * 30) > 0);

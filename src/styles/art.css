@@ -13,18 +13,18 @@
     overflow: visible;
   }
 
-  .story .t {
+  .story .story__label {
     fill: var(--ink);
     font-size: 17px;
     font-weight: 500;
   }
 
-  .story .ts {
+  .story .story__note {
     fill: var(--ink-muted);
     font-size: 15.5px;
   }
 
-  .story .tb {
+  .story .story__strong {
     fill: var(--ink);
     font-size: 15px;
     font-weight: 600;

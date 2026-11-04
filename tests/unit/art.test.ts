@@ -14,8 +14,20 @@ const scenes = { ...platform, ...homelab, ...mtg } as Record<string, () => strin
 /** The data-k keys each animator reaches for (src/lib/motion/scenes). */
 const KEYS: Record<string, string[]> = {
   standard: ["plat", "old0", "win4", "dock4"],
-  scale: ["pk", "in0", "out2", "n00", "p223", "pend1"],
-  regions: ["globe", "ie", "jp", "door", "users", "routes", "lblIE", "lblJP", "rie", "rjp", "ri2"],
+  scale: ["pk", "in0", "out2", "node00", "pod223", "pend1"],
+  regions: [
+    "globe",
+    "ie",
+    "jp",
+    "door",
+    "users",
+    "routes",
+    "lblIE",
+    "lblJP",
+    "route-ie",
+    "route-jp",
+    "route-in2",
+  ],
   ipv6: [
     "tag",
     "tag-4",
@@ -26,15 +38,15 @@ const KEYS: Record<string, string[]> = {
     "gate",
     "bar",
     "bar-led",
-    "rx",
-    "rf",
-    "rdb",
-    "ridle",
+    "route-to-xlat",
+    "route-from-xlat",
+    "route-db",
+    "route-idle",
   ],
-  learned: ["commit", "lit-spine", "lit7", "c7", "c7-old", "c7-new", "pk"],
+  learned: ["commit", "lit-spine", "lit7", "cluster7", "cluster7-old", "cluster7-new", "pk"],
   loop: [
-    "c-push",
-    "c-tag",
+    "commit-push",
+    "commit-tag",
     "hatch",
     "buildled",
     "crate",
@@ -42,8 +54,8 @@ const KEYS: Record<string, string[]> = {
     "newpod",
     "gate",
     "bar",
-    "r-push",
-    "r-roll",
+    "route-push",
+    "route-roll",
     "lbl-repo",
     "lbl-build",
     "lbl-reg",
@@ -51,12 +63,22 @@ const KEYS: Record<string, string[]> = {
     "argo",
     "upd",
   ],
-  itch: ["f0", "f3", "t6", "bk7", "sh2", "q0", "q1"],
-  table: ["seat3", "seat3-ring", "st2", "hc2", "stacklbl", "auto", "lane3", "back3"],
-  hands: ["scr3", "scr3-c", "scr3-re", "scr0-bf4", "bar", "mark", "lane3"],
-  decks: ["bx0", "bx13", "bd3", "s0", "s0-ring", "deck", "route", "gap"],
-  search: ["bub", "words", "tk2", "tl2", "rq", "rb", "tick", "fan0", "fc1-5"],
-  friends: ["moon", "flag", "issue", "fix", "img", "parcel", "r3", "p0", "p0-ring"],
+  itch: ["friend0", "friend3", "tablecard6", "book7", "rulesheet2", "question0", "question1"],
+  table: ["seat3", "seat3-ring", "stackcard2", "handcard2", "stacklbl", "auto", "lane3", "back3"],
+  hands: ["screen3", "screen3-cards", "screen3-reload", "screen0-card4", "bar", "mark", "lane3"],
+  decks: ["deckbox0", "deckbox13", "binder3", "plate0", "plate0-ring", "deck", "route", "gap"],
+  search: [
+    "bubble",
+    "words",
+    "chip2",
+    "chiplabel2",
+    "route-query",
+    "route-back",
+    "tick",
+    "fan0",
+    "fancard1-5",
+  ],
+  friends: ["moon", "flag", "issue", "fix", "img", "parcel", "route3", "plate0", "plate0-ring"],
 };
 
 describe("illustration kit", () => {
@@ -116,4 +138,12 @@ it("knows where the homelab card's loop passes the build and the laptop", () => 
   };
   expect(nearest(112, 243)).toBeCloseTo(CL.buildAt, 2);
   expect(nearest(250, 180)).toBeCloseTo(CL.laptopAt, 2);
+});
+
+it("escapes text and attribute values, quotes included", async () => {
+  const { esc, tag } = await import("~/lib/art/svg");
+  expect(esc(`a < b & "c" 'd' >`)).toBe("a &lt; b &amp; &quot;c&quot; &#39;d&#39; &gt;");
+  expect(tag("text", { "aria-label": 'say "hi"' }, esc("Let's"))).toBe(
+    '<text aria-label="say &quot;hi&quot;">Let&#39;s</text>',
+  );
 });

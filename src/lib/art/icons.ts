@@ -9,7 +9,7 @@ const files = import.meta.glob<string>("../../assets/icons/*/*.svg", {
   eager: true,
 });
 
-export const ICONS = {
+const ICONS = {
   "aws-AmazonElasticKubernetesService": "aws/AmazonElasticKubernetesService",
   "aws-ElasticLoadBalancingNetworkLoadBalancer": "aws/ElasticLoadBalancingNetworkLoadBalancer",
   "aws-AmazonAurora": "aws/AmazonAurora",

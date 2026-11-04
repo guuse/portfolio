@@ -188,7 +188,7 @@ function setupSection(el: HTMLElement, wake: () => void): Section | null {
     if (!first) primary.set(id, item);
   }
   if (!items.length) return null;
-  const S: Section = {
+  const section: Section = {
     el,
     stage: el.querySelector(".scenes__stage"),
     steps,
@@ -202,7 +202,7 @@ function setupSection(el: HTMLElement, wake: () => void): Section | null {
     jobP: 0,
   };
   watch(el, "10% 0px", (v) => {
-    S.visible = v;
+    section.visible = v;
     if (v) wake();
   });
   for (const it of items) {
@@ -213,53 +213,55 @@ function setupSection(el: HTMLElement, wake: () => void): Section | null {
   }
   // build the animators this layout will use before the section scrolls into view
   approaching(el, () =>
-    build(...(S.wide ? [...S.primary.values()].map((it) => it.player) : items.map((it) => it.player))),
+    build(
+      ...(section.wide ? [...section.primary.values()].map((it) => it.player) : items.map((it) => it.player)),
+    ),
   );
-  return S;
+  return section;
 }
 
 /** Moves the primary figures into the sticky stage on wide screens, and back on narrow ones. */
-function layout(S: Section, wide: boolean): void {
-  const staged = wide && !!S.stage;
-  if (staged === S.wide) return;
-  S.wide = staged;
-  S.el.classList.toggle("is-staged", staged);
-  S.active = null;
-  for (const it of S.primary.values()) {
-    if (staged) S.stage!.appendChild(it.fig);
+function layout(section: Section, wide: boolean): void {
+  const staged = wide && !!section.stage;
+  if (staged === section.wide) return;
+  section.wide = staged;
+  section.el.classList.toggle("is-staged", staged);
+  section.active = null;
+  for (const it of section.primary.values()) {
+    if (staged) section.stage!.appendChild(it.fig);
     else it.home.insertBefore(it.fig, it.next?.parentNode === it.home ? it.next : it.home.firstChild);
   }
 }
 
 /** Reads one section's positions and decides this frame's progress. No writes. */
-function readSection(S: Section, vh: number): boolean {
-  S.job = null;
-  if (S.wide) {
-    if (!S.visible) return false;
+function readSection(section: Section, vh: number): boolean {
+  section.job = null;
+  if (section.wide) {
+    if (!section.visible) return false;
     // the step whose top has passed the middle of the window plays
     let idx = 0,
       top = 0,
       height = 1;
-    for (let i = 0; i < S.steps.length; i++) {
-      const r = S.steps[i]!.getBoundingClientRect();
+    for (let i = 0; i < section.steps.length; i++) {
+      const r = section.steps[i]!.getBoundingClientRect();
       if (i === 0 || r.top <= vh * 0.5) {
-        if (S.byStep[i] || i === 0) {
+        if (section.byStep[i] || i === 0) {
           idx = i;
           top = r.top;
           height = r.height;
         }
       } else break;
     }
-    const it = S.byStep[idx] ?? S.items[0]!;
+    const it = section.byStep[idx] ?? section.items[0]!;
     // the first step only starts once the stage is pinned (section top at the header)
     const lead = idx === 0 ? Math.max(0, vh * 0.5 - px["space-header"]) : 0;
     const local = clamp((vh * 0.5 - lead - top) / Math.max(1, height - vh * 0.25 - lead), 0, 1);
-    S.job = it;
-    S.jobP = it.from + (it.to - it.from) * local;
+    section.job = it;
+    section.jobP = it.from + (it.to - it.from) * local;
     return true;
   }
   let any = false;
-  for (const it of S.items) {
+  for (const it of section.items) {
     if (!it.seen) {
       it.p = -1;
       continue;
@@ -272,19 +274,19 @@ function readSection(S: Section, vh: number): boolean {
 }
 
 /** Plays one section's frame: the stage hand-off, then the animators. */
-function writeSection(S: Section, dt: number): void {
-  const it = S.job;
+function writeSection(section: Section, dt: number): void {
+  const it = section.job;
   if (it) {
-    if (S.active !== it) {
-      for (const st of S.steps) st.classList.toggle("is-active", st === it.step);
-      const fig = S.primary.get(it.id)!.fig;
-      for (const f of S.stage!.children) f.classList.toggle("is-on", f === fig);
-      S.active = it;
+    if (section.active !== it) {
+      for (const st of section.steps) st.classList.toggle("is-active", st === it.step);
+      const fig = section.primary.get(it.id)!.fig;
+      for (const f of section.stage!.children) f.classList.toggle("is-on", f === fig);
+      section.active = it;
     }
-    tick(S.primary.get(it.id)!.player, S.jobP, dt);
+    tick(section.primary.get(it.id)!.player, section.jobP, dt);
     return;
   }
-  for (const x of S.items) if (x.p >= 0) tick(x.player, x.p, dt);
+  for (const x of section.items) if (x.p >= 0) tick(x.player, x.p, dt);
 }
 
 /**
@@ -298,7 +300,7 @@ function printing(sections: Section[], relayout: () => void, wake: () => void): 
   const start = (): void => {
     if (on) return;
     on = true;
-    sections.forEach((S) => layout(S, false));
+    sections.forEach((section) => layout(section, false));
     for (const el of document.querySelectorAll<SVGElement>(".scene-svg [style], .scene-svg[style]")) {
       saved.set(el, el.style.cssText);
       el.style.cssText = "";
@@ -329,7 +331,7 @@ export function startMotion(scheduler: Scheduler, pageAnimators: Record<string, 
 
   const wide = matchMedia(media.stage);
   const relayout = (): void => {
-    sections.forEach((S) => layout(S, wide.matches));
+    sections.forEach((section) => layout(section, wide.matches));
     wake();
   };
   if (sections.length) {
@@ -374,9 +376,9 @@ export function startMotion(scheduler: Scheduler, pageAnimators: Record<string, 
     const vh = window.innerHeight;
     let busy = false;
     // every read first...
-    for (const S of sections) if (readSection(S, vh)) busy = true;
+    for (const section of sections) if (readSection(section, vh)) busy = true;
     // ...then every write
-    for (const S of sections) writeSection(S, dt);
+    for (const section of sections) writeSection(section, dt);
     for (const c of cards) if (c.seen && c.at < PASS + SETTLE && tickCard(c, dt)) busy = true;
     return busy;
   });

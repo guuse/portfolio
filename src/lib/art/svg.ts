@@ -10,17 +10,23 @@ export type Attrs = Record<string, AttrValue>;
 /** Round to two decimals. */
 export const n = (v: number): number => +v.toFixed(2);
 
+/** Escapes text for markup: safe in element content and in quoted attribute values. */
+export const esc = (s: string | number): string =>
+  String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+
 function attrs(o: Attrs): string {
   let s = "";
   for (const [k, v] of Object.entries(o)) {
     if (v === undefined || v === null || v === false) continue;
-    s += ` ${k}="${typeof v === "number" ? n(v) : v}"`;
+    s += ` ${k}="${typeof v === "number" ? n(v) : esc(v)}"`;
   }
   return s;
 }
-
-export const esc = (s: string | number): string =>
-  String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
 /** An element. Without `inner` it self-closes. */
 export const tag = (t: string, o: Attrs = {}, inner?: string): string =>

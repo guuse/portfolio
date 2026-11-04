@@ -96,8 +96,8 @@ function scaler(svg: SVGSVGElement, load: (p: number, t: number) => number, card
   const Z: Zone[] = S2.racks.map((_, z) => {
     const zone: Zone = { nodes: [], pods: [], cool: 0, pend: K[`pend${z}`], pendA: 0, want: 1 };
     for (let k = 0; k < 4; k++) {
-      zone.nodes.push({ el: K[`n${z}${k}`], st: "off", t: 9, idle: 0 });
-      for (let s = 0; s < 4; s++) zone.pods.push({ el: K[`p${z}${k}${s}`], on: false, t: 9, ack: 9 });
+      zone.nodes.push({ el: K[`node${z}${k}`], st: "off", t: 9, idle: 0 });
+      for (let s = 0; s < 4; s++) zone.pods.push({ el: K[`pod${z}${k}${s}`], on: false, t: 9, ack: 9 });
     }
     return zone;
   });
@@ -292,7 +292,7 @@ const regions: SceneFactory = (svg) => {
   };
   // each lane, to each region (users in Japan go to Tokyo), built once
   const route = (i: number, jp: boolean): Segment[] => [
-    { el: K[`ri${i}`] as SVGPathElement, cls: jp ? "pk--cool" : "" },
+    { el: K[`route-in${i}`] as SVGPathElement, cls: jp ? "pk--cool" : "" },
     { el: (jp ? through.jp : through.ie)[i]! },
     { el: K[jp ? "rjp" : "rie"] as SVGPathElement },
   ];
@@ -338,8 +338,8 @@ const ipv6: SceneFactory = (svg) => {
     eB = emitter(),
     blink = blinker(svg);
   const thruX = hiddenPath(layer.parentNode as Element, S4.thruX);
-  const rdb = K["rdb"] as SVGPathElement;
-  prime(K["rx"], thruX, K["rf"], rdb);
+  const rdb = K["route-db"] as SVGPathElement;
+  prime(K["route-to-xlat"], thruX, K["route-from-xlat"], rdb);
   // where the IPv6 path meets the gate
   const gateD = firstAlong(track(rdb), (x) => x >= S4.gateX - 13);
   let open = 0;
@@ -347,9 +347,9 @@ const ipv6: SceneFactory = (svg) => {
   const queue: Packet[] = [];
   const gateLed = K["bar-led"];
   const translated: Segment[] = [
-    { el: K["rx"] as SVGPathElement, cls: "" },
+    { el: K["route-to-xlat"] as SVGPathElement, cls: "" },
     { el: thruX, hide: true },
-    { el: K["rf"] as SVGPathElement, cls: "pk--ink" },
+    { el: K["route-from-xlat"] as SVGPathElement, cls: "pk--ink" },
   ];
   const toDb: Segment[] = [{ el: rdb, cls: "" }];
   const fireA = (): void => void P.spawn(translated, { speed: 150 + Math.random() * 40 });
@@ -383,8 +383,8 @@ const ipv6: SceneFactory = (svg) => {
     fade(K["xlat"], x1);
     move(K["legacy"], 0, 16 * (1 - E.outBack(x2, 1.6)));
     fade(K["legacy"], x2);
-    fade(K["rx"], seg(p, 0.24, 0.34));
-    fade(K["rf"], seg(p, 0.3, 0.4));
+    fade(K["route-to-xlat"], seg(p, 0.24, 0.34));
+    fade(K["route-from-xlat"], seg(p, 0.3, 0.4));
     const y1 = seg(p, 0.42, 0.54),
       y2 = seg(p, 0.48, 0.58);
     move(K["db"], 0, 16 * (1 - E.outBack(y1, 1.6)));
@@ -392,7 +392,7 @@ const ipv6: SceneFactory = (svg) => {
     move(K["gate"], 0, -12 * (1 - E.outBack(y2, 1.6)));
     fade(K["gate"], y2);
     fade(rdb, seg(p, 0.44, 0.54));
-    fade(K["ridle"], seg(p, 0.48, 0.58));
+    fade(K["route-idle"], seg(p, 0.48, 0.58));
     // the gate opens late in the step: a small dip first, then up with a settle
     const g = seg(p, 0.78, 0.92);
     open = g;
@@ -430,7 +430,7 @@ const learned: SceneFactory = (svg) => {
     dots.push(c);
   }
   const lit = [0, 1, 2, 3, 4, 5, 6, 7].map((s) => K[`lit${s}`]),
-    cl = lit.map((_, s) => [K[`c${s}`], K[`c${s}-old`], K[`c${s}-new`]] as const);
+    cl = lit.map((_, s) => [K[`cluster${s}`], K[`cluster${s}-old`], K[`cluster${s}-new`]] as const);
   return (p, dt) => {
     blink(dt);
     const cs = seg(p, 0.04, 0.2);

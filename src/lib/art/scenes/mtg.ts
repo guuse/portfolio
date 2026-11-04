@@ -25,9 +25,9 @@ export function itch(): string {
   const T = M1.table;
   let b = "";
   // friends behind the table
-  b += g({ "data-k": "f0", class: "k-origin-b" }, person(112, 320, { shirt: 1, hair: "long", s: 1.4 }));
-  b += g({ "data-k": "f1", class: "k-origin-b" }, person(226, 320, { shirt: 2, hair: "cap", s: 1.4 }));
-  b += g({ "data-k": "f2", class: "k-origin-b" }, person(340, 320, { shirt: 4, hair: "bun", s: 1.4 }));
+  b += g({ "data-k": "friend0", class: "k-origin-b" }, person(112, 320, { shirt: 1, hair: "long", s: 1.4 }));
+  b += g({ "data-k": "friend1", class: "k-origin-b" }, person(226, 320, { shirt: 2, hair: "cap", s: 1.4 }));
+  b += g({ "data-k": "friend2", class: "k-origin-b" }, person(340, 320, { shirt: 4, hair: "bun", s: 1.4 }));
   // the table: a thick top, seen slightly from above, with legs
   b +=
     shadow(300, 438, 500) +
@@ -47,27 +47,27 @@ export function itch(): string {
       ),
     );
   b +=
-    flat(104, 326, -8, false, "t0") +
-    flat(130, 330, 6, false, "t1") +
-    flat(222, 325, 3, false, "t2") +
-    flat(248, 331, -10, true, "t3") +
-    flat(340, 327, 9, false, "t4") +
-    flat(300, 334, -3, true, "t5") +
-    flat(176, 335, 14, false, "t6");
+    flat(104, 326, -8, false, "tablecard0") +
+    flat(130, 330, 6, false, "tablecard1") +
+    flat(222, 325, 3, false, "tablecard2") +
+    flat(248, 331, -10, true, "tablecard3") +
+    flat(340, 327, 9, false, "tablecard4") +
+    flat(300, 334, -3, true, "tablecard5") +
+    flat(176, 335, 14, false, "tablecard6");
   // the pile of rules, growing on the right end
   let y = M1.pile.y;
   M1.books.forEach(([dx, w, h, tone], i) => {
     y -= h + 4;
-    b += g({ "data-k": `bk${i}`, class: "k-origin-b" }, book(M1.pile.x + dx, y + 4, w, h, tone));
+    b += g({ "data-k": `book${i}`, class: "k-origin-b" }, book(M1.pile.x + dx, y + 4, w, h, tone));
   });
   b +=
-    sheet(M1.pile.x + 20, y - 18, 30, "sh0", -9) +
-    sheet(M1.pile.x + 54, y - 22, 30, "sh1", 12) +
-    sheet(M1.pile.x + 34, y - 36, 28, "sh2", -2);
+    sheet(M1.pile.x + 20, y - 18, 30, "rulesheet0", -9) +
+    sheet(M1.pile.x + 54, y - 22, 30, "rulesheet1", 12) +
+    sheet(M1.pile.x + 34, y - 36, 28, "rulesheet2", -2);
   // the friend nearest to us, from behind
-  b += g({ "data-k": "f3", class: "k-origin-b" }, personBack(206, 458, 1.4));
+  b += g({ "data-k": "friend3", class: "k-origin-b" }, personBack(206, 458, 1.4));
   // two questions
-  b += bubble(126, 186, "q0") + bubble(354, 186, "q1");
+  b += bubble(126, 186, "question0") + bubble(354, 186, "question1");
   return svg(
     "itch",
     "0 0 600 440",
@@ -81,7 +81,7 @@ export function table(): string {
   let b = browser(16, 26, 444, 400) + tableTop(40, 62, 392, 352);
   b += text(236, 300, "the stack", "lb lb--s m-stacklabel", "middle", { "data-k": "stacklbl" });
   // hands: yours face up at the bottom, the others' backs
-  b += g({ "data-k": "h0" }, fan(236, 352, 26, 5, 30, { keys: "hc", hide: (i) => i === 2 }));
+  b += g({ "data-k": "hand" }, fan(236, 352, 26, 5, 30, { keys: "handcard", hide: (i) => i === 2 }));
   b += g({ transform: "rotate(90 118 236)" }, fan(118, 252, 22, 4, 34, { back: true }));
   b += g({ transform: "rotate(180 236 124)" }, fan(236, 140, 22, 4, 34, { back: true }));
   b += g({ transform: "rotate(-90 354 236)" }, fan(354, 252, 22, 4, 34, { back: true }));
@@ -102,7 +102,7 @@ export function table(): string {
   M2.playedFrom.forEach((_, i) => {
     const [x, y] = M2.stackPos(i);
     b += g(
-      { "data-k": `st${i}`, class: "k-origin-c" },
+      { "data-k": `stackcard${i}`, class: "k-origin-c" },
       shadow(x + 15, y + 46, 34) + card(x, y, 30, { hl: i === 2 }),
     );
   });
@@ -132,14 +132,14 @@ function screen(x: number, y: number, i: number, key: string): string {
       text(ox + 28, y + 46, String([5, 4, 6][(k + i) % 3]), "lb-count");
   }
   // the battlefield in the middle
-  for (let k = 0; k < 5; k++) c += card(x + 22 + k * 26, y + 60, 15, { key: `${key}-bf${k}` });
+  for (let k = 0; k < 5; k++) c += card(x + 22 + k * 26, y + 60, 15, { key: `${key}-card${k}` });
   // your own hand, face up
   for (let k = 0; k < 4; k++) c += card(x + 40 + k * 22, y + h - 34, 17, { hl: i === 0 && k === 1 });
-  b += g({ "data-k": `${key}-c` }, c);
+  b += g({ "data-k": `${key}-cards` }, c);
   const mx = x + w / 2,
     my = y + h / 2;
   b += g(
-    { "data-k": `${key}-re`, opacity: 0, class: "k-origin-c" },
+    { "data-k": `${key}-reload`, opacity: 0, class: "k-origin-c" },
     path(`M${n(mx + 9)} ${n(my + 8)}A10 10 0 1 1 ${n(mx + 10)} ${n(my - 2)}`, "m-reload") +
       path(`M${n(mx + 6)} ${n(my - 4)}L${n(mx + 11)} ${n(my - 2)}L${n(mx + 13)} ${n(my - 7)}`, "m-reload"),
   );
@@ -149,7 +149,7 @@ function screen(x: number, y: number, i: number, key: string): string {
 export function hands(): string {
   let b = M3.lanes.map((l, i) => path(l.f, "k-route", { "data-k": `lane${i}` })).join("");
   M3.screens.forEach(([x, y], i) => {
-    b += screen(x, y, i, `scr${i}`);
+    b += screen(x, y, i, `screen${i}`);
   });
   const S = M3.server;
   b += shadow(S.x + S.w / 2, S.y + S.h + 6, S.w + 18) + server(S.x, S.y, S.w, S.h, { bays: 3 });
@@ -191,19 +191,19 @@ export function decks(): string {
   b += text(U.x + U.w / 2, U.y - 18, "Tutor", "lb", "middle");
   // deck boxes on the two top shelves
   M4.boxes.forEach(([x, y], i) => {
-    b += i === M4.pick ? g({ "data-k": "gap" }, "") : deckBox(x, y, { key: `bx${i}` });
+    b += i === M4.pick ? g({ "data-k": "gap" }, "") : deckBox(x, y, { key: `deckbox${i}` });
   });
   // the playgroup shelf: four friends' binders
-  for (let k = 0; k < 4; k++) b += binder(U.x + 22 + k * 50, M4.shelves[2]! - 76, k + 1, `bd${k}`);
+  for (let k = 0; k < 4; k++) b += binder(U.x + 22 + k * 50, M4.shelves[2]! - 76, k + 1, `binder${k}`);
   b += text(U.x + U.w - 14, M4.shelves[1]! + 34, "playgroup", "lb lb--s", "end");
   // the Rules of 99 table, one seat waiting
   const T = M4.table;
   b += tableTop(T.x, T.y, T.w, T.h);
   b +=
-    plate(T.x + T.w / 2, T.y - 4, "s1", { tone: 2 }) +
-    plate(T.x + T.w - 6, T.y + T.h / 2, "s2", { tone: 3 }) +
-    plate(T.x + T.w / 2, T.y + T.h + 4, "s3", { tone: 4 }) +
-    plate(M4.seat[0], M4.seat[1], "s0", { empty: false, tone: 1, ring: true });
+    plate(T.x + T.w / 2, T.y - 4, "plate1", { tone: 2 }) +
+    plate(T.x + T.w - 6, T.y + T.h / 2, "plate2", { tone: 3 }) +
+    plate(T.x + T.w / 2, T.y + T.h + 4, "plate3", { tone: 4 }) +
+    plate(M4.seat[0], M4.seat[1], "plate0", { empty: false, tone: 1, ring: true });
   b += text(T.x + T.w / 2, T.y + T.h + 46, "Rules of 99", "lb", "middle");
   // the travelling deck, drawn where it lands: next to the seat on the table
   b += g(
@@ -224,7 +224,7 @@ export function search(): string {
   let b = "";
   // the request in plain words
   b += g(
-    { "data-k": "bub", class: "k-origin-b" },
+    { "data-k": "bubble", class: "k-origin-b" },
     path(
       "M54 28H418Q430 28 430 40V82Q430 94 418 94H92L72 112L74 94H54Q42 94 42 82V40Q42 28 54 28Z",
       "m-bubble",
@@ -233,15 +233,16 @@ export function search(): string {
   // the query it becomes, piece by piece, with what each piece means
   M5.tokens.forEach((t, i) => {
     b += g(
-      { "data-k": `tk${i}`, class: "k-origin-c" },
+      { "data-k": `chip${i}`, class: "k-origin-c" },
       rect(t.x, M5.ty - 18, t.w, 32, "m-token", 6) + text(t.x + t.w / 2, M5.ty + 3, t.q, "lb-q-m", "middle"),
     );
-    b += g({ "data-k": `tl${i}` }, text(t.x + t.w / 2, M5.ty + 38, t.l, "lb lb--s", "middle"));
+    b += g({ "data-k": `chiplabel${i}` }, text(t.x + t.w / 2, M5.ty + 38, t.l, "lb lb--s", "middle"));
   });
   // checked against Scryfall first
   const S = M5.scryfall;
   b +=
-    path(M5.q, "k-route", { "data-k": "rq" }) + path(M5.back, "k-route k-route--faint", { "data-k": "rb" });
+    path(M5.q, "k-route", { "data-k": "route-query" }) +
+    path(M5.back, "k-route k-route--faint", { "data-k": "route-back" });
   b +=
     shadow(S.x + S.w / 2, S.y + S.h + 6, S.w + 16) +
     server(S.x, S.y, S.w, S.h, { bays: 2 }) +
@@ -255,7 +256,7 @@ export function search(): string {
   M5.fans.forEach((f, j) => {
     b += g(
       { "data-k": `fan${j}` },
-      g({}, fan(f.cx, 392, 38, 6, 56, { keys: `fc${j}-`, hide: (i) => j === 0 && (i === 0 || i > 3) })) +
+      g({}, fan(f.cx, 392, 38, 6, 56, { keys: `fancard${j}-`, hide: (i) => j === 0 && (i === 0 || i > 3) })) +
         text(f.cx, 430, f.l, "lb", "middle"),
     );
   });
@@ -270,7 +271,7 @@ export function search(): string {
 
 /* ------------------------------------------------------------ 6. building for friends */
 export function friends(): string {
-  let b = M6.routes.map((d, i) => path(d, "k-route", { "data-k": `r${i}` })).join("");
+  let b = M6.routes.map((d, i) => path(d, "k-route", { "data-k": `route${i}` })).join("");
   // the night sky: a moon that crosses, dropping new cards in
   b += g({ "data-k": "moon" }, circle(330, 30, 13, "m-moon") + circle(336, 25, 11, "m-sky"));
   b += g(
@@ -282,7 +283,7 @@ export function friends(): string {
   b +=
     tableTop(T.x, T.y, T.w, T.h) +
     plate(T.x + T.w / 2, T.y - 2, "p1", { tone: 2 }) +
-    plate(T.x + T.w / 2, T.y + T.h + 2, "p0", { tone: 1, ring: true });
+    plate(T.x + T.w / 2, T.y + T.h + 2, "plate0", { tone: 1, ring: true });
   b +=
     fan(T.x + T.w / 2, T.y + T.h - 30, 18, 4, 28) +
     card(T.x + 54, T.y + 40, 20, { back: true }) +

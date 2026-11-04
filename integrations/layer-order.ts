@@ -6,7 +6,7 @@ import type { Plugin } from "vite";
  * graph gives. So every stylesheet module (plain .css and Astro <style> blocks) starts with
  * this statement, and the order holds whichever module ends up first on a page.
  */
-export const LAYERS = "@layer reset, tokens, base, layout, components, utilities;";
+const LAYERS = "@layer reset, tokens, base, layout, components, utilities;";
 
 const isStyle = (id: string): boolean => /\.css($|\?)/.test(id) || /[?&]lang\.css$/.test(id);
 

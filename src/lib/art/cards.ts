@@ -28,7 +28,7 @@ function cardLoop(): string {
     path("M74 78H146", "k-git") +
     commit(86, 78, 4.5, "k-commit-old") +
     commit(106, 78, 4.5, "k-commit-old") +
-    g({ "data-k": "c-new", class: "k-origin-c" }, commit(128, 78, 6, "k-commit"));
+    g({ "data-k": "commit-new", class: "k-origin-c" }, commit(128, 78, 6, "k-commit"));
   // build, bottom left
   let vents = "";
   for (let vx = 108; vx < 146; vx += 4.5) vents += path(`M${vx} 234V252`, "k-vent");

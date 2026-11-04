@@ -20,6 +20,6 @@ export const scenes = {
 
 export type SceneId = keyof typeof scenes;
 
-export { card, type CardId } from "./cards";
+export { card } from "./cards";
 export { apps, ways } from "./diagrams";
 export { sprite, type IconId } from "./icons";

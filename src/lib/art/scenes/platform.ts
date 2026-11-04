@@ -143,11 +143,11 @@ export function scale(o: ScaleOptions = {}): string {
       let pods = "";
       for (let s = 0; s < 4; s++)
         pods += pod(podSlot(nx, ny, S2.nw, S2.nh, 4, s), {
-          key: `p${z}${k}${s}`,
+          key: `pod${z}${k}${s}`,
           hidden: !(on && S2.baked[z]![k * 4 + s]),
         });
       b += g(
-        { "data-k": `n${z}${k}`, class: "k-node", opacity: on ? undefined : 0 },
+        { "data-k": `node${z}${k}`, class: "k-node", opacity: on ? undefined : 0 },
         nodeBody(nx, ny, S2.nw, S2.nh, 4) + pods,
       );
     }
@@ -239,9 +239,9 @@ export function regions(): string {
   );
   b += g(
     { "data-k": "routes" },
-    path(S3.toIE, "k-route", { "data-k": "rie" }) +
-      path(S3.toJP, "k-route", { "data-k": "rjp" }) +
-      S3.inPaths.map((d, i) => path(d, "k-route", { "data-k": `ri${i}` })).join(""),
+    path(S3.toIE, "k-route", { "data-k": "route-ie" }) +
+      path(S3.toJP, "k-route", { "data-k": "route-jp" }) +
+      S3.inPaths.map((d, i) => path(d, "k-route", { "data-k": `route-in${i}` })).join(""),
   );
   b += g({ "data-k": "lblIE", class: "k-rlabel" }, text(146, 238, "everything else", "lb lb--s", "end"));
   b += g({ "data-k": "lblJP", class: "k-rlabel" }, text(454, 238, "/<region>/*", "lb-m", "start"));
@@ -273,10 +273,10 @@ export function regions(): string {
 export function ipv6(): string {
   let b = "";
   b +=
-    path(S4.toX, "k-route", { "data-k": "rx" }) +
-    path(S4.fromX, "k-route", { "data-k": "rf" }) +
-    path(S4.toDB, "k-route", { "data-k": "rdb" }) +
-    path("M446 314H458", "k-route k-route--idle", { "data-k": "ridle" });
+    path(S4.toX, "k-route", { "data-k": "route-to-xlat" }) +
+    path(S4.fromX, "k-route", { "data-k": "route-from-xlat" }) +
+    path(S4.toDB, "k-route", { "data-k": "route-db" }) +
+    path("M446 314H458", "k-route k-route--idle", { "data-k": "route-idle" });
   // the cluster: two nodes on a plinth
   b +=
     shadow(96, 300, 132) +
@@ -366,7 +366,7 @@ export function learned(): string {
       g({ "data-k": `lit${s.i}`, class: s.up ? "k-origin-b" : "k-origin-t" }, path(d, "k-wire k-wire--lit"));
   }
   S5.cols.forEach((x, i) => {
-    b += miniCluster(x, top, `c${i * 2}`) + miniCluster(x, bot + 6, `c${i * 2 + 1}`);
+    b += miniCluster(x, top, `cluster${i * 2}`) + miniCluster(x, bot + 6, `cluster${i * 2 + 1}`);
   });
   b += '<g class="pk-layer" data-k="pk"></g>';
   return svg(

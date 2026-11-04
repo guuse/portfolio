@@ -13,49 +13,56 @@ const range = (n: number): number[] => Array.from({ length: n }, (_, i) => i);
 const itch: SceneFactory = (svg) => {
   const K = parts(svg);
   const deal = range(7).map((i) => {
-    const c = centre(K[`t${i}`]!);
+    const c = centre(K[`tablecard${i}`]!);
     return { dx: M1.dealFrom.x - c.x, dy: M1.dealFrom.y - c.y };
   });
   return (p) => {
     for (let f = 0; f < 3; f++) {
       const a = seg(p, f * 0.05, 0.16 + f * 0.05);
-      move(K[`f${f}`], 0, 18 * (1 - E.outBack(a, 1.4)));
-      fade(K[`f${f}`], Math.min(1, a * 2.5));
+      move(K[`friend${f}`], 0, 18 * (1 - E.outBack(a, 1.4)));
+      fade(K[`friend${f}`], Math.min(1, a * 2.5));
     }
     const b4 = seg(p, 0.08, 0.24);
-    move(K["f3"], 0, 30 * (1 - E.outCubic(b4)));
-    fade(K["f3"], b4);
+    move(K["friend3"], 0, 30 * (1 - E.outCubic(b4)));
+    fade(K["friend3"], b4);
     deal.forEach(({ dx, dy }, k) => {
       const d = seg(p, 0.16 + k * 0.025, 0.28 + k * 0.025),
         e = E.outCubic(d);
-      move(K[`t${k}`], dx * (1 - e), dy * (1 - e) - 14 * Math.sin(Math.PI * d), null, null, (1 - e) * 40);
-      fade(K[`t${k}`], Math.min(1, d * 4));
+      move(
+        K[`tablecard${k}`],
+        dx * (1 - e),
+        dy * (1 - e) - 14 * Math.sin(Math.PI * d),
+        null,
+        null,
+        (1 - e) * 40,
+      );
+      fade(K[`tablecard${k}`], Math.min(1, d * 4));
     });
     // the rules pile up, one book at a time, each landing with a small bounce
     for (let j = 0; j < M1.books.length; j++) {
       const q = seg(p, 0.32 + j * 0.045, 0.4 + j * 0.045);
-      move(K[`bk${j}`], 0, -46 * (1 - E.outBack(q, 1.8)), null, null, (1 - q) * (j % 2 ? 4 : -4));
-      fade(K[`bk${j}`], Math.min(1, q * 5));
+      move(K[`book${j}`], 0, -46 * (1 - E.outBack(q, 1.8)), null, null, (1 - q) * (j % 2 ? 4 : -4));
+      fade(K[`book${j}`], Math.min(1, q * 5));
     }
     // loose sheets flutter down on top
     for (let h = 0; h < 3; h++) {
       const r = seg(p, 0.7 + h * 0.05, 0.84 + h * 0.05);
       move(
-        K[`sh${h}`],
+        K[`rulesheet${h}`],
         Math.sin(r * 7 + h) * 10 * (1 - r),
         -70 * (1 - E.outCubic(r)),
         null,
         null,
         Math.sin(r * 9 + h * 2) * 14 * (1 - r),
       );
-      fade(K[`sh${h}`], Math.min(1, r * 3));
+      fade(K[`rulesheet${h}`], Math.min(1, r * 3));
     }
     const q0 = seg(p, 0.84, 0.92),
       q1 = seg(p, 0.89, 0.97);
-    move(K["q0"], 0, 0, lerp(0.3, 1, E.outBack(q0, 2.4)));
-    fade(K["q0"], Math.min(1, q0 * 3));
-    move(K["q1"], 0, 0, lerp(0.3, 1, E.outBack(q1, 2.4)));
-    fade(K["q1"], Math.min(1, q1 * 3));
+    move(K["question0"], 0, 0, lerp(0.3, 1, E.outBack(q0, 2.4)));
+    fade(K["question0"], Math.min(1, q0 * 3));
+    move(K["question1"], 0, 0, lerp(0.3, 1, E.outBack(q1, 2.4)));
+    fade(K["question1"], Math.min(1, q1 * 3));
   };
 };
 
@@ -68,7 +75,7 @@ const table: SceneFactory = (svg) => {
     blink = blinker(svg);
   prime(...[0, 1, 2, 3].flatMap((q) => [K[`lane${q}`], K[`back${q}`]]));
   const to = M2.playedFrom.map(([x, y], i) => {
-    const c = centre(K[`st${i}`]!);
+    const c = centre(K[`stackcard${i}`]!);
     return { dx: x - c.x, dy: y - c.y };
   });
   // who holds priority when: [from, to, seats in turn]; the last round is auto-resolve
@@ -102,17 +109,17 @@ const table: SceneFactory = (svg) => {
         rs = seg(p, resolves[k]![0], resolves[k]![1]),
         e = E.inOutCubic(pl);
       move(
-        K[`st${k}`],
+        K[`stackcard${k}`],
         dx * (1 - e),
         dy * (1 - e) - 26 * Math.sin(Math.PI * pl) - 12 * E.outCubic(rs),
         lerp(0.85, 1, e) * lerp(1, 1.08, rs),
         null,
         (1 - e) * (k === 1 ? 20 : -14),
       );
-      fade(K[`st${k}`], (pl > 0 ? 1 : 0) * (1 - E.inCubic(rs)));
+      fade(K[`stackcard${k}`], (pl > 0 ? 1 : 0) * (1 - E.inCubic(rs)));
       if (pl > 0 && rs < 1) onStack++;
     });
-    fade(K["hc2"], 1 - seg(p, 0.08, 0.1));
+    fade(K["handcard2"], 1 - seg(p, 0.08, 0.1));
     fade(K["stacklbl"], onStack ? 1 : 0.35);
     let who = -1,
       auto = false;
@@ -154,16 +161,16 @@ const hands: SceneFactory = (svg) => {
     blink(dt);
     for (let i = 0; i < 4; i++) {
       const a = seg(p, i * 0.03, 0.12 + i * 0.03);
-      move(K[`scr${i}`], 0, 12 * (1 - E.outBack(a, 1.6)));
-      fade(K[`scr${i}`], a);
+      move(K[`screen${i}`], 0, 12 * (1 - E.outBack(a, 1.6)));
+      fade(K[`screen${i}`], a);
       let c = seg(p, 0.18 + i * 0.03, 0.28 + i * 0.03);
       // the fourth player reloads: their view blanks, then comes back
       if (i === 3) c *= 1 - seg(p, 0.4, 0.45) * (1 - seg(p, 0.56, 0.62));
-      fade(K[`scr${i}-c`], c);
+      fade(K[`screen${i}-cards`], c);
     }
     const re = seg(p, 0.42, 0.46) * (1 - seg(p, 0.55, 0.59));
-    fade(K["scr3-re"], re);
-    move(K["scr3-re"], 0, 0, 1, 1, (t * 300) % 360);
+    fade(K["screen3-reload"], re);
+    move(K["screen3-reload"], 0, 0, 1, 1, (t * 300) % 360);
     emit(dt, p > 0.1 && p < 0.34 ? 6 : 0, () => {
       P.spawn([{ el: K[`lane${lane}`] as Path, cls: "" }], { speed: 240 });
       lane = (lane + 1) % 4;
@@ -180,7 +187,7 @@ const hands: SceneFactory = (svg) => {
     for (let s = 0; s < 4; s++) {
       for (let k = 0; k < 5; k++) {
         const v = clamp(((5 - k) / 6 - r) * 10, 0, 1),
-          el = K[`scr${s}-bf${k}`];
+          el = K[`screen${s}-card${k}`];
         fade(el, v);
         move(el, 0, (1 - v) * -6, lerp(0.7, 1, v));
       }
@@ -199,20 +206,20 @@ const decks: SceneFactory = (svg) => {
   return (p) => {
     M4.boxes.forEach((_, i) => {
       const a = seg(p, 0.02 + i * 0.022, 0.12 + i * 0.022);
-      move(K[`bx${i}`], 0, -34 * (1 - E.outBack(a, 1.8)));
-      fade(K[`bx${i}`], Math.min(1, a * 4));
+      move(K[`deckbox${i}`], 0, -34 * (1 - E.outBack(a, 1.8)));
+      fade(K[`deckbox${i}`], Math.min(1, a * 4));
     });
     for (let k = 0; k < 4; k++) {
       const b = seg(p, 0.34 + k * 0.045, 0.46 + k * 0.045);
-      move(K[`bd${k}`], 36 * (1 - E.outBack(b, 1.5)), 0);
-      fade(K[`bd${k}`], b);
+      move(K[`binder${k}`], 36 * (1 - E.outBack(b, 1.5)), 0);
+      fade(K[`binder${k}`], b);
     }
     for (let s = 1; s < 4; s++) {
       const c = seg(p, 0.44 + s * 0.03, 0.54 + s * 0.03);
-      move(K[`s${s}`], 0, 0, lerp(0.7, 1, E.outBack(c, 2)));
-      fade(K[`s${s}`], c);
+      move(K[`plate${s}`], 0, 0, lerp(0.7, 1, E.outBack(c, 2)));
+      fade(K[`plate${s}`], c);
     }
-    fade(K["s0"], seg(p, 0.46, 0.56));
+    fade(K["plate0"], seg(p, 0.46, 0.56));
     // the deck lifts out of its slot, travels on an arc and lands next to the empty seat
     const up = seg(p, 0.56, 0.62),
       go = seg(p, 0.62, 0.86),
@@ -231,7 +238,7 @@ const decks: SceneFactory = (svg) => {
     );
     fade(K["deck"], Math.min(1, seg(p, 0.5, 0.56) * 2));
     fade(K["route"], 0.8 * seg(p, 0.58, 0.64) * (1 - seg(p, 0.9, 0.98)));
-    fadeTowards(K["s0-ring"], p > 0.88 ? 1 : 0, 1 / 60, 8);
+    fadeTowards(K["plate0-ring"], p > 0.88 ? 1 : 0, 1 / 60, 8);
     fade(K["gap"], 1);
   };
 };
@@ -242,21 +249,21 @@ const search: SceneFactory = (svg) => {
     put = courier(K["pk"] as SVGGElement);
   return (p) => {
     const b = seg(p, 0, 0.12);
-    move(K["bub"], 0, 0, lerp(0.6, 1, E.outBack(b, 2)));
-    fade(K["bub"], Math.min(1, b * 3));
+    move(K["bubble"], 0, 0, lerp(0.6, 1, E.outBack(b, 2)));
+    fade(K["bubble"], Math.min(1, b * 3));
     fade(K["words"], 1 - 0.6 * seg(p, 0.16, 0.34));
     M5.tokens.forEach((_, i) => {
       const a = seg(p, 0.14 + i * 0.06, 0.3 + i * 0.06);
-      move(K[`tk${i}`], 0, -92 * (1 - E.outBack(a, 1.4)), lerp(0.6, 1, E.outCubic(a)));
-      fade(K[`tk${i}`], Math.min(1, a * 3));
+      move(K[`chip${i}`], 0, -92 * (1 - E.outBack(a, 1.4)), lerp(0.6, 1, E.outCubic(a)));
+      fade(K[`chip${i}`], Math.min(1, a * 3));
       const l = seg(p, 0.26 + i * 0.06, 0.36 + i * 0.06);
-      move(K[`tl${i}`], 0, 6 * (1 - l));
-      fade(K[`tl${i}`], l);
+      move(K[`chiplabel${i}`], 0, 6 * (1 - l));
+      fade(K[`chiplabel${i}`], l);
     });
-    fade(K["rq"], seg(p, 0.36, 0.4));
-    fade(K["rb"], seg(p, 0.48, 0.52));
-    if (p > 0.4 && p < 0.47) put(K["rq"] as Path, E.inOutCubic(seg(p, 0.4, 0.47)), "pk--cool");
-    else if (p > 0.5 && p < 0.57) put(K["rb"] as Path, E.inOutCubic(seg(p, 0.5, 0.57)), "pk--ink");
+    fade(K["route-query"], seg(p, 0.36, 0.4));
+    fade(K["route-back"], seg(p, 0.48, 0.52));
+    if (p > 0.4 && p < 0.47) put(K["route-query"] as Path, E.inOutCubic(seg(p, 0.4, 0.47)), "pk--cool");
+    else if (p > 0.5 && p < 0.57) put(K["route-back"] as Path, E.inOutCubic(seg(p, 0.5, 0.57)), "pk--ink");
     else put();
     const tk = seg(p, 0.47, 0.53);
     move(K["tick"], 0, 0, lerp(0.2, 1, E.outBack(tk, 2.6)));
@@ -273,7 +280,7 @@ const search: SceneFactory = (svg) => {
       fade(K[`fan${j}`], seg(p, 0.56, 0.62));
       M5.fanAngles.forEach((angle, c) => {
         const fo = E.outBack(seg(p, 0.58 + c * 0.02, 0.7 + c * 0.02), 1.6);
-        move(K[`fc${j}-${c}`], 0, 0, null, null, -angle * (1 - fo));
+        move(K[`fancard${j}-${c}`], 0, 0, null, null, -angle * (1 - fo));
       });
     });
   };
@@ -313,8 +320,8 @@ const friends: SceneFactory = (svg) => {
     if (leg) put(K[leg[0]] as Path, E.inOutCubic(seg(p, leg[1], leg[2])), leg[3]);
     else put();
     const lit = seg(p, 0.84, 0.9);
-    fade(K["p0-ring"], lit);
-    move(K["p0"], 0, 0, 1 + 0.08 * Math.sin(Math.PI * lit));
+    fade(K["plate0-ring"], lit);
+    move(K["plate0"], 0, 0, 1 + 0.08 * Math.sin(Math.PI * lit));
   };
 };
 

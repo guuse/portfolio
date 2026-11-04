@@ -27,7 +27,7 @@ export function loop(o: LoopOptions = {}): string {
   let b = "";
   // routes
   b += Object.entries(H.routes)
-    .map(([k, d]) => path(d, `k-route${k === "watch" ? " k-route--dash" : ""}`, { "data-k": `r-${k}` }))
+    .map(([k, d]) => path(d, `k-route${k === "watch" ? " k-route--dash" : ""}`, { "data-k": `route-${k}` }))
     .join("");
   // the repo: a panel with a branch line and commits
   const R = H.repo;
@@ -36,8 +36,8 @@ export function loop(o: LoopOptions = {}): string {
     rect(R.x + 10, R.y + 10, R.w - 20, R.h - 20, "k-dark", 2) +
     path(`M${R.x + 20} ${R.y + 41}H${R.x + R.w - 20}`, "k-git");
   for (const i of [0, 1, 2]) b += commit(R.x + 32 + i * 30, R.y + 41, 5, "k-commit-old");
-  b += g({ "data-k": "c-push", class: "k-origin-c" }, commit(R.x + 122, R.y + 41, 7, "k-commit"));
-  b += g({ "data-k": "c-tag", class: "k-origin-c" }, commit(R.x + 148, R.y + 41, 5.5, "k-commit-tag"));
+  b += g({ "data-k": "commit-push", class: "k-origin-c" }, commit(R.x + 122, R.y + 41, 7, "k-commit"));
+  b += g({ "data-k": "commit-tag", class: "k-origin-c" }, commit(R.x + 148, R.y + 41, 5.5, "k-commit-tag"));
   // labels carry a key so motion can nod at the machine a change arrives at
   if (!o.nolabels) b += text(R.x + R.w / 2, R.y - 18, "app repo", "lb", "middle", { "data-k": "lbl-repo" });
   // the build: a machine with a hatch
