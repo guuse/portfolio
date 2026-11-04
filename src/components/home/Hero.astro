@@ -18,13 +18,14 @@ const stats = [
 
 <section class="stage" aria-labelledby="hero-title">
   <div class="stage__bg" data-print="bouldering">
+    {/* the backdrop covers the whole stage, so it is the viewport's width at every size */}
     <Picture
       src={bouldering}
       alt=""
       formats={["avif", "webp"]}
       fallbackFormat="webp"
-      widths={[480, 900]}
-      sizes="(width < 1000px) 270px, 100vw"
+      widths={[480, 750, 900]}
+      sizes="100vw"
       quality={40}
       loading="eager"
       fetchpriority="high"
