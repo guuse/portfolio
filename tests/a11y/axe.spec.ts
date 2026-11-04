@@ -19,15 +19,22 @@ for (const width of [390, 1440]) {
         }
         await page.evaluate(() => scrollTo(0, 0));
         // what isn't rendered (content-visibility, off screen) doesn't animate: finish it
-        await page.evaluate(() =>
-          Promise.all(
-            document.getAnimations().map((a) => {
+        await page.evaluate(async () => {
+          // a frame first: an element that just went off screen stops rendering in the next one
+          for (let i = 0; i < 100; i++) {
+            await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+            const running = document.getAnimations().filter((a) => a.playState === "running");
+            if (!running.length) return;
+            for (const a of running) {
               const el = (a.effect as KeyframeEffect | null)?.target;
               if (el && !el.checkVisibility({ contentVisibilityAuto: true })) a.finish();
-              return a.finished.catch(() => undefined);
-            }),
-          ),
-        );
+            }
+            await Promise.race([
+              Promise.all(running.map((a) => a.finished.catch(() => undefined))),
+              new Promise((r) => setTimeout(r, 250)),
+            ]);
+          }
+        });
         const results = await new AxeBuilder({ page }).withTags(TAGS).analyze();
         expect(
           results.violations.map((v) => `${v.id}: ${v.nodes.length} × ${v.nodes[0]?.target.join(" ")}`),
