@@ -1,5 +1,9 @@
 ---
-/** A code listing with a caption. `code` is pre-escaped HTML (comments wrapped in .c). */
+/**
+ * A code listing with a caption. `code` is pre-escaped HTML (comments wrapped in .c). The
+ * listing scrolls sideways, so it is focusable for keyboard users, and a labelled region,
+ * so that focus lands on something with a name.
+ */
 interface Props {
   caption: string;
   label: string;
@@ -10,7 +14,7 @@ const { caption, label, code } = Astro.props;
 
 <figure class="snippet">
   <figcaption>{caption}</figcaption>
-  <pre tabindex="0" aria-label={label}><code set:html={code} /></pre>
+  <pre tabindex="0" role="region" aria-label={label}><code set:html={code} /></pre>
 </figure>
 
 <style>

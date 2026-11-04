@@ -228,16 +228,15 @@ const curves = [
       <Drawing svg={sketch()} />
     </figure>
   </Section>
+  <script>
+    // a tap (or click) keeps a demo at its end until the next one; hover and focus play it too
+    for (const btn of document.querySelectorAll<HTMLButtonElement>("[data-mdemo]")) {
+      btn.addEventListener("click", () =>
+        btn.setAttribute("aria-pressed", String(btn.getAttribute("aria-pressed") !== "true")),
+      );
+    }
+  </script>
 </Base>
-
-<script>
-  // a tap (or click) keeps a demo at its end until the next one; hover and focus play it too
-  for (const btn of document.querySelectorAll<HTMLButtonElement>("[data-mdemo]")) {
-    btn.addEventListener("click", () =>
-      btn.setAttribute("aria-pressed", String(btn.getAttribute("aria-pressed") !== "true")),
-    );
-  }
-</script>
 
 <style>
   @layer components {
