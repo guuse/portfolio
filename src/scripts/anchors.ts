@@ -17,8 +17,8 @@
  */
 import { motionOk } from "./motion-ok";
 
-/** The parts of the homepage that render only near the window: keep in step with index.astro. */
-export const LAZY = "#about, #projects, #experience, #learned, #skills, #contact, .phase > ul";
+/** The parts of the homepage that render only near the window (index.astro styles them). */
+const LAZY = "[data-lazy]";
 /** Within this many pixels of its place, a scroll has landed. */
 const SLACK = 4;
 const root = document.documentElement;
@@ -26,7 +26,7 @@ const root = document.documentElement;
 const lazyParts = (): HTMLElement[] => [...document.querySelectorAll<HTMLElement>(LAZY)];
 
 /** Renders, for good, every lazy part that comes before `target` or holds it. */
-export function renderUpTo(target: Element): void {
+function renderUpTo(target: Element): void {
   for (const el of lazyParts()) {
     if (el.classList.contains("cv-on")) continue;
     const pos = el.compareDocumentPosition(target);
@@ -35,7 +35,7 @@ export function renderUpTo(target: Element): void {
   }
 }
 
-/** The scroll position that puts `target` where a #fragment jump puts it, or null. */
+/** The scroll position that puts `target` where a #fragment jump puts it, within the page's range. */
 const aimFor = (target: Element): number => {
   const pad = parseFloat(getComputedStyle(root).scrollPaddingTop) || 0;
   const margin = parseFloat(getComputedStyle(target).scrollMarginTop) || 0;
@@ -124,18 +124,40 @@ function initSmoothAnchors(): void {
 
 interface Left {
   y: number;
-  /** which lazy parts were above the window's bottom edge, as indices into lazyParts() */
+  /**
+   * which lazy parts had rendered, as indices into lazyParts(): the ones made `cv-on` and the
+   * ones in the window. A part an instant jump went past is still its placeholder, and stays
+   * one on the way back, so the page above the place is as tall as it was.
+   */
   on: number[];
+  /** the place, relative to a lazy part at (or just below) the window's top edge: its index and offset */
+  at?: [number, number];
 }
 const KEY = "pf-left";
+
+/** The lazy part the window's top edge is in (the innermost), else the first one below it. */
+const anchorOf = (parts: HTMLElement[]): number => {
+  let at = -1;
+  for (const [i, el] of parts.entries()) {
+    const r = el.getBoundingClientRect();
+    if (r.bottom <= 0) continue;
+    if (r.top <= 0) at = i;
+    else return at < 0 ? i : at;
+  }
+  return at;
+};
 
 /** Notes where the page was left, in its history entry, so coming back can rebuild it. */
 const remember = (): void => {
   const parts = lazyParts();
-  const on = parts.flatMap((el, i) =>
-    el.classList.contains("cv-on") || el.getBoundingClientRect().top < innerHeight ? [i] : [],
-  );
+  const on = parts.flatMap((el, i) => {
+    if (el.classList.contains("cv-on")) return [i];
+    const r = el.getBoundingClientRect();
+    return r.top < innerHeight && r.bottom > 0 ? [i] : [];
+  });
+  const i = anchorOf(parts);
   const left: Left = { y: scrollY, on };
+  if (i >= 0) left.at = [i, -Math.round(parts[i]!.getBoundingClientRect().top)];
   try {
     history.replaceState({ ...(history.state as object | null), [KEY]: left }, "");
   } catch {
@@ -150,15 +172,20 @@ function restore(): void {
   const parts = lazyParts();
   for (const i of left.on) parts[i]?.classList.add("cv-on");
   watchReader();
+  const [i, dy] = left.at ?? [-1, 0];
+  const anchor = parts[i];
   const put = (): void => {
     if (readerMoved) return;
-    const y = Math.min(left.y, root.scrollHeight - innerHeight);
+    // relative to the anchor part: a part above it that renders late moves it, and the place with it
+    const want = anchor ? scrollY + anchor.getBoundingClientRect().top + dy : left.y;
+    const y = Math.round(Math.min(Math.max(0, want), root.scrollHeight - innerHeight));
     if (Math.abs(scrollY - y) > SLACK) scrollTo({ top: y, behavior: "instant" });
   };
   put();
   requestAnimationFrame(put);
   if (document.readyState === "complete") setTimeout(put, 0);
   else addEventListener("load", () => setTimeout(put, 0), { once: true });
+  void document.fonts.ready.then(put);
 }
 
 /** A page opened at a #fragment: render what's above it, jump there, and keep it there. */

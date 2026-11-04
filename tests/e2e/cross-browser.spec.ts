@@ -189,4 +189,51 @@ test.describe("homepage anchors", () => {
       }
     });
   }
+
+  /*
+   * Back from a case study: the same place, the same card in view. The jump straight to the
+   * card skips About, which is still its placeholder when the page is left; coming back must
+   * not render it for real above the place, which would shift the card down.
+   */
+  for (const [w, h] of [
+    [320, 568],
+    [1280, 800],
+  ] as const) {
+    test(`going back from a case study lands where the page was left at ${w}×${h}`, async ({ page }) => {
+      await page.setViewportSize({ width: w, height: h });
+      const card = page.locator('a.cover__link[href="/projects/homelab/"]');
+      // the card's place in its list (the link itself lifts on hover and focus)
+      const cardTop = () => card.evaluate((el) => Math.round(el.closest("li")!.getBoundingClientRect().top));
+      /** Waits for the page and the card to stop moving (scrolling, a reveal settling in). */
+      const settled = async () => {
+        await still(page);
+        await expect
+          .poll(
+            async () => {
+              const a = await cardTop();
+              await page.waitForTimeout(250);
+              return (await cardTop()) === a;
+            },
+            { timeout: 6000 },
+          )
+          .toBe(true);
+      };
+      await page.goto("/");
+      await card.evaluate((el) => el.scrollIntoView({ block: "center", behavior: "instant" }));
+      await settled();
+      const y = await page.evaluate(() => scrollY);
+      const top = await cardTop();
+      // a click by position: locator.click() would scroll the card first
+      const box = (await card.boundingBox())!;
+      await page.mouse.click(box.x + box.width / 2, Math.min(box.y + box.height / 2, h - 20));
+      await page.waitForURL("**/projects/homelab/");
+      await expect(page.locator("h1")).toBeVisible();
+      await page.goBack();
+      await page.waitForURL((url) => url.pathname === "/");
+      await settled();
+      expect(Math.abs((await page.evaluate(() => scrollY)) - y)).toBeLessThanOrEqual(8);
+      expect(Math.abs((await cardTop()) - top)).toBeLessThanOrEqual(8);
+      await expect(card).toBeInViewport();
+    });
+  }
 });
