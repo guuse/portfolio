@@ -83,6 +83,9 @@ export interface SpawnOptions {
   autofade?: boolean;
 }
 
+/** The transform each packet was last given. */
+const placed = new WeakMap<SVGGElement, string>();
+
 /** Writes a packet's transform: at distance d along a track, pointing along it, nudged by jitter. */
 function place(g: SVGGElement, t: Track, d: number, jitter = 0): void {
   const last = t.xs.length - 1,
@@ -96,7 +99,12 @@ function place(g: SVGGElement, t: Track, d: number, jitter = 0): void {
   const ang = Math.atan2(by - ay, bx - ax);
   const x = ax + (bx - ax) * u + jitter * Math.cos(ang),
     y = ay + (by - ay) * u + jitter * Math.sin(ang);
-  g.setAttribute("transform", `translate(${x.toFixed(2)} ${y.toFixed(2)}) rotate(${(ang * DEG).toFixed(1)})`);
+  const tf = `translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${(ang * DEG).toFixed(1)})`;
+  // a packet held at a gate, or one the scene has stopped, writes nothing: each write is a
+  // style and layout pass for its group
+  if (placed.get(g) === tf) return;
+  placed.set(g, tf);
+  g.setAttribute("transform", tf);
 }
 
 function packetEl(): SVGGElement {
