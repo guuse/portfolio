@@ -1,10 +1,11 @@
 ---
 import Base from "~/layouts/Base.astro";
+import { site } from "~/lib/site";
 
 // Linked from the footer and from Google's OAuth consent screen for the tools under
 // ekkelenkamp.dev. Bump the date whenever the text changes.
 const updated = { iso: "2026-11-04", label: "4 November 2026" };
-const contact = "guus@ekkelenkamp.dev";
+const contact = site.email;
 ---
 
 <Base
