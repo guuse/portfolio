@@ -14,8 +14,7 @@ const principles = await list("principles");
       After we moved the clusters to IPv6-only, apps started hanging when they connected to a database. The
       database had a dual-stack address, so the apps resolved both an IPv4 and an IPv6 address, and the IPv6
       connections hung because the security group only allowed IPv4. Allowing IPv6 there fixed it. The bigger
-      lesson: IPv6-only egress only works with DNS64 and NAT64, so everything around the clusters needs
-      testing too.
+      lesson: IPv6-only egress needs DNS64 and NAT64, so everything around the clusters needs testing too.
     </p>
   </div>
 </Section>
