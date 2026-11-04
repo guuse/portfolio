@@ -150,22 +150,34 @@ test.describe("scrolling", () => {
     const link = (name: string) => nav.getByRole("link", { name, exact: true });
     await expect(link("Home")).toHaveAttribute("aria-current", "page");
     await expect(nav.locator('[aria-current="location"]')).toHaveCount(0);
+    const to = (id: string) =>
+      page.evaluate((id) => document.getElementById(id)!.scrollIntoView({ behavior: "instant" }), id);
+    // Projects links to another page: the underline follows, aria-current doesn't
+    await to("projects");
+    await expect(link("Projects")).toHaveClass(/is-marked/);
+    await expect(link("Projects")).not.toHaveAttribute("aria-current", "location");
+    await expect(nav.locator('[aria-current="location"]')).toHaveCount(0);
     for (const [id, name] of [
-      ["projects", "Projects"],
       ["experience", "Experience"],
       ["contact", "Contact"],
     ] as const) {
-      await page.evaluate((id) => document.getElementById(id)!.scrollIntoView({ behavior: "instant" }), id);
+      await to(id);
       await expect(link(name)).toHaveAttribute("aria-current", "location");
       await expect(nav.locator('[aria-current="location"]')).toHaveCount(1);
       await expect(link(name)).toHaveClass(/is-marked/);
     }
+    // past Experience, in a section with no entry of its own, nothing is marked but the page
+    await to("skills");
+    await expect(nav.locator('[aria-current="location"]')).toHaveCount(0);
+    await expect(link("Home")).toHaveClass(/is-marked/);
     // the underline is one element that moved by transform
     expect(await nav.locator(".nav__mark").evaluate((el) => el.style.transform)).toMatch(/^translate\(/);
   });
 });
 
-test("view transitions are declared, with shared names for each project", async ({ page }) => {
+test("view transitions are declared, and only the project a navigation is about is named", async ({
+  page,
+}) => {
   await page.goto("/");
   const css = await page.evaluate(() =>
     [...document.styleSheets]
@@ -186,12 +198,51 @@ test("view transitions are declared, with shared names for each project", async 
         .filter((n) => n !== "none")
         .sort(),
     );
-  const projects = ["hosting-platform", "homelab", "mtg-suite"];
-  expect(await names()).toEqual(projects.flatMap((p) => [`art-${p}`, `title-${p}`]).sort());
+  // during a navigation (page-transitions.ts sets the classes), only that project's drawing
+  const during = async (slug: string | null) => {
+    await page.evaluate((slug) => {
+      document.documentElement.classList.add("vt-only");
+      if (slug) document.documentElement.classList.add(`vt-${slug}`);
+    }, slug);
+    const n = await names();
+    await page.evaluate(() =>
+      document.documentElement.classList.remove(
+        ...[...document.documentElement.classList].filter((c) => c.startsWith("vt-")),
+      ),
+    );
+    return n;
+  };
+  expect(await during("homelab")).toEqual(["art-homelab"]);
+  expect(await during(null)).toEqual([]);
   await page.goto("/projects/");
-  expect(await names()).toEqual(projects.flatMap((p) => [`art-${p}`, `title-${p}`]).sort());
+  expect(await during("mtg-suite")).toEqual(["art-mtg-suite"]);
+  // titles never carry a name: they crossfade with the page
+  expect((await names()).every((n) => n.startsWith("art-"))).toBe(true);
   await page.goto("/projects/homelab/");
-  expect(await names()).toEqual(["art-homelab", "title-homelab"]);
+  expect(await names()).toEqual(["art-homelab"]);
+});
+
+test("a click on a project card carries only its drawing into the case study", async ({ page }) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.addInitScript(() => {
+    addEventListener("pagereveal", (e) => {
+      if (!(e as Event & { viewTransition: unknown }).viewTransition) return;
+      requestAnimationFrame(() => {
+        const groups = document
+          .getAnimations()
+          .map((a) => (a.effect as KeyframeEffect | null)?.pseudoElement ?? "")
+          .filter((p) => p.startsWith("::view-transition-group(art-"));
+        sessionStorage.setItem("vt-groups", JSON.stringify([...new Set(groups)]));
+      });
+    });
+  });
+  await page.goto("/projects/");
+  await page.waitForLoadState("load");
+  await page.getByRole("link", { name: "Homelab", exact: true }).click();
+  await expect(page).toHaveURL(/\/projects\/homelab\/$/);
+  await expect
+    .poll(() => page.evaluate(() => sessionStorage.getItem("vt-groups")))
+    .toBe(JSON.stringify(["::view-transition-group(art-homelab)"]));
 });
 
 test("the hero prints never drop in again after they've settled", async ({ page }) => {

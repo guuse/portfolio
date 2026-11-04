@@ -7,11 +7,27 @@ test.describe("copy email", () => {
     await page.goto("/");
     const button = page.locator('[data-copy-target="mail-address"]');
     await expect(button).toHaveAccessibleName("Copy address");
+    const width = (await button.boundingBox())!.width;
     await button.click();
-    await expect(button).toContainText("Copied");
-    await expect(page.locator("#mail-address-status")).toHaveText("Copied");
+    await expect(button).toHaveAccessibleName("Copied");
+    await expect(button).toHaveAttribute("data-state", "done");
+    await expect(page.locator("#mail-address-status")).toHaveText("Copied to the clipboard.");
     expect(await page.evaluate(() => navigator.clipboard.readText())).toBe("ekkelenkampguus@gmail.com");
-    await expect(button).toContainText("Copy address", { timeout: 4000 });
+    // the button keeps its width whatever it says
+    expect((await button.boundingBox())!.width).toBe(width);
+    await expect(button).toHaveAccessibleName("Copy address", { timeout: 4000 });
+  });
+
+  test("without a clipboard it selects the address and says how to copy it", async ({ page }) => {
+    await page.addInitScript(() => Object.defineProperty(navigator, "clipboard", { value: undefined }));
+    await page.goto("/");
+    const button = page.locator('[data-copy-target="mail-top"]');
+    const width = (await button.boundingBox())!.width;
+    await button.click();
+    await expect(button).toHaveAccessibleName("Selected");
+    await expect(page.locator("#mail-top-status")).toHaveText(/^Selected\. Press Ctrl\+C/);
+    expect(await page.evaluate(() => getSelection()?.toString())).toBe("ekkelenkampguus@gmail.com");
+    expect((await button.boundingBox())!.width).toBe(width);
   });
 });
 
