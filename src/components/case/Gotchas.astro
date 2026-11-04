@@ -50,7 +50,27 @@ const rows = ["Symptom", "Cause", "Fix"] as const;
     }
 
     .gotcha dd {
+      max-width: var(--size-measure);
       color: var(--ink-muted);
+    }
+
+    /* on a phone the label goes above its text, so the text keeps the whole width */
+    @media (width < 480px) {
+      .gotcha {
+        padding: 0.9rem 1rem;
+      }
+
+      .gotcha div {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0;
+        padding-block: 6px;
+      }
+
+      .gotcha dt {
+        font-size: 0.8125rem;
+        letter-spacing: 0.02em;
+        line-height: 1.4;
+      }
     }
 
     .gotcha :global(code) {

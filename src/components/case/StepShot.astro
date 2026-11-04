@@ -65,8 +65,10 @@ const full = await getImage({ src, format: "webp", width: Math.min(src.width, 28
       transition: transform var(--duration-slow) var(--ease-out);
     }
 
-    .step-shot button:hover :global(img) {
-      transform: scale(1.02);
+    @media (hover: hover) {
+      .step-shot button:hover :global(img) {
+        transform: scale(1.02);
+      }
     }
 
     .step-shot figcaption {

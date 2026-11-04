@@ -42,7 +42,10 @@ export function initPrints(): void {
   for (const item of document.querySelectorAll<HTMLElement>("[data-lift]")) {
     const print = document.querySelector(`[data-print="${item.dataset["lift"]}"]`);
     if (!print) continue;
-    const on = (): void => void print.classList.add("is-lifted");
+    // a mouse or pen only: a tap on an interest shouldn't leave its print hanging in the air
+    const on = (e: PointerEvent): void => {
+      if (e.pointerType !== "touch") print.classList.add("is-lifted");
+    };
     const off = (): void => void print.classList.remove("is-lifted");
     item.addEventListener("pointerenter", on);
     item.addEventListener("pointerleave", off);

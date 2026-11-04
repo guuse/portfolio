@@ -95,8 +95,10 @@ const interests = await list("interests");
       line-height: 1.45;
     }
 
-    .like:hover .like__name {
-      color: var(--accent);
+    @media (hover: hover) {
+      .like:hover .like__name {
+        color: var(--accent);
+      }
     }
   }
 </style>

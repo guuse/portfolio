@@ -2,7 +2,7 @@
 import { Picture } from "astro:assets";
 import CopyButton from "~/components/ui/CopyButton.astro";
 import TextLink from "~/components/ui/TextLink.astro";
-import { site } from "~/lib/site";
+import { emailHtml, site } from "~/lib/site";
 import bouldering from "~/assets/photos/bouldering.webp";
 import portrait from "~/assets/photos/portrait.webp";
 import sunset from "~/assets/photos/sunset.webp";
@@ -57,9 +57,7 @@ const stats = [
           See projects <span aria-hidden="true">&rarr;</span>
         </TextLink>
         <span class="actions__mail">
-          <span class="email" id="mail-top">
-            {site.email}
-          </span>
+          <a class="email" id="mail-top" href={`mailto:${site.email}`} set:html={emailHtml} />
           <CopyButton target="mail-top" label="Copy email" />
         </span>
         <TextLink variant="underline" href={site.linkedin} external>
@@ -115,6 +113,7 @@ const stats = [
       position: absolute;
       inset: 0;
       z-index: -1;
+      user-select: none;
     }
 
     .stage__bg :global(img) {
@@ -228,7 +227,13 @@ const stats = [
     .email {
       user-select: all;
       font-weight: 500;
-      overflow-wrap: anywhere;
+      text-decoration: none;
+    }
+
+    @media (hover: hover) {
+      .email:hover {
+        text-decoration: underline;
+      }
     }
 
     /* the prints: loose photos, tilted, that straighten when lifted */
@@ -293,14 +298,19 @@ const stats = [
       animation-delay: calc(var(--duration-stagger) * 6 + 220ms);
     }
 
-    .print:hover,
+    /* lifted under a mouse or pen only: on touch a tap would leave it stuck in the air */
+    @media (hover: hover) {
+      .print:hover {
+        transform: translate(var(--dx, 0), var(--dy, 0)) rotate(0deg) translateY(-8px) scale(1.04);
+        z-index: 5;
+        box-shadow: 0 18px 44px var(--shadow-print-lifted);
+      }
+    }
+
+    /* lifted by its interest in About (src/scripts/prints.ts) */
     .print:global(.is-lifted) {
       transform: translate(var(--dx, 0), var(--dy, 0)) rotate(0deg) translateY(-8px) scale(1.04);
       z-index: 5;
-      box-shadow: 0 18px 44px var(--shadow-print-lifted);
-    }
-
-    .print:global(.is-lifted) {
       box-shadow:
         0 18px 44px var(--shadow-print-lifted),
         0 0 0 1px var(--accent);
@@ -400,6 +410,37 @@ const stats = [
         order: -1;
         width: min(100%, 300px);
         justify-self: start;
+      }
+    }
+
+    /*
+     * A phone held sideways: text on the left, the prints beside it at about 40%, so the name
+     * and the headline are on the first screen instead of under the photos.
+     */
+    @media (orientation: landscape) and (height <= 500px) and (width < 1000px) {
+      .stage__inner {
+        grid-template-columns: minmax(0, 6fr) minmax(0, 4fr);
+        align-items: start;
+        padding-block: 1.25rem 2rem;
+      }
+
+      .stage__prints {
+        order: 0;
+        width: min(100%, calc(100svh - 96px));
+        justify-self: center;
+      }
+
+      .stage__title {
+        font-size: min(var(--text-display), 9svh + 1rem);
+      }
+
+      .stage__bg::after {
+        background: linear-gradient(
+          90deg,
+          var(--surface) 0%,
+          color-mix(in oklch, var(--surface) 88%, transparent) 50%,
+          color-mix(in oklch, var(--surface) 50%, transparent) 100%
+        );
       }
     }
 

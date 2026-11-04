@@ -1,5 +1,9 @@
 ---
-/** The screenshot viewer: a native modal dialog (behaviour in src/scripts/lightbox.ts). */
+/**
+ * The screenshot viewer: a native modal dialog (behaviour in src/scripts/lightbox.ts). It
+ * opens on the thumbnail the page already has and swaps in the full image once it's decoded;
+ * a faint spinner shows only if that takes a moment. Pinch-zoom works on touch screens.
+ */
 ---
 
 <dialog class="lightbox" aria-label="Screenshot viewer">
@@ -40,18 +44,58 @@
 
     .lightbox[open] {
       display: grid;
-      grid-template-rows: 1fr auto;
+      grid-template-rows: minmax(0, 1fr) auto;
     }
 
     .lightbox::backdrop {
       background: transparent;
     }
 
+    /*
+     * Opening and closing: a short fade, the picture growing into place. display and overlay
+     * are carried along so the dialog stays painted until the fade-out is over.
+     */
+    @media (prefers-reduced-motion: no-preference) {
+      .lightbox {
+        opacity: 0;
+        transition:
+          opacity var(--duration-base) var(--ease-out),
+          display var(--duration-base) allow-discrete,
+          overlay var(--duration-base) allow-discrete;
+      }
+
+      .lightbox[open] {
+        opacity: 1;
+      }
+
+      .lightbox__img {
+        scale: 0.96;
+        transition: scale var(--duration-base) var(--ease-out);
+      }
+
+      .lightbox[open] .lightbox__img {
+        scale: 1;
+      }
+
+      @starting-style {
+        .lightbox[open] {
+          opacity: 0;
+        }
+
+        .lightbox[open] .lightbox__img {
+          scale: 0.96;
+        }
+      }
+    }
+
     .lightbox__stage {
+      position: relative;
       display: grid;
       place-items: center;
       min-height: 0;
-      touch-action: pan-y;
+
+      /* the browser's own pinch-zoom; a one-finger swipe steps (lightbox.ts) */
+      touch-action: pan-y pinch-zoom;
     }
 
     .lightbox__img {
@@ -60,6 +104,40 @@
       width: auto;
       height: auto;
       border-radius: var(--radius-s);
+    }
+
+    /* the full image is on its way: a faint ring, only if it takes more than a moment */
+    .lightbox__stage::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 28px;
+      height: 28px;
+      margin: -14px 0 0 -14px;
+      border: 2px solid color-mix(in oklch, var(--ink) 25%, transparent);
+      border-top-color: color-mix(in oklch, var(--ink) 70%, transparent);
+      border-radius: 50%;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .lightbox__stage:global(.is-loading)::after {
+      animation:
+        lb-wait 200ms linear 300ms forwards,
+        lb-spin 0.9s linear infinite;
+    }
+
+    @keyframes lb-wait {
+      to {
+        opacity: 1;
+      }
+    }
+
+    @keyframes lb-spin {
+      to {
+        rotate: 1turn;
+      }
     }
 
     .lightbox__bar {
@@ -78,6 +156,7 @@
     .lightbox__count {
       color: var(--ink-muted);
       font-size: var(--text-small);
+      font-variant-numeric: tabular-nums;
     }
 
     .lightbox__nav {
@@ -90,8 +169,8 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
-      min-width: 40px;
-      min-height: 40px;
+      min-width: 44px;
+      min-height: 44px;
       padding: 0 12px;
       border: 1px solid var(--line-strong);
       border-radius: var(--radius-pill);
@@ -104,14 +183,93 @@
       display: none;
     }
 
-    .lb-btn:hover {
-      border-color: var(--ink-muted);
+    @media (hover: hover) {
+      .lb-btn:hover {
+        border-color: var(--ink-muted);
+      }
     }
 
     .lb-btn--close {
       background: var(--ink);
       color: var(--surface);
       border-color: var(--ink);
+    }
+
+    /*
+     * Phones, upright: the screenshot uses the whole width, edge to edge, and the bar shrinks
+     * to one line of caption over the count and the buttons.
+     */
+    @media (width < 600px) and (orientation: portrait) {
+      .lightbox {
+        padding-inline: env(safe-area-inset-left, 0) env(safe-area-inset-right, 0);
+      }
+
+      .lightbox__img {
+        max-height: calc(100svh - 132px);
+        border-radius: 0;
+      }
+
+      .lightbox__bar {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 6px 12px;
+        padding: 10px 12px 0;
+      }
+
+      .lightbox__cap {
+        grid-column: 1 / -1;
+        display: -webkit-box;
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        line-height: 1.4;
+      }
+    }
+
+    /*
+     * Phones held sideways: there's no height to spare, so the picture gets nearly all of it
+     * and the bar floats over its bottom edge.
+     */
+    @media (orientation: landscape) and (height <= 500px) {
+      .lightbox {
+        display: block;
+        padding-block: 12px;
+      }
+
+      .lightbox[open] {
+        display: grid;
+        grid-template-rows: minmax(0, 1fr);
+      }
+
+      .lightbox__stage {
+        grid-area: 1 / 1;
+      }
+
+      .lightbox__img {
+        max-height: calc(100svh - 24px);
+      }
+
+      .lightbox__bar {
+        grid-area: 1 / 1;
+        align-self: end;
+        z-index: 1;
+        flex-wrap: nowrap;
+        margin-inline: auto;
+        max-width: 100%;
+        padding: 6px 6px 6px 14px;
+        border-radius: var(--radius-pill);
+        background: color-mix(in oklch, var(--surface) 82%, transparent);
+        backdrop-filter: blur(8px);
+      }
+
+      .lightbox__cap {
+        flex: 1 1 auto;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
     }
   }
 

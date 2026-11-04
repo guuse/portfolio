@@ -38,8 +38,10 @@ const { prev, next } = Astro.props;
       text-decoration: none;
     }
 
-    .ph-next a:hover {
-      color: var(--accent);
+    @media (hover: hover) {
+      .ph-next a:hover {
+        color: var(--accent);
+      }
     }
 
     .ph-next small {

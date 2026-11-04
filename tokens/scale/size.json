@@ -42,7 +42,10 @@
   "size": {
     "$type": "dimension",
     "wrap": { "$value": "1180px", "$description": "Max content width" },
-    "measure": { "$value": "40em", "$description": "Comfortable line length" }
+    "measure": {
+      "$value": "65ch",
+      "$description": "Comfortable line length: about 70 characters, in the font of the element it sits on"
+    }
   },
   "radius": {
     "$type": "dimension",
