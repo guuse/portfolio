@@ -57,8 +57,8 @@ const icons = ["si-argo", "si-tailscale", "si-cloudflare", "si-traefikproxy", "s
     <SceneStep scene="loop" range={[0.76, 1]} continues>
       <h3>A build loop</h3>
       <p>
-        That commit back into the repo started a build loop: CI built it into a new image, Image Updater
-        committed again, and so on. CI now ignores <code>deploy/</code> with <code>paths-ignore</code>.
+        That commit back into the repo started a build loop: CI built a new image from it, then Image Updater
+        committed again. CI now ignores <code>deploy/</code> with <code>paths-ignore</code>.
       </p>
     </SceneStep>
   </Scenes>
@@ -78,7 +78,7 @@ const icons = ["si-argo", "si-tailscale", "si-cloudflare", "si-traefikproxy", "s
   <Section id="getting-in" title="Three ways in" bodyClass="prose">
     <p>
       The tailnet is the default. My own devices reach Traefik over Tailscale, and DNS for my domain points at
-      the tailnet for everything except this site, so those names only resolve on my own devices.
+      the tailnet for everything except this site, so those names only work from my own devices.
     </p>
     <p>
       Two other ways in are opt-in, per app. A few apps are public through a Cloudflare Tunnel with Access in

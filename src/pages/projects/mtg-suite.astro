@@ -110,7 +110,7 @@ const skills = "https://github.com/guuse/claude-mtg-skills";
       <h3>Finding cards in plain words</h3>
       <p>
         Scryfall is the card search most players use, and its syntax takes practice. In mine you describe the
-        cards in normal words. A model writes the query, the server tests it against Scryfall first, and you
+        cards in normal words. A model writes the query and the server tests it against Scryfall first. You
         get a best match and two to four alternatives, each with a breakdown of what every part does, so you
         pick up the syntax as you go. For deck building there’s also a set of
         <ExternalLink href={skills}>open-source Claude Code skills</ExternalLink>.
@@ -133,8 +133,7 @@ const skills = "https://github.com/guuse/claude-mtg-skills";
       <h3>Bug reports and card updates</h3>
       <p>
         My friends can file a bug report straight from the table. One click on my triage page turns it into a
-        GitHub issue, and closing the issue marks the report fixed. Every merge to main lands on my homelab,
-        so the next game has the fix.
+        GitHub issue, and closing the issue marks the report fixed. Every merge to main deploys to my homelab.
       </p>
       <p>
         A nightly job pulls in the engine’s latest card data, checks that the engine still starts on it and
@@ -150,7 +149,7 @@ const skills = "https://github.com/guuse/claude-mtg-skills";
           text: "A mock server once hid a bug that made the whole hand unclickable in real games, so I deleted it. Every test now plays against the real server.",
         },
         {
-          title: "One stop too many",
+          title: "Removing another priority stop",
           text: "When I removed one more priority stop to speed games up, the scripted test players interacted less and one seat died early. Players got fewer chances to respond, so I put that stop back.",
         },
       ]}

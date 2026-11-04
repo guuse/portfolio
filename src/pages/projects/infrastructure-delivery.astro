@@ -41,9 +41,8 @@ const actions = [
     </p>
     <p>
       I set up how that Pulumi code reaches production. It started as a proof of concept that deployed one
-      small VPC, because the pipeline was what I wanted to test, not the VPC. From there I built the shared
-      GitHub Actions our Pulumi projects deploy through, and haven, the CLI the team uses to work in these
-      environments.
+      small VPC, to test the pipeline. From there I built the shared GitHub Actions our Pulumi projects deploy
+      through, and haven, the CLI the team uses to work in these environments.
     </p>
   </CaseLead>
   <Scenes id="story" title="How a change reaches production">
@@ -93,10 +92,10 @@ const actions = [
       <h3>A CLI without an apply command</h3>
       <p>
         I built haven, the CLI we use for these environments. It logs you in through SSO with an admin or a
-        read-only role, opens a shell on the bastion, runs the policy checks and the tests, and sets up a new
-        environment’s foundation, including its repository variables and branch protection on GitHub. Commands
-        that change something only run from that environment’s own directory. There’s no apply or deploy
-        command, because production only changes through the pipeline.
+        read-only role, opens a shell on the bastion and runs the policy checks and the tests. It also sets up
+        a new environment’s foundation, including its repository variables and branch protection on GitHub.
+        Commands that change something only run from that environment’s own directory. There’s no apply or
+        deploy command, because production only changes through the pipeline.
       </p>
     </SceneStep>
   </Scenes>
@@ -130,7 +129,7 @@ const actions = [
     <p>
       The clusters still change through Terraform and OpenTofu. A Kubernetes upgrade goes one minor version at
       a time, after the upgrade checks pass and the plan is empty, so the upgrade plan holds nothing else. The
-      nodes then roll one at a time. App releases go through Argo CD, which the
+      nodes then roll one at a time. App releases are moving to Argo CD, which the
       <a href="/projects/hosting-platform/#hood">hosting platform</a> page covers.
     </p>
   </Section>
@@ -146,9 +145,9 @@ const actions = [
       in the approved plan, and the scheduled drift check reports the rest to Slack.
     </p>
     <p>
-      For apps we use Argo CD, which pulls changes from git by itself. For infrastructure I chose a pipeline
-      that pushes them, because every change has to stop at a human review, and an operator that reconciles on
-      its own works against that.
+      We’re moving apps to Argo CD, which pulls changes from git by itself. For infrastructure I chose a
+      pipeline that pushes them, because every change has to stop at a human review, and an operator that
+      reconciles on its own works against that.
     </p>
     <p>
       Separate foundations cost something. Every new state needs its own bootstrap and its own five workflows,

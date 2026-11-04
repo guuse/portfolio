@@ -57,8 +57,7 @@ const icons = hood.flatMap((h) => ("icon" in h ? [h.icon] : []));
     <p>
       Today it runs 8 Kubernetes clusters on AWS in Ireland and Tokyo and on Azure, hosting more than 300
       Dutch and international clients with over 800 deployments. The largest cluster runs more than 1,500
-      pods. A new client gets the same modules and network as everyone else and deploys the same way, so
-      anyone on the team can explain it to a new colleague.
+      pods. A new client gets the same modules and network as everyone else and deploys the same way.
     </p>
   </CaseLead>
   <Scenes id="story" title="How the platform works">
@@ -85,9 +84,8 @@ const icons = hood.flatMap((h) => ("icon" in h ? [h.icon] : []));
     <SceneStep scene="ipv6">
       <h3>The move to IPv6</h3>
       <p>
-        IPv4 addresses were the bottleneck of the old cluster, and EKS runs a cluster on IPv4 or on IPv6, not
-        both. So we moved the clusters to IPv6-only, which also future-proofs them. Anything that only speaks
-        IPv4 is reached through DNS64 and NAT64.
+        We were running out of IPv4 addresses, and EKS runs a cluster on IPv4 or on IPv6, not both. So we
+        moved the clusters to IPv6-only. Anything that only speaks IPv4 is reached through DNS64 and NAT64.
       </p>
       <p>
         I led the move, and it went wrong in two ways. Internal traffic from the pods to private services,
@@ -97,10 +95,10 @@ const icons = hood.flatMap((h) => ("icon" in h ? [h.icon] : []));
       </p>
     </SceneStep>
     <SceneStep scene="learned">
-      <h3>One codebase for every cluster</h3>
+      <h3>One codebase for the AWS clusters</h3>
       <p>
-        The clusters come from the same Terraform and OpenTofu modules, so we make and review a change once
-        and it rolls out to every cluster. New infrastructure delivery is moving to Pulumi.
+        The AWS clusters come from the same Terraform and OpenTofu modules, so we make and review a change
+        once and roll it out to them one after another. New infrastructure delivery is moving to Pulumi.
       </p>
       <p>Some clients are on Azure. They get the same platform on AKS, with a few changes.</p>
     </SceneStep>
@@ -128,10 +126,7 @@ const icons = hood.flatMap((h) => ("icon" in h ? [h.icon] : []));
     </div>
   </Section>
   <Section id="lessons" title="Lessons" bodyClass="prose">
-    <p>
-      The IPv6 move taught me to check what a network change does to the cost of internal traffic, not only
-      whether that traffic still gets through. Before a change like that, I now map where it goes first.
-    </p>
+    <p>Before a network change I now map where internal traffic goes and what it costs.</p>
     <p>
       The Tokyo syncer predates our move to GitOps. Today I’d replace it with Argo CD ApplicationSets that
       target both clusters, so git is the only source for both regions.
