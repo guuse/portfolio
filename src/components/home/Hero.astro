@@ -237,6 +237,15 @@ const stats = [
       }
     }
 
+    /* a finger needs a 44px target */
+    @media (pointer: coarse) {
+      .email {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+      }
+    }
+
     /* the prints: loose photos, tilted, that straighten when lifted */
     .stage__prints {
       position: relative;

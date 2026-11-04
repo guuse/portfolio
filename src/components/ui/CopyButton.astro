@@ -73,6 +73,12 @@ const status = `${target}-status`;
         border-color var(--duration-quick);
     }
 
+    @media (pointer: coarse) {
+      .copy {
+        min-height: 44px;
+      }
+    }
+
     .copy[hidden] {
       display: none;
     }
