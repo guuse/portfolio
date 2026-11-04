@@ -10,9 +10,12 @@ the same in `astro preview` (where the tests run) and in production.
 ## Decision
 
 - Astro writes a `<meta http-equiv="content-security-policy">` into every page with
-  `default-src 'none'` and a SHA-256 hash for every script and style it emits; Trusted Types
-  are required (`trusted-types 'none'`). nginx adds what a meta can't express. The exact
-  directives are in `astro.config.ts` and `infrastructure/README.md`.
+  `default-src 'none'` and a SHA-256 hash for every script and style it emits. Trusted Types
+  are enforced: `require-trusted-types-for 'script'` makes every DOM sink that takes a string
+  (`innerHTML` and the like) throw, and `trusted-types 'none'` allows no policy that could make
+  one. nginx adds what a meta can't express (`frame-ancestors`, plus a backstop and the other
+  headers). The meta's directives are in `astro.config.ts`; the header's are in
+  `infrastructure/nginx/security-headers.conf`, and `infrastructure/README.md` explains the split.
 - What that rules out, and how the code works around it:
   - **No `style=""` attributes**, including in generated SVG: stagger indices are `data-i`
     and set through the CSSOM; token previews are generated classes.
