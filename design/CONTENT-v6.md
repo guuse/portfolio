@@ -78,8 +78,8 @@ I'm proudest of is project #1 below.*
   It now runs eight clusters, from small to large, in the Netherlands and abroad, including
   Japan. The biggest runs more than 1,500 pods. New apps get production and acceptance
   environments, TLS, logging and dashboards on day one, without anyone touching the cluster.*
-- **Numbers:** `8` clusters · `1,500+` pods on the largest · `~80` Argo CD applications on the
-  main cluster · `0` static cloud keys in CI
+- **Numbers:** `8` clusters · `1,500+` pods on the largest · every app through Argo CD
+  · `0` static cloud keys in CI
 - **Section A: App delivery (GitOps with Argo CD).** Animated diagram.
   - A root app-of-apps manages everything; projects act as guardrails per team or client.
   - Each app gets **production** and **acceptance**: production follows the newest stable
