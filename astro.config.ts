@@ -1,6 +1,7 @@
 import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
 import { fontsourcePackages } from "./integrations/local-fonts";
+import { customMedia } from "./integrations/custom-media";
 import { layerOrder } from "./integrations/layer-order";
 
 const selfHosted = fontsourcePackages();
@@ -18,7 +19,7 @@ export default defineConfig({
   // Stylesheets are inlined, each with its hash in the CSP (ADR 0006); integrations/layer-order
   // keeps the cascade layer order whichever stylesheet comes first.
   build: { format: "directory", inlineStylesheets: "always" },
-  vite: { plugins: [layerOrder()] },
+  vite: { plugins: [layerOrder()], css: { postcss: { plugins: [customMedia()] } } },
   compressHTML: true,
   // Shiki writes inline styles, which the CSP would block; the site has no highlighted code.
   markdown: { syntaxHighlight: false },

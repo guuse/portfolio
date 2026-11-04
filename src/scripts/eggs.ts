@@ -6,6 +6,7 @@
  * The shortcuts are single character keys, so the sheet can turn them off (WCAG 2.1.4): then
  * nothing listens to the keyboard but Alt + ?, which opens the sheet to turn them back on.
  */
+import { ms } from "~/styles/tokens";
 import { motionOk } from "./motion-ok";
 
 const POSTCARD = String.raw`
@@ -18,7 +19,8 @@ const POSTCARD = String.raw`
    └──────────────────────────────────────────┘`;
 
 function postcard(): void {
-  console.info(`%c${POSTCARD}`, "font-family: monospace; color: #fbc044");
+  const accent = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim();
+  console.info(`%c${POSTCARD}`, `font-family: monospace; color: ${accent}`);
   console.info("Snooping? Same. ekkelenkampguus@gmail.com");
   console.info("Hint: press ? for shortcuts. Old cheat codes still work here.");
 }
@@ -130,7 +132,7 @@ function toast(message: string): void {
   toastTimer = window.setTimeout(() => {
     el.classList.remove("is-shown");
     el.textContent = "";
-  }, 3200);
+  }, ms.toast);
 }
 
 function konami(): void {
@@ -145,7 +147,8 @@ function konami(): void {
       root.classList.remove("is-untapping");
       void root.offsetWidth; // restart the animation if it is still running
       root.classList.add("is-untapping");
-      setTimeout(() => root.classList.remove("is-untapping"), 1600);
+      // a frame or so after the animation (the same token) has finished
+      setTimeout(() => root.classList.remove("is-untapping"), ms.untap + 100);
     }
     toast("Untap, upkeep, draw. Your turn.");
   });

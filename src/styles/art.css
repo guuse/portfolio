@@ -1,6 +1,8 @@
 /*
  * The illustration kit's materials (see src/lib/art). Shared materials come from the art.*
- * tokens; the per-part tints of people, books and cards are local to the drawings.
+ * tokens. The per-part tints of people, books and cards are local to the drawings, but their
+ * hues are offsets from the navy hue token, so a new hue turns every drawing with the page
+ * (tests/unit/tokens.test.ts keeps it that way).
  */
 @layer components {
   .story {
@@ -171,7 +173,7 @@
   }
 
   .scene-svg .k-pod-l {
-    stroke: oklch(62% 0.04 260);
+    stroke: oklch(62% 0.04 calc(var(--hue-navy) - 6));
     stroke-width: 1.2;
     stroke-linecap: round;
   }
@@ -242,11 +244,11 @@
   }
 
   .scene-svg .k-txt {
-    fill: oklch(48% 0.045 264);
+    fill: oklch(48% 0.045 calc(var(--hue-navy) - 2));
   }
 
   .scene-svg .k-txt--b {
-    fill: oklch(66% 0.035 262);
+    fill: oklch(66% 0.035 calc(var(--hue-navy) - 4));
   }
 
   .scene-svg .k-mark {
@@ -286,7 +288,7 @@
   }
 
   .scene-svg .k-pod-d {
-    fill: oklch(58% 0.04 258);
+    fill: oklch(58% 0.04 calc(var(--hue-navy) - 8));
   }
 
   .scene-svg .pk-h {
@@ -400,7 +402,7 @@
   }
 
   .scene-svg .k-wire--lit {
-    stroke: oklch(62% 0.04 262);
+    stroke: oklch(62% 0.04 calc(var(--hue-navy) - 4));
   }
 
   .scene-svg .k-flag {
@@ -448,11 +450,11 @@
   }
 
   .scene-svg .pk--ink .pk-h {
-    fill: oklch(76% 0.02 262);
+    fill: oklch(76% 0.02 calc(var(--hue-navy) - 4));
   }
 
   .scene-svg .pk--ink .pk-s {
-    stroke: oklch(58% 0.03 262);
+    stroke: oklch(58% 0.03 calc(var(--hue-navy) - 4));
   }
 
   .scene-svg .lb {
@@ -536,8 +538,8 @@
   }
 
   .scene-svg .c-face {
-    fill: oklch(84% 0.025 255);
-    stroke: oklch(60% 0.035 258);
+    fill: oklch(84% 0.025 calc(var(--hue-navy) - 11));
+    stroke: oklch(60% 0.035 calc(var(--hue-navy) - 8));
     stroke-width: 1;
   }
 
@@ -547,22 +549,22 @@
   }
 
   .scene-svg .c-art {
-    fill: oklch(40% 0.05 262);
+    fill: oklch(40% 0.05 calc(var(--hue-navy) - 4));
   }
 
   .scene-svg .c-artline {
     fill: none;
-    stroke: oklch(55% 0.05 258);
+    stroke: oklch(55% 0.05 calc(var(--hue-navy) - 8));
     stroke-width: 1.1;
     stroke-linejoin: round;
   }
 
   .scene-svg .c-txt {
-    fill: oklch(64% 0.03 258);
+    fill: oklch(64% 0.03 calc(var(--hue-navy) - 8));
   }
 
   .scene-svg .c-txt--b {
-    fill: oklch(50% 0.04 260);
+    fill: oklch(50% 0.04 calc(var(--hue-navy) - 6));
   }
 
   .scene-svg .c-back {
@@ -573,12 +575,12 @@
 
   .scene-svg .c-back-in {
     fill: none;
-    stroke: oklch(45% 0.06 250);
+    stroke: oklch(45% 0.06 calc(var(--hue-navy) - 16));
     stroke-width: 1;
   }
 
   .scene-svg .c-back-mark {
-    fill: oklch(42% 0.06 250);
+    fill: oklch(42% 0.06 calc(var(--hue-navy) - 16));
   }
 
   .scene-svg .p-shirt {
@@ -591,31 +593,31 @@
   }
 
   .scene-svg .p-shirt--2 {
-    fill: oklch(29% 0.05 250);
+    fill: oklch(29% 0.05 calc(var(--hue-navy) - 16));
   }
 
   .scene-svg .p-shirt--3 {
-    fill: oklch(31% 0.05 280);
+    fill: oklch(31% 0.05 calc(var(--hue-navy) + 14));
   }
 
   .scene-svg .p-shirt--4 {
-    fill: oklch(37% 0.045 240);
+    fill: oklch(37% 0.045 calc(var(--hue-navy) - 26));
   }
 
   .scene-svg .p-hl {
     fill: none;
-    stroke: oklch(46% 0.05 262);
+    stroke: oklch(46% 0.05 calc(var(--hue-navy) - 4));
     stroke-width: 1.2;
     stroke-linecap: round;
   }
 
   .scene-svg .p-neck {
-    fill: oklch(58% 0.04 262);
+    fill: oklch(58% 0.04 calc(var(--hue-navy) - 4));
   }
 
   .scene-svg .p-head {
-    fill: oklch(66% 0.04 262);
-    stroke: oklch(52% 0.04 262);
+    fill: oklch(66% 0.04 calc(var(--hue-navy) - 4));
+    stroke: oklch(52% 0.04 calc(var(--hue-navy) - 4));
     stroke-width: 1.2;
   }
 
@@ -624,7 +626,7 @@
   }
 
   .scene-svg .p-cap {
-    fill: oklch(48% 0.06 250);
+    fill: oklch(48% 0.06 calc(var(--hue-navy) - 16));
   }
 
   .scene-svg .m-tableface {
@@ -634,7 +636,7 @@
   }
 
   .scene-svg .m-tabletop {
-    fill: oklch(36% 0.05 262);
+    fill: oklch(36% 0.05 calc(var(--hue-navy) - 4));
     stroke: var(--k-edge);
     stroke-width: 1.5;
     stroke-linejoin: round;
@@ -647,34 +649,34 @@
   }
 
   .scene-svg .b-cover--2 {
-    fill: oklch(28% 0.05 248);
+    fill: oklch(28% 0.05 calc(var(--hue-navy) - 18));
   }
 
   .scene-svg .b-cover--3 {
-    fill: oklch(34% 0.045 280);
+    fill: oklch(34% 0.045 calc(var(--hue-navy) + 14));
   }
 
   .scene-svg .b-pages {
-    fill: oklch(78% 0.02 250);
+    fill: oklch(78% 0.02 calc(var(--hue-navy) - 16));
   }
 
   .scene-svg .b-pageline {
-    stroke: oklch(62% 0.03 255);
+    stroke: oklch(62% 0.03 calc(var(--hue-navy) - 11));
     stroke-width: 0.8;
   }
 
   .scene-svg .b-title {
-    fill: oklch(52% 0.05 255);
+    fill: oklch(52% 0.05 calc(var(--hue-navy) - 11));
   }
 
   .scene-svg .b-sheet {
-    fill: oklch(86% 0.02 250);
-    stroke: oklch(62% 0.03 255);
+    fill: oklch(86% 0.02 calc(var(--hue-navy) - 16));
+    stroke: oklch(62% 0.03 calc(var(--hue-navy) - 11));
     stroke-width: 1;
   }
 
   .scene-svg .b-sheetline {
-    fill: oklch(66% 0.03 255);
+    fill: oklch(66% 0.03 calc(var(--hue-navy) - 11));
   }
 
   .scene-svg .m-bubble {
@@ -715,12 +717,12 @@
   }
 
   .scene-svg .m-felt {
-    fill: oklch(23% 0.05 255);
+    fill: oklch(23% 0.05 calc(var(--hue-navy) - 11));
   }
 
   .scene-svg .m-felt-edge {
     fill: none;
-    stroke: oklch(19% 0.04 260);
+    stroke: oklch(19% 0.04 calc(var(--hue-navy) - 6));
     stroke-width: 2;
   }
 
@@ -731,7 +733,7 @@
   }
 
   .scene-svg .m-plateline {
-    fill: oklch(52% 0.04 260);
+    fill: oklch(52% 0.04 calc(var(--hue-navy) - 6));
   }
 
   .scene-svg .m-ring {
@@ -746,19 +748,19 @@
   }
 
   .scene-svg .m-avatar--1 {
-    fill: oklch(78% 0.06 250);
+    fill: oklch(78% 0.06 calc(var(--hue-navy) - 16));
   }
 
   .scene-svg .m-avatar--2 {
-    fill: oklch(70% 0.05 220);
+    fill: oklch(70% 0.05 calc(var(--hue-navy) - 46));
   }
 
   .scene-svg .m-avatar--3 {
-    fill: oklch(74% 0.04 290);
+    fill: oklch(74% 0.04 calc(var(--hue-navy) + 24));
   }
 
   .scene-svg .m-avatar--4 {
-    fill: oklch(66% 0.05 260);
+    fill: oklch(66% 0.05 calc(var(--hue-navy) - 6));
   }
 
   .scene-svg .m-code {
@@ -778,7 +780,7 @@
   }
 
   .scene-svg .m-tick {
-    fill: oklch(42% 0.05 264);
+    fill: oklch(42% 0.05 calc(var(--hue-navy) - 2));
   }
 
   .scene-svg .m-mark {
@@ -802,32 +804,32 @@
   }
 
   .scene-svg .m-boxlabel {
-    fill: oklch(58% 0.04 258);
+    fill: oklch(58% 0.04 calc(var(--hue-navy) - 8));
   }
 
   .scene-svg .m-binder {
-    fill: oklch(30% 0.05 255);
+    fill: oklch(30% 0.05 calc(var(--hue-navy) - 11));
     stroke: var(--k-edge);
     stroke-width: 1.5;
   }
 
   .scene-svg .m-spine {
-    fill: oklch(24% 0.045 260);
+    fill: oklch(24% 0.045 calc(var(--hue-navy) - 6));
   }
 
   .scene-svg .m-ringhole {
-    fill: oklch(60% 0.03 258);
+    fill: oklch(60% 0.03 calc(var(--hue-navy) - 8));
   }
 
   .scene-svg .m-pocket {
-    fill: oklch(24% 0.045 262);
-    stroke: oklch(38% 0.05 262);
+    fill: oklch(24% 0.045 calc(var(--hue-navy) - 4));
+    stroke: oklch(38% 0.05 calc(var(--hue-navy) - 4));
     stroke-width: 1;
   }
 
   .scene-svg .m-token {
     fill: var(--k-dark);
-    stroke: oklch(45% 0.06 230);
+    stroke: oklch(45% 0.06 calc(var(--hue-navy) - 36));
     stroke-width: 1.3;
   }
 
@@ -844,7 +846,7 @@
   }
 
   .scene-svg .m-moon {
-    fill: oklch(88% 0.03 90);
+    fill: var(--art-moon);
   }
 
   .scene-svg .m-sky {
@@ -893,7 +895,7 @@
     stroke-dasharray: 2, 5;
   }
 
-  @media (width < 700px) {
+  @media (--below-md) {
     .scene-svg .lb {
       font-size: 21px;
     }

@@ -7,6 +7,7 @@ dist/
 src/styles/tokens.css
 src/styles/tokens.ts
 src/styles/tokens-preview.css
+src/styles/media.css
 
 # test and audit output
 playwright-report/

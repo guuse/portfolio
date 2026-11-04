@@ -51,10 +51,17 @@
     "pod": { "$value": "{cloud.760}" },
     "cool": { "$value": "{sky.800}", "$description": "Things that are on" },
     "amber": { "$value": "{accent.base}", "$description": "The thing in motion" },
-    "packet-band": { "$value": "{amber.660}" },
-    "packet-seam": { "$value": "{amber.500}" },
+    "packet-band": {
+      "$value": "oklch(from {accent.base} calc(l - 0.18) calc(c - 0.02) calc(h - 12))",
+      "$description": "The band on a packet: the accent, darker"
+    },
+    "packet-seam": {
+      "$value": "oklch(from {accent.base} calc(l - 0.34) calc(c - 0.05) calc(h - 12))",
+      "$description": "The seam on a packet: the accent, darker still"
+    },
     "cool-band": { "$value": "{sky.640}" },
     "cool-seam": { "$value": "{sky.480}" },
-    "card": { "$value": "{surface.card}" }
+    "card": { "$value": "{surface.card}" },
+    "moon": { "$value": "{bone.880}" }
   }
 }

@@ -9,6 +9,7 @@ test-results/
 src/styles/tokens.css
 src/styles/tokens.ts
 src/styles/tokens-preview.css
+src/styles/media.css
 src/assets/
 public/
 .claude/

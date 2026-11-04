@@ -9,7 +9,6 @@ export const site = {
   jobTitle: "Tech lead infrastructure",
   employer: "Harborn",
   city: "Rotterdam",
-  themeColor: "#0a1328",
 } as const;
 
 /**

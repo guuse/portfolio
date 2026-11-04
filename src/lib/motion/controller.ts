@@ -18,7 +18,7 @@
  * idle time and a few at a time, so a scene never stalls the frame it first appears in.
  * Each frame reads every position first and then writes, and allocates nothing.
  */
-import { breakpoint } from "~/styles/tokens";
+import { media, px } from "~/styles/tokens";
 import { animators } from "./registry";
 import { approach, clamp } from "./math";
 import type { Scheduler } from "./scheduler";
@@ -251,7 +251,7 @@ function readSection(S: Section, vh: number): boolean {
     }
     const it = S.byStep[idx] ?? S.items[0]!;
     // the first step only starts once the stage is pinned (section top at the header)
-    const lead = idx === 0 ? Math.max(0, vh * 0.5 - 64) : 0;
+    const lead = idx === 0 ? Math.max(0, vh * 0.5 - px["space-header"]) : 0;
     const local = clamp((vh * 0.5 - lead - top) / Math.max(1, height - vh * 0.25 - lead), 0, 1);
     S.job = it;
     S.jobP = it.from + (it.to - it.from) * local;
@@ -313,8 +313,8 @@ function printing(sections: Section[], relayout: () => void, wake: () => void): 
   };
   addEventListener("beforeprint", start);
   addEventListener("afterprint", end);
-  const media = matchMedia("print");
-  media.addEventListener("change", () => (media.matches ? start() : end()));
+  const print = matchMedia("print");
+  print.addEventListener("change", () => (print.matches ? start() : end()));
   return () => on;
 }
 
@@ -324,7 +324,7 @@ export function startMotion(scheduler: Scheduler): void {
     .map((el) => setupSection(el, wake))
     .filter((s): s is Section => !!s);
 
-  const wide = matchMedia(`(min-width: ${breakpoint.stage}px)`);
+  const wide = matchMedia(media.stage);
   const relayout = (): void => {
     sections.forEach((S) => layout(S, wide.matches));
     wake();

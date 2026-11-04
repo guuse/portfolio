@@ -8,6 +8,7 @@ import SiteFooter from "~/components/layout/SiteFooter.astro";
 import KeyboardSheet from "~/components/layout/KeyboardSheet.astro";
 import Seo from "~/components/layout/Seo.astro";
 import { site } from "~/lib/site";
+import { tokens } from "~/styles/tokens";
 
 export interface Props {
   /** The full document title. */
@@ -46,7 +47,7 @@ const hello = `<!--
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
-    <meta name="theme-color" content={site.themeColor} />
+    <meta name="theme-color" content={tokens.surface.hex} />
     <meta name="color-scheme" content="dark" />
     <FontPreload cssVariable="--font-serif" />
     <FontPreload cssVariable="--font-sans" />

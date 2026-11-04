@@ -1,7 +1,14 @@
 /** @type {import("stylelint").Config} */
 export default {
   extends: ["stylelint-config-standard", "stylelint-config-html/astro"],
-  ignoreFiles: [".claude/**", "dist/**", "design/**", "src/styles/tokens.css"],
+  ignoreFiles: [
+    ".claude/**",
+    "dist/**",
+    "design/**",
+    "src/styles/tokens.css",
+    "src/styles/tokens-preview.css",
+    "src/styles/media.css",
+  ],
   rules: {
     // BEM-ish names with double underscores and modifiers (block__el, block--mod).
     "selector-class-pattern": [

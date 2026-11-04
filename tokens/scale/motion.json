@@ -1,22 +1,54 @@
 {
   "duration": {
     "$type": "duration",
-    "quick": { "$value": "160ms", "$description": "Colour and border changes" },
-    "exit": { "$value": "180ms", "$description": "Things leaving: the outgoing scene in a hand-off" },
-    "base": { "$value": "280ms" },
-    "page": { "$value": "420ms", "$description": "View transitions between pages" },
-    "slow": { "$value": "520ms", "$description": "Image zooms, scene cross-fades" },
-    "reveal": { "$value": "700ms", "$description": "Sections settling in once" },
-    "stagger": { "$value": "60ms", "$description": "The gap between siblings settling in one after another" },
+    "quick": {
+      "$value": "160ms",
+      "$description": "Colour and border changes"
+    },
+    "exit": {
+      "$value": "180ms",
+      "$description": "Things leaving: the outgoing scene in a hand-off"
+    },
+    "base": {
+      "$value": "280ms"
+    },
+    "page": {
+      "$value": "420ms",
+      "$description": "View transitions between pages"
+    },
+    "slow": {
+      "$value": "520ms",
+      "$description": "Image zooms, scene cross-fades"
+    },
+    "reveal": {
+      "$value": "700ms",
+      "$description": "Sections settling in once"
+    },
+    "stagger": {
+      "$value": "60ms",
+      "$description": "The gap between siblings settling in one after another"
+    },
     "handoff": {
       "$value": "120ms",
       "$description": "How long an incoming scene waits for the outgoing one, so they never double-expose"
+    },
+    "toast": {
+      "$value": "3200ms",
+      "$description": "How long the toast stays (CSS animation and the timer that clears it)"
+    },
+    "untap": {
+      "$value": "1500ms",
+      "$description": "The Konami untap (CSS animation and the timer that ends it)"
     }
   },
   "ease": {
     "$type": "cubicBezier",
-    "out": { "$value": "cubic-bezier(0.2, 0.7, 0.2, 1)" },
-    "in-out": { "$value": "cubic-bezier(0.6, 0, 0.3, 1)" },
+    "out": {
+      "$value": "cubic-bezier(0.2, 0.7, 0.2, 1)"
+    },
+    "in-out": {
+      "$value": "cubic-bezier(0.6, 0, 0.3, 1)"
+    },
     "spring": {
       "$value": "linear(0, 0.52 9%, 0.89 18%, 1.03 27%, 1.04 33%, 1 45%, 0.99 60%, 1)",
       "$description": "The prints springing back after a nudge"
@@ -24,7 +56,37 @@
   },
   "breakpoint": {
     "$type": "dimension",
-    "$description": "Exported to TypeScript for matchMedia. CSS media queries can't read custom properties, so stylesheets repeat these numbers.",
-    "stage": { "$value": "900px", "$description": "From here, scroll scenes share one sticky stage" }
+    "$description": "Layout breakpoints. CSS uses them as custom media (src/styles/media.css: `@media (--md)` is from md up, `(--below-md)` under it); TypeScript gets them as numbers and queries.",
+    "xs": {
+      "$value": "480px",
+      "$description": "Small phones: boxes stack their label over the text"
+    },
+    "sm": {
+      "$value": "600px",
+      "$description": "Phones: compact header, edge-to-edge lightbox"
+    },
+    "md": {
+      "$value": "700px",
+      "$description": "Tablets: two-column blocks"
+    },
+    "cards": {
+      "$value": "760px",
+      "$description": "Project cards side by side"
+    },
+    "stage": {
+      "$value": "900px",
+      "$description": "From here, scroll scenes share one sticky stage"
+    },
+    "lg": {
+      "$value": "1000px",
+      "$description": "The hero's two columns"
+    },
+    "short": {
+      "$value": "500px",
+      "$description": "A short window (a phone on its side): `(--short)`, `(--not-short)`, `(--landscape-short)`",
+      "$extensions": {
+        "dev.ekkelenkamp.axis": "height"
+      }
+    }
   }
 }

@@ -3,7 +3,7 @@
     "$type": "number",
     "navy": {
       "$value": 266,
-      "$description": "The one hue the whole Nacht palette is built on. Change it and every surface, line and drawing follows."
+      "$description": "The one hue the whole Nacht palette is built on. Change it and every surface, line, text colour and drawing follows: the cool tints elsewhere are a few degrees off it."
     }
   },
   "navy": {
@@ -30,11 +30,11 @@
   },
   "cloud": {
     "$type": "color",
-    "$description": "Cool near-whites for text on navy.",
-    "680": { "$value": "oklch(68% 0.035 262)" },
-    "760": { "$value": "oklch(76% 0.035 255)" },
-    "800": { "$value": "oklch(80% 0.03 262)" },
-    "960": { "$value": "oklch(96% 0.008 260)" }
+    "$description": "Cool near-whites for text on navy, a few degrees bluer than the navy hue.",
+    "680": { "$value": "oklch(68% 0.035 calc({hue.navy} - 4))" },
+    "760": { "$value": "oklch(76% 0.035 calc({hue.navy} - 11))" },
+    "800": { "$value": "oklch(80% 0.03 calc({hue.navy} - 4))" },
+    "960": { "$value": "oklch(96% 0.008 calc({hue.navy} - 6))" }
   },
   "amber": {
     "$type": "color",
@@ -52,6 +52,7 @@
   },
   "bone": {
     "$type": "color",
-    "970": { "$value": "oklch(97% 0.006 85)", "$description": "The white border of a photo print" }
+    "970": { "$value": "oklch(97% 0.006 85)", "$description": "The white border of a photo print" },
+    "880": { "$value": "oklch(88% 0.03 90)", "$description": "Moonlight, in the MTG scene" }
   }
 }
