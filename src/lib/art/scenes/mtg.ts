@@ -224,19 +224,21 @@ export function decks(): string {
 export function search(): string {
   let b = "";
   // the request in plain words
+  // Every <text> sits outside the groups that scale: a scale above a text lays it out again
+  // each frame (its font is scaled to the screen). The runtime moves and fades the words and
+  // the chips' queries on their own, with translation only.
   b += g(
     { "data-k": "bubble", class: "k-origin-b" },
     path(
       "M54 28H418Q430 28 430 40V82Q430 94 418 94H92L72 112L74 94H54Q42 94 42 82V40Q42 28 54 28Z",
       "m-bubble",
-    ) + g({ "data-k": "words" }, text(236, 68, "green creatures that draw cards", "lb-say", "middle")),
+    ),
   );
+  b += g({ "data-k": "words" }, text(236, 68, "green creatures that draw cards", "lb-say", "middle"));
   // the query it becomes, piece by piece, with what each piece means
   M5.tokens.forEach((t, i) => {
-    b += g(
-      { "data-k": `chip${i}`, class: "k-origin-c" },
-      rect(t.x, M5.ty - 18, t.w, 32, "m-token", 6) + text(t.x + t.w / 2, M5.ty + 3, t.q, "lb-q-m", "middle"),
-    );
+    b += g({ "data-k": `chip${i}`, class: "k-origin-c" }, rect(t.x, M5.ty - 18, t.w, 32, "m-token", 6));
+    b += g({ "data-k": `chipq${i}` }, text(t.x + t.w / 2, M5.ty + 3, t.q, "lb-q-m", "middle"));
     b += g({ "data-k": `chiplabel${i}` }, text(t.x + t.w / 2, M5.ty + 38, t.l, "lb lb--s", "middle"));
   });
   // checked against Scryfall first

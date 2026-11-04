@@ -67,24 +67,20 @@ const { id, title, gallery } = Astro.props;
       /*
        * The figures hand over in the stage; 600:440 is the drawings' aspect ratio. The outgoing
        * one leaves quickly and the incoming one waits for it, so the two never show at half
-       * strength on top of each other.
+       * strength on top of each other. A crossfade only: a transform on the figure would lay
+       * out every <text> in its drawing again, each frame of the hand-over (Chrome scales an
+       * SVG text's font to the screen, so it redoes it whenever a transform above it changes).
        */
       .scenes:global(.is-staged) .scenes__stage > :global(.scene) {
         grid-area: 1 / 1;
         width: min(100%, calc((100svh - 150px) * 600 / 440));
         opacity: 0;
-        transform: translate3d(0, 14px, 0) scale(0.985);
-        transition:
-          opacity var(--duration-exit) var(--ease-out),
-          transform var(--duration-exit) var(--ease-out);
+        transition: opacity var(--duration-exit) var(--ease-out);
       }
 
       .scenes:global(.is-staged) .scenes__stage > :global(.scene.is-on) {
         opacity: 1;
-        transform: none;
-        transition:
-          opacity var(--duration-slow) var(--ease-out) var(--duration-handoff),
-          transform var(--duration-reveal) var(--ease-out) var(--duration-handoff);
+        transition: opacity var(--duration-slow) var(--ease-out) var(--duration-handoff);
       }
     }
   }

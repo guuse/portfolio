@@ -263,6 +263,7 @@ const search: SceneFactory = (svg) => {
   const K = parts(svg),
     put = courier(K["pk"] as SVGGElement);
   const chips = M5.tokens.map((_, i) => K[`chip${i}`]),
+    queries = M5.tokens.map((_, i) => K[`chipq${i}`]),
     labels = M5.tokens.map((_, i) => K[`chiplabel${i}`]),
     fans = [0, 1].map((j) => K[`fan${j}`]),
     fanCards = [0, 1].map((j) => M5.fanAngles.map((_, c) => K[`fancard${j}-${c}`])),
@@ -274,12 +275,17 @@ const search: SceneFactory = (svg) => {
     const b = seg(p, 0, 0.12);
     move(bubble, 0, 0, lerp(0.6, 1, E.outBack(b, 2)));
     fade(bubble, Math.min(1, b * 3));
-    // the sentence stays legible behind the chips (it is still what the reader asked)
-    fade(words, 1 - 0.3 * seg(p, 0.16, 0.34));
+    // the words come with the bubble (fading, not scaling: see the drawing), and stay legible
+    // behind the chips (it is still what the reader asked)
+    fade(words, Math.min(1, b * 3) * (1 - 0.3 * seg(p, 0.16, 0.34)));
     M5.tokens.forEach((_, i) => {
-      const a = seg(p, 0.14 + i * 0.06, 0.3 + i * 0.06);
-      move(chips[i], 0, -92 * (1 - E.outBack(a, 1.4)), lerp(0.6, 1, E.outCubic(a)));
+      const a = seg(p, 0.14 + i * 0.06, 0.3 + i * 0.06),
+        y = -92 * (1 - E.outBack(a, 1.4));
+      move(chips[i], 0, y, lerp(0.6, 1, E.outCubic(a)));
       fade(chips[i], Math.min(1, a * 3));
+      // the query moves with its chip, at full size: it only shows once the chip has grown
+      move(queries[i], 0, y);
+      fade(queries[i], seg(p, 0.2 + i * 0.06, 0.3 + i * 0.06));
       const l = seg(p, 0.26 + i * 0.06, 0.36 + i * 0.06);
       move(labels[i], 0, 6 * (1 - l));
       fade(labels[i], l);
