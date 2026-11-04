@@ -187,6 +187,37 @@ for (const viewport of [
   });
 }
 
+test("resizing across the stage breakpoint keeps the reader on their step", async ({ page }) => {
+  const where = () =>
+    page.evaluate(() => {
+      const line = innerHeight * 0.4;
+      const steps = [...document.querySelectorAll(".scene-step")];
+      const i = steps.findIndex((s) => {
+        const r = s.getBoundingClientRect();
+        return r.top <= line && r.bottom > line;
+      });
+      const r = steps[i]!.getBoundingClientRect();
+      return { i, f: Math.round(((line - r.top) / r.height) * 20) / 20 };
+    });
+  for (const [from, to] of [
+    [1200, 800],
+    [800, 1200],
+  ] as const) {
+    await page.setViewportSize({ width: from, height: 900 });
+    await page.goto("/projects/homelab/");
+    await page
+      .locator(".scene-step")
+      .nth(2)
+      .evaluate((el) => {
+        const r = el.getBoundingClientRect();
+        scrollTo({ top: scrollY + r.top - innerHeight * 0.4 + r.height * 0.3, behavior: "instant" });
+      });
+    await expect.poll(where).toEqual({ i: 2, f: 0.3 });
+    await page.setViewportSize({ width: to, height: 900 });
+    await expect.poll(where).toEqual({ i: 2, f: 0.3 });
+  }
+});
+
 test.describe("reduced motion", () => {
   test.use({ reducedMotion: "reduce" });
 
@@ -263,8 +294,14 @@ test.describe("scrolling", () => {
       await expect(nav.locator('[aria-current="location"]')).toHaveCount(1);
       await expect(link(name)).toHaveClass(/is-marked/);
     }
-    // past Experience, in a section with no entry of its own, nothing is marked but the page
-    await to("skills");
+    // the sections after Experience without an entry of their own still belong to it
+    for (const id of ["learned", "skills"]) {
+      await to(id);
+      await expect(link("Experience")).toHaveAttribute("aria-current", "location");
+      await expect(link("Experience")).toHaveClass(/is-marked/);
+    }
+    // and above the first tracked section it's the page's own entry
+    await to("about");
     await expect(nav.locator('[aria-current="location"]')).toHaveCount(0);
     await expect(link("Home")).toHaveClass(/is-marked/);
     // the underline is one element that moved by transform

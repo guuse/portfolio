@@ -416,6 +416,26 @@ function printing(sections: Section[], relayout: () => void, wake: () => void): 
   return () => on;
 }
 
+/** Where the reader is: 40% down the window. */
+const READ_LINE = 0.4;
+
+interface Reading {
+  step: HTMLElement;
+  /** How far through the step the reading line is (0..1). */
+  f: number;
+}
+
+/** The step across the reading line, and how far through it that is. */
+function readingStep(sections: Section[]): Reading | null {
+  const line = innerHeight * READ_LINE;
+  for (const section of sections)
+    for (const step of section.steps) {
+      const r = step.getBoundingClientRect();
+      if (r.top <= line && r.bottom > line) return { step, f: (line - r.top) / Math.max(1, r.height) };
+    }
+  return null;
+}
+
 /** Starts every drawing on the page, with the animators registry.ts loaded for it. */
 export function startMotion(scheduler: Scheduler, pageAnimators: Record<string, SceneFactory>): void {
   animators = pageAnimators;
@@ -432,7 +452,26 @@ export function startMotion(scheduler: Scheduler, pageAnimators: Record<string, 
   if (sections.length) {
     document.documentElement.classList.add("js-scenes");
     relayout();
-    wide.addEventListener("change", relayout);
+    // Crossing the stage breakpoint changes every step's height: keep the reader on the step
+    // they were reading, the same way through it. By the time the change event fires the page
+    // has already reflowed, so the step is the one last seen in the old layout (noted on scroll).
+    const reading: Partial<Record<"wide" | "narrow", Reading>> = {};
+    const note = (): void => {
+      const r = readingStep(sections);
+      if (r) reading[wide.matches ? "wide" : "narrow"] = r;
+    };
+    addEventListener("scroll", note, { passive: true });
+    note();
+    wide.addEventListener("change", () => {
+      const keep = reading[wide.matches ? "narrow" : "wide"];
+      relayout();
+      if (keep?.step.isConnected) {
+        const r = keep.step.getBoundingClientRect(),
+          line = innerHeight * READ_LINE;
+        window.scrollTo({ top: scrollY + r.top - (line - keep.f * r.height), behavior: "instant" });
+      }
+      note();
+    });
   }
   const isPrinting = printing(sections, relayout, wake);
 
