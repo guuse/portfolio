@@ -120,5 +120,37 @@ import { evicted } from "~/lib/art/scenes/evicted";
         animation: none;
       }
     }
+
+    /*
+     * A phone held sideways: the text on the left, the drawing beside it (like a case-study
+     * hero), so the heading and the way out are on the first screen.
+     */
+    @media (--landscape-short) {
+      .lost {
+        grid-template-columns: minmax(0, 7fr) minmax(0, 3fr);
+        gap: var(--space-s) var(--space-gutter);
+        padding-block: var(--space-xs) var(--space-s);
+      }
+
+      .lost__art {
+        order: 2;
+        height: min(calc(100svh - 8rem), 240px);
+      }
+
+      .lost h1 {
+        min-height: 0;
+        max-width: none;
+        margin-block: 0.15rem 0.4rem;
+        font-size: min(var(--text-h1), 8svh + 0.75rem);
+      }
+
+      .lost__text > p:not(.lost__code, .lost__links) {
+        font-size: var(--text-small);
+      }
+
+      .lost__links {
+        margin-top: var(--space-s);
+      }
+    }
   }
 </style>
