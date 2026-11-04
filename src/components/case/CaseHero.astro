@@ -26,8 +26,11 @@ const art = liveArt[project];
     <a class="back" href="/projects/">
       &larr; All projects
     </a>
-    <p class="ph-meta">{meta}</p>
-    <h1 class={`ph-title vt-title--${project}`}>{title}</h1>
+    <p class="ph-meta">
+      {meta}
+      <slot name="meta" />
+    </p>
+    <h1 class="ph-title">{title}</h1>
     <p class="ph-line">{line}</p>
   </div>
 </header>
@@ -122,8 +125,10 @@ const art = liveArt[project];
       text-decoration: none;
     }
 
-    .back:hover {
-      color: var(--ink);
+    @media (hover: hover) {
+      .back:hover {
+        color: var(--ink);
+      }
     }
 
     .ph-meta {
@@ -131,8 +136,11 @@ const art = liveArt[project];
       font-size: var(--text-small);
     }
 
+    .ph-meta :global(a) {
+      color: var(--ink-muted);
+    }
+
     .ph-title {
-      /* hugs its text, so the view transition carries the words and not the empty line */
       width: fit-content;
       max-width: 16em;
       font-family: var(--font-heading);

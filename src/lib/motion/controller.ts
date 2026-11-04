@@ -7,8 +7,11 @@
  *     cross-fade as the steps scroll past; progress is how far the active step has scrolled.
  *   - Below it, each figure stays above its step and plays as it scrolls through the viewport.
  *   Steps can share a drawing (`data-scene` repeats) and play a slice of it (`data-range`).
- * Live drawings (`[data-card]`: the project cards and case-study heroes) loop on a clock
- * instead, a little faster while their card is hovered or focused.
+ * Live drawings (`[data-card]`: the project cards and case-study heroes) play one pass on a
+ * clock instead, the first time they're seen: about four seconds, then a moment to settle,
+ * and they rest on their final frame (WCAG 2.2.2: nothing moves for more than five seconds
+ * unasked). Hovering or focusing the card plays it again, a little faster; so does a tap on
+ * the drawing.
  *
  * Everything runs on the page's one scheduler, and only while something is on screen. An
  * animator is built ahead of time, when its drawing comes within a screen of the viewport, in
@@ -108,6 +111,21 @@ function tick(a: Player, p: number, dt: number): void {
   a.speed += (a.speedTarget - a.speed) * approach(dt, 4);
   a.t += dt * a.speed;
   a.run(a.ps, dt * a.speed, a.t, a.speed);
+}
+
+/** A card's pass, in seconds at normal speed, and the settling after it (still ticking at p = 1). */
+const PASS = 4.2,
+  SETTLE = 0.8;
+
+/** Advances a live card one frame. Returns whether it is still moving. */
+function tickCard(c: { player: Player; at: number }, dt: number): boolean {
+  const a = c.player;
+  a.run ??= a.factory(a.svg);
+  a.speed += (a.speedTarget - a.speed) * approach(dt, 4);
+  c.at = Math.min(PASS + SETTLE, c.at + dt * a.speed);
+  a.t += dt * a.speed;
+  a.run(Math.min(1, c.at / PASS), dt * a.speed, a.t, a.speed);
+  return c.at < PASS + SETTLE;
 }
 
 function watch(el: Element, margin: string, onChange: (visible: boolean) => void): void {
@@ -321,15 +339,25 @@ export function startMotion(scheduler: Scheduler): void {
   const cards = [...document.querySelectorAll<HTMLElement>("[data-card]")].flatMap((box) => {
     const p = player(box, box.dataset["card"] ?? "");
     if (!p) return [];
-    const card = { player: p, seen: false };
-    // the card it belongs to: a hover or focus anywhere on it speeds the drawing up
+    const card = { player: p, seen: false, at: 0 };
+    // plays the pass again, unless it's still playing (then it only changes speed)
+    const replay = (speed: number): void => {
+      p.speedTarget = speed;
+      if (card.at >= PASS) card.at = 0;
+      wake();
+    };
+    // the card it belongs to: a hover or focus anywhere on it replays the drawing, faster
     const host = box.closest("[data-card-host]") ?? box.closest("a") ?? box;
-    const faster = (): void => void (p.speedTarget = 1.7);
-    const normal = (): void => void (p.speedTarget = 1);
-    host.addEventListener("pointerenter", faster);
-    host.addEventListener("pointerleave", normal);
-    host.addEventListener("focusin", faster);
-    host.addEventListener("focusout", normal);
+    host.addEventListener("pointerenter", (e) => {
+      if ((e as PointerEvent).pointerType !== "touch") replay(1.7);
+    });
+    host.addEventListener("pointerleave", () => void (p.speedTarget = 1));
+    host.addEventListener("focusin", () => replay(1.7));
+    host.addEventListener("focusout", () => void (p.speedTarget = 1));
+    // on a touch screen, a tap on the drawing itself
+    box.addEventListener("pointerdown", (e) => {
+      if (e.pointerType === "touch") replay(1);
+    });
     approaching(box, () => build(p));
     watch(box, "0px", (v) => {
       card.seen = v;
@@ -346,11 +374,7 @@ export function startMotion(scheduler: Scheduler): void {
     for (const S of sections) if (readSection(S, vh)) busy = true;
     // ...then every write
     for (const S of sections) writeSection(S, dt);
-    for (const c of cards) {
-      if (!c.seen) continue;
-      busy = true;
-      tick(c.player, 0, dt);
-    }
+    for (const c of cards) if (c.seen && c.at < PASS + SETTLE && tickCard(c, dt)) busy = true;
     return busy;
   });
 }

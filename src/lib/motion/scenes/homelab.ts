@@ -1,7 +1,7 @@
 /** Motion for the homelab scene and the homelab homepage card. */
 import { CL, H } from "~/lib/art/scenes/homelab.layout";
 import { fade, fadeTowards, hideStill, move, parts } from "../dom";
-import { blinker } from "../leds";
+import { blinker, restLeds } from "../leds";
 import { clamp, ease as E, lerp, seg } from "../math";
 import { courier, prime } from "../packets";
 import type { SceneFactory } from "../types";
@@ -113,7 +113,11 @@ export const loop: SceneFactory = (svg) => {
   };
 };
 
-/** Homepage card: a packet goes round the loop on a clock, faster on hover. */
+/**
+ * Homepage card: one change goes round the loop, once. `p` is the card's pass (0..1, see
+ * controller.ts): a new commit, the build, the pod landing on the laptop, and the packet
+ * heading home and fading out. It rests on the new pod running.
+ */
 export const cardLoop: SceneFactory = (svg) => {
   const K = parts(svg),
     blink = blinker(svg);
@@ -122,12 +126,11 @@ export const cardLoop: SceneFactory = (svg) => {
     put = courier(K["pk"] as SVGGElement);
   const fBuild = CL.buildAt,
     fLap = CL.laptopAt;
-  let phase = 0;
-  return (_p, dt, t, speed) => {
-    blink(dt);
-    phase = (phase + (dt * speed) / 7) % 1;
-    const f = phase;
-    put(loopPath, f, f > fLap ? "pk--ink" : "");
+  return (p, dt, t) => {
+    if (p >= 1) restLeds(svg);
+    else blink(dt);
+    const f = 0.9 * p;
+    put(loopPath, f, f > fLap ? "pk--ink" : "", 1 - seg(p, 0.86, 1));
     move(K["c-new"], 0, 0, 1 + 0.35 * Math.sin(Math.PI * seg(f, 0, 0.06)));
     const inBuild = Math.abs(f - fBuild) < 0.05;
     move(K["hatch"], 0, inBuild ? Math.sin(t * 40) : 0);

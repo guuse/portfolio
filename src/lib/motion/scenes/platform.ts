@@ -1,7 +1,7 @@
 /** Motion for the hosting platform scenes (drawn by src/lib/art/scenes/platform.ts). */
 import { S1, S2, S3, S4, S5 } from "~/lib/art/scenes/platform.layout";
 import { attr, hiddenPath, hideStill, fade, move, parts, SVG_NS } from "../dom";
-import { blinker } from "../leds";
+import { blinker, restLeds } from "../leds";
 import { approach, clamp, ease as E, lerp, seg } from "../math";
 import { emitter, packets, prime, type Packet, type Segment } from "../packets";
 import type { SceneFactory } from "../types";
@@ -80,7 +80,7 @@ interface Zone {
  * Nothing in the frame loop allocates: zone counts are plain loops and the routes a request
  * can take are built once.
  */
-export function scaler(svg: SVGSVGElement, load: (p: number, t: number) => number) {
+export function scaler(svg: SVGSVGElement, load: (p: number, t: number) => number, card = false) {
   const K = parts(svg),
     blink = blinker(svg);
   hideStill(svg);
@@ -250,7 +250,8 @@ export function scaler(svg: SVGSVGElement, load: (p: number, t: number) => numbe
       first = false;
     }
     capacity += (L - capacity) * approach(dt, 1.5);
-    blink(dt);
+    if (card && p >= 1) restLeds(svg);
+    else blink(dt);
     Z.forEach((z, zi) => {
       z.want = target(zi, capacity);
       for (const nd of z.nodes) nd.t += dt;
@@ -261,8 +262,10 @@ export function scaler(svg: SVGSVGElement, load: (p: number, t: number) => numbe
       stepZone(z, dt);
       draw(z, t);
     });
-    emit(dt, 1 + 9 * L, fire);
+    // a card's pass winds down: no new requests near the end, and the last ones fade away
+    emit(dt, card && p > 0.78 ? 0 : 1 + 9 * L, fire);
     P.update(dt, t);
+    if (card) fade(K["pk"], 1 - seg(p, 0.86, 1));
   };
 }
 

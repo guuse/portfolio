@@ -17,3 +17,8 @@ export function blinker(svg: SVGSVGElement): (dt: number) => void {
     });
   };
 }
+
+/** Every LED back to its drawn state: what a drawing shows once it has come to rest. */
+export function restLeds(svg: SVGSVGElement): void {
+  for (const led of svg.querySelectorAll(".k-led--act.is-blink")) led.classList.remove("is-blink");
+}

@@ -2,6 +2,7 @@
  * Behaviour shared by every page. Loaded once by the base layout as a bundled, deferred
  * module. Anything that moves is skipped when the visitor prefers reduced motion.
  */
+import { initPageTransitions } from "./page-transitions";
 import { browserScheduler } from "~/lib/motion/scheduler";
 import { initSmoothAnchors } from "./anchors";
 import { initCopyEmail } from "./copy-email";
@@ -13,6 +14,8 @@ import { initPrints } from "./prints";
 import { initReveal } from "./reveal";
 import { initScrollEffects } from "./scroll-effects";
 
+// first: the new page's view transition is set up before its first frame
+initPageTransitions();
 const scheduler = browserScheduler();
 
 initCopyEmail();

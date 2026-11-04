@@ -79,10 +79,10 @@ import { evicted } from "~/lib/art/scenes/evicted";
       margin-top: 2rem;
     }
 
-    /* the evicted pod drifts up and away, and comes back to try again */
+    /* the evicted pod drifts up and away and comes back to try again, twice, then gives up */
     .lost__art :global(.evicted) {
       transform-box: fill-box;
-      animation: evict 4s var(--ease-in-out) infinite;
+      animation: evict 4s var(--ease-in-out) 2 both;
     }
 
     @keyframes evict {

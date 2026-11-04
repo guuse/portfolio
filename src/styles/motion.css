@@ -58,11 +58,12 @@
 }
 
 /*
- * Page to page: a cross-document view transition (CSS only, no router). Each project's
- * drawing and title carry a shared name, so they morph from the homepage card to the
- * projects-page card to the case-study hero; everything else cross-fades. Browsers without
- * cross-document view transitions ignore all of it and simply navigate. The names are
- * classes, not style attributes (the CSP allows none), so each project is listed here.
+ * Page to page: a cross-document view transition (CSS, no router). The page crossfades; the
+ * one project the navigation is about carries its drawing over, from card to case-study hero
+ * and back (src/scripts/page-transitions.ts picks it). Titles don't morph: they differ too much in size, so they crossfade with the page.
+ * Browsers without cross-document view transitions ignore all of it and simply navigate.
+ * The names are classes, not style attributes (the CSP allows none), so each project is
+ * listed here.
  */
 @media (prefers-reduced-motion: no-preference) {
   @view-transition {
@@ -82,32 +83,29 @@
       view-transition-name: art-mtg-suite;
     }
 
-    .vt-title--hosting-platform {
-      view-transition-name: title-hosting-platform;
-    }
-
-    .vt-title--homelab {
-      view-transition-name: title-homelab;
-    }
-
-    .vt-title--mtg-suite {
-      view-transition-name: title-mtg-suite;
-    }
-
-    .vt-art--hosting-platform,
-    .vt-art--homelab,
-    .vt-art--mtg-suite {
+    :is(.vt-art--hosting-platform, .vt-art--homelab, .vt-art--mtg-suite) {
       view-transition-class: art;
     }
 
-    .vt-title--hosting-platform,
-    .vt-title--homelab,
-    .vt-title--mtg-suite {
-      view-transition-class: title;
+    /* during a navigation, only the project it's about keeps its name (page-transitions.ts) */
+    :root.vt-only :is(.vt-art--hosting-platform, .vt-art--homelab, .vt-art--mtg-suite) {
+      view-transition-name: none;
+    }
+
+    :root.vt-only.vt-hosting-platform .vt-art--hosting-platform {
+      view-transition-name: art-hosting-platform;
+    }
+
+    :root.vt-only.vt-homelab .vt-art--homelab {
+      view-transition-name: art-homelab;
+    }
+
+    :root.vt-only.vt-mtg-suite .vt-art--mtg-suite {
+      view-transition-name: art-mtg-suite;
     }
 
     /* the header stays put while the page changes under it */
-    @media (width >= 600px) {
+    @media (width >= 600px) and (height > 500px) {
       .site-header {
         view-transition-name: site-header;
       }
@@ -118,13 +116,26 @@
       animation-timing-function: var(--ease-in-out);
     }
 
-    ::view-transition-old(root) {
-      animation-duration: var(--duration-exit);
+    /*
+     * The pages crossfade on one clock, the same as the drawing's move: the old one fades out
+     * exactly as the new one fades in, and the two add up (plus-lighter), so together they
+     * always cover the screen and never thin out to the backdrop between them. (Different
+     * durations and a hand-off delay used to leave a moment with neither at full strength.)
+     */
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation-duration: var(--duration-page);
+      animation-timing-function: var(--ease-in-out);
+      animation-delay: 0s;
     }
 
-    ::view-transition-new(root) {
-      animation-duration: var(--duration-base);
-      animation-delay: var(--duration-handoff);
+    /* a drawing with no partner on the other page comes and goes with the page itself */
+    ::view-transition-new(*.art):only-child {
+      animation-timing-function: var(--ease-out);
+    }
+
+    ::view-transition-old(*.art):only-child {
+      animation-duration: var(--duration-exit);
     }
 
     /* the drawings are different shapes on each page: keep each one whole while it morphs */
