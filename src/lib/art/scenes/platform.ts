@@ -265,7 +265,7 @@ export function regions(): string {
   return svg(
     "regions",
     "0 0 600 440",
-    "One entry, two regions: requests from phones and laptops go through one door, CloudFront. Region paths are sent on to Tokyo and everything else to Ireland, drawn on a globe.",
+    "One entry, two regions: requests from phones and laptops all go to CloudFront. Region paths are sent on to Tokyo and everything else to Ireland, drawn on a globe.",
     b,
   );
 }
@@ -298,7 +298,7 @@ export function ipv6(): string {
     appliance(254, 88, 92, 46, ["6", "4"]) + text(300, 166, "DNS64 / NAT64", "lb lb--s", "middle"),
   );
   b += g({ "data-k": "legacy" }, tower(452, 64, 72, 96) + text(488, 190, "IPv4-only", "lb lb--s", "middle"));
-  // the database with two addresses, and the gate in front of the IPv6 one
+  // a private database with two addresses, and the gate in front of the IPv6 one: closed until hypercare fixed it
   b += g(
     { "data-k": "db" },
     database(500, 288, 92, 84) +
@@ -310,7 +310,7 @@ export function ipv6(): string {
   );
   b += g(
     { "data-k": "gate" },
-    gate(S4.gateX, 322, 368, "bar") + text(S4.gateX, 292, "security group", "lb lb--s", "middle"),
+    gate(S4.gateX, 322, 368, "bar") + text(S4.gateX, 292, "hypercare", "lb lb--s", "middle"),
   );
   b += '<g class="pk-layer" data-k="pk"></g>';
   b += g(
@@ -323,7 +323,7 @@ export function ipv6(): string {
   return svg(
     "ipv6",
     "0 0 600 440",
-    "The IPv6 move: a cluster’s address tag flips from IPv4 to IPv6. Traffic to an IPv4-only service goes through a DNS64/NAT64 translator. Traffic to a database that answers on both an IPv4 and an IPv6 address is held at a security-group gate until the gate is opened for IPv6.",
+    "The IPv6 move: a cluster’s address tag flips from IPv4 to IPv6. Traffic to an IPv4-only service goes through a DNS64/NAT64 translator. Traffic to a private database that answers on both an IPv4 and an IPv6 address waits at a closed gate until hypercare opens it for IPv6.",
     b,
   );
 }
@@ -373,7 +373,7 @@ export function learned(): string {
   return svg(
     "learned",
     "0 0 600 440",
-    "One change, committed once, travels along one line to eight identical clusters, and each one updates in turn.",
+    "A single commit goes out to all eight clusters, and they update one after another.",
     b,
   );
 }

@@ -2,8 +2,6 @@
 import CaseStudy from "~/layouts/CaseStudy.astro";
 import CaseHero from "~/components/case/CaseHero.astro";
 import CaseLead from "~/components/case/CaseLead.astro";
-import Closing from "~/components/case/Closing.astro";
-import Gotchas from "~/components/case/Gotchas.astro";
 import Hood from "~/components/case/Hood.astro";
 import NextNav from "~/components/case/NextNav.astro";
 import Scenes from "~/components/case/Scenes.astro";
@@ -14,15 +12,10 @@ const hood = [
   {
     icon: "aws-AmazonElasticKubernetesService",
     name: "EKS, and AKS on Azure",
-    what: "Kubernetes, the same setup in every cluster",
+    what: "the same Kubernetes setup in every cluster",
   },
   { name: "Karpenter", what: "adds and removes nodes with the load" },
-  {
-    icon: "aws-ElasticLoadBalancingNetworkLoadBalancer",
-    name: "Network Load Balancer + ingress",
-    what: "the way into each cluster, with fixed IPs",
-  },
-  { name: "cert-manager", what: "certificates, so nobody renews one by hand" },
+  { name: "cert-manager", what: "automatic TLS certificates" },
   {
     icon: "aws-AmazonAurora",
     name: "Aurora, Redis, OpenSearch",
@@ -36,10 +29,8 @@ const hood = [
   {
     icon: "aws-AmazonSimpleStorageService",
     name: "Velero",
-    what: "backups of the clusters, for the bad day",
+    what: "cluster backups, and we’ve rehearsed a restore into another cluster",
   },
-  { name: "Pulumi and Argo CD", what: "infrastructure and apps, both from git" },
-  { name: "Rancher, Loki and Grafana", what: "one view of the whole fleet, and pod logs" },
 ] as const;
 const icons = hood.flatMap((h) => ("icon" in h ? [h.icon] : []));
 ---
@@ -48,86 +39,84 @@ const icons = hood.flatMap((h) => ("icon" in h ? [h.icon] : []));
   project="hosting-platform"
   title="Hosting platform · Guus Ekkelenkamp"
   og="hosting-platform"
-  description="Case study: the Kubernetes platform behind an agency’s client projects, AWS first and the same on Azure."
+  description="Case study: the Kubernetes platform I built at Harborn for our client projects, on AWS and Azure."
   icons={icons}
 >
   <CaseHero
     project="hosting-platform"
     meta="Work at Harborn · 2022 to now · I designed and built it, and lead the team that runs it"
     title="Hosting platform"
-    line="The platform our client projects run on: AWS first, and the same setup on Azure for clients who are there."
+    line="The Kubernetes platform that runs our client projects on AWS and Azure."
   />
   <CaseLead>
     <p>
-      When I started on this in 2022, every client project had its own setup. Its own pipelines, its own
-      monitoring and its own way in, so each upgrade had to be worked out again, and so did each incident. I
-      thought that could be one platform, so I started building it.
+      In 2022 every client project had its own pipelines, monitoring and access, so we worked out every
+      upgrade and every incident from scratch. I wanted one platform for all of them, so I started building
+      it.
     </p>
     <p>
-      Today it runs 8 Kubernetes clusters for Dutch and international clients, on AWS in Ireland and Tokyo and
-      on Azure. The largest runs more than 1,500 pods. What makes it work is that a new client doesn’t get a
-      new design. They get the same modules and network, and deploy the same way as everyone else, which also
-      means one person can explain it to the next.
+      Today it runs 8 Kubernetes clusters on AWS in Ireland and Tokyo and on Azure, hosting more than 300
+      Dutch and international clients with over 800 deployments. The largest cluster runs more than 1,500
+      pods. A new client gets the same modules and network as everyone else and deploys the same way, so
+      anyone on the team can explain it to a new colleague.
     </p>
   </CaseLead>
   <Scenes id="story" title="How the platform works">
     <SceneStep scene="standard">
-      <h3>Many projects, one platform</h3>
-      <p>They land on what everyone else already runs, so one fix or upgrade covers them all.</p>
+      <h3>Every project on the same setup</h3>
+      <p>New projects get the same setup as the existing ones, so one fix or upgrade covers all of them.</p>
     </SceneStep>
     <SceneStep scene="scale">
       <h3>It scales with the load</h3>
       <p>
-        Traffic comes in through a load balancer and, in production, is spread over three availability zones.
-        When the load goes up, Karpenter adds nodes and the pods spread onto them. When it calms down, the
-        pods drain and the nodes are removed again.
+        Production runs across three availability zones, behind a load balancer with a fixed public IP per
+        zone, so clients can allowlist us. Karpenter adds nodes when the load goes up and removes them when it
+        drops. Its permissions are pinned to one node role, so adding a node group can’t widen them.
       </p>
     </SceneStep>
     <SceneStep scene="regions">
-      <h3>Two regions, one way in</h3>
+      <h3>Ireland and Tokyo behind CloudFront</h3>
       <p>
-        The platform runs in Ireland and in Tokyo. CloudFront sits in front of both: it sends region-specific
-        paths to Tokyo and everything else to Ireland, and static content comes straight from the edge.
+        CloudFront sends region-specific paths to Tokyo and everything else to Ireland, and static content
+        comes straight from the edge. Tokyo is there to cut latency for our customers in Asia, not as a
+        failover, and Ireland stays the one place where we manage things.
       </p>
     </SceneStep>
     <SceneStep scene="ipv6">
       <h3>The move to IPv6</h3>
       <p>
-        Later we moved the clusters to IPv6-only. Anything that still only speaks IPv4 is reached through
-        DNS64 and NAT64, which translate on the way out.
+        IPv4 addresses were the bottleneck of the old cluster, and EKS runs a cluster on IPv4 or on IPv6, not
+        both. So we moved the clusters to IPv6-only, which also future-proofs them. Anything that only speaks
+        IPv4 is reached through DNS64 and NAT64.
       </p>
       <p>
-        One thing broke on the way. A database answered on both an IPv4 and an IPv6 address, the apps picked
-        IPv6, and those connections hung, because the security group only let IPv4 in. Opening it for IPv6
-        fixed it.
+        I led the move, and it went wrong in two ways. Internal traffic from the pods to private services,
+        such as asset storage, databases and Redis, also went through NAT64, which made it very expensive. And
+        some older client sites, built before IPv6 mattered, didn’t work on it. We went into hypercare, fixed
+        every issue and never went back to IPv4.
       </p>
     </SceneStep>
     <SceneStep scene="learned">
-      <h3>Everything as code</h3>
+      <h3>One codebase for every cluster</h3>
       <p>
-        The infrastructure is Pulumi and every app goes through Argo CD. Because every cluster comes from the
-        same code, a change to the standard is made and reviewed once, not once per cluster.
+        The clusters come from the same Terraform and OpenTofu modules, so we make and review a change once
+        and it rolls out to every cluster. New infrastructure delivery is moving to Pulumi.
       </p>
-      <p>
-        Some clients live on Azure. They get the same platform, adapted for AKS. That’s the part I’m proudest
-        of: the standard holds on a second cloud.
-      </p>
+      <p>Some clients are on Azure. They get the same platform on AKS, with a few changes.</p>
     </SceneStep>
   </Scenes>
   <Section id="hood" title="Under the hood">
     <Hood items={[...hood]} />
     <div class="prose">
       <p>
-        Infrastructure is Pulumi in Python, and we’re moving the older Terraform over gradually. Every change
-        is a pull request. Tests run against the modules, and the preview runs with a mandatory CrossGuard
-        policy pack and is saved as a plan. Someone other than the author approves it, and the pipeline only
-        applies what was approved. It runs on self-hosted runners with short-lived roles through GitHub OIDC,
-        so CI holds no cloud keys.
+        New infrastructure is Pulumi in Python, and only the pipeline applies it, through shared GitHub
+        Actions I built. CI uses short-lived roles through GitHub OIDC, so it holds no cloud keys.
       </p>
       <p>
-        Apps go through git as well. Argo CD deploys acceptance from release candidates and production from
-        stable release tags. We’re rolling out onboarding by GitHub topic, so that a repo that follows our
-        conventions only needs one topic to be deployed. On the clusters that run Alloy, pod logs go to Loki.
+        App delivery is moving to Argo CD, which deploys acceptance from release candidates and production
+        only from stable release tags. We’re rolling out onboarding by GitHub topic, so that a repo that
+        follows our conventions only needs one topic to be deployed. On the clusters that run Alloy, pod logs
+        go to Loki through the logging pipeline I built.
       </p>
       <p>
         A small CronJob we built keeps chosen Deployments, ConfigMaps and Secrets in Tokyo in step with the
@@ -138,27 +127,21 @@ const icons = hood.flatMap((h) => ("icon" in h ? [h.icon] : []));
     </div>
   </Section>
   <Section id="lessons" title="Lessons" bodyClass="prose">
-    <Gotchas
-      items={[
-        {
-          symptom: "After the move to IPv6, apps hung when connecting to a database.",
-          cause:
-            "The database got a dual-stack address, so apps resolved both families, but the security group only allowed IPv4.",
-          fix: "Allow IPv6 in the security group, and test the DNS64 and NAT64 path around the cluster as well.",
-        },
-      ]}
-    />
     <p>
-      One guardrail on the logging side: Loki’s compactor owns retention, because it’s the only thing that
-      knows which chunks the index still points to. An S3 expiry rule on the log bucket would delete chunks
-      out from under it, so a CrossGuard policy blocks one.
+      The IPv6 move taught me to check what a network change does to the cost of internal traffic, not only
+      whether that traffic still gets through. Before a change like that, I now map where it goes first.
+    </p>
+    <p>
+      Loki’s compactor handles log retention, because it tracks which chunks the index still uses. An S3
+      expiry rule on the log bucket would delete chunks Loki still needs, and it looks like sensible cost
+      control, which is why a reviewer would approve it. So a CrossGuard policy rejects those rules before
+      they can be merged.
     </p>
     <p>
       The Tokyo syncer predates our move to GitOps. Today I’d replace it with Argo CD ApplicationSets that
       target both clusters, so git is the only source for both regions.
     </p>
   </Section>
-  <Closing line="I started this as one engineer who was tired of one-offs. What I took from it is that a standard only sticks when the people around you can run it without you, so these days I spend as much time teaching it as building it." />
   <NextNav
     prev={{ href: "/projects/", small: "Back to", label: "all projects" }}
     next={{ href: "/projects/homelab/", small: "Next project", label: "Homelab", arrow: "right" }}
