@@ -21,7 +21,7 @@ const icons = ["si-argo", "si-tailscale", "si-cloudflare", "si-traefikproxy", "s
   type="article"
   title="Homelab · Guus Ekkelenkamp"
   og="homelab"
-  description="Case study: a single-node k3s platform with Argo CD and Home Assistant and no open ports."
+  description="Case study: a single-node k3s platform with Argo CD and Home Assistant, and no open ports."
   icons={icons}
 >
   <CaseHero
@@ -90,8 +90,8 @@ const icons = ["si-argo", "si-tailscale", "si-cloudflare", "si-traefikproxy", "s
     <p>
       Two other ways in are opt-in, per app. A few apps are public through a Cloudflare Tunnel with Access in
       front, so there’s a login and no open port. This site is the exception: it’s public with no login. For a
-      party, Tailscale Funnel gives a temporary public URL, say, for a quiz. Every app in the cluster gets TLS
-      from one wildcard Let’s Encrypt certificate, issued through Cloudflare DNS-01.
+      party, Tailscale Funnel gives a temporary public URL, for a quiz night, say. Every app in the cluster
+      gets TLS from one wildcard Let’s Encrypt certificate, issued through Cloudflare DNS-01.
     </p>
     <HomelabDiagram svg={ways()} kind="ways" />
   </Section>
@@ -145,7 +145,7 @@ const icons = ["si-argo", "si-tailscale", "si-cloudflare", "si-traefikproxy", "s
     />
   </Section>
   <Closing
-    line="Most of what I’ve learned here started with me breaking it at home first, which is exactly what it’s for."
+    line="Most of what I’ve learned here started with something I broke at home first, which is exactly what it’s for."
     stack="Built with: Proxmox, k3s, Argo CD and Image Updater, GitHub Actions, GHCR, cert-manager, Traefik, Tailscale, Cloudflare and Home Assistant."
   />
   <NextNav
