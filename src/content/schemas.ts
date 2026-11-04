@@ -19,7 +19,7 @@ export const experience = z.object({
   id: text,
   order,
   title: text,
-  years: z.string().regex(/^\d{4}–(\d{4}|now)$/),
+  years: z.string().regex(/^\d{4} to (\d{4}|now)$/),
   intro: text,
   bullets: z.array(inline).min(1),
   learned: text.startsWith("What I learned: ").optional(),

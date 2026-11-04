@@ -206,7 +206,7 @@ export function writer(): string {
   return svg(
     "writer",
     "0 0 600 440",
-    "Acceptance and production each have their own state, key and deploy role. GitHub Actions deploys to both; the haven CLI on a laptop only reads production, with a dashed line for preview and test.",
+    "Acceptance and production each have their own state, key and deploy role. GitHub Actions deploys to both; the haven CLI on a laptop only previews production, with a dashed line for preview and test.",
     b,
   );
 }

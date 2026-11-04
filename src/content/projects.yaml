@@ -35,7 +35,7 @@
   order: 3
   title: Homelab
   meta: Personal · 2026
-  card: k3s and Argo CD on an old laptop at home, deployed the way we deploy at work.
+  card: 15 apps, deployed from git with no manual step.
   line: k3s and Argo CD on an old laptop at home, deployed the way we deploy at work.
   why: I wanted a place to try things before I suggest them at work. It also runs my side projects, including the MTG tools.
   facts:

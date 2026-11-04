@@ -11,7 +11,7 @@ import Section from "~/components/ui/Section.astro";
 const hood = [
   {
     icon: "aws-AmazonElasticKubernetesService",
-    name: "EKS, and AKS on Azure",
+    name: "EKS and AKS (Azure)",
     what: "the same Kubernetes setup in every cluster",
   },
   { name: "Karpenter", what: "adds and removes nodes with the load" },
@@ -77,21 +77,22 @@ const icons = hood.flatMap((h) => ("icon" in h ? [h.icon] : []));
       <h3>Ireland and Tokyo behind CloudFront</h3>
       <p>
         CloudFront sends region-specific paths to Tokyo and everything else to Ireland, and static content
-        comes straight from the edge. Tokyo is there to cut latency for our customers in Asia, not as a
-        failover, and Ireland stays the one place where we manage things.
+        comes straight from the edge. Tokyo cuts latency for our customers in Asia; it isn’t a failover.
+        Ireland stays the one place where we manage things.
       </p>
     </SceneStep>
     <SceneStep scene="ipv6">
       <h3>The move to IPv6</h3>
       <p>
         We were running out of IPv4 addresses, and EKS runs a cluster on IPv4 or on IPv6, not both. So we
-        moved the clusters to IPv6-only. Anything that only speaks IPv4 is reached through DNS64 and NAT64.
+        moved our hosting clusters on EKS to IPv6-only. Anything that only speaks IPv4 is reached through
+        DNS64 and NAT64.
       </p>
       <p>
-        I led the move, and it went wrong in two ways. Internal traffic from the pods to private services,
-        such as asset storage, databases and Redis, also went through NAT64, which made it very expensive. And
-        some older client sites, built before IPv6 mattered, didn’t work on it. We went into hypercare, fixed
-        every issue and never went back to IPv4.
+        I led the move. Internal traffic from the pods to private services, such as asset storage, databases
+        and Redis, also went through NAT64, which made it very expensive. Some older client sites, built
+        before IPv6 mattered, didn’t work on it. We went into hypercare, fixed every issue and never went back
+        to IPv4.
       </p>
     </SceneStep>
     <SceneStep scene="learned">

@@ -3,28 +3,28 @@
 - id: tech-lead
   order: 1
   title: Tech lead infrastructure
-  years: 2024–now
+  years: 2024 to now
   intro: Our hosting platform is now the standard for our clients, and I lead the team that runs it.
   bullets:
     - I lead the infra team of up to four engineers, and I’ve done the hiring for it since I became tech lead. Everyone has their own expertise and owns their projects end to end, from the client relationship to the implementation.
     - 'I run the <a href="/projects/hosting-platform/">hosting platform</a>: 8 Kubernetes clusters on AWS (Ireland and Tokyo) and Azure, hosting more than 300 clients with over 800 deployments. The largest cluster runs more than 1,500 pods. We’ve rehearsed restoring a cluster’s Velero backup into another cluster.'
     - I set the standards the team works to. Changes go in as small pull requests, and on our Pulumi stacks a policy pack checks every change and only the pipeline applies it.
-    - 'New infrastructure delivery is moving from Terraform to Pulumi, and I built the <a href="/projects/infrastructure-delivery/">shared GitHub Actions</a> it deploys through. I also built the CLI the team uses to work in client environments, and our logging pipeline.'
-    - 'I led the move of our clusters to IPv6-only. It broke more than we expected, and we fixed it without going back to IPv4 (<a href="/projects/hosting-platform/#story">how that went</a>).'
+    - 'New infrastructure delivery is moving from Terraform to Pulumi, and I built the <a href="/projects/infrastructure-delivery/">shared GitHub Actions</a> it deploys through. I also built the CLI the team uses for our Pulumi environments, and our logging pipeline.'
+    - 'I led the move of our hosting clusters on EKS to IPv6-only. It broke more than we expected, and we fixed it without going back to IPv4 (<a href="/projects/hosting-platform/#story">how that went</a>).'
     - As ISO 27001 security officer I was partly responsible for our first certification in 2024, and I’ve been fully responsible since 2025, including the full recertification in 2026. I also run training programmes for clients and knowledge sessions for the team.
 - id: infra-engineer
   order: 2
   title: Infrastructure engineer
-  years: 2020–2024
+  years: 2020 to 2024
   intro: Once I knew my way around AWS and networking, I moved into infrastructure full time.
   bullets:
-    - I designed the platform’s standard network, a dual-stack VPC over three availability zones with fixed public IPs per zone that clients can allowlist.
+    - I designed the platform’s standard network, a dual-stack VPC over three availability zones in production, with fixed public IPs per zone that clients can allowlist.
     - I put our Jenkins in code, then the rest of the company’s infrastructure, including the serverless foundations on AWS.
     - I started our hosting platform, which replaced a separate setup per client with one shared standard, and built the modules every client environment is put together from.
 - id: backend
   order: 3
   title: Back-end and serverless developer
-  years: 2017–2020
+  years: 2017 to 2020
   intro: I moved to the back end, and that’s where I started working on the infrastructure under my code.
   bullets:
     - I piloted Python as a language at Harborn and used it for most of my back-end work.
@@ -32,7 +32,7 @@
 - id: frontend
   order: 4
   title: Front-end developer, intern then junior
-  years: 2016–2017
+  years: 2016 to 2017
   intro: I started at Harborn as a front-end intern and stayed on as a junior developer.
   bullets:
     - Most of my work was in Angular. For my internship I chose a headless CMS and built a website on it.
