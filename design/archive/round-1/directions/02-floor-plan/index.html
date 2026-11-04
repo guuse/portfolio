@@ -276,8 +276,8 @@
           <tr><th class="ref" scope="row">S01</th><th scope="row">Hardware</th><td>Second-hand laptop · 11th-gen Intel, 4 cores / 8 threads · 16 GB · ~512 GB SSD</td></tr>
           <tr><th class="ref" scope="row">S02</th><th scope="row">UPS</th><td>The laptop battery</td></tr>
           <tr><th class="ref" scope="row">S03</th><th scope="row">Hypervisor</th><td>Proxmox VE 9.2 (Debian 13 “Trixie”)</td></tr>
-          <tr><th class="ref" scope="row">S04</th><th scope="row">VM 100</th><td><code>k3s-01</code>: Ubuntu 26.04, 4 vCPU, 10 GB RAM, 360 GiB thin disk, single-node k3s</td></tr>
-          <tr><th class="ref" scope="row">S05</th><th scope="row">VM 101</th><td><code>haos-01</code>: Home Assistant OS, 2 vCPU, 3 GB RAM, Zigbee stick passed through</td></tr>
+          <tr><th class="ref" scope="row">S04</th><th scope="row">VM 100</th><td><code>k3s VM</code>: Ubuntu 26.04, 4 vCPU, 10 GB RAM, 360 GiB thin disk, single-node k3s</td></tr>
+          <tr><th class="ref" scope="row">S05</th><th scope="row">VM 101</th><td><code>Home Assistant VM</code>: Home Assistant OS, 2 vCPU, 3 GB RAM, Zigbee stick passed through</td></tr>
           <tr><th class="ref" scope="row">S06</th><th scope="row">Network</th><td>Tailscale only. Zero open ports on the router</td></tr>
           <tr><th class="ref" scope="row">S07</th><th scope="row">TLS</th><td>Wildcard Let's Encrypt via Cloudflare DNS-01 → Traefik default TLSStore</td></tr>
           <tr><th class="ref" scope="row">S08</th><th scope="row">GitOps</th><td>Argo CD app-of-apps, self-managed root, 16 Application manifests</td></tr>
@@ -292,7 +292,7 @@
       <div class="sub-head"><h3>The RAM budget</h3><span class="label-caps">16 GB, drawn as a 16 m² floor · 1 tile = 1 GB</span></div>
       <div class="budget">
         <svg viewBox="0 0 440 440" role="img" aria-labelledby="ram-t">
-          <title id="ram-t">16 GB of RAM drawn as a floor of 16 tiles: k3s-01 10, haos-01 3, Proxmox host about 2, cushion about 1.</title>
+          <title id="ram-t">16 GB of RAM drawn as a floor of 16 tiles: k3s VM 10, Home Assistant VM 3, Proxmox host about 2, cushion about 1.</title>
           <defs><pattern id="cush-hatch" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line class="hatch-line" x1="0" y1="0" x2="0" y2="10"/></pattern></defs>
           <polygon class="b-room b-k3s" points="20,20 420,20 420,220 220,220 220,320 20,320"/>
           <polygon class="b-room b-haos" points="220,220 420,220 420,420 320,420 320,320 220,320"/>
@@ -302,16 +302,16 @@
             <path class="b-tile" d="M120 20V320M220 20V220M320 20V220M20 120H420M20 220H220M320 320V420M420 320H320M220 320V420"/>
             <rect class="b-used" x="30" y="30" width="380" height="80"/>
             <text class="b-acc" x="40" y="100">real use: 2–4 GB, Argo CD is the heavyweight</text>
-            <text class="b-name" x="40" y="170">k3s-01</text><text class="b-val" x="40" y="215">10 GB</text>
-            <text class="b-name" x="232" y="262">haos-01</text><text class="b-val" x="232" y="303">3</text>
+            <text class="b-name" x="40" y="170">k3s VM</text><text class="b-val" x="40" y="215">10 GB</text>
+            <text class="b-name" x="232" y="262">Home Assistant VM</text><text class="b-val" x="232" y="303">3</text>
             <text class="b-name" x="135" y="360">host</text><text class="b-val" x="135" y="403">~2</text>
             <text class="b-note" x="30" y="408">~1 spare</text>
             <rect class="b-outer" x="20" y="20" width="400" height="400"/>
           </g>
         </svg>
         <ul class="budget-list">
-          <li><span class="gb">10</span><span><span class="what"><span class="swatch" style="background: var(--c-room-werk)"></span>k3s-01</span><span class="why">Real use 2–4 GB. Argo CD is the only heavyweight.</span></span></li>
-          <li><span class="gb">3</span><span><span class="what"><span class="swatch" style="background: var(--c-room-woon)"></span>haos-01</span><span class="why">Home Assistant + ZHA.</span></span></li>
+          <li><span class="gb">10</span><span><span class="what"><span class="swatch" style="background: var(--c-room-werk)"></span>k3s VM</span><span class="why">Real use 2–4 GB. Argo CD is the only heavyweight.</span></span></li>
+          <li><span class="gb">3</span><span><span class="what"><span class="swatch" style="background: var(--c-room-woon)"></span>Home Assistant VM</span><span class="why">Home Assistant + ZHA.</span></span></li>
           <li><span class="gb">~2</span><span><span class="what"><span class="swatch" style="background: var(--c-room-hal)"></span>Proxmox host</span><span class="why">The hypervisor itself.</span></span></li>
           <li><span class="gb">~1</span><span><span class="what"><span class="swatch" style="background: repeating-linear-gradient(45deg, var(--surface) 0 3px, var(--ink-subtle) 3px 4px)"></span>Cushion</span><span class="why">10 + 4 would have tipped into OOM territory.</span></span></li>
           <li class="total"><span class="gb">16</span><span><span class="what">Total</span><span class="why">Every gigabyte has a room. None of them are big.</span></span></li>
@@ -336,10 +336,10 @@
             <div class="sd-peil"><b>+3</b>apps</div>
             <div class="sd-floor">
               <div class="sd-units">
-                <ul class="sd-rooms sd-rooms--apps" aria-label="Apps on k3s-01">
+                <ul class="sd-rooms sd-rooms--apps" aria-label="Apps on the k3s VM">
                   <li>r99</li><li>quiz</li><li>tutor</li><li>scryfall</li><li>finder</li><li>house-search</li><li>dashboard</li>
                 </ul>
-                <ul class="sd-rooms" aria-label="On haos-01"><li>HA Core<small>plain HTTP, the LAN fallback</small></li></ul>
+                <ul class="sd-rooms" aria-label="On the Home Assistant VM"><li>HA Core<small>plain HTTP, the LAN fallback</small></li></ul>
               </div>
             </div>
           </div>
@@ -348,7 +348,7 @@
             <div class="sd-peil"><b>+2</b>platform</div>
             <div class="sd-floor">
               <div class="sd-units">
-                <ul class="sd-rooms" aria-label="Platform on k3s-01">
+                <ul class="sd-rooms" aria-label="Platform on the k3s VM">
                   <li>Traefik + wildcard TLS<small>cert-manager, DNS-01</small></li>
                   <li>Argo CD<small>app-of-apps</small><span class="sd-feed">◀ github.com/guuse/homeserver</span></li>
                   <li>Image Updater<small>commit-SHA tags</small><span class="sd-feed">◀ GHCR</span></li>
@@ -356,7 +356,7 @@
                   <li>Tailscale operator<small>→ Funnel, opt-in per app</small></li>
                   <li>cloudflared<small>→ Tunnel + Access, opt-in per app</small></li>
                 </ul>
-                <ul class="sd-rooms" aria-label="On haos-01">
+                <ul class="sd-rooms" aria-label="On the Home Assistant VM">
                   <li>Zigbee coordinator<small>USB passthrough, on a USB2 extension</small></li>
                   <li>NGINX SSL proxy<small>TLS → HA Core</small></li>
                   <li>Tailscale add-on</li>
@@ -369,8 +369,8 @@
             <div class="sd-peil"><b>+1</b>VMs</div>
             <div class="sd-floor">
               <div class="sd-units">
-                <div class="sd-unit sd-unit--k3s"><h4>VM 100 · k3s-01 <small>Ubuntu 26.04 · 4 vCPU · 10 GB · k3s</small></h4></div>
-                <div class="sd-unit sd-unit--haos"><h4>VM 101 · haos-01 <small>HAOS · 2 vCPU · 3 GB</small></h4></div>
+                <div class="sd-unit sd-unit--k3s"><h4>VM 100 · k3s VM <small>Ubuntu 26.04 · 4 vCPU · 10 GB · k3s</small></h4></div>
+                <div class="sd-unit sd-unit--haos"><h4>VM 101 · Home Assistant VM <small>HAOS · 2 vCPU · 3 GB</small></h4></div>
               </div>
             </div>
           </div>
@@ -389,7 +389,7 @@
           <summary>Read the section as a plain list</summary>
 <pre>Old laptop (bare metal, lid shut, battery = UPS)
 └─ Proxmox VE 9.2 ── Tailscale (mgmt), firewall: tailnet-only
-   ├─ VM k3s-01 ── k3s
+   ├─ the k3s VM ── k3s
    │   ├─ Traefik + wildcard TLS (cert-manager, DNS-01)
    │   ├─ Argo CD ◀── github.com/guuse/homeserver (app-of-apps)
    │   │   └─ Image Updater ◀── GHCR commit-SHA tags
@@ -398,7 +398,7 @@
    │   ├─ cloudflared → Cloudflare Tunnel + Access (public, opt-in per app)
    │   └─ apps: r99 · quiz · tutor · scryfall ·
    │            finder · house-search · dashboard
-   └─ VM haos-01 ── Home Assistant OS
+   └─ the Home Assistant VM ── Home Assistant OS
        ├─ Zigbee coordinator (USB passthrough, USB2 extension cable)
        ├─ NGINX SSL proxy (TLS) → HA Core on plain HTTP (LAN fallback)
        └─ Tailscale add-on</pre>

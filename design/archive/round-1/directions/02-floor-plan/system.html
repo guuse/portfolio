@@ -231,7 +231,7 @@
     <header class="room-head"><div><div class="room-head__title"><span class="room-tag" aria-hidden="true">B</span><h2 id="t-title">Type<span class="en">Two families and a lettering pen</span></h2></div></div></header>
     <div class="sys-block type-fam">
       <article><p class="label-caps">Display · <code>--font-display</code></p><p class="big" style="font-family: var(--font-display); font-weight: 800; font-stretch: 75%; letter-spacing: -0.035em">Bricolage Grotesque</p><p>Variable on weight, width (75–100) and optical size (12–96). Its slightly crooked grotesque details and ink traps have the feel of a hand-lettered drawing title without being cute. Set condensed (wdth 75–80) and heavy for room names, the way a sheet title fills its box.</p></article>
-      <article><p class="label-caps">Body · <code>--font-body</code></p><p class="big" style="font-family: var(--font-body); font-weight: 400">Atkinson Hyperlegible Next</p><p>Made for legibility, with distinct letterforms for 1/l/I and 0/O. That matters here: the copy is full of <code>k3s-01</code>, 10 GB, 2.4 GHz. Calm, slightly technical, not Inter.</p></article>
+      <article><p class="label-caps">Body · <code>--font-body</code></p><p class="big" style="font-family: var(--font-body); font-weight: 400">Atkinson Hyperlegible Next</p><p>Made for legibility, with distinct letterforms for 1/l/I and 0/O. That matters here: the copy is full of <code>k3s VM</code>, 10 GB, 2.4 GHz. Calm, slightly technical, not Inter.</p></article>
       <article><p class="label-caps">Annotation · <code>--font-mono</code></p><p class="big" style="font-family: var(--font-mono); font-size: var(--step-4)">Fragment Mono</p><p>Helvetica-flavoured monospace: it looks like the lettering on a CAD print. Used for every annotation: room areas, dimensions, refs, labels. Never for paragraphs.</p></article>
     </div>
     <div class="sys-block">
@@ -420,7 +420,7 @@
     <div class="comp">
       <header><h4>SpecTable</h4><p>An architect's <span lang="nl">staat</span> (schedule): ref, item, value. Real <code>&lt;table&gt;</code>, tabular numerals, row hover. On phones it reflows into ref + stacked item/value.</p></header>
       <div class="comp__stage"><table class="schedule"><thead><tr><th scope="col">Ref</th><th scope="col">Item</th><th scope="col">Value</th></tr></thead><tbody>
-        <tr><th class="ref" scope="row">S04</th><th scope="row">VM 100</th><td><code>k3s-01</code>: Ubuntu 26.04, 4 vCPU, 10 GB RAM, 360 GiB thin disk</td></tr>
+        <tr><th class="ref" scope="row">S04</th><th scope="row">VM 100</th><td><code>k3s VM</code>: Ubuntu 26.04, 4 vCPU, 10 GB RAM, 360 GiB thin disk</td></tr>
         <tr><th class="ref" scope="row">S06</th><th scope="row">Network</th><td>Tailscale only. Zero open ports on the router</td></tr></tbody></table></div>
     </div>
 
@@ -429,15 +429,15 @@
       <div class="comp__stage budget">
         <svg viewBox="0 0 440 440" role="img" aria-label="16 GB as 16 tiles: k3s 10, haos 3, host 2, cushion 1"><defs><pattern id="cush-hatch" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><line class="hatch-line" x1="0" y1="0" x2="0" y2="10"/></pattern></defs>
           <polygon class="b-room b-k3s" points="20,20 420,20 420,220 220,220 220,320 20,320"/><polygon class="b-room b-haos" points="220,220 420,220 420,420 320,420 320,320 220,320"/><polygon class="b-room b-host" points="120,320 320,320 320,420 120,420"/><polygon class="b-room b-cush" points="20,320 120,320 120,420 20,420"/>
-          <path class="b-tile" d="M120 20V320M220 20V220M320 20V220M20 120H420M20 220H220M320 320V420M420 320H320M220 320V420"/><text class="b-name" x="40" y="170">k3s-01</text><text class="b-val" x="40" y="215">10 GB</text><text class="b-name" x="232" y="262">haos-01</text><text class="b-val" x="232" y="303">3</text><text class="b-name" x="135" y="360">host</text><text class="b-val" x="135" y="403">~2</text><rect class="b-outer" x="20" y="20" width="400" height="400"/></svg>
-        <ul class="budget-list"><li><span class="gb">10</span><span><span class="what">k3s-01</span><span class="why">Real use 2–4 GB.</span></span></li><li class="total"><span class="gb">16</span><span><span class="what">Total</span><span class="why">Every gigabyte has a room.</span></span></li></ul>
+          <path class="b-tile" d="M120 20V320M220 20V220M320 20V220M20 120H420M20 220H220M320 320V420M420 320H320M220 320V420"/><text class="b-name" x="40" y="170">k3s VM</text><text class="b-val" x="40" y="215">10 GB</text><text class="b-name" x="232" y="262">Home Assistant VM</text><text class="b-val" x="232" y="303">3</text><text class="b-name" x="135" y="360">host</text><text class="b-val" x="135" y="403">~2</text><rect class="b-outer" x="20" y="20" width="400" height="400"/></svg>
+        <ul class="budget-list"><li><span class="gb">10</span><span><span class="what">k3s VM</span><span class="why">Real use 2–4 GB.</span></span></li><li class="total"><span class="gb">16</span><span><span class="what">Total</span><span class="why">Every gigabyte has a room.</span></span></li></ul>
       </div>
     </div>
 
     <div class="comp">
       <header><h4>ArchDiagram</h4><p><span lang="nl">Doorsnede</span> A–A: a building section read from the foundations (the laptop) up to the roof (three ways in). HTML, not an image: text is selectable, it reflows below 480px via a container query, and a plain-text tree sits in a <code>details</code>.</p></header>
       <div class="comp__stage section-drawing"><div class="sd">
-        <div class="sd-level"><div class="sd-peil"><b>+1</b>VMs</div><div class="sd-floor"><div class="sd-units"><div class="sd-unit sd-unit--k3s"><h4>VM 100 · k3s-01 <small>4 vCPU · 10 GB</small></h4></div><div class="sd-unit sd-unit--haos"><h4>VM 101 · haos-01 <small>2 vCPU · 3 GB</small></h4></div></div></div></div>
+        <div class="sd-level"><div class="sd-peil"><b>+1</b>VMs</div><div class="sd-floor"><div class="sd-units"><div class="sd-unit sd-unit--k3s"><h4>VM 100 · k3s VM <small>4 vCPU · 10 GB</small></h4></div><div class="sd-unit sd-unit--haos"><h4>VM 101 · Home Assistant VM <small>2 vCPU · 3 GB</small></h4></div></div></div></div>
         <div class="sd-level"><div class="sd-peil"><b>±0</b>hypervisor</div><div class="sd-floor"><div class="sd-slab"><b>Proxmox VE 9.2</b><span>firewall: tailnet-only</span></div></div></div>
         <div class="sd-level"><div class="sd-peil"><b>−1</b><span lang="nl">fundering</span></div><div class="sd-ground"><p><b>Old laptop</b>, lid shut. The battery is the UPS.</p></div></div>
       </div></div>

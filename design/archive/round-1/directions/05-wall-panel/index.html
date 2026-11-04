@@ -174,8 +174,8 @@
             <span class="ram-use" data-ram-use aria-hidden="true"></span>
           </div>
           <ul class="ram-legend">
-            <li><b>10<small> GB</small></b><span class="label">k3s-01</span></li>
-            <li><b>3<small> GB</small></b><span class="label">haos-01</span></li>
+            <li><b>10<small> GB</small></b><span class="label">k3s VM</span></li>
+            <li><b>3<small> GB</small></b><span class="label">Home Assistant VM</span></li>
             <li><b>~2<small> GB</small></b><span class="label">Proxmox</span></li>
             <li><b>~1<small> GB</small></b><span class="label">Cushion</span></li>
           </ul>
@@ -347,8 +347,8 @@
         <div class="row"><dt>Hardware</dt><dd>Second-hand laptop · 11th-gen Intel, 4 cores / 8 threads · 16 GB · ~512 GB SSD</dd></div>
         <div class="row"><dt>UPS</dt><dd>The laptop battery</dd></div>
         <div class="row"><dt>Hypervisor</dt><dd>Proxmox VE 9.2 (Debian 13 “Trixie”)</dd></div>
-        <div class="row"><dt>VM 100</dt><dd><code>k3s-01</code>: Ubuntu 26.04, 4 vCPU, 10 GB RAM, 360 GiB thin disk, single-node k3s</dd></div>
-        <div class="row"><dt>VM 101</dt><dd><code>haos-01</code>: Home Assistant OS, 2 vCPU, 3 GB RAM, Zigbee stick passed through</dd></div>
+        <div class="row"><dt>VM 100</dt><dd><code>k3s VM</code>: Ubuntu 26.04, 4 vCPU, 10 GB RAM, 360 GiB thin disk, single-node k3s</dd></div>
+        <div class="row"><dt>VM 101</dt><dd><code>Home Assistant VM</code>: Home Assistant OS, 2 vCPU, 3 GB RAM, Zigbee stick passed through</dd></div>
         <div class="row"><dt>Network</dt><dd>Tailscale only. Zero open ports on the router</dd></div>
         <div class="row"><dt>TLS</dt><dd>Wildcard Let’s Encrypt via Cloudflare DNS-01 → Traefik default TLSStore</dd></div>
         <div class="row"><dt>GitOps</dt><dd>Argo CD app-of-apps, self-managed root, 16 Application manifests</dd></div>
@@ -364,8 +364,8 @@
       <div style="padding-block-start:20px">
         <div class="budget" aria-hidden="true"><i class="k3s"></i><i class="k3s"></i><i class="k3s"></i><i class="k3s"></i><i class="k3s"></i><i class="k3s"></i><i class="k3s"></i><i class="k3s"></i><i class="k3s"></i><i class="k3s"></i><i class="haos"></i><i class="haos"></i><i class="haos"></i><i class="host"></i><i class="host"></i><i class="spare"></i></div>
         <div class="budget-key">
-          <div><b>10<small> GB</small></b><span class="label">k3s-01</span><span class="tile__sub">Real use 2–4 GB. Argo CD is the only heavyweight.</span></div>
-          <div><b>3<small> GB</small></b><span class="label">haos-01</span><span class="tile__sub">Home Assistant + ZHA</span></div>
+          <div><b>10<small> GB</small></b><span class="label">k3s VM</span><span class="tile__sub">Real use 2–4 GB. Argo CD is the only heavyweight.</span></div>
+          <div><b>3<small> GB</small></b><span class="label">Home Assistant VM</span><span class="tile__sub">Home Assistant + ZHA</span></div>
           <div><b>~2<small> GB</small></b><span class="label">Host</span><span class="tile__sub">Proxmox</span></div>
           <div><b>~1</b><span class="label">Spare</span><span class="tile__sub">Cushion</span></div>
         </div>
@@ -383,7 +383,7 @@
             <p class="arch__name"><b>Proxmox VE 9.2</b><span class="label">Tailscale (mgmt) · firewall: tailnet-only</span></p>
             <ul class="arch__kids arch__kids--vms">
               <li class="arch__box">
-                <p class="arch__name"><b>VM k3s-01</b><span class="label">k3s</span></p>
+                <p class="arch__name"><b>the k3s VM</b><span class="label">k3s</span></p>
                 <ul>
                   <li class="arch__leaf"><span>Traefik + wildcard TLS</span><span>cert-manager, DNS-01</span></li>
                   <li class="arch__leaf"><span>Argo CD</span><span>← github.com/guuse/homeserver (app-of-apps)</span></li>
@@ -395,7 +395,7 @@
                 </ul>
               </li>
               <li class="arch__box">
-                <p class="arch__name"><b>VM haos-01</b><span class="label">Home Assistant OS</span></p>
+                <p class="arch__name"><b>the Home Assistant VM</b><span class="label">Home Assistant OS</span></p>
                 <ul>
                   <li class="arch__leaf"><span>Zigbee coordinator</span><span>USB passthrough, on a USB2 extension cable</span></li>
                   <li class="arch__leaf"><span>NGINX SSL proxy</span><span>TLS → HA Core on plain HTTP (LAN fallback)</span></li>
@@ -440,7 +440,7 @@
           <rect class="box" x="205" y="144" width="150" height="56" rx="4"/>
           <text x="219" y="168">homeserver repo</text><text class="t-muted" x="219" y="186">app-of-apps</text>
           <rect class="box box--hot" x="10" y="144" width="150" height="56" rx="4"/>
-          <text x="24" y="168">Argo CD</text><text class="t-muted" x="24" y="186">syncs k3s-01</text>
+          <text x="24" y="168">Argo CD</text><text class="t-muted" x="24" y="186">syncs the k3s VM</text>
           <path class="arrow" d="M160 48h40" marker-end="url(#ah)"/>
           <path class="arrow" d="M355 48h40" marker-end="url(#ah)"/>
           <path class="arrow" d="M475 76v96h-115" marker-end="url(#ah)"/>

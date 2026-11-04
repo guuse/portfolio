@@ -212,8 +212,8 @@
               <tr><th scope="row">Hardware</th><td>Second-hand laptop · 11th-gen Intel, 4 cores / 8 threads · 16 GB · ~512 GB SSD</td></tr>
               <tr><th scope="row">UPS</th><td>The laptop battery</td></tr>
               <tr><th scope="row">Hypervisor</th><td>Proxmox VE 9.2 (Debian 13 “Trixie”)</td></tr>
-              <tr><th scope="row">VM 100</th><td><code>k3s-01</code>: Ubuntu 26.04, 4 vCPU, 10 GB RAM, 360 GiB thin disk, single-node k3s</td></tr>
-              <tr><th scope="row">VM 101</th><td><code>haos-01</code>: Home Assistant OS, 2 vCPU, 3 GB RAM, Zigbee stick passed through</td></tr>
+              <tr><th scope="row">VM 100</th><td><code>k3s VM</code>: Ubuntu 26.04, 4 vCPU, 10 GB RAM, 360 GiB thin disk, single-node k3s</td></tr>
+              <tr><th scope="row">VM 101</th><td><code>Home Assistant VM</code>: Home Assistant OS, 2 vCPU, 3 GB RAM, Zigbee stick passed through</td></tr>
               <tr><th scope="row">Network</th><td>Tailscale only. Zero open ports on the router</td></tr>
               <tr><th scope="row">TLS</th><td>Wildcard Let’s Encrypt via Cloudflare DNS-01 → Traefik default TLSStore</td></tr>
               <tr><th scope="row">GitOps</th><td>Argo CD app-of-apps, self-managed root, 16 Application manifests</td></tr>
@@ -232,14 +232,14 @@
           <div class="fit-box budget__total-wrap" aria-hidden="true"><span class="fit budget__total">16 GB</span></div>
         </div>
         <ol class="budget__band" aria-hidden="true">
-          <li><span class="budget__n">10</span><span class="budget__tag">GB · k3s-01</span></li>
-          <li><span class="budget__n">3</span><span class="budget__tag">GB · haos-01</span></li>
+          <li><span class="budget__n">10</span><span class="budget__tag">GB · k3s VM</span></li>
+          <li><span class="budget__n">3</span><span class="budget__tag">GB · Home Assistant VM</span></li>
           <li><span class="budget__n">2</span><span class="budget__tag">GB · host</span></li>
           <li><span class="budget__n">1</span><span class="budget__tag">spare</span></li>
         </ol>
         <ol class="budget__legend" aria-labelledby="ram-title">
-          <li><b>10 GB · k3s-01</b><span>Real use 2–4 GB. Argo CD is the only heavyweight.</span></li>
-          <li><b>3 GB · haos-01</b><span>Home Assistant + ZHA.</span></li>
+          <li><b>10 GB · k3s VM</b><span>Real use 2–4 GB. Argo CD is the only heavyweight.</span></li>
+          <li><b>3 GB · Home Assistant VM</b><span>Home Assistant + ZHA.</span></li>
           <li><b>~2 GB · Proxmox host</b><span>The hypervisor itself.</span></li>
           <li><b>~1 GB · cushion</b><span>10 + 4 would have tipped into OOM territory.</span></li>
         </ol>
@@ -275,7 +275,7 @@
               <div class="pve__head"><b>Proxmox VE 9.2</b><span class="arch__lbl">Tailscale (mgmt) · firewall: tailnet-only</span></div>
               <div class="vms">
                 <div class="vm vm--k3s">
-                  <div class="vm__head"><span class="arch__lbl">VM 100 · 4 vCPU · 10 GB</span><b>k3s-01</b></div>
+                  <div class="vm__head"><span class="arch__lbl">VM 100 · 4 vCPU · 10 GB</span><b>k3s VM</b></div>
                   <ul class="vm__rows">
                     <li><b>Traefik + wildcard TLS</b>cert-manager, DNS-01</li>
                     <li><b>Argo CD</b>◀ github.com/guuse/homeserver</li>
@@ -289,7 +289,7 @@
                   </ul>
                 </div>
                 <div class="vm vm--ha">
-                  <div class="vm__head"><span class="arch__lbl">VM 101 · 2 vCPU · 3 GB</span><b>haos-01</b></div>
+                  <div class="vm__head"><span class="arch__lbl">VM 101 · 2 vCPU · 3 GB</span><b>Home Assistant VM</b></div>
                   <ul class="vm__rows">
                     <li><b>Home Assistant OS</b></li>
                     <li><b>Zigbee coordinator</b>USB passthrough, on a USB2 extension cable</li>
@@ -309,7 +309,7 @@
               <ul>
                 <li>Proxmox VE 9.2, managed over Tailscale, firewall: tailnet-only
                   <ul>
-                    <li>VM k3s-01 running k3s
+                    <li>the k3s VM running k3s
                       <ul>
                         <li>Traefik + wildcard TLS (cert-manager, DNS-01)</li>
                         <li>Argo CD, fed by github.com/guuse/homeserver (app-of-apps); Image Updater, fed by GHCR commit-SHA tags</li>
@@ -319,7 +319,7 @@
                         <li>Apps: r99, quiz, tutor, scryfall, finder, house-search, dashboard</li>
                       </ul>
                     </li>
-                    <li>VM haos-01 running Home Assistant OS
+                    <li>the Home Assistant VM running Home Assistant OS
                       <ul>
                         <li>Zigbee coordinator (USB passthrough, on a USB2 extension cable)</li>
                         <li>NGINX SSL proxy (TLS) → HA Core on plain HTTP (LAN fallback)</li>

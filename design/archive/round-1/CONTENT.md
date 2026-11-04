@@ -122,8 +122,8 @@ Clients: Dutch and international, on AWS and Azure.
 | Hardware | Second-hand laptop · 11th-gen Intel, 4 cores / 8 threads · 16 GB · ~512 GB SSD |
 | UPS | The laptop battery |
 | Hypervisor | Proxmox VE 9.2 (Debian 13 "Trixie") |
-| VM 100 | `k3s-01`: Ubuntu 26.04, 4 vCPU, 10 GB RAM, 360 GiB thin disk, single-node k3s |
-| VM 101 | `haos-01`: Home Assistant OS, 2 vCPU, 3 GB RAM, Zigbee stick passed through |
+| VM 100 | `k3s VM`: Ubuntu 26.04, 4 vCPU, 10 GB RAM, 360 GiB thin disk, single-node k3s |
+| VM 101 | `Home Assistant VM`: Home Assistant OS, 2 vCPU, 3 GB RAM, Zigbee stick passed through |
 | Network | Tailscale only. Zero open ports on the router |
 | TLS | Wildcard Let's Encrypt via Cloudflare DNS-01 → Traefik default TLSStore |
 | GitOps | Argo CD app-of-apps, self-managed root, 16 Application manifests |
@@ -135,8 +135,8 @@ Clients: Dutch and international, on AWS and Azure.
 
 ```
 16 GB total
-├─ 10 GB  k3s-01     (real use 2–4 GB; Argo CD is the only heavyweight)
-├─  3 GB  haos-01    (Home Assistant + ZHA)
+├─ 10 GB  k3s VM     (real use 2–4 GB; Argo CD is the only heavyweight)
+├─  3 GB  Home Assistant VM    (Home Assistant + ZHA)
 ├─ ~2 GB  Proxmox host
 └─ ~1 GB  cushion    (10 + 4 would have tipped into OOM territory)
 ```
@@ -146,7 +146,7 @@ Clients: Dutch and international, on AWS and Azure.
 ```
 Old laptop (bare metal, lid shut, battery = UPS)
 └─ Proxmox VE 9.2 ── Tailscale (mgmt), firewall: tailnet-only
-   ├─ VM k3s-01 ── k3s
+   ├─ the k3s VM ── k3s
    │   ├─ Traefik + wildcard TLS (cert-manager, DNS-01)
    │   ├─ Argo CD ◀── github.com/guuse/homeserver (app-of-apps)
    │   │   └─ Image Updater ◀── GHCR commit-SHA tags
@@ -154,7 +154,7 @@ Old laptop (bare metal, lid shut, battery = UPS)
    │   ├─ Tailscale operator → Funnel (public, opt-in per app)
    │   ├─ cloudflared → Cloudflare Tunnel + Access (public, opt-in per app)
    │   └─ apps: r99 · quiz · tutor · scryfall · finder · house-search · dashboard
-   └─ VM haos-01 ── Home Assistant OS
+   └─ the Home Assistant VM ── Home Assistant OS
        ├─ Zigbee coordinator (USB passthrough, on a USB2 extension cable)
        ├─ NGINX SSL proxy (TLS) → HA Core on plain HTTP (LAN fallback)
        └─ Tailscale add-on
@@ -301,8 +301,8 @@ Footer microcopy options:
 {
   "ram_gb": { "total": 16, "k3s": 10, "haos": 3, "host": 2, "cushion": 1 },
   "vms": [
-    { "id": 100, "name": "k3s-01", "os": "Ubuntu 26.04", "vcpu": 4, "ram_gb": 10, "disk_gib": 360 },
-    { "id": 101, "name": "haos-01", "os": "Home Assistant OS", "vcpu": 2, "ram_gb": 3, "disk_gib": 32 }
+    { "id": 100, "name": "k3s VM", "os": "Ubuntu 26.04", "vcpu": 4, "ram_gb": 10, "disk_gib": 360 },
+    { "id": 101, "name": "Home Assistant VM", "os": "Home Assistant OS", "vcpu": 2, "ram_gb": 3, "disk_gib": 32 }
   ],
   "argo_apps": {
     "platform": ["argocd", "argocd-image-updater", "cert-manager", "cluster-config", "headlamp", "tailscale-operator", "cloudflared", "root"],

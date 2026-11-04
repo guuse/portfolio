@@ -333,20 +333,20 @@
     <table class="spec spec--stack"><caption class="visually-hidden">Example</caption><tbody>
       <tr><th scope="row">Hardware</th><td>Second-hand laptop · 11th-gen Intel, 4 cores / 8 threads · 16 GB · ~512 GB SSD</td></tr>
       <tr><th scope="row">UPS</th><td><span class="spec__em">The laptop battery</span></td></tr>
-      <tr><th scope="row">VM 100</th><td><code>k3s-01</code> · 4 vCPU · 10 GB RAM</td></tr>
+      <tr><th scope="row">VM 100</th><td><code>k3s VM</code> · 4 vCPU · 10 GB RAM</td></tr>
     </tbody></table>
   </div>
 
   <div class="cmp"><div class="cmp__h"><span class="label label--accent">F-07</span><h3>BudgetBar</h3><p>A 17-column grid (16 GB + one over). Dimension lines with arrowheads above, axis below, hatching and dashes so the four parts differ without colour. The legend table carries the real values for screen readers; the chart is <code>aria-hidden</code>.</p></div>
     <div class="budget"><div class="budget__chart" aria-hidden="true">
       <div class="budget__dim" style="grid-column:1/span 10"><i></i><span>10 GB</span><i></i></div><div class="budget__dim" style="grid-column:11/span 3"><i></i><span>3</span><i></i></div><div class="budget__dim" style="grid-column:14/span 2"><i></i><span>~2</span><i></i></div><div class="budget__dim" style="grid-column:16/span 1"><span>1</span></div>
-      <div class="budget__seg budget__seg--1" style="grid-column:1/span 10"><b>k3s-01</b></div><div class="budget__seg budget__seg--2" style="grid-column:11/span 3"><b>haos</b></div><div class="budget__seg budget__seg--3" style="grid-column:14/span 2"><b>host</b></div><div class="budget__seg budget__seg--4" style="grid-column:16/span 1"></div><div class="budget__ghost" style="grid-column:17/span 1"></div><div class="budget__max" style="grid-column:17/span 1"></div>
+      <div class="budget__seg budget__seg--1" style="grid-column:1/span 10"><b>k3s VM</b></div><div class="budget__seg budget__seg--2" style="grid-column:11/span 3"><b>haos</b></div><div class="budget__seg budget__seg--3" style="grid-column:14/span 2"><b>host</b></div><div class="budget__seg budget__seg--4" style="grid-column:16/span 1"></div><div class="budget__ghost" style="grid-column:17/span 1"></div><div class="budget__max" style="grid-column:17/span 1"></div>
       <div class="budget__axis"><span class="maj"><b>0</b></span><span></span><span></span><span></span><span class="maj"><b>4</b></span><span></span><span></span><span></span><span class="maj"><b>8</b></span><span></span><span></span><span></span><span class="maj"><b>12</b></span><span></span><span></span><span></span><span class="maj"><b>16</b></span></div>
-    </div><p class="visually-hidden">k3s-01 10 GB, haos-01 3 GB, host about 2 GB, cushion about 1 GB, of 16 GB.</p></div>
+    </div><p class="visually-hidden">k3s VM 10 GB, Home Assistant VM 3 GB, host about 2 GB, cushion about 1 GB, of 16 GB.</p></div>
   </div>
 
   <div class="cmp"><div class="cmp__h"><span class="label label--accent">F-08</span><h3>ArchDiagram</h3><p>Nested lists styled as exploded plates: each layer has a tab and a hard offset. Text is real and selectable, so the diagram is its own text alternative. Ports connect in from the left on wide screens.</p></div>
-    <div class="plate plate--sunk"><p class="plate__tab"><b>Bare metal</b><span>Old laptop · lid shut</span></p><div class="plate plate--vm"><p class="plate__tab"><b>VM 101</b><span>haos-01</span></p><ul class="parts-list"><li><b>Zigbee coordinator</b><span class="why">USB passthrough</span></li><li><b>Argo CD</b><span class="in">◀ github.com/guuse/homeserver</span></li></ul><ul class="apps" aria-label="Example apps"><li class="mine">r99</li><li>platform</li></ul></div></div>
+    <div class="plate plate--sunk"><p class="plate__tab"><b>Bare metal</b><span>Old laptop · lid shut</span></p><div class="plate plate--vm"><p class="plate__tab"><b>VM 101</b><span>Home Assistant VM</span></p><ul class="parts-list"><li><b>Zigbee coordinator</b><span class="why">USB passthrough</span></li><li><b>Argo CD</b><span class="in">◀ github.com/guuse/homeserver</span></li></ul><ul class="apps" aria-label="Example apps"><li class="mine">r99</li><li>platform</li></ul></div></div>
   </div>
 
   <div class="cmp"><div class="cmp__h"><span class="label label--accent">F-09</span><h3>DecisionCard · design rationale</h3><p>DR-xx rows: ID, decision as a heading, the reason in muted ink.</p></div>

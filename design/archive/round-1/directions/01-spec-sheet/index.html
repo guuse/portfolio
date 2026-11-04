@@ -285,8 +285,8 @@
         <tr><th scope="row">Hardware</th><td>Second-hand laptop · 11th-gen Intel, 4 cores / 8 threads · 16 GB · ~512 GB SSD</td></tr>
         <tr><th scope="row">UPS</th><td><span class="spec__em">The laptop battery</span></td></tr>
         <tr><th scope="row">Hypervisor</th><td>Proxmox VE 9.2 <span class="muted">(Debian 13 “Trixie”)</span></td></tr>
-        <tr><th scope="row">VM 100</th><td><code>k3s-01</code> · Ubuntu 26.04 · 4 vCPU · 10 GB RAM · 360 GiB thin disk · single-node k3s</td></tr>
-        <tr><th scope="row">VM 101</th><td><code>haos-01</code> · Home Assistant OS · 2 vCPU · 3 GB RAM · Zigbee stick passed through</td></tr>
+        <tr><th scope="row">VM 100</th><td><code>k3s VM</code> · Ubuntu 26.04 · 4 vCPU · 10 GB RAM · 360 GiB thin disk · single-node k3s</td></tr>
+        <tr><th scope="row">VM 101</th><td><code>Home Assistant VM</code> · Home Assistant OS · 2 vCPU · 3 GB RAM · Zigbee stick passed through</td></tr>
         <tr><th scope="row">Network</th><td>Tailscale only. <span class="spec__em">Zero open ports</span> on the router</td></tr>
         <tr><th scope="row">TLS</th><td>Wildcard Let's Encrypt via Cloudflare DNS-01 → Traefik default TLSStore</td></tr>
         <tr><th scope="row">GitOps</th><td>Argo CD app-of-apps, self-managed root, 16 Application manifests</td></tr>
@@ -308,7 +308,7 @@
         <div class="budget__dim" style="grid-column:14/span 2"><i></i><span>~2</span><i></i></div>
         <div class="budget__dim" style="grid-column:16/span 1"><span>1</span></div>
         
-        <div class="budget__seg budget__seg--1" style="grid-column:1/span 10"><b>k3s-01</b>&nbsp;<span>· 4 vCPU</span></div>
+        <div class="budget__seg budget__seg--1" style="grid-column:1/span 10"><b>k3s VM</b>&nbsp;<span>· 4 vCPU</span></div>
         <div class="budget__seg budget__seg--2" style="grid-column:11/span 3"><b>haos</b><span>-01</span></div>
         <div class="budget__seg budget__seg--3" style="grid-column:14/span 2"><b>host</b></div>
         <div class="budget__seg budget__seg--4" style="grid-column:16/span 1"></div>
@@ -328,8 +328,8 @@
         <caption class="visually-hidden">RAM allocation, 16 GB total</caption>
         <thead><tr><th scope="col">Item</th><th scope="col">Alloc.</th><th scope="col">Note</th></tr></thead>
         <tbody>
-          <tr><td><span class="budget__key budget__seg--1" aria-hidden="true"></span><code>k3s-01</code></td><td class="tnum">10 GB</td><td>Real use 2–4 GB. Argo CD is the only heavyweight.</td></tr>
-          <tr><td><span class="budget__key budget__seg--2" aria-hidden="true"></span><code>haos-01</code></td><td class="tnum">3 GB</td><td>Home Assistant + ZHA</td></tr>
+          <tr><td><span class="budget__key budget__seg--1" aria-hidden="true"></span><code>k3s VM</code></td><td class="tnum">10 GB</td><td>Real use 2–4 GB. Argo CD is the only heavyweight.</td></tr>
+          <tr><td><span class="budget__key budget__seg--2" aria-hidden="true"></span><code>Home Assistant VM</code></td><td class="tnum">3 GB</td><td>Home Assistant + ZHA</td></tr>
           <tr><td><span class="budget__key budget__seg--3" aria-hidden="true"></span>Proxmox host</td><td class="tnum">~2 GB</td><td>The hypervisor itself</td></tr>
           <tr><td><span class="budget__key budget__seg--4" aria-hidden="true" style="border-style:dashed"></span>Cushion</td><td class="tnum">~1 GB</td><td>10 + 4 would have tipped into OOM territory</td></tr>
           <tr><td><strong>Total</strong></td><td class="tnum"><strong>16 GB</strong></td><td class="muted">Physical. Not upgradable without a screwdriver and a reason.</td></tr>
@@ -356,7 +356,7 @@
           <p class="plate__note">Tailscale for management. Firewall: tailnet-only.</p>
           <div class="vms">
             <div class="plate plate--vm">
-              <p class="plate__tab"><b>VM 100</b><span>k3s-01 · k3s</span></p>
+              <p class="plate__tab"><b>VM 100</b><span>k3s VM · k3s</span></p>
               <ul class="parts-list">
                 <li><b>Traefik</b><span class="why">+ wildcard TLS (cert-manager, DNS-01)</span></li>
                 <li><b>Argo CD</b><span class="in">◀ github.com/guuse/homeserver (app-of-apps)</span>
@@ -371,7 +371,7 @@
               </ul>
             </div>
             <div class="plate plate--vm">
-              <p class="plate__tab"><b>VM 101</b><span>haos-01 · HA OS</span></p>
+              <p class="plate__tab"><b>VM 101</b><span>Home Assistant VM · HA OS</span></p>
               <ul class="parts-list">
                 <li><b>Zigbee coordinator</b><span class="why">USB passthrough, on a USB2 extension cable</span></li>
                 <li><b>NGINX SSL proxy</b><span class="why">TLS → HA Core on plain HTTP (LAN fallback)</span></li>

@@ -237,8 +237,8 @@
         <div class="spec__row"><dt>Hardware</dt><dd>Second-hand laptop · 11th-gen Intel, 4 cores / 8 threads · 16 GB · ~512 GB SSD</dd></div>
         <div class="spec__row"><dt>UPS</dt><dd>The laptop battery</dd></div>
         <div class="spec__row"><dt>Hypervisor</dt><dd>Proxmox VE 9.2 (Debian 13 “Trixie”)</dd></div>
-        <div class="spec__row"><dt>VM 100</dt><dd><code>k3s-01</code>: Ubuntu 26.04, 4 vCPU, 10 GB RAM, 360 GiB thin disk, single-node k3s</dd></div>
-        <div class="spec__row"><dt>VM 101</dt><dd><code>haos-01</code>: Home Assistant OS, 2 vCPU, 3 GB RAM, Zigbee stick passed through</dd></div>
+        <div class="spec__row"><dt>VM 100</dt><dd><code>k3s VM</code>: Ubuntu 26.04, 4 vCPU, 10 GB RAM, 360 GiB thin disk, single-node k3s</dd></div>
+        <div class="spec__row"><dt>VM 101</dt><dd><code>Home Assistant VM</code>: Home Assistant OS, 2 vCPU, 3 GB RAM, Zigbee stick passed through</dd></div>
         <div class="spec__row"><dt>Network</dt><dd>Tailscale only. Zero open ports on the router</dd></div>
         <div class="spec__row"><dt>TLS</dt><dd>Wildcard Let's Encrypt via Cloudflare DNS-01 → Traefik default TLSStore</dd></div>
         <div class="spec__row"><dt>GitOps</dt><dd>Argo CD app-of-apps, self-managed root, 16 Application manifests</dd></div>
@@ -273,8 +273,8 @@
         <div class="budget__ticks" aria-hidden="true"><span style="left:0">0</span><span style="left:25%">4</span><span style="left:50%">8</span><span style="left:75%">12</span><span style="left:100%">16 GB</span></div>
         <figcaption class="visually-hidden" id="ram-cap">RAM budget of the laptop, 16 GB total, split as listed below.</figcaption>
         <dl class="budget__legend">
-          <div><span class="swatch swatch--k3s" aria-hidden="true"></span><dt>10 GB</dt><dd><b>k3s-01.</b> Real use 2–4 GB; Argo CD is the only heavyweight.</dd></div>
-          <div><span class="swatch swatch--ha" aria-hidden="true"></span><dt>3 GB</dt><dd><b>haos-01.</b> Home Assistant + ZHA.</dd></div>
+          <div><span class="swatch swatch--k3s" aria-hidden="true"></span><dt>10 GB</dt><dd><b>k3s VM.</b> Real use 2–4 GB; Argo CD is the only heavyweight.</dd></div>
+          <div><span class="swatch swatch--ha" aria-hidden="true"></span><dt>3 GB</dt><dd><b>Home Assistant VM.</b> Home Assistant + ZHA.</dd></div>
           <div><span class="swatch swatch--host" aria-hidden="true"></span><dt>~2 GB</dt><dd><b>Proxmox host.</b></dd></div>
           <div><span class="swatch swatch--spare" aria-hidden="true"></span><dt>~1 GB</dt><dd><b>Cushion.</b> 10 + 4 would have tipped into OOM territory.</dd></div>
         </dl>
@@ -303,7 +303,7 @@
                 <span class="arch__name"><span class="label">Hypervisor</span>Proxmox VE 9.2 <small>Tailscale for management · firewall: tailnet-only</small></span>
                 <ul class="arch__vms" role="list">
                   <li class="arch__box arch__box--vm is-k3s">
-                    <span class="arch__name"><span class="label">VM 100</span><code>k3s-01</code> · k3s <small>4 vCPU · 10 GB</small></span>
+                    <span class="arch__name"><span class="label">VM 100</span><code>k3s VM</code> · k3s <small>4 vCPU · 10 GB</small></span>
                     <ul class="arch__parts" role="list">
                       <li class="arch__part"><b>Traefik</b> + wildcard TLS <small>(cert-manager, DNS-01)</small></li>
                       <li class="arch__part"><b>Argo CD</b><span class="feed">github.com/guuse/homeserver (app-of-apps)</span><span class="arch__inline-note">the only heavyweight in here</span></li>
@@ -318,7 +318,7 @@
                     </div>
                   </li>
                   <li class="arch__box arch__box--vm is-ha">
-                    <span class="arch__name"><span class="label">VM 101</span><code>haos-01</code> · Home Assistant OS <small>2 vCPU · 3 GB</small></span>
+                    <span class="arch__name"><span class="label">VM 101</span><code>Home Assistant VM</code> · Home Assistant OS <small>2 vCPU · 3 GB</small></span>
                     <ul class="arch__parts" role="list" style="grid-template-columns:1fr">
                       <li class="arch__part"><b>Zigbee coordinator</b> USB passthrough, on a USB2 extension cable<span class="arch__inline-note">USB3 ports scream at 2.4 GHz</span></li>
                       <li class="arch__part"><b>NGINX SSL proxy</b> (TLS) → HA Core on plain HTTP <small>(LAN fallback)</small></li>

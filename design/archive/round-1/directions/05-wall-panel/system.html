@@ -345,15 +345,15 @@
         <p class="label">BudgetBar · one cell per GB, text values below</p>
         <div class="budget" aria-hidden="true"><i class="k3s"></i><i class="k3s"></i><i class="k3s"></i><i class="k3s"></i><i class="k3s"></i><i class="k3s"></i><i class="k3s"></i><i class="k3s"></i><i class="k3s"></i><i class="k3s"></i><i class="haos"></i><i class="haos"></i><i class="haos"></i><i class="host"></i><i class="host"></i><i class="spare"></i></div>
         <div class="budget-key budget-key--stack">
-          <div><b>10<small> GB</small></b><span class="label">k3s-01</span></div>
-          <div><b>3<small> GB</small></b><span class="label">haos-01</span></div>
+          <div><b>10<small> GB</small></b><span class="label">k3s VM</span></div>
+          <div><b>3<small> GB</small></b><span class="label">Home Assistant VM</span></div>
           <div><b>~2</b><span class="label">Host</span></div>
           <div><b>~1</b><span class="label">Spare</span></div>
         </div>
       </div>
       <div class="demo">
         <p class="label">ArchDiagram · nested panels, the list is the diagram</p>
-        <div class="arch"><div class="arch__box"><p class="arch__name"><b>Old laptop</b><span class="label">Bare metal</span></p><div class="arch__box"><p class="arch__name"><b>Proxmox VE 9.2</b></p><ul class="arch__kids arch__kids--vms"><li class="arch__box"><p class="arch__name"><b>VM k3s-01</b></p><ul><li class="arch__leaf"><span>Argo CD</span><span>app-of-apps</span></li></ul></li><li class="arch__box"><p class="arch__name"><b>VM haos-01</b></p><ul><li class="arch__leaf"><span>Zigbee</span><span>USB passthrough</span></li></ul></li></ul></div></div></div>
+        <div class="arch"><div class="arch__box"><p class="arch__name"><b>Old laptop</b><span class="label">Bare metal</span></p><div class="arch__box"><p class="arch__name"><b>Proxmox VE 9.2</b></p><ul class="arch__kids arch__kids--vms"><li class="arch__box"><p class="arch__name"><b>the k3s VM</b></p><ul><li class="arch__leaf"><span>Argo CD</span><span>app-of-apps</span></li></ul></li><li class="arch__box"><p class="arch__name"><b>the Home Assistant VM</b></p><ul><li class="arch__leaf"><span>Zigbee</span><span>USB passthrough</span></li></ul></li></ul></div></div></div>
       </div>
       <div class="demo">
         <p class="label">DecisionCard · record row</p>
