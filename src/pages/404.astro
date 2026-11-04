@@ -38,7 +38,7 @@ import { evicted } from "~/lib/art/scenes/evicted";
       padding-block: clamp(3rem, 2rem + 5vw, 6rem);
     }
 
-    @media (width >= 900px) {
+    @media (--stage) {
       .lost {
         grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
       }
@@ -75,7 +75,7 @@ import { evicted } from "~/lib/art/scenes/evicted";
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 12px 22px;
+      gap: var(--space-m) 22px;
       margin-top: 2rem;
     }
 

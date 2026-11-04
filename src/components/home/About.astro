@@ -56,7 +56,7 @@ const interests = await list("interests");
       max-width: 46em;
     }
 
-    @media (width >= 700px) {
+    @media (--md) {
       .likes {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
@@ -67,7 +67,7 @@ const interests = await list("interests");
       display: grid;
       grid-template-columns: 14px 1fr;
       align-items: start;
-      gap: 2px 12px;
+      gap: var(--space-3xs) var(--space-m);
       min-width: 0;
       cursor: default;
     }
@@ -76,7 +76,7 @@ const interests = await list("interests");
       grid-row: 1 / span 2;
       width: 8px;
       height: 8px;
-      margin: 0.7em 2px 0;
+      margin: 0.7em var(--space-3xs) 0;
       border-radius: 50%;
       background: var(--accent);
     }

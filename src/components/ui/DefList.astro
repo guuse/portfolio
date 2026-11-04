@@ -24,7 +24,7 @@ const { items } = Astro.props;
     .deflist > div {
       position: relative;
       display: grid;
-      gap: 2px 24px;
+      gap: var(--space-3xs) var(--space-xl);
       padding-block: 0.8rem;
     }
 
@@ -46,7 +46,7 @@ const { items } = Astro.props;
       content: none;
     }
 
-    @media (width >= 640px) {
+    @media (--sm) {
       .deflist > div {
         grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
       }

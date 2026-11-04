@@ -15,7 +15,7 @@
    * Wherever the header is sticky, anything scrolled into view (a focused link, a #target)
    * stops clear of it (WCAG 2.4.11). The header's own media queries say where that is.
    */
-  @media (width >= 600px) and (height > 500px) {
+  @media (--sm) and (--not-short) {
     html {
       scroll-padding-top: calc(var(--space-header) + 16px);
     }

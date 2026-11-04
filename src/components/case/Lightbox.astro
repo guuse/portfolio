@@ -36,8 +36,10 @@
       max-height: none;
       margin: 0;
       border: 0;
-      padding: max(12px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px))
-        max(12px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));
+      padding: max(var(--space-m), env(safe-area-inset-top, 0px))
+        max(var(--space-l), env(safe-area-inset-right, 0px))
+        max(var(--space-m), env(safe-area-inset-bottom, 0px))
+        max(var(--space-l), env(safe-area-inset-left, 0px));
       background: var(--scrim-lightbox);
       color: var(--ink);
     }
@@ -144,8 +146,8 @@
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 12px;
-      padding-top: 12px;
+      gap: var(--space-m);
+      padding-top: var(--space-m);
     }
 
     .lightbox__cap {
@@ -161,17 +163,17 @@
 
     .lightbox__nav {
       display: flex;
-      gap: 8px;
+      gap: var(--space-s);
     }
 
     .lb-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: var(--space-xs);
       min-width: 44px;
       min-height: 44px;
-      padding: 0 12px;
+      padding: 0 var(--space-m);
       border: 1px solid var(--line-strong);
       border-radius: var(--radius-pill);
       background: transparent;
@@ -199,7 +201,7 @@
      * Phones, upright: the screenshot uses the whole width, edge to edge, and the bar shrinks
      * to one line of caption over the count and the buttons.
      */
-    @media (width < 600px) and (orientation: portrait) {
+    @media (--below-sm) and (orientation: portrait) {
       .lightbox {
         padding-inline: env(safe-area-inset-left, 0) env(safe-area-inset-right, 0);
       }
@@ -212,8 +214,8 @@
       .lightbox__bar {
         display: grid;
         grid-template-columns: minmax(0, 1fr) auto;
-        gap: 6px 12px;
-        padding: 10px 12px 0;
+        gap: var(--space-xs) var(--space-m);
+        padding: 10px var(--space-m) 0;
       }
 
       .lightbox__cap {
@@ -231,10 +233,10 @@
      * Phones held sideways: there's no height to spare, so the picture gets nearly all of it
      * and the bar floats over its bottom edge.
      */
-    @media (orientation: landscape) and (height <= 500px) {
+    @media (--landscape-short) {
       .lightbox {
         display: block;
-        padding-block: 12px;
+        padding-block: var(--space-m);
       }
 
       .lightbox[open] {
@@ -257,7 +259,7 @@
         flex-wrap: nowrap;
         margin-inline: auto;
         max-width: 100%;
-        padding: 6px 6px 6px 14px;
+        padding: var(--space-xs) var(--space-xs) var(--space-xs) 14px;
         border-radius: var(--radius-pill);
         background: color-mix(in oklch, var(--surface) 82%, transparent);
         backdrop-filter: blur(8px);

@@ -55,7 +55,7 @@ const art = liveArt[project];
       z-index: -1;
       display: flex;
       justify-content: flex-end;
-      padding-inline-end: clamp(0px, 4vw, 48px);
+      padding-inline-end: clamp(0px, 4vw, var(--space-3xl));
       background: var(--surface-card);
     }
 
@@ -78,7 +78,7 @@ const art = liveArt[project];
     }
 
     /* on a phone the drawing goes on top and the title under it, so neither covers the other */
-    @media (width < 700px) {
+    @media (--below-md) {
       .ph-hero {
         display: block;
         min-height: 0;
@@ -90,7 +90,7 @@ const art = liveArt[project];
         z-index: 0;
         justify-content: center;
         height: clamp(200px, 58vw, 320px);
-        padding: 12px 0 0;
+        padding: var(--space-m) 0 0;
         overflow: hidden;
       }
 

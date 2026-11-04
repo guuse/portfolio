@@ -96,7 +96,7 @@ const { scene, range, continues, caption } = Astro.props;
       color: var(--ink);
     }
 
-    @media (width < 900px) {
+    @media (--below-stage) {
       .scene-step {
         gap: 0.75rem;
       }
@@ -108,7 +108,7 @@ const { scene, range, continues, caption } = Astro.props;
      * moves the figures into the stage and nothing below them shifts. If the script never
      * arrives, each still stays beside its text, in a roomier step.
      */
-    @media screen and (scripting: enabled) and (prefers-reduced-motion: no-preference) and (width >= 900px) {
+    @media screen and (scripting: enabled) and (prefers-reduced-motion: no-preference) and (--stage) {
       .scene-step {
         min-height: 100svh;
         border-top: 0;
@@ -121,7 +121,7 @@ const { scene, range, continues, caption } = Astro.props;
     }
 
     /* no JS, or reduced motion, on a wide screen: text and its still side by side */
-    @media (width >= 900px) {
+    @media (--stage) {
       .scene-step {
         grid-template-columns: minmax(0, 4.2fr) minmax(0, 7.8fr);
         align-items: center;

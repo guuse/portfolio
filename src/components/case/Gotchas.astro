@@ -40,8 +40,8 @@ const rows = ["Symptom", "Cause", "Fix"] as const;
     .gotcha div {
       display: grid;
       grid-template-columns: 5.5rem 1fr;
-      gap: 12px;
-      padding-block: 4px;
+      gap: var(--space-m);
+      padding-block: var(--space-2xs);
     }
 
     .gotcha dt {
@@ -55,7 +55,7 @@ const rows = ["Symptom", "Cause", "Fix"] as const;
     }
 
     /* on a phone the label goes above its text, so the text keeps the whole width */
-    @media (width < 480px) {
+    @media (--below-xs) {
       .gotcha {
         padding: 0.9rem 1rem;
       }
@@ -63,7 +63,7 @@ const rows = ["Symptom", "Cause", "Fix"] as const;
       .gotcha div {
         grid-template-columns: minmax(0, 1fr);
         gap: 0;
-        padding-block: 6px;
+        padding-block: var(--space-xs);
       }
 
       .gotcha dt {

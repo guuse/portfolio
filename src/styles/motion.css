@@ -105,7 +105,7 @@
     }
 
     /* the header stays put while the page changes under it */
-    @media (width >= 600px) and (height > 500px) {
+    @media (--sm) and (--not-short) {
       .site-header {
         view-transition-name: site-header;
       }

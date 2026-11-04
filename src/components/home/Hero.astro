@@ -188,7 +188,7 @@ const stats = [
     .stats div {
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: var(--space-3xs);
     }
 
     .stats div + div {
@@ -222,7 +222,7 @@ const stats = [
       display: inline-flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 8px;
+      gap: var(--space-s);
     }
 
     .email {
@@ -329,7 +329,7 @@ const stats = [
 
     /* the Konami untap (src/scripts/eggs.ts), here so it outranks .is-settled */
     :global(.is-untapping) .print {
-      animation: untap 1.5s var(--ease-in-out);
+      animation: untap var(--duration-untap) var(--ease-in-out);
     }
 
     /*
@@ -387,13 +387,13 @@ const stats = [
       }
     }
 
-    @media (width >= 1000px) {
+    @media (--lg) {
       .stage__inner {
         grid-template-columns: minmax(0, 7.5fr) minmax(0, 3.5fr);
       }
     }
 
-    @media (width < 1000px) {
+    @media (--below-lg) {
       .stage {
         min-height: 0;
       }
@@ -418,7 +418,7 @@ const stats = [
      * A phone held sideways: text on the left, the prints beside it at about 40%, so the name
      * and the headline are on the first screen instead of under the photos.
      */
-    @media (orientation: landscape) and (height <= 500px) and (width < 1000px) {
+    @media (--landscape-short) and (--below-lg) {
       .stage__inner {
         grid-template-columns: minmax(0, 6fr) minmax(0, 4fr);
         align-items: start;
@@ -445,7 +445,7 @@ const stats = [
       }
     }
 
-    @media (width < 600px) {
+    @media (--below-sm) {
       .stats {
         gap: 1rem 1.4rem;
       }

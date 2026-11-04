@@ -35,7 +35,7 @@ const headingId = id ? `${id}-title` : undefined;
       gap: 1.5rem var(--space-gutter);
     }
 
-    @media (width >= 900px) {
+    @media (--stage) {
       .sec {
         grid-template-columns: minmax(0, 3fr) minmax(0, 9fr);
       }

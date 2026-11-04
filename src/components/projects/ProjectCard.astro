@@ -67,14 +67,14 @@ const href = caseStudyHref(p.id);
     }
 
     /* side by side from tablet width; there the cover lines up with the title, not the middle */
-    @media (width >= 760px) {
+    @media (--cards) {
       .pcard {
         grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
         align-items: start;
       }
     }
 
-    @media (width >= 960px) {
+    @media (--lg) {
       .pcard {
         grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
         align-items: center;

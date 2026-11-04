@@ -83,7 +83,7 @@ const projects = await list("projects");
       grid-template-columns: minmax(0, 1fr);
     }
 
-    @media (width >= 700px) {
+    @media (--md) {
       .covers {
         grid-template-columns: repeat(3, minmax(0, 1fr));
       }
@@ -190,7 +190,7 @@ const projects = await list("projects");
       z-index: 1;
       padding: 1.25rem 1.4rem 1.4rem;
       display: grid;
-      gap: 4px;
+      gap: var(--space-2xs);
     }
 
     .cover__meta {
@@ -211,7 +211,7 @@ const projects = await list("projects");
       line-height: 1.4;
     }
 
-    @media (width < 700px) {
+    @media (--below-md) {
       .cover__link :global(.cover__img) {
         object-position: center;
       }

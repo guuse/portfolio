@@ -92,8 +92,8 @@ const keys = [
     kbd {
       display: inline-block;
       min-width: 1.6em;
-      margin-right: 4px;
-      padding: 1px 6px;
+      margin-right: var(--space-2xs);
+      padding: 1px var(--space-xs);
       border: 1px solid var(--line-strong);
       border-bottom-width: 2px;
       border-radius: var(--radius-xs);
@@ -111,7 +111,7 @@ const keys = [
     .keys__actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: var(--space-s);
       margin-top: 1.25rem;
     }
 
@@ -159,7 +159,7 @@ const keys = [
       bottom: max(24px, env(safe-area-inset-bottom, 0px));
       z-index: 90;
       translate: -50% 0;
-      padding: 10px 16px;
+      padding: 10px var(--space-l);
       border: 1px solid var(--accent);
       border-radius: var(--radius-pill);
       background: var(--surface-raised);
@@ -170,7 +170,7 @@ const keys = [
     }
 
     .toast.is-shown {
-      animation: toast 3.2s var(--ease-out) both;
+      animation: toast var(--duration-toast) var(--ease-out) both;
     }
 
     /* without motion it simply shows, for as long as it has a message (eggs.ts clears it) */
@@ -197,7 +197,7 @@ const keys = [
 
     /* the prints have their own rule in Hero.astro, which outranks their .is-settled */
     .is-untapping :is(.cover__link, .pcard__media) {
-      animation: untap 1.5s var(--ease-in-out);
+      animation: untap var(--duration-untap) var(--ease-in-out);
     }
 
     @keyframes untap {

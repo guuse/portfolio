@@ -31,13 +31,13 @@ const { items } = Astro.props;
   @layer components {
     .also__row {
       display: grid;
-      gap: 2px 24px;
+      gap: var(--space-3xs) var(--space-xl);
       align-items: baseline;
       padding-block: 0.8rem;
       border-top: 1px solid var(--line);
     }
 
-    @media (width >= 760px) {
+    @media (--cards) {
       .also__row {
         grid-template-columns: minmax(0, 12rem) minmax(0, 1fr) auto;
       }

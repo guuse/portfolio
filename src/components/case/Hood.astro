@@ -55,7 +55,7 @@ const { items } = Astro.props;
       font-size: var(--text-small);
     }
 
-    @media (width < 600px) {
+    @media (--below-sm) {
       .hood li {
         grid-template-columns: 28px minmax(0, 1fr);
       }
