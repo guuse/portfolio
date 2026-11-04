@@ -8,7 +8,7 @@ import { fade, hideStill, move, parts, type Parts } from "../dom";
 import { blinker, restLeds } from "../leds";
 import { ease as E, lerp, seg } from "../math";
 import { courier, prime } from "../packets";
-import { hotRoutes, lightRoute } from "../routes";
+import { arrive, hotRoutes, lightRoute } from "../routes";
 import type { SceneFactory } from "../types";
 
 type Path = SVGPathElement;
@@ -20,8 +20,9 @@ type Path = SVGPathElement;
 type Leg = [route: string, from: number, to: number, cls: string, reaches: string];
 
 /**
- * The journey for the scenes that follow one packet: lights the route it's on, hops what it
- * arrives at, and puts the packet where progress says. Returns whether a leg is playing.
+ * The journey for the scenes that follow one packet. Returns a step, called with the scene's
+ * progress, delta and clock, that lights the route the packet is on, hops what it arrives at,
+ * and puts the packet where progress says (or hides it between legs).
  */
 function journey(svg: SVGSVGElement, K: Parts, legs: readonly Leg[]) {
   const put = courier(K["pk"] as SVGGElement),
@@ -38,11 +39,7 @@ function journey(svg: SVGSVGElement, K: Parts, legs: readonly Leg[]) {
     legs.forEach(([, a0, a1], i) => {
       lightRoute(hot[i], p > a0 - 0.01 && p < a1 + 0.015, dt, t);
     });
-    for (const { el, ends } of targets) {
-      const bump = Math.max(...ends.map((to) => Math.sin(Math.PI * seg(p, to - 0.004, to + 0.05))));
-      move(el, 0, -4 * bump);
-      el?.classList.toggle("is-ping", bump > 0.15);
-    }
+    for (const { el, ends } of targets) move(el, 0, -4 * arrive(el, p, ends));
     let i = -1;
     legs.forEach((l, k) => {
       if (p >= l[1] && p < l[2]) i = k;

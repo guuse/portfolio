@@ -4,7 +4,7 @@ import { fade, hideStill, move, parts } from "../dom";
 import { blinker, restLeds } from "../leds";
 import { clamp, ease as E, lerp, seg } from "../math";
 import { courier, prime, track } from "../packets";
-import { hotRoutes, lightRoute } from "../routes";
+import { arrive, hotRoutes, lightRoute } from "../routes";
 import { firstAlong } from "~/lib/art/geometry";
 import type { SceneFactory } from "../types";
 
@@ -58,12 +58,7 @@ const loop: SceneFactory = (svg) => {
       const on = (p > a0 - 0.01 && p < a1 + 0.015) || (i === 0 && p > 0.77 && p < 0.92);
       lightRoute(hot[i], on, dt, t);
     });
-    for (const { el, end } of arrivals) {
-      const u = seg(p, end - 0.004, end + 0.045),
-        bump = Math.sin(Math.PI * u);
-      move(el, 0, 0, 1 + 0.1 * bump);
-      el?.classList.toggle("is-ping", bump > 0.15);
-    }
+    for (const { el, end } of arrivals) move(el, 0, 0, 1 + 0.1 * arrive(el, p, [end], 0.045));
     const a = seg(p, 0, 0.05);
     move(commitPush, 0, 0, lerp(0.3, 1, E.outBack(a, 2.4)));
     fade(commitPush, Math.min(1, a * 3));
