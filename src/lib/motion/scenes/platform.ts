@@ -294,7 +294,7 @@ const regions: SceneFactory = (svg) => {
   const route = (i: number, jp: boolean): Segment[] => [
     { el: K[`route-in${i}`] as SVGPathElement, cls: jp ? "pk--cool" : "" },
     { el: (jp ? through.jp : through.ie)[i]! },
-    { el: K[jp ? "rjp" : "rie"] as SVGPathElement },
+    { el: K[jp ? "route-jp" : "route-ie"] as SVGPathElement },
   ];
   const toIE = [0, 1, 2].map((i) => route(i, false)),
     toJP = [0, 1, 2].map((i) => route(i, true));
