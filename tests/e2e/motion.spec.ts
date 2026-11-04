@@ -1,20 +1,15 @@
 import { expect, test, type Page } from "@playwright/test";
 
-/** Scrolls the page from top to bottom in steps, the way a reader would. */
-async function readThrough(page: Page): Promise<void> {
-  await page.evaluate(async () => {
-    for (let y = 0; y <= document.documentElement.scrollHeight; y += 300) {
-      scrollTo({ top: y, behavior: "instant" });
-      await new Promise((r) => setTimeout(r, 40));
-    }
-  });
-}
+/** Waits until every running animation and transition on the page has finished. */
+const settled = (page: Page) =>
+  page.evaluate(() => Promise.all(document.getAnimations().map((a) => a.finished.catch(() => undefined))));
 
 test.describe("reveals", () => {
   for (const path of ["/", "/projects/", "/projects/homelab/"]) {
     test(`${path}: what starts below the fold settles in, and ends visible`, async ({ page }) => {
       await page.goto(path);
-      // nothing on screen at load is held back
+      // reveal.ts tags what starts below the fold; nothing on screen at load is held back
+      await page.waitForFunction(() => document.documentElement.classList.contains("js-reveal"));
       expect(
         await page.evaluate(
           () =>
@@ -23,10 +18,16 @@ test.describe("reveals", () => {
             ).length,
         ),
       ).toBe(0);
-      const below = await page.locator(".reveal").count();
-      expect(below).toBeGreaterThan(0);
-      await readThrough(page);
-      await expect(page.locator(".reveal:not(.is-in)")).toHaveCount(0);
+      const reveals = page.locator(".reveal");
+      const count = await reveals.count();
+      expect(count).toBeGreaterThan(0);
+      // bring each one on screen, the way a reader would, and wait for it to come in
+      for (let i = 0; i < count; i++) {
+        const el = reveals.nth(i);
+        await el.evaluate((node) => node.scrollIntoView({ block: "center", behavior: "instant" }));
+        await expect(el).toHaveClass(/\bis-in\b/);
+      }
+      await settled(page);
       // and everything that moved in has finished at full opacity, untransformed
       await expect
         .poll(() =>
@@ -49,8 +50,8 @@ test("print shows every part of the page, each figure with its step", async ({ p
   // put the scene mid-way, so the runtime has moved things
   await page.locator(".scene-step").nth(1).scrollIntoViewIfNeeded();
   await page.mouse.wheel(0, 400);
-  await page.waitForTimeout(600);
   await expect(page.locator(".scenes")).toHaveClass(/is-staged/);
+  await expect.poll(() => page.locator('.scene-svg [style*="transform"]').count()).toBeGreaterThan(0);
   await page.emulateMedia({ media: "print" });
   await expect(page.locator(".scenes")).not.toHaveClass(/is-staged/);
   const report = await page.evaluate(() => {
@@ -99,9 +100,8 @@ test.describe("reduced motion", () => {
       await page.keyboard.press(key);
     for (const key of ["ArrowLeft", "ArrowRight", "b", "a"]) await page.keyboard.press(key);
     const toast = page.locator(".toast");
-    await page.waitForTimeout(400);
     await expect(toast).toBeVisible();
-    expect(await toast.evaluate((el) => getComputedStyle(el).opacity)).toBe("1");
+    await expect.poll(() => toast.evaluate((el) => getComputedStyle(el).opacity)).toBe("1");
   });
 
   test("there is no view transition", async ({ page }) => {
@@ -134,7 +134,8 @@ test.describe("scrolling", () => {
   test("an in-page link click scrolls smoothly", async ({ page }) => {
     await page.goto("/");
     await page.getByRole("navigation", { name: "Main" }).getByRole("link", { name: "Contact" }).click();
-    await page.waitForTimeout(120);
+    // the first frames of the scroll: on its way, nowhere near the end yet
+    await expect.poll(() => page.evaluate(() => scrollY)).toBeGreaterThan(0);
     const mid = await page.evaluate(() => scrollY);
     const end = await page.evaluate(
       () => document.getElementById("contact")!.getBoundingClientRect().top + scrollY,
@@ -251,10 +252,21 @@ test("the hero prints never drop in again after they've settled", async ({ page 
   const print = page.locator(".print--portrait");
   await expect(print).toHaveClass(/is-settled/, { timeout: 4000 });
   await print.hover();
-  await page.waitForTimeout(300);
+  await settled(page);
   await page.mouse.move(5, 5);
-  for (let i = 0; i < 5; i++) {
-    expect(await print.evaluate((el) => getComputedStyle(el).opacity)).toBe("1");
-    await page.waitForTimeout(40);
-  }
+  // the lowest opacity it shows over the next twenty frames
+  const lowest = await print.evaluate(
+    (el) =>
+      new Promise<number>((done) => {
+        let min = 1,
+          frames = 0;
+        const look = (): void => {
+          min = Math.min(min, Number(getComputedStyle(el).opacity));
+          if (++frames < 20) requestAnimationFrame(look);
+          else done(min);
+        };
+        requestAnimationFrame(look);
+      }),
+  );
+  expect(lowest).toBe(1);
 });

@@ -11,14 +11,14 @@ for (const width of [390, 1440]) {
       test(`${path} has no axe violations`, async ({ page }) => {
         await page.goto(path);
         // reveal everything first, so axe sees the page as a reader does
-        await page.evaluate(async () => {
-          for (let y = 0; y < document.body.scrollHeight; y += 400) {
-            scrollTo(0, y);
-            await new Promise((r) => setTimeout(r, 30));
-          }
-          scrollTo(0, 0);
-        });
-        await page.waitForTimeout(900);
+        for (const el of await page.locator(".reveal").all()) {
+          await el.evaluate((node) => node.scrollIntoView({ block: "center", behavior: "instant" }));
+          await expect(el).toHaveClass(/\bis-in\b/);
+        }
+        await page.evaluate(() => scrollTo(0, 0));
+        await page.evaluate(() =>
+          Promise.all(document.getAnimations().map((a) => a.finished.catch(() => undefined))),
+        );
         const results = await new AxeBuilder({ page }).withTags(TAGS).analyze();
         expect(
           results.violations.map((v) => `${v.id}: ${v.nodes.length} × ${v.nodes[0]?.target.join(" ")}`),
