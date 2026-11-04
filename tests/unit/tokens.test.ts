@@ -60,7 +60,7 @@ describe("tokens", () => {
   });
 
   describe("the drawings and components follow the hue", () => {
-    it("have no colour with a hue of its own (every oklch() hue is an offset of --hue-navy)", async () => {
+    it("have no colour with a hue of its own (every oklch() hue is an offset of --hue-navy, and no hex, rgb() or hsl())", async () => {
       const files = ["src/styles/art.css"];
       for (const dir of ["src/components", "src/pages", "src/layouts"])
         for (const f of await readdir(dir, { recursive: true }))
@@ -73,6 +73,14 @@ describe("tokens", () => {
           if (/^oklch\(\S+ 0 /.test(colour) || colour.startsWith("oklch(from ")) continue;
           expect(colour, `${file}: ${colour}`).toContain("var(--hue-navy)");
         }
+        // nor a colour written some other way: hex, rgb() or hsl() can't follow the hue
+        const styles = file.endsWith(".css")
+          ? css
+          : [...css.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)].map((s) => s[1]).join("\n");
+        const other = styles.match(
+          /(?<![\w-])#(?:[0-9a-f]{3,4}|[0-9a-f]{6}|[0-9a-f]{8})\b|\b(?:rgba?|hsla?)\(/gi,
+        );
+        expect(other, `${file}: ${other?.join(", ")}`).toBeNull();
       }
     });
 

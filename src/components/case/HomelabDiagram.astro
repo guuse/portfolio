@@ -37,11 +37,11 @@ const { svg, kind } = Astro.props;
     }
 
     :global(.js-reveal) .diagram:global(.reveal) :global(.w2) {
-      transition-delay: 250ms;
+      transition-delay: calc(var(--duration-stagger) * 4);
     }
 
     :global(.js-reveal) .diagram:global(.reveal) :global(.w3) {
-      transition-delay: 500ms;
+      transition-delay: calc(var(--duration-stagger) * 8);
     }
 
     :global(.js-reveal) .diagram:global(.is-in) :global(:is(.tile, .way)) {

@@ -56,15 +56,15 @@ const { label, parts } = Astro.props;
     }
 
     :global(.js-reveal) .membar:global(.reveal) span:nth-child(2) {
-      transition-delay: 200ms;
+      transition-delay: calc(var(--duration-stagger) * 3);
     }
 
     :global(.js-reveal) .membar:global(.reveal) span:nth-child(3) {
-      transition-delay: 400ms;
+      transition-delay: calc(var(--duration-stagger) * 6);
     }
 
     :global(.js-reveal) .membar:global(.reveal) span:nth-child(4) {
-      transition-delay: 600ms;
+      transition-delay: calc(var(--duration-stagger) * 9);
     }
 
     :global(.js-reveal) .membar:global(.reveal.is-in) span {

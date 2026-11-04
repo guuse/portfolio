@@ -7,7 +7,7 @@
 const OKLCH = /^oklch\(([\d.]+)% ([\d.]+) ([\d.]+)\)$/;
 
 /** Linear sRGB (each channel clipped to 0..1), or null if `value` isn't an opaque oklch(). */
-export function oklchToLinearRgb(value) {
+function oklchToLinearRgb(value) {
   const m = OKLCH.exec(String(value).trim());
   if (!m) return null;
   const L = +m[1] / 100,

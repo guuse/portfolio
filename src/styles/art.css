@@ -155,7 +155,7 @@
 
   .scene-svg .k-led--warn {
     fill: var(--k-amber);
-    transition: fill 200ms;
+    transition: fill var(--duration-quick);
   }
 
   .scene-svg .k-slot {
