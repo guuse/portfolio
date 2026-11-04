@@ -1,8 +1,20 @@
 import { expect, test, type Page } from "@playwright/test";
 
-/** Waits until every running animation and transition on the page has finished. */
+/**
+ * Waits until every running animation and transition on the page has finished. One on an
+ * element the browser isn't rendering (content-visibility, off screen) doesn't advance until
+ * it is again, so that one is finished on the spot.
+ */
 const settled = (page: Page) =>
-  page.evaluate(() => Promise.all(document.getAnimations().map((a) => a.finished.catch(() => undefined))));
+  page.evaluate(() =>
+    Promise.all(
+      document.getAnimations().map((a) => {
+        const el = (a.effect as KeyframeEffect | null)?.target;
+        if (el && !el.checkVisibility({ contentVisibilityAuto: true })) a.finish();
+        return a.finished.catch(() => undefined);
+      }),
+    ),
+  );
 
 test.describe("reveals", () => {
   for (const path of ["/", "/projects/", "/projects/homelab/"]) {
@@ -367,9 +379,9 @@ test("view transitions are declared, and only the project a navigation is about 
   // copy, which arrives above the drawing; on the page being left (vt-out) the copy goes
   await page.goto("/projects/homelab/");
   expect(await names()).toEqual(["art-homelab", "case-copy"]);
-  expect(await page.locator(".ph-hero svg").evaluate((el) => getComputedStyle(el).viewTransitionName)).toBe(
-    "art-homelab",
-  );
+  expect(
+    await page.locator(".ph-hero__art svg").evaluate((el) => getComputedStyle(el).viewTransitionName),
+  ).toBe("art-homelab");
   await page.evaluate(() => document.documentElement.classList.add("vt-out"));
   expect(await names()).toEqual(["art-homelab"]);
 });

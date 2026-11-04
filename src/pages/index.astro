@@ -25,3 +25,86 @@ import Skills from "~/components/home/Skills.astro";
     <Contact />
   </div>
 </Base>
+
+<style>
+  @layer layout {
+    /*
+     * Everything after the hero renders only when it comes near the window, so the first
+     * style and layout pass (and the relayout when a web font swaps in) covers the first
+     * screen, not all eight screens of the page. Each section keeps a placeholder height
+     * close to its real one (its content box, measured at 412px and 1440px) until it has rendered once; after
+     * that `auto` remembers the real one. Anchors, the nav's scroll-spy and the reveals all
+     * read boxes, which these still have. The paint containment that comes with it would
+     * clip focus rings at a section's edge, hence the clip margin.
+     */
+    :global(:is(#about, #projects, #experience, #learned, #skills, #contact, .phase > ul)) {
+      content-visibility: auto;
+      overflow-clip-margin: 8px;
+    }
+
+    :global(#about) {
+      contain-intrinsic-block-size: auto 850px;
+    }
+
+    :global(#projects) {
+      contain-intrinsic-block-size: auto 1500px;
+    }
+
+    :global(#experience) {
+      contain-intrinsic-block-size: auto 2220px;
+    }
+
+    /*
+     * Inside Experience, each phase's list renders on its own too: the whole section at once
+     * was a long task mid-scroll. (Not the phases themselves: their dots sit outside them.)
+     */
+    :global(.phase > ul) {
+      contain-intrinsic-block-size: auto 300px;
+    }
+
+    :global(#learned) {
+      contain-intrinsic-block-size: auto 820px;
+    }
+
+    :global(#skills) {
+      contain-intrinsic-block-size: auto 910px;
+    }
+
+    :global(#contact) {
+      contain-intrinsic-block-size: auto 230px;
+    }
+
+    @media (--md) {
+      :global(#about) {
+        contain-intrinsic-block-size: auto 700px;
+      }
+
+      :global(#projects) {
+        contain-intrinsic-block-size: auto 540px;
+      }
+
+      :global(#experience) {
+        contain-intrinsic-block-size: auto 2000px;
+      }
+
+      :global(#learned) {
+        contain-intrinsic-block-size: auto 590px;
+      }
+
+      :global(#skills) {
+        contain-intrinsic-block-size: auto 530px;
+      }
+
+      :global(#contact) {
+        contain-intrinsic-block-size: auto 190px;
+      }
+    }
+
+    /* paper gets the whole page, every section laid out */
+    @media print {
+      :global(:is(#about, #projects, #experience, #learned, #skills, #contact, .phase > ul)) {
+        content-visibility: visible;
+      }
+    }
+  }
+</style>

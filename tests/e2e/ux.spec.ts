@@ -3,7 +3,16 @@ import { PAGES } from "../pages";
 
 /** Waits until every running animation and transition on the page has finished. */
 const settled = (page: Page) =>
-  page.evaluate(() => Promise.all(document.getAnimations().map((a) => a.finished.catch(() => undefined))));
+  page.evaluate(() =>
+    Promise.all(
+      document.getAnimations().map((a) => {
+        // one the browser isn't rendering (content-visibility, off screen) doesn't advance
+        const el = (a.effect as KeyframeEffect | null)?.target;
+        if (el && !el.checkVisibility({ contentVisibilityAuto: true })) a.finish();
+        return a.finished.catch(() => undefined);
+      }),
+    ),
+  );
 
 /* Phone and tablet profiles, minus the browser they'd pick: the suite runs in Chromium. */
 const device = (name: string) =>
