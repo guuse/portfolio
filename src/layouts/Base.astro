@@ -1,6 +1,7 @@
 ---
 import { Font } from "astro:assets";
 import "~/styles/global.css";
+import FontPreload from "~/components/layout/FontPreload.astro";
 import SkipLink from "~/components/layout/SkipLink.astro";
 import SiteHeader from "~/components/layout/SiteHeader.astro";
 import SiteFooter from "~/components/layout/SiteFooter.astro";
@@ -16,11 +17,13 @@ export interface Props {
   og?: string | undefined;
   /** Classes for <main> (case studies and the projects page wrap their content). */
   mainClass?: string | undefined;
-  /** Keep a page out of search results (the 404). */
+  /** Keep a page out of search results (the 404): no canonical URL either. */
   noindex?: boolean | undefined;
+  /** Open Graph type: case studies are articles. */
+  type?: "website" | "article" | undefined;
 }
 
-const { title, description, og = "home", mainClass, noindex } = Astro.props;
+const { title, description, og = "home", mainClass, noindex, type } = Astro.props;
 /* For people reading the source. Set as HTML so the comment survives minification. */
 const hello = `<!--
   Hi. View-source is a fine way to read a website; the repo is nicer:
@@ -38,15 +41,16 @@ const hello = `<!--
     <title>{title}</title>
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex" />}
-    <Seo title={title} description={description} og={og} />
+    <Seo title={title} description={description} og={og} type={type} canonical={!noindex} />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content={site.themeColor} />
     <meta name="color-scheme" content="dark" />
-    <Font cssVariable="--font-serif" preload={[{ subset: "latin" }]} />
-    <Font cssVariable="--font-sans" preload={[{ subset: "latin" }]} />
+    <FontPreload cssVariable="--font-serif" />
+    <Font cssVariable="--font-serif" />
+    <Font cssVariable="--font-sans" />
     <Font cssVariable="--font-mono" />
     <slot name="head" />
   </head>

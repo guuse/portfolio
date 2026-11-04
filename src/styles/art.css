@@ -960,3 +960,18 @@
     fill: var(--k-amber);
   }
 }
+
+/*
+ * Forced colours (Windows contrast themes): the drawings are self-contained pictures, drawn
+ * for their own dark backdrop. They keep their colours and bring that backdrop with them, so
+ * no part turns into system ink on a system canvas and the labels stay legible.
+ */
+@media (forced-colors: active) {
+  @layer components {
+    .scene-svg,
+    .story {
+      forced-color-adjust: none;
+      background: var(--surface);
+    }
+  }
+}

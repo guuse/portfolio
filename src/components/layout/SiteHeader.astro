@@ -24,7 +24,7 @@ const home = path === "/";
           </li>
         ))}
       </ul>
-      <!-- one underline that slides to the current entry (src/scripts/nav.ts) -->
+      {/* one underline that slides to the current entry (src/scripts/nav.ts) */}
       <span class="nav__mark" aria-hidden="true"></span>
     </nav>
   </div>
@@ -72,12 +72,20 @@ const home = path === "/";
       color: var(--ink-muted);
     }
 
-    .nav a:hover,
     .nav a[aria-current] {
       color: var(--ink);
       text-decoration: underline;
       text-decoration-color: var(--accent);
       text-underline-offset: 0.4em;
+    }
+
+    @media (hover: hover) {
+      .nav a:hover {
+        color: var(--ink);
+        text-decoration: underline;
+        text-decoration-color: var(--accent);
+        text-underline-offset: 0.4em;
+      }
     }
 
     /*
@@ -120,11 +128,31 @@ const home = path === "/";
       text-decoration: none;
     }
 
-    @media (width < 600px) {
+    /*
+     * Forced colours paint the sliding underline away (it is a background), so the current
+     * entries get a real text underline back.
+     */
+    @media (forced-colors: active) {
+      .nav__mark {
+        display: none;
+      }
+
+      .nav a[aria-current],
+      .nav:global(.has-mark) a:global(.is-marked),
+      .nav:global(.has-mark) a[aria-current]:not(:global(.is-marked), :hover) {
+        text-decoration: underline;
+        text-decoration-color: currentcolor;
+      }
+    }
+
+    /* on phones, and on phones held sideways, the header scrolls away with the page */
+    @media (width < 600px), (orientation: landscape) and (height <= 500px) {
       .site-header {
         position: relative;
       }
+    }
 
+    @media (width < 600px) {
       .nav ul {
         gap: 0 16px;
       }

@@ -21,7 +21,7 @@ const href = caseStudyHref(p.id);
 ---
 
 <article class="pcard" aria-labelledby={`pc-${p.id}`} data-card-host>
-  <!-- the cover repeats the title link, so it's hidden from assistive tech and the tab order -->
+  {/* the cover repeats the title link, so it's hidden from assistive tech and the tab order */}
   <a class={`pcard__media vt-art--${p.id}`} href={href} tabindex="-1" aria-hidden="true">
     {live ? (
       <span class="pcard__art" data-card={live.motion}>
@@ -40,7 +40,7 @@ const href = caseStudyHref(p.id);
   </a>
   <div class="pcard__body">
     <p class="pcard__meta">{p.meta}</p>
-    <h2 class={`pcard__title vt-title--${p.id}`} id={`pc-${p.id}`}>
+    <h2 class="pcard__title" id={`pc-${p.id}`}>
       <a href={href}>{p.title}</a>
     </h2>
     <p class="pcard__line">{p.line}</p>
@@ -66,9 +66,18 @@ const href = caseStudyHref(p.id);
       align-items: center;
     }
 
+    /* side by side from tablet width; there the cover lines up with the title, not the middle */
+    @media (width >= 760px) {
+      .pcard {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        align-items: start;
+      }
+    }
+
     @media (width >= 960px) {
       .pcard {
         grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+        align-items: center;
       }
     }
 
@@ -85,9 +94,20 @@ const href = caseStudyHref(p.id);
     }
 
     /* the cover lifts and takes the accent edge while its card is hovered or focused */
-    .pcard:is(:hover, :focus-within) .pcard__media {
+    .pcard:focus-within .pcard__media {
       transform: translate3d(0, -3px, 0);
       border-color: var(--accent);
+    }
+
+    @media (hover: hover) {
+      .pcard:hover .pcard__media {
+        transform: translate3d(0, -3px, 0);
+        border-color: var(--accent);
+      }
+
+      .pcard:hover .pcard__media :global(img) {
+        transform: scale(1.02);
+      }
     }
 
     .pcard__media:active {
@@ -102,7 +122,7 @@ const href = caseStudyHref(p.id);
       transition: transform var(--duration-slow) var(--ease-out);
     }
 
-    .pcard:is(:hover, :focus-within) .pcard__media :global(img) {
+    .pcard:focus-within .pcard__media :global(img) {
       transform: scale(1.02);
     }
 
@@ -135,7 +155,6 @@ const href = caseStudyHref(p.id);
     }
 
     .pcard__title {
-      /* hugs its text, so the view transition carries the words and not the empty line */
       width: fit-content;
       font-family: var(--font-heading);
       font-size: var(--text-h2);
@@ -152,6 +171,7 @@ const href = caseStudyHref(p.id);
     }
 
     .pcard__why {
+      max-width: var(--size-measure);
       color: var(--ink-muted);
     }
 
@@ -169,6 +189,10 @@ const href = caseStudyHref(p.id);
     @media (prefers-reduced-motion: reduce) {
       .pcard:is(:hover, :focus-within) .pcard__media,
       .pcard__media:active {
+        transform: none;
+      }
+
+      .pcard:is(:hover, :focus-within) .pcard__media :global(img) {
         transform: none;
       }
     }

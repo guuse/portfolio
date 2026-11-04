@@ -41,8 +41,9 @@ const projects = await list("projects");
               />
             )}
             <span class="cover__text">
+              {/* the title comes first in the link's name; the meta line still shows above it */}
+              <span class="cover__title">{data.title}</span>
               <span class="cover__meta">{data.meta}</span>
-              <span class={`cover__title vt-title--${data.id}`}>{data.title}</span>
               <span class="cover__line">{data.card}</span>
             </span>
           </a>
@@ -104,9 +105,22 @@ const projects = await list("projects");
     }
 
     /* a card lifts a little and takes the accent edge; pressing it (touch too) gives way */
-    .cover__link:is(:hover, :focus-visible) {
+    .cover__link:focus-visible {
       transform: translate3d(0, -3px, 0);
       border-color: var(--accent);
+      outline-offset: 4px;
+    }
+
+    @media (hover: hover) {
+      .cover__link:hover {
+        transform: translate3d(0, -3px, 0);
+        border-color: var(--accent);
+        color: var(--ink);
+      }
+
+      .cover__link--photo:hover :global(.cover__img) {
+        animation: shuffle 1.6s var(--ease-in-out) infinite;
+      }
     }
 
     .cover__link:active {
@@ -123,14 +137,6 @@ const projects = await list("projects");
         transparent 50%,
         color-mix(in oklch, var(--surface) 94%, transparent) 86%
       );
-    }
-
-    .cover__link:hover {
-      color: var(--ink);
-    }
-
-    .cover__link:focus-visible {
-      outline-offset: 4px;
     }
 
     .cover__art {
@@ -163,7 +169,7 @@ const projects = await list("projects");
      * `translate` property, which composites (object-position repainted every frame) and
      * composes with the parallax `transform` that scroll-effects.ts sets.
      */
-    .cover__link--photo:is(:hover, :focus-visible) :global(.cover__img) {
+    .cover__link--photo:focus-visible :global(.cover__img) {
       animation: shuffle 1.6s var(--ease-in-out) infinite;
     }
 
@@ -188,6 +194,7 @@ const projects = await list("projects");
     }
 
     .cover__meta {
+      order: -1;
       font-size: var(--text-small);
       color: var(--ink-subtle);
     }

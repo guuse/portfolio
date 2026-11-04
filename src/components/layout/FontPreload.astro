@@ -1,0 +1,26 @@
+---
+/*
+ * Preloads the basic-Latin file of one of Astro's font families, so the text it sets (the
+ * headings, in Instrument Serif) is laid out once, in its own face, instead of first in the
+ * fallback and again when the font lands.
+ *
+ * Astro's own `preload` filter can't pick a subset here: the npm provider doesn't record which
+ * subset a file is. The unicode-range in the @font-face it generates does, so this reads the
+ * same data <Font> renders (the internal module Font.astro imports) and fails the build if
+ * the Latin file can't be found, rather than shipping without a preload.
+ */
+import { componentDataByCssVariable } from "virtual:astro:assets/fonts/internal";
+
+interface Props {
+  cssVariable: string;
+}
+const { cssVariable } = Astro.props;
+const css = componentDataByCssVariable.get(cssVariable)?.css ?? "";
+const latin = css
+  .split("@font-face")
+  .find((face) => /unicode-range:\s*U\+0000-00FF/i.test(face))
+  ?.match(/url\("([^"]+\.woff2)"\)/)?.[1];
+if (!latin) throw new Error(`FontPreload: no basic-Latin woff2 for ${cssVariable}`);
+---
+
+<link rel="preload" href={latin} as="font" type="font/woff2" crossorigin />

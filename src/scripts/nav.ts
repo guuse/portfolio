@@ -1,7 +1,10 @@
 /**
  * The main nav's underline. It sits under the current page's entry and, on the homepage,
- * follows you: the entry for the section you're reading gets aria-current="location" and the
- * underline slides to it (transform only, so it never relays the page out).
+ * follows you: while you read a section that has an entry, the underline slides to it
+ * (transform only, so it never relays the page out); between those sections it goes back to
+ * the page's own entry. An entry that links to a section of this page (Experience, Contact)
+ * also gets aria-current="location"; one that links to another page (Projects) only moves
+ * the underline.
  */
 export function initNav(): void {
   const nav = document.querySelector<HTMLElement>("nav.nav");
@@ -11,7 +14,9 @@ export function initNav(): void {
   const page = links.find((a) => a.getAttribute("aria-current") === "page") ?? null;
   const spied = links.flatMap((a) => {
     const el = a.dataset["spy"] ? document.getElementById(a.dataset["spy"]) : null;
-    return el ? [{ a, el }] : [];
+    const url = new URL(a.href);
+    const inPage = !!url.hash && url.pathname === location.pathname;
+    return el ? [{ a, el, inPage }] : [];
   });
 
   let marked: HTMLAnchorElement | null = null;
@@ -36,21 +41,25 @@ export function initNav(): void {
     place();
   };
 
-  let active: HTMLAnchorElement | null = null;
+  let active: (typeof spied)[number] | null = null;
   const spy = (): void => {
-    // the last section whose top has passed 40% of the window is the one being read;
-    // at the very bottom, the last one (Contact is too short to ever reach that line)
+    // the section across 40% of the window is the one being read, if it has an entry; past
+    // its end (Learned, Skills) nothing is. At the very bottom it's the last one (Contact is
+    // too short to ever reach that line).
     const line = innerHeight * 0.4;
     const atEnd = scrollY + innerHeight >= document.documentElement.scrollHeight - 2;
-    let now: HTMLAnchorElement | null = null;
-    for (const s of spied) if (s.el.getBoundingClientRect().top <= line) now = s.a;
-    if (atEnd && spied.length) now = spied[spied.length - 1]!.a;
+    let now: (typeof spied)[number] | null = null;
+    for (const s of spied) {
+      const r = s.el.getBoundingClientRect();
+      if (r.top <= line && r.bottom > line) now = s;
+    }
+    if (atEnd && spied.length) now = spied[spied.length - 1]!;
     if (now !== active) {
-      active?.removeAttribute("aria-current");
-      now?.setAttribute("aria-current", "location");
+      if (active?.inPage) active.a.removeAttribute("aria-current");
+      if (now?.inPage) now.a.setAttribute("aria-current", "location");
       active = now;
     }
-    markLink(active ?? page);
+    markLink(active?.a ?? page);
   };
 
   markLink(page);

@@ -1,5 +1,9 @@
 ---
-/** The `?` sheet: keyboard shortcuts (src/scripts/eggs.ts). */
+/**
+ * The `?` sheet: keyboard shortcuts (src/scripts/eggs.ts). They are single character keys, so
+ * the sheet can turn them off (WCAG 2.1.4); then only Alt + ? opens it. The choice is kept in
+ * localStorage. The toast is here too: one live region, in the page from the start.
+ */
 const keys = [
   ["g h", "Home"],
   ["g p", "Projects"],
@@ -25,15 +29,34 @@ const keys = [
     ))}
   </dl>
   <p class="keys__more">There is one more, from 1986. It still works.</p>
-  <button type="button" class="keys__close" data-keys-close>
-    Close
-  </button>
+  <div class="keys__actions">
+    <button type="button" class="keys__toggle" data-keys-toggle aria-describedby="keys-state">
+      Turn shortcuts off
+    </button>
+    <button type="button" class="keys__close" data-keys-close>
+      Close
+    </button>
+  </div>
+  <p class="keys__state" id="keys-state" aria-live="polite">
+    <span data-keys-on>Shortcuts are on. With them off, only</span>
+    <span data-keys-off hidden>
+      Shortcuts are off. Only
+    </span>
+    <span class="keys__combo">
+      <kbd>Alt</kbd>+<kbd>?</kbd>
+    </span>{" "}
+    opens this sheet.
+  </p>
 </dialog>
+<p class="toast" role="status" data-toast></p>
 
 <style>
   @layer components {
     .keys {
+      /* the reset's margin: 0 would pin a modal dialog to the top left */
+      margin: auto;
       width: min(100% - 32px, 380px);
+      max-height: calc(100svh - 32px);
       padding: 1.5rem;
       border: 1px solid var(--line-strong);
       border-radius: var(--radius-m);
@@ -85,22 +108,51 @@ const keys = [
       font-size: var(--text-small);
     }
 
-    .keys__close {
+    .keys__actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
       margin-top: 1.25rem;
-      min-height: 40px;
+    }
+
+    .keys__close,
+    .keys__toggle {
+      min-height: 44px;
       padding: 0 1rem;
       border: 1px solid var(--line-strong);
       border-radius: var(--radius-pill);
+      background: transparent;
+      color: var(--ink);
+      cursor: pointer;
+    }
+
+    .keys__close {
       background: var(--ink);
       color: var(--surface);
-      cursor: pointer;
+    }
+
+    .keys__state {
+      margin-top: 0.75rem;
+      color: var(--ink-subtle);
+      font-size: var(--text-small);
+    }
+
+    .keys__combo {
+      white-space: nowrap;
+    }
+
+    .keys__state kbd {
+      font-size: 0.8em;
     }
   }
 </style>
 
 <style is:global>
   @layer components {
-    /* the Konami toast and the untap (src/scripts/eggs.ts) */
+    /*
+     * The Konami toast and the untap (src/scripts/eggs.ts). The toast is a live region that is
+     * always there, empty and invisible; eggs.ts writes the message into it and shows it.
+     */
     .toast {
       position: fixed;
       left: 50%;
@@ -113,13 +165,19 @@ const keys = [
       background: var(--surface-raised);
       color: var(--ink);
       font-size: var(--text-small);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .toast.is-shown {
       animation: toast 3.2s var(--ease-out) both;
     }
 
-    /* without motion it simply shows, for as long as it's there (eggs.ts removes it) */
+    /* without motion it simply shows, for as long as it has a message (eggs.ts clears it) */
     @media (prefers-reduced-motion: reduce) {
-      .toast {
+      .toast.is-shown {
         animation: none;
+        opacity: 1;
       }
     }
 

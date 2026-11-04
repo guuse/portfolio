@@ -18,6 +18,7 @@ const icons = ["si-argo", "si-tailscale", "si-cloudflare", "si-traefikproxy", "s
 ---
 
 <CaseStudy
+  type="article"
   title="Homelab · Guus Ekkelenkamp"
   og="homelab"
   description="Case study: a single-node k3s platform with Argo CD and Home Assistant, with no open ports."
@@ -42,7 +43,7 @@ const icons = ["si-argo", "si-tailscale", "si-cloudflare", "si-traefikproxy", "s
       unless I open it on purpose.
     </p>
   </CaseLead>
-  <Scenes id="deploy" title="From git push to running">
+  <Scenes id="deploy" title="How a change gets deployed">
     <SceneStep scene="loop" range={[0, 0.35]} caption="One change, from git push to a running pod.">
       <h3>From git push to running</h3>
       <p>GitHub Actions builds every commit into an image on GHCR, tagged with the commit SHA.</p>

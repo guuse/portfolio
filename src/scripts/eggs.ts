@@ -3,6 +3,8 @@
  *   - The console has a postcard for whoever opens devtools.
  *   - `?` opens a sheet of keyboard shortcuts; `g` then a letter jumps to a page.
  *   - The Konami code untaps everything: cards and prints turn sideways and back.
+ * The shortcuts are single character keys, so the sheet can turn them off (WCAG 2.1.4): then
+ * nothing listens to the keyboard but Alt + ?, which opens the sheet to turn them back on.
  */
 import { motionOk } from "./motion-ok";
 
@@ -35,25 +37,54 @@ const typing = (e: KeyboardEvent): boolean => {
   return !!t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName));
 };
 
+/* Whether the character-key shortcuts are on. Storage can be missing or blocked: then on. */
+const STORE = "shortcuts";
+function readEnabled(): boolean {
+  try {
+    return localStorage.getItem(STORE) !== "off";
+  } catch {
+    return true;
+  }
+}
+function saveEnabled(on: boolean): void {
+  try {
+    if (on) localStorage.removeItem(STORE);
+    else localStorage.setItem(STORE, "off");
+  } catch {
+    /* not remembered, but it still applies to this page */
+  }
+}
+let enabled = readEnabled();
+
+/** Alt + ? (Option + ? on a Mac, where the key reads "¿"), the one combo that always works. */
+const altQuestion = (e: KeyboardEvent): boolean =>
+  e.altKey && !e.ctrlKey && !e.metaKey && (e.key === "?" || (e.code === "Slash" && e.shiftKey));
+
 function shortcuts(): void {
   const sheet = document.querySelector<HTMLDialogElement>("dialog.keys");
+  const toggle = sheet?.querySelector<HTMLButtonElement>("[data-keys-toggle]");
+  const show = (): void => {
+    if (!toggle || !sheet) return;
+    toggle.textContent = enabled ? "Turn shortcuts off" : "Turn shortcuts on";
+    sheet.querySelector<HTMLElement>("[data-keys-on]")!.hidden = !enabled;
+    sheet.querySelector<HTMLElement>("[data-keys-off]")!.hidden = enabled;
+  };
+  show();
+  toggle?.addEventListener("click", () => {
+    enabled = !enabled;
+    saveEnabled(enabled);
+    show();
+  });
   let pendingGo = 0;
   document.addEventListener("keydown", (e) => {
-    if (
-      e.defaultPrevented ||
-      e.metaKey ||
-      e.ctrlKey ||
-      e.altKey ||
-      typing(e) ||
-      document.querySelector("dialog[open]:not(.keys)")
-    )
-      return;
-    if (e.key === "?" && sheet) {
+    if (e.defaultPrevented || typing(e) || document.querySelector("dialog[open]:not(.keys)")) return;
+    if (sheet && (altQuestion(e) || (enabled && e.key === "?" && !e.altKey && !e.ctrlKey && !e.metaKey))) {
       e.preventDefault();
       if (sheet.open) sheet.close();
       else sheet.showModal();
       return;
     }
+    if (!enabled || e.metaKey || e.ctrlKey || e.altKey) return;
     if (e.key === "g") {
       pendingGo = Date.now();
       return;
@@ -83,19 +114,29 @@ const KONAMI = [
   "a",
 ];
 
+/**
+ * Shows a message in the page's toast: a role="status" node that is in the page from the
+ * start, so screen readers announce what is written into it.
+ */
+let toastTimer = 0;
 function toast(message: string): void {
-  const el = document.createElement("p");
-  el.className = "toast";
-  el.setAttribute("role", "status");
+  const el = document.querySelector<HTMLElement>("[data-toast]");
+  if (!el) return;
+  clearTimeout(toastTimer);
+  el.classList.remove("is-shown");
   el.textContent = message;
-  document.body.appendChild(el);
-  setTimeout(() => el.remove(), 3200);
+  void el.offsetWidth; // restart the animation if it is still running
+  el.classList.add("is-shown");
+  toastTimer = window.setTimeout(() => {
+    el.classList.remove("is-shown");
+    el.textContent = "";
+  }, 3200);
 }
 
 function konami(): void {
   let at = 0;
   document.addEventListener("keydown", (e) => {
-    if (typing(e)) return;
+    if (!enabled || typing(e)) return;
     at = e.key.toLowerCase() === KONAMI[at]!.toLowerCase() ? at + 1 : e.key === KONAMI[0] ? 1 : 0;
     if (at < KONAMI.length) return;
     at = 0;

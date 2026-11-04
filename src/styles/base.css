@@ -8,6 +8,17 @@
   html {
     background: var(--surface);
     color: var(--ink);
+    scroll-padding-top: 16px;
+  }
+
+  /*
+   * Wherever the header is sticky, anything scrolled into view (a focused link, a #target)
+   * stops clear of it (WCAG 2.4.11). The header's own media queries say where that is.
+   */
+  @media (width >= 600px) and (height > 500px) {
+    html {
+      scroll-padding-top: calc(var(--space-header) + 16px);
+    }
   }
 
   body {
@@ -47,9 +58,11 @@
       text-decoration-color var(--duration-quick);
   }
 
-  a:hover {
-    color: var(--accent);
-    text-decoration-color: currentcolor;
+  @media (hover: hover) {
+    a:hover {
+      color: var(--accent);
+      text-decoration-color: currentcolor;
+    }
   }
 
   :focus-visible {
@@ -69,9 +82,9 @@
     font-variant-ligatures: none;
   }
 
-  /* anything a link can point at stops clear of the sticky header */
+  /* a #target gets a little more room above it than a focused element */
   [id] {
-    scroll-margin-top: calc(var(--space-header) + 24px);
+    scroll-margin-top: 8px;
   }
 
   @media (prefers-reduced-motion: reduce) {
