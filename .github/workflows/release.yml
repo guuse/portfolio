@@ -21,6 +21,8 @@ on:
       - "!infrastructure/README.md"
       - "!design/**"
       - "!**/*.md"
+      # ...except Markdown under src/, which is content that ends up in the pages.
+      - "src/**/*.md"
   workflow_dispatch:
 
 permissions: {}
