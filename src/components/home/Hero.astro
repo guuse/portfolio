@@ -116,7 +116,7 @@ const stats = [
               "Bouldering" is hovered (by then the backdrop has scrolled away). Only the pinned
               stage shows it, so elsewhere this lazy image is never fetched.
             */}
-            <figure class="print print--b" data-print="bouldering">
+            <figure class="print print--b" data-print="bouldering" aria-hidden="true">
               <Picture
                 src={bouldering}
                 alt=""
@@ -270,7 +270,7 @@ const stats = [
      * share one outline; the profiles are quiet links.
      */
     .actions {
-      --action-h: 44px;
+      --action-h: var(--size-touch);
 
       display: flex;
       flex-wrap: wrap;
@@ -288,7 +288,7 @@ const stats = [
 
     .actions :global(.actions__go) {
       height: var(--action-h);
-      padding: 0 0.875rem 0 var(--space-l);
+      padding: 0 var(--space-m) 0 var(--space-l);
       gap: var(--space-s);
       border: 0;
       background: var(--ink);
@@ -304,19 +304,27 @@ const stats = [
       }
     }
 
+    /*
+     * The outline is an inset outline, not a border, so the address and the copy button
+     * inside it are the full 44px tall. On a very narrow window (400% zoom) the address
+     * wraps at the @ and the button keeps its square.
+     */
     .mailbox {
       display: inline-flex;
       align-items: stretch;
-      height: var(--action-h);
-      border: 1px solid var(--line-strong);
+      min-height: var(--action-h);
+      outline: 1px solid var(--line-strong);
+      outline-offset: -1px;
       border-radius: var(--radius-s);
     }
 
     .email {
       display: inline-flex;
       align-items: center;
+      min-width: 0;
+      min-height: var(--action-h);
       padding: 0 var(--space-m);
-      white-space: nowrap;
+      overflow-wrap: anywhere;
       border-radius: var(--radius-s) 0 0 var(--radius-s);
       user-select: all;
       font-weight: 500;
@@ -337,9 +345,10 @@ const stats = [
      */
     .mailbox :global(.copy) {
       position: relative;
+      flex: none;
       justify-content: center;
       width: var(--action-h);
-      min-height: 0;
+      min-height: var(--action-h);
       padding: 0;
       border: 0;
       border-inline-start: 1px solid var(--line-strong);
@@ -348,18 +357,21 @@ const stats = [
     }
 
     .mailbox :global(.copy__icon) {
-      width: 16px;
-      height: 16px;
+      width: var(--space-l);
+      height: var(--space-l);
     }
 
     .mailbox :global(.copy[data-state="done"]) {
       border-inline-start-color: var(--accent);
     }
 
+    /* below the button, not above it, where the sticky header could cover it */
     .mailbox :global(.copy__labels) {
       position: absolute;
-      bottom: calc(100% + var(--space-xs));
+      top: calc(100% + var(--space-xs));
       left: 50%;
+      z-index: 1;
+      justify-items: center;
       padding: var(--space-3xs) var(--space-s);
       border: 1px solid var(--line-strong);
       border-radius: var(--radius-xs);
@@ -415,7 +427,7 @@ const stats = [
 
       position: absolute;
       margin: 0;
-      padding: clamp(5px, 0.7vw, 9px);
+      padding: clamp(var(--space-xs), 0.7vw, var(--space-s));
       background: var(--paper);
       cursor: grab;
       user-select: none;
@@ -499,7 +511,8 @@ const stats = [
     /* lifted under a mouse or pen only: on touch a tap would leave it stuck in the air */
     @media (hover: hover) {
       .print:hover {
-        transform: translate(var(--dx, 0), var(--dy, 0)) rotate(0deg) translateY(-8px) scale(1.04);
+        transform: translate(var(--dx, 0), var(--dy, 0)) rotate(0deg) translateY(calc(-1 * var(--space-s)))
+          scale(1.04);
         z-index: 5;
         box-shadow: 0 18px 44px var(--shadow-print-lifted);
       }
@@ -507,7 +520,8 @@ const stats = [
 
     /* lifted by its interest in About (src/scripts/prints.ts) */
     .print:global(.is-lifted) {
-      transform: translate(var(--dx, 0), var(--dy, 0)) rotate(0deg) translateY(-8px) scale(1.04);
+      transform: translate(var(--dx, 0), var(--dy, 0)) rotate(0deg) translateY(calc(-1 * var(--space-s)))
+        scale(1.04);
       z-index: 5;
       box-shadow:
         0 18px 44px var(--shadow-print-lifted),
@@ -561,21 +575,21 @@ const stats = [
     @keyframes rise {
       from {
         opacity: 0;
-        transform: translate3d(0, 12px, 0);
+        transform: translate3d(0, var(--space-m), 0);
       }
     }
 
     @keyframes rise-soft {
       from {
         opacity: 0.4;
-        transform: translate3d(0, 8px, 0);
+        transform: translate3d(0, var(--space-s), 0);
       }
     }
 
     @keyframes settle {
       from {
         opacity: 0;
-        transform: translate3d(0, -18px, 0) rotate(calc(var(--tilt) + 5deg)) scale(1.04);
+        transform: translate3d(0, calc(-1 * var(--space-l)), 0) rotate(calc(var(--tilt) + 5deg)) scale(1.04);
       }
 
       to {
@@ -677,9 +691,10 @@ const stats = [
 
     /*
      * A phone held sideways: text on the left, the prints beside it at about 40%, so the name
-     * and the headline are on the first screen instead of under the photos.
+     * and the headline are on the first screen instead of under the photos. Not under 480px
+     * (a desktop window at 400% zoom), where two columns leave the text too little room.
      */
-    @media (--landscape-short) and (--below-lg) {
+    @media (--landscape-short) and (--below-lg) and (--xs) {
       .stage__inner {
         grid-template-columns: minmax(0, 6fr) minmax(0, 4fr);
         align-items: start;
@@ -688,7 +703,7 @@ const stats = [
 
       .stage__prints {
         order: 0;
-        width: min(100%, calc(100svh - 96px));
+        width: min(100%, calc(100svh - var(--space-header) - var(--space-2xl)));
         justify-self: center;
       }
 

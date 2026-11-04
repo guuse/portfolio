@@ -21,5 +21,14 @@
     .skip-link:focus {
       top: 16px;
     }
+
+    /* a standalone link: a full touch target on a touch screen */
+    @media (pointer: coarse) {
+      .skip-link {
+        display: inline-flex;
+        align-items: center;
+        min-height: var(--size-touch);
+      }
+    }
   }
 </style>

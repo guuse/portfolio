@@ -165,6 +165,13 @@ const art = liveArt[project];
       }
     }
 
+    /* a standalone link: a full touch target on a touch screen */
+    @media (pointer: coarse) {
+      .back {
+        min-height: var(--size-touch);
+      }
+    }
+
     .ph-meta {
       color: var(--ink-subtle);
       font-size: var(--text-small);

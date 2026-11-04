@@ -112,6 +112,10 @@
       "$value": "1180px",
       "$description": "Max content width"
     },
+    "touch": {
+      "$value": "44px",
+      "$description": "The smallest touch target (WCAG 2.5.5): buttons everywhere, standalone links on coarse pointers"
+    },
     "measure": {
       "$value": "45ch",
       "$description": "Comfortable line length: about 65 characters of body text (a ch is the width of a 0, wider than the average letter), in the font of the element it sits on"

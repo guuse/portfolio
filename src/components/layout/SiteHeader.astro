@@ -59,6 +59,15 @@ const home = path === "/";
       text-decoration: none;
     }
 
+    /* a standalone link: a full touch target on a touch screen */
+    @media (pointer: coarse) {
+      .site-header__name {
+        display: inline-flex;
+        align-items: center;
+        min-height: var(--size-touch);
+      }
+    }
+
     .nav ul {
       display: flex;
       flex-wrap: wrap;

@@ -4,8 +4,8 @@ import ExternalLink from "./ExternalLink.astro";
 
 /**
  * The two quiet link styles. `outline` is a 1px bordered button ("See projects");
- * `underline` is a plain underlined link with room for a 40px target (LinkedIn, GitHub,
- * "Read the case study").
+ * `underline` is a plain underlined link with room for a 40px target, 44px on a touch screen
+ * (LinkedIn, GitHub, "Read the case study").
  */
 type Props = HTMLAttributes<"a"> & { variant: "outline" | "underline"; external?: boolean };
 const { variant, external, class: cls, href = "", ...rest } = Astro.props;
@@ -40,7 +40,7 @@ const classes = ["tlink", `tlink--${variant}`, cls];
     }
 
     .tlink--outline {
-      min-height: 44px;
+      min-height: var(--size-touch);
       padding: 0 1rem;
       border: 1px solid var(--line-strong);
       border-radius: var(--radius-s);
@@ -59,6 +59,13 @@ const classes = ["tlink", `tlink--${variant}`, cls];
       min-height: 40px;
       text-decoration-color: var(--line-strong);
       text-underline-offset: 0.22em;
+    }
+
+    /* a standalone link: a full touch target on a touch screen */
+    @media (pointer: coarse) {
+      .tlink--underline {
+        min-height: var(--size-touch);
+      }
     }
 
     @media (hover: hover) {

@@ -53,7 +53,7 @@ const { scene, range, continues, caption } = Astro.props;
       .scene-step {
         content-visibility: auto;
         contain-intrinsic-block-size: auto 600px;
-        overflow-clip-margin: 8px;
+        overflow-clip-margin: var(--space-s);
       }
     }
 
@@ -69,7 +69,7 @@ const { scene, range, continues, caption } = Astro.props;
      */
     .scene-step > .scene {
       width: 100%;
-      max-width: calc((100svh - 120px) * 600 / 440);
+      max-width: calc((100svh - var(--space-header) - var(--space-3xl) - var(--space-s)) * 600 / 440);
       margin-inline: auto;
     }
 
@@ -105,7 +105,7 @@ const { scene, range, continues, caption } = Astro.props;
 
     .scene-step__text :global(code) {
       font-size: 0.88em;
-      padding: 1px 5px;
+      padding: 0 var(--space-xs);
       border-radius: var(--radius-xs);
       background: var(--surface-sunken);
       color: var(--ink);

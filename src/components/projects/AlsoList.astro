@@ -57,6 +57,15 @@ const { items } = Astro.props;
       font-size: var(--text-small);
     }
 
+    /* a standalone link: a full touch target on a touch screen */
+    @media (pointer: coarse) {
+      .also :global(.also__link) {
+        display: inline-flex;
+        align-items: center;
+        min-height: var(--size-touch);
+      }
+    }
+
     .also__private {
       color: var(--ink-subtle);
       font-size: var(--text-small);

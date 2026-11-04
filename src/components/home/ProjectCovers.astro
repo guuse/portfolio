@@ -78,6 +78,16 @@ const projects = await list("projects");
       font-weight: 500;
     }
 
+    /* a standalone link: a full touch target on a touch screen */
+    @media (pointer: coarse) {
+      .strip__all {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4em;
+        min-height: var(--size-touch);
+      }
+    }
+
     .covers {
       display: grid;
       gap: var(--space-gutter);
