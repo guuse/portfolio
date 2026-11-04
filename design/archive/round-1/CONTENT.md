@@ -87,7 +87,7 @@ solutions", no "guardian of the cloud". State the responsibility, give one concr
 - Writes the decision down (ADRs), including the options we didn't pick and why
 - Keeps it boring where it can be, so the budget goes to the part that's actually hard
 
-Clients (public Harborn cases): a client, a client, a client.
+Clients: Dutch and international, on AWS and Azure.
 `[CONFIRM: OK to name? Otherwise "industrial manufacturers, a bike brand, a logistics company"]`
 
 ### 3.2 The bridge to the homelab (one line, use it as a transition)
