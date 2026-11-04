@@ -42,6 +42,21 @@ const { scene, range, continues, caption } = Astro.props;
       border-top: 1px solid var(--line);
     }
 
+    /*
+     * Wide screens: a step far from the window isn't rendered until it comes near. Every
+     * frame the page paints walks what is rendered, so the steps off screen made each frame
+     * of a scene dearer. There a step is text (its figure is in the stage) and has its own
+     * min-height (below). Not on narrow screens, where each step holds its drawing and
+     * rendering one as it arrives was a long task, and not on paper.
+     */
+    @media screen and (--stage) {
+      .scene-step {
+        content-visibility: auto;
+        contain-intrinsic-block-size: auto 600px;
+        overflow-clip-margin: 8px;
+      }
+    }
+
     .scene {
       margin: 0;
       min-width: 0;

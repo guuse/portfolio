@@ -120,4 +120,39 @@ describe("scheduler", () => {
     expect(s.running).toBe(false);
     spy.mockRestore();
   });
+
+  it("runs every task's read before any task's write", () => {
+    const e = env();
+    const s = createScheduler(e);
+    const order: string[] = [];
+    s.add(
+      () => (order.push("write a"), false),
+      () => order.push("read a"),
+    );
+    s.add(
+      () => (order.push("write b"), false),
+      () => order.push("read b"),
+    );
+    e.frame(16);
+    expect(order).toEqual(["read a", "read b", "write a", "write b"]);
+  });
+
+  it("drops a task whose read throws, and keeps the others", () => {
+    const e = env();
+    const errors: unknown[] = [];
+    const s = createScheduler({ ...e, report: (x) => errors.push(x) });
+    let writes = 0;
+    s.add(
+      () => true,
+      () => {
+        throw new Error("bad read");
+      },
+    );
+    s.add(() => (writes++, writes < 2));
+    e.frame(16);
+    e.frame(16);
+    expect(errors).toHaveLength(1);
+    expect(writes).toBe(2);
+    expect(s.running).toBe(false);
+  });
 });

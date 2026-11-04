@@ -79,7 +79,8 @@ export function itch(): string {
 /* ------------------------------------------------------------ 2. a table in the browser */
 export function table(): string {
   let b = browser(16, 26, 444, 400) + tableTop(40, 62, 392, 352);
-  b += text(236, 300, "the stack", "lb lb--s m-stacklabel", "middle", { "data-k": "stacklbl" });
+  // the runtime fades the group, never the text itself (an opacity change on a <text> lays it out again)
+  b += g({ "data-k": "stacklbl" }, text(236, 300, "the stack", "lb lb--s m-stacklabel", "middle"));
   // hands: yours face up at the bottom, the others' backs
   b += g({ "data-k": "hand" }, fan(236, 352, 26, 5, 30, { keys: "handcard", hide: (i) => i === 2 }));
   b += g({ transform: "rotate(90 118 236)" }, fan(118, 252, 22, 4, 34, { back: true }));

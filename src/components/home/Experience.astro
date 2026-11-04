@@ -10,24 +10,27 @@ const phases = await list("experience");
     <h3 class="org__name">Harborn</h3>
     <p class="org__where">Digital agency, Rotterdam and Amsterdam</p>
   </div>
-  {/* the timeline line draws itself as you read and fills each dot it reaches: --p and
-       .is-reached are set by src/scripts/scroll-effects.ts */}
-  <ol class="phases" role="list">
-    {phases.map((data) => (
-      <li class="phase">
-        <h4 class="phase__title">
-          {data.title} <span class="phase__years">{data.years}</span>
-        </h4>
-        <p class="phase__intro">{data.intro}</p>
-        <ul>
-          {data.bullets.map((b) => (
-            <li set:html={b} />
-          ))}
-        </ul>
-        <p class="phase__learned">{data.learned}</p>
-      </li>
-    ))}
-  </ol>
+  {/* the timeline line draws itself as you read and fills each dot it reaches: the line's
+       transform and .is-reached are set by src/scripts/scroll-effects.ts */}
+  <div class="timeline">
+    <span class="timeline__line" aria-hidden="true"></span>
+    <ol class="phases" role="list">
+      {phases.map((data) => (
+        <li class="phase">
+          <h4 class="phase__title">
+            {data.title} <span class="phase__years">{data.years}</span>
+          </h4>
+          <p class="phase__intro">{data.intro}</p>
+          <ul>
+            {data.bullets.map((b) => (
+              <li set:html={b} />
+            ))}
+          </ul>
+          <p class="phase__learned">{data.learned}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
 </Section>
 
 <style>
@@ -51,6 +54,10 @@ const phases = await list("experience");
       color: var(--ink-muted);
     }
 
+    .timeline {
+      position: relative;
+    }
+
     .phases {
       position: relative;
       display: grid;
@@ -58,7 +65,7 @@ const phases = await list("experience");
     }
 
     .phases::before,
-    .phases::after {
+    .timeline__line {
       content: "";
       position: absolute;
       left: 4px;
@@ -68,10 +75,22 @@ const phases = await list("experience");
       background: var(--line);
     }
 
-    .phases::after {
+    /*
+     * The accent over the grey track: an element of its own, so the script scales it directly
+     * (transform only) without restyling the list. Without JavaScript it is drawn in full.
+     */
+    .timeline__line {
+      z-index: 1;
       background: var(--accent);
       transform-origin: center top;
-      transform: scaleY(var(--p, 1));
+      pointer-events: none;
+    }
+
+    /* on paper the line is drawn in full, wherever the scroll left it */
+    @media print {
+      .timeline__line {
+        transform: none !important;
+      }
     }
 
     .phase {
@@ -87,7 +106,13 @@ const phases = await list("experience");
       padding-top: 0.5rem;
     }
 
-    .phase::before {
+    /*
+     * Each phase's dot: a ring (::before), and the accent fill over it (::after) that fades and
+     * grows in once the line has reached it (.is-reached, src/scripts/scroll-effects.ts).
+     * Only opacity and transform change, so the browser animates them off the main thread.
+     */
+    .phase::before,
+    .phase::after {
       content: "";
       position: absolute;
       left: -26px;
@@ -97,21 +122,30 @@ const phases = await list("experience");
       border-radius: 50%;
       background: var(--surface);
       border: 1.5px solid var(--line-strong);
+      transition: transform var(--duration-slow) var(--ease-spring);
+    }
+
+    .phase::after {
+      background: var(--accent);
+      border-color: var(--accent);
+      opacity: 0;
       transition:
-        background-color var(--duration-base) var(--ease-out),
-        border-color var(--duration-base) var(--ease-out),
+        opacity var(--duration-base) var(--ease-out),
         transform var(--duration-slow) var(--ease-spring);
     }
 
-    .phase:first-child::before {
+    .phase:first-child::before,
+    .phase:first-child::after {
       top: 0.95rem;
       border-color: var(--accent);
     }
 
-    /* the dot fills once the line has reached it (src/scripts/scroll-effects.ts) */
     .phase:global(.is-reached)::before {
-      background: var(--accent);
-      border-color: var(--accent);
+      transform: scale(1.15);
+    }
+
+    .phase:global(.is-reached)::after {
+      opacity: 1;
       transform: scale(1.15);
     }
 

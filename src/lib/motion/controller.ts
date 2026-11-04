@@ -253,8 +253,14 @@ function watch(el: Element, margin: string, onChange: (visible: boolean) => void
   }).observe(el);
 }
 
-/** Calls `near` once, when the element first comes within a screen height of the viewport. */
-function approaching(el: Element, near: () => void): void {
+/**
+ * Calls `near` once, when the element first comes within a screen height of the viewport.
+ * It watches the element's top-level block of the page: inside a block that isn't rendered
+ * yet (content-visibility on the homepage) the element itself has no box to intersect until
+ * it is nearly on screen, which would leave no time to build its animator ahead.
+ */
+function approaching(target: Element, near: () => void): void {
+  const el = target.closest("main > :not(div.wrap), main > div.wrap > *") ?? target;
   const io = new IntersectionObserver(
     (entries) => {
       if (!entries.some((e) => e.isIntersecting)) return;
@@ -466,6 +472,8 @@ export function startMotion(scheduler: Scheduler, pageAnimators: Record<string, 
     .map((el) => setupSection(el, wake))
     .filter((s): s is Section => !!s);
 
+  let noteDue = false,
+    noteReading: (() => void) | null = null;
   const wide = matchMedia(media.stage);
   const relayout = (): void => {
     sections.forEach((section) => layout(section, wide.matches));
@@ -502,8 +510,11 @@ export function startMotion(scheduler: Scheduler, pageAnimators: Record<string, 
       clearTimeout(resizing);
       resizing = window.setTimeout(anchor, RESIZE_IDLE);
     };
-    addEventListener("scroll", note, { passive: true });
+    // noted in the frame's read phase, not in the scroll event: reading the steps there would
+    // bring the style up to date once more per frame
+    addEventListener("scroll", () => void (noteDue = true), { passive: true });
     addEventListener("resize", resized, { passive: true });
+    noteReading = note;
     note();
     wide.addEventListener("change", () => {
       relayout();
@@ -552,16 +563,28 @@ export function startMotion(scheduler: Scheduler, pageAnimators: Record<string, 
     addEventListener("resize", onScroll, { passive: true });
   }
 
-  scheduler.add((dt) => {
-    if (isPrinting()) return false;
-    const vh = window.innerHeight,
-      now = performance.now();
-    let busy = false;
-    // every read first...
-    for (const section of sections) readSection(section, vh);
-    // ...then every write
-    for (const section of sections) if (writeSection(section, dt, now)) busy = true;
-    for (const c of cards) if (c.seen && c.at < PASS + SETTLE && tickCard(c, dt, now)) busy = true;
-    return busy;
+  // the reads run in the scheduler's read phase, before any task of the frame writes. The
+  // window's height is taken on resize: read in a frame, it would bring the style up to date
+  let vh = innerHeight;
+  addEventListener("resize", () => {
+    vh = innerHeight;
   });
+  scheduler.add(
+    (dt) => {
+      if (isPrinting()) return false;
+      const now = performance.now();
+      let busy = false;
+      for (const section of sections) if (writeSection(section, dt, now)) busy = true;
+      for (const c of cards) if (c.seen && c.at < PASS + SETTLE && tickCard(c, dt, now)) busy = true;
+      return busy;
+    },
+    () => {
+      if (isPrinting() || !sections.length) return;
+      for (const section of sections) readSection(section, vh);
+      if (noteDue) {
+        noteDue = false;
+        noteReading?.();
+      }
+    },
+  );
 }

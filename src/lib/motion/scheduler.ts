@@ -4,10 +4,15 @@
  * (typically an IntersectionObserver noticing a scene on screen). It also sleeps while the
  * tab is hidden, and the first frame after waking never sees a huge time step. A task that
  * throws is logged and dropped; the loop and every other task keep going.
+ *
+ * A task can come with a `read`: every task's read runs first in a frame, then every task.
+ * So one task's writes never land between another's reads (each would force a style pass).
  */
 
 /** A frame task. Gets seconds since the last frame; returns true while it wants more frames. */
 export type Task = (dt: number) => boolean;
+/** A frame task's read phase: measures the page, writes nothing. */
+export type Read = () => void;
 
 export interface SchedulerEnv {
   raf: (cb: (now: number) => void) => number;
@@ -22,7 +27,7 @@ export interface SchedulerEnv {
 export const MAX_DT = 0.05;
 
 export function createScheduler(env: SchedulerEnv) {
-  const tasks = new Set<Task>();
+  const tasks = new Map<Task, Read | undefined>();
   let running = false;
   let last = 0;
   const report =
@@ -36,7 +41,18 @@ export function createScheduler(env: SchedulerEnv) {
       return;
     }
     let busy = false;
-    for (const task of tasks) {
+    // every read first...
+    for (const [task, read] of tasks) {
+      if (!read) continue;
+      try {
+        read();
+      } catch (error) {
+        tasks.delete(task);
+        report(error);
+      }
+    }
+    // ...then every write
+    for (const task of tasks.keys()) {
       // one broken animation must not stop the others: drop it, say so, carry on
       try {
         if (task(dt)) busy = true;
@@ -50,9 +66,9 @@ export function createScheduler(env: SchedulerEnv) {
   }
 
   return {
-    /** Adds a task and wakes the loop. Returns a function that removes it. */
-    add(task: Task): () => void {
-      tasks.add(task);
+    /** Adds a task (and its read phase) and wakes the loop. Returns a function that removes it. */
+    add(task: Task, read?: Read): () => void {
+      tasks.set(task, read);
       this.wake();
       return () => tasks.delete(task);
     },
