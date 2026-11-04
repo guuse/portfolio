@@ -70,7 +70,7 @@ const { scene, range, continues, caption } = Astro.props;
 
     .scene-step__text {
       min-width: 0;
-      max-width: 34em;
+      max-width: var(--size-measure);
     }
 
     .scene-step__text :global(h3) {
@@ -156,7 +156,7 @@ const { scene, range, continues, caption } = Astro.props;
       /* Steps that aren't playing step back. The mock faded them to 40% opacity, which took
          the text below 4.5:1; quieter colours keep it readable. */
       :global(.is-staged) .scene-step__text :global(:is(h3, p)) {
-        transition: color 400ms var(--ease-out);
+        transition: color var(--duration-page) var(--ease-out);
       }
 
       :global(.is-staged) .scene-step:not(:global(.is-active)) .scene-step__text :global(h3) {
@@ -169,7 +169,7 @@ const { scene, range, continues, caption } = Astro.props;
 
       :global(.is-staged) .scene-step:not(:global(.is-active)) .scene-step__text :global(.step-shot__open) {
         opacity: 0.4;
-        transition: opacity 400ms var(--ease-out);
+        transition: opacity var(--duration-page) var(--ease-out);
       }
     }
   }
