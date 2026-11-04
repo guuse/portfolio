@@ -1,7 +1,7 @@
 /** Motion for the six MTG suite scenes. */
 import { M1, M2, M3, M4, M5 } from "~/lib/art/scenes/mtg.layout";
 import { centre, fade, fadeTowards, hideStill, move, parts } from "../dom";
-import { blinker } from "../leds";
+import { blinker, restLeds } from "../leds";
 import { clamp, ease as E, lerp, seg } from "../math";
 import { courier, emitter, packets, prime } from "../packets";
 import type { SceneFactory } from "../types";
@@ -10,7 +10,7 @@ type Path = SVGPathElement;
 const range = (n: number): number[] => Array.from({ length: n }, (_, i) => i);
 
 /* The itch: friends sit down, cards are dealt, the rules pile up. */
-export const itch: SceneFactory = (svg) => {
+const itch: SceneFactory = (svg) => {
   const K = parts(svg);
   const deal = range(7).map((i) => {
     const c = centre(K[`t${i}`]!);
@@ -60,7 +60,7 @@ export const itch: SceneFactory = (svg) => {
 };
 
 /* A table in the browser: cards go on the stack, priority goes round, the stack resolves. */
-export const table: SceneFactory = (svg) => {
+const table: SceneFactory = (svg) => {
   const K = parts(svg);
   hideStill(svg);
   const P = packets(K["pk"] as SVGGElement),
@@ -141,7 +141,7 @@ export const table: SceneFactory = (svg) => {
 };
 
 /* Four players, one game: each screen gets its own view, one reloads, a replay rewinds. */
-export const hands: SceneFactory = (svg) => {
+const hands: SceneFactory = (svg) => {
   const K = parts(svg);
   hideStill(svg);
   const P = packets(K["pk"] as SVGGElement),
@@ -190,7 +190,7 @@ export const hands: SceneFactory = (svg) => {
 };
 
 /* Decks: the library fills in, the playgroup shelf arrives, one deck goes to the table. */
-export const decks: SceneFactory = (svg) => {
+const decks: SceneFactory = (svg) => {
   const K = parts(svg);
   // from its shelf slot to where it is drawn, next to the seat
   const slot = M4.boxes[M4.pick]!;
@@ -237,7 +237,7 @@ export const decks: SceneFactory = (svg) => {
 };
 
 /* Plain words: the sentence breaks into a query, Scryfall checks it, two readings fan out. */
-export const search: SceneFactory = (svg) => {
+const search: SceneFactory = (svg) => {
   const K = parts(svg),
     put = courier(K["pk"] as SVGGElement);
   return (p) => {
@@ -280,7 +280,7 @@ export const search: SceneFactory = (svg) => {
 };
 
 /* Building for friends: a report goes round the loop and comes back as a fix. */
-export const friends: SceneFactory = (svg) => {
+const friends: SceneFactory = (svg) => {
   const K = parts(svg);
   hideStill(svg);
   const put = courier(K["pk"] as SVGGElement),
@@ -317,3 +317,20 @@ export const friends: SceneFactory = (svg) => {
     move(K["p0"], 0, 0, 1 + 0.08 * Math.sin(Math.PI * lit));
   };
 };
+
+/**
+ * The MTG hero: the second half of a game, from the second spell to the stack resolving, with
+ * auto-resolve on for the last round. It rests on the table with the stack cleared.
+ */
+const cardTable: SceneFactory = (svg) => {
+  const run = table(svg),
+    K = parts(svg);
+  return (p, dt, t, speed) => {
+    run(0.3 + 0.69 * p, dt, t, speed);
+    fade(K["pk"], 1 - seg(p, 0.9, 1));
+    if (p >= 1) restLeds(svg);
+  };
+};
+
+/** The MTG family's animators, by drawing id (data-scene / data-card). */
+export const animators = { itch, table, hands, decks, search, friends, cardtable: cardTable };

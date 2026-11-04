@@ -14,7 +14,7 @@ type Path = SVGPathElement;
  * it's on lights up in amber with a dash flowing its way, and each machine's label nods as the
  * packet arrives, so something answers every bit of scroll.
  */
-export const loop: SceneFactory = (svg) => {
+const loop: SceneFactory = (svg) => {
   const K = parts(svg),
     blink = blinker(svg);
   hideStill(svg);
@@ -113,7 +113,7 @@ export const loop: SceneFactory = (svg) => {
  * controller.ts): a new commit, the build, the pod landing on the laptop, and the packet
  * heading home and fading out. It rests on the new pod running.
  */
-export const cardLoop: SceneFactory = (svg) => {
+const cardLoop: SceneFactory = (svg) => {
   const K = parts(svg),
     blink = blinker(svg);
   hideStill(svg);
@@ -136,3 +136,6 @@ export const cardLoop: SceneFactory = (svg) => {
     fade(K["newpod"], Math.min(pp * 2.5, 1) * (1 - out));
   };
 };
+
+/** The homelab family's animators, by drawing id (data-scene / data-card). */
+export const animators = { loop, cardloop: cardLoop };

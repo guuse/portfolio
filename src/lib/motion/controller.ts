@@ -19,10 +19,9 @@
  * Each frame reads every position first and then writes, and allocates nothing.
  */
 import { media, px } from "~/styles/tokens";
-import { animators } from "./registry";
 import { approach, clamp } from "./math";
 import type { Scheduler } from "./scheduler";
-import type { Animator } from "./types";
+import type { Animator, SceneFactory } from "./types";
 
 interface Player {
   /** Built ahead of time (see build()), or on the first frame it's needed at the latest. */
@@ -67,6 +66,9 @@ interface Section {
   job: Item | null;
   jobP: number;
 }
+
+/** This page's animators, by drawing id (registry.ts loads them; startMotion() sets them). */
+let animators: Record<string, SceneFactory> = {};
 
 function player(root: Element, id: string): Player | null {
   const svg = root.querySelector<SVGSVGElement>("svg.scene-svg");
@@ -318,7 +320,9 @@ function printing(sections: Section[], relayout: () => void, wake: () => void): 
   return () => on;
 }
 
-export function startMotion(scheduler: Scheduler): void {
+/** Starts every drawing on the page, with the animators registry.ts loaded for it. */
+export function startMotion(scheduler: Scheduler, pageAnimators: Record<string, SceneFactory>): void {
+  animators = pageAnimators;
   const wake = (): void => scheduler.wake();
   const sections = [...document.querySelectorAll<HTMLElement>(".scenes")]
     .map((el) => setupSection(el, wake))

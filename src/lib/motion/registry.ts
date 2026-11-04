@@ -1,53 +1,49 @@
-/** Which animator drives which drawing (the data-scene / data-card ids in the markup). */
-import { fade, parts } from "./dom";
-import { restLeds } from "./leds";
-import { ease as E, seg } from "./math";
-import { cardLoop, loop } from "./scenes/homelab";
-import { decks, friends, hands, itch, search, table } from "./scenes/mtg";
-import { ipv6, learned, regions, scale, scaler, standard } from "./scenes/platform";
-import type { SceneFactory } from "./types";
-
-/*
+/**
+ * Which animator drives which drawing (the data-scene / data-card ids in the markup), and
+ * where its code is. Each family of scenes is its own chunk, so a page loads only the
+ * animators for the drawings it has: a case study one family, the homepage and the projects
+ * page the three cards. This file is all the eager bundle knows about them.
+ *
  * The live cards (homepage, projects page, case-study heroes) play one pass and rest; `p` is
  * that pass, 0..1 (controller.ts). Each rests on a frame that reads as finished.
  */
+import type { SceneFactory } from "./types";
 
-/** The platform card: a rush of traffic arrives and the pods scale up for it, then calm again. */
-const cardScale: SceneFactory = (svg) =>
-  scaler(
-    svg,
-    (p) => 0.3 + 0.55 * (E.inOutCubic(seg(p, 0.04, 0.3)) * (1 - E.inOutCubic(seg(p, 0.4, 0.62)))),
-    true,
+const families = {
+  platform: () => import("./scenes/platform"),
+  homelab: () => import("./scenes/homelab"),
+  mtg: () => import("./scenes/mtg"),
+} satisfies Record<string, () => Promise<{ animators: Record<string, SceneFactory> }>>;
+
+type Family = keyof typeof families;
+
+const familyOf: Record<string, Family> = {
+  standard: "platform",
+  scale: "platform",
+  regions: "platform",
+  ipv6: "platform",
+  learned: "platform",
+  cardscale: "platform",
+  loop: "homelab",
+  cardloop: "homelab",
+  itch: "mtg",
+  table: "mtg",
+  hands: "mtg",
+  decks: "mtg",
+  search: "mtg",
+  friends: "mtg",
+  cardtable: "mtg",
+};
+
+/** The drawing ids on this page. */
+export const drawingIds = (root: ParentNode = document): string[] =>
+  [...root.querySelectorAll<HTMLElement>("[data-scene], [data-card]")].map(
+    (el) => el.dataset["scene"] ?? el.dataset["card"] ?? "",
   );
 
-/**
- * The MTG hero: the second half of a game, from the second spell to the stack resolving, with
- * auto-resolve on for the last round. It rests on the table with the stack cleared.
- */
-const cardTable: SceneFactory = (svg) => {
-  const run = table(svg),
-    K = parts(svg);
-  return (p, dt, t, speed) => {
-    run(0.3 + 0.69 * p, dt, t, speed);
-    fade(K["pk"], 1 - seg(p, 0.9, 1));
-    if (p >= 1) restLeds(svg);
-  };
-};
-
-export const animators: Record<string, SceneFactory> = {
-  standard,
-  scale,
-  regions,
-  ipv6,
-  learned,
-  loop,
-  itch,
-  table,
-  hands,
-  decks,
-  search,
-  friends,
-  cardscale: cardScale,
-  cardloop: cardLoop,
-  cardtable: cardTable,
-};
+/** Loads the families these ids belong to, in parallel, and returns their animators by id. */
+export async function loadAnimators(ids: readonly string[]): Promise<Record<string, SceneFactory>> {
+  const wanted = new Set(ids.flatMap((id) => (familyOf[id] ? [familyOf[id]] : [])));
+  const modules = await Promise.all([...wanted].map((f) => families[f]()));
+  return Object.assign({}, ...modules.map((m) => m.animators)) as Record<string, SceneFactory>;
+}

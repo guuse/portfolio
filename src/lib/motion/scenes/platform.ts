@@ -8,7 +8,7 @@ import { firstAlong } from "~/lib/art/geometry";
 import type { SceneFactory } from "../types";
 
 /* 1. Many projects, one platform: old servers sink away, the apps dock on one platform. */
-export const standard: SceneFactory = (svg) => {
+const standard: SceneFactory = (svg) => {
   const K = parts(svg),
     blink = blinker(svg);
   const olds = S1.old.map((_, i) => K[`old${i}`]),
@@ -81,7 +81,7 @@ interface Zone {
  * Nothing in the frame loop allocates: zone counts are plain loops and the routes a request
  * can take are built once.
  */
-export function scaler(svg: SVGSVGElement, load: (p: number, t: number) => number, card = false) {
+function scaler(svg: SVGSVGElement, load: (p: number, t: number) => number, card = false) {
   const K = parts(svg),
     blink = blinker(svg);
   hideStill(svg);
@@ -271,14 +271,14 @@ export function scaler(svg: SVGSVGElement, load: (p: number, t: number) => numbe
 }
 
 // calm, a rush that peaks past the middle, then calm again
-export const scale: SceneFactory = (svg) =>
+const scale: SceneFactory = (svg) =>
   scaler(
     svg,
     (p) => 0.08 + 0.92 * (E.inOutCubic(seg(p, 0.08, 0.55)) * (1 - 0.72 * E.inOutCubic(seg(p, 0.68, 1)))),
   );
 
 /* 3. Two regions, one entry. */
-export const regions: SceneFactory = (svg) => {
+const regions: SceneFactory = (svg) => {
   const K = parts(svg);
   hideStill(svg);
   const layer = K["pk"] as SVGGElement;
@@ -329,7 +329,7 @@ export const regions: SceneFactory = (svg) => {
 };
 
 /* 4. The IPv6 move: the tag flips, IPv4-only traffic is translated, the database waits at a gate. */
-export const ipv6: SceneFactory = (svg) => {
+const ipv6: SceneFactory = (svg) => {
   const K = parts(svg);
   hideStill(svg);
   const layer = K["pk"] as SVGGElement;
@@ -414,7 +414,7 @@ export const ipv6: SceneFactory = (svg) => {
 };
 
 /* 5. One change, every cluster: a commit travels the spine and each cluster flips its flag. */
-export const learned: SceneFactory = (svg) => {
+const learned: SceneFactory = (svg) => {
   const K = parts(svg),
     blink = blinker(svg);
   const { x0, y, cols, cw, stubUp, stubDown } = S5;
@@ -463,3 +463,14 @@ export const learned: SceneFactory = (svg) => {
     }
   };
 };
+
+/** The platform card: a rush of traffic arrives and the pods scale up for it, then calm again. */
+const cardScale: SceneFactory = (svg) =>
+  scaler(
+    svg,
+    (p) => 0.3 + 0.55 * (E.inOutCubic(seg(p, 0.04, 0.3)) * (1 - E.inOutCubic(seg(p, 0.4, 0.62)))),
+    true,
+  );
+
+/** The platform family's animators, by drawing id (data-scene / data-card). */
+export const animators = { standard, scale, regions, ipv6, learned, cardscale: cardScale };

@@ -3,6 +3,7 @@
  * module. Anything that moves is skipped when the visitor prefers reduced motion.
  */
 import { initPageTransitions } from "./page-transitions";
+import { drawingIds, loadAnimators } from "~/lib/motion/registry";
 import { browserScheduler } from "~/lib/motion/scheduler";
 import { initSmoothAnchors } from "./anchors";
 import { initCopyEmail } from "./copy-email";
@@ -29,10 +30,14 @@ if (motionOk() && "IntersectionObserver" in window) {
   initReveal();
   initScrollEffects(scheduler);
   // The drawings' runtime is only fetched on pages that have drawings, and only once the
-  // page has loaded and the main thread is idle: the stills are already on screen.
-  if (document.querySelector(".scenes, [data-card]")) {
+  // page has loaded and the main thread is idle: the stills are already on screen. The
+  // controller and the animators for this page's drawings load in parallel.
+  const ids = drawingIds();
+  if (ids.length) {
     const start = (): void =>
-      void import("~/lib/motion/controller").then(({ startMotion }) => startMotion(scheduler));
+      void Promise.all([import("~/lib/motion/controller"), loadAnimators(ids)]).then(
+        ([{ startMotion }, animators]) => startMotion(scheduler, animators),
+      );
     const idle = (): void =>
       void ("requestIdleCallback" in window
         ? requestIdleCallback(start, { timeout: 1500 })
