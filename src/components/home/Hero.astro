@@ -18,7 +18,11 @@ const stats = [
 
 <section class="stage" aria-labelledby="hero-title">
   <div class="stage__bg" data-print="bouldering">
-    {/* the backdrop covers the whole stage, so it is the viewport's width at every size */}
+    {/*
+      the backdrop covers the whole stage, so it is the viewport's width at every size. It is
+      the homepage's LCP, under a 45-90% overlay, so quality 30 is plenty; the prints load at
+      low priority, after it and the two fonts
+    */}
     <Picture
       src={bouldering}
       alt=""
@@ -26,7 +30,7 @@ const stats = [
       fallbackFormat="webp"
       widths={[480, 750, 900]}
       sizes="100vw"
-      quality={40}
+      quality={30}
       loading="eager"
       fetchpriority="high"
     />
@@ -79,6 +83,7 @@ const stats = [
           widths={[340, 680]}
           sizes="(width < 1000px) 220px, 340px"
           loading="eager"
+          fetchpriority="low"
         />
       </figure>
       <figure class="print print--a" data-print="travel">
@@ -90,6 +95,7 @@ const stats = [
           widths={[170, 340]}
           sizes="(width < 1000px) 108px, 170px"
           loading="eager"
+          fetchpriority="low"
         />
       </figure>
     </div>

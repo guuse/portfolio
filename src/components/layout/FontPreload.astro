@@ -1,6 +1,7 @@
 ---
 /*
- * Preloads the basic-Latin file of one of Astro's font families, so the text it sets is laid
+ * Preloads the basic-Latin file of one of Astro's font families (for the faces split by
+ * integrations/local-fonts.ts, the small core file), so the text it sets is laid
  * out once, in its own face, instead of first in the fallback and again when the font lands.
  * The base layout preloads the two faces above the fold: Instrument Serif (headings) and
  * Schibsted Grotesk (body copy, the largest text on most pages).
@@ -19,7 +20,7 @@ const { cssVariable } = Astro.props;
 const css = componentDataByCssVariable.get(cssVariable)?.css ?? "";
 const latin = css
   .split("@font-face")
-  .find((face) => /unicode-range:\s*U\+0000-00FF/i.test(face))
+  .find((face) => /unicode-range:\s*U\+(0000-00FF|0020-007E)/i.test(face))
   ?.match(/url\("([^"]+\.woff2)"\)/)?.[1];
 if (!latin) throw new Error(`FontPreload: no basic-Latin woff2 for ${cssVariable}`);
 ---
