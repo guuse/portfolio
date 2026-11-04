@@ -37,14 +37,18 @@ is no inbound port anywhere.
 ## What nginx does
 
 - `ekkelenkamp.dev`: serves `dist/` from `/srv/portfolio`. `/foo` 301s to `/foo/` with a relative
-  `Location`; unknown paths get the site's own `404.html` with status 404.
+  `Location`; unknown paths get the site's own `404.html` with status 404, and so does a
+  directory without an index (`/_astro/`, which nginx would answer with a 403).
 - `www.ekkelenkamp.dev`: `301` to `https://ekkelenkamp.dev$request_uri`.
 - `/healthz`: `200 ok`, not logged, `no-store`. Probes use it.
-- Caching: `/_astro/*` is fingerprinted, so `max-age=31536000, immutable`. HTML is
+- Caching: `/_astro/*` is fingerprinted, so `max-age=31536000, immutable`, but only on a
+  successful response: errors (4xx, 5xx) always revalidate. HTML is
   `max-age=0, must-revalidate` (ETag revalidation), so a deploy is live at once. Other
   public files get one hour.
 - Compression: the image build gzips text assets ahead of time (`gzip_static`); anything else is
-  gzipped on the fly. Cloudflare re-encodes to brotli/zstd at the edge.
+  gzipped on the fly. There is no brotli in nginx on purpose: `nginx-unprivileged` ships without
+  the brotli module, and building one into the image isn't worth it when the Cloudflare edge
+  already serves brotli/zstd to browsers. The origin only ever talks gzip to Cloudflare.
 - Headers on every response, 404s included: the CSP below, HSTS with `preload`, `nosniff`,
   `X-Frame-Options: DENY`, `Referrer-Policy`, `Permissions-Policy`, COOP and CORP
   `same-origin`, and `X-Clacks-Overhead`.
@@ -60,9 +64,21 @@ policy that governs scripts and styles, and since `astro preview` serves it too,
 in CI run under the same policy as production.
 
 **nginx** sends a header with what a `<meta>` policy cannot express (`frame-ancestors`) plus a
-backstop for the rest (`base-uri`, `form-action`, `object-src`, `frame-src`, `worker-src`). It
-has no `default-src`, `script-src` or `style-src`, on purpose: browsers enforce every policy
-they receive, and a header without each page's hashes would block Astro's own inline scripts.
+backstop for the rest (`base-uri`, `form-action`, `object-src`, `frame-src`, `worker-src`) and
+`upgrade-insecure-requests`. It has no `default-src`, `script-src` or `style-src`, on purpose:
+browsers enforce every policy they receive, and a header without each page's hashes would
+block Astro's own inline scripts.
+
+`upgrade-insecure-requests` is in the header only. On the real site it changes nothing (every
+URL is same-origin and HTTPS, and HSTS with preload already forces that), but in the meta it
+also applies to `astro preview` and the local container on plain `http://localhost`, where
+Safari then upgrades every subresource to `https://localhost`, and the scripts, fonts and images fail.
+
+**Where the meta sits.** Astro writes it into the head with its other head content, after the
+page's own `<meta>`, `<link>` and font `<style>` elements; there is no supported way to move it
+up. That's harmless: nothing before it executes (the only `<script>` there is JSON-LD, which is
+data), and everything requested before it (icons, the manifest, the preloaded fonts) is
+same-origin, which the policy allows anyway. The e2e suite checks both, so it stays that way.
 
 Because the header leaves scripts to the meta, the image build **fails** if any page in `dist/`
 is missing it.
@@ -86,7 +102,6 @@ is missing it.
          "object-src 'none'",
          "require-trusted-types-for 'script'",
          "trusted-types 'none'",
-         'upgrade-insecure-requests',
        ],
      },
    },

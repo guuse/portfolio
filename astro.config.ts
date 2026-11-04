@@ -43,7 +43,8 @@ export default defineConfig({
         "object-src 'none'",
         "require-trusted-types-for 'script'",
         "trusted-types 'none'",
-        "upgrade-insecure-requests",
+        // no upgrade-insecure-requests: nginx sends it (and HSTS) in production, and in the
+        // meta it would turn every request on a plain-http preview into https (Safari).
       ],
     },
   },
