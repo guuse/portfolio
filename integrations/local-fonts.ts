@@ -49,6 +49,7 @@ const CORE: [number, number][] = [
   [0x2013, 0x2014],
   [0x2018, 0x2019],
   [0x201c, 0x201d],
+  [0x2022, 0x2022], // the list bullet, which a disc marker draws from the font
   [0x2026, 0x2026],
   [0x20ac, 0x20ac],
 ];
