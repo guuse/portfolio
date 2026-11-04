@@ -35,6 +35,13 @@ const { id, title, gallery } = Astro.props;
       display: none;
     }
 
+    /* staged from the first paint where the runtime will stage it (SceneStep.astro) */
+    @media screen and (scripting: enabled) and (prefers-reduced-motion: no-preference) and (width >= 900px) {
+      .scenes {
+        padding-top: 0;
+      }
+    }
+
     @media (width >= 900px) {
       .scenes:global(.is-staged) {
         display: grid;

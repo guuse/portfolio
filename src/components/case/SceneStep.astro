@@ -102,6 +102,24 @@ const { scene, range, continues, caption } = Astro.props;
       }
     }
 
+    /*
+     * The motion runtime stages the steps (.is-staged) once the page has loaded. Where it is
+     * going to run, the steps have their staged size from the first paint, so staging only
+     * moves the figures into the stage and nothing below them shifts. If the script never
+     * arrives, each still stays beside its text, in a roomier step.
+     */
+    @media screen and (scripting: enabled) and (prefers-reduced-motion: no-preference) and (width >= 900px) {
+      .scene-step {
+        min-height: 100svh;
+        border-top: 0;
+        padding-block: 0;
+      }
+
+      .scene-step:first-child {
+        min-height: 135svh;
+      }
+    }
+
     /* no JS, or reduced motion, on a wide screen: text and its still side by side */
     @media (width >= 900px) {
       .scene-step {
@@ -117,7 +135,8 @@ const { scene, range, continues, caption } = Astro.props;
         grid-area: 1 / 1;
       }
 
-      /* with JS: the steps scroll past one sticky stage */
+      /* with JS: the steps scroll past one sticky stage (sized as above, for browsers
+         without the scripting media feature) */
       :global(.is-staged) .scene-step {
         display: flex;
         align-items: center;
