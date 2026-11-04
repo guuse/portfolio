@@ -1,4 +1,5 @@
 import { devices, expect, test, type Page } from "@playwright/test";
+import { PAGES } from "../pages";
 
 /** Waits until every running animation and transition on the page has finished. */
 const settled = (page: Page) =>
@@ -34,7 +35,7 @@ async function rules(page: Page): Promise<{ selector: string; media: string[] }[
 }
 
 test.describe("hover", () => {
-  for (const path of ["/", "/projects/", "/projects/mtg-suite/", "/design-system/"]) {
+  for (const path of PAGES) {
     test(`${path}: every hover effect is for devices that can hover`, async ({ page }) => {
       await page.goto(path);
       const loose = (await rules(page)).filter(
@@ -269,7 +270,7 @@ test("the homepage covers are named by their title first", async ({ page }) => {
 test("there are no developer comments in the HTML, only the one for view-source readers", async ({
   request,
 }) => {
-  for (const path of ["/", "/projects/", "/projects/homelab/", "/design-system/"]) {
+  for (const path of PAGES) {
     const html = await (await request.get(path)).text();
     const comments = html.match(/<!--[\s\S]*?-->/g) ?? [];
     expect(comments.length, path).toBe(1);

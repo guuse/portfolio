@@ -101,6 +101,12 @@ test("every internal link and asset resolves", async ({ page, request }) => {
   expect(seen.size).toBeGreaterThanOrEqual(5);
 });
 
+test("the sitemap lists every page, and not the 404", async ({ request }) => {
+  const xml = await (await request.get("/sitemap-0.xml")).text();
+  const urls = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => new URL(m[1]!).pathname).sort();
+  expect(urls).toEqual([...PAGES].sort());
+});
+
 test("security.txt expires in about 11 months: valid, and under RFC 9116's year", async ({ request }) => {
   const body = await (await request.get("/.well-known/security.txt")).text();
   const days = (new Date(/^Expires: (.+)$/m.exec(body)![1]!).getTime() - Date.now()) / 86_400_000;
