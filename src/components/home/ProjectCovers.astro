@@ -8,7 +8,7 @@ import { caseStudyHref, liveArt } from "~/lib/projects";
 import mtgCover from "~/assets/covers/mtg-card.webp";
 
 const projects = await list("projects");
-/* Platform and homelab get their live miniature; the MTG card is a collage of the app homes. */
+/* Every project but MTG gets its live miniature; the MTG card is a collage of the app homes. */
 ---
 
 <section class="wrap strip" id="projects" aria-labelledby="projects-title">
@@ -86,7 +86,13 @@ const projects = await list("projects");
 
     @media (--md) {
       .covers {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (--lg) {
+      .covers {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
       }
     }
 

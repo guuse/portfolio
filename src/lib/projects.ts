@@ -1,5 +1,5 @@
 /** Case-study routes, by project id (the ids in src/content/projects.yaml). */
-export type ProjectId = "hosting-platform" | "homelab" | "mtg-suite";
+export type ProjectId = "hosting-platform" | "infrastructure-delivery" | "homelab" | "mtg-suite";
 
 export const caseStudyHref = (id: ProjectId): string => `/projects/${id}/`;
 
@@ -10,6 +10,7 @@ export const caseStudyHref = (id: ProjectId): string => `/projects/${id}/`;
  */
 export const liveArt = {
   "hosting-platform": { card: "platform", motion: "cardscale" },
+  "infrastructure-delivery": { card: "delivery", motion: "cardplan" },
   homelab: { card: "homelab", motion: "cardloop" },
   "mtg-suite": { card: "mtg", motion: "cardtable" },
 } as const satisfies Record<ProjectId, { card: string; motion: string }>;

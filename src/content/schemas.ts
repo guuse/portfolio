@@ -38,7 +38,7 @@ export const principle = z.object({ id: text, order, title: text, text });
 export const skill = z.object({ id: text, order, label: text, value: text });
 
 export const project = z.object({
-  id: z.enum(["hosting-platform", "homelab", "mtg-suite"]),
+  id: z.enum(["hosting-platform", "infrastructure-delivery", "homelab", "mtg-suite"]),
   order,
   title: text,
   meta: text,

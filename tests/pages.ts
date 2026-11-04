@@ -3,6 +3,7 @@ export const PAGES = [
   "/",
   "/projects/",
   "/projects/hosting-platform/",
+  "/projects/infrastructure-delivery/",
   "/projects/homelab/",
   "/projects/mtg-suite/",
   "/design-system/",

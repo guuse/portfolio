@@ -31,7 +31,12 @@ for (const path of PAGES) {
   });
 }
 
-const CASES = ["/projects/hosting-platform/", "/projects/homelab/", "/projects/mtg-suite/"] as const;
+const CASES = [
+  "/projects/hosting-platform/",
+  "/projects/infrastructure-delivery/",
+  "/projects/homelab/",
+  "/projects/mtg-suite/",
+] as const;
 
 test.describe("scroll scenes, wide", () => {
   test.use({ viewport: { width: 1440, height: 900 } });

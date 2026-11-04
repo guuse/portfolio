@@ -1,0 +1,168 @@
+---
+import CaseStudy from "~/layouts/CaseStudy.astro";
+import CaseHero from "~/components/case/CaseHero.astro";
+import CaseLead from "~/components/case/CaseLead.astro";
+import Hood from "~/components/case/Hood.astro";
+import NextNav from "~/components/case/NextNav.astro";
+import Scenes from "~/components/case/Scenes.astro";
+import SceneStep from "~/components/case/SceneStep.astro";
+import Section from "~/components/ui/Section.astro";
+
+const actions = [
+  {
+    name: "pulumi-preview",
+    what: "runs the tests and the preview with the policies enforced, saves the plan and posts it on the pull request",
+  },
+  { name: "pulumi-deploy", what: "fetches the approved plan, checks for drift and applies only that plan" },
+  { name: "pulumi-drift", what: "a scheduled check that what’s running still matches the code" },
+  { name: "setup-pulumi", what: "the toolchain, with the Pulumi CLI pinned to the version in the lockfile" },
+  { name: "pulumi-plan-store", what: "moves saved plans to and from S3" },
+  { name: "slack-notify", what: "one status message per run, including failures before Pulumi starts" },
+];
+---
+
+<CaseStudy
+  project="infrastructure-delivery"
+  title="Infrastructure delivery · Guus Ekkelenkamp"
+  og="infrastructure-delivery"
+  description="Case study: how an infrastructure change at Harborn is reviewed, checked by policy and applied by the pipeline, as new infrastructure moves to Pulumi."
+>
+  <CaseHero
+    project="infrastructure-delivery"
+    meta="Work at Harborn · 2026 to now · I designed the pipeline and built the shared actions and the CLI"
+    title="Infrastructure delivery"
+    line="How a change to our infrastructure is reviewed, checked and applied, as new infrastructure moves to Pulumi."
+  />
+  <CaseLead>
+    <p>
+      The <a href="/projects/hosting-platform/">hosting platform</a> runs more than 300 clients with over 800
+      deployments, so one bad infrastructure change can reach a lot of them at once. Its clusters come from
+      Terraform and OpenTofu modules. New infrastructure is Pulumi in Python.
+    </p>
+    <p>
+      I set up how that Pulumi code reaches production. It started as a proof of concept that deployed one
+      small VPC, because the pipeline was what I wanted to test, not the VPC. From there I built the shared
+      GitHub Actions our Pulumi projects deploy through, and haven, the CLI the team uses to work in these
+      environments.
+    </p>
+  </CaseLead>
+  <Scenes id="story" title="How a change reaches production">
+    <SceneStep scene="plan" range={[0, 0.5]} caption="A change from pull request to production.">
+      <h3>The plan is what gets approved</h3>
+      <p>
+        A pull request runs the tests and a preview with the policies enforced. The preview saves the exact
+        plan and posts it as a comment. The approval is a review by someone other than the author, of that
+        plan.
+      </p>
+    </SceneStep>
+    <SceneStep scene="plan" range={[0.5, 1]} continues>
+      <h3>The pipeline applies only that plan</h3>
+      <p>
+        On merge the deploy fetches the saved plan, refreshes production and works the plan out again. If
+        production has gained a create, delete or replace that nobody reviewed, the deploy stops and changes
+        nothing. We fix the drift and run the pull request again, so a change made by hand shows up as a
+        failure instead of being reverted without anyone seeing it.
+      </p>
+    </SceneStep>
+    <SceneStep scene="policy">
+      <h3>The policy comes before the resource</h3>
+      <p>
+        Each Pulumi project has a CrossGuard policy pack with mandatory enforcement, so a resource that breaks
+        a rule can’t be previewed or applied. A new kind of resource starts with its rule and a test for it,
+        and only then the resource. An exception is a change to the policy, with its reason in the pull
+        request.
+      </p>
+      <p>
+        Our log bucket is the example. Loki’s compactor handles log retention, because it tracks which chunks
+        the index still uses. An S3 expiry rule on that bucket would delete chunks the index still points at,
+        and queries over that period would return incomplete results without an error. The rule looks like
+        sensible cost control, which is why a reviewer would approve it, so a policy rejects it before the
+        pull request can be merged.
+      </p>
+    </SceneStep>
+    <SceneStep scene="writer" range={[0, 0.5]}>
+      <h3>Every environment has its own foundation</h3>
+      <p>
+        Each environment has its own state bucket, encryption key and deploy role, so a deploy to acceptance
+        can’t touch production, and a lost state file costs one subsystem instead of the platform. These roles
+        are created outside Pulumi, and the deploy role can’t change its own permissions, so the pipeline can
+        never give itself more rights.
+      </p>
+    </SceneStep>
+    <SceneStep scene="writer" range={[0.5, 1]} continues>
+      <h3>A CLI without an apply command</h3>
+      <p>
+        I built haven, the CLI we use for these environments. It logs you in through SSO with an admin or a
+        read-only role, opens a shell on the bastion, runs the policy checks and the tests, and sets up a new
+        environment’s foundation, including its repository variables and branch protection on GitHub. Commands
+        that change something only run from that environment’s own directory. There’s no apply or deploy
+        command, because production only changes through the pipeline.
+      </p>
+    </SceneStep>
+  </Scenes>
+  <Section id="actions" title="The shared actions">
+    <Hood items={actions} />
+    <div class="prose">
+      <p>
+        A project’s workflows only check out the code, set up Pulumi, get credentials and call one of these
+        actions. The logic is in the actions, versioned with a <code>v1</code> tag, so a fix reaches every
+        project that uses them. There are templates for AWS and Azure, for pull requests, deploys, drift
+        checks and a manual plan and apply.
+      </p>
+      <p>
+        CI holds no cloud keys. Every job gets short-lived credentials through GitHub OIDC. Any pull request
+        can assume the read-only role the previews use, so that role can read metadata but not every bucket,
+        secret or log group.
+      </p>
+    </div>
+  </Section>
+  <Section id="small-changes" title="Small pull requests and serial applies" bodyClass="prose">
+    <p>
+      Because the review is the approval, a pull request has one concern. A refactor doesn’t ship with a new
+      resource, and foundation and IAM changes get pull requests of their own, so the plan in the comment is
+      short enough to read before you approve it. Two applies to the same stack never run at the same time.
+    </p>
+    <p>
+      Some changes have no diff in git, such as a new machine image. For those there’s a manual plan and
+      apply. Someone with write access reads the saved plan and starts the apply, which goes through the same
+      drift check. That’s weaker than a review by someone other than the author, and our docs say so.
+    </p>
+    <p>
+      The clusters still change through Terraform and OpenTofu. A Kubernetes upgrade goes one minor version at
+      a time, after the upgrade checks pass and the plan is empty, so the upgrade plan holds nothing else. The
+      nodes then roll one at a time. App releases go through Argo CD, which the
+      <a href="/projects/hosting-platform/#hood">hosting platform</a> page covers.
+    </p>
+  </Section>
+  <Section id="lessons" title="Lessons" bodyClass="prose">
+    <p>
+      My first version had a separate approval at deploy time, after the merge. It couldn’t guarantee that
+      what was applied matched what had been previewed, and it held a runner while it waited. I removed it and
+      made the pull request review the approval.
+    </p>
+    <p>
+      The first deploy check also stopped deploys nobody had a problem with, because of fields the cloud fills
+      in itself, like EKS add-on versions. Now it stops only on creates, deletes and replacements that weren’t
+      in the approved plan, and the scheduled drift check reports the rest to Slack.
+    </p>
+    <p>
+      For apps we use Argo CD, which pulls changes from git by itself. For infrastructure I chose a pipeline
+      that pushes them, because every change has to stop at a human review, and an operator that reconciles on
+      its own works against that.
+    </p>
+    <p>
+      Separate foundations cost something. Every new state needs its own bootstrap and its own five workflows,
+      and haven sets generic GitHub variable names, so in a repository with several states we set the
+      state-specific ones by hand until haven supports that.
+    </p>
+  </Section>
+  <NextNav
+    prev={{
+      href: "/projects/hosting-platform/",
+      small: "Previous project",
+      label: "Hosting platform",
+      arrow: "left",
+    }}
+    next={{ href: "/projects/homelab/", small: "Next project", label: "Homelab", arrow: "right" }}
+  />
+</CaseStudy>

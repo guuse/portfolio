@@ -133,6 +133,7 @@ for (const viewport of [
 
     for (const [path, at] of [
       ["/projects/hosting-platform/", 0.3],
+      ["/projects/infrastructure-delivery/", 0.3],
       ["/projects/homelab/", 0.25],
       ["/projects/mtg-suite/", 0.3],
     ] as const) {

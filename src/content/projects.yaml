@@ -1,4 +1,4 @@
-# The three case studies, in the order they're shown. `card` is the homepage card line,
+# The case studies, in the order they're shown. `card` is the homepage card line,
 # `line` the one on the projects page. `published` and `updated` are the case study's dates
 # (its Article JSON-LD): bump `updated` when a case study's copy changes.
 - id: hosting-platform
@@ -16,8 +16,23 @@
   stack: AWS (EKS, Aurora, Redis, OpenSearch, CloudFront), Azure (AKS), Karpenter, cert-manager, Velero, Terraform, OpenTofu, Pulumi, Argo CD
   published: "2026-11-03"
   updated: "2026-11-04"
-- id: homelab
+- id: infrastructure-delivery
   order: 2
+  title: Infrastructure delivery
+  meta: Work · 2026 to now
+  card: How a change to our infrastructure is reviewed, checked and applied.
+  line: How a change to our infrastructure is reviewed, checked and applied, as new infrastructure moves to Pulumi.
+  why: The platform runs more than 300 clients, so a bad infrastructure change reaches a lot of them. I set up the Pulumi pipeline so that what a reviewer approves is exactly what gets applied.
+  facts:
+    - A pull request saves the plan, and the deploy applies only that plan
+    - The deploy stops on any create, delete or replace that nobody reviewed
+    - Mandatory CrossGuard policies, written before the resources they govern
+    - Shared GitHub Actions and a CLI I built, with no apply command
+  stack: Pulumi (Python), CrossGuard, GitHub Actions, GitHub OIDC, AWS (IAM, S3, KMS), Azure, Terraform, OpenTofu
+  published: "2026-11-04"
+  updated: "2026-11-04"
+- id: homelab
+  order: 3
   title: Homelab
   meta: Personal · 2026
   card: k3s and Argo CD on an old laptop at home, deployed the way we deploy at work.
@@ -32,7 +47,7 @@
   published: "2026-11-03"
   updated: "2026-11-04"
 - id: mtg-suite
-  order: 3
+  order: 4
   title: MTG suite
   meta: Personal · 2026
   card: A Commander table in the browser and a deck library, for my friends and me.
