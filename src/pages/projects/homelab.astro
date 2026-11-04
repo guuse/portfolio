@@ -3,7 +3,6 @@ import CaseStudy from "~/layouts/CaseStudy.astro";
 import CaseHero from "~/components/case/CaseHero.astro";
 import CaseLead from "~/components/case/CaseLead.astro";
 import Closing from "~/components/case/Closing.astro";
-import Gotchas from "~/components/case/Gotchas.astro";
 import HomelabDiagram from "~/components/case/HomelabDiagram.astro";
 import MemoryBar from "~/components/case/MemoryBar.astro";
 import NextNav from "~/components/case/NextNav.astro";
@@ -28,19 +27,17 @@ const icons = ["si-argo", "si-tailscale", "si-cloudflare", "si-traefikproxy", "s
     project="homelab"
     meta="Personal · 2026"
     title="Homelab"
-    line="The patterns I use at work, on one old laptop under the TV."
+    line="k3s and Argo CD on an old laptop at home, deployed the way we deploy at work."
   />
   <CaseLead>
     <p>
-      I like tinkering, and I don’t like recommending things at work that I haven’t run myself. So an old
-      laptop under the TV, lid shut, became the place where I try them first. It also hosts my side projects,
-      like the MTG tools my friends use.
+      I don’t like recommending things at work that I haven’t run myself, so I try them first on an old laptop
+      at home. It also runs my side projects, like the MTG tools my friends use.
     </p>
     <p>
-      What makes it different from most home servers is how things get onto it. It runs the same git-driven
-      delivery we use for client projects: I push to main and the new version shows up without me touching the
-      box. It has its own domain and real certificates, and nothing on it is reachable from the internet
-      unless I open it on purpose.
+      It deploys the same way our client projects do: I push to main and the new version goes live without me
+      logging in to the box. It has its own domain and real certificates, and nothing on it is reachable from
+      the internet unless I open it up.
     </p>
   </CaseLead>
   <Scenes id="deploy" title="How a change gets deployed">
@@ -51,25 +48,21 @@ const icons = ["si-argo", "si-tailscale", "si-cloudflare", "si-traefikproxy", "s
     <SceneStep scene="loop" range={[0.35, 0.63]} continues>
       <p>
         Argo CD Image Updater notices the new image, commits its version back into the app’s repo, and Argo CD
-        syncs. The commit is the deploy record, so git always says what’s running.
+        syncs. So the git history shows exactly what’s running.
       </p>
     </SceneStep>
     <SceneStep scene="loop" range={[0.63, 0.76]} continues>
-      <p>
-        At work, production only follows release tags. At home, main deploys directly. I skip that step on
-        purpose, because here the only user I can annoy is me.
-      </p>
+      <p>Unlike at work, there are no release candidates or release tags here.</p>
     </SceneStep>
     <SceneStep scene="loop" range={[0.76, 1]} continues>
-      <h3>The loop</h3>
+      <h3>A build loop</h3>
       <p>
-        That commit back into the repo once caught me out. CI built the commit, made a new image, and Image
-        Updater committed again, in a loop. CI now ignores <code>deploy/</code> with <code>paths-ignore</code>
-        .
+        That commit back into the repo started a build loop: CI built it into a new image, Image Updater
+        committed again, and so on. CI now ignores <code>deploy/</code> with <code>paths-ignore</code>.
       </p>
     </SceneStep>
   </Scenes>
-  <Section id="repo" title="One repo runs it all" bodyClass="prose">
+  <Section id="repo" title="One repo for all apps" bodyClass="prose">
     <p>
       One repo holds an app-of-apps root that manages every app, including Argo CD itself. Adding an app is
       adding one file, and one shared credential lets Argo CD read all my private repos. It runs 15
@@ -85,12 +78,12 @@ const icons = ["si-argo", "si-tailscale", "si-cloudflare", "si-traefikproxy", "s
   <Section id="getting-in" title="Three ways in" bodyClass="prose">
     <p>
       The tailnet is the default. My own devices reach Traefik over Tailscale, and DNS for my domain points at
-      the tailnet for everything except this site, so those names only lead somewhere from my devices.
+      the tailnet for everything except this site, so those names only resolve on my own devices.
     </p>
     <p>
       Two other ways in are opt-in, per app. A few apps are public through a Cloudflare Tunnel with Access in
       front, so there’s a login and no open port. This site is the exception: it’s public with no login. For a
-      party, Tailscale Funnel gives a temporary public URL, for a quiz night, say. Every app in the cluster
+      party, like a quiz night, I use Tailscale Funnel for a temporary public URL. Every app in the cluster
       gets TLS from one wildcard Let’s Encrypt certificate, issued through Cloudflare DNS-01.
     </p>
     <HomelabDiagram svg={ways()} kind="ways" />
@@ -98,8 +91,7 @@ const icons = ["si-argo", "si-tailscale", "si-cloudflare", "si-traefikproxy", "s
   <Section id="box" title="Inside the box" bodyClass="prose">
     <p>
       The laptop has 16 GB of memory. Proxmox gives 10 GB to an Ubuntu VM with k3s and 3 GB to Home Assistant;
-      the host keeps about 2 GB. The battery doubles as a UPS, which is the best job that battery has had in
-      years.
+      the host keeps about 2 GB. The laptop battery works as a UPS.
     </p>
     <MemoryBar
       label="Memory split: 10 GB k3s, 3 GB Home Assistant, about 2 GB host, about 1 GB spare"
@@ -119,35 +111,11 @@ const icons = ["si-argo", "si-tailscale", "si-cloudflare", "si-traefikproxy", "s
     </p>
     <p>
       I moved it from a Raspberry Pi with a full backup restore, and the whole Zigbee mesh came across without
-      re-pairing a single device. The dashboards and automations live in git, and a tablet on the wall shows
+      re-pairing a single device. The dashboards and automations are in git, and a tablet on the wall shows
       the dashboard.
     </p>
   </Section>
-  <Section id="lessons" title="Lessons" bodyClass="prose">
-    <Gotchas
-      items={[
-        {
-          symptom: "Builds kept running in a loop, each one producing a new image (August 2026).",
-          cause: "Image Updater’s own commit started a new build.",
-          fix: "Make CI ignore <code>deploy/</code> with <code>paths-ignore</code>.",
-        },
-        {
-          symptom: "The k3s node hit disk pressure at about 30 GiB, on a 64 GiB virtual disk.",
-          cause: "The Ubuntu installer gave root only about half of the disk.",
-          fix: "Extend the root volume into the free space with <code>lvextend</code> and <code>resize2fs</code>. If the volume group has no free space left, first grow the disk in Proxmox (<code>qm resize</code>), then run <code>growpart</code> and <code>pvresize</code> inside the guest.",
-        },
-        {
-          symptom: "Public DNS stopped resolving on the Linux VMs on my tailnet.",
-          cause: "Tailscale MagicDNS was on without a global nameserver.",
-          fix: "Set a global nameserver in Tailscale’s DNS settings.",
-        },
-      ]}
-    />
-  </Section>
-  <Closing
-    line="Most of what I’ve learned here started with something I broke at home first, which is exactly what it’s for."
-    stack="Built with: Proxmox, k3s, Argo CD and Image Updater, GitHub Actions, GHCR, cert-manager, Traefik, Tailscale, Cloudflare and Home Assistant."
-  />
+  <Closing stack="Built with: Proxmox, k3s, Argo CD and Image Updater, GitHub Actions, GHCR, cert-manager, Traefik, Tailscale, Cloudflare and Home Assistant." />
   <NextNav
     prev={{
       href: "/projects/hosting-platform/",

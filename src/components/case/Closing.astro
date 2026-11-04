@@ -1,16 +1,16 @@
 ---
 import Section from "~/components/ui/Section.astro";
 
-/** The last word of a case study, and optionally what it was built with. */
+/** The end of a case study: what it was built with, and optionally a last line before it. */
 interface Props {
-  line: string;
+  line?: string;
   stack?: string;
 }
 const { line, stack } = Astro.props;
 ---
 
 <Section variant="closing" bodyClass="prose">
-  <p class="closing__line">{line}</p>
+  {line && <p class="closing__line">{line}</p>}
   {stack && <p class="stack-line">{stack}</p>}
 </Section>
 
