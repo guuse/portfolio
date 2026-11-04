@@ -1,17 +1,22 @@
-import { defineConfig, fontProviders } from "astro/config";
+import { defineConfig } from "astro/config";
 import sitemap from "@astrojs/sitemap";
+import { fontsourcePackages } from "./integrations/local-fonts";
 import { layerOrder } from "./integrations/layer-order";
+
+const selfHosted = fontsourcePackages();
 
 /**
  * Static site. Every page is pre-rendered; the only client code is a handful of small,
- * deferred modules (see src/scripts/). Fonts are self-hosted from Fontsource packages and
- * Astro generates metric-matched fallbacks so the swap does not shift the layout.
+ * deferred modules (see src/scripts/). Fonts come from the Fontsource packages, read from
+ * node_modules at build time (never a CDN, see integrations/local-fonts.ts), and Astro
+ * generates metric-matched fallbacks so the swap does not shift the layout.
  */
 export default defineConfig({
   site: "https://ekkelenkamp.dev",
   output: "static",
   trailingSlash: "always",
-  // Stylesheets stay files (cached, and no inline style hashes in the CSP); see layer-order.
+  // Stylesheets are inlined, each with its hash in the CSP (ADR 0006); integrations/layer-order
+  // keeps the cascade layer order whichever stylesheet comes first.
   build: { format: "directory", inlineStylesheets: "always" },
   vite: { plugins: [layerOrder()] },
   compressHTML: true,
@@ -48,7 +53,7 @@ export default defineConfig({
   ],
   fonts: [
     {
-      provider: fontProviders.npm(),
+      provider: selfHosted,
       name: "Instrument Serif",
       cssVariable: "--font-serif",
       weights: [400],
@@ -58,7 +63,7 @@ export default defineConfig({
       options: { package: "@fontsource/instrument-serif" },
     },
     {
-      provider: fontProviders.npm(),
+      provider: selfHosted,
       name: "Schibsted Grotesk Variable",
       cssVariable: "--font-sans",
       weights: ["400 900"],
@@ -68,7 +73,7 @@ export default defineConfig({
       options: { package: "@fontsource-variable/schibsted-grotesk" },
     },
     {
-      provider: fontProviders.npm(),
+      provider: selfHosted,
       name: "Geist Mono",
       cssVariable: "--font-mono",
       weights: [400],

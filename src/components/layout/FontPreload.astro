@@ -1,8 +1,9 @@
 ---
 /*
- * Preloads the basic-Latin file of one of Astro's font families, so the text it sets (the
- * headings, in Instrument Serif) is laid out once, in its own face, instead of first in the
- * fallback and again when the font lands.
+ * Preloads the basic-Latin file of one of Astro's font families, so the text it sets is laid
+ * out once, in its own face, instead of first in the fallback and again when the font lands.
+ * The base layout preloads the two faces above the fold: Instrument Serif (headings) and
+ * Schibsted Grotesk (body copy, the largest text on most pages).
  *
  * Astro's own `preload` filter can't pick a subset here: the npm provider doesn't record which
  * subset a file is. The unicode-range in the @font-face it generates does, so this reads the
