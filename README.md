@@ -1,9 +1,5 @@
 # ekkelenkamp.dev
 
-The personal site of **Guus Ekkelenkamp**, tech lead infrastructure at Harborn in Rotterdam:
-a CV, and case studies of a hosting platform, a homelab and a set of Magic: The Gathering
-tools, each told in small animated drawings.
-
 ![The homepage: a headline, two photo prints and the stats, over a bouldering photo](docs/screenshot.webp)
 
 ## Stack, and why
