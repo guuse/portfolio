@@ -3,7 +3,8 @@ import { CL, H } from "~/lib/art/scenes/homelab.layout";
 import { fade, fadeTowards, hideStill, move, parts } from "../dom";
 import { blinker, restLeds } from "../leds";
 import { clamp, ease as E, lerp, seg } from "../math";
-import { courier, prime } from "../packets";
+import { courier, prime, track } from "../packets";
+import { firstAlong } from "~/lib/art/geometry";
 import type { SceneFactory } from "../types";
 
 type Path = SVGPathElement;
@@ -21,14 +22,8 @@ export const loop: SceneFactory = (svg) => {
   const r = (k: keyof typeof H.routes): Path => K[`r-${k}`] as Path;
   // how far along repo → Actions the gate sits: the looping build waits there
   const push = r("push"),
-    L = push.getTotalLength();
-  let stopF = 0;
-  for (let d = 0; d < L; d++) {
-    if (push.getPointAtLength(d).y >= H.gateY - 12) {
-      stopF = d / L;
-      break;
-    }
-  }
+    pushTrack = track(push),
+    stopF = firstAlong(pushTrack, (_, y) => y >= H.gateY - 12) / pushTrack.len;
   // the journey: [route, start, end, packet class, where it arrives]; gaps are inside a machine
   const legs: [Path, number, number, string, string][] = [
     [push, 0.05, 0.16, "pk--ink", "lbl-build"],

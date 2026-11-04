@@ -2,53 +2,39 @@
  * Packets: small capsules that travel along routes. Linear on purpose (packets move at line
  * rate), they fade in when they appear and out at the end of their last segment.
  *
- * The frame loop never asks the DOM where a path goes: each path is sampled once into a
- * lookup table (track()), when an animator is built or a packet first uses it, and packets
+ * Nothing ever asks the DOM where a path goes: each route's `d` is sampled once into a lookup
+ * table (track(); the sampler is in ~/lib/art/geometry) when an animator is built or a packet first uses it, and packets
  * are placed by interpolating that table.
  */
 import { PACKET_PARTS } from "~/lib/art/packet";
 import { fade, SVG_NS } from "./dom";
 import { clamp } from "./math";
+import { sample, type Track } from "~/lib/art/geometry";
 
 const DEG = 180 / Math.PI;
 
-/** A path sampled every couple of units: points, and the distance between samples. */
-export interface Track {
-  xs: Float32Array;
-  ys: Float32Array;
-  step: number;
-  len: number;
-}
-
 /** Sample spacing, in drawing units. Packets are 16 long, so 2 is finer than the eye can tell. */
 const STEP = 2;
-const tracks = new WeakMap<SVGGeometryElement, Track>();
+const tracks = new WeakMap<Element, Track>();
 
-/** The lookup table for a path, sampled on first use. */
-export function track(el: SVGGeometryElement): Track {
+/** The lookup table for a path, sampled from its `d` on first use. */
+export function track(el: Element): Track {
   let t = tracks.get(el);
   if (t) return t;
-  const len = el.getTotalLength(),
-    n = Math.max(2, Math.ceil(len / STEP) + 1),
-    step = len / (n - 1),
-    xs = new Float32Array(n),
-    ys = new Float32Array(n);
-  for (let i = 0; i < n; i++) {
-    const p = el.getPointAtLength(i * step);
-    xs[i] = p.x;
-    ys[i] = p.y;
-  }
-  tracks.set(el, (t = { xs, ys, step, len }));
+  const d = el.getAttribute("d");
+  if (el.localName !== "path" || !d)
+    throw new Error(`packets: a route must be a <path> with a d, not <${el.localName}>`);
+  tracks.set(el, (t = sample(d, STEP)));
   return t;
 }
 
 /** Samples the given paths now (an animator calls this while it's built, off the frame loop). */
 export function prime(...els: (Element | undefined)[]): void {
-  for (const el of els) if (el) track(el as SVGGeometryElement);
+  for (const el of els) if (el) track(el);
 }
 
 export interface Segment {
-  el: SVGPathElement | SVGGeometryElement;
+  el: SVGPathElement;
   /** Packet class from this segment on (e.g. "pk--ink" after a reply). */
   cls?: string;
   /** Travel this segment invisibly (inside a device). */
@@ -206,7 +192,7 @@ export function emitter(): (dt: number, rate: number, fire: () => void) => void 
  */
 export function courier(
   layer: SVGGElement,
-): (el?: SVGGeometryElement, f?: number, cls?: string, opacity?: number) => void {
+): (el?: SVGPathElement, f?: number, cls?: string, opacity?: number) => void {
   const g = packetEl();
   fade(g, 0);
   layer.appendChild(g);

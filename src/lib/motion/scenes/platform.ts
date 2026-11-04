@@ -3,7 +3,8 @@ import { S1, S2, S3, S4, S5 } from "~/lib/art/scenes/platform.layout";
 import { attr, hiddenPath, hideStill, fade, move, parts, SVG_NS } from "../dom";
 import { blinker, restLeds } from "../leds";
 import { approach, clamp, ease as E, lerp, seg } from "../math";
-import { emitter, packets, prime, type Packet, type Segment } from "../packets";
+import { emitter, packets, prime, track, type Packet, type Segment } from "../packets";
+import { firstAlong } from "~/lib/art/geometry";
 import type { SceneFactory } from "../types";
 
 /* 1. Many projects, one platform: old servers sink away, the apps dock on one platform. */
@@ -340,14 +341,7 @@ export const ipv6: SceneFactory = (svg) => {
   const rdb = K["rdb"] as SVGPathElement;
   prime(K["rx"], thruX, K["rf"], rdb);
   // where the IPv6 path meets the gate
-  const dbL = rdb.getTotalLength();
-  let gateD = dbL;
-  for (let d = 0; d < dbL; d += 1) {
-    if (rdb.getPointAtLength(d).x >= S4.gateX - 13) {
-      gateD = d;
-      break;
-    }
-  }
+  const gateD = firstAlong(track(rdb), (x) => x >= S4.gateX - 13);
   let open = 0;
   /** Packets on their way to the database, oldest first. */
   const queue: Packet[] = [];

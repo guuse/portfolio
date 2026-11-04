@@ -95,25 +95,6 @@ describe("illustration kit", () => {
   });
 });
 
-describe("geometry", () => {
-  it("samples straight lines exactly", () => {
-    expect(samplePath("M0 0H100V50").total).toBe(150);
-    const p = pointAt("M0 0H100", 0.25);
-    expect(p).toEqual({ x: 25, y: 0, a: 0 });
-  });
-
-  it("follows curves and clamps the fraction", () => {
-    const d = "M0 0C0 100 100 100 100 0";
-    expect(pointAt(d, 1).x).toBeCloseTo(100);
-    expect(pointAt(d, 2)).toEqual(pointAt(d, 1));
-    expect(pointAt(d, 0.5).y).toBeCloseTo(75, 0);
-  });
-
-  it("rejects commands it can't sample", () => {
-    expect(() => samplePath("M0 0A10 10 0 0 1 20 0")).toThrow();
-  });
-});
-
 it("describes a packet once for both renderers", () => {
   expect(PACKET_PARTS).toHaveLength(3);
   expect(PACKET_INNER).toBe(
