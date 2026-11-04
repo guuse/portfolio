@@ -64,7 +64,7 @@ test.describe("lightbox on a phone", () => {
 
     test("the screenshot uses the full width, larger than its thumbnail", async ({ page }) => {
       await page.goto("/projects/mtg-suite/");
-      const thumb = page.getByRole("button", { name: /^Enlarge: Home after signing in/ });
+      const thumb = page.getByRole("link", { name: /^Enlarge: Home after signing in/ });
       await thumb.scrollIntoViewIfNeeded();
       const small = (await thumb.boundingBox())!;
       await thumb.tap();
@@ -88,7 +88,7 @@ test.describe("lightbox on a phone", () => {
 
     test("the screenshot gets nearly all the height, with the bar over it", async ({ page }) => {
       await page.goto("/projects/mtg-suite/");
-      const thumb = page.getByRole("button", { name: /^Enlarge: Home after signing in/ });
+      const thumb = page.getByRole("link", { name: /^Enlarge: Home after signing in/ });
       await thumb.scrollIntoViewIfNeeded();
       await thumb.tap();
       await page.waitForTimeout(600);

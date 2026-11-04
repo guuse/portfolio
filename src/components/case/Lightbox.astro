@@ -3,13 +3,13 @@
  * The screenshot viewer: a native modal dialog (behaviour in src/scripts/lightbox.ts). It
  * opens on the thumbnail the page already has and swaps in the full image once it's decoded;
  * a faint spinner shows only if that takes a moment. Pinch-zoom works on touch screens.
+ * The script adds the <img> when it first opens, so the markup never has an image without a
+ * source; its styles are :global for that reason.
  */
 ---
 
 <dialog class="lightbox" aria-label="Screenshot viewer">
-  <div class="lightbox__stage">
-    <img class="lightbox__img" alt="" decoding="async" />
-  </div>
+  <div class="lightbox__stage"></div>
   <div class="lightbox__bar">
     <p class="lightbox__cap" aria-live="polite"></p>
     <span class="lightbox__count"></span>
@@ -70,12 +70,12 @@
         opacity: 1;
       }
 
-      .lightbox__img {
+      :global(.lightbox__img) {
         scale: 0.96;
         transition: scale var(--duration-base) var(--ease-out);
       }
 
-      .lightbox[open] .lightbox__img {
+      .lightbox[open] :global(.lightbox__img) {
         scale: 1;
       }
 
@@ -84,7 +84,7 @@
           opacity: 0;
         }
 
-        .lightbox[open] .lightbox__img {
+        .lightbox[open] :global(.lightbox__img) {
           scale: 0.96;
         }
       }
@@ -100,7 +100,7 @@
       touch-action: pan-y pinch-zoom;
     }
 
-    .lightbox__img {
+    :global(.lightbox__img) {
       max-width: 100%;
       max-height: calc(100svh - 120px);
       width: auto;
@@ -206,7 +206,7 @@
         padding-inline: env(safe-area-inset-left, 0) env(safe-area-inset-right, 0);
       }
 
-      .lightbox__img {
+      :global(.lightbox__img) {
         max-height: calc(100svh - 132px);
         border-radius: 0;
       }
@@ -248,7 +248,7 @@
         grid-area: 1 / 1;
       }
 
-      .lightbox__img {
+      :global(.lightbox__img) {
         max-height: calc(100svh - 24px);
       }
 
@@ -262,6 +262,7 @@
         padding: var(--space-xs) var(--space-xs) var(--space-xs) 14px;
         border-radius: var(--radius-pill);
         background: color-mix(in oklch, var(--surface) 82%, transparent);
+        -webkit-backdrop-filter: blur(8px);
         backdrop-filter: blur(8px);
       }
 

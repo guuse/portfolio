@@ -59,6 +59,7 @@
       margin: 0;
       padding: 0;
       background: none;
+      -webkit-backdrop-filter: none;
       backdrop-filter: none;
     }
 
@@ -136,7 +137,7 @@
       color: var(--ink-muted) !important;
     }
 
-    .scene-step__text .step-shot button {
+    .scene-step__text .step-shot__open {
       opacity: 1 !important;
     }
 

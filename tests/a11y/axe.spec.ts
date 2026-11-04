@@ -30,7 +30,7 @@ for (const width of [390, 1440]) {
 
 test("the lightbox is accessible when open", async ({ page }) => {
   await page.goto("/projects/mtg-suite/");
-  await page.getByRole("button", { name: /^Enlarge: Home after signing in/ }).click();
+  await page.getByRole("link", { name: /^Enlarge: Home after signing in/ }).click();
   const results = await new AxeBuilder({ page }).include("dialog.lightbox").withTags(TAGS).analyze();
   expect(results.violations.map((v) => v.id)).toEqual([]);
 });

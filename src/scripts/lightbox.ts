@@ -1,13 +1,15 @@
 /**
  * Screenshot viewer: a native modal <dialog>, so focus is trapped, the page behind is inert
- * and Esc closes it for free. Any `button[data-lb]` opens it on its image; the buttons in the
- * same `[data-lb-group]` become the set to step through (arrow keys, buttons or a swipe).
- * Focus returns to the button that opened it.
+ * and Esc closes it for free. Each screenshot is an `a[data-lb]` linking to its full-size
+ * image (what a click does without JavaScript, or with a modifier key); this takes the plain
+ * click over and opens the viewer on it. The links in the same `[data-lb-group]` become the
+ * set to step through (arrow keys, buttons or a swipe). Focus returns to the link that opened it.
  *
  * It shows the thumbnail the page already has at once (it's cached), at the full image's
  * size, and swaps in the full image as soon as it has decoded; if that takes a moment, a
- * faint spinner appears (CSS, after 300 ms). Pinch-zoom is the browser's own, so a swipe only
- * steps when it's one finger on an unzoomed page.
+ * faint spinner appears (CSS, after 300 ms). If the full image fails to load, the thumbnail
+ * stays. Pinch-zoom is the browser's own, so a swipe only steps when it's one finger on an
+ * unzoomed page.
  */
 interface Shot {
   thumb: string;
@@ -18,16 +20,17 @@ interface Shot {
   caption: string;
 }
 
-function shotOf(btn: HTMLButtonElement): Shot {
-  const img = btn.querySelector("img")!;
-  const caption = btn.closest("figure")?.querySelector("figcaption")?.textContent ?? img.alt;
-  const thumb = img.currentSrc || img.src;
-  // the largest candidate: the viewer shows the screenshot as big as it fits
+function shotOf(link: HTMLAnchorElement): Shot {
+  const img = link.querySelector("img")!;
+  const caption = link.closest("figure")?.querySelector("figcaption")?.textContent ?? img.alt;
+  // the thumbnail as the page has it, if it has loaded (a lazy one may not have yet)
+  const thumb = img.complete && img.naturalWidth > 0 ? img.currentSrc : "";
+  // the full image the link points at: the viewer shows the screenshot as big as it fits
   return {
     thumb,
-    src: btn.dataset["full"] ?? thumb,
-    width: btn.dataset["fullWidth"] ?? img.getAttribute("width") ?? "",
-    height: btn.dataset["fullHeight"] ?? img.getAttribute("height") ?? "",
+    src: link.href,
+    width: link.dataset["fullWidth"] ?? img.getAttribute("width") ?? "",
+    height: link.dataset["fullHeight"] ?? img.getAttribute("height") ?? "",
     alt: img.alt,
     caption,
   };
@@ -40,7 +43,11 @@ export function initLightbox(): void {
   const dialog = document.querySelector<HTMLDialogElement>("dialog.lightbox");
   if (!dialog) return;
   const stage = dialog.querySelector<HTMLElement>(".lightbox__stage")!;
-  const img = dialog.querySelector<HTMLImageElement>(".lightbox__img")!;
+  // made here rather than in the markup, where it would be an <img> without a source
+  const img = document.createElement("img");
+  img.className = "lightbox__img";
+  img.alt = "";
+  img.decoding = "async";
   const cap = dialog.querySelector(".lightbox__cap")!;
   const count = dialog.querySelector(".lightbox__count")!;
   const prev = dialog.querySelector<HTMLButtonElement>("[data-lb-prev]")!;
@@ -48,7 +55,7 @@ export function initLightbox(): void {
   const close = dialog.querySelector<HTMLButtonElement>("[data-lb-close]")!;
   let shots: Shot[] = [],
     index = 0,
-    opener: HTMLButtonElement | null = null;
+    opener: HTMLAnchorElement | null = null;
 
   const render = (): void => {
     const s = shots[index]!;
@@ -58,25 +65,29 @@ export function initLightbox(): void {
     cap.textContent = s.caption;
     count.textContent = `${index + 1} of ${shots.length}`;
     prev.hidden = next.hidden = shots.length < 2;
-    if (decoded.has(s.src) || s.src === s.thumb) {
+    if (decoded.has(s.src)) {
       stage.classList.remove("is-loading");
       img.src = s.src;
       return;
     }
     // the thumbnail first, stretched to the full image's box, then the real thing
-    img.src = s.thumb;
+    if (s.thumb) img.src = s.thumb;
+    else img.removeAttribute("src");
     stage.classList.add("is-loading");
     const full = new Image();
     full.src = s.src;
-    full
-      .decode()
-      .catch(() => undefined)
-      .then(() => {
+    full.decode().then(
+      () => {
         decoded.add(s.src);
         if (shots[index] !== s) return;
         img.src = s.src;
         stage.classList.remove("is-loading");
-      });
+      },
+      // it didn't load: keep the thumbnail (or nothing) rather than swap in a broken image
+      () => {
+        if (shots[index] === s) stage.classList.remove("is-loading");
+      },
+    );
   };
   const step = (d: number): void => {
     if (shots.length < 2) return;
@@ -84,15 +95,18 @@ export function initLightbox(): void {
     render();
   };
 
+  for (const link of document.querySelectorAll("a[data-lb]")) link.setAttribute("aria-haspopup", "dialog");
   document.addEventListener("click", (e) => {
-    const btn = (e.target as Element).closest?.<HTMLButtonElement>("button[data-lb]");
-    if (!btn) return;
+    const link = (e.target as Element).closest?.<HTMLAnchorElement>("a[data-lb]");
+    // a new tab, a download, a middle click: the link does what links do
+    if (!link || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     e.preventDefault();
-    const group = btn.closest("[data-lb-group]") ?? btn.parentElement!;
-    const buttons = [...group.querySelectorAll<HTMLButtonElement>("button[data-lb]")];
-    shots = buttons.map(shotOf);
-    index = buttons.indexOf(btn);
-    opener = btn;
+    const group = link.closest("[data-lb-group]") ?? link.parentElement!;
+    const links = [...group.querySelectorAll<HTMLAnchorElement>("a[data-lb]")];
+    shots = links.map(shotOf);
+    index = links.indexOf(link);
+    opener = link;
+    if (!img.isConnected) stage.append(img);
     render();
     dialog.showModal();
     close.focus();

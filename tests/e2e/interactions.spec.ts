@@ -34,7 +34,7 @@ test.describe("copy email", () => {
 test.describe("lightbox", () => {
   test("opens on a screenshot, steps through the set, and returns focus", async ({ page }) => {
     await page.goto("/projects/mtg-suite/");
-    const thumb = page.getByRole("button", {
+    const thumb = page.getByRole("link", {
       name: "Enlarge: Combat: four attackers, each with an arrow to its target.",
     });
     await thumb.scrollIntoViewIfNeeded();
@@ -56,13 +56,56 @@ test.describe("lightbox", () => {
 
   test("closes from its button and from the backdrop", async ({ page }) => {
     await page.goto("/projects/mtg-suite/");
-    const thumb = page.getByRole("button", { name: /^Enlarge: Home after signing in/ });
+    const thumb = page.getByRole("link", { name: /^Enlarge: Home after signing in/ });
     await thumb.click();
     await page.getByRole("button", { name: "Close viewer" }).click();
     await expect(page.locator("dialog.lightbox")).toBeHidden();
     await thumb.click();
     await page.mouse.click(10, 10);
     await expect(page.locator("dialog.lightbox")).toBeHidden();
+  });
+});
+
+test.describe("lightbox, the edges", () => {
+  test("a full image that fails to load leaves the thumbnail, not a broken image", async ({ page }) => {
+    await page.goto("/projects/mtg-suite/");
+    const thumb = page.getByRole("link", { name: /^Enlarge: Home after signing in/ });
+    const full = await thumb.getAttribute("href");
+    await page.route(`**${full!}`, (route) => route.abort());
+    await thumb.scrollIntoViewIfNeeded();
+    await expect
+      .poll(() => thumb.locator("img").evaluate((el: HTMLImageElement) => el.naturalWidth))
+      .toBeGreaterThan(0);
+    await thumb.click();
+    const img = page.locator("dialog.lightbox .lightbox__img");
+    // the failed load is handled (the spinner stops) and the thumbnail is still showing
+    await expect
+      .poll(() =>
+        img.evaluate(
+          (el: HTMLImageElement) =>
+            !el.parentElement!.classList.contains("is-loading") && el.complete && el.naturalWidth > 0,
+        ),
+      )
+      .toBe(true);
+    expect(await img.getAttribute("src")).not.toContain(full!);
+  });
+
+  test("the markup has no image without a source", async ({ page }) => {
+    await page.goto("/projects/mtg-suite/");
+    expect(await page.locator("img:not([src]):not([srcset])").count()).toBe(0);
+  });
+});
+
+test.describe("without JavaScript", () => {
+  test.use({ javaScriptEnabled: false });
+
+  test("a screenshot is a link to its full image, and no copy button does nothing", async ({ page }) => {
+    await page.goto("/projects/mtg-suite/");
+    const thumb = page.getByRole("link", { name: /^Enlarge: Home after signing in/ });
+    expect(await thumb.getAttribute("href")).toMatch(/^\/_astro\/.+\.webp$/);
+    await page.goto("/");
+    await expect(page.locator(".copy")).toHaveCount(2);
+    for (const btn of await page.locator(".copy").all()) await expect(btn).toBeHidden();
   });
 });
 

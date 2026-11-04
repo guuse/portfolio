@@ -21,6 +21,8 @@ export function initCopyEmail(): void {
     const target = document.getElementById(btn.dataset["copyTarget"] ?? "");
     const status = document.getElementById(btn.getAttribute("aria-describedby") ?? "");
     if (!target) continue;
+    // it ships hidden (CopyButton.astro): a button only once it can do something
+    btn.hidden = false;
     let timer = 0;
     const say = (state: "done" | "fail", sentence: string): void => {
       btn.dataset["state"] = state;
