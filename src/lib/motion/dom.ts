@@ -29,12 +29,36 @@ const memoOf = (el: Element): Memo => {
 /** "No scale" in the memo, distinct from every real (rounded) scale. */
 const NONE = -1e9;
 
-/** Every element with a data-k key in a drawing, by key. */
+/**
+ * Every element with a data-k key in a drawing, by key. Asking for a key the drawing doesn't
+ * have throws, so a renamed part breaks the animator when it is built (every scene looks its
+ * parts up then), not silently in some later frame.
+ */
 export function parts(root: Element): Parts {
-  const out: Parts = {};
+  const found: Parts = {};
   for (const el of root.querySelectorAll<SVGGraphicsElement>("[data-k]"))
-    out[el.getAttribute("data-k")!] = el;
-  return out;
+    found[el.getAttribute("data-k")!] = el;
+  return new Proxy(found, {
+    get(target, key) {
+      if (typeof key !== "string" || key in target) return Reflect.get(target, key) as unknown;
+      throw new Error(
+        `motion: the drawing "${root.getAttribute("class") ?? ""}" has no part data-k="${key}"`,
+      );
+    },
+  });
+}
+
+/** A runtime-made element (a packet, a lit route), marked so toStill() can take it away again. */
+export function made<K extends keyof SVGElementTagNameMap>(tag: K): SVGElementTagNameMap[K] {
+  const el = document.createElementNS(SVG_NS, tag);
+  el.setAttribute("data-rt", "");
+  return el;
+}
+
+/** Puts a drawing back to its build-time still: what an animator leaves behind when it fails. */
+export function toStill(svg: SVGSVGElement): void {
+  for (const el of svg.querySelectorAll("[data-rt]")) el.remove();
+  for (const el of svg.querySelectorAll("[style]")) el.removeAttribute("style");
 }
 
 /**
@@ -105,7 +129,7 @@ export function hideStill(svg: SVGSVGElement): void {
 
 /** An invisible path for packets to travel along (e.g. through a device). */
 export function hiddenPath(parent: Element, d: string): SVGPathElement {
-  const p = document.createElementNS(SVG_NS, "path");
+  const p = made("path");
   p.setAttribute("d", d);
   p.setAttribute("fill", "none");
   p.setAttribute("stroke", "none");

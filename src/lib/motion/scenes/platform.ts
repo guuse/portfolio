@@ -1,6 +1,6 @@
 /** Motion for the hosting platform scenes (drawn by src/lib/art/scenes/platform.ts). */
 import { S1, S2, S3, S4, S5 } from "~/lib/art/scenes/platform.layout";
-import { attr, hiddenPath, hideStill, fade, move, parts, SVG_NS } from "../dom";
+import { attr, hiddenPath, hideStill, fade, made, move, parts } from "../dom";
 import { blinker, restLeds } from "../leds";
 import { approach, clamp, ease as E, lerp, seg } from "../math";
 import { emitter, packets, prime, track, type Packet, type Segment } from "../packets";
@@ -13,9 +13,10 @@ const standard: SceneFactory = (svg) => {
     blink = blinker(svg);
   const olds = S1.old.map((_, i) => K[`old${i}`]),
     wins = S1.old.map((_, i) => K[`win${i}`]),
-    docks = [0, 1, 2, 3, 4].map((d) => K[`dock${d}`]);
-  return (p, dt) => {
-    blink(dt);
+    docks = [0, 1, 2, 3, 4].map((d) => K[`dock${d}`]),
+    { win4, plat } = K;
+  return (p, dt, _t, _s, rest) => {
+    blink(dt, rest);
     S1.old.forEach((old, i) => {
       // the old servers sink away first
       const s = seg(p, 0.16 + i * 0.035, 0.28 + i * 0.035);
@@ -39,22 +40,23 @@ const standard: SceneFactory = (svg) => {
     // the fifth app is new: it flies in from the right
     const m4 = seg(p, 0.8, 0.97);
     move(
-      K["win4"],
+      win4,
       lerp(240, 0, E.outCubic(m4)),
       lerp(-34, 0, E.outBack(seg(m4, 0.45, 1), 1.5)) - 8 * Math.sin(Math.PI * m4),
       null,
       null,
       (1 - E.outCubic(m4)) * 5,
     );
-    fade(K["win4"], seg(p, 0.79, 0.85));
+    fade(win4, seg(p, 0.79, 0.85));
     const pl = seg(p, 0.36, 0.56);
-    move(K["plat"], 0, 120 * (1 - E.outBack(pl, 1.05)));
-    fade(K["plat"], seg(p, 0.36, 0.41));
+    move(plat, 0, 120 * (1 - E.outBack(pl, 1.05)));
+    fade(plat, seg(p, 0.36, 0.41));
     for (let d = 0; d < 5; d++) {
       const ds = seg(p, 0.48 + d * 0.04, 0.58 + d * 0.04);
       move(docks[d], 0, 0, 1, Math.max(0.001, E.outBack(ds, 2)));
       fade(docks[d], Math.min(1, ds * 4));
     }
+    return false;
   };
 };
 
@@ -85,7 +87,8 @@ function scaler(svg: SVGSVGElement, load: (p: number, t: number) => number, card
   const K = parts(svg),
     blink = blinker(svg);
   hideStill(svg);
-  const P = packets(K["pk"] as SVGGElement),
+  const pk = K["pk"] as SVGGElement,
+    P = packets(pk),
     emit = emitter();
   const ins = [0, 1, 2].map((i) => K[`in${i}`] as SVGPathElement);
   const outs = [0, 1, 2].map((i) => K[`out${i}`] as SVGPathElement);
@@ -205,6 +208,16 @@ function scaler(svg: SVGSVGElement, load: (p: number, t: number) => number, card
     fade(z.pend, z.pendA);
   }
 
+  /** Is any zone still changing (a node or pod on its way in or out, a request landing)? */
+  function changing(): boolean {
+    for (const z of Z) {
+      if (placed(z) !== z.want || Math.abs(z.pendA - Math.round(z.pendA)) > 0.002) return true;
+      for (const nd of z.nodes) if (nd.st === "in" || nd.st === "out") return true;
+      for (const pd of z.pods) if (pd.t < 0.3 || pd.ack < 0.3) return true;
+    }
+    return false;
+  }
+
   // jump straight to the state for the current load, so the first frame isn't a rush of pods
   function settle(L: number): void {
     Z.forEach((z, zi) => {
@@ -243,7 +256,7 @@ function scaler(svg: SVGSVGElement, load: (p: number, t: number) => number, card
     P.spawn(routes[(Math.random() * 3) | 0]![zi]!, { speed: 190 + Math.random() * 70, end: landed[zi]! });
   };
 
-  return (p: number, dt: number, t: number): void => {
+  return (p: number, dt: number, t: number, rest: boolean): boolean => {
     const L = load(p, t);
     if (first) {
       settle(L);
@@ -252,7 +265,7 @@ function scaler(svg: SVGSVGElement, load: (p: number, t: number) => number, card
     }
     capacity += (L - capacity) * approach(dt, 1.5);
     if (card && p >= 1) restLeds(svg);
-    else blink(dt);
+    else blink(dt, rest);
     Z.forEach((z, zi) => {
       z.want = target(zi, capacity);
       for (const nd of z.nodes) nd.t += dt;
@@ -264,18 +277,21 @@ function scaler(svg: SVGSVGElement, load: (p: number, t: number) => number, card
       draw(z, t);
     });
     // a card's pass winds down: no new requests near the end, and the last ones fade away
-    emit(dt, card && p > 0.78 ? 0 : 1 + 9 * L, fire);
-    P.update(dt, t);
-    if (card) fade(K["pk"], 1 - seg(p, 0.86, 1));
+    emit(dt, rest || (card && p > 0.78) ? 0 : 1 + 9 * L, fire);
+    const moving = P.update(dt, t, rest);
+    if (card) fade(pk, 1 - seg(p, 0.86, 1));
+    return moving || changing();
   };
 }
 
 // calm, a rush that peaks past the middle, then calm again
-const scale: SceneFactory = (svg) =>
-  scaler(
+const scale: SceneFactory = (svg) => {
+  const run = scaler(
     svg,
     (p) => 0.08 + 0.92 * (E.inOutCubic(seg(p, 0.08, 0.55)) * (1 - 0.72 * E.inOutCubic(seg(p, 0.68, 1)))),
   );
+  return (p, dt, t, _s, rest) => run(p, dt, t, rest);
+};
 
 /* 3. Two regions, one entry. */
 const regions: SceneFactory = (svg) => {
@@ -303,28 +319,29 @@ const regions: SceneFactory = (svg) => {
     const i = (Math.random() * 3) | 0;
     P.spawn((Math.random() < 0.3 ? toJP : toIE)[i]!, { speed: 170 + Math.random() * 60 });
   };
-  return (p, dt, t) => {
-    blink(dt);
+  const { globe, ie, jp, door, users, routes, lblIE, lblJP } = K;
+  return (p, dt, t, _s, rest) => {
+    blink(dt, rest);
     const gs = seg(p, 0, 0.3);
-    move(K["globe"], 0, 60 * (1 - E.outCubic(gs)));
-    fade(K["globe"], gs);
+    move(globe, 0, 60 * (1 - E.outCubic(gs)));
+    fade(globe, gs);
     const a = seg(p, 0.14, 0.34),
       b = seg(p, 0.26, 0.46);
-    move(K["ie"], 0, 0, lerp(0.5, 1, E.outBack(a, 2)));
-    fade(K["ie"], Math.min(1, a * 3));
-    move(K["jp"], 0, 0, lerp(0.5, 1, E.outBack(b, 2)));
-    fade(K["jp"], Math.min(1, b * 3));
+    move(ie, 0, 0, lerp(0.5, 1, E.outBack(a, 2)));
+    fade(ie, Math.min(1, a * 3));
+    move(jp, 0, 0, lerp(0.5, 1, E.outBack(b, 2)));
+    fade(jp, Math.min(1, b * 3));
     const d = seg(p, 0.4, 0.58);
-    move(K["door"], 0, -34 * (1 - E.outBack(d, 1.6)));
-    fade(K["door"], Math.min(1, d * 2.5));
-    fade(K["users"], seg(p, 0.5, 0.62));
-    fade(K["routes"], seg(p, 0.46, 0.6));
-    fade(K["lblIE"], seg(p, 0.64, 0.76));
-    fade(K["lblJP"], seg(p, 0.7, 0.82));
-    move(K["lblIE"], 6 * (1 - E.outCubic(seg(p, 0.64, 0.76))), 0);
-    move(K["lblJP"], -6 * (1 - E.outCubic(seg(p, 0.7, 0.82))), 0);
-    emit(dt, p > 0.56 ? 4.2 * seg(p, 0.56, 0.7) : 0, fire);
-    P.update(dt, t);
+    move(door, 0, -34 * (1 - E.outBack(d, 1.6)));
+    fade(door, Math.min(1, d * 2.5));
+    fade(users, seg(p, 0.5, 0.62));
+    fade(routes, seg(p, 0.46, 0.6));
+    fade(lblIE, seg(p, 0.64, 0.76));
+    fade(lblJP, seg(p, 0.7, 0.82));
+    move(lblIE, 6 * (1 - E.outCubic(seg(p, 0.64, 0.76))), 0);
+    move(lblJP, -6 * (1 - E.outCubic(seg(p, 0.7, 0.82))), 0);
+    emit(dt, !rest && p > 0.56 ? 4.2 * seg(p, 0.56, 0.7) : 0, fire);
+    return P.update(dt, t, rest);
   };
 };
 
@@ -364,43 +381,56 @@ const ipv6: SceneFactory = (svg) => {
     return gateD - ahead * 19;
   };
   const fireB = (): void => void queue.push(P.spawn(toDb, { speed: 140 + Math.random() * 40, stop }));
-  return (p, dt, t) => {
-    blink(dt);
+  const {
+    tag,
+    "tag-4": tag4,
+    "tag-6": tag6,
+    xlat,
+    legacy,
+    db,
+    gate,
+    bar,
+    "route-to-xlat": toXlat,
+    "route-from-xlat": fromXlat,
+    "route-idle": idleRoute,
+  } = K;
+  return (p, dt, t, _s, rest) => {
+    blink(dt, rest);
     // the address tag flips over
     const f = seg(p, 0.06, 0.24);
     move(
-      K["tag"],
+      tag,
       0,
       0,
       1,
       f < 0.5 ? Math.max(0.001, 1 - E.inCubic(f * 2)) : Math.max(0.001, E.outBack((f - 0.5) * 2, 2.2)),
     );
-    fade(K["tag-4"], f < 0.5 ? 1 : 0);
-    fade(K["tag-6"], f < 0.5 ? 0 : 1);
+    fade(tag4, f < 0.5 ? 1 : 0);
+    fade(tag6, f < 0.5 ? 0 : 1);
     const x1 = seg(p, 0.22, 0.34),
       x2 = seg(p, 0.28, 0.4);
-    move(K["xlat"], 0, 16 * (1 - E.outBack(x1, 1.6)));
-    fade(K["xlat"], x1);
-    move(K["legacy"], 0, 16 * (1 - E.outBack(x2, 1.6)));
-    fade(K["legacy"], x2);
-    fade(K["route-to-xlat"], seg(p, 0.24, 0.34));
-    fade(K["route-from-xlat"], seg(p, 0.3, 0.4));
+    move(xlat, 0, 16 * (1 - E.outBack(x1, 1.6)));
+    fade(xlat, x1);
+    move(legacy, 0, 16 * (1 - E.outBack(x2, 1.6)));
+    fade(legacy, x2);
+    fade(toXlat, seg(p, 0.24, 0.34));
+    fade(fromXlat, seg(p, 0.3, 0.4));
     const y1 = seg(p, 0.42, 0.54),
       y2 = seg(p, 0.48, 0.58);
-    move(K["db"], 0, 16 * (1 - E.outBack(y1, 1.6)));
-    fade(K["db"], y1);
-    move(K["gate"], 0, -12 * (1 - E.outBack(y2, 1.6)));
-    fade(K["gate"], y2);
+    move(db, 0, 16 * (1 - E.outBack(y1, 1.6)));
+    fade(db, y1);
+    move(gate, 0, -12 * (1 - E.outBack(y2, 1.6)));
+    fade(gate, y2);
     fade(rdb, seg(p, 0.44, 0.54));
-    fade(K["route-idle"], seg(p, 0.48, 0.58));
+    fade(idleRoute, seg(p, 0.48, 0.58));
     // the gate opens late in the step: a small dip first, then up with a settle
     const g = seg(p, 0.78, 0.92);
     open = g;
     const sy =
       g < 0.18 ? 1 + 0.07 * Math.sin((g / 0.18) * Math.PI) : 1 - 0.9 * E.outBack((g - 0.18) / 0.82, 1.4);
-    move(K["bar"], 0, 0, 1, clamp(sy, 0.04, 1.1));
+    move(bar, 0, 0, 1, clamp(sy, 0.04, 1.1));
     gateLed?.classList.toggle("is-open", g > 0.6);
-    eA(dt, p > 0.36 ? 1.5 : 0, fireA);
+    eA(dt, !rest && p > 0.36 ? 1.5 : 0, fireA);
     // drop the ones that arrived (in place, oldest first), and count who's still waiting
     let queued = 0;
     for (let j = queue.length - 1; j >= 0; j--) {
@@ -408,8 +438,8 @@ const ipv6: SceneFactory = (svg) => {
       if (!P.live.includes(k)) queue.splice(j, 1);
       else if (k.d < gateD + 1) queued++;
     }
-    eB(dt, p > 0.56 && (open > 0.5 || queued < 4) ? 1.3 : 0, fireB);
-    P.update(dt, t);
+    eB(dt, !rest && p > 0.56 && (open > 0.5 || queued < 4) ? 1.3 : 0, fireB);
+    return P.update(dt, t, rest);
   };
 };
 
@@ -422,7 +452,7 @@ const learned: SceneFactory = (svg) => {
     total = spine + stubUp;
   const dots: SVGCircleElement[] = [];
   for (let i = 0; i < 9; i++) {
-    const c = document.createElementNS(SVG_NS, "circle");
+    const c = made("circle");
     c.setAttribute("r", "4.5");
     c.setAttribute("class", "k-pulse");
     c.style.opacity = "0";
@@ -430,14 +460,15 @@ const learned: SceneFactory = (svg) => {
     dots.push(c);
   }
   const lit = [0, 1, 2, 3, 4, 5, 6, 7].map((s) => K[`lit${s}`]),
-    cl = lit.map((_, s) => [K[`cluster${s}`], K[`cluster${s}-old`], K[`cluster${s}-new`]] as const);
-  return (p, dt) => {
-    blink(dt);
+    cl = lit.map((_, s) => [K[`cluster${s}`], K[`cluster${s}-old`], K[`cluster${s}-new`]] as const),
+    { commit, "lit-spine": litSpine } = K;
+  return (p, dt, _t, _s, rest) => {
+    blink(dt, rest);
     const cs = seg(p, 0.04, 0.2);
-    move(K["commit"], 0, -44 * (1 - E.outBack(cs, 1.8)), lerp(0.4, 1, E.outBack(cs, 1.8)));
-    fade(K["commit"], Math.min(1, cs * 3));
+    move(commit, 0, -44 * (1 - E.outBack(cs, 1.8)), lerp(0.4, 1, E.outBack(cs, 1.8)));
+    fade(commit, Math.min(1, cs * 3));
     const D = seg(p, 0.22, 0.8) * total;
-    move(K["lit-spine"], 0, 0, Math.max(0.001, clamp(D / (spine + 52), 0, 1)), 1);
+    move(litSpine, 0, 0, Math.max(0.001, clamp(D / (spine + 52), 0, 1)), 1);
     const front = x0 + D,
       head = dots[8]!;
     attr(head, "cx", Math.min(front, cols[3]! + cw / 2));
@@ -461,16 +492,19 @@ const learned: SceneFactory = (svg) => {
       move(c[2], 0, 0, 1, Math.max(0.001, E.outBack(u, 2.4)));
       fade(c[2], Math.min(1, u * 3));
     }
+    return false;
   };
 };
 
 /** The platform card: a rush of traffic arrives and the pods scale up for it, then calm again. */
-const cardScale: SceneFactory = (svg) =>
-  scaler(
+const cardScale: SceneFactory = (svg) => {
+  const run = scaler(
     svg,
     (p) => 0.3 + 0.55 * (E.inOutCubic(seg(p, 0.04, 0.3)) * (1 - E.inOutCubic(seg(p, 0.4, 0.62)))),
     true,
   );
+  return (p, dt, t, _s, rest) => run(p, dt, t, rest);
+};
 
 /** The platform family's animators, by drawing id (data-scene / data-card). */
 export const animators = { standard, scale, regions, ipv6, learned, cardscale: cardScale };

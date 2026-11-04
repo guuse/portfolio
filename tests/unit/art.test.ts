@@ -1,98 +1,27 @@
 import { describe, expect, it } from "vitest";
+import { scenes as drawings } from "~/lib/art";
 import { card } from "~/lib/art/cards";
 import { apps, ways } from "~/lib/art/diagrams";
 import { pointAt, samplePath } from "~/lib/art/geometry";
 import { CL } from "~/lib/art/scenes/homelab.layout";
 import { PACKET_INNER, PACKET_PARTS } from "~/lib/art/packet";
-import * as homelab from "~/lib/art/scenes/homelab";
-import * as mtg from "~/lib/art/scenes/mtg";
 import * as platform from "~/lib/art/scenes/platform";
 import { sketch } from "~/lib/art/sketch";
 
-const scenes = { ...platform, ...homelab, ...mtg } as Record<string, () => string>;
-
-/** The data-k keys each animator reaches for (src/lib/motion/scenes). */
-const KEYS: Record<string, string[]> = {
-  standard: ["plat", "old0", "win4", "dock4"],
-  scale: ["pk", "in0", "out2", "node00", "pod223", "pend1"],
-  regions: [
-    "globe",
-    "ie",
-    "jp",
-    "door",
-    "users",
-    "routes",
-    "lblIE",
-    "lblJP",
-    "route-ie",
-    "route-jp",
-    "route-in2",
-  ],
-  ipv6: [
-    "tag",
-    "tag-4",
-    "tag-6",
-    "xlat",
-    "legacy",
-    "db",
-    "gate",
-    "bar",
-    "bar-led",
-    "route-to-xlat",
-    "route-from-xlat",
-    "route-db",
-    "route-idle",
-  ],
-  learned: ["commit", "lit-spine", "lit7", "cluster7", "cluster7-old", "cluster7-new", "pk"],
-  loop: [
-    "commit-push",
-    "commit-tag",
-    "hatch",
-    "buildled",
-    "crate",
-    "oldpod",
-    "newpod",
-    "gate",
-    "bar",
-    "route-push",
-    "route-roll",
-    "lbl-repo",
-    "lbl-build",
-    "lbl-reg",
-    "lbl-lap",
-    "argo",
-    "upd",
-  ],
-  itch: ["friend0", "friend3", "tablecard6", "book7", "rulesheet2", "question0", "question1"],
-  table: ["seat3", "seat3-ring", "stackcard2", "handcard2", "stacklbl", "auto", "lane3", "back3"],
-  hands: ["screen3", "screen3-cards", "screen3-reload", "screen0-card4", "bar", "mark", "lane3"],
-  decks: ["deckbox0", "deckbox13", "binder3", "plate0", "plate0-ring", "deck", "route", "gap"],
-  search: [
-    "bubble",
-    "words",
-    "chip2",
-    "chiplabel2",
-    "route-query",
-    "route-back",
-    "tick",
-    "fan0",
-    "fancard1-5",
-  ],
-  friends: ["moon", "flag", "issue", "fix", "img", "parcel", "route3", "plate0", "plate0-ring"],
-};
+/** Every drawing a page can ask for, by id (the same table the pages use). */
+const scenes: Record<string, () => string> = drawings;
 
 describe("illustration kit", () => {
-  it.each(Object.keys(KEYS))("%s is a labelled image with every part motion needs", (id) => {
-    const svg = scenes[id]!();
-    expect(svg).toMatch(
+  // that each has every part its animator looks up is animators.test.ts
+  it.each(Object.keys(scenes))("%s is a labelled image", (id) => {
+    expect(scenes[id]!()).toMatch(
       /^<svg class="scene-svg [^"]*" viewBox="0 0 600 440" role="img" aria-label="[^"]{40,}"/,
     );
-    for (const key of KEYS[id]!) expect(svg, key).toContain(`data-k="${key}"`);
   });
 
   it("never writes style attributes (the CSP forbids them)", () => {
     const all = [
-      ...Object.keys(KEYS).map((id) => scenes[id]!()),
+      ...Object.values(scenes).map((draw) => draw()),
       card("platform"),
       card("homelab"),
       card("mtg"),
@@ -108,8 +37,6 @@ describe("illustration kit", () => {
       expect(card(id)).toContain('aria-hidden="true"');
       expect(card(id)).not.toContain("role=");
     }
-    // the MTG hero is the table scene, whole, with what its animator reaches for
-    for (const key of KEYS["table"]!) expect(card("mtg"), key).toContain(`data-k="${key}"`);
   });
 
   it("is deterministic", () => {

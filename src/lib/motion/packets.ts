@@ -7,7 +7,7 @@
  * first uses it, and packets are placed by interpolating that table.
  */
 import { PACKET_PARTS } from "~/lib/art/packet";
-import { fade, SVG_NS } from "./dom";
+import { fade, made } from "./dom";
 import { clamp } from "./math";
 import { sample, type Track } from "~/lib/art/geometry";
 
@@ -16,9 +16,12 @@ const DEG = 180 / Math.PI;
 /** Sample spacing, in drawing units. Packets are 16 long, so 2 is finer than the eye can tell. */
 const STEP = 2;
 const tracks = new WeakMap<Element, Track>();
+/** Seconds a packet takes to fade out when its scene settles. */
+const FADE_OUT = 0.4;
 
 /** The lookup table for a path, sampled from its `d` on first use. */
-export function track(el: Element): Track {
+export function track(el: Element | undefined): Track {
+  if (!el) throw new Error("packets: a route is missing (a part the drawing doesn't have?)");
   let t = tracks.get(el);
   if (t) return t;
   const d = el.getAttribute("d");
@@ -28,9 +31,12 @@ export function track(el: Element): Track {
   return t;
 }
 
-/** Samples the given paths now (an animator calls this while it's built, off the frame loop). */
+/**
+ * Samples the given paths now (an animator calls this while it's built, off the frame loop).
+ * A missing one throws there and then, rather than on the first packet that needs it.
+ */
 export function prime(...els: (Element | undefined)[]): void {
-  for (const el of els) if (el) track(el);
+  for (const el of els) track(el);
 }
 
 export interface Segment {
@@ -56,6 +62,8 @@ export interface Packet {
   ph: number;
   /** Seconds spent held back by `stop`. */
   wait: number;
+  /** How far it has faded out because the scene is settling (0..1). */
+  out: number;
   stop?: ((k: Packet) => number) | undefined;
   end?: ((k: Packet) => void) | undefined;
   autofade?: boolean | undefined;
@@ -87,9 +95,9 @@ function place(g: SVGGElement, t: Track, d: number, jitter = 0): void {
 }
 
 function packetEl(): SVGGElement {
-  const g = document.createElementNS(SVG_NS, "g");
+  const g = made("g");
   for (const part of PACKET_PARTS) {
-    const el = document.createElementNS(SVG_NS, part.tag);
+    const el = made(part.tag);
     for (const [k, v] of Object.entries(part.attrs)) el.setAttribute(k, v);
     g.appendChild(el);
   }
@@ -102,6 +110,7 @@ export function packets(layer: SVGGElement) {
   const pool: SVGGElement[] = [];
 
   function spawn(segs: Segment[], o: SpawnOptions = {}): Packet {
+    if (!segs.length) throw new Error("packets: a packet needs at least one segment");
     for (const s of segs) s.track ??= track(s.el);
     const g = pool.pop() ?? packetEl();
     const cls = segs[0]?.cls ?? "";
@@ -121,17 +130,25 @@ export function packets(layer: SVGGElement) {
       age: 0,
       ph: Math.random() * 6,
       wait: 0,
+      out: 0,
       autofade: o.autofade,
     };
     live.push(k);
     return k;
   }
 
-  function update(dt: number, t: number): void {
+  /** Moves every packet one frame. With `rest`, they fade out where they are. Returns whether any are left. */
+  function update(dt: number, t: number, rest = false): boolean {
     for (let j = live.length - 1; j >= 0; j--) {
       const k = live[j]!;
       let s = k.segs[k.i]!;
       k.age += dt;
+      // a settling scene lets its traffic go: each packet fades out over a few frames
+      if (rest || k.out > 0) k.out += dt / FADE_OUT;
+      if (k.out >= 1) {
+        drop(j);
+        continue;
+      }
       const lim = k.stop ? k.stop(k) : Infinity;
       let nd = k.d + k.v * dt;
       if (nd > lim) {
@@ -144,9 +161,7 @@ export function packets(layer: SVGGElement) {
         k.i++;
         if (k.i >= k.segs.length) {
           k.end?.(k);
-          layer.removeChild(k.g);
-          pool.push(k.g);
-          live.splice(j, 1);
+          drop(j);
           continue;
         }
         s = k.segs[k.i]!;
@@ -155,15 +170,23 @@ export function packets(layer: SVGGElement) {
           k.cls = s.cls;
         }
       }
-      // waiting at a gate: it keeps retrying
+      // waiting at a gate: it keeps retrying (t stands still once the scene rests)
       const jitter = k.wait > 0.25 ? Math.sin(t * 22 + k.ph) * 1.3 : 0;
       const len = s.track!.len;
       place(k.g, s.track!, k.d, jitter);
       const fadeIn = clamp(k.age / 0.18, 0, 1);
       const fadeOut = k.i === k.segs.length - 1 ? clamp((len - k.d) / 14, 0, 1) : 1;
       const auto = k.autofade ? clamp(1.7 - 2.2 * (k.d / len), 0, 1) : 1;
-      fade(k.g, s.hide ? 0 : fadeIn * fadeOut * auto);
+      fade(k.g, s.hide ? 0 : fadeIn * fadeOut * auto * (1 - k.out));
     }
+    return live.length > 0;
+  }
+
+  function drop(j: number): void {
+    const g = live[j]!.g;
+    layer.removeChild(g);
+    pool.push(g);
+    live.splice(j, 1);
   }
 
   return { spawn, update, live };

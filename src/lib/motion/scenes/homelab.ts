@@ -1,6 +1,6 @@
 /** Motion for the homelab scene and the homelab homepage card. */
 import { CL, H } from "~/lib/art/scenes/homelab.layout";
-import { fade, fadeTowards, hideStill, move, parts } from "../dom";
+import { attr, fade, fadeTowards, hideStill, move, parts } from "../dom";
 import { blinker, restLeds } from "../leds";
 import { clamp, ease as E, lerp, seg } from "../math";
 import { courier, prime, track } from "../packets";
@@ -8,6 +8,10 @@ import { firstAlong } from "~/lib/art/geometry";
 import type { SceneFactory } from "../types";
 
 type Path = SVGPathElement;
+
+/** The lit route's dash pattern (art.css: 5 on, 7 off), and how fast it flows, per second. */
+const DASH = 12,
+  DASH_SPEED = DASH / 0.7;
 
 /**
  * One change, git push to running. Scroll moves a single packet along its journey. The route
@@ -38,20 +42,34 @@ const loop: SceneFactory = (svg) => {
   const hot = legs.map(([route]) => {
     const h = route.cloneNode() as Path;
     h.removeAttribute("data-k");
+    h.setAttribute("data-rt", "");
     h.setAttribute("class", "k-route-hot");
     h.style.opacity = "0";
     route.after(h);
     return h;
   });
   const arrivals = legs.map(([, , end, , key]) => ({ el: K[key], end }));
-  return (p, dt, t) => {
-    blink(dt);
+  const {
+    "commit-push": commitPush,
+    "commit-tag": commitTag,
+    hatch,
+    buildled,
+    crate,
+    "route-watch": watchRoute,
+    oldpod,
+    newpod,
+    gate,
+    bar,
+  } = K;
+  return (p, dt, t, _s, rest) => {
+    blink(dt, rest);
     legs.forEach(([, a0, a1], i) => {
       // lit from just before the packet sets off until just after it arrives; the push route
       // lights again when the tag commit's build comes back round to the gate
       const on = (p > a0 - 0.01 && p < a1 + 0.015) || (i === 0 && p > 0.77 && p < 0.92);
       fadeTowards(hot[i], on ? 0.95 : 0, dt, 9);
-      hot[i]!.classList.toggle("is-hot", on);
+      // the dash flows on the scene's clock, so it stands still whenever the scene does
+      if (on) attr(hot[i], "stroke-dashoffset", -((t * DASH_SPEED) % DASH));
     });
     for (const { el, end } of arrivals) {
       const u = seg(p, end - 0.004, end + 0.045),
@@ -60,31 +78,31 @@ const loop: SceneFactory = (svg) => {
       el?.classList.toggle("is-ping", bump > 0.15);
     }
     const a = seg(p, 0, 0.05);
-    move(K["commit-push"], 0, 0, lerp(0.3, 1, E.outBack(a, 2.4)));
-    fade(K["commit-push"], Math.min(1, a * 3));
-    // the build works while the packet is inside
+    move(commitPush, 0, 0, lerp(0.3, 1, E.outBack(a, 2.4)));
+    fade(commitPush, Math.min(1, a * 3));
+    // the build works while the packet is inside (and stops working when the reader does)
     const bw = seg(p, 0.16, 0.24),
-      busy = bw > 0 && bw < 1;
-    move(K["hatch"], 0, busy ? Math.sin(t * 40) * 1.2 : 0);
-    K["buildled"]?.classList.toggle("is-blink", busy && Math.sin(t * 30) > 0);
+      busy = bw > 0 && bw < 1 && !rest;
+    move(hatch, 0, busy ? Math.sin(t * 40) * 1.2 : 0);
+    buildled?.classList.toggle("is-blink", busy && Math.sin(t * 30) > 0);
     const cr = seg(p, 0.29, 0.35);
-    move(K["crate"], 0, -26 * (1 - E.outBack(cr, 1.8)));
-    fade(K["crate"], Math.min(1, cr * 3));
-    fade(K["route-watch"], 0.35 + 0.65 * Math.sin(Math.PI * seg(p, 0.33, 0.44)));
+    move(crate, 0, -26 * (1 - E.outBack(cr, 1.8)));
+    fade(crate, Math.min(1, cr * 3));
+    fade(watchRoute, 0.35 + 0.65 * Math.sin(Math.PI * seg(p, 0.33, 0.44)));
     const tg = seg(p, 0.5, 0.55);
-    move(K["commit-tag"], 0, 0, lerp(0.3, 1, E.outBack(tg, 2.4)));
-    fade(K["commit-tag"], Math.min(1, tg * 3));
+    move(commitTag, 0, 0, lerp(0.3, 1, E.outBack(tg, 2.4)));
+    fade(commitTag, Math.min(1, tg * 3));
     const sw = seg(p, 0.64, 0.74);
-    fade(K["oldpod"], 1 - seg(sw, 0, 0.4));
-    move(K["oldpod"], 0, 0, lerp(1, 0.6, seg(sw, 0, 0.4)));
-    move(K["newpod"], 0, 0, lerp(0.4, 1, E.outBack(seg(sw, 0.3, 1), 2.2)));
-    fade(K["newpod"], seg(sw, 0.3, 0.6));
+    fade(oldpod, 1 - seg(sw, 0, 0.4));
+    move(oldpod, 0, 0, lerp(1, 0.6, seg(sw, 0, 0.4)));
+    move(newpod, 0, 0, lerp(0.4, 1, E.outBack(seg(sw, 0.3, 1), 2.2)));
+    fade(newpod, seg(sw, 0.3, 0.6));
     // the loop: the gate shows up, closes, and the tag commit's build waits there and gives up
     const gs = seg(p, 0.74, 0.8),
       gc = seg(p, 0.76, 0.86);
-    fade(K["gate"], gs);
+    fade(gate, gs);
     move(
-      K["bar"],
+      bar,
       0,
       0,
       1,
@@ -95,16 +113,17 @@ const loop: SceneFactory = (svg) => {
         wait = seg(p, 0.86, 0.97);
       put(
         push,
-        stopF * E.outCubic(w) + (wait > 0 && wait < 1 ? Math.sin(t * 22) * 0.012 : 0),
+        stopF * E.outCubic(w) + (wait > 0 && wait < 1 && !rest ? Math.sin(t * 22) * 0.012 : 0),
         "pk--ink",
         1 - E.inCubic(seg(p, 0.9, 0.98)),
       );
-      return;
+      return false;
     }
     let leg: (typeof legs)[number] | undefined;
     for (const l of legs) if (p >= l[1] && p < l[2]) leg = l;
     if (leg) put(leg[0], E.inOutCubic(seg(p, leg[1], leg[2])), leg[3]);
     else put();
+    return false;
   };
 };
 
@@ -120,20 +139,22 @@ const cardLoop: SceneFactory = (svg) => {
   const loopPath = K["loop"] as Path,
     put = courier(K["pk"] as SVGGElement);
   const fBuild = CL.buildAt,
-    fLap = CL.laptopAt;
+    fLap = CL.laptopAt,
+    { "commit-new": commitNew, hatch, buildled, newpod } = K;
   return (p, dt, t) => {
     if (p >= 1) restLeds(svg);
     else blink(dt);
     const f = 0.9 * p;
     put(loopPath, f, f > fLap ? "pk--ink" : "", 1 - seg(p, 0.86, 1));
-    move(K["commit-new"], 0, 0, 1 + 0.35 * Math.sin(Math.PI * seg(f, 0, 0.06)));
+    move(commitNew, 0, 0, 1 + 0.35 * Math.sin(Math.PI * seg(f, 0, 0.06)));
     const inBuild = Math.abs(f - fBuild) < 0.05;
-    move(K["hatch"], 0, inBuild ? Math.sin(t * 40) : 0);
-    K["buildled"]?.classList.toggle("is-blink", inBuild && Math.sin(t * 30) > 0);
+    move(hatch, 0, inBuild ? Math.sin(t * 40) : 0);
+    buildled?.classList.toggle("is-blink", inBuild && Math.sin(t * 30) > 0);
     const pp = seg(f, fLap, fLap + 0.08),
       out = seg(f, 0.94, 1);
-    move(K["newpod"], 0, 0, pp > 0 ? lerp(0.4, 1, E.outBack(pp, 2.2)) : 0.4);
-    fade(K["newpod"], Math.min(pp * 2.5, 1) * (1 - out));
+    move(newpod, 0, 0, pp > 0 ? lerp(0.4, 1, E.outBack(pp, 2.2)) : 0.4);
+    fade(newpod, Math.min(pp * 2.5, 1) * (1 - out));
+    return false;
   };
 };
 

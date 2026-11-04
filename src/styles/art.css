@@ -923,7 +923,8 @@
 
   /*
    * The route a change is travelling, in the homelab scene: an amber copy over the route with
-   * a dash that flows the packet's way (src/lib/motion/scenes/homelab.ts fades it in and out).
+   * a dash that flows the packet's way (src/lib/motion/scenes/homelab.ts fades it in and out,
+   * and moves the dash on the scene's clock, so it stops when the scene comes to rest).
    */
   .scene-svg .k-route-hot {
     fill: none;
@@ -932,16 +933,6 @@
     stroke-linecap: round;
     stroke-dasharray: 5, 7;
     pointer-events: none;
-  }
-
-  .scene-svg .k-route-hot.is-hot {
-    animation: route-flow 0.7s linear infinite;
-  }
-
-  @keyframes route-flow {
-    to {
-      stroke-dashoffset: -12;
-    }
   }
 
   /* a machine's label nods when the packet reaches it */

@@ -13,12 +13,20 @@
  * unasked). Hovering or focusing the card plays it again, a little faster; so does a tap on
  * the drawing.
  *
+ * A scroll scene moves while the reader scrolls. Once its progress has stood still (and the page
+ * hasn't scrolled) for REST seconds, it settles: no new packets, the ones on their way fade out,
+ * the LEDs and every clock-driven wobble stop, and when nothing is left moving it isn't ticked
+ * again until the next scroll (WCAG 2.2.2). With nothing left to tick, the loop sleeps.
+ *
  * Everything runs on the page's one scheduler, and only while something is on screen. An
  * animator is built ahead of time, when its drawing comes within a screen of the viewport, in
  * idle time and a few at a time, so a scene never stalls the frame it first appears in.
- * Each frame reads every position first and then writes, and allocates nothing.
+ * Each frame reads every position first and then writes, and allocates nothing. An animator
+ * that throws (when it's built, or in a frame) is reported, its drawing goes back to its still,
+ * and everything else keeps moving.
  */
 import { media, px } from "~/styles/tokens";
+import { toStill } from "./dom";
 import { approach, clamp } from "./math";
 import type { Scheduler } from "./scheduler";
 import type { Animator, SceneFactory } from "./types";
@@ -26,8 +34,17 @@ import type { Animator, SceneFactory } from "./types";
 interface Player {
   /** Built ahead of time (see build()), or on the first frame it's needed at the latest. */
   run: Animator | null;
+  /** Its drawing id, for the error report. */
+  id: string;
+  /** It threw: it shows its still and is never ticked again. */
+  broken: boolean;
   svg: SVGSVGElement;
   factory: (svg: SVGSVGElement) => Animator;
+  /** The progress it was last asked for, and when that (or the page's scroll) last changed (ms). */
+  target: number;
+  since: number;
+  /** It has settled and has nothing left to move (see REST). */
+  asleep: boolean;
   /** Smoothed progress (-1 before the first frame). */
   ps: number;
   t: number;
@@ -74,7 +91,54 @@ function player(root: Element, id: string): Player | null {
   const svg = root.querySelector<SVGSVGElement>("svg.scene-svg");
   const factory = animators[id];
   if (!svg || !factory) return null;
-  return { run: null, svg, factory, ps: -1, t: 0, speed: 1, speedTarget: 1 };
+  const a: Player = {
+    run: null,
+    id,
+    broken: false,
+    svg,
+    factory,
+    target: -1,
+    since: 0,
+    asleep: false,
+    ps: -1,
+    t: 0,
+    speed: 1,
+    speedTarget: 1,
+  };
+  all.push(a);
+  return a;
+}
+
+/** Every player on the page (the scroll handler stirs them all). */
+const all: Player[] = [];
+
+/**
+ * How long (ms, on the wall clock) a scroll scene's progress stands still before it settles.
+ * Its last packets fade out and its pods finish within about half a second more, so it is
+ * still well inside the five seconds WCAG 2.2.2 allows, also on a slow phone.
+ */
+const REST = 3500;
+
+/** Takes a failed animator out of play: says so, and puts its drawing back to the still. */
+function fail(a: Player, error: unknown): void {
+  a.broken = true;
+  a.run = null;
+  console.error(`motion: the "${a.id}" animator threw; its drawing stays still`, error);
+  toStill(a.svg);
+}
+
+/** Builds a player's animator now, unless it's built or broken. Returns whether it can run. */
+function ready(a: Player): a is Player & { run: Animator } {
+  if (a.broken) return false;
+  if (!a.run) {
+    try {
+      a.run = a.factory(a.svg);
+    } catch (error) {
+      fail(a, error);
+      return false;
+    }
+  }
+  return true;
 }
 
 /* Building animators in idle time, a few per idle period. */
@@ -90,7 +154,7 @@ function drain(d: { timeRemaining: () => number }): void {
   // at least one per callback, so a busy page still gets there
   do {
     const a = queue.shift();
-    if (a) a.run ??= a.factory(a.svg);
+    if (a) ready(a);
   } while (queue.length && d.timeRemaining() > 6);
   if (queue.length) build();
 }
@@ -104,15 +168,43 @@ function build(...players: Player[]): void {
   }
 }
 
-/** Advances a player one frame. Scroll progress is smoothed so a jumpy wheel reads as one motion. */
-function tick(a: Player, p: number, dt: number): void {
-  a.run ??= a.factory(a.svg);
+/**
+ * Advances a scroll scene one frame. Scroll progress is smoothed so a jumpy wheel reads as one
+ * motion. Returns whether it wants another frame: false once it has settled (see REST).
+ */
+function tick(a: Player, p: number, dt: number, now: number): boolean {
+  if (!ready(a)) return false;
+  if (Math.abs(p - a.target) > 1e-4) {
+    a.target = p;
+    a.since = now;
+  }
+  const rest = now - a.since >= REST;
+  if (rest && a.asleep) return false;
+  a.asleep = false;
   if (a.ps < 0) a.ps = p;
   else a.ps += (p - a.ps) * approach(dt, 7);
   if (Math.abs(a.ps - p) < 0.0005) a.ps = p;
   a.speed += (a.speedTarget - a.speed) * approach(dt, 4);
-  a.t += dt * a.speed;
-  a.run(a.ps, dt * a.speed, a.t, a.speed);
+  // the clock behind the wobbles (a waiting packet, a spinner) stands still once it rests
+  if (!rest) a.t += dt * a.speed;
+  let moving: boolean;
+  try {
+    moving = a.run(a.ps, dt * a.speed, a.t, a.speed, rest);
+  } catch (error) {
+    fail(a, error);
+    return false;
+  }
+  if (rest && !moving && a.ps === p) a.asleep = true;
+  return !a.asleep;
+}
+
+/** The reader scrolled: every scene wakes up (and stays awake for another REST). */
+function stir(): void {
+  const now = performance.now();
+  for (const a of all) {
+    a.since = now;
+    a.asleep = false;
+  }
 }
 
 /** A card's pass, in seconds at normal speed, and the settling after it (still ticking at p = 1). */
@@ -122,11 +214,16 @@ const PASS = 4.2,
 /** Advances a live card one frame. Returns whether it is still moving. */
 function tickCard(c: { player: Player; at: number }, dt: number): boolean {
   const a = c.player;
-  a.run ??= a.factory(a.svg);
+  if (!ready(a)) return false;
   a.speed += (a.speedTarget - a.speed) * approach(dt, 4);
   c.at = Math.min(PASS + SETTLE, c.at + dt * a.speed);
   a.t += dt * a.speed;
-  a.run(Math.min(1, c.at / PASS), dt * a.speed, a.t, a.speed);
+  try {
+    a.run(Math.min(1, c.at / PASS), dt * a.speed, a.t, a.speed, false);
+  } catch (error) {
+    fail(a, error);
+    return false;
+  }
   return c.at < PASS + SETTLE;
 }
 
@@ -234,10 +331,10 @@ function layout(section: Section, wide: boolean): void {
 }
 
 /** Reads one section's positions and decides this frame's progress. No writes. */
-function readSection(section: Section, vh: number): boolean {
+function readSection(section: Section, vh: number): void {
   section.job = null;
   if (section.wide) {
-    if (!section.visible) return false;
+    if (!section.visible) return;
     // the step whose top has passed the middle of the window plays
     let idx = 0,
       top = 0,
@@ -258,9 +355,8 @@ function readSection(section: Section, vh: number): boolean {
     const local = clamp((vh * 0.5 - lead - top) / Math.max(1, height - vh * 0.25 - lead), 0, 1);
     section.job = it;
     section.jobP = it.from + (it.to - it.from) * local;
-    return true;
+    return;
   }
-  let any = false;
   for (const it of section.items) {
     if (!it.seen) {
       it.p = -1;
@@ -268,13 +364,11 @@ function readSection(section: Section, vh: number): boolean {
     }
     const r = it.fig.getBoundingClientRect();
     it.p = it.from + (it.to - it.from) * clamp((vh * 0.92 - r.top) / (vh * 0.6), 0, 1);
-    any = true;
   }
-  return any;
 }
 
-/** Plays one section's frame: the stage hand-off, then the animators. */
-function writeSection(section: Section, dt: number): void {
+/** Plays one section's frame: the stage hand-off, then the animators. Returns whether any is still moving. */
+function writeSection(section: Section, dt: number, now: number): boolean {
   const it = section.job;
   if (it) {
     if (section.active !== it) {
@@ -283,10 +377,11 @@ function writeSection(section: Section, dt: number): void {
       for (const f of section.stage!.children) f.classList.toggle("is-on", f === fig);
       section.active = it;
     }
-    tick(section.primary.get(it.id)!.player, section.jobP, dt);
-    return;
+    return tick(section.primary.get(it.id)!.player, section.jobP, dt, now);
   }
-  for (const x of section.items) if (x.p >= 0) tick(x.player, x.p, dt);
+  let busy = false;
+  for (const x of section.items) if (x.p >= 0 && tick(x.player, x.p, dt, now)) busy = true;
+  return busy;
 }
 
 /**
@@ -371,14 +466,25 @@ export function startMotion(scheduler: Scheduler, pageAnimators: Record<string, 
     return [card];
   });
 
+  if (sections.length) {
+    // a scroll (or a resize, which moves the steps) wakes the scenes that have settled
+    const onScroll = (): void => {
+      stir();
+      wake();
+    };
+    addEventListener("scroll", onScroll, { passive: true });
+    addEventListener("resize", onScroll, { passive: true });
+  }
+
   scheduler.add((dt) => {
     if (isPrinting()) return false;
-    const vh = window.innerHeight;
+    const vh = window.innerHeight,
+      now = performance.now();
     let busy = false;
     // every read first...
-    for (const section of sections) if (readSection(section, vh)) busy = true;
+    for (const section of sections) readSection(section, vh);
     // ...then every write
-    for (const section of sections) writeSection(section, dt);
+    for (const section of sections) if (writeSection(section, dt, now)) busy = true;
     for (const c of cards) if (c.seen && c.at < PASS + SETTLE && tickCard(c, dt)) busy = true;
     return busy;
   });
