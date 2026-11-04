@@ -46,7 +46,7 @@ export function initPrints(): void {
     const on = (e: PointerEvent): void => {
       if (e.pointerType !== "touch") print.classList.add("is-lifted");
     };
-    const off = (): void => void print.classList.remove("is-lifted");
+    const off = (): void => print.classList.remove("is-lifted");
     item.addEventListener("pointerenter", on);
     item.addEventListener("pointerleave", off);
   }

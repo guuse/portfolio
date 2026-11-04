@@ -41,11 +41,12 @@ interface SwapEvent extends Event {
 interface RevealEvent extends Event {
   viewTransition: ViewTransition | null;
 }
-type WithNavigation = Window & {
+/** The Navigation API, which not every browser has (the DOM types assume it's always there). */
+interface MaybeNavigation {
   navigation?: {
     activation?: { from?: { url: string | null } | null; entry: { url: string | null } } | null;
   };
-};
+}
 
 export function initPageTransitions(): void {
   addEventListener("pageswap", (e) => {
@@ -56,7 +57,7 @@ export function initPageTransitions(): void {
   addEventListener("pagereveal", (e) => {
     const ev = e as RevealEvent;
     if (!ev.viewTransition) return;
-    const act = (window as WithNavigation).navigation?.activation;
+    const act = (window as MaybeNavigation).navigation?.activation;
     mark(subject(act?.from?.url, act?.entry.url ?? location.href), ev.viewTransition.finished);
   });
 }

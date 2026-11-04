@@ -16,7 +16,7 @@ export function initSmoothAnchors(): void {
   };
   document.addEventListener("click", (e) => {
     if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-    const a = (e.target as Element | null)?.closest?.<HTMLAnchorElement>("a[href*='#']");
+    const a = e.target instanceof Element ? e.target.closest<HTMLAnchorElement>("a[href*='#']") : null;
     // the skip link should jump: it's a shortcut, not a journey
     if (!a || a.classList.contains("skip-link") || !motionOk()) return;
     const url = new URL(a.href);

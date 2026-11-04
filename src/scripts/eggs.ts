@@ -127,7 +127,7 @@ function toast(message: string): void {
   clearTimeout(toastTimer);
   el.classList.remove("is-shown");
   el.textContent = message;
-  void el.offsetWidth; // restart the animation if it is still running
+  el.getBoundingClientRect(); // a reflow, so the animation restarts if it is still running
   el.classList.add("is-shown");
   toastTimer = window.setTimeout(() => {
     el.classList.remove("is-shown");
@@ -145,7 +145,7 @@ function konami(): void {
     if (motionOk()) {
       const root = document.documentElement;
       root.classList.remove("is-untapping");
-      void root.offsetWidth; // restart the animation if it is still running
+      root.getBoundingClientRect(); // a reflow, so the animation restarts if it is still running
       root.classList.add("is-untapping");
       // a frame or so after the animation (the same token) has finished
       setTimeout(() => root.classList.remove("is-untapping"), ms.untap + 100);

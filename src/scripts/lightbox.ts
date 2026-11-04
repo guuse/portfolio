@@ -97,7 +97,7 @@ export function initLightbox(): void {
 
   for (const link of document.querySelectorAll("a[data-lb]")) link.setAttribute("aria-haspopup", "dialog");
   document.addEventListener("click", (e) => {
-    const link = (e.target as Element).closest?.<HTMLAnchorElement>("a[data-lb]");
+    const link = e.target instanceof Element ? e.target.closest<HTMLAnchorElement>("a[data-lb]") : null;
     // a new tab, a download, a middle click: the link does what links do
     if (!link || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     e.preventDefault();

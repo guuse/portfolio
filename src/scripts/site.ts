@@ -38,10 +38,10 @@ if (motionOk() && "IntersectionObserver" in window) {
       void Promise.all([import("~/lib/motion/controller"), loadAnimators(ids)]).then(
         ([{ startMotion }, animators]) => startMotion(scheduler, animators),
       );
-    const idle = (): void =>
-      void ("requestIdleCallback" in window
-        ? requestIdleCallback(start, { timeout: 1500 })
-        : setTimeout(start, 200));
+    const idle = (): void => {
+      if ("requestIdleCallback" in window) requestIdleCallback(start, { timeout: 1500 });
+      else setTimeout(start, 200);
+    };
     if (document.readyState === "complete") idle();
     else addEventListener("load", idle, { once: true });
   }

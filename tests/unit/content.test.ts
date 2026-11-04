@@ -4,7 +4,7 @@ import { parse } from "yaml";
 import * as schema from "~/content/schemas";
 
 const load = (name: string): unknown[] =>
-  parse(readFileSync(new URL(`../../src/content/${name}.yaml`, import.meta.url), "utf8"));
+  parse(readFileSync(new URL(`../../src/content/${name}.yaml`, import.meta.url), "utf8")) as unknown[];
 const cases = [
   ["experience", schema.experience],
   ["interests", schema.interest],

@@ -82,7 +82,7 @@ export function fan(
       { transform: `rotate(${n(a)} ${n(cx)} ${n(by + w * 1.6)})` },
       g(
         {
-          "data-k": o.keys ? o.keys + i : undefined,
+          "data-k": o.keys ? `${o.keys}${i}` : undefined,
           opacity: o.hide?.(i) ? 0 : undefined,
           class: o.keys ? "k-origin-b" : undefined,
         },

@@ -41,9 +41,14 @@ export function initCopyEmail(): void {
       );
     };
     btn.addEventListener("click", () => {
-      const text = (target.textContent ?? "").trim();
-      if (!navigator.clipboard) return fallback();
-      navigator.clipboard.writeText(text).then(() => say("done", "Copied to the clipboard."), fallback);
+      const text = target.textContent.trim();
+      // absent outside a secure context, whatever the DOM types say
+      const clipboard = navigator.clipboard as Clipboard | undefined;
+      if (!clipboard) {
+        fallback();
+        return;
+      }
+      clipboard.writeText(text).then(() => say("done", "Copied to the clipboard."), fallback);
     });
   }
 }

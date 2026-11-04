@@ -227,8 +227,7 @@ function layout(S: Section, wide: boolean): void {
   S.active = null;
   for (const it of S.primary.values()) {
     if (staged) S.stage!.appendChild(it.fig);
-    else
-      it.home.insertBefore(it.fig, it.next && it.next.parentNode === it.home ? it.next : it.home.firstChild);
+    else it.home.insertBefore(it.fig, it.next?.parentNode === it.home ? it.next : it.home.firstChild);
   }
 }
 
