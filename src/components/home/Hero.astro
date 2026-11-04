@@ -65,7 +65,13 @@ const stats = [
             See projects <Arrow />
           </TextLink>
           <span class="mailbox">
-            <a class="email" id="mail-top" href={`mailto:${site.email}`} set:html={emailHtml} />
+            <a
+              class="email"
+              id="mail-top"
+              href={`mailto:${site.email}`}
+              aria-label={site.email}
+              set:html={emailHtml}
+            />
             <CopyButton target="mail-top" label="Copy email" />
           </span>
           <span class="actions__more">
@@ -387,6 +393,15 @@ const stats = [
       opacity: 0;
       transform: translateX(-50%);
       transition: opacity var(--duration-quick) var(--ease-out);
+    }
+
+    /* on a narrow window (a phone, 400% zoom) the button is near the edge: the tag ends where it does */
+    @media (--below-xs) {
+      .mailbox :global(.copy__labels) {
+        left: auto;
+        right: 0;
+        transform: none;
+      }
     }
 
     .mailbox :global(.copy:focus-visible .copy__labels),

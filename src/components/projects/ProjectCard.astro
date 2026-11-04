@@ -165,6 +165,15 @@ const href = caseStudyHref(p.id);
       text-decoration: none;
     }
 
+    /* a full touch target, though the heading's line is shorter */
+    @media (pointer: coarse) {
+      .pcard__title a {
+        display: inline-flex;
+        align-items: center;
+        min-height: var(--size-touch);
+      }
+    }
+
     .pcard__line {
       font-size: var(--text-lead);
       line-height: 1.4;
