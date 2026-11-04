@@ -26,5 +26,7 @@ export default {
     "color-function-alias-notation": null,
     "no-descending-specificity": null,
     "declaration-block-single-line-max-declarations": null,
+    // Safari before 18 only knows -webkit-backdrop-filter.
+    "property-no-vendor-prefix": [true, { ignoreProperties: ["/backdrop-filter$/"] }],
   },
 };
