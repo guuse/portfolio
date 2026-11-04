@@ -4,7 +4,9 @@
 *.avif binary
 *.woff2 binary
 *.ico binary
-# The design archive is history, not source: keep it out of language stats and diffs.
-design/** linguist-documentation -diff
+# The design archive is history, not source: keep it out of GitHub's language stats. Its
+# diffs stay visible, so grep, review and secret scanners see it like everything else.
+design/** linguist-documentation
 src/styles/tokens.* linguist-generated
-package-lock.json linguist-generated -diff
+# Collapsed on GitHub, but still diffed: a dependency change deserves a look.
+package-lock.json linguist-generated

@@ -6,7 +6,7 @@ AI-created vibe."*
 
 Four independent reviews (visual designer, hiring manager + recruiter, senior SRE peer,
 information architect) reached the same conclusions. This document is the agreed plan.
-Their raw reports: `/tmp/claude-0/-home-user/76a5e86b-d7ab-5604-97f6-110f3e68ad15/scratchpad/review/`.
+Their raw reports were working notes and aren't kept; this is what they agreed on.
 
 ---
 
