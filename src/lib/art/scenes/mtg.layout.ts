@@ -105,8 +105,8 @@ export const M5 = {
   ty: 160,
   scryfall: { x: 470, y: 144, w: 100, h: 42 },
   fans: [
-    { cx: 168, l: "stricter" },
-    { cx: 420, l: "broader" },
+    { cx: 168, l: "best match" },
+    { cx: 420, l: "alternatives" },
   ],
   /** Each fan's six cards, from left to right, in degrees. */
   fanAngles: [-28, -16.8, -5.6, 5.6, 16.8, 28],

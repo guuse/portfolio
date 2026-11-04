@@ -172,7 +172,7 @@ export function hands(): string {
   return svg(
     "hands",
     "0 0 600 440",
-    "The server in the middle holds all four hands. Each of the four players' screens shows their own hand face up, the other hands only as face-down backs with a count, and the shared battlefield. A replay timeline runs underneath.",
+    "The server in the middle holds all four hands. Each of the four players’ screens shows their own hand face up, the other hands only as face-down backs with a count, and the shared battlefield. A replay timeline runs underneath.",
     b,
   );
 }
@@ -214,7 +214,7 @@ export function decks(): string {
   return svg(
     "decks",
     "0 0 600 440",
-    "Tutor as a shelving unit: two shelves of deck boxes and a playgroup shelf with four friends' binders. One deck box has moved from the shelf to an empty seat at the Rules of 99 table.",
+    "Tutor as a shelving unit: two shelves of deck boxes and a playgroup shelf with four friends’ binders. One deck box has moved from the shelf to an empty seat at the Rules of 99 table.",
     b,
   );
 }
@@ -252,7 +252,7 @@ export function search(): string {
     circle(S.x + S.w - 2, S.y - 4, 11, "m-tickbg") +
       path(`M${S.x + S.w - 7} ${S.y - 4}l3.5 3.5 6.5 -7`, "m-tickmark"),
   );
-  // two readings, each with its cards: the stricter one shows fewer
+  // a best match and its alternatives, each with its cards: the best match shows fewer
   M5.fans.forEach((f, j) => {
     b += g(
       { "data-k": `fan${j}` },
@@ -264,7 +264,7 @@ export function search(): string {
   return svg(
     "search",
     "0 0 600 440",
-    "A request in plain words, 'green creatures that draw cards', turns into a Scryfall query in three pieces, each with what it means. The query is checked against Scryfall, then comes back as two readings, a stricter one with fewer cards and a broader one with more.",
+    "A request in plain words, “green creatures that draw cards”, turns into a Scryfall query in three pieces, each with what it means. The query is checked against Scryfall, then comes back as a best match with fewer cards and alternatives with more.",
     b,
   );
 }

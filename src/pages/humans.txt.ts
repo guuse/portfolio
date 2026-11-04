@@ -9,12 +9,12 @@ const body = `/* TEAM */
   From: ${site.city}, the Netherlands
 
 /* THANKS */
-  The friends who test the MTG tools, and file the bug reports.
+  The friends who test the MTG tools and file the bug reports.
 
 /* SITE */
   Last update: ${new Date().toISOString().slice(0, 10)}
   Language: English
-  Standards: HTML, CSS, TypeScript, SVG
+  Standards: HTML, CSS, SVG
   Components: Astro, Style Dictionary, Fontsource
   Fonts: Instrument Serif, Schibsted Grotesk, Geist Mono
   Icons: AWS Architecture Icons, Simple Icons

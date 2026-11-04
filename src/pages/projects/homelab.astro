@@ -21,7 +21,7 @@ const icons = ["si-argo", "si-tailscale", "si-cloudflare", "si-traefikproxy", "s
   type="article"
   title="Homelab · Guus Ekkelenkamp"
   og="homelab"
-  description="Case study: a single-node k3s platform with Argo CD and Home Assistant, with no open ports."
+  description="Case study: a single-node k3s platform with Argo CD and Home Assistant and no open ports."
   icons={icons}
 >
   <CaseHero
@@ -72,8 +72,8 @@ const icons = ["si-argo", "si-tailscale", "si-cloudflare", "si-traefikproxy", "s
   <Section id="repo" title="One repo runs it all" bodyClass="prose">
     <p>
       One repo holds an app-of-apps root that manages every app, including Argo CD itself. Adding an app is
-      adding one file, and one shared credential lets Argo read all my private repos. It runs 15 applications
-      now.
+      adding one file, and one shared credential lets Argo CD read all my private repos. It runs 15
+      applications now.
     </p>
     <HomelabDiagram svg={apps()} kind="apps" />
     <Snippet
@@ -89,9 +89,9 @@ const icons = ["si-argo", "si-tailscale", "si-cloudflare", "si-traefikproxy", "s
     </p>
     <p>
       Two other ways in are opt-in, per app. A few apps are public through a Cloudflare Tunnel with Access in
-      front, so there’s a login and no open port. For a party, Tailscale Funnel gives a temporary public URL,
-      for example for a quiz. Every app gets TLS from one wildcard Let’s Encrypt certificate, issued through
-      Cloudflare DNS-01.
+      front, so there’s a login and no open port. This site is the exception: it’s public with no login. For a
+      party, Tailscale Funnel gives a temporary public URL, say, for a quiz. Every app in the cluster gets TLS
+      from one wildcard Let’s Encrypt certificate, issued through Cloudflare DNS-01.
     </p>
     <HomelabDiagram svg={ways()} kind="ways" />
   </Section>
@@ -114,7 +114,7 @@ const icons = ["si-argo", "si-tailscale", "si-cloudflare", "si-traefikproxy", "s
   <Section id="home-assistant" title="Home Assistant" bodyClass="prose">
     <p>
       Home Assistant runs in its own VM next to the cluster, because passing the Zigbee USB stick through to a
-      VM is one line of config. HTTPS goes through an NGINX proxy, with plain HTTP on the home network as a
+      VM is one line of config. HTTPS goes through an nginx proxy, with plain HTTP on the home network as a
       fallback.
     </p>
     <p>
@@ -128,14 +128,13 @@ const icons = ["si-argo", "si-tailscale", "si-cloudflare", "si-traefikproxy", "s
       items={[
         {
           symptom: "Builds kept running in a loop, each one producing a new image (August 2026).",
-          cause:
-            "Image Updater commits the new version back into the same repo, so CI built that commit, made a new image, and Image Updater committed again.",
-          fix: "CI ignores <code>deploy/</code> with <code>paths-ignore</code>.",
+          cause: "Image Updater’s own commit started a new build.",
+          fix: "Make CI ignore <code>deploy/</code> with <code>paths-ignore</code>.",
         },
         {
           symptom: "The k3s node hit disk pressure at about 30 GiB, on a 64 GiB virtual disk.",
           cause: "The Ubuntu installer gave root only about half of the disk.",
-          fix: "Extend the root volume into the free space with <code>lvextend</code> and <code>resize2fs</code>; if the volume group has no free space left, grow the disk in Proxmox (<code>qm resize</code>) first, then <code>growpart</code> and <code>pvresize</code> inside the guest.",
+          fix: "Extend the root volume into the free space with <code>lvextend</code> and <code>resize2fs</code>. If the volume group has no free space left, first grow the disk in Proxmox (<code>qm resize</code>), then run <code>growpart</code> and <code>pvresize</code> inside the guest.",
         },
         {
           symptom: "Public DNS stopped resolving on the Linux VMs on my tailnet.",

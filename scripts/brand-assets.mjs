@@ -48,14 +48,14 @@ const CARDS = [
     id: "projects",
     kicker: "Projects",
     title: "A platform at work, two things at home.",
-    line: "Why I made each one, how it works, and what broke along the way.",
+    line: "Why I made each one, how it works and what broke along the way.",
     art: "covers/mtg-wide.webp",
   },
   {
     id: "hosting-platform",
     kicker: "Case study · Work at Harborn",
     title: "Hosting platform",
-    line: "The AWS platform our client projects run on, and the same setup on Azure.",
+    line: "The platform our client projects run on: AWS first, and the same setup on Azure for clients who are there.",
     art: "covers/platform-wide.webp",
   },
   {

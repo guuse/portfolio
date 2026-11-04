@@ -6,7 +6,7 @@
 - id: aws
   order: 2
   label: AWS and networking
-  value: EKS, IAM, VPC, RDS and Aurora, Lambda, CloudFront, dual-stack networking; Azure (AKS, Entra ID) where the client lives there
+  value: EKS, IAM, VPC, RDS and Aurora, Lambda, CloudFront, dual-stack networking; Azure (AKS, Entra ID) for clients who are there
 - id: iac
   order: 3
   label: Infrastructure as code
@@ -23,15 +23,11 @@
   order: 6
   label: Currently exploring
   value: AI agents in ops work (Claude Code skills and agents), and the move to Pulumi
-- id: sharing
-  order: 7
-  label: Knowledge sharing
-  value: Training programmes with clients and internal knowledge sessions
 - id: certifications
-  order: 8
+  order: 7
   label: Certifications
   value: AWS Certified (Professional level), Microsoft Azure (Associate level), Certified Kubernetes Administrator (CKA)
 - id: languages
-  order: 9
+  order: 8
   label: Languages
   value: Dutch (native), English (fluent)

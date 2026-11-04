@@ -52,11 +52,11 @@ export function ways(): string {
   b += row(200, "si-tailscale", "A party guest", "Tailscale Funnel", "opt-in, for one evening", "w3");
   b +=
     `<rect class="hn-r" x="560" y="16" width="200" height="226" rx="4"/>${use("si-traefikproxy", 580, 36, 36)}${label(626, 52, "Traefik", "label")}${label(626, 72, "one wildcard cert", "note")}` +
-    `${use("si-letsencrypt", 580, 106, 30)}${label(620, 126, "Let's Encrypt", "note")}${label(580, 190, "0 open ports", "strong")}`;
+    `${use("si-letsencrypt", 580, 106, 30)}${label(620, 126, "Let’s Encrypt", "note")}${label(580, 190, "0 open ports", "strong")}`;
   return wrap(
     "story--ways",
     "0 0 780 260",
-    "Three ways in: my devices over Tailscale by default; a visitor through a Cloudflare Tunnel with Access, opt-in; a party guest through Tailscale Funnel, opt-in. All end at Traefik with one wildcard Let's Encrypt certificate. No open ports.",
+    "Three ways in: my devices over Tailscale by default; a visitor through a Cloudflare Tunnel with Access, opt-in (this site is the exception, with no Access); a party guest through Tailscale Funnel, opt-in. All end at Traefik with one wildcard Let’s Encrypt certificate. No open ports.",
     b,
   );
 }

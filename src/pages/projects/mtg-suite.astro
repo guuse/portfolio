@@ -31,7 +31,7 @@ const skills = "https://github.com/guuse/claude-mtg-skills";
     project="mtg-suite"
     meta="Personal · 2026 · one of the tools is open source:"
     title="MTG suite"
-    line="The Magic tools I build for my friends, so we can learn the game together and play it from our own sofas."
+    line="The Magic tools I build for my friends, so we can learn the game together and play it from home."
   >
     <ExternalLink slot="meta" href={skills}>
       the deck-building skills
@@ -54,7 +54,7 @@ const skills = "https://github.com/guuse/claude-mtg-skills";
       <h3>A table in the browser</h3>
       <p>
         Rules of 99 is Commander in the browser for two to four players, joined with a six-character room
-        code. I didn’t write a rules engine, that’s a lifetime’s work. An open-source one already knows the
+        code. I didn’t write a rules engine; that’s a lifetime’s work. An open-source one already knows the
         rules and runs headless on my server. My part is carrying each question the engine asks to the right
         browser, and each answer back.
       </p>
@@ -78,7 +78,7 @@ const skills = "https://github.com/guuse/claude-mtg-skills";
         and finished games can be replayed turn by turn.
       </p>
       <p>
-        Targeting taught me to trust nothing. The engine numbers players from 0 and cards from 1, and the
+        Targeting taught me to label everything. The engine numbers players from 0 and cards from 1, and the
         server looked up card ids first, so picking player 1 quietly picked card 1. Every option now says what
         kind of thing it is.
       </p>
@@ -111,18 +111,23 @@ const skills = "https://github.com/guuse/claude-mtg-skills";
       <p>
         Scryfall is the card search most players use, and its syntax takes practice. In mine you describe the
         cards in normal words. A model writes the query, the server tests it against Scryfall first, and you
-        get a stricter and a broader reading, each with a breakdown of what every part does. You get your
-        cards and learn the syntax on the way. For deck building there’s also a set of
+        get a best match and two to four alternatives, each with a breakdown of what every part does. You get
+        your cards and learn the syntax on the way. For deck building there’s also a set of
         <ExternalLink href={skills}>open-source Claude Code skills</ExternalLink>, one more tool for the
         group.
       </p>
       <StepShots>
         <StepShot
           src={scryfall}
-          alt="Scryfall in plain words: a search box with a plain-language request and suggestion chips"
+          alt="Scryfall, in plain words: a search box with a plain-language request and suggestion chips"
           caption="Describe the cards in normal words; the query is written and checked for you."
         />
-        <StepShot src={scryfallPhone} alt="Scryfall in plain words on a phone" caption="On a phone." phone />
+        <StepShot
+          src={scryfallPhone}
+          alt="Scryfall, in plain words, on a phone"
+          caption="On a phone."
+          phone
+        />
       </StepShots>
     </SceneStep>
     <SceneStep scene="friends">
@@ -146,18 +151,14 @@ const skills = "https://github.com/guuse/claude-mtg-skills";
           text: "A mock server once hid a bug that made the whole hand unclickable in real games, so I deleted it. Every test now plays against the real server.",
         },
         {
-          title: "Faster isn’t always better.",
+          title: "Fewer stops, less play.",
           text: "When I removed one more stop to speed games up, the scripted test players interacted less, and one seat died early. Fewer questions meant less Magic, so that stop came back.",
-        },
-        {
-          title: "Keep the rules honest, even for friends.",
-          text: "Turning off the free first mulligan would have meant patching the engine to break a rule, so I left that toggle out.",
         },
       ]}
     />
   </Section>
   <Closing
-    line="With my friends I’m usually the one who plans the evening and chases the group chat for a date. These days I bring the table too, and I get the bug reports."
+    line="I was already the one chasing the group chat for a date. These days I bring the table too, and I get the bug reports."
     stack="Built with: Java, React, TypeScript, WebSockets, Node and SQLite."
   />
   <NextNav

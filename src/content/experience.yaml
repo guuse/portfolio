@@ -5,8 +5,8 @@
   years: 2024–now
   intro: The platform I started became the standard for our clients, and running it now means leading the team behind it.
   bullets:
-    - I lead the infra team, up to four engineers. A normal week is reviewing their changes, making architecture decisions, mentoring, and handling client contact and escalations.
-    - 'I run the <a href="/projects/hosting-platform/">hosting platform</a>: 8 Kubernetes clusters for Dutch and international clients on AWS (Ireland and Tokyo) and Azure. The largest runs more than 1,500 pods, and about 80 apps deploy through Argo CD.'
+    - I lead the infra team, up to four engineers. A normal week is reviewing their changes, making architecture decisions, mentoring and handling client contact and escalations.
+    - 'I run the <a href="/projects/hosting-platform/">hosting platform</a>: 8 Kubernetes clusters for Dutch and international clients on AWS (Ireland and Tokyo) and Azure. The largest runs more than 1,500 pods, and every app deploys through Argo CD.'
     - I’m moving infrastructure delivery to Pulumi. We also moved the clusters to IPv6-only, which didn’t go without problems (<a href="#learned">one of them below</a>).
     - I run training programmes with clients and internal knowledge sessions. As security officer for ISO 27001, I maintain the policies, the audits and the management system.
   learned: "What I learned: an hour spent on a review or a training session pays off more than an hour spent fixing things myself."
@@ -16,9 +16,9 @@
   years: 2020–2024
   intro: Once I knew my way around AWS and networking, I moved into infrastructure full time and started the platform I run today.
   bullets:
-    - I designed complex architectures and networks, the part of the work I enjoy most, because each one is a puzzle.
+    - I designed architectures and networks, which I like because each one is a puzzle.
     - I put our Jenkins in code, then the rest of the company’s infrastructure, including the serverless foundations on AWS.
-    - "I started the custom hosting platform: a multi-year project that replaced a separate setup per client with one shared standard."
+    - "I started our hosting platform: a multi-year project that replaced a separate setup per client with one shared standard."
     - I built internal tooling, such as a CLI that gets anyone into any environment with the right role.
   learned: "What I learned: one standard platform, fully in code, is easier to change and support than a custom setup for every client."
 - id: backend

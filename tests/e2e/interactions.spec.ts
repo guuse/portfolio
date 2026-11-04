@@ -6,7 +6,7 @@ test.describe("copy email", () => {
   test("copies the address and says so", async ({ page }) => {
     await page.goto("/");
     const button = page.locator('[data-copy-target="mail-address"]');
-    await expect(button).toHaveAccessibleName("Copy address");
+    await expect(button).toHaveAccessibleName("Copy email");
     const width = (await button.boundingBox())!.width;
     await button.click();
     await expect(button).toHaveAccessibleName("Copied");
@@ -15,7 +15,7 @@ test.describe("copy email", () => {
     expect(await page.evaluate(() => navigator.clipboard.readText())).toBe("ekkelenkampguus@gmail.com");
     // the button keeps its width whatever it says
     expect((await button.boundingBox())!.width).toBe(width);
-    await expect(button).toHaveAccessibleName("Copy address", { timeout: 4000 });
+    await expect(button).toHaveAccessibleName("Copy email", { timeout: 4000 });
   });
 
   test("without a clipboard it selects the address and says how to copy it", async ({ page }) => {

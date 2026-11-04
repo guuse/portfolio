@@ -10,4 +10,4 @@
 - id: as-code
   order: 3
   title: Everything as code
-  text: Jenkins, the infrastructure and the deployments all live in git, so every change is reviewable, repeatable and easy to trace.
+  text: Jenkins, the infrastructure and the deployments all live in git, so every change is reviewable and easy to trace.

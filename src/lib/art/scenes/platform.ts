@@ -323,7 +323,7 @@ export function ipv6(): string {
   return svg(
     "ipv6",
     "0 0 600 440",
-    "The IPv6 move: a cluster's address tag flips from IPv4 to IPv6. Traffic to an IPv4-only service goes through a DNS64/NAT64 translator. Traffic to a database that answers on both an IPv4 and an IPv6 address is held at a security-group gate until the gate is opened for IPv6.",
+    "The IPv6 move: a cluster’s address tag flips from IPv4 to IPv6. Traffic to an IPv4-only service goes through a DNS64/NAT64 translator. Traffic to a database that answers on both an IPv4 and an IPv6 address is held at a security-group gate until the gate is opened for IPv6.",
     b,
   );
 }
