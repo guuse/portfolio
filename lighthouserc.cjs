@@ -3,6 +3,8 @@
  * `astro preview`. The budget: 95+ in every category, LCP under 2 s, CLS under 0.05, TBT
  * under 100 ms, and no more than 40 KB of script per page.
  */
+// A copy of PAGES in tests/pages.ts: a .cjs config can't import the .ts. The unit test
+// tests/unit/lighthouse-pages.test.ts keeps the two lists equal.
 const pages = [
   "/",
   "/projects/",
@@ -14,6 +16,7 @@ const pages = [
 ];
 
 module.exports = {
+  pages,
   ci: {
     collect: {
       startServerCommand: "npm run preview -- --port 4322 --ignore-lock",
