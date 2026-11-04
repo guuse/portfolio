@@ -1,11 +1,43 @@
 ---
 import type { HTMLAttributes } from "astro/types";
 
-/** A link that leaves the site. Opens in a new tab, as the rest of the site does. */
+/**
+ * A link that leaves the site. It opens in a new tab, as every external link on the site
+ * does, and says so: a small arrow for the eye, "(opens in a new tab)" for screen readers.
+ * TextLink uses this too (`external`), so the marker is the same everywhere.
+ */
 type Props = HTMLAttributes<"a"> & { href: string };
 const { href, ...rest } = Astro.props;
 ---
 
 <a href={href} target="_blank" rel="noopener" {...rest}>
   <slot />
+  <svg
+    class="ext"
+    viewBox="0 0 12 12"
+    width="12"
+    height="12"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="1.4"
+    stroke-linecap="round"
+    aria-hidden="true"
+  >
+    <path d="M3.5 8.5l5-5M4.5 3.5h4v4"></path>
+  </svg>
+  <span class="visually-hidden"> (opens in a new tab)</span>
 </a>
+
+<style>
+  @layer components {
+    /* sits on the text's x-height, a hair after the last word, never on a line of its own */
+    .ext {
+      display: inline-block;
+      width: 0.62em;
+      height: 0.62em;
+      margin-inline-start: 0.2em;
+      vertical-align: 0.05em;
+      opacity: 0.75;
+    }
+  }
+</style>

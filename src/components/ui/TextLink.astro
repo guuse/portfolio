@@ -1,5 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types";
+import ExternalLink from "./ExternalLink.astro";
 
 /**
  * The two quiet link styles. `outline` is a 1px bordered button ("See projects");
@@ -7,13 +8,19 @@ import type { HTMLAttributes } from "astro/types";
  * "Read the case study").
  */
 type Props = HTMLAttributes<"a"> & { variant: "outline" | "underline"; external?: boolean };
-const { variant, external, class: cls, ...rest } = Astro.props;
-const ext = external ? { target: "_blank", rel: "noopener" } : {};
+const { variant, external, class: cls, href = "", ...rest } = Astro.props;
+const classes = ["tlink", `tlink--${variant}`, cls];
 ---
 
-<a class:list={["tlink", `tlink--${variant}`, cls]} {...ext} {...rest}>
-  <slot />
-</a>
+{external ? (
+  <ExternalLink class:list={classes} href={String(href)} {...rest}>
+    <slot />
+  </ExternalLink>
+) : (
+  <a class:list={classes} href={href} {...rest}>
+    <slot />
+  </a>
+)}
 
 <style>
   @layer components {
@@ -27,6 +34,11 @@ const ext = external ? { target: "_blank", rel: "noopener" } : {};
         color var(--duration-quick);
     }
 
+    /* the new-tab arrow (ExternalLink) sits closer than the flex gap would put it */
+    .tlink > :global(.ext) {
+      margin-inline-start: -0.2em;
+    }
+
     .tlink--outline {
       min-height: 44px;
       padding: 0 1rem;
@@ -36,9 +48,11 @@ const ext = external ? { target: "_blank", rel: "noopener" } : {};
       color: var(--ink);
     }
 
-    .tlink--outline:hover {
-      color: var(--ink);
-      border-color: var(--accent);
+    @media (hover: hover) {
+      .tlink--outline:hover {
+        color: var(--ink);
+        border-color: var(--accent);
+      }
     }
 
     .tlink--underline {
@@ -47,9 +61,11 @@ const ext = external ? { target: "_blank", rel: "noopener" } : {};
       text-underline-offset: 0.22em;
     }
 
-    .tlink--underline:hover {
-      color: var(--accent);
-      text-decoration-color: currentcolor;
+    @media (hover: hover) {
+      .tlink--underline:hover {
+        color: var(--accent);
+        text-decoration-color: currentcolor;
+      }
     }
   }
 </style>

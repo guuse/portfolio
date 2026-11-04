@@ -8,15 +8,20 @@ import Scenes from "~/components/case/Scenes.astro";
 import SceneStep from "~/components/case/SceneStep.astro";
 import StepShot from "~/components/case/StepShot.astro";
 import StepShots from "~/components/case/StepShots.astro";
+import ExternalLink from "~/components/ui/ExternalLink.astro";
 import Section from "~/components/ui/Section.astro";
 import lobby from "~/assets/shots/r99-lobby.webp";
 import combat from "~/assets/shots/r99-game-combat.webp";
 import library from "~/assets/shots/tutor-library.webp";
 import scryfall from "~/assets/shots/scryfall-home.webp";
 import scryfallPhone from "~/assets/shots/scryfall-home-mobile.webp";
+
+/* The one public repo of the suite; Rules of 99, Tutor and the search are private. */
+const skills = "https://github.com/guuse/claude-mtg-skills";
 ---
 
 <CaseStudy
+  type="article"
   title="MTG suite · Guus Ekkelenkamp"
   og="mtg-suite"
   description="Case study: the Magic: The Gathering tools I build for my friends, from a Commander table in the browser to a shared deck library."
@@ -24,10 +29,14 @@ import scryfallPhone from "~/assets/shots/scryfall-home-mobile.webp";
 >
   <CaseHero
     project="mtg-suite"
-    meta="Personal · 2026 · two of the tools are open source"
+    meta="Personal · 2026 · one of the tools is open source:"
     title="MTG suite"
     line="The Magic tools I build for my friends, so we can learn the game together and play it from our own sofas."
-  />
+  >
+    <ExternalLink slot="meta" href={skills}>
+      the deck-building skills
+    </ExternalLink>
+  </CaseHero>
   <Scenes id="story" title="The story behind the tools" gallery>
     <SceneStep scene="itch">
       <p>
@@ -103,8 +112,9 @@ import scryfallPhone from "~/assets/shots/scryfall-home-mobile.webp";
         Scryfall is the card search most players use, and its syntax takes practice. In mine you describe the
         cards in normal words. A model writes the query, the server tests it against Scryfall first, and you
         get a stricter and a broader reading, each with a breakdown of what every part does. You get your
-        cards and learn the syntax on the way. For deck building there’s also a set of open-source Claude Code
-        skills, one more tool for the group.
+        cards and learn the syntax on the way. For deck building there’s also a set of
+        <ExternalLink href={skills}>open-source Claude Code skills</ExternalLink>, one more tool for the
+        group.
       </p>
       <StepShots>
         <StepShot

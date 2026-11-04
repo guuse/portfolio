@@ -1,7 +1,8 @@
 ---
 /**
- * Copies the text of another element (`target` is its id). The status is announced to
- * screen readers through a polite live region. Behaviour: src/scripts/copy-email.ts.
+ * Copies the text of another element (`target` is its id). Every label it can show sits in
+ * the same grid cell, so the button keeps one width whatever it says; the full sentence goes
+ * to screen readers through a polite live region. Behaviour: src/scripts/copy-email.ts.
  */
 interface Props {
   target: string;
@@ -12,11 +13,42 @@ const status = `${target}-status`;
 ---
 
 <button type="button" class="copy" data-copy-target={target} aria-describedby={status}>
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true">
-    <rect x="8" y="8" width="12" height="12" rx="1"></rect>
-    <path d="M16 8V4H4v12h4"></path>
-  </svg>
-  <span class="copy__label">{label}</span>
+  <span class="copy__icons" aria-hidden="true">
+    <svg
+      class="copy__icon"
+      data-for="idle fail"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+    >
+      <rect x="8" y="8" width="12" height="12" rx="1"></rect>
+      <path d="M16 8V4H4v12h4"></path>
+    </svg>
+    <svg
+      class="copy__icon"
+      data-for="done"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M5 12.5l4.5 4.5L19 7.5"></path>
+    </svg>
+  </span>
+  <span class="copy__labels">
+    <span class="copy__label" data-for="idle">
+      {label}
+    </span>
+    <span class="copy__label" data-for="done">
+      Copied
+    </span>
+    <span class="copy__label" data-for="fail">
+      Selected
+    </span>
+  </span>
 </button>
 <span class="visually-hidden" id={status} role="status" aria-live="polite"></span>
 
@@ -39,18 +71,51 @@ const status = `${target}-status`;
         border-color var(--duration-quick);
     }
 
-    .copy:hover {
-      color: var(--ink);
-      border-color: var(--ink-muted);
+    @media (hover: hover) {
+      .copy:hover {
+        color: var(--ink);
+        border-color: var(--ink-muted);
+      }
     }
 
     .copy:active {
       transform: translateY(1px);
     }
 
-    .copy svg {
+    /* all the states share one cell: the widest decides the button's width, once */
+    .copy__icons,
+    .copy__labels {
+      display: grid;
+    }
+
+    .copy__icons > *,
+    .copy__labels > * {
+      grid-area: 1 / 1;
+      visibility: hidden;
+    }
+
+    .copy__icon {
       width: 14px;
       height: 14px;
+    }
+
+    .copy__labels {
+      justify-items: start;
+    }
+
+    .copy:not([data-state]) [data-for~="idle"],
+    .copy[data-state="done"] [data-for~="done"],
+    .copy[data-state="fail"] [data-for~="fail"] {
+      visibility: visible;
+    }
+
+    .copy[data-state="done"] {
+      color: var(--ink);
+      border-color: var(--accent);
+    }
+
+    .copy[data-state="done"] .copy__icon {
+      color: var(--accent);
     }
   }
 </style>

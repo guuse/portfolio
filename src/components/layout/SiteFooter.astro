@@ -12,10 +12,19 @@ const year = new Date().getFullYear();
     </p>
     <ul role="list">
       <li>
+        <a href={`mailto:${site.email}`}>{site.email}</a>
+      </li>
+      <li>
         <ExternalLink href={site.linkedin}>LinkedIn</ExternalLink>
       </li>
       <li>
         <ExternalLink href={site.github}>GitHub</ExternalLink>
+      </li>
+      <li>
+        <a href="/design-system/">Design system</a>
+      </li>
+      <li>
+        <ExternalLink href={site.repo}>Source</ExternalLink>
       </li>
     </ul>
   </div>
@@ -33,13 +42,33 @@ const year = new Date().getFullYear();
     .site-footer__inner {
       display: flex;
       flex-wrap: wrap;
+      align-items: baseline;
       justify-content: space-between;
       gap: 8px 24px;
     }
 
     .site-footer ul {
       display: flex;
-      gap: 20px;
+      flex-wrap: wrap;
+      gap: 0 20px;
+    }
+
+    /* a finger-sized target on touch screens, without making the footer taller with a mouse */
+    @media (pointer: coarse) {
+      .site-footer__inner {
+        align-items: center;
+      }
+
+      .site-footer ul {
+        gap: 0 18px;
+      }
+
+      .site-footer a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 44px;
+        padding-block: 10px;
+      }
     }
   }
 </style>

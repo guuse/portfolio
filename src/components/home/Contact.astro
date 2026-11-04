@@ -1,12 +1,13 @@
 ---
 import CopyButton from "~/components/ui/CopyButton.astro";
 import Section from "~/components/ui/Section.astro";
-import { site } from "~/lib/site";
+import { emailHtml, site } from "~/lib/site";
 ---
 
 <Section id="contact" title="Contact">
-  <p class="contact__mail" id="mail-address">
-    {site.email}
+  <p class="contact__mail">
+    {/* a break, if one is ever needed, goes before the @ and never inside a word */}
+    <a id="mail-address" href={`mailto:${site.email}`} set:html={emailHtml} />
   </p>
   <p>
     <CopyButton target="mail-address" label="Copy address" />
@@ -16,13 +17,26 @@ import { site } from "~/lib/site";
 
 <style>
   @layer components {
+    /* the whole address fits on one line at every width: the size follows the viewport down */
     .contact__mail {
       font-family: var(--font-heading);
-      font-size: var(--text-mail);
+      font-size: min(var(--text-mail), 8.6vw);
       line-height: 1.05;
       letter-spacing: -0.015em;
-      overflow-wrap: anywhere;
+      overflow-wrap: normal;
+    }
+
+    .contact__mail a {
+      text-decoration: none;
       user-select: all;
+    }
+
+    @media (hover: hover) {
+      .contact__mail a:hover {
+        text-decoration: underline;
+        text-decoration-thickness: 2px;
+        text-underline-offset: 0.12em;
+      }
     }
 
     .contact__line {

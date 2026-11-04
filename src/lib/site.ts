@@ -13,6 +13,12 @@ export const site = {
 } as const;
 
 /**
+ * The address as markup with a break opportunity before the @, so that if it ever has to wrap
+ * it wraps there and never inside a word. Rendered with set:html (static, at build time).
+ */
+export const emailHtml = site.email.replace("@", "<wbr>@");
+
+/**
  * The main navigation. `match` decides which entry is the current page; `section` is the
  * homepage section an entry stands for, so the nav can follow along as you scroll there.
  */
