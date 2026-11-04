@@ -1,5 +1,6 @@
 # The three case studies, in the order they're shown. `card` is the homepage card line,
-# `line` the one on the projects page.
+# `line` the one on the projects page. `published` and `updated` are the case study's dates
+# (its Article JSON-LD): bump `updated` when a case study's copy changes.
 - id: hosting-platform
   order: 1
   title: Hosting platform
@@ -13,6 +14,8 @@
     - 8 Kubernetes clusters, the largest with more than 1,500 pods
     - "Delivered as code: Pulumi for infrastructure, Argo CD for apps"
   stack: AWS (EKS, Aurora, Redis, OpenSearch, CloudFront), Azure (AKS), Karpenter, cert-manager, Velero, Pulumi, Terraform, Argo CD
+  published: "2026-11-03"
+  updated: "2026-11-04"
 - id: homelab
   order: 2
   title: Homelab
@@ -26,6 +29,8 @@
     - Private over Tailscale by default; public only per app, on purpose
     - Proxmox on 16 GB, with Home Assistant in its own VM
   stack: Proxmox, k3s, Argo CD, GitHub Actions, GHCR, Traefik, cert-manager, Tailscale, Cloudflare, Home Assistant
+  published: "2026-11-03"
+  updated: "2026-11-04"
 - id: mtg-suite
   order: 3
   title: MTG suite
@@ -39,3 +44,5 @@
     - Decks go from Tutor straight to a seat in Rules of 99
     - "Scryfall, in plain words: card search without the syntax"
   stack: Java, React, TypeScript, WebSockets, Node, SQLite
+  published: "2026-11-03"
+  updated: "2026-11-04"

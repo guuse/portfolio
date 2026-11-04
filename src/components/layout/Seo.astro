@@ -11,10 +11,12 @@ interface Props {
   /** File name in public/og/, without extension. */
   og: string;
   type?: "website" | "article" | undefined;
+  /** An article's dates (YYYY-MM-DD). */
+  dates?: { published: string; modified: string } | undefined;
   /** False for a page that has no address of its own (the 404 is served at any URL). */
   canonical?: boolean;
 }
-const { title, description, og, type = "website", canonical: hasCanonical = true } = Astro.props;
+const { title, description, og, type = "website", dates, canonical: hasCanonical = true } = Astro.props;
 const canonical = new URL(Astro.url.pathname, site.url).href;
 const image = new URL(`/og/${og}.png`, site.url).href;
 /** What each social card shows (scripts/brand-assets.mjs draws them), for og:image:alt. */
@@ -87,6 +89,7 @@ const article =
         publisher: { "@id": person["@id"] },
         isPartOf: { "@id": website["@id"] },
         mainEntityOfPage: canonical,
+        ...(dates ? { datePublished: dates.published, dateModified: dates.modified } : {}),
       }
     : null;
 const graph = {

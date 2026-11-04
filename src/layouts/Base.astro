@@ -22,9 +22,11 @@ export interface Props {
   noindex?: boolean | undefined;
   /** Open Graph type: case studies are articles. */
   type?: "website" | "article" | undefined;
+  /** An article's dates (YYYY-MM-DD), for its JSON-LD. */
+  dates?: { published: string; modified: string } | undefined;
 }
 
-const { title, description, og = "home", mainClass, noindex, type } = Astro.props;
+const { title, description, og = "home", mainClass, noindex, type, dates } = Astro.props;
 /* For people reading the source. Set as HTML so the comment survives minification. */
 const hello = `<!--
   Hi. View-source is a fine way to read a website; the repo is nicer:
@@ -42,7 +44,7 @@ const hello = `<!--
     <title>{title}</title>
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex" />}
-    <Seo title={title} description={description} og={og} type={type} canonical={!noindex} />
+    <Seo title={title} description={description} og={og} type={type} dates={dates} canonical={!noindex} />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />

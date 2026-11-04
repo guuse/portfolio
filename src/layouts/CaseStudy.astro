@@ -2,17 +2,26 @@
 import Base, { type Props as BaseProps } from "./Base.astro";
 import Sprite from "~/components/art/Sprite.astro";
 import Lightbox from "~/components/case/Lightbox.astro";
+import { getEntry } from "astro:content";
 import type { IconId } from "~/lib/art";
+import type { ProjectId } from "~/lib/projects";
 
-/** A case study or the projects index: the content column, plus icons and the viewer. */
-interface Props extends BaseProps {
+/**
+ * A case study or the projects index: the content column, plus icons and the viewer. A case
+ * study names its `project`: the page is then an article, dated from src/content/projects.yaml.
+ */
+interface Props extends Omit<BaseProps, "type" | "dates"> {
   icons?: readonly IconId[];
   lightbox?: boolean;
+  project?: ProjectId;
 }
-const { icons, lightbox, ...base } = Astro.props;
+const { icons, lightbox, project, ...base } = Astro.props;
+const entry = project ? await getEntry("projects", project) : undefined;
+if (project && !entry) throw new Error(`CaseStudy: no project "${project}" in projects.yaml`);
+const dates = entry ? { published: entry.data.published, modified: entry.data.updated } : undefined;
 ---
 
-<Base {...base} mainClass="wrap">
+<Base {...base} type={dates ? "article" : "website"} dates={dates} mainClass="wrap">
   {icons && <Sprite icons={icons} />}
   <slot />
   {lightbox && <Lightbox slot="after-site" />}

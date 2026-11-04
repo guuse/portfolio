@@ -37,7 +37,12 @@ for (const path of PAGES) {
     expect(alt?.length).toBeGreaterThan(20);
     expect(await page.locator('meta[name="twitter:image:alt"]').getAttribute("content")).toBe(alt);
     const graph = JSON.parse((await page.locator('script[type="application/ld+json"]').textContent())!) as {
-      "@graph": { "@type": string; itemListElement?: { item: string }[] }[];
+      "@graph": {
+        "@type": string;
+        itemListElement?: { item: string }[];
+        datePublished?: string;
+        dateModified?: string;
+      }[];
     };
     const types = graph["@graph"].map((n) => n["@type"]);
     expect(types).toEqual(expect.arrayContaining(["Person", "WebSite"]));
@@ -46,6 +51,11 @@ for (const path of PAGES) {
       expect(trail.at(-1)!.item).toBe(`https://ekkelenkamp.dev${path}`);
     }
     expect(types.includes("Article")).toBe(path.startsWith("/projects/") && path !== "/projects/");
+    const article = graph["@graph"].find((n) => n["@type"] === "Article");
+    if (article) {
+      expect(article.datePublished).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      expect(article.dateModified! >= article.datePublished!).toBe(true);
+    }
     expect(await page.locator('meta[http-equiv="content-security-policy"]').count()).toBe(1);
   });
 

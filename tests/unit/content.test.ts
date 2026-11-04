@@ -36,3 +36,10 @@ it("rejects block markup in inline copy", () => {
   const phase = load("experience")[0] as Record<string, unknown>;
   expect(() => schema.experience.parse({ ...phase, bullets: ["<p>no</p>"] })).toThrow();
 });
+
+it("dates a case study as updated on or after it was published", () => {
+  for (const p of load("projects").map((i) => schema.project.parse(i)))
+    expect(p.updated >= p.published).toBe(true);
+  const first = load("projects")[0] as Record<string, unknown>;
+  expect(() => schema.project.parse({ ...first, published: "2026-02-30" })).toThrow();
+});
