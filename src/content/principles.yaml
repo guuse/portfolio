@@ -1,13 +1,17 @@
-# What I've learned: three principles.
+# What I've learned: four things I work by, each with an example from the platform.
 - id: teaching
   order: 1
-  title: Teaching beats fixing
-  text: If I fix something myself, it’s fixed once. If I teach someone how, through a review, mentoring or a knowledge session, the team handles it next time without me.
-- id: standardise
+  title: Teaching the team
+  text: When I fix something myself, nobody else learns from it. So I’d rather explain it in a review or a knowledge session, and next time the team handles it without me.
+- id: approved-applied
   order: 2
-  title: Standardise first
-  text: One platform for every client means one way to deploy, upgrade and debug. A custom setup per project turns every upgrade and every incident into a one-off.
-- id: as-code
+  title: Approved should mean applied
+  text: A reviewer approves the exact plan a change will make, and the pipeline applies only that plan. If production has changed since the review, the deploy stops instead of applying something nobody reviewed.
+- id: wrong-change
   order: 3
-  title: Everything as code
-  text: Jenkins, the infrastructure and the deployments all live in git, so every change is reviewable and easy to trace.
+  title: Make the wrong change impossible
+  text: If a runbook has to warn about something twice, it should be a policy instead. On our log bucket, for example, a policy rejects the expiry rule a reviewer would otherwise approve as cost control.
+- id: blast-radius
+  order: 4
+  title: Size the blast radius first
+  text: Every environment gets its own state, key and deploy role, so a test deploy can’t touch production. A lost state file then costs one subsystem, not the whole platform.

@@ -12,10 +12,10 @@
 - id: games
   order: 3
   name: Card and board games
-  line: One card game most of all, but anything goes with friends.
+  line: "Mostly Magic: The Gathering, but I’ll play anything with friends."
   lift: me
 - id: tinkering
   order: 4
   name: Tinkering
-  line: My home server and a small Kubernetes setup.
+  line: "My homelab: k3s and Home Assistant on an old laptop."
   lift: me

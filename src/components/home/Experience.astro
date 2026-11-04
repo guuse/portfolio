@@ -26,7 +26,7 @@ const phases = await list("experience");
               <li set:html={b} />
             ))}
           </ul>
-          <p class="phase__learned">{data.learned}</p>
+          {data.learned && <p class="phase__learned">{data.learned}</p>}
         </li>
       ))}
     </ol>

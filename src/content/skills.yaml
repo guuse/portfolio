@@ -6,15 +6,15 @@
 - id: aws
   order: 2
   label: AWS and networking
-  value: EKS, IAM, VPC, RDS and Aurora, Lambda, CloudFront, dual-stack networking; Azure (AKS, Entra ID) for clients who are there
+  value: EKS, IAM, VPC, RDS and Aurora, Lambda, CloudFront, dual-stack and IPv6-only networking; Azure (AKS, Entra ID)
 - id: iac
   order: 3
   label: Infrastructure as code
-  value: Pulumi (Python), Terraform, GitHub Actions, Jenkins as code
+  value: Pulumi (Python) and CrossGuard, Terraform and OpenTofu, GitHub Actions, Jenkins as code
 - id: security
   order: 4
   label: Security and compliance
-  value: ISO 27001, least-privilege IAM, OIDC, policy as code
+  value: ISO 27001, least-privilege IAM, OIDC, policy as code, segregation of duties in CI
 - id: also
   order: 5
   label: Also
@@ -22,7 +22,7 @@
 - id: exploring
   order: 6
   label: Currently exploring
-  value: AI agents in ops work (Claude Code skills and agents), and the move to Pulumi
+  value: AI agents in ops work (Claude Code skills and agents)
 - id: certifications
   order: 7
   label: Certifications

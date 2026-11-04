@@ -13,10 +13,11 @@ import Skills from "~/components/home/Skills.astro";
   title="Guus Ekkelenkamp, tech lead infrastructure"
   description="Tech lead infrastructure at Harborn in Rotterdam: Kubernetes, GitOps and infrastructure as code on AWS and Azure."
 >
-  <Hero />
-  <div class="wrap">
-    <About />
-  </div>
+  <Hero>
+    <div class="wrap">
+      <About />
+    </div>
+  </Hero>
   <ProjectCovers />
   <div class="wrap">
     <Experience />
@@ -51,7 +52,7 @@ import Skills from "~/components/home/Skills.astro";
     }
 
     :global(#experience) {
-      contain-intrinsic-block-size: auto 2220px;
+      contain-intrinsic-block-size: auto 2270px;
     }
 
     /*
@@ -63,11 +64,11 @@ import Skills from "~/components/home/Skills.astro";
     }
 
     :global(#learned) {
-      contain-intrinsic-block-size: auto 820px;
+      contain-intrinsic-block-size: auto 940px;
     }
 
     :global(#skills) {
-      contain-intrinsic-block-size: auto 910px;
+      contain-intrinsic-block-size: auto 1010px;
     }
 
     :global(#contact) {
@@ -84,15 +85,15 @@ import Skills from "~/components/home/Skills.astro";
       }
 
       :global(#experience) {
-        contain-intrinsic-block-size: auto 2000px;
+        contain-intrinsic-block-size: auto 1700px;
       }
 
       :global(#learned) {
-        contain-intrinsic-block-size: auto 590px;
+        contain-intrinsic-block-size: auto 670px;
       }
 
       :global(#skills) {
-        contain-intrinsic-block-size: auto 530px;
+        contain-intrinsic-block-size: auto 560px;
       }
 
       :global(#contact) {
