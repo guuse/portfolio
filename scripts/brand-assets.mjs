@@ -49,8 +49,8 @@ const CARDS = [
   {
     id: "projects",
     kicker: "Projects",
-    title: "A hosting platform, a homelab and MTG tools.",
-    line: "Three case studies.",
+    title: "Work at Harborn, a homelab and MTG tools.",
+    line: "Four case studies.",
     art: "covers/mtg-wide.webp",
     // the cover's caption sits at its right edge, so anchor the crop there
     pos: "100% 50%",
@@ -63,6 +63,15 @@ const CARDS = [
     title: "Hosting platform",
     line: "The Kubernetes platform that runs our client projects on AWS and Azure.",
     art: "covers/platform-wide.webp",
+  },
+  {
+    id: "infrastructure-delivery",
+    kicker: "Case study · Work at Harborn",
+    title: "Infrastructure delivery",
+    line: "How a change to our infrastructure is reviewed, checked and applied.",
+    art: "covers/delivery-wide.webp",
+    // the drawing reaches the cover's right edge: anchor the crop there, or production is cut off
+    pos: "100% 50%",
   },
   {
     id: "homelab",
