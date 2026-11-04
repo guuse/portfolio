@@ -9,7 +9,7 @@
     - I lead the infra team of up to four engineers, and I’ve done the hiring for it since I became tech lead. Everyone has their own expertise and owns their projects end to end, from the client relationship to the implementation.
     - 'I run the <a href="/projects/hosting-platform/">hosting platform</a>: 8 Kubernetes clusters on AWS (Ireland and Tokyo) and Azure, hosting more than 300 clients with over 800 deployments. The largest cluster runs more than 1,500 pods. We’ve rehearsed restoring a cluster’s Velero backup into another cluster.'
     - I set the standards the team works to. Changes go in as small pull requests, a policy is written before the resource it governs, and only the pipeline changes production infrastructure, never a laptop.
-    - New infrastructure delivery is moving from Terraform to Pulumi, and I built the shared GitHub Actions it deploys through. I also built the CLI the team uses to work in client environments, and our logging pipeline.
+    - 'New infrastructure delivery is moving from Terraform to Pulumi, and I built the <a href="/projects/infrastructure-delivery/">shared GitHub Actions</a> it deploys through. I also built the CLI the team uses to work in client environments, and our logging pipeline.'
     - 'I led the move of our clusters to IPv6-only. It broke more than we expected, and we fixed it without going back to IPv4 (<a href="/projects/hosting-platform/#story">how that went</a>).'
     - As ISO 27001 security officer I was partly responsible for our first certification in 2024, and I’ve been fully responsible since 2025, including the full recertification in 2026. I also run training programmes for clients and knowledge sessions for the team.
 - id: infra-engineer

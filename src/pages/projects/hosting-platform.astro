@@ -109,8 +109,9 @@ const icons = hood.flatMap((h) => ("icon" in h ? [h.icon] : []));
     <Hood items={[...hood]} />
     <div class="prose">
       <p>
-        New infrastructure is Pulumi in Python, and only the pipeline applies it, through shared GitHub
-        Actions I built. CI uses short-lived roles through GitHub OIDC, so it holds no cloud keys.
+        New infrastructure is Pulumi in Python, and only the pipeline applies it. How a change gets there is
+        in
+        <a href="/projects/infrastructure-delivery/">infrastructure delivery</a>.
       </p>
       <p>
         App delivery is moving to Argo CD, which deploys acceptance from release candidates and production
@@ -132,18 +133,17 @@ const icons = hood.flatMap((h) => ("icon" in h ? [h.icon] : []));
       whether that traffic still gets through. Before a change like that, I now map where it goes first.
     </p>
     <p>
-      Loki’s compactor handles log retention, because it tracks which chunks the index still uses. An S3
-      expiry rule on the log bucket would delete chunks Loki still needs, and it looks like sensible cost
-      control, which is why a reviewer would approve it. So a CrossGuard policy rejects those rules before
-      they can be merged.
-    </p>
-    <p>
       The Tokyo syncer predates our move to GitOps. Today I’d replace it with Argo CD ApplicationSets that
       target both clusters, so git is the only source for both regions.
     </p>
   </Section>
   <NextNav
     prev={{ href: "/projects/", small: "Back to", label: "all projects" }}
-    next={{ href: "/projects/homelab/", small: "Next project", label: "Homelab", arrow: "right" }}
+    next={{
+      href: "/projects/infrastructure-delivery/",
+      small: "Next project",
+      label: "Infrastructure delivery",
+      arrow: "right",
+    }}
   />
 </CaseStudy>
