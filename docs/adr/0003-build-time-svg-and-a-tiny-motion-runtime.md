@@ -22,6 +22,12 @@ JavaScript, with reduced motion, and for screen readers.
   (no HTML strings, ADR 0006). Their routes are sampled from each path's `d` by the same
   parser the still frames use (`src/lib/art/geometry.ts`), never with `getPointAtLength()`,
   which forces layout and causes long tasks on phones.
+- **Parts are looked up when an animator is built**, never per frame, and a key the drawing
+  doesn't have throws there; a unit test builds and plays every scene and card from the
+  rendered markup. An animator that throws is reported and its drawing goes back to its still;
+  the rest of the page keeps moving.
+- **Scroll scenes come to rest** (WCAG 2.2.2): 3.5 s after the reader stops scrolling, no new
+  packets, LEDs and wobbles stop, and the scene isn't ticked until the next scroll.
 - **One shared `requestAnimationFrame` loop** (`scheduler.ts`). It sleeps when nothing is on
   screen (IntersectionObserver) or the tab is hidden, and caps the time step after a stall.
   Each animator is created the first time its drawing is seen. The runtime is imported only

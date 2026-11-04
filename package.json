@@ -26,7 +26,7 @@
     "check": "npm run lint && npm run lint:css && npm run format:check && npm run typecheck && npm run test",
     "prepare": "simple-git-hooks",
     "coffee": "node scripts/coffee.mjs",
-    "assets": "node scripts/brand-assets.mjs"
+    "assets": "npm run tokens && node scripts/brand-assets.mjs"
   },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"
