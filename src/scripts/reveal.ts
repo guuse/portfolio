@@ -8,7 +8,21 @@
  * Only what starts below the fold is tagged: whatever is on screen when the page opens is
  * already painted, and fading it out and back in would be a flash, not an entrance.
  */
+import { ms } from "~/styles/tokens";
+
 const SELECTOR = ".sec, .cover, .phase, .like, .pcard, .also__row, .reveal-set";
+
+/**
+ * Marks an element `is-done` once its entrance is over, so its component's own transitions
+ * apply again (motion.css). The longest an entrance takes: five sibling steps and the fade,
+ * or, in a set, the last row's step and its settle.
+ */
+const settle = (el: Element): void => {
+  const rows = el.querySelectorAll<HTMLElement>(":scope > [data-i]");
+  const last = rows.length ? Number(rows[rows.length - 1]!.dataset["i"]) || 0 : 0;
+  const longest = Math.max(5 * ms.stagger + ms.reveal, last * ms.stagger + ms.reveal);
+  setTimeout(() => el.classList.add("is-done"), longest + 50);
+};
 
 export function initReveal(): void {
   const all = [...document.querySelectorAll<HTMLElement>(SELECTOR)];
@@ -47,6 +61,7 @@ export function initReveal(): void {
         if (!e.isIntersecting) continue;
         e.target.classList.add("is-in");
         io.unobserve(e.target);
+        settle(e.target);
       }
     },
     { rootMargin: "0px 0px -10% 0px", threshold: 0.08 },

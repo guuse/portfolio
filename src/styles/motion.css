@@ -87,28 +87,39 @@
    * it restyled everything inside each section the moment the page was tagged.
    */
   .js-reveal .reveal:nth-child(2) {
-    transition-delay: 70ms;
+    transition-delay: calc(1 * var(--duration-stagger));
   }
 
   .js-reveal .reveal:nth-child(3) {
-    transition-delay: 140ms;
+    transition-delay: calc(2 * var(--duration-stagger));
   }
 
   .js-reveal .reveal:nth-child(4) {
-    transition-delay: 210ms;
+    transition-delay: calc(3 * var(--duration-stagger));
   }
 
   .js-reveal .reveal:nth-child(5) {
-    transition-delay: 280ms;
+    transition-delay: calc(4 * var(--duration-stagger));
   }
 
   .js-reveal .reveal:nth-child(n + 6) {
-    transition-delay: 350ms;
+    transition-delay: calc(5 * var(--duration-stagger));
   }
 
   .js-reveal .reveal.is-in {
     opacity: 1;
     transform: none;
+  }
+
+  /*
+   * Once it has settled (reveal.ts adds `is-done` when the longest of these is over), an
+   * element's transitions are its component's own again: the reveal's would otherwise
+   * replace them for good (a card's border would snap on hover instead of easing).
+   */
+  .js-reveal .reveal.is-done,
+  .js-reveal .rows.reveal.is-done > [data-i],
+  .js-reveal .rows.reveal.is-done > [data-i]::before {
+    transition: revert-layer;
   }
 
   /* a whole section only fades; its rows and cards bring the movement */
