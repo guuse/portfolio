@@ -45,7 +45,7 @@ test.describe("lightbox", () => {
     await expect(dialog.locator(".lightbox__count")).toHaveText("2 of 5");
     await page.keyboard.press("ArrowRight");
     await expect(dialog.locator(".lightbox__count")).toHaveText("3 of 5");
-    await expect(dialog.locator(".lightbox__cap")).toHaveText("The library: every deck at a glance.");
+    await expect(dialog.locator(".lightbox__cap")).toHaveText("The deck library.");
     // focus stays inside the modal
     for (let i = 0; i < 4; i++) await page.keyboard.press("Tab");
     expect(await page.evaluate(() => !!document.activeElement?.closest("dialog"))).toBe(true);

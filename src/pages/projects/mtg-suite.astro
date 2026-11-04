@@ -31,32 +31,32 @@ const skills = "https://github.com/guuse/claude-mtg-skills";
     project="mtg-suite"
     meta="Personal · 2026 · one of the tools is open source:"
     title="MTG suite"
-    line="The Magic tools I build for my friends, so we can learn the game together and play it from home."
+    line="Tools my friends and I use to learn Commander, keep our decks and play online when we can’t meet up."
   >
     <ExternalLink slot="meta" href={skills}>
       the deck-building skills
     </ExternalLink>
   </CaseHero>
-  <Scenes id="story" title="The story behind the tools" gallery>
+  <Scenes id="story" title="How it works" gallery>
     <SceneStep scene="itch">
       <p>
         Magic: The Gathering is the card game my friends and I play most, usually Commander: four players,
-        each with a 100-card deck built around one legendary creature, the commander. It’s a brilliant game
-        with over 33,000 cards, and plenty of them bend a rule somewhere. We wanted an easier way to learn it,
-        and a way to play on the evenings we can’t sit at one table.
+        each with a 100-card deck built around one legendary creature, the commander. It’s a great game, but
+        with over 33,000 cards there are a lot of exceptions to the rules. We wanted an easier way to learn
+        it, and a way to play on the evenings we can’t sit at one table.
       </p>
       <p>
-        The fun part is the audience. My testers are friends, and they tell me exactly what they think, which
-        is how we do it in Rotterdam anyway. A fix can go out in the afternoon and get played that evening.
+        My friends are my testers and they tell me straight when something’s wrong. I can fix it in the
+        afternoon and we play with the fix that evening.
       </p>
     </SceneStep>
     <SceneStep scene="table">
       <h3>A table in the browser</h3>
       <p>
         Rules of 99 is Commander in the browser for two to four players, joined with a six-character room
-        code. I didn’t write a rules engine; that’s a lifetime’s work. An open-source one already knows the
-        rules and runs headless on my server. My part is carrying each question the engine asks to the right
-        browser, and each answer back.
+        code. I didn’t write my own rules engine; that would take years. I run an open-source one headless on
+        my server. My code sends each decision the engine needs to the right player’s browser and passes the
+        answer back.
       </p>
       <p>
         In Magic a spell doesn’t happen right away. It goes on the stack, a pile where the last thing played
@@ -71,16 +71,16 @@ const skills = "https://github.com/guuse/claude-mtg-skills";
       />
     </SceneStep>
     <SceneStep scene="hands">
-      <h3>Four players, one game</h3>
+      <h3>Hidden hands and replays</h3>
       <p>
         The server holds the whole game and sends each player only their own view. The others only see how
         many cards are in your hand, and libraries never leave the server. You can reload and sit back down,
         and finished games can be replayed turn by turn.
       </p>
       <p>
-        Targeting taught me to label everything. The engine numbers players from 0 and cards from 1, and the
-        server looked up card ids first, so picking player 1 quietly picked card 1. Every option now says what
-        kind of thing it is.
+        Targeting had a bug. The engine numbers players from 0 and cards from 1, and the server looked up card
+        ids first, so picking player 1 picked card 1 instead. Now every option says whether it’s a player or a
+        card.
       </p>
       <StepShot
         src={combat}
@@ -89,9 +89,9 @@ const skills = "https://github.com/guuse/claude-mtg-skills";
       />
     </SceneStep>
     <SceneStep scene="decks">
-      <h3>Where our decks live</h3>
+      <h3>Tutor, our deck library</h3>
       <p>
-        Tutor is our deck library and builder, and it’s strict about the game. A card only fits a deck when
+        Tutor is our deck library and builder, and it enforces the deck rules. A card only fits a deck when
         its colours sit inside the commander’s, and banned cards stay out, so the search is exact. Each deck
         shows its curve and power bracket, so we can pick decks that suit each other.
       </p>
@@ -103,7 +103,7 @@ const skills = "https://github.com/guuse/claude-mtg-skills";
       <StepShot
         src={library}
         alt="Tutor deck library with commander art for each deck"
-        caption="The library: every deck at a glance."
+        caption="The deck library."
       />
     </SceneStep>
     <SceneStep scene="search">
@@ -111,10 +111,9 @@ const skills = "https://github.com/guuse/claude-mtg-skills";
       <p>
         Scryfall is the card search most players use, and its syntax takes practice. In mine you describe the
         cards in normal words. A model writes the query, the server tests it against Scryfall first, and you
-        get a best match and two to four alternatives, each with a breakdown of what every part does. You get
-        your cards and learn the syntax on the way. For deck building there’s also a set of
-        <ExternalLink href={skills}>open-source Claude Code skills</ExternalLink>, one more tool for the
-        group.
+        get a best match and two to four alternatives, each with a breakdown of what every part does, so you
+        pick up the syntax as you go. For deck building there’s also a set of
+        <ExternalLink href={skills}>open-source Claude Code skills</ExternalLink>.
       </p>
       <StepShots>
         <StepShot
@@ -131,15 +130,15 @@ const skills = "https://github.com/guuse/claude-mtg-skills";
       </StepShots>
     </SceneStep>
     <SceneStep scene="friends">
-      <h3>Building for people you know</h3>
+      <h3>Bug reports and card updates</h3>
       <p>
-        My friends can file a bug report straight from the table. One press on my triage shelf turns it into a
+        My friends can file a bug report straight from the table. One click on my triage page turns it into a
         GitHub issue, and closing the issue marks the report fixed. Every merge to main lands on my homelab,
         so the next game has the fix.
       </p>
       <p>
-        New cards arrive overnight. A nightly job pulls in the engine’s latest card data, checks that the
-        engine still starts on it, and opens a pull request. The engine itself only moves when I move it.
+        A nightly job pulls in the engine’s latest card data, checks that the engine still starts on it and
+        opens a pull request. The engine version itself is pinned; I only update it by hand.
       </p>
     </SceneStep>
   </Scenes>
@@ -147,20 +146,17 @@ const skills = "https://github.com/guuse/claude-mtg-skills";
     <Lessons
       items={[
         {
-          title: "Test against the real thing.",
+          title: "No more mock server",
           text: "A mock server once hid a bug that made the whole hand unclickable in real games, so I deleted it. Every test now plays against the real server.",
         },
         {
-          title: "Fewer stops, less play.",
-          text: "When I removed one more stop to speed games up, the scripted test players interacted less, and one seat died early. Fewer questions meant less Magic, so that stop came back.",
+          title: "One stop too many",
+          text: "When I removed one more priority stop to speed games up, the scripted test players interacted less and one seat died early. Players got fewer chances to respond, so I put that stop back.",
         },
       ]}
     />
   </Section>
-  <Closing
-    line="I was already the one chasing the group chat for a date. These days I bring the table too, and I get the bug reports."
-    stack="Built with: Java, React, TypeScript, WebSockets, Node and SQLite."
-  />
+  <Closing stack="Built with: Java, React, TypeScript, WebSockets, Node and SQLite." />
   <NextNav
     prev={{ href: "/projects/homelab/", small: "Previous project", label: "Homelab", arrow: "left" }}
     next={{ href: "/projects/", small: "Back to", label: "all projects" }}
