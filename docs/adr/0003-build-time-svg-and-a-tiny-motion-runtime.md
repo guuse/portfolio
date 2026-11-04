@@ -45,7 +45,7 @@ JavaScript, with reduced motion, and for screen readers.
 
 - The pages are complete as HTML. Lighthouse sees no long tasks from the motion.
 - The drawings are markup, so they are part of the page weight (the platform page carries
-  135 KB of SVG before compression, 23 KB gzipped, measured on the build of 4 November 2026).
+  135 KB of SVG before compression, about 24 KB gzipped, measured on the build of 4 November 2026).
   Covers and social cards are pre-rendered images.
 - Changing a drawing means editing TypeScript, not a design tool. The styleguide shows
   every part of the kit.
