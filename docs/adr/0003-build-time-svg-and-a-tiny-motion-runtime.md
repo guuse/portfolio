@@ -26,8 +26,12 @@ JavaScript, with reduced motion, and for screen readers.
   doesn't have throws there; a unit test builds and plays every scene and card from the
   rendered markup. An animator that throws is reported and its drawing goes back to its still;
   the rest of the page keeps moving.
-- **Scroll scenes come to rest** (WCAG 2.2.2): 3.5 s after the reader stops scrolling, no new
-  packets, LEDs and wobbles stop, and the scene isn't ticked until the next scroll.
+- **Scroll scenes come to rest** (WCAG 2.2.2): new traffic thins out over the next 2.2–3.2 s
+  after the reader stops scrolling; at 3.2 s no new packets, LEDs and wobbles stop, the packets
+  on their way travel on for 0.8 s and any left fade over 0.8 s, so the last change is at 4.8 s.
+  The hosting scheduler snaps to its final pods 1 s after rest. The scene isn't ticked again
+  until the next scroll. A card plays one 3.5 s pass and settles for 0.8 s, and the pass
+  never falls behind the wall clock, so it is over by 4.3 s however slow the frames are.
 - **One shared `requestAnimationFrame` loop** (`scheduler.ts`). It sleeps when nothing is on
   screen (IntersectionObserver) or the tab is hidden, and caps the time step after a stall.
   Each animator is created the first time its drawing is seen. The runtime is imported only
@@ -41,6 +45,7 @@ JavaScript, with reduced motion, and for screen readers.
 
 - The pages are complete as HTML. Lighthouse sees no long tasks from the motion.
 - The drawings are markup, so they are part of the page weight (the platform page carries
-  about 100 KB of SVG before compression). Covers and social cards are pre-rendered images.
+  135 KB of SVG before compression, 23 KB gzipped, measured on the build of 4 November 2026).
+  Covers and social cards are pre-rendered images.
 - Changing a drawing means editing TypeScript, not a design tool. The styleguide shows
   every part of the kit.

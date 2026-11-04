@@ -12,9 +12,10 @@ whatever runs there should be boring.
 
 - **Astro 7**, `output: "static"`, TypeScript in strict mode. Every page is pre-rendered.
 - **No UI framework.** Interactivity is a handful of vanilla TypeScript modules loaded through
-  Astro's `<script>` (bundled, deferred, hashed into the CSP). The heaviest pages load about
-  17 KB of script, gzipped (the homepage and the projects page, with the animated card drawings); a
-  case study 13–16 KB. Measured on the November 2026 build, after scrolling each page through.
+  Astro's `<script>` (bundled, deferred, hashed into the CSP). The heaviest pages load 18.7 KB
+  of script, gzipped (the homepage and the projects page, with the animated card drawings); a
+  case study 14.3–17.0 KB, the design system 17.0 KB and the privacy page 6.7 KB. Measured on
+  the build of 4 November 2026, at 1440 px, after scrolling each page through.
 - **Copy I edit** (experience, interests, skills, projects) lives in content
   collections as YAML with zod schemas. Case-study narrative stays in the `.astro` page, next
   to the scenes it describes.
