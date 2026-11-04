@@ -144,7 +144,9 @@ function konami(): void {
     // any other arrow (and every arrow before then) scrolls as usual
     if (at >= 2 && e.key === KONAMI[at] && e.key.startsWith("Arrow") && !e.altKey && !e.ctrlKey && !e.metaKey)
       e.preventDefault();
-    at = e.key.toLowerCase() === KONAMI[at]!.toLowerCase() ? at + 1 : e.key === KONAMI[0] ? 1 : 0;
+    // a third ↑ (or a fourth) still leaves ↑↑ typed: the code goes on from there
+    if (at >= 2 && e.key === KONAMI[0] && KONAMI[at] !== KONAMI[0]) at = 2;
+    else at = e.key.toLowerCase() === KONAMI[at]!.toLowerCase() ? at + 1 : e.key === KONAMI[0] ? 1 : 0;
     if (at < KONAMI.length) return;
     at = 0;
     if (motionOk()) {
