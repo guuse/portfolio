@@ -54,8 +54,8 @@ afterPaint("nav", initNav);
 if (motion) {
   afterPaint("scroll effects", () => initScrollEffects(scheduler));
   // The drawings' runtime is only fetched on pages that have drawings, and only once the
-  // page has loaded and the main thread is idle: the stills are already on screen. The
-  // controller and the animators for this page's drawings load in parallel.
+  // page has loaded, a drawing is near and the main thread is idle: the stills are already
+  // on screen. The controller and the animators for this page's drawings load in parallel.
   const ids = drawingIds();
   if (ids.length) {
     // a chunk that fails to load (a deploy mid-visit, a flaky network) leaves the stills
@@ -69,7 +69,23 @@ if (motion) {
       if ("requestIdleCallback" in window) requestIdleCallback(start, { timeout: 1500 });
       else setTimeout(start, 200);
     };
-    if (document.readyState === "complete") idle();
-    else addEventListener("load", idle, { once: true });
+    // "Near" is within a screen of the window: on a phone the homepage's
+    // drawings are three screens down, and loading their runtime during the page load would
+    // only compete with it. Each drawing is watched by its top-level block, which has a box
+    // even where the page isn't rendered yet (content-visibility).
+    const near = (): void => {
+      const io = new IntersectionObserver(
+        (entries) => {
+          if (!entries.some((e) => e.isIntersecting)) return;
+          io.disconnect();
+          idle();
+        },
+        { rootMargin: "100% 0px" },
+      );
+      for (const el of document.querySelectorAll("[data-scene], [data-card]"))
+        io.observe(el.closest("main > :not(div.wrap), main > div.wrap > *") ?? el);
+    };
+    if (document.readyState === "complete") near();
+    else addEventListener("load", near, { once: true });
   }
 }
