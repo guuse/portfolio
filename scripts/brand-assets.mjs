@@ -50,6 +50,8 @@ const CARDS = [
     title: "A platform at work, two things at home.",
     line: "Why I made each one, how it works and what broke along the way.",
     art: "covers/mtg-wide.webp",
+    // the cover's caption sits at its right edge, so anchor the crop there
+    pos: "100% 50%",
   },
   {
     id: "hosting-platform",
@@ -86,7 +88,7 @@ const card = (c) => `<!doctype html><meta charset="utf-8"><style>
 @font-face { font-family: "OG Sans"; src: url(${font("@fontsource-variable/schibsted-grotesk", "schibsted-grotesk-latin-wght-normal.woff2")}); font-weight: 400 900; }
 * { margin: 0; box-sizing: border-box; }
 body { width: 1200px; height: 630px; overflow: hidden; background: ${NAVY}; color: ${INK}; font-family: "OG Sans"; position: relative; }
-.art { position: absolute; inset: 0 0 0 auto; width: 760px; background: url(${asset(c.art)}) 70% 50% / cover; }
+.art { position: absolute; inset: 0 0 0 auto; width: 760px; background: url(${asset(c.art)}) ${c.pos ?? "70% 50%"} / cover; }
 .art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, ${NAVY} 0%, transparent 55%); }
 .print { position: absolute; right: 120px; top: 120px; width: 330px; height: 330px; padding: 10px; background: #f8f6f1; transform: rotate(2deg); box-shadow: 0 14px 40px #0008; }
 .print img { width: 100%; height: 100%; object-fit: cover; display: block; }
