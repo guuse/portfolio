@@ -6,54 +6,66 @@ const interests = await list("interests");
 ---
 
 <Section id="about" title="About me" variant="about">
-  <div class="about__prose">
-    <p>
-      I’m a real Rotterdammer, which mostly means I say what I think and skip the formalities. I’m an open
-      person and I like bringing out the best in people. Put me in the right setting and I have energy to
-      spare. With friends I’m usually the one who plans the outing and chases everyone in the group chat for a
-      date. I do the same at work, because someone has to and I quite like being that person.
-    </p>
-    <p>
-      Gaming got me into tech and work got me stuck, though I barely game anymore. What I enjoy most hasn’t
-      changed since my first year: digging into a difficult problem until it’s fixed, then making sure people
-      have the tools to fix the next one themselves.
-    </p>
+  <div class="about">
+    <div class="about__prose">
+      <p>
+        I’m a real Rotterdammer, which mostly means I say what I think and skip the formalities. I’m an open
+        person and I like bringing out the best in people. With friends I’m usually the one who plans the
+        outing and chases everyone in the group chat for a date. I do the same at work.
+      </p>
+      <p>
+        Gaming got me into tech and work got me stuck, though I barely game anymore. Since my first year I’ve
+        liked the same thing best: a hard problem I can dig into until it’s fixed. These days I also want the
+        team to be able to fix the next one without me.
+      </p>
+    </div>
+    <ul class="likes" role="list">
+      {interests.map((data) => (
+        <li class="like" data-lift={data.lift}>
+          <span class="like__name">{data.name}</span>
+          <span class="like__line">{data.line}</span>
+        </li>
+      ))}
+    </ul>
   </div>
-  <ul class="likes" role="list">
-    {interests.map((data) => (
-      <li class="like" data-lift={data.lift}>
-        <span class="like__mark" aria-hidden="true" />
-        <span class="like__name">{data.name}</span>
-        <span class="like__line">{data.line}</span>
-      </li>
-    ))}
-  </ul>
 </Section>
 
 <style>
   @layer components {
-    .about__prose {
-      max-width: var(--size-measure);
+    /*
+     * One column on the hero's left edge, as wide as the prose's measure: the heading, the
+     * paragraphs and the interests share its edges. Spacing is in lines of the prose (the
+     * rhythm), the running text is all one colour, and only names are in ink.
+     */
+    .about {
+      --rhythm: calc(var(--text-lead) * 1.55);
+
       display: grid;
-      gap: 1rem;
+      gap: calc(var(--rhythm) * 1.25);
+      max-width: var(--size-measure);
+      font-size: var(--text-lead);
+    }
+
+    .about__prose {
+      display: grid;
+      gap: calc(var(--rhythm) * 0.5);
     }
 
     .about__prose p {
-      font-size: var(--text-lead);
       line-height: 1.55;
       color: var(--ink-muted);
     }
 
-    .about__prose p:first-child {
-      color: var(--ink);
-    }
-
+    /*
+     * The interests: a 2 × 2 grid from 700px, one column below. Each spans two rows of the
+     * list (subgrid), so every name sits on one line with its neighbour's and every
+     * description starts at the same height, whatever wraps.
+     */
     .likes {
       display: grid;
-      gap: 1rem 2.5rem;
       grid-template-columns: minmax(0, 1fr);
-      margin-top: 0.75rem;
-      max-width: 46em;
+      gap: 0 var(--space-xl);
+      font-size: var(--text-body);
     }
 
     @media (--md) {
@@ -65,37 +77,36 @@ const interests = await list("interests");
     /* Each interest lifts a hero print on hover (src/scripts/prints.ts). */
     .like {
       display: grid;
-      grid-template-columns: 14px 1fr;
-      align-items: start;
-      gap: var(--space-3xs) var(--space-m);
+      grid-row: span 2;
+      grid-template-rows: subgrid;
+      row-gap: var(--space-2xs);
+      align-content: start;
       min-width: 0;
+      padding-block: var(--space-m) calc(var(--rhythm) * 0.75);
+      border-top: 1px solid var(--line);
       cursor: default;
-    }
-
-    .like__mark {
-      grid-row: 1 / span 2;
-      width: 8px;
-      height: 8px;
-      margin: 0.7em var(--space-3xs) 0;
-      border-radius: 50%;
-      background: var(--accent);
+      transition: border-color var(--duration-quick);
     }
 
     .like__name {
-      grid-column: 2;
       font-family: var(--font-heading);
       font-size: var(--text-h3);
       line-height: 1.15;
+      color: var(--ink);
+      transition: color var(--duration-quick);
     }
 
     .like__line {
-      grid-column: 2;
       color: var(--ink-muted);
       font-size: var(--text-small);
       line-height: 1.45;
     }
 
     @media (hover: hover) {
+      .like:hover {
+        border-top-color: var(--accent);
+      }
+
       .like:hover .like__name {
         color: var(--accent);
       }

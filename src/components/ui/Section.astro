@@ -6,7 +6,7 @@
 interface Props {
   id?: string | undefined;
   title?: string | undefined;
-  /** about: no rule, less space on top. closing: no heading. */
+  /** about: no rule, less space on top, the heading above the body. closing: no heading. */
   variant?: "about" | "closing" | undefined;
   /** Extra classes for the body (e.g. "prose"). */
   bodyClass?: string | undefined;
@@ -59,9 +59,15 @@ const headingId = id ? `${id}-title` : undefined;
       align-content: start;
     }
 
+    /* About continues the hero: no rule, less space on top, the heading above the body */
     .sec--about {
       border-top: 0;
       padding-top: clamp(2.5rem, 1.5rem + 3vw, 4rem);
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .sec--about .sec__body {
+      grid-column: 1;
     }
   }
 </style>
