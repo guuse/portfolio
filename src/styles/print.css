@@ -129,6 +129,15 @@
       margin-bottom: 0.75rem;
     }
 
+    /*
+     * A step that continues the previous drawing has no figure of its own (an empty box
+     * without JS, a decorative copy of the drawing with it): on paper the drawing is printed
+     * once, with the step that introduces it.
+     */
+    .scene-step > div.scene {
+      display: none !important;
+    }
+
     .scene-step__text :is(h3, p) {
       color: var(--ink) !important;
     }
@@ -143,7 +152,24 @@
 
     .ph-hero {
       min-height: 0;
-      aspect-ratio: 16 / 7;
+    }
+
+    /*
+     * Chromium mishandles break-inside: avoid inside grids: a row pushed to the next page can
+     * print over what follows it. These lists have no gaps, so on paper they are plain blocks
+     * and their rows still don't split.
+     */
+    :is(.phases, .deflist, .hood, .lessons) {
+      display: block !important;
+    }
+
+    /* so are the sections around them (one column on paper anyway), their gap as margins */
+    :is(.sec, .sec__body) {
+      display: block;
+    }
+
+    :is(.sec, .sec__body) > * + * {
+      margin-top: 1.5rem;
     }
 
     /* sensible page breaks */

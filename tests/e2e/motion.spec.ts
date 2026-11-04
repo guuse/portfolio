@@ -75,6 +75,14 @@ test("print shows every part of the page, each figure with its step", async ({ p
       steps: steps.length,
       tallSteps: steps.filter((s) => parseFloat(getComputedStyle(s).minHeight) > 0).length,
       moved: document.querySelectorAll('.scene-svg [style*="transform"]').length,
+      // a continuing step's copy of the drawing (or its empty box) isn't printed again
+      copiesPrinted: [...document.querySelectorAll(".scene-step > div.scene")].filter(
+        (el) => getComputedStyle(el).display !== "none",
+      ).length,
+      // Chromium prints break-inside: avoid rows in a grid over what follows: no grids there
+      grids: [...document.querySelectorAll(".sec, .sec__body, .hood, .lessons, .deflist")].filter(
+        (el) => getComputedStyle(el).display === "grid",
+      ).length,
     };
   });
   expect(report).toEqual({
@@ -84,6 +92,8 @@ test("print shows every part of the page, each figure with its step", async ({ p
     steps: report.steps,
     tallSteps: 0,
     moved: 0,
+    copiesPrinted: 0,
+    grids: 0,
   });
   expect((await page.pdf({ format: "A4" })).byteLength).toBeGreaterThan(10_000);
   // back on screen, the stage and the motion come back
