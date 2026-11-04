@@ -1,4 +1,5 @@
 ---
+import Arrow from "~/components/ui/Arrow.astro";
 import { Picture } from "astro:assets";
 import { list } from "~/lib/content";
 import Drawing from "~/components/art/Drawing.astro";
@@ -16,7 +17,7 @@ const projects = await list("projects");
       Projects
     </h2>
     <a class="strip__all" href="/projects/">
-      All projects <span aria-hidden="true">&rarr;</span>
+      All projects <Arrow />
     </a>
   </div>
   <ul class="covers" role="list">

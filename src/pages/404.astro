@@ -1,4 +1,5 @@
 ---
+import Arrow from "~/components/ui/Arrow.astro";
 import Base from "~/layouts/Base.astro";
 import Drawing from "~/components/art/Drawing.astro";
 import TextLink from "~/components/ui/TextLink.astro";
@@ -19,7 +20,7 @@ import { evicted } from "~/lib/art/scenes/evicted";
       </p>
       <p class="lost__links">
         <TextLink variant="outline" href="/">
-          Back to the homepage <span aria-hidden="true">&rarr;</span>
+          Back to the homepage <Arrow />
         </TextLink>
         <TextLink variant="underline" href="/projects/">
           See the projects

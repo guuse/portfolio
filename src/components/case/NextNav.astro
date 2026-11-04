@@ -1,9 +1,12 @@
 ---
+import Arrow from "~/components/ui/Arrow.astro";
 /** Previous / next between case studies. */
 interface Link {
   href: string;
   small: string;
   label: string;
+  /** Which way it points: the previous project is to the left, the next to the right. */
+  arrow?: "left" | "right";
 }
 interface Props {
   prev: Link;
@@ -16,7 +19,7 @@ const { prev, next } = Astro.props;
   {[prev, next].map((l) => (
     <a href={l.href}>
       <small>{l.small}</small>
-      <Fragment set:html={l.label} />
+      {l.arrow === "left" && <Arrow dir="left" />} {l.label} {l.arrow === "right" && <Arrow />}
     </a>
   ))}
 </nav>

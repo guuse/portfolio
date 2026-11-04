@@ -1,0 +1,42 @@
+---
+/**
+ * The site's arrow ("See projects", "All projects", the case studies' back and next links,
+ * the viewer's buttons). Neither web font has ← or →, so as a character it came from a
+ * system font; this is drawn, takes the text's colour and size, and is hidden from screen
+ * readers: the link or button around it carries the words.
+ */
+interface Props {
+  dir?: "left" | "right";
+}
+const { dir = "right" } = Astro.props;
+const d = dir === "left" ? "M13.5 8h-11M7 3.5 2.5 8 7 12.5" : "M2.5 8h11M9 3.5 13.5 8 9 12.5";
+---
+
+<svg
+  class:list={["arrow", `arrow--${dir}`]}
+  viewBox="0 0 16 16"
+  width="16"
+  height="16"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.5"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden="true"
+  focusable="false"
+>
+  <path d={d}></path>
+</svg>
+
+<style>
+  @layer components {
+    /* about the size of the glyph it replaces, on the text's x-height */
+    .arrow {
+      display: inline-block;
+      flex: none;
+      width: 0.95em;
+      height: 0.95em;
+      vertical-align: -0.12em;
+    }
+  }
+</style>

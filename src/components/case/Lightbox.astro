@@ -1,4 +1,5 @@
 ---
+import Arrow from "~/components/ui/Arrow.astro";
 /**
  * The screenshot viewer: a native modal dialog (behaviour in src/scripts/lightbox.ts). It
  * opens on the thumbnail the page already has and swaps in the full image once it's decoded;
@@ -15,10 +16,10 @@
     <span class="lightbox__count"></span>
     <div class="lightbox__nav">
       <button type="button" class="lb-btn" data-lb-prev aria-label="Previous screenshot">
-        <span aria-hidden="true">&larr;</span>
+        <Arrow dir="left" />
       </button>
       <button type="button" class="lb-btn" data-lb-next aria-label="Next screenshot">
-        <span aria-hidden="true">&rarr;</span>
+        <Arrow />
       </button>
       <button type="button" class="lb-btn lb-btn--close" data-lb-close aria-label="Close viewer">
         Close

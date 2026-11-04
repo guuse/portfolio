@@ -1,4 +1,5 @@
 ---
+import Arrow from "~/components/ui/Arrow.astro";
 import Drawing from "~/components/art/Drawing.astro";
 import { card } from "~/lib/art";
 import { liveArt, type ProjectId } from "~/lib/projects";
@@ -29,7 +30,7 @@ const art = liveArt[project];
   </div>
   <div class="ph-hero__text">
     <a class="back" href="/projects/">
-      &larr; All projects
+      <Arrow dir="left" /> All projects
     </a>
     <p class="ph-meta">
       {meta}
@@ -151,6 +152,7 @@ const art = liveArt[project];
     .back {
       display: inline-flex;
       align-items: center;
+      gap: 0.4em;
       min-height: 40px;
       color: var(--ink-muted);
       font-size: var(--text-small);

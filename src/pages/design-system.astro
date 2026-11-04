@@ -1,4 +1,5 @@
 ---
+import Arrow from "~/components/ui/Arrow.astro";
 import Base from "~/layouts/Base.astro";
 import Drawing from "~/components/art/Drawing.astro";
 import Sprite from "~/components/art/Sprite.astro";
@@ -168,7 +169,7 @@ const curves = [
     <h3 class="ds-h3">Links and actions</h3>
     <p class="ds-row">
       <TextLink variant="outline" href="/projects/">
-        Outlined link <span aria-hidden="true">&rarr;</span>
+        Outlined link <Arrow />
       </TextLink>
       <TextLink variant="underline" href="/">
         Underlined link

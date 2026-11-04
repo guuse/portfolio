@@ -1,4 +1,5 @@
 ---
+import Arrow from "~/components/ui/Arrow.astro";
 import { Picture } from "astro:assets";
 import type { CollectionEntry } from "astro:content";
 import Drawing from "~/components/art/Drawing.astro";
@@ -52,8 +53,7 @@ const href = caseStudyHref(p.id);
     </ul>
     <p class="pcard__stack">{p.stack}</p>
     <TextLink variant="underline" href={href}>
-      Read the case study<span class="visually-hidden">: {p.title}</span>{" "}
-      <span aria-hidden="true">&rarr;</span>
+      Read the case study<span class="visually-hidden">: {p.title}</span> <Arrow />
     </TextLink>
   </div>
 </article>

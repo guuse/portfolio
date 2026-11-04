@@ -1,4 +1,5 @@
 ---
+import Arrow from "~/components/ui/Arrow.astro";
 import { Picture } from "astro:assets";
 import CopyButton from "~/components/ui/CopyButton.astro";
 import TextLink from "~/components/ui/TextLink.astro";
@@ -59,7 +60,7 @@ const stats = [
       </dl>
       <div class="actions">
         <TextLink variant="outline" href="/projects/">
-          See projects <span aria-hidden="true">&rarr;</span>
+          See projects <Arrow />
         </TextLink>
         <span class="actions__mail">
           <a class="email" id="mail-top" href={`mailto:${site.email}`} set:html={emailHtml} />
