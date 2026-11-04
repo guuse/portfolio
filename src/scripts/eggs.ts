@@ -139,6 +139,10 @@ function konami(): void {
   let at = 0;
   document.addEventListener("keydown", (e) => {
     if (!enabled || typing(e)) return;
+    // once ↑↑ has started the code, the arrows that carry it on don't scroll the page too;
+    // any other arrow (and every arrow before then) scrolls as usual
+    if (at >= 2 && e.key === KONAMI[at] && e.key.startsWith("Arrow") && !e.altKey && !e.ctrlKey && !e.metaKey)
+      e.preventDefault();
     at = e.key.toLowerCase() === KONAMI[at]!.toLowerCase() ? at + 1 : e.key === KONAMI[0] ? 1 : 0;
     if (at < KONAMI.length) return;
     at = 0;
