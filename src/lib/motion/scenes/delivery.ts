@@ -4,37 +4,20 @@
  * route it's on lights up, and what it arrives at gives a small hop or lights its LED.
  */
 import { D1, D2 } from "~/lib/art/scenes/delivery.layout";
-import { attr, fade, fadeTowards, hideStill, move, parts, type Parts } from "../dom";
+import { fade, hideStill, move, parts, type Parts } from "../dom";
 import { blinker, restLeds } from "../leds";
 import { ease as E, lerp, seg } from "../math";
 import { courier, prime } from "../packets";
+import { hotRoutes, lightRoute } from "../routes";
 import type { SceneFactory } from "../types";
 
 type Path = SVGPathElement;
-
-/** The lit route's dash pattern (art.css: 5 on, 7 off), and how fast it flows, per second. */
-const DASH = 12,
-  DASH_SPEED = DASH / 0.7;
 
 /**
  * A leg of the journey: the route, when the packet is on it, its class, and the part it
  * reaches ("" for none: that part moves on its own).
  */
 type Leg = [route: string, from: number, to: number, cls: string, reaches: string];
-
-/** Lays an amber copy over each route of the journey, shown while the packet is on it. */
-function hotRoutes(K: Parts, legs: readonly Leg[]): Path[] {
-  return legs.map(([route]) => {
-    const r = K[`route-${route}`] as Path,
-      h = r.cloneNode() as Path;
-    h.removeAttribute("data-k");
-    h.setAttribute("data-rt", "");
-    h.setAttribute("class", "k-route-hot");
-    h.style.opacity = "0";
-    r.after(h);
-    return h;
-  });
-}
 
 /**
  * The journey for the scenes that follow one packet: lights the route it's on, hops what it
@@ -44,7 +27,7 @@ function journey(svg: SVGSVGElement, K: Parts, legs: readonly Leg[]) {
   const put = courier(K["pk"] as SVGGElement),
     routes = legs.map(([route]) => K[`route-${route}`] as Path);
   prime(...routes);
-  const hot = hotRoutes(K, legs),
+  const hot = hotRoutes(routes),
     // what each leg reaches, once per element (two legs can end at the same machine)
     targets = [...new Set(legs.flatMap((l) => (l[4] ? [l[4]] : [])))].map((k) => ({
       el: K[k],
@@ -53,10 +36,7 @@ function journey(svg: SVGSVGElement, K: Parts, legs: readonly Leg[]) {
   hideStill(svg);
   return (p: number, dt: number, t: number) => {
     legs.forEach(([, a0, a1], i) => {
-      const on = p > a0 - 0.01 && p < a1 + 0.015;
-      fadeTowards(hot[i], on ? 0.95 : 0, dt, 9);
-      // the dash flows on the scene's clock, so it stands still whenever the scene does
-      if (on) attr(hot[i], "stroke-dashoffset", -((t * DASH_SPEED) % DASH));
+      lightRoute(hot[i], p > a0 - 0.01 && p < a1 + 0.015, dt, t);
     });
     for (const { el, ends } of targets) {
       const bump = Math.max(...ends.map((to) => Math.sin(Math.PI * seg(p, to - 0.004, to + 0.05))));

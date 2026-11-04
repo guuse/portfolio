@@ -1,17 +1,14 @@
 /** Motion for the homelab scene and the homelab homepage card. */
 import { CL, H } from "~/lib/art/scenes/homelab.layout";
-import { attr, fade, fadeTowards, hideStill, move, parts } from "../dom";
+import { fade, hideStill, move, parts } from "../dom";
 import { blinker, restLeds } from "../leds";
 import { clamp, ease as E, lerp, seg } from "../math";
 import { courier, prime, track } from "../packets";
+import { hotRoutes, lightRoute } from "../routes";
 import { firstAlong } from "~/lib/art/geometry";
 import type { SceneFactory } from "../types";
 
 type Path = SVGPathElement;
-
-/** The lit route's dash pattern (art.css: 5 on, 7 off), and how fast it flows, per second. */
-const DASH = 12,
-  DASH_SPEED = DASH / 0.7;
 
 /**
  * One change, git push to running. Scroll moves a single packet along its journey. The route
@@ -39,15 +36,7 @@ const loop: SceneFactory = (svg) => {
   ];
   prime(...legs.map((l) => l[0]));
   // an amber copy of each route, laid over it, that shows while the packet is on it
-  const hot = legs.map(([route]) => {
-    const h = route.cloneNode() as Path;
-    h.removeAttribute("data-k");
-    h.setAttribute("data-rt", "");
-    h.setAttribute("class", "k-route-hot");
-    h.style.opacity = "0";
-    route.after(h);
-    return h;
-  });
+  const hot = hotRoutes(legs.map((l) => l[0]));
   const arrivals = legs.map(([, , end, , key]) => ({ el: K[key], end }));
   const {
     "commit-push": commitPush,
@@ -67,9 +56,7 @@ const loop: SceneFactory = (svg) => {
       // lit from just before the packet sets off until just after it arrives; the push route
       // lights again when the tag commit's build comes back round to the gate
       const on = (p > a0 - 0.01 && p < a1 + 0.015) || (i === 0 && p > 0.77 && p < 0.92);
-      fadeTowards(hot[i], on ? 0.95 : 0, dt, 9);
-      // the dash flows on the scene's clock, so it stands still whenever the scene does
-      if (on) attr(hot[i], "stroke-dashoffset", -((t * DASH_SPEED) % DASH));
+      lightRoute(hot[i], on, dt, t);
     });
     for (const { el, end } of arrivals) {
       const u = seg(p, end - 0.004, end + 0.045),
