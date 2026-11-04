@@ -1,4 +1,5 @@
 /** Motion for the six MTG suite scenes. */
+import { random } from "../random";
 import { M1, M2, M3, M4, M5 } from "~/lib/art/scenes/mtg.layout";
 import { centre, fade, fadeTowards, hideStill, move, parts } from "../dom";
 import { blinker, restLeds } from "../leds";
@@ -108,7 +109,7 @@ const table: SceneFactory = (svg) => {
     [0.78, 0.86],
     [0.68, 0.76],
   ] as const;
-  return (p, dt, t, _s, rest) => {
+  return (p, dt, t, _s, rest, flow = 1) => {
     blink(dt, rest);
     for (let s = 0; s < 4; s++) {
       const a = seg(p, s * 0.025, 0.08 + s * 0.025);
@@ -143,9 +144,9 @@ const table: SceneFactory = (svg) => {
     });
     for (let q = 0; q < 4; q++) fadeTowards(rings[q], q === who ? 1 : 0, dt, 14);
     fadeTowards(autoLabel, p > 0.68 && p < 0.98 ? 1 : 0, dt, 6);
-    emit(dt, who >= 0 && !rest ? 2.2 : 0, () => {
+    emit(dt, who >= 0 && !rest ? 2.2 * flow : 0, () => {
       if (who === 3 && auto) P.spawn(unanswered, { speed: 230, autofade: true });
-      else P.spawn(answer[who]!, { speed: 260 + Math.random() * 60 });
+      else P.spawn(answer[who]!, { speed: 260 + random() * 60 });
     });
     return P.update(dt, t, rest);
   };
@@ -166,7 +167,7 @@ const hands: SceneFactory = (svg) => {
     boards = range(4).map((s) => range(5).map((k) => K[`screen${s}-card${k}`])),
     { "screen3-reload": reload, bar, mark } = K;
   let lane = 0;
-  return (p, dt, t, _s, rest) => {
+  return (p, dt, t, _s, rest, flow = 1) => {
     blink(dt, rest);
     for (let i = 0; i < 4; i++) {
       const a = seg(p, i * 0.03, 0.12 + i * 0.03);
@@ -181,11 +182,11 @@ const hands: SceneFactory = (svg) => {
     fade(reload, re);
     // the spinner turns on the clock, which stands still once the scene rests
     move(reload, 0, 0, 1, 1, (t * 300) % 360);
-    emit(dt, !rest && p > 0.1 && p < 0.34 ? 6 : 0, () => {
+    emit(dt, !rest && p > 0.1 && p < 0.34 ? 6 * flow : 0, () => {
       P.spawn(lanes[lane]!, { speed: 240 });
       lane = (lane + 1) % 4;
     });
-    emit3(dt, !rest && p > 0.5 && p < 0.6 ? 4 : 0, () => P.spawn(lanes[3]!, { speed: 240 }));
+    emit3(dt, !rest && p > 0.5 && p < 0.6 ? 4 * flow : 0, () => P.spawn(lanes[3]!, { speed: 240 }));
     // replay: the bar slides in, the marker scrubs back, the boards rewind
     const bs = seg(p, 0.62, 0.7),
       r = E.inOutCubic(seg(p, 0.72, 0.98));
@@ -257,7 +258,7 @@ const decks: SceneFactory = (svg) => {
   };
 };
 
-/* Plain words: the sentence breaks into a query, Scryfall checks it, two readings fan out. */
+/* Plain words: the sentence breaks into a query, Scryfall checks it, a best match and its alternatives fan out. */
 const search: SceneFactory = (svg) => {
   const K = parts(svg),
     put = courier(K["pk"] as SVGGElement);
@@ -291,7 +292,7 @@ const search: SceneFactory = (svg) => {
     const tk = seg(p, 0.47, 0.53);
     move(tick, 0, 0, lerp(0.2, 1, E.outBack(tk, 2.6)));
     fade(tick, Math.min(1, tk * 3));
-    // both readings start as one pile in the middle, fan out, then move apart
+    // the best match and its alternatives start as one pile in the middle, fan out, then move apart
     const apart = E.inOutCubic(seg(p, 0.74, 0.94));
     (
       [

@@ -148,8 +148,15 @@
       animation-delay: 0s;
     }
 
-    /* a drawing with no partner on the other page comes and goes with the page itself */
+    /*
+     * A drawing with no partner on the other page goes with the old page, and comes in only
+     * once the old page has mostly faded (the second half of the crossfade), so it never
+     * fades in over the old page's text.
+     */
     ::view-transition-new(*.art):only-child {
+      animation-duration: calc(var(--duration-page) / 2);
+      animation-delay: calc(var(--duration-page) / 2);
+      animation-fill-mode: both;
       animation-timing-function: var(--ease-out);
     }
 

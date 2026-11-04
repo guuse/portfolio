@@ -2,7 +2,7 @@
  * DOM helpers for the scenes. Only transform and opacity ever change, and each element
  * remembers what it was last given so unchanged frames cost no style writes.
  */
-export const SVG_NS = "http://www.w3.org/2000/svg";
+const SVG_NS = "http://www.w3.org/2000/svg";
 
 export type Parts = Record<string, SVGGraphicsElement | undefined>;
 

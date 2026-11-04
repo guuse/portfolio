@@ -6,6 +6,7 @@
  * table (track(); the sampler is in ~/lib/art/geometry) when an animator is built or a packet
  * first uses it, and packets are placed by interpolating that table.
  */
+import { random } from "./random";
 import { PACKET_PARTS } from "~/lib/art/packet";
 import { fade, made } from "./dom";
 import { clamp } from "./math";
@@ -16,8 +17,12 @@ const DEG = 180 / Math.PI;
 /** Sample spacing, in drawing units. Packets are 16 long, so 2 is finer than the eye can tell. */
 const STEP = 2;
 const tracks = new WeakMap<Element, Track>();
-/** Seconds a packet takes to fade out when its scene settles. */
-const FADE_OUT = 0.4;
+/**
+ * When its scene settles, a packet travels on for LINGER seconds (most finish their route),
+ * then whatever is still on its way fades out over FADE_OUT seconds.
+ */
+const LINGER = 0.8,
+  FADE_OUT = 0.8;
 
 /** The lookup table for a path, sampled from its `d` on first use. */
 export function track(el: Element | undefined): Track {
@@ -108,6 +113,8 @@ function packetEl(): SVGGElement {
 export function packets(layer: SVGGElement) {
   const live: Packet[] = [];
   const pool: SVGGElement[] = [];
+  /** How long the scene has been at rest (seconds), for LINGER. */
+  let resting = 0;
 
   function spawn(segs: Segment[], o: SpawnOptions = {}): Packet {
     if (!segs.length) throw new Error("packets: a packet needs at least one segment");
@@ -128,7 +135,7 @@ export function packets(layer: SVGGElement) {
       stop: o.stop,
       end: o.end,
       age: 0,
-      ph: Math.random() * 6,
+      ph: random() * 6,
       wait: 0,
       out: 0,
       autofade: o.autofade,
@@ -137,14 +144,19 @@ export function packets(layer: SVGGElement) {
     return k;
   }
 
-  /** Moves every packet one frame. With `rest`, they fade out where they are. Returns whether any are left. */
+  /**
+   * Moves every packet one frame. With `rest`, they keep going for LINGER, then the ones left
+   * fade out where they are. Returns whether any are left.
+   */
   function update(dt: number, t: number, rest = false): boolean {
+    resting = rest ? resting + dt : 0;
+    const letGo = resting > LINGER;
     for (let j = live.length - 1; j >= 0; j--) {
       const k = live[j]!;
       let s = k.segs[k.i]!;
       k.age += dt;
-      // a settling scene lets its traffic go: each packet fades out over a few frames
-      if (rest || k.out > 0) k.out += dt / FADE_OUT;
+      // a settled scene lets its last traffic go: each packet left fades out over FADE_OUT
+      if (letGo || k.out > 0) k.out += dt / FADE_OUT;
       if (k.out >= 1) {
         drop(j);
         continue;
@@ -204,7 +216,7 @@ export function emitter(): (dt: number, rate: number, fire: () => void) => void 
     while (acc >= gap) {
       acc -= gap;
       fire();
-      gap = (0.45 + Math.random() * 1.1) / rate;
+      gap = (0.45 + random() * 1.1) / rate;
     }
   };
 }

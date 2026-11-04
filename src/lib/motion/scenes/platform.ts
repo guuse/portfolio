@@ -1,4 +1,5 @@
 /** Motion for the hosting platform scenes (drawn by src/lib/art/scenes/platform.ts). */
+import { random } from "../random";
 import { S1, S2, S3, S4, S5 } from "~/lib/art/scenes/platform.layout";
 import { attr, hiddenPath, hideStill, fade, made, move, parts } from "../dom";
 import { blinker, restLeds } from "../leds";
@@ -71,6 +72,9 @@ interface Zone {
   want: number;
 }
 
+/** Seconds after a scroll scene comes to rest that the scaler snaps to its final state. */
+const SNAP = 1;
+
 /**
  * Each zone holds up to four nodes of four pods. When pods don't fit, one waits above the
  * rack (pending) until a node is added; when the load drops, pods drain from the top node and
@@ -104,7 +108,9 @@ function scaler(svg: SVGSVGElement, load: (p: number, t: number) => number, card
     }
     return zone;
   });
-  let first = true;
+  let first = true,
+    /** Seconds the scene has been at rest; after SNAP the zones jump to their final state. */
+    resting = 0;
   /** The load capacity has caught up with (it lags the real load, see above). */
   let capacity = 0;
   const target = (z: number, L: number): number => clamp(Math.round(1 + L * 11.5 * bias[z]!), 1, 16);
@@ -134,7 +140,7 @@ function scaler(svg: SVGSVGElement, load: (p: number, t: number) => number, card
             pd.t = 0;
             break;
           }
-          z.cool = 0.07 + Math.random() * 0.08;
+          z.cool = 0.07 + random() * 0.08;
         } else {
           if (!z.nodes.some((x) => x.st === "in")) {
             const off = z.nodes.find((x) => x.st === "off");
@@ -153,7 +159,7 @@ function scaler(svg: SVGSVGElement, load: (p: number, t: number) => number, card
           last.t = 0;
           break;
         }
-        z.cool = 0.1 + Math.random() * 0.1;
+        z.cool = 0.1 + random() * 0.1;
       }
     }
     // remove the top node once it has been empty for a moment
@@ -240,7 +246,7 @@ function scaler(svg: SVGSVGElement, load: (p: number, t: number) => number, card
     let on = 0;
     for (const x of zone.pods) if (x.on) on++;
     if (!on) return;
-    let pick = (Math.random() * on) | 0;
+    let pick = (random() * on) | 0;
     for (const x of zone.pods)
       if (x.on && pick-- === 0) {
         x.ack = 0;
@@ -251,12 +257,12 @@ function scaler(svg: SVGSVGElement, load: (p: number, t: number) => number, card
   const fire = (): void => {
     const w0 = Z[0]!.want,
       w1 = Z[1]!.want,
-      r = Math.random() * (w0 + w1 + Z[2]!.want);
+      r = random() * (w0 + w1 + Z[2]!.want);
     const zi = r < w0 ? 0 : r < w0 + w1 ? 1 : 2;
-    P.spawn(routes[(Math.random() * 3) | 0]![zi]!, { speed: 190 + Math.random() * 70, end: landed[zi]! });
+    P.spawn(routes[(random() * 3) | 0]![zi]!, { speed: 190 + random() * 70, end: landed[zi]! });
   };
 
-  return (p: number, dt: number, t: number, rest: boolean): boolean => {
+  return (p: number, dt: number, t: number, rest: boolean, flow = 1): boolean => {
     const L = load(p, t);
     if (first) {
       settle(L);
@@ -264,6 +270,17 @@ function scaler(svg: SVGSVGElement, load: (p: number, t: number) => number, card
       first = false;
     }
     capacity += (L - capacity) * approach(dt, 1.5);
+    // at rest the scheduler would keep placing pods one by one until it caught up with the
+    // load, with no limit: a moment after the scene settles, it gets there at once instead
+    resting = rest ? resting + dt : 0;
+    if (resting > SNAP && changing()) {
+      capacity = L;
+      settle(L);
+      for (const z of Z) {
+        z.pendA = 0;
+        for (const pd of z.pods) pd.ack = 9;
+      }
+    }
     if (card && p >= 1) restLeds(svg);
     else blink(dt, rest);
     Z.forEach((z, zi) => {
@@ -277,7 +294,7 @@ function scaler(svg: SVGSVGElement, load: (p: number, t: number) => number, card
       draw(z, t);
     });
     // a card's pass winds down: no new requests near the end, and the last ones fade away
-    emit(dt, rest || (card && p > 0.78) ? 0 : 1 + 9 * L, fire);
+    emit(dt, rest || (card && p > 0.78) ? 0 : (1 + 9 * L) * flow, fire);
     const moving = P.update(dt, t, rest);
     if (card) fade(pk, 1 - seg(p, 0.86, 1));
     return moving || changing();
@@ -290,7 +307,7 @@ const scale: SceneFactory = (svg) => {
     svg,
     (p) => 0.08 + 0.92 * (E.inOutCubic(seg(p, 0.08, 0.55)) * (1 - 0.72 * E.inOutCubic(seg(p, 0.68, 1)))),
   );
-  return (p, dt, t, _s, rest) => run(p, dt, t, rest);
+  return (p, dt, t, _s, rest, flow) => run(p, dt, t, rest, flow);
 };
 
 /* 3. Two regions, one entry. */
@@ -316,11 +333,11 @@ const regions: SceneFactory = (svg) => {
     toJP = [0, 1, 2].map((i) => route(i, true));
   for (const r of [...toIE, ...toJP]) prime(...r.map((x) => x.el));
   const fire = (): void => {
-    const i = (Math.random() * 3) | 0;
-    P.spawn((Math.random() < 0.3 ? toJP : toIE)[i]!, { speed: 170 + Math.random() * 60 });
+    const i = (random() * 3) | 0;
+    P.spawn((random() < 0.3 ? toJP : toIE)[i]!, { speed: 170 + random() * 60 });
   };
   const { globe, ie, jp, door, users, routes, lblIE, lblJP } = K;
-  return (p, dt, t, _s, rest) => {
+  return (p, dt, t, _s, rest, flow = 1) => {
     blink(dt, rest);
     const gs = seg(p, 0, 0.3);
     move(globe, 0, 60 * (1 - E.outCubic(gs)));
@@ -340,7 +357,7 @@ const regions: SceneFactory = (svg) => {
     fade(lblJP, seg(p, 0.7, 0.82));
     move(lblIE, 6 * (1 - E.outCubic(seg(p, 0.64, 0.76))), 0);
     move(lblJP, -6 * (1 - E.outCubic(seg(p, 0.7, 0.82))), 0);
-    emit(dt, !rest && p > 0.56 ? 4.2 * seg(p, 0.56, 0.7) : 0, fire);
+    emit(dt, !rest && p > 0.56 ? 4.2 * seg(p, 0.56, 0.7) * flow : 0, fire);
     return P.update(dt, t, rest);
   };
 };
@@ -369,7 +386,7 @@ const ipv6: SceneFactory = (svg) => {
     { el: K["route-from-xlat"] as SVGPathElement, cls: "pk--ink" },
   ];
   const toDb: Segment[] = [{ el: rdb, cls: "" }];
-  const fireA = (): void => void P.spawn(translated, { speed: 150 + Math.random() * 40 });
+  const fireA = (): void => void P.spawn(translated, { speed: 150 + random() * 40 });
   // packets to the database queue up at the closed gate, one behind the other
   const stop = (me: Packet): number => {
     if (open > 0.55 || me.d > gateD + 0.5) return Infinity;
@@ -380,7 +397,7 @@ const ipv6: SceneFactory = (svg) => {
     }
     return gateD - ahead * 19;
   };
-  const fireB = (): void => void queue.push(P.spawn(toDb, { speed: 140 + Math.random() * 40, stop }));
+  const fireB = (): void => void queue.push(P.spawn(toDb, { speed: 140 + random() * 40, stop }));
   const {
     tag,
     "tag-4": tag4,
@@ -394,7 +411,7 @@ const ipv6: SceneFactory = (svg) => {
     "route-from-xlat": fromXlat,
     "route-idle": idleRoute,
   } = K;
-  return (p, dt, t, _s, rest) => {
+  return (p, dt, t, _s, rest, flow = 1) => {
     blink(dt, rest);
     // the address tag flips over
     const f = seg(p, 0.06, 0.24);
@@ -430,7 +447,7 @@ const ipv6: SceneFactory = (svg) => {
       g < 0.18 ? 1 + 0.07 * Math.sin((g / 0.18) * Math.PI) : 1 - 0.9 * E.outBack((g - 0.18) / 0.82, 1.4);
     move(bar, 0, 0, 1, clamp(sy, 0.04, 1.1));
     gateLed?.classList.toggle("is-open", g > 0.6);
-    eA(dt, !rest && p > 0.36 ? 1.5 : 0, fireA);
+    eA(dt, !rest && p > 0.36 ? 1.5 * flow : 0, fireA);
     // drop the ones that arrived (in place, oldest first), and count who's still waiting
     let queued = 0;
     for (let j = queue.length - 1; j >= 0; j--) {
@@ -438,7 +455,7 @@ const ipv6: SceneFactory = (svg) => {
       if (!P.live.includes(k)) queue.splice(j, 1);
       else if (k.d < gateD + 1) queued++;
     }
-    eB(dt, !rest && p > 0.56 && (open > 0.5 || queued < 4) ? 1.3 : 0, fireB);
+    eB(dt, !rest && p > 0.56 && (open > 0.5 || queued < 4) ? 1.3 * flow : 0, fireB);
     return P.update(dt, t, rest);
   };
 };
@@ -503,7 +520,7 @@ const cardScale: SceneFactory = (svg) => {
     (p) => 0.3 + 0.55 * (E.inOutCubic(seg(p, 0.04, 0.3)) * (1 - E.inOutCubic(seg(p, 0.4, 0.62)))),
     true,
   );
-  return (p, dt, t, _s, rest) => run(p, dt, t, rest);
+  return (p, dt, t, _s, rest, flow) => run(p, dt, t, rest, flow);
 };
 
 /** The platform family's animators, by drawing id (data-scene / data-card). */

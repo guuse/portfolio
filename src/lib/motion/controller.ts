@@ -8,14 +8,16 @@
  *   - Below it, each figure stays above its step and plays as it scrolls through the viewport.
  *   Steps can share a drawing (`data-scene` repeats) and play a slice of it (`data-range`).
  * Live drawings (`[data-card]`: the project cards and case-study heroes) play one pass on a
- * clock instead, the first time they're seen: about four seconds, then a moment to settle,
+ * clock instead, the first time they're seen: three and a half seconds, then a moment to settle,
  * and they rest on their final frame (WCAG 2.2.2: nothing moves for more than five seconds
  * unasked). Hovering or focusing the card plays it again, a little faster; so does a tap on
  * the drawing.
  *
  * A scroll scene moves while the reader scrolls. Once its progress has stood still (and the page
- * hasn't scrolled) for REST seconds, it settles: no new packets, the ones on their way fade out,
- * the LEDs and every clock-driven wobble stop, and when nothing is left moving it isn't ticked
+ * hasn't scrolled) for a while, it winds down: over the last second before REST it sends fewer
+ * and fewer new packets (`flow`), then it settles: no new packets, the LEDs and every
+ * clock-driven wobble stop, the packets on their way finish their route, and the few still
+ * travelling a moment later fade out (packets.ts). When nothing is left moving it isn't ticked
  * again until the next scroll (WCAG 2.2.2). With nothing left to tick, the loop sleeps.
  *
  * Everything runs on the page's one scheduler, and only while something is on screen. An
@@ -113,11 +115,13 @@ function player(root: Element, id: string): Player | null {
 const all: Player[] = [];
 
 /**
- * How long (ms, on the wall clock) a scroll scene's progress stands still before it settles.
- * Its last packets fade out and its pods finish within about half a second more, so it is
- * still well inside the five seconds WCAG 2.2.2 allows, also on a slow phone.
+ * How long (ms, on the wall clock) a scroll scene's progress stands still before it settles,
+ * and the stretch before that over which its new traffic thins out to nothing. After REST its
+ * packets travel on for LINGER and the rest fade over FADE_OUT (packets.ts): the last write is
+ * 3.2 + 0.8 + 0.8 = 4.8 s after the last scroll, inside the five seconds WCAG 2.2.2 allows.
  */
-const REST = 3500;
+const REST = 3200,
+  RAMP = 1000;
 
 /** Takes a failed animator out of play: says so, and puts its drawing back to the still. */
 function fail(a: Player, error: unknown): void {
@@ -178,7 +182,8 @@ function tick(a: Player, p: number, dt: number, now: number): boolean {
     a.target = p;
     a.since = now;
   }
-  const rest = now - a.since >= REST;
+  const quiet = now - a.since,
+    rest = quiet >= REST;
   if (rest && a.asleep) return false;
   a.asleep = false;
   if (a.ps < 0) a.ps = p;
@@ -189,7 +194,7 @@ function tick(a: Player, p: number, dt: number, now: number): boolean {
   if (!rest) a.t += dt * a.speed;
   let moving: boolean;
   try {
-    moving = a.run(a.ps, dt * a.speed, a.t, a.speed, rest);
+    moving = a.run(a.ps, dt * a.speed, a.t, a.speed, rest, clamp((REST - quiet) / RAMP, 0, 1));
   } catch (error) {
     fail(a, error);
     return false;
@@ -207,16 +212,31 @@ function stir(): void {
   }
 }
 
-/** A card's pass, in seconds at normal speed, and the settling after it (still ticking at p = 1). */
-const PASS = 4.2,
+/**
+ * A card's pass, in seconds at normal speed, and the settling after it (still ticking at p = 1):
+ * 4.3 s in all. The pass advances on frame time (faster on hover), but never falls behind the
+ * wall clock: the scheduler caps a frame's time step after a stall, so on a loaded machine
+ * frame time alone would stretch the pass past WCAG 2.2.2's five seconds.
+ */
+const PASS = 3.5,
   SETTLE = 0.8;
 
+interface Card {
+  player: Player;
+  /** Seconds into the pass (0..PASS + SETTLE). */
+  at: number;
+  /** When the pass started, on the wall clock (ms). */
+  start: number;
+  seen: boolean;
+}
+
 /** Advances a live card one frame. Returns whether it is still moving. */
-function tickCard(c: { player: Player; at: number }, dt: number): boolean {
+function tickCard(c: Card, dt: number, now: number): boolean {
   const a = c.player;
   if (!ready(a)) return false;
+  if (c.at === 0) c.start = now;
   a.speed += (a.speedTarget - a.speed) * approach(dt, 4);
-  c.at = Math.min(PASS + SETTLE, c.at + dt * a.speed);
+  c.at = Math.min(PASS + SETTLE, Math.max(c.at + dt * a.speed, (now - c.start) / 1000));
   a.t += dt * a.speed;
   try {
     a.run(Math.min(1, c.at / PASS), dt * a.speed, a.t, a.speed, false);
@@ -418,6 +438,8 @@ function printing(sections: Section[], relayout: () => void, wake: () => void): 
 
 /** Where the reader is: 40% down the window. */
 const READ_LINE = 0.4;
+/** How long (ms) the window's width holds still before the page goes back to the reading. */
+const RESIZE_IDLE = 150;
 
 interface Reading {
   step: HTMLElement;
@@ -452,25 +474,40 @@ export function startMotion(scheduler: Scheduler, pageAnimators: Record<string, 
   if (sections.length) {
     document.documentElement.classList.add("js-scenes");
     relayout();
-    // Crossing the stage breakpoint changes every step's height: keep the reader on the step
-    // they were reading, the same way through it. By the time the change event fires the page
-    // has already reflowed, so the step is the one last seen in the old layout (noted on scroll).
-    const reading: Partial<Record<"wide" | "narrow", Reading>> = {};
+    // A narrower or wider window changes every step's height (and crossing the stage
+    // breakpoint changes the layout): keep the reader on the step they were reading, the same
+    // way through it. The reading is noted on scroll, but not while the window is being
+    // resized, so a slow drag (and the scrolls the reflows cause) can't move it; once the
+    // width has held still for RESIZE_IDLE, the page scrolls back to it. Only the width
+    // counts: a phone's toolbar sliding away changes the height mid-scroll.
+    let reading: Reading | null = null,
+      resizing = 0,
+      width = innerWidth;
     const note = (): void => {
-      const r = readingStep(sections);
-      if (r) reading[wide.matches ? "wide" : "narrow"] = r;
+      if (!resizing) reading = readingStep(sections) ?? reading;
     };
-    addEventListener("scroll", note, { passive: true });
-    note();
-    wide.addEventListener("change", () => {
-      const keep = reading[wide.matches ? "narrow" : "wide"];
-      relayout();
+    const anchor = (): void => {
+      resizing = 0;
+      const keep = reading;
       if (keep?.step.isConnected) {
         const r = keep.step.getBoundingClientRect(),
           line = innerHeight * READ_LINE;
         window.scrollTo({ top: scrollY + r.top - (line - keep.f * r.height), behavior: "instant" });
       }
       note();
+    };
+    const resized = (): void => {
+      if (innerWidth === width) return;
+      width = innerWidth;
+      clearTimeout(resizing);
+      resizing = window.setTimeout(anchor, RESIZE_IDLE);
+    };
+    addEventListener("scroll", note, { passive: true });
+    addEventListener("resize", resized, { passive: true });
+    note();
+    wide.addEventListener("change", () => {
+      relayout();
+      resized();
     });
   }
   const isPrinting = printing(sections, relayout, wake);
@@ -478,7 +515,7 @@ export function startMotion(scheduler: Scheduler, pageAnimators: Record<string, 
   const cards = [...document.querySelectorAll<HTMLElement>("[data-card]")].flatMap((box) => {
     const p = player(box, box.dataset["card"] ?? "");
     if (!p) return [];
-    const card = { player: p, seen: false, at: 0 };
+    const card: Card = { player: p, seen: false, at: 0, start: 0 };
     // plays the pass again, unless it's still playing (then it only changes speed)
     const replay = (speed: number): void => {
       p.speedTarget = speed;
@@ -524,7 +561,7 @@ export function startMotion(scheduler: Scheduler, pageAnimators: Record<string, 
     for (const section of sections) readSection(section, vh);
     // ...then every write
     for (const section of sections) if (writeSection(section, dt, now)) busy = true;
-    for (const c of cards) if (c.seen && c.at < PASS + SETTLE && tickCard(c, dt)) busy = true;
+    for (const c of cards) if (c.seen && c.at < PASS + SETTLE && tickCard(c, dt, now)) busy = true;
     return busy;
   });
 }
