@@ -148,7 +148,7 @@ Old laptop (bare metal, lid shut, battery = UPS)
 └─ Proxmox VE 9.2 ── Tailscale (mgmt), firewall: tailnet-only
    ├─ the k3s VM ── k3s
    │   ├─ Traefik + wildcard TLS (cert-manager, DNS-01)
-   │   ├─ Argo CD ◀── github.com/guuse/homeserver (app-of-apps)
+   │   ├─ Argo CD ◀── the homelab repo (app-of-apps)
    │   │   └─ Image Updater ◀── GHCR commit-SHA tags
    │   ├─ Headlamp (cluster dashboard)
    │   ├─ Tailscale operator → Funnel (public, opt-in per app)

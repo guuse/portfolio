@@ -265,7 +265,7 @@
 
           <div class="arch__src">
             <p class="arch__lbl">From git</p>
-            <div class="src"><b>github.com/guuse/homeserver</b>app-of-apps<span class="src__to">→ Argo CD</span></div>
+            <div class="src"><b>the homelab repo</b>app-of-apps<span class="src__to">→ Argo CD</span></div>
             <div class="src"><b>GHCR</b>commit-SHA tags, built by GitHub Actions<span class="src__to">→ Image Updater</span></div>
           </div>
 
@@ -278,7 +278,7 @@
                   <div class="vm__head"><span class="arch__lbl">VM 100 · 4 vCPU · 10 GB</span><b>k3s VM</b></div>
                   <ul class="vm__rows">
                     <li><b>Traefik + wildcard TLS</b>cert-manager, DNS-01</li>
-                    <li><b>Argo CD</b>◀ github.com/guuse/homeserver</li>
+                    <li><b>Argo CD</b>◀ the homelab repo</li>
                     <li class="in"><b>Image Updater</b>◀ GHCR commit-SHA tags</li>
                     <li><b>Headlamp</b>cluster dashboard</li>
                     <li><b>Tailscale operator</b>→ Funnel, public, opt-in per app</li>
@@ -312,7 +312,7 @@
                     <li>the k3s VM running k3s
                       <ul>
                         <li>Traefik + wildcard TLS (cert-manager, DNS-01)</li>
-                        <li>Argo CD, fed by github.com/guuse/homeserver (app-of-apps); Image Updater, fed by GHCR commit-SHA tags</li>
+                        <li>Argo CD, fed by the homelab repo (app-of-apps); Image Updater, fed by GHCR commit-SHA tags</li>
                         <li>Headlamp (cluster dashboard)</li>
                         <li>Tailscale operator → Funnel (public, opt-in per app)</li>
                         <li>cloudflared → Cloudflare Tunnel + Access (public, opt-in per app)</li>

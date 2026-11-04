@@ -1,4 +1,4 @@
-# For guuse/homeserver: argocd/applications/portfolio.yaml
+# For the homelab repo: argocd/applications/portfolio.yaml
 #
 # portfolio (guuse/portfolio): ekkelenkamp.dev, a static Astro site on an
 # unprivileged nginx. Two stateless pods. App manifests live in the app repo

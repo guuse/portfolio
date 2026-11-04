@@ -117,7 +117,7 @@ cobalt or amber italic with a hand-drawn line, or ink on a tangerine marker bloc
 4. **Footer status line:** `● all systems normal · last deploy a1c9e2f · 3 Nov 2026`. These are
    illustrative values (see the HTML comment); a build step should fill `data-build="commit|date"`.
 5. **Project page:** a short Argo CD `Application` snippet next to "How it works", plus the diagram.
-   Confirm that the repo path (`guuse/homeserver`, `apps/r99`) may be shown.
+   Confirm that the repo path (the homelab repo, `apps/r99`) may be shown.
 
 Fonts: Instrument Serif, Schibsted Grotesk and Geist Mono (the allowed third family, for meta only).
 
