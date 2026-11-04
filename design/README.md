@@ -19,8 +19,9 @@ built, tested or shipped (the container image excludes `design/`).
 
 ## The approved design
 
-`directions/r2-beeld/` after round 17 is the spec the production site was ported from:
-same copy, same look, same drawings and motion. `artifact/` there is the last published mock.
+`directions/r2-beeld/` after round 17 is the spec the production site started as a port of (same
+copy, same look, same drawings and motion), and the site has moved on since. `artifact/` there is
+the last published mock.
 
 | Mock                               | Production                         |
 | ---------------------------------- | ---------------------------------- |
