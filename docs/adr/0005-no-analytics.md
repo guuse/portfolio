@@ -9,8 +9,9 @@ third-party script (breaking the CSP and the performance budget) or a cookie ban
 
 ## Decision
 
-No analytics, no cookies, no third-party requests. Fonts are self-hosted; every asset comes
-from the same origin. nginx's access log keeps no IP addresses.
+No analytics, no cookies, no third-party requests. Fonts are self-hosted: the build reads
+them from the Fontsource packages in node_modules and never from a CDN (it works with the
+network off; `integrations/local-fonts.ts`). Every asset comes from the same origin. nginx's access log keeps no IP addresses.
 
 ## Consequences
 

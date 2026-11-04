@@ -18,11 +18,14 @@ JavaScript, with reduced motion, and for screen readers.
   import, so a moved part can't leave its animation behind.
 - **The client runtime only animates** (`src/lib/motion`). It finds parts by `data-k` and
   changes transform and opacity, nothing else. Packets are built with `createElementNS`
-  (no HTML strings, ADR 0006).
+  (no HTML strings, ADR 0006). Their routes are sampled from each path's `d` by the same
+  parser the still frames use (`src/lib/art/geometry.ts`), never with `getPointAtLength()`,
+  which forces layout and cost long tasks on phones.
 - **One shared `requestAnimationFrame` loop** (`scheduler.ts`). It sleeps when nothing is on
   screen (IntersectionObserver) or the tab is hidden, and caps the time step after a stall.
-  Each animator is created the first time its drawing is seen, and the whole runtime is
-  imported only on pages with drawings, once the page is idle.
+  Each animator is created the first time its drawing is seen. The runtime is imported only
+  on pages with drawings, once the page is idle, and only the scene families (platform,
+  homelab, MTG) that the page's drawings need, in parallel with the controller.
 - **`prefers-reduced-motion: reduce`** means the runtime never starts: the stills stay.
 - Each scene is a labelled `role="img"`, and its step text is the narrative. Copies made for
   narrow screens are `aria-hidden`.
