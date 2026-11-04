@@ -32,8 +32,13 @@
     "pre-commit": "npx lint-staged"
   },
   "lint-staged": {
-    "*.{js,mjs,ts,astro}": [
+    "*.{js,mjs,ts}": [
       "eslint --fix",
+      "prettier --write"
+    ],
+    "*.astro": [
+      "eslint --fix",
+      "stylelint --fix",
       "prettier --write"
     ],
     "*.css": [
