@@ -18,7 +18,10 @@ export function initReveal(): void {
   const fold = innerHeight;
   const blocks = new Map<Element, DOMRect>();
   const blockRect = (el: Element): DOMRect | null => {
-    const block = el.closest("main > :not(div.wrap), main > div.wrap > *");
+    // (the hero and About share a wrapper, .hero: About counts as a block of its own)
+    const block = el.closest(
+      "main > :not(div.wrap, .hero), main > div.wrap > *, .hero > *, .hero > div.wrap > *",
+    );
     if (!block || block === el) return null;
     let r = blocks.get(block);
     if (!r) blocks.set(block, (r = block.getBoundingClientRect()));

@@ -17,99 +17,141 @@ const stats = [
 ] as const;
 ---
 
-<section class="stage" aria-labelledby="hero-title">
-  <div class="stage__bg" data-print="bouldering">
-    {/*
-      the backdrop covers the whole stage, so it is the viewport's width at every size. It is
-      the homepage's LCP, under a 45-90% overlay, so quality 30 is plenty; the prints load at
-      low priority, after it and the two fonts
-    */}
-    <Picture
-      src={bouldering}
-      alt=""
-      formats={["avif", "webp"]}
-      fallbackFormat="webp"
-      widths={[480, 750, 900]}
-      sizes="100vw"
-      quality={30}
-      loading="eager"
-      fetchpriority="high"
-    />
-  </div>
-  <div class="wrap stage__inner">
-    <div class="stage__text">
-      <p class="stage__kicker">
-        {site.name} · {site.city}
-      </p>
-      <h1 class="stage__title" id="hero-title">
-        I like building things that keep running.
-      </h1>
-      <p class="stage__role">Tech lead infrastructure &amp; platform engineering at Harborn</p>
-      <p class="stage__intro">
-        I’m Guus. I lead the infrastructure team at Harborn, a digital agency in Rotterdam, where I build and
-        run the platform our client projects live on: Kubernetes, GitOps and infrastructure as code on AWS and
-        Azure. Ten years in, and I still write code most days.
-      </p>
-      <dl class="stats">
-        {stats.map(([value, label]) => (
-          <div>
-            <dt>{label}</dt>
-            <dd>{value}</dd>
+<div class="hero">
+  <section class="stage" aria-labelledby="hero-title">
+    <div class="stage__bg" data-print="bouldering">
+      {/*
+        the backdrop covers the whole stage, so it is the viewport's width at every size. It is
+        the homepage's LCP, under a 45-90% overlay, so quality 30 is plenty; the prints load at
+        low priority, after it and the two fonts
+      */}
+      <Picture
+        src={bouldering}
+        alt=""
+        formats={["avif", "webp"]}
+        fallbackFormat="webp"
+        widths={[480, 750, 900]}
+        sizes="100vw"
+        quality={30}
+        loading="eager"
+        fetchpriority="high"
+      />
+    </div>
+    <div class="wrap stage__inner">
+      <div class="stage__text">
+        <p class="stage__kicker">
+          {site.name} · {site.city}
+        </p>
+        <h1 class="stage__title" id="hero-title">
+          I like building things that keep running.
+        </h1>
+        <p class="stage__role">Tech lead infrastructure at Harborn</p>
+        <p class="stage__intro">
+          I’m Guus. I lead the infrastructure team at Harborn, a digital agency in Rotterdam, where I build
+          and look after the platform our client projects run on: Kubernetes, GitOps and infrastructure as
+          code on AWS and Azure. I’ve been at Harborn since 2016 and I still write code most days.
+        </p>
+        <dl class="stats">
+          {stats.map(([value, label]) => (
+            <div>
+              <dt>{label}</dt>
+              <dd>{value}</dd>
+            </div>
+          ))}
+        </dl>
+        {/* three groups that wrap whole: the way in, the address with its copy button, the profiles */}
+        <div class="actions">
+          <TextLink variant="outline" href="/projects/" class="actions__go">
+            See projects <Arrow />
+          </TextLink>
+          <span class="mailbox">
+            <a class="email" id="mail-top" href={`mailto:${site.email}`} set:html={emailHtml} />
+            <CopyButton target="mail-top" label="Copy email" />
+          </span>
+          <span class="actions__more">
+            <TextLink variant="underline" href={site.linkedin} external>
+              LinkedIn
+            </TextLink>
+            <TextLink variant="underline" href={site.github} external>
+              GitHub
+            </TextLink>
+          </span>
+        </div>
+      </div>
+      {/*
+        The prints. With a mouse on a wide screen the rail runs from the middle of the hero to
+        the end of About, and the prints are sticky in it, so they stay in view while the reader
+        scrolls through About; elsewhere both wrappers are display: contents and the prints sit
+        in the hero.
+      */}
+      <div class="stage__rail">
+        <div class="stage__col">
+          <div class="stage__prints">
+            <figure class="print print--portrait" data-print="me">
+              <Picture
+                src={portrait}
+                alt="Guus Ekkelenkamp"
+                formats={["avif", "webp"]}
+                fallbackFormat="webp"
+                widths={[340, 680]}
+                sizes="(width < 1000px) 220px, 340px"
+                loading="eager"
+                fetchpriority="low"
+              />
+            </figure>
+            <figure class="print print--a" data-print="travel">
+              <Picture
+                src={sunset}
+                alt="Guus at a railing at sunset over the water"
+                formats={["avif", "webp"]}
+                fallbackFormat="webp"
+                widths={[170, 340]}
+                sizes="(width < 1000px) 108px, 170px"
+                loading="eager"
+                fetchpriority="low"
+              />
+            </figure>
+            {/*
+              the backdrop again, as a print that comes out from behind the portrait while
+              "Bouldering" is hovered (by then the backdrop has scrolled away). Only the pinned
+              stage shows it, so elsewhere this lazy image is never fetched.
+            */}
+            <figure class="print print--b" data-print="bouldering">
+              <Picture
+                src={bouldering}
+                alt=""
+                formats={["avif", "webp"]}
+                fallbackFormat="webp"
+                widths={[180, 360]}
+                sizes="180px"
+                loading="lazy"
+                fetchpriority="low"
+              />
+            </figure>
           </div>
-        ))}
-      </dl>
-      <div class="actions">
-        <TextLink variant="outline" href="/projects/">
-          See projects <Arrow />
-        </TextLink>
-        <span class="actions__mail">
-          <a class="email" id="mail-top" href={`mailto:${site.email}`} set:html={emailHtml} />
-          <CopyButton target="mail-top" label="Copy email" />
-        </span>
-        <TextLink variant="underline" href={site.linkedin} external>
-          LinkedIn
-        </TextLink>
-        <TextLink variant="underline" href={site.github} external>
-          GitHub
-        </TextLink>
+        </div>
       </div>
     </div>
-    <div class="stage__prints">
-      <figure class="print print--portrait" data-print="me">
-        <Picture
-          src={portrait}
-          alt="Guus Ekkelenkamp"
-          formats={["avif", "webp"]}
-          fallbackFormat="webp"
-          widths={[340, 680]}
-          sizes="(width < 1000px) 220px, 340px"
-          loading="eager"
-          fetchpriority="low"
-        />
-      </figure>
-      <figure class="print print--a" data-print="travel">
-        <Picture
-          src={sunset}
-          alt="Guus at a railing at sunset over the water"
-          formats={["avif", "webp"]}
-          fallbackFormat="webp"
-          widths={[170, 340]}
-          sizes="(width < 1000px) 108px, 170px"
-          loading="eager"
-          fetchpriority="low"
-        />
-      </figure>
-    </div>
-  </div>
-</section>
+  </section>
+  <slot />
+</div>
 
 <style>
   @layer components {
-    /* Full-bleed: the hero reaches past the page gutter and slides under the header. */
+    /* the hero and About (the slot): the pinned prints' rail runs the height of both */
+    .hero {
+      display: flow-root;
+    }
+
+    /*
+     * Full-bleed: the hero reaches past the page gutter and slides under the header. It is
+     * not positioned (the backdrop is a grid item laid under the text instead), so the pinned
+     * prints' rail can be positioned by .hero, and it clips without being a scroll container,
+     * which would hold anything sticky inside it.
+     */
     .stage {
-      position: relative;
       isolation: isolate;
-      overflow: hidden;
+      overflow: clip;
       min-height: min(92svh, 900px);
       display: grid;
       align-items: center;
@@ -117,10 +159,17 @@ const stats = [
       padding: var(--space-header) var(--space-edge-end) 0 var(--space-edge);
     }
 
+    .stage > * {
+      grid-area: 1 / 1;
+    }
+
+    /* the stage's whole box, its padding included; the photo's own height never sizes it */
     .stage__bg {
-      position: absolute;
-      inset: 0;
+      position: relative;
+      contain: size;
       z-index: -1;
+      align-self: stretch;
+      margin: calc(-1 * var(--space-header)) calc(-1 * var(--space-edge-end)) 0 calc(-1 * var(--space-edge));
       user-select: none;
     }
 
@@ -215,24 +264,60 @@ const stats = [
       color: var(--ink-subtle);
     }
 
+    /*
+     * The actions: three groups on one 44px line and one centre line, each kept whole when
+     * the row wraps. The way in is the one solid button; the address and its copy button
+     * share one outline; the profiles are quiet links.
+     */
     .actions {
+      --action-h: 44px;
+
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 10px 18px;
+      gap: var(--space-m) var(--space-xl);
       margin-top: 2rem;
-      width: fit-content;
+      font-size: var(--text-small);
+      line-height: 1.2;
+    }
+
+    .actions > * {
+      flex: none;
       max-width: 100%;
     }
 
-    .actions__mail {
-      display: inline-flex;
-      flex-wrap: wrap;
-      align-items: center;
+    .actions :global(.actions__go) {
+      height: var(--action-h);
+      padding: 0 0.875rem 0 var(--space-l);
       gap: var(--space-s);
+      border: 0;
+      background: var(--ink);
+      color: var(--surface);
+      font-size: var(--text-body);
+      transition: background-color var(--duration-quick);
+    }
+
+    @media (hover: hover) {
+      .actions :global(.actions__go:hover) {
+        background: var(--accent);
+        color: var(--accent-ink);
+      }
+    }
+
+    .mailbox {
+      display: inline-flex;
+      align-items: stretch;
+      height: var(--action-h);
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-s);
     }
 
     .email {
+      display: inline-flex;
+      align-items: center;
+      padding: 0 var(--space-m);
+      white-space: nowrap;
+      border-radius: var(--radius-s) 0 0 var(--radius-s);
       user-select: all;
       font-weight: 500;
       text-decoration: none;
@@ -244,13 +329,77 @@ const stats = [
       }
     }
 
-    /* a finger needs a 44px target */
-    @media (pointer: coarse) {
-      .email {
-        display: inline-flex;
-        align-items: center;
-        min-height: 44px;
+    /*
+     * The copy button is the outline's second half, behind a hairline: a square icon. Its
+     * label (whichever state it's in, still its accessible name) is a small tag above it,
+     * shown on hover or focus and while it says "Copied" or "Selected"; it never takes room
+     * in the row, so the button keeps its width whatever it says.
+     */
+    .mailbox :global(.copy) {
+      position: relative;
+      justify-content: center;
+      width: var(--action-h);
+      min-height: 0;
+      padding: 0;
+      border: 0;
+      border-inline-start: 1px solid var(--line-strong);
+      border-radius: 0 var(--radius-s) var(--radius-s) 0;
+      font-size: inherit;
+    }
+
+    .mailbox :global(.copy__icon) {
+      width: 16px;
+      height: 16px;
+    }
+
+    .mailbox :global(.copy[data-state="done"]) {
+      border-inline-start-color: var(--accent);
+    }
+
+    .mailbox :global(.copy__labels) {
+      position: absolute;
+      bottom: calc(100% + var(--space-xs));
+      left: 50%;
+      padding: var(--space-3xs) var(--space-s);
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius-xs);
+      background: var(--surface-raised);
+      color: var(--ink);
+      font-size: var(--text-small);
+      line-height: 1.4;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateX(-50%);
+      transition: opacity var(--duration-quick) var(--ease-out);
+    }
+
+    .mailbox :global(.copy:focus-visible .copy__labels),
+    .mailbox :global(.copy[data-state] .copy__labels) {
+      opacity: 1;
+    }
+
+    @media (hover: hover) {
+      .mailbox :global(.copy:hover .copy__labels) {
+        opacity: 1;
       }
+    }
+
+    .actions__more {
+      display: inline-flex;
+      gap: var(--space-l);
+    }
+
+    .actions__more :global(.tlink) {
+      min-height: var(--action-h);
+      color: var(--ink-muted);
+      font-weight: 400;
+    }
+
+    /* outside the pinned stage the prints are a plain grid item of the hero */
+    .stage__rail,
+    .stage__col {
+      display: contents;
     }
 
     /* the prints: loose photos, tilted, that straighten when lifted */
@@ -313,6 +462,38 @@ const stats = [
       aspect-ratio: 3 / 4;
       z-index: 3;
       animation-delay: calc(var(--duration-stagger) * 6 + 220ms);
+    }
+
+    /*
+     * The bouldering print waits behind the portrait, unseen, and only the pinned stage has
+     * it. Lifted, it slides out to the lower right and, halfway there, comes to the front;
+     * let go, it goes behind the portrait first and slides back.
+     */
+    .print--b {
+      --tilt: 6deg;
+
+      display: none;
+      left: 57%;
+      top: 42%;
+      width: 40%;
+      aspect-ratio: 3 / 4;
+      z-index: 1;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-30%, -24%) rotate(0deg) translateY(0) scale(0.9);
+      animation: none;
+      transition:
+        transform var(--duration-slow) var(--ease-out),
+        opacity var(--duration-base) var(--ease-out),
+        z-index 0s;
+    }
+
+    .print--b:global(.is-lifted) {
+      opacity: 1;
+      transition:
+        transform var(--duration-slow) var(--ease-spring),
+        opacity var(--duration-base) var(--ease-out),
+        z-index 0s linear calc(var(--duration-slow) / 2);
     }
 
     /* lifted under a mouse or pen only: on touch a tap would leave it stuck in the air */
@@ -409,6 +590,70 @@ const stats = [
       }
     }
 
+    /*
+     * The pinned stage, for a mouse on a wide, tall enough screen. .hero becomes a grid: the
+     * hero spans two equal rows, so the line between them is its middle, and About is the
+     * third. The rail (still the hero's right column, but placed on .hero's grid lines) runs
+     * from that middle line to the end of About. The prints start at the top of the rail,
+     * pulled up by half their height, so their centre is the hero's middle: exactly where the
+     * hero has always put them. Then they are sticky: as the hero scrolls away they ride up
+     * until they're centred under the header (no distance at all when the hero is one screen
+     * tall), stay there through About, and leave with its end. Nothing sticky is inside
+     * About, whose rendering content-visibility may skip.
+     */
+    @media screen and (--lg) and (--not-short) and (hover: hover) and (pointer: fine) {
+      .hero {
+        position: relative;
+        display: grid;
+        grid-template-rows: 1fr 1fr auto;
+      }
+
+      .stage {
+        grid-row: 1 / 3;
+      }
+
+      .hero > :global(:not(.stage)) {
+        grid-row: 3;
+      }
+
+      .stage__rail {
+        position: absolute;
+        inset: 0;
+        grid-row: 2 / 4;
+        grid-column: 1;
+        display: grid;
+        grid-template-columns: minmax(0, 7.5fr) minmax(0, 3.5fr);
+        column-gap: var(--space-gutter);
+        width: min(100%, var(--size-wrap));
+        margin-inline: auto;
+        pointer-events: none;
+      }
+
+      .stage__col {
+        display: block;
+        grid-column: 2;
+        container-type: inline-size;
+      }
+
+      .stage__prints {
+        --side: min(100cqi, 460px);
+
+        position: sticky;
+        top: calc(var(--space-header) + (min(92svh, 900px) - var(--space-header) - var(--side)) / 2);
+        width: var(--side);
+        margin: calc(var(--side) / -2) auto 0;
+      }
+
+      .print {
+        pointer-events: auto;
+      }
+
+      .print--b {
+        display: block;
+        pointer-events: none;
+      }
+    }
+
     @media (--below-lg) {
       .stage {
         min-height: 0;
@@ -473,7 +718,9 @@ const stats = [
 
     @media (prefers-reduced-motion: reduce) {
       .print,
-      .stage__text > * {
+      .print--b:global(.is-lifted),
+      .stage__text > *,
+      .mailbox :global(.copy__labels) {
         transition: none;
         animation: none;
       }

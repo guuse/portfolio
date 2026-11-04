@@ -1,7 +1,8 @@
 /**
  * The hero photos are loose prints. With a mouse or pen they can be nudged (up to 60px) and
  * spring back on release; touch keeps scrolling. Hovering an interest in About lifts the
- * matching print (decorative only, so the interests are not tab stops). None of this touches
+ * matching print, which on a wide screen with a mouse is pinned beside About (Hero.astro).
+ * It's decorative only, so the interests are not tab stops. None of this touches
  * the prints' `animation` (see .is-settled in Hero.astro).
  */
 const LIMIT = 60;
@@ -40,13 +41,17 @@ export function initPrints(): void {
   }
 
   for (const item of document.querySelectorAll<HTMLElement>("[data-lift]")) {
-    const print = document.querySelector(`[data-print="${item.dataset["lift"]}"]`);
-    if (!print) continue;
+    // "bouldering" is both the backdrop and the print that stands in for it once the hero
+    // has scrolled away: both answer
+    const prints = [...document.querySelectorAll(`[data-print="${item.dataset["lift"]}"]`)];
+    if (!prints.length) continue;
     // a mouse or pen only: a tap on an interest shouldn't leave its print hanging in the air
     const on = (e: PointerEvent): void => {
-      if (e.pointerType !== "touch") print.classList.add("is-lifted");
+      if (e.pointerType !== "touch") for (const p of prints) p.classList.add("is-lifted");
     };
-    const off = (): void => print.classList.remove("is-lifted");
+    const off = (): void => {
+      for (const p of prints) p.classList.remove("is-lifted");
+    };
     item.addEventListener("pointerenter", on);
     item.addEventListener("pointerleave", off);
   }
