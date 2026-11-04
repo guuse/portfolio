@@ -198,3 +198,33 @@ test.describe("reduced motion", () => {
     ).toBe("none");
   });
 });
+
+test.describe("infrastructure delivery", () => {
+  const path = "/projects/infrastructure-delivery/";
+
+  test.describe("without JavaScript", () => {
+    test.use({ javaScriptEnabled: false });
+
+    test("each drawing shows its still beside its first step", async ({ page }) => {
+      await page.goto(path);
+      const stills = page.locator(".scene-step > figure.scene svg[role='img']");
+      await expect(stills).toHaveCount(3);
+      for (const svg of await stills.all()) await expect(svg).toBeVisible();
+      // the continuing steps get their copy from the runtime only, so there is none here
+      await expect(page.locator(".scene-step > div.scene svg")).toHaveCount(0);
+      await expect(page.locator(".pk-still").first()).toBeVisible();
+    });
+  });
+
+  test("on a phone held sideways every drawing fits the window", async ({ page }) => {
+    await page.setViewportSize({ width: 844, height: 390 });
+    await page.goto(path, { waitUntil: "networkidle" });
+    const svgs = page.locator(".scene-step > .scene svg");
+    expect(await svgs.count()).toBeGreaterThan(0);
+    for (const svg of await svgs.all()) {
+      await svg.scrollIntoViewIfNeeded();
+      const box = await svg.boundingBox();
+      expect(box!.height).toBeLessThanOrEqual(390);
+    }
+  });
+});
