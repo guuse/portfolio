@@ -1,0 +1,90 @@
+---
+import Base from "~/layouts/Base.astro";
+
+// Linked from the footer and from Google's OAuth consent screen for the tools under
+// ekkelenkamp.dev. Bump the date whenever the text changes.
+const updated = { iso: "2026-11-04", label: "4 November 2026" };
+const contact = "guus@ekkelenkamp.dev";
+---
+
+<Base
+  title="Privacy policy · Guus Ekkelenkamp"
+  description="What ekkelenkamp.dev and the tools under it collect, how it is used, and how to have it removed."
+  mainClass="wrap"
+>
+  <article class="policy prose" aria-labelledby="policy-title">
+    <h1 id="policy-title">Privacy policy</h1>
+    <p class="policy__updated">
+      Last updated: <time datetime={updated.iso}>{updated.label}</time>
+    </p>
+
+    <p>
+      This policy covers ekkelenkamp.dev and the services Guus Ekkelenkamp runs under it, including sign-in
+      via Google for access to personal tools.
+    </p>
+
+    <h2>This website</h2>
+    <p>
+      The website itself sets no cookies and uses no analytics or third-party scripts. The web server keeps a
+      short request log (time, page, status, referrer and browser type, without IP addresses) to keep the site
+      running. Cloudflare delivers the site and processes your IP address to do so. If you turn the keyboard
+      shortcuts off, that choice is stored in your own browser and never sent anywhere.
+    </p>
+
+    <h2>What we collect</h2>
+    <p>
+      When you sign in with Google, we receive your name, email address and profile picture. This is used only
+      to check whether you are allowed access. We do not request access to your Gmail, Drive, contacts or any
+      other Google data.
+    </p>
+
+    <h2>How it is used and stored</h2>
+    <p>
+      Sign-in is handled by Cloudflare Access, which keeps a session cookie and an access log (email address,
+      time, IP address) for security purposes. We do not sell, share or use this data for advertising or
+      analytics.
+    </p>
+
+    <h2>Retention</h2>
+    <p>
+      Access logs are kept according to Cloudflare's standard retention. You can ask for your data to be
+      removed at any time.
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+      Questions or removal requests: <a href={`mailto:${contact}`}>{contact}</a>
+    </p>
+  </article>
+</Base>
+
+<style>
+  @layer components {
+    .policy {
+      padding-block: clamp(3rem, 2rem + 4vw, 5rem);
+    }
+
+    .policy h1,
+    .policy h2 {
+      font-family: var(--font-heading);
+      font-weight: 400;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+    }
+
+    .policy h1 {
+      font-size: var(--text-h1);
+      letter-spacing: -0.02em;
+    }
+
+    .policy h2 {
+      margin-top: 1rem;
+      font-size: var(--text-h3);
+    }
+
+    .policy__updated {
+      color: var(--ink-subtle);
+      font-size: var(--text-small);
+    }
+  }
+</style>
