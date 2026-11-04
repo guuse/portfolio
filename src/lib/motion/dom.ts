@@ -88,12 +88,6 @@ export function move(
   m.sx = qsx;
   m.sy = qsy;
   m.r = qr;
-  // At rest (no offset, turn or scale), no transform at all: an element with one, even an
-  // identity one, is a paint chunk of its own, and every chunk costs each frame the page paints.
-  if (!qx && !qy && !qr && (!scaled || (qsx === 1000 && qsy === 1000))) {
-    (el as SVGElement).style.transform = "";
-    return;
-  }
   let s = `translate(${qx / 100}px,${qy / 100}px)`;
   if (qr) s += ` rotate(${qr / 100}deg)`;
   if (scaled) s += ` scale(${qsx / 1000},${qsy / 1000})`;
