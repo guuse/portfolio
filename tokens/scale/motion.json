@@ -24,6 +24,10 @@
       "$value": "700ms",
       "$description": "Sections settling in once"
     },
+    "settle": {
+      "$value": "900ms",
+      "$description": "The hero's prints dropping in once"
+    },
     "stagger": {
       "$value": "60ms",
       "$description": "The gap between siblings settling in one after another"

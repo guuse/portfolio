@@ -5,7 +5,7 @@ import Section from "~/components/ui/Section.astro";
 const phases = await list("experience");
 ---
 
-<Section id="experience" title="Experience">
+<Section id="experience" title="Experience" lazy>
   <div class="org">
     <h3 class="org__name">Harborn</h3>
     <p class="org__where">Digital agency, Rotterdam and Amsterdam</p>
@@ -21,7 +21,7 @@ const phases = await list("experience");
             {data.title} <span class="phase__years">{data.years}</span>
           </h4>
           <p class="phase__intro">{data.intro}</p>
-          <ul>
+          <ul data-lazy>
             {data.bullets.map((b) => (
               <li set:html={b} />
             ))}
@@ -154,7 +154,7 @@ const phases = await list("experience");
       flex-wrap: wrap;
       align-items: baseline;
       justify-content: space-between;
-      gap: var(--space-2xs) 10px;
+      gap: var(--space-2xs) var(--space-m);
       font-size: var(--text-lead);
       font-weight: 600;
       letter-spacing: -0.005em;

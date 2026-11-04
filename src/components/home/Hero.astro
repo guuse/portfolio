@@ -140,6 +140,9 @@ const stats = [
   @layer components {
     /* the hero and About (the slot): the pinned prints' rail runs the height of both */
     .hero {
+      /* the stage's height on a wide screen: the pinned prints centre on it too */
+      --stage-h: min(92svh, 900px);
+
       display: flow-root;
     }
 
@@ -152,7 +155,7 @@ const stats = [
     .stage {
       isolation: isolate;
       overflow: clip;
-      min-height: min(92svh, 900px);
+      min-height: var(--stage-h);
       display: grid;
       align-items: center;
       margin: calc(-1 * var(--space-header)) calc(-1 * var(--space-edge-end)) 0 calc(-1 * var(--space-edge));
@@ -203,9 +206,9 @@ const stats = [
 
     .stage__inner {
       display: grid;
-      gap: 2.5rem var(--space-gutter);
+      gap: var(--space-2xl) var(--space-gutter);
       align-items: center;
-      padding-block: clamp(2rem, 1rem + 5vw, 5rem);
+      padding-block: clamp(var(--space-2xl), var(--space-l) + 5vw, var(--space-3xl) + var(--space-2xl));
     }
 
     .stage__kicker {
@@ -214,7 +217,7 @@ const stats = [
     }
 
     .stage__title {
-      margin-top: 1rem;
+      margin-top: var(--space-l);
       font-family: var(--font-heading);
       font-size: var(--text-display);
       line-height: 0.95;
@@ -223,13 +226,13 @@ const stats = [
     }
 
     .stage__role {
-      margin-top: 1.2rem;
+      margin-top: var(--space-l);
       font-size: var(--text-lead);
       font-weight: 500;
     }
 
     .stage__intro {
-      margin-top: 0.8rem;
+      margin-top: var(--space-m);
       max-width: var(--size-measure);
       color: var(--ink-muted);
     }
@@ -237,8 +240,8 @@ const stats = [
     .stats {
       display: flex;
       flex-wrap: wrap;
-      gap: 1rem 2.4rem;
-      margin-top: 1.8rem;
+      gap: var(--space-l) var(--space-2xl);
+      margin-top: var(--space-2xl);
     }
 
     .stats div {
@@ -248,7 +251,7 @@ const stats = [
     }
 
     .stats div + div {
-      padding-left: 2.4rem;
+      padding-left: var(--space-2xl);
       border-left: 1px solid var(--line);
     }
 
@@ -276,7 +279,7 @@ const stats = [
       flex-wrap: wrap;
       align-items: center;
       gap: var(--space-m) var(--space-xl);
-      margin-top: 2rem;
+      margin-top: var(--space-2xl);
       font-size: var(--text-small);
       line-height: 1.2;
     }
@@ -444,7 +447,7 @@ const stats = [
        * toggles `animation` again: src/scripts/prints.ts marks each print .is-settled on
        * animationend, which retires it for good. (Toggling it used to restart the drop.)
        */
-      animation: settle 900ms var(--ease-out) calc(var(--duration-stagger) * 6) backwards;
+      animation: settle var(--duration-settle) var(--ease-out) calc(var(--duration-stagger) * 6) backwards;
     }
 
     .print :global(img) {
@@ -473,7 +476,7 @@ const stats = [
       width: 36%;
       aspect-ratio: 3 / 4;
       z-index: 3;
-      animation-delay: calc(var(--duration-stagger) * 6 + 220ms);
+      animation-delay: calc(var(--duration-stagger) * 10);
     }
 
     /*
@@ -653,7 +656,7 @@ const stats = [
         --side: min(100cqi, 460px);
 
         position: sticky;
-        top: calc(var(--space-header) + (min(92svh, 900px) - var(--space-header) - var(--side)) / 2);
+        top: calc(var(--space-header) + (var(--stage-h) - var(--space-header) - var(--side)) / 2);
         width: var(--side);
         margin: calc(var(--side) / -2) auto 0;
       }
@@ -698,7 +701,7 @@ const stats = [
       .stage__inner {
         grid-template-columns: minmax(0, 6fr) minmax(0, 4fr);
         align-items: start;
-        padding-block: 1.25rem 2rem;
+        padding-block: var(--space-l) var(--space-2xl);
       }
 
       .stage__prints {
@@ -723,11 +726,11 @@ const stats = [
 
     @media (--below-sm) {
       .stats {
-        gap: 1rem 1.4rem;
+        gap: var(--space-l) var(--space-xl);
       }
 
       .stats div + div {
-        padding-left: 1.4rem;
+        padding-left: var(--space-xl);
       }
     }
 
