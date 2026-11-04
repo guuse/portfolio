@@ -17,5 +17,4 @@ resources:
 images:
   - name: ghcr.io/guuse/portfolio
     newName: ghcr.io/guuse/portfolio
-    # Placeholder until the first release; Image Updater replaces it within minutes.
-    newTag: "0000000000000000000000000000000000000000"
+    newTag: f78be15ee6f82e20bba79cba7de566328e5ec834
