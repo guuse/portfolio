@@ -141,13 +141,15 @@ const cardLoop: SceneFactory = (svg) => {
   const fBuild = CL.buildAt,
     fLap = CL.laptopAt,
     { "commit-new": commitNew, hatch, buildled, newpod } = K;
-  return (p, dt, t) => {
+  return (p, dt, t, _s, rest) => {
+    // at rest (or at the end of the pass) the LEDs go back to their drawn state and stay
+    // there: blinking on would toggle them at random on a frame that should write nothing
     if (p >= 1) restLeds(svg);
-    else blink(dt);
+    else blink(dt, rest);
     const f = 0.9 * p;
     put(loopPath, f, f > fLap ? "pk--ink" : "", 1 - seg(p, 0.86, 1));
     move(commitNew, 0, 0, 1 + 0.35 * Math.sin(Math.PI * seg(f, 0, 0.06)));
-    const inBuild = Math.abs(f - fBuild) < 0.05;
+    const inBuild = Math.abs(f - fBuild) < 0.05 && !rest;
     move(hatch, 0, inBuild ? Math.sin(t * 40) : 0);
     buildled?.classList.toggle("is-blink", inBuild && Math.sin(t * 30) > 0);
     const pp = seg(f, fLap, fLap + 0.08),
