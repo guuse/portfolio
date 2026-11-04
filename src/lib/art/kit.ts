@@ -67,7 +67,9 @@ export function unitFace(x: number, y: number, w: number, h: number, o: UnitOpti
   }
   const v0 = x + 7 + bays * 15 + 6,
     v1 = x + w - 26;
-  for (let vx = v0; vx <= v1; vx += 4.5) s += path(`M${n(vx)} ${n(y + 6)}V${n(y + h - 6)}`, "k-vent");
+  let vents = "";
+  for (let vx = v0; vx <= v1; vx += 4.5) vents += `M${n(vx)} ${n(y + 6)}V${n(y + h - 6)}`;
+  s += path(vents, "k-vent");
   s +=
     circle(x + w - 16, y + h / 2, 2, "k-led") +
     circle(x + w - 9, y + h / 2, 2, "k-led k-led--act", o.ledKey ? { "data-k": o.ledKey } : {});
@@ -102,8 +104,9 @@ export function nodeBody(x: number, y: number, w: number, h: number, slots: numb
     path(`M${n(x + 3)} ${n(y + 1.6)}H${n(x + w - 3)}`, "k-hl");
   // top strip: a handle, vents, LEDs
   s += rect(x + 7, y + 5, 16, 6, "k-dark", 1.5);
-  for (let vx = x + 30; vx <= x + w - 26; vx += 4.5)
-    s += path(`M${n(vx)} ${n(y + 5)}V${n(y + 11)}`, "k-vent");
+  let vents = "";
+  for (let vx = x + 30; vx <= x + w - 26; vx += 4.5) vents += `M${n(vx)} ${n(y + 5)}V${n(y + 11)}`;
+  s += path(vents, "k-vent");
   s += circle(x + w - 15, y + 8, 1.8, "k-led") + circle(x + w - 9, y + 8, 1.8, "k-led k-led--act");
   for (let i = 0; i < slots; i++) s += rect(x + 7 + i * (sw + 4), sy, sw, sh, "k-slot", 2);
   return s;
@@ -267,8 +270,9 @@ export function tower(x: number, y: number, w: number, h: number): string {
     rect(x + 7, y + 9, w - 14, 11, "k-dark", 1) +
     path(`M${n(x + 12)} ${n(y + 14.5)}H${n(x + w - 22)}`, "k-det");
   s += rect(x + 7, y + 24, w - 14, 7, "k-dark", 1);
-  for (let vy = y + h * 0.52; vy < y + h - 12; vy += 5)
-    s += path(`M${n(x + 10)} ${n(vy)}H${n(x + w - 10)}`, "k-vent");
+  let vents = "";
+  for (let vy = y + h * 0.52; vy < y + h - 12; vy += 5) vents += `M${n(x + 10)} ${n(vy)}H${n(x + w - 10)}`;
+  s += path(vents, "k-vent");
   s += circle(x + w - 13, y + h - 9, 3.2, "k-det-ring") + circle(x + 12, y + h - 9, 1.8, "k-led");
   return s;
 }

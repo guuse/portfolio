@@ -42,9 +42,9 @@ export function loop(o: LoopOptions = {}): string {
   if (!o.nolabels) b += text(R.x + R.w / 2, R.y - 18, "app repo", "lb", "middle", { "data-k": "lbl-repo" });
   // the build: a machine with a hatch
   const B = H.build;
-  let vents = "";
-  for (let vx = B.x + 76; vx < B.x + B.w - 30; vx += 4.5)
-    vents += path(`M${vx} ${B.y + 13}V${B.y + B.h - 13}`, "k-vent");
+  let ventD = "";
+  for (let vx = B.x + 76; vx < B.x + B.w - 30; vx += 4.5) ventD += `M${vx} ${B.y + 13}V${B.y + B.h - 13}`;
+  const vents = path(ventD, "k-vent");
   b += g(
     { "data-k": "build" },
     shadow(B.x + B.w / 2, B.y + B.h + 4, B.w + 16) +

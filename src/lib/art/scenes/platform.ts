@@ -32,8 +32,9 @@ import { S1, S2, S3, S4, S5 } from "./platform.layout";
 /* ------------------------------------------------------------ 1. many projects, one platform */
 function oldServers(): string[] {
   const G = S1.ground;
-  let vents = "";
-  for (let y = 336; y < 372; y += 5) vents += path(`M72 ${y}H112`, "k-vent");
+  let ventD = "";
+  for (let y = 336; y < 372; y += 5) ventD += `M72 ${y}H112`;
+  const vents = path(ventD, "k-vent");
   // a tower, two mismatched 1U boxes, a small box on its side, an old 2U with a loose cable
   const a =
     shadow(92, G + 2, 74) +
