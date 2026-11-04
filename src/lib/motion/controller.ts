@@ -27,6 +27,7 @@
  * that throws (when it's built, or in a frame) is reported, its drawing goes back to its still,
  * and everything else keeps moving.
  */
+import { blockOf } from "~/lib/blocks";
 import { media, px } from "~/styles/tokens";
 import { toStill } from "./dom";
 import { approach, clamp } from "./math";
@@ -260,7 +261,7 @@ function watch(el: Element, margin: string, onChange: (visible: boolean) => void
  * it is nearly on screen, which would leave no time to build its animator ahead.
  */
 function approaching(target: Element, near: () => void): void {
-  const el = target.closest("main > :not(div.wrap), main > div.wrap > *") ?? target;
+  const el = blockOf(target) ?? target;
   const io = new IntersectionObserver(
     (entries) => {
       if (!entries.some((e) => e.isIntersecting)) return;

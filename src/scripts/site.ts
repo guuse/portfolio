@@ -3,6 +3,7 @@
  * module. Anything that moves is skipped when the visitor prefers reduced motion.
  */
 import { initPageTransitions } from "./page-transitions";
+import { blockOf } from "~/lib/blocks";
 import { drawingIds, loadAnimators } from "~/lib/motion/registry";
 import { browserScheduler } from "~/lib/motion/scheduler";
 import { initAnchors } from "./anchors";
@@ -102,8 +103,7 @@ if (motion) {
         },
         { rootMargin: "100% 0px" },
       );
-      for (const el of document.querySelectorAll("[data-scene], [data-card]"))
-        io.observe(el.closest("main > :not(div.wrap), main > div.wrap > *") ?? el);
+      for (const el of document.querySelectorAll("[data-scene], [data-card]")) io.observe(blockOf(el) ?? el);
     };
     if (document.readyState === "complete") near();
     else addEventListener("load", near, { once: true });

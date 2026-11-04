@@ -8,6 +8,7 @@
  * Only what starts below the fold is tagged: whatever is on screen when the page opens is
  * already painted, and fading it out and back in would be a flash, not an entrance.
  */
+import { blockOf } from "~/lib/blocks";
 import { ms } from "~/styles/tokens";
 
 const SELECTOR = ".sec, .cover, .phase, .like, .pcard, .also__row, .reveal-set";
@@ -32,10 +33,7 @@ export function initReveal(): void {
   const fold = innerHeight;
   const blocks = new Map<Element, DOMRect>();
   const blockRect = (el: Element): DOMRect | null => {
-    // (the hero and About share a wrapper, .hero: About counts as a block of its own)
-    const block = el.closest(
-      "main > :not(div.wrap, .hero), main > div.wrap > *, .hero > *, .hero > div.wrap > *",
-    );
+    const block = blockOf(el);
     if (!block || block === el) return null;
     let r = blocks.get(block);
     if (!r) blocks.set(block, (r = block.getBoundingClientRect()));
