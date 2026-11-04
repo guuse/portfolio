@@ -454,8 +454,8 @@ interface Reading {
 }
 
 /** The step across the reading line, and how far through it that is. */
-function readingStep(sections: Section[]): Reading | null {
-  const line = innerHeight * READ_LINE;
+function readingStep(sections: Section[], vh: number): Reading | null {
+  const line = vh * READ_LINE;
   for (const section of sections)
     for (const step of section.steps) {
       const r = step.getBoundingClientRect();
@@ -472,6 +472,12 @@ export function startMotion(scheduler: Scheduler, pageAnimators: Record<string, 
     .map((el) => setupSection(el, wake))
     .filter((s): s is Section => !!s);
 
+  // The window's height is taken on resize: read in a frame (the reads below, the reading
+  // step), it would bring the style up to date
+  let vh = innerHeight;
+  addEventListener("resize", () => {
+    vh = innerHeight;
+  });
   let noteDue = false,
     noteReading: (() => void) | null = null;
   const wide = matchMedia(media.stage);
@@ -492,7 +498,7 @@ export function startMotion(scheduler: Scheduler, pageAnimators: Record<string, 
       resizing = 0,
       width = innerWidth;
     const note = (): void => {
-      if (!resizing) reading = readingStep(sections) ?? reading;
+      if (!resizing) reading = readingStep(sections, vh) ?? reading;
     };
     const anchor = (): void => {
       resizing = 0;
@@ -563,12 +569,7 @@ export function startMotion(scheduler: Scheduler, pageAnimators: Record<string, 
     addEventListener("resize", onScroll, { passive: true });
   }
 
-  // the reads run in the scheduler's read phase, before any task of the frame writes. The
-  // window's height is taken on resize: read in a frame, it would bring the style up to date
-  let vh = innerHeight;
-  addEventListener("resize", () => {
-    vh = innerHeight;
-  });
+  // the reads run in the scheduler's read phase, before any task of the frame writes
   scheduler.add(
     (dt) => {
       if (isPrinting()) return false;
