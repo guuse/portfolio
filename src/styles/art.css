@@ -895,7 +895,13 @@
     stroke-dasharray: 2, 5;
   }
 
-  @media (--below-md) {
+  /*
+   * A narrow scene (SceneStep.astro's figure is the `scene` container) draws its 600-wide
+   * drawing smaller, so its labels are set larger: once below 640 px, and again on a phone,
+   * where most labels are then 10 px or more at 375. Each size still fits its label's room
+   * (checked at 320 to 430 px).
+   */
+  @container scene (width < 640px) {
     .scene-svg .lb {
       font-size: 21px;
     }
@@ -914,6 +920,29 @@
 
     .scene-svg .lb-chip {
       font-size: 18.5px;
+    }
+
+    /* the policy's rule label ends at the gate: it keeps its size */
+    .scene-svg [data-k="lbl-rule"] .lb-m--s {
+      font-size: 12.5px;
+    }
+  }
+
+  @container scene (width < 460px) {
+    .scene-svg .lb-m {
+      font-size: 19px;
+    }
+
+    .scene-svg .lb-port {
+      font-size: 14px;
+    }
+
+    .scene-svg .lb-count {
+      font-size: 17.5px;
+    }
+
+    .scene-svg :is(.lb-tag, .lb-q-m) {
+      font-size: 18px;
     }
   }
 
