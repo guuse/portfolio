@@ -6,6 +6,7 @@
  * The shortcuts are single character keys, so the sheet can turn them off (WCAG 2.1.4): then
  * nothing listens to the keyboard but Alt + ?, which opens the sheet to turn them back on.
  */
+import { site } from "~/lib/site";
 import { ms } from "~/styles/tokens";
 import { motionOk } from "./motion-ok";
 
@@ -21,8 +22,8 @@ const POSTCARD = String.raw`
 function postcard(): void {
   const accent = getComputedStyle(document.documentElement).getPropertyValue("--accent").trim();
   console.info(`%c${POSTCARD}`, `font-family: monospace; color: ${accent}`);
-  console.info("Snooping? Same. ekkelenkampguus@gmail.com");
-  console.info("Hint: press ? for shortcuts. Old cheat codes still work here.");
+  console.info(`Looking at the source? It’s on GitHub: ${site.repo}. Mail: ${site.email}`);
+  console.info("Press ? for keyboard shortcuts.");
 }
 
 /** Two-key "go to" shortcuts, like a mail client. */
@@ -154,7 +155,7 @@ function konami(): void {
       // a frame or so after the animation (the same token) has finished
       setTimeout(() => root.classList.remove("is-untapping"), ms.untap + 100);
     }
-    toast("Untap, upkeep, draw. Your turn.");
+    toast("Untapped.");
   });
 }
 

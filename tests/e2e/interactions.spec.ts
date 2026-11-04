@@ -155,7 +155,7 @@ test.describe("keyboard", () => {
       "a",
     ])
       await page.keyboard.press(key);
-    await expect(page.getByRole("status").filter({ hasText: "Untap, upkeep, draw." })).toBeVisible();
+    await expect(page.getByRole("status").filter({ hasText: "Untapped." })).toBeVisible();
   });
 });
 

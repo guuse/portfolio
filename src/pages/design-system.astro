@@ -48,7 +48,7 @@ const curves = [
 
 <Base
   title="Design system · Guus Ekkelenkamp"
-  description="The living styleguide of ekkelenkamp.dev: tokens, type, components, the illustration kit and its motion."
+  description="The styleguide for ekkelenkamp.dev: tokens, type, components and the illustrations."
   og="design-system"
   mainClass="wrap"
 >
@@ -56,15 +56,15 @@ const curves = [
   <header class="ds-head">
     <h1>Design system</h1>
     <p>
-      Everything this site is made of, rendered from the same source as the pages. Colours, type and space are
-      design tokens in the repo’s{" "}
-      <ExternalLink href={`${site.repo}/tree/main/tokens`}>tokens folder</ExternalLink>; change one there and
-      this page, and the site, follow.
+      The tokens and components this site is built from, rendered from the same code as the pages. Colours,
+      type and spacing are design tokens in the repo’s{" "}
+      <ExternalLink href={`${site.repo}/tree/main/tokens`}>tokens folder</ExternalLink>; if I change one
+      there, the whole site changes with it.
     </p>
   </header>
 
   <Section id="colour" title="Colour">
-    <p class="ds-note">The Nacht theme: one navy hue, cool inks, and one amber used rarely.</p>
+    <p class="ds-note">The Nacht theme: navy, light text, and amber for highlights only.</p>
     <ul class="swatches" role="list">
       {semantic.map(([name, t]) => (
         <li>
@@ -102,7 +102,7 @@ const curves = [
         <li>
           <code>--{name}</code>
           <span class={`tk-${name} ${/h\d|display|title|stat|mail/.test(name) ? "sample--serif" : ""}`}>
-            Things that keep running
+            Hosting platform
           </span>
         </li>
       ))}
@@ -123,7 +123,7 @@ const curves = [
 
   <Section id="motion" title="Motion">
     <p class="ds-note">
-      Transform and opacity only, on one shared animation loop that sleeps when nothing is on screen. With
+      Transform and opacity only, on one shared animation loop that pauses when nothing is on screen. With
       reduced motion every drawing shows its final frame.
     </p>
     {/* each token plays itself: hover, focus or tap a row (durations on the out easing, easings
@@ -196,9 +196,7 @@ const curves = [
         },
       ]}
     />
-    <Lessons
-      items={[{ title: "A lesson in one sentence.", text: "And the story behind it, in a few more." }]}
-    />
+    <Lessons items={[{ title: "Lesson title", text: "A short explanation of what happened." }]} />
     <h3 class="ds-h3">Under the hood</h3>
     <Hood
       items={[
@@ -221,8 +219,8 @@ const curves = [
 
   <Section id="kit" title="Illustration kit">
     <p class="ds-note">
-      One hand for every drawing: front elevation from slightly above, lit top planes, 1.5-unit outlines, flat
-      shadows, navy and ink with one amber for the thing in motion. Drawn at build time from{" "}
+      All drawings use the same style: front elevation from slightly above, lit top planes, 1.5-unit outlines,
+      flat shadows, navy and ink, and amber for whatever is moving. Drawn at build time from{" "}
       <code>src/lib/art</code>.
     </p>
     <figure class="ds-kit">

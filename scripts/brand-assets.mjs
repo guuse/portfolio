@@ -42,15 +42,15 @@ const CARDS = [
     id: "home",
     kicker: "Guus Ekkelenkamp · Rotterdam",
     title: "I like building things that keep running.",
-    line: "Tech lead infrastructure & platform engineering at Harborn",
+    line: "Tech lead infrastructure at Harborn",
     art: "photos/portrait.webp",
     print: true,
   },
   {
     id: "projects",
     kicker: "Projects",
-    title: "A platform at work, two things at home.",
-    line: "Why I made each one, how it works and what broke along the way.",
+    title: "A hosting platform, a homelab and MTG tools.",
+    line: "Three case studies.",
     art: "covers/mtg-wide.webp",
     // the cover's caption sits at its right edge, so anchor the crop there
     pos: "100% 50%",
@@ -61,21 +61,21 @@ const CARDS = [
     id: "hosting-platform",
     kicker: "Case study · Work at Harborn",
     title: "Hosting platform",
-    line: "The platform our client projects run on: AWS first, and the same setup on Azure for clients who are there.",
+    line: "The Kubernetes platform that runs our client projects on AWS and Azure.",
     art: "covers/platform-wide.webp",
   },
   {
     id: "homelab",
     kicker: "Case study · Personal",
     title: "Homelab",
-    line: "The patterns I use at work, on one old laptop under the TV.",
+    line: "k3s and Argo CD on an old laptop at home, deployed the way we deploy at work.",
     art: "covers/homelab-wide.webp",
   },
   {
     id: "mtg-suite",
     kicker: "Case study · Personal",
     title: "MTG suite",
-    line: "The Magic tools I build for my friends.",
+    line: "A Commander table in the browser and a deck library, for my friends and me.",
     art: "covers/mtg-hero-wide.webp",
     // the engine and its label sit at the cover's right edge: anchor the crop there, or the
     // label is cut off ("the engi")
@@ -85,7 +85,7 @@ const CARDS = [
     id: "design-system",
     kicker: "Behind this site",
     title: "Design system",
-    line: "Tokens, type, components, the illustration kit and its motion.",
+    line: "Tokens, type, components and the illustrations.",
     // its own drawing: the palette, the three typefaces and a few parts of the kit
     html: () => designSystemArt(),
   },

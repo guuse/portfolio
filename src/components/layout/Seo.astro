@@ -22,14 +22,14 @@ const image = new URL(`/og/${og}.png`, site.url).href;
 /** What each social card shows (scripts/brand-assets.mjs draws them), for og:image:alt. */
 const cardAlt: Record<string, string> = {
   home: "“I like building things that keep running.” Guus Ekkelenkamp, Rotterdam, beside his portrait.",
-  projects: "Projects: “A platform at work, two things at home”, beside screenshots of the MTG apps.",
+  projects: "Projects: “A hosting platform, a homelab and MTG tools”, beside screenshots of the MTG apps.",
   "hosting-platform":
     "Hosting platform, a case study, beside a drawing of a load balancer and three racks of pods.",
   homelab:
     "Homelab, a case study, beside a drawing of a commit on its way from the repo to a pod on the laptop.",
   "mtg-suite": "MTG suite, a case study, beside a drawing of four players around a game table and the stack.",
   "design-system":
-    "Design system: tokens, type, components and the illustration kit, beside its colour swatches, type specimens and parts of the kit.",
+    "Design system: tokens, type, components and the illustrations, beside its colour swatches, type specimens and parts of the kit.",
 };
 const imageAlt = cardAlt[og] ?? title;
 
