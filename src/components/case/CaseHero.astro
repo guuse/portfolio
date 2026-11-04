@@ -5,8 +5,13 @@ import { liveArt, type ProjectId } from "~/lib/projects";
 
 /**
  * The top of a case study: the project's live drawing (the same one as on its cards, so a
- * view transition carries it here) under a scrim, with the title over it. Without JS or with
+ * view transition carries it here) and the title. The text never sits on the drawing: on a
+ * wide screen the drawing stands on the right and the text keeps to its own column; narrower,
+ * the drawing goes on top; on a phone held sideways, beside the text again. Without JS or with
  * reduced motion the drawing is its still.
+ *
+ * The view transition names the <svg> itself (motion.css), so the morphing box has the
+ * drawing's own shape on every page; the copy has a name of its own and fades in over it.
  */
 interface Props {
   project: ProjectId;
@@ -18,9 +23,9 @@ const { project, meta, title, line } = Astro.props;
 const art = liveArt[project];
 ---
 
-<header class="ph-hero" data-card-host>
-  <div class={`ph-hero__bg vt-art--${project}`} data-card={art.motion}>
-    <Drawing svg={card(art.card)} />
+<header class={`ph-hero ph-hero--${art.card}`} data-card-host>
+  <div class="ph-hero__art" data-card={art.motion}>
+    <Drawing svg={card(art.card)} class={`vt-art--${project}`} />
   </div>
   <div class="ph-hero__text">
     <a class="back" href="/projects/">
@@ -38,82 +43,109 @@ const art = liveArt[project];
 <style>
   @layer components {
     .ph-hero {
-      position: relative;
-      isolation: isolate;
-      overflow: hidden;
+      /* the platform and homelab drawings are 4:5 cards; the MTG one is the whole table */
+      --art-ratio: 0.8;
+      --art-h: clamp(340px, 46vw, 600px);
+
       display: grid;
-      align-items: end;
-      min-height: clamp(340px, 46vw, 600px);
+      overflow: hidden;
       margin-top: 1.5rem;
       border: 1px solid var(--line);
       border-radius: var(--radius-s);
-    }
-
-    .ph-hero__bg {
-      position: absolute;
-      inset: 0;
-      z-index: -1;
-      display: flex;
-      justify-content: flex-end;
-      padding-inline-end: clamp(0px, 4vw, var(--space-3xl));
       background: var(--surface-card);
     }
 
-    /* the drawing stands as tall as the hero, on the right; the title sits over the scrim */
-    .ph-hero__bg :global(.scene-svg) {
+    .ph-hero--mtg {
+      --art-ratio: calc(600 / 440);
+    }
+
+    /*
+     * Stacked (up to the lg breakpoint): the drawing on top, small enough that the title is on
+     * the first screen too, and the text under it.
+     */
+    .ph-hero__art {
+      display: flex;
+      justify-content: center;
+      height: min(clamp(200px, 58vw, 320px), 45svh);
+      padding-top: var(--space-m);
+      overflow: hidden;
+    }
+
+    .ph-hero__art :global(.scene-svg) {
+      flex: none;
       width: auto;
       height: 100%;
     }
 
-    .ph-hero__bg::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(
-        0deg,
-        color-mix(in oklch, var(--surface) 96%, transparent) 0%,
-        color-mix(in oklch, var(--surface) 65%, transparent) 38%,
-        transparent 70%
-      );
-    }
-
-    /* on a phone the drawing goes on top and the title under it, so neither covers the other */
-    @media (--below-md) {
-      .ph-hero {
-        display: block;
-        min-height: 0;
-        background: var(--surface-card);
-      }
-
-      .ph-hero__bg {
-        position: relative;
-        z-index: 0;
-        justify-content: center;
-        height: clamp(200px, 58vw, 320px);
-        padding: var(--space-m) 0 0;
-        overflow: hidden;
-      }
-
-      .ph-hero__bg::after {
-        background: linear-gradient(0deg, var(--surface-card) 0%, transparent 30%);
-      }
-
-      /* the 4:5 card drawings leave their bottom fifth for the homepage card's text: crop it */
-      .ph-hero__bg :global(:is(.scene--scale, .scene--cardloop)) {
-        flex: none;
-        height: 125%;
-      }
-
-      .ph-hero__text {
-        padding-top: 0.25rem;
-      }
+    /*
+     * The 4:5 card drawings keep their lower part for the homepage card's text: the drawing
+     * itself ends at about 58% of the card's height, so the stacked hero shows the top 62%.
+     */
+    .ph-hero__art :global(:is(.scene--scale, .scene--cardloop)) {
+      height: 160%;
     }
 
     .ph-hero__text {
-      padding: clamp(1.25rem, 1rem + 2vw, 2.5rem);
       display: grid;
       gap: 0.6rem;
       justify-items: start;
+      padding: 0.25rem clamp(1.25rem, 1rem + 2vw, 2.5rem) clamp(1.25rem, 1rem + 2vw, 2.5rem);
+    }
+
+    /*
+     * Wide: the drawing on the right at the hero's full height (the MTG table at most about
+     * half the hero's width), and the text in the column left of it, so it never covers it.
+     */
+    @media (--lg) {
+      .ph-hero {
+        container-type: inline-size;
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: end;
+        min-height: var(--art-h);
+      }
+
+      .ph-hero__art {
+        grid-area: 1 / 2;
+        align-self: center;
+        height: auto;
+        padding: 0 clamp(0px, 4vw, var(--space-3xl)) 0 0;
+        overflow: visible;
+      }
+
+      .ph-hero__art :global(.scene-svg),
+      .ph-hero__art :global(:is(.scene--scale, .scene--cardloop)) {
+        width: min(var(--art-h) * var(--art-ratio), 52cqi);
+        height: auto;
+      }
+
+      .ph-hero__text {
+        grid-area: 1 / 1;
+        padding: clamp(1.25rem, 1rem + 2vw, 2.5rem);
+      }
+    }
+
+    /* a phone held sideways: the text on the left, the drawing beside it, the title on screen */
+    @media (--landscape-short) and (--below-lg) {
+      .ph-hero {
+        grid-template-columns: minmax(0, 6fr) minmax(0, 4fr);
+        align-items: center;
+      }
+
+      .ph-hero__art {
+        grid-area: 1 / 2;
+        height: min(calc(100svh - 8rem), 320px);
+        padding: var(--space-s) var(--space-s) 0 0;
+      }
+
+      .ph-hero__text {
+        grid-area: 1 / 1;
+        gap: 0.4rem;
+        padding: var(--space-s) 0 var(--space-m) var(--space-m);
+      }
+
+      .ph-title {
+        font-size: min(var(--text-case-title), 9svh + 1rem);
+      }
     }
 
     .back {

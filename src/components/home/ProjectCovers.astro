@@ -26,12 +26,12 @@ const projects = await list("projects");
         <li class="cover">
           <a class:list={["cover__link", !live && "cover__link--photo"]} href={caseStudyHref(data.id)}>
             {live ? (
-              <span class={`cover__art vt-art--${data.id}`} data-card={live.motion}>
-                <Drawing svg={card(live.card)} />
+              <span class="cover__art" data-card={live.motion}>
+                <Drawing svg={card(live.card)} class={`vt-art--${data.id}`} />
               </span>
             ) : (
               <Picture
-                class={`cover__img vt-art--${data.id}`}
+                class="cover__img"
                 src={mtgCover}
                 alt=""
                 widths={[400, 800, 1200]}

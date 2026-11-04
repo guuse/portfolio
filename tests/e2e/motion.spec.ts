@@ -302,10 +302,19 @@ test("view transitions are declared, and only the project a navigation is about 
   expect(await during("homelab")).toEqual(["art-homelab"]);
   expect(await during(null)).toEqual([]);
   await page.goto("/projects/");
-  expect(await during("mtg-suite")).toEqual(["art-mtg-suite"]);
+  expect(await during("homelab")).toEqual(["art-homelab"]);
+  // the MTG card is a photo, not the hero's drawing: nothing to morph, it fades with the page
+  expect(await during("mtg-suite")).toEqual([]);
   // titles never carry a name: they crossfade with the page
   expect((await names()).every((n) => n.startsWith("art-"))).toBe(true);
+  // a case study names its drawing's own <svg> (the morph keeps the drawing's shape) and its
+  // copy, which arrives above the drawing; on the page being left (vt-out) the copy goes
   await page.goto("/projects/homelab/");
+  expect(await names()).toEqual(["art-homelab", "case-copy"]);
+  expect(await page.locator(".ph-hero svg").evaluate((el) => getComputedStyle(el).viewTransitionName)).toBe(
+    "art-homelab",
+  );
+  await page.evaluate(() => document.documentElement.classList.add("vt-out"));
   expect(await names()).toEqual(["art-homelab"]);
 });
 

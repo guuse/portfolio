@@ -6,7 +6,9 @@
  *
  * The choice is two classes on <html>: `vt-only` (name nothing by default) and `vt-<project>`
  * (except this one). The old page sets them as it is captured (pageswap) and the new one as
- * it is revealed (pagereveal); both come off when the transition is over. A new page can be
+ * it is revealed (pagereveal); both come off when the transition is over. The old page also
+ * sets `vt-out`: a case study's copy is named only on the page that arrives (it fades in
+ * above the drawing), never on the one being left. A new page can be
  * revealed before this module runs (a module waits for the HTML to finish parsing); then its
  * drawings keep their default names and the ones without a partner simply fade in with the
  * page (motion.css), so the result looks the same.
@@ -28,8 +30,8 @@ const subject = (from: string | null | undefined, to: string | null | undefined)
   slugOf(to) ?? slugOf(from);
 
 const root = document.documentElement;
-const mark = (slug: string | null, done: Promise<unknown> | undefined): void => {
-  const added = ["vt-only", ...(slug ? [`vt-${slug}`] : [])];
+const mark = (slug: string | null, done: Promise<unknown> | undefined, leaving = false): void => {
+  const added = ["vt-only", ...(slug ? [`vt-${slug}`] : []), ...(leaving ? ["vt-out"] : [])];
   root.classList.add(...added);
   void done?.finally(() => root.classList.remove(...added));
 };
@@ -52,7 +54,7 @@ export function initPageTransitions(): void {
   addEventListener("pageswap", (e) => {
     const ev = e as SwapEvent;
     if (!ev.viewTransition) return;
-    mark(subject(location.href, ev.activation?.entry.url), ev.viewTransition.finished);
+    mark(subject(location.href, ev.activation?.entry.url), ev.viewTransition.finished, true);
   });
   addEventListener("pagereveal", (e) => {
     const ev = e as RevealEvent;

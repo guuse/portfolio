@@ -8,7 +8,11 @@ import "~/styles/art.css";
 interface Props {
   /** SVG markup from src/lib/art. */
   svg: string;
+  /** Extra classes on the <svg> itself (e.g. the view-transition name, which must be the drawing's own box). */
+  class?: string;
 }
+const { svg, class: cls } = Astro.props;
+const markup = cls ? svg.replace(/^<svg class="/, `<svg class="${cls} `) : svg;
 ---
 
-<Fragment set:html={Astro.props.svg} />
+<Fragment set:html={markup} />

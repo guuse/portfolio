@@ -22,10 +22,10 @@ const href = caseStudyHref(p.id);
 
 <article class="pcard" aria-labelledby={`pc-${p.id}`} data-card-host>
   {/* the cover repeats the title link, so it's hidden from assistive tech and the tab order */}
-  <a class={`pcard__media vt-art--${p.id}`} href={href} tabindex="-1" aria-hidden="true">
+  <a class="pcard__media" href={href} tabindex="-1" aria-hidden="true">
     {live ? (
       <span class="pcard__art" data-card={live.motion}>
-        <Drawing svg={card(live.card)} />
+        <Drawing svg={card(live.card)} class={`vt-art--${p.id}`} />
       </span>
     ) : (
       <Picture

@@ -60,8 +60,12 @@
 /*
  * Page to page: a cross-document view transition (CSS, no router). The page crossfades; the
  * one project the navigation is about carries its drawing over, from card to case-study hero
- * and back (src/scripts/page-transitions.ts picks it). Titles don't morph: they differ too much
- * in size, so they crossfade with the page.
+ * and back (src/scripts/page-transitions.ts picks it). The name is on the drawing's own <svg>,
+ * so the box that morphs has the drawing's shape on both pages (one copy of the picture, never
+ * two offset ones), and its background is left to the card or hero around it. The MTG cards
+ * are a photo collage, not the drawing, so that one has no partner and fades in with the page.
+ * Titles don't morph: they differ too much in size. A case study's copy has a name of its own
+ * so it fades in above the drawing instead of under it.
  * Browsers without cross-document view transitions ignore all of it and simply navigate.
  * The names are classes, not style attributes (the CSP allows none), so each project is
  * listed here.
@@ -86,6 +90,20 @@
 
     :is(.vt-art--hosting-platform, .vt-art--homelab, .vt-art--mtg-suite) {
       view-transition-class: art;
+    }
+
+    /* the card or hero paints the drawing's background, so the morphing picture is only the drawing */
+    :is(.vt-art--hosting-platform, .vt-art--homelab, .vt-art--mtg-suite) .k-cardbg {
+      fill: none;
+    }
+
+    /* the case study's copy arrives over its drawing; on the page being left it goes with the page */
+    .ph-hero__text {
+      view-transition-name: case-copy;
+    }
+
+    :root.vt-out .ph-hero__text {
+      view-transition-name: none;
     }
 
     /* during a navigation, only the project it's about keeps its name (page-transitions.ts) */
