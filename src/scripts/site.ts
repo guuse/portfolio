@@ -62,15 +62,15 @@ safely("copy email", initCopyEmail);
 safely("anchors", initAnchors);
 
 const motion = motionOk() && "IntersectionObserver" in window;
-// a frame later, one step at a time: reveal first (it reads every position before anything
-// else has written), then the nav, then what moves with the scroll
+// a frame later, one step at a time: the keyboard shortcuts (a reader may press one the
+// moment the page shows; they only add listeners), the reveal (it reads every position
+// before anything else has written), the nav, then what moves with the scroll
 const reveal: Step[] = motion ? [["reveal", initReveal]] : [];
 const effects: Step[] = motion ? [["scroll effects", () => initScrollEffects(scheduler)]] : [];
-afterPaint([...reveal, ["nav", initNav], ...effects]);
+afterPaint([["easter eggs", initEasterEggs], ...reveal, ["nav", initNav], ...effects]);
 // listeners for things a reader does later, each in an idle moment of its own
 whenIdle("prints", initPrints);
 whenIdle("lightbox", initLightbox);
-whenIdle("easter eggs", initEasterEggs);
 
 if (motion) {
   // The drawings' runtime is only fetched on pages that have drawings, and only once the

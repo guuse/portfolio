@@ -164,10 +164,16 @@ for (const viewport of [
             w.svgWrites += list.filter((r) => r.target instanceof SVGElement).length;
           }).observe(document.body, { subtree: true, attributes: true, childList: true });
         });
+        // a little more scroll while it counts: a drawing placed by scroll alone writes nothing
+        // once the scroll stops
+        for (let i = 0; i < 3; i++) {
+          await page.mouse.wheel(0, 60);
+          await page.waitForTimeout(80);
+        }
         const moving = await page.evaluate(
           () =>
             new Promise<number>((done) =>
-              setTimeout(() => done((window as unknown as { svgWrites: number }).svgWrites), 500),
+              setTimeout(() => done((window as unknown as { svgWrites: number }).svgWrites), 300),
             ),
         );
         expect(moving, "the scene moves while the reader scrolls").toBeGreaterThan(0);

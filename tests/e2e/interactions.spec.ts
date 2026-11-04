@@ -140,9 +140,10 @@ test.describe("keyboard", () => {
     await expect(page).toHaveURL(/\/projects\/$/);
   });
 
-  test("the Konami code untaps everything", async ({ page }) => {
+  test("the Konami code untaps everything, a third ↑ included", async ({ page }) => {
     await page.goto("/");
     for (const key of [
+      "ArrowUp",
       "ArrowUp",
       "ArrowUp",
       "ArrowDown",
