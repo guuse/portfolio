@@ -1,15 +1,16 @@
 /**
- * The live miniatures of the projects: on the homepage and projects-page cards (platform and
- * homelab; the MTG cards are a photo collage) and in the case-study heroes (all three).
+ * The live miniatures of the projects: on the homepage and projects-page cards (all but MTG,
+ * whose cards are a photo collage) and in the case-study heroes (all four).
  * All decorative: the card's text says what the project is.
  */
 import { commit, laptop, nodeBody, packetAt, pod, podSlot, shadow, slab } from "./kit";
+import { plan } from "./scenes/delivery";
 import { table } from "./scenes/mtg";
 import { scale } from "./scenes/platform";
 import { CL } from "./scenes/homelab.layout";
 import { circle, g, path, rect, svg } from "./svg";
 
-export type CardId = "platform" | "homelab" | "mtg";
+export type CardId = "platform" | "delivery" | "homelab" | "mtg";
 
 const frame = (id: string, inner: string): string =>
   svg(id, "0 0 400 500", "", `<rect class="k-cardbg" width="400" height="500"/>${inner}`, {
@@ -71,6 +72,13 @@ export function card(id: CardId): string {
     return frame(
       "scale",
       g({ transform: "translate(11 34) scale(0.63)" }, scale({ inner: true, nolabels: true })),
+    );
+  }
+  if (id === "delivery") {
+    // the plan check, smaller, without labels
+    return frame(
+      "cardplan",
+      g({ transform: "translate(11 40) scale(0.63)" }, plan({ inner: true, nolabels: true })),
     );
   }
   return frame("cardloop", g({ transform: "translate(0 26)" }, cardLoop()));

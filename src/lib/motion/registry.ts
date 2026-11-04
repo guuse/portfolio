@@ -2,7 +2,7 @@
  * Which animator drives which drawing (the data-scene / data-card ids in the markup), and
  * where its code is. Each family of scenes is its own chunk, so a page loads only the
  * animators for the drawings it has: a case study one family, the homepage and the projects
- * page the three cards. This file is all the eager bundle knows about them.
+ * page the cards. This file is all the eager bundle knows about them.
  *
  * The live cards (homepage, projects page, case-study heroes) play one pass and rest; `p` is
  * that pass, 0..1 (controller.ts). Each rests on a frame that reads as finished.
@@ -11,6 +11,7 @@ import type { SceneFactory } from "./types";
 
 const families = {
   platform: () => import("./scenes/platform"),
+  delivery: () => import("./scenes/delivery"),
   homelab: () => import("./scenes/homelab"),
   mtg: () => import("./scenes/mtg"),
 } satisfies Record<string, () => Promise<{ animators: Record<string, SceneFactory> }>>;
@@ -24,6 +25,10 @@ const familyOf: Record<string, Family> = {
   ipv6: "platform",
   learned: "platform",
   cardscale: "platform",
+  plan: "delivery",
+  policy: "delivery",
+  writer: "delivery",
+  cardplan: "delivery",
   loop: "homelab",
   cardloop: "homelab",
   itch: "mtg",

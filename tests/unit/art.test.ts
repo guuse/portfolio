@@ -24,6 +24,7 @@ describe("illustration kit", () => {
       ...Object.values(scenes).map((draw) => draw()),
       card("platform"),
       card("homelab"),
+      card("delivery"),
       card("mtg"),
       apps(),
       ways(),
@@ -33,7 +34,7 @@ describe("illustration kit", () => {
   });
 
   it("hides the live project drawings from assistive tech", () => {
-    for (const id of ["platform", "homelab", "mtg"] as const) {
+    for (const id of ["platform", "delivery", "homelab", "mtg"] as const) {
       expect(card(id)).toContain('aria-hidden="true"');
       expect(card(id)).not.toContain("role=");
     }
@@ -73,4 +74,13 @@ it("escapes text and attribute values, quotes included", async () => {
   expect(tag("text", { "aria-label": 'say "hi"' }, esc("Let's"))).toBe(
     '<text aria-label="say &quot;hi&quot;">Let&#39;s</text>',
   );
+});
+
+it("stops the policy scene's expiry rule just short of the closed gate", async () => {
+  const { D2 } = await import("~/lib/art/scenes/delivery.layout");
+  const at = pointAt(samplePath(D2.routes.change), D2.stopAt);
+  // the bar is 9 wide on the gate's x; a packet's nose is 8 ahead of its centre
+  const bar = D2.gate.x - 4.5;
+  expect(at.x + 8).toBeLessThan(bar);
+  expect(at.x + 8).toBeGreaterThan(bar - 12);
 });

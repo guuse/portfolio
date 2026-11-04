@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { scenes } from "~/lib/art";
 import { liveArt } from "~/lib/projects";
 import { loadAnimators } from "~/lib/motion/registry";
+import { animators as delivery } from "~/lib/motion/scenes/delivery";
 import { animators as homelab } from "~/lib/motion/scenes/homelab";
 import { animators as mtg } from "~/lib/motion/scenes/mtg";
 import { animators as platform } from "~/lib/motion/scenes/platform";
@@ -15,7 +16,7 @@ describe("the animator registry", () => {
   });
 
   it("files each animator under the family that exports it, and loads only what's asked", async () => {
-    for (const [family, mod] of Object.entries({ platform, homelab, mtg })) {
+    for (const [family, mod] of Object.entries({ platform, delivery, homelab, mtg })) {
       const ids = Object.keys(mod);
       expect(Object.keys(await loadAnimators(ids)).sort(), family).toEqual(ids.sort());
     }

@@ -1,4 +1,5 @@
 /** Every drawing a page can ask for, by id. */
+import * as delivery from "./scenes/delivery";
 import * as homelab from "./scenes/homelab";
 import * as mtg from "./scenes/mtg";
 import * as platform from "./scenes/platform";
@@ -9,6 +10,9 @@ export const scenes = {
   regions: platform.regions,
   ipv6: platform.ipv6,
   learned: platform.learned,
+  plan: () => delivery.plan(),
+  policy: delivery.policy,
+  writer: delivery.writer,
   loop: () => homelab.loop(),
   itch: mtg.itch,
   table: mtg.table,
