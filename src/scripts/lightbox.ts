@@ -5,8 +5,9 @@
  * click over and opens the viewer on it. The links in the same `[data-lb-group]` become the
  * set to step through (arrow keys, buttons or a swipe). Focus returns to the link that opened it.
  *
- * It shows the thumbnail the page already has at once (it's cached), at the full image's
- * size, and swaps in the full image as soon as it has decoded; if that takes a moment, a
+ * It shows the thumbnail the page already has at once (it's cached), stretched to the full
+ * image's box (its aspect ratio and size are known up front, so nothing moves), and swaps in
+ * the full image as soon as it has decoded; if that takes a moment, a
  * faint spinner appears (CSS, after 300 ms). If the full image fails to load, the thumbnail
  * stays. Pinch-zoom is the browser's own, so a swipe only steps when it's one finger on an
  * unzoomed page.
@@ -59,8 +60,16 @@ export function initLightbox(): void {
 
   const render = (): void => {
     const s = shots[index]!;
-    img.width = Number(s.width);
-    img.height = Number(s.height);
+    const w = Number(s.width),
+      h = Number(s.height);
+    img.width = w;
+    img.height = h;
+    // the box is the full image's, from the start (Lightbox.astro): the thumbnail fills it
+    // stretched, and the full image lands in exactly the same place
+    if (w > 0 && h > 0) {
+      img.style.setProperty("--lb-ratio", String(w / h));
+      img.style.setProperty("--lb-w", `${w}px`);
+    }
     img.alt = s.alt;
     cap.textContent = s.caption;
     count.textContent = `${index + 1} of ${shots.length}`;

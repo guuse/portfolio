@@ -95,16 +95,24 @@
       display: grid;
       place-items: center;
       min-height: 0;
+      container-type: size;
 
       /* the browser's own pinch-zoom; a one-finger swipe steps (lightbox.ts) */
       touch-action: pan-y pinch-zoom;
     }
 
+    /*
+     * The image's box comes from the full image (lightbox.ts sets its aspect ratio and width),
+     * not from whatever is loaded: as wide as the stage and the height left over allow, never
+     * past the full image's own size. The cached thumbnail shows stretched in that box and the
+     * full image replaces it without anything moving. The stage is a size container, so the
+     * picture fits the room the bar leaves, whatever the bar's height.
+     */
     :global(.lightbox__img) {
-      max-width: 100%;
-      max-height: calc(100svh - 120px);
-      width: auto;
+      width: min(100cqw, var(--lb-w, 100cqw), 100cqh * var(--lb-ratio, 1.6));
       height: auto;
+      aspect-ratio: var(--lb-ratio, auto);
+      object-fit: contain;
       border-radius: var(--radius-s);
     }
 
@@ -207,7 +215,6 @@
       }
 
       :global(.lightbox__img) {
-        max-height: calc(100svh - 132px);
         border-radius: 0;
       }
 
@@ -230,40 +237,18 @@
     }
 
     /*
-     * Phones held sideways: there's no height to spare, so the picture gets nearly all of it
-     * and the bar floats over its bottom edge.
+     * Phones held sideways: there's no height to spare, so the bar shrinks to one line in a
+     * row of its own under the picture (it never covers it) and the picture gets the rest.
      */
     @media (--landscape-short) {
       .lightbox {
-        display: block;
-        padding-block: var(--space-m);
-      }
-
-      .lightbox[open] {
-        display: grid;
-        grid-template-rows: minmax(0, 1fr);
-      }
-
-      .lightbox__stage {
-        grid-area: 1 / 1;
-      }
-
-      :global(.lightbox__img) {
-        max-height: calc(100svh - 24px);
+        padding-block: var(--space-xs);
       }
 
       .lightbox__bar {
-        grid-area: 1 / 1;
-        align-self: end;
-        z-index: 1;
         flex-wrap: nowrap;
-        margin-inline: auto;
-        max-width: 100%;
-        padding: var(--space-xs) var(--space-xs) var(--space-xs) 14px;
-        border-radius: var(--radius-pill);
-        background: color-mix(in oklch, var(--surface) 82%, transparent);
-        -webkit-backdrop-filter: blur(8px);
-        backdrop-filter: blur(8px);
+        gap: var(--space-s);
+        padding-top: var(--space-xs);
       }
 
       .lightbox__cap {

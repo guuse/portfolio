@@ -63,6 +63,46 @@ test.describe("hover", () => {
   });
 });
 
+test("lightbox: on a slow network the thumbnail holds the full image's box, so the swap moves nothing", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.goto("/projects/mtg-suite/");
+  const thumb = page.getByRole("link", { name: /^Enlarge: Home after signing in/ });
+  await thumb.scrollIntoViewIfNeeded();
+  await expect
+    .poll(() => thumb.locator("img").evaluate((el: HTMLImageElement) => el.naturalWidth))
+    .toBeGreaterThan(0);
+  // hold the full image back until we've seen the thumbnail in the viewer
+  let release = (): void => undefined;
+  const held = new Promise<void>((r) => (release = r));
+  const full = await thumb.getAttribute("href");
+  await page.route(`**${full}`, async (route) => {
+    await held;
+    await route.continue();
+  });
+  await thumb.click();
+  const img = page.locator(".lightbox__img");
+  // the opening scale is over (the loading ring keeps spinning, so not every animation is)
+  await expect.poll(() => img.evaluate((el) => getComputedStyle(el).scale)).toMatch(/^(1|none)$/);
+  await expect(page.locator(".lightbox__stage")).toHaveClass(/is-loading/);
+  const before = await img.evaluate((el: HTMLImageElement) => ({
+    box: [el.offsetLeft, el.offsetTop, el.offsetWidth, el.offsetHeight],
+    natural: el.naturalWidth,
+  }));
+  release();
+  await expect
+    .poll(() => img.evaluate((el: HTMLImageElement) => el.naturalWidth))
+    .toBeGreaterThan(before.natural);
+  const after = await img.evaluate((el: HTMLImageElement) => [
+    el.offsetLeft,
+    el.offsetTop,
+    el.offsetWidth,
+    el.offsetHeight,
+  ]);
+  expect(after).toEqual(before.box);
+});
+
 test.describe("lightbox on a phone", () => {
   test.describe("upright", () => {
     test.use(device("iPhone 13"));
@@ -78,6 +118,8 @@ test.describe("lightbox on a phone", () => {
       await expect.poll(() => img.evaluate((el: HTMLImageElement) => el.naturalWidth)).toBeGreaterThan(2000);
       await settled(page);
       const big = (await img.boundingBox())!;
+      // the box was the full image's from the start: the thumbnail filled it, nothing moved
+      expect(await img.evaluate((el) => el.style.getPropertyValue("--lb-ratio"))).not.toBe("");
       const vw = page.viewportSize()!.width;
       expect(big.width).toBeGreaterThan(small.width);
       expect(big.width).toBeGreaterThanOrEqual(vw - 1);
@@ -91,7 +133,7 @@ test.describe("lightbox on a phone", () => {
   test.describe("sideways", () => {
     test.use(device("iPhone 13 landscape"));
 
-    test("the screenshot gets nearly all the height, with the bar over it", async ({ page }) => {
+    test("the screenshot gets most of the height, and the bar never covers it", async ({ page }) => {
       await page.goto("/projects/mtg-suite/");
       const thumb = page.getByRole("link", { name: /^Enlarge: Home after signing in/ });
       await thumb.scrollIntoViewIfNeeded();
@@ -101,8 +143,10 @@ test.describe("lightbox on a phone", () => {
       const img = (await page.locator(".lightbox__img").boundingBox())!;
       const bar = (await page.locator(".lightbox__bar").boundingBox())!;
       const vh = page.viewportSize()!.height;
-      expect(img.height).toBeGreaterThanOrEqual(vh - 25);
-      expect(bar.y).toBeLessThan(img.y + img.height);
+      expect(img.height).toBeGreaterThanOrEqual(vh - 70);
+      // the bar is a row of its own under the picture
+      expect(bar.y).toBeGreaterThanOrEqual(img.y + img.height - 0.5);
+      expect(bar.y + bar.height).toBeLessThanOrEqual(vh + 0.5);
     });
   });
 });
