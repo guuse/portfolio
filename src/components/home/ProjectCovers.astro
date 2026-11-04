@@ -90,9 +90,14 @@ const projects = await list("projects");
       }
     }
 
+    /* four in a row: each card is too small for its line, which the projects page has anyway */
     @media (--lg) {
       .covers {
         grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .cover__line {
+        display: none;
       }
     }
 
