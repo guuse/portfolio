@@ -204,6 +204,8 @@ test.describe("homepage anchors", () => {
       const card = page.locator('a.cover__link[href="/projects/homelab/"]');
       // the card's place in its list (the link itself lifts on hover and focus)
       const cardTop = () => card.evaluate((el) => Math.round(el.closest("li")!.getBoundingClientRect().top));
+      const cardDocTop = () =>
+        card.evaluate((el) => Math.round(el.closest("li")!.getBoundingClientRect().top + scrollY));
       /** Waits for the page and the card to stop moving (scrolling, a reveal settling in). */
       const settled = async () => {
         await still(page);
@@ -223,6 +225,7 @@ test.describe("homepage anchors", () => {
       await settled();
       const y = await page.evaluate(() => scrollY);
       const top = await cardTop();
+      const docTop = await cardDocTop();
       // a click by position: locator.click() would scroll the card first
       const box = (await card.boundingBox())!;
       await page.mouse.click(box.x + box.width / 2, Math.min(box.y + box.height / 2, h - 20));
@@ -231,7 +234,10 @@ test.describe("homepage anchors", () => {
       await page.goBack();
       await page.waitForURL((url) => url.pathname === "/");
       await settled();
-      expect(Math.abs((await page.evaluate(() => scrollY)) - y)).toBeLessThanOrEqual(8);
+      // the same scroll position, give or take what a part above it rendered on the way back
+      // (About renders while the page loads at its top, in Firefox and WebKit)
+      const shift = (await cardDocTop()) - docTop;
+      expect(Math.abs((await page.evaluate(() => scrollY)) - y - shift)).toBeLessThanOrEqual(8);
       expect(Math.abs((await cardTop()) - top)).toBeLessThanOrEqual(8);
       await expect(card).toBeInViewport();
     });

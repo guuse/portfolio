@@ -125,9 +125,9 @@ function initSmoothAnchors(): void {
 interface Left {
   y: number;
   /**
-   * which lazy parts had rendered, as indices into lazyParts(): the ones made `cv-on` and the
-   * ones in the window. A part an instant jump went past is still its placeholder, and stays
-   * one on the way back, so the page above the place is as tall as it was.
+   * which lazy parts had rendered, as indices into lazyParts() (see hasRendered). A part an
+   * instant jump went past is still its placeholder, and stays one on the way back, so the
+   * page above the place is as tall as it was.
    */
   on: number[];
   /** the place, relative to a lazy part at (or just below) the window's top edge: its index and offset */
@@ -147,14 +147,26 @@ const anchorOf = (parts: HTMLElement[]): number => {
   return at;
 };
 
+/**
+ * Whether a part has rendered at some point: it is in the window, or its height is no longer
+ * its placeholder's (`auto` keeps the size it last rendered at). Reading a part's own box
+ * doesn't render it.
+ */
+const hasRendered = (el: HTMLElement): boolean => {
+  const r = el.getBoundingClientRect();
+  if (r.top < innerHeight && r.bottom > 0) return true;
+  const cs = getComputedStyle(el);
+  const placeholder = parseFloat(cs.containIntrinsicBlockSize.split(" ").pop() ?? "");
+  if (!placeholder) return false;
+  const content = r.height - (parseFloat(cs.paddingTop) || 0) - (parseFloat(cs.paddingBottom) || 0);
+  const borders = (parseFloat(cs.borderTopWidth) || 0) + (parseFloat(cs.borderBottomWidth) || 0);
+  return Math.abs(content - borders - placeholder) > 1;
+};
+
 /** Notes where the page was left, in its history entry, so coming back can rebuild it. */
 const remember = (): void => {
   const parts = lazyParts();
-  const on = parts.flatMap((el, i) => {
-    if (el.classList.contains("cv-on")) return [i];
-    const r = el.getBoundingClientRect();
-    return r.top < innerHeight && r.bottom > 0 ? [i] : [];
-  });
+  const on = parts.flatMap((el, i) => (el.classList.contains("cv-on") || hasRendered(el) ? [i] : []));
   const i = anchorOf(parts);
   const left: Left = { y: scrollY, on };
   if (i >= 0) left.at = [i, -Math.round(parts[i]!.getBoundingClientRect().top)];
