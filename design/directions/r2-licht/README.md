@@ -37,7 +37,7 @@ recruiter skimming the work section and a friend clicking through the homelab pa
 - A real portrait (4:5, natural light, plain background works best on this palette).
 - Real photos/screenshots per project: 16:9 for the feature and the case-page hero, cropped
   to 4:3 for list thumbnails. Placeholder captions say what to shoot.
-- To confirm: LinkedIn URL, email address, Quizmaster story and stack (it currently has no
+- To confirm: LinkedIn URL, email address, Party quiz story and stack (it currently has no
   tags, the layout handles that), Scryfall stack, Terraform in the tools line, and the
   **years** (only Homelab = 2026 is from the copy; 2025/2026 on the others are placeholders).
 

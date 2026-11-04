@@ -148,7 +148,7 @@
         <!-- FINDER -->
         <article class="tile t-finder">
           <div class="tile__head">
-            <p class="label"><a class="tile__link" href="#finds">Finder · 2nd-hand-finds</a></p>
+            <p class="label"><a class="tile__link" href="#finds">Finder · finder</a></p>
             <svg class="tile__go glyph" viewBox="0 0 14 14" aria-hidden="true"><path d="M5 3l4 4-4 4"/></svg>
           </div>
           <div class="finder-row">
@@ -391,7 +391,7 @@
                   <li class="arch__leaf"><span>Headlamp</span><span>Cluster dashboard</span></li>
                   <li class="arch__leaf"><span>Tailscale operator</span><span>→ Funnel (public, opt-in per app)</span></li>
                   <li class="arch__leaf"><span>cloudflared</span><span>→ Cloudflare Tunnel + Access (public, opt-in per app)</span></li>
-                  <li class="arch__leaf"><span>Apps</span><span><ul class="arch__apps"><li>rules-of-99</li><li>quizmaster</li><li>grimoire</li><li>scryfall</li><li>2nd-hand-finds</li><li>huisjes</li><li>home-dashboard</li></ul></span></li>
+                  <li class="arch__leaf"><span>Apps</span><span><ul class="arch__apps"><li>r99</li><li>quiz</li><li>tutor</li><li>scryfall</li><li>finder</li><li>house-search</li><li>dashboard</li></ul></span></li>
                 </ul>
               </li>
               <li class="arch__box">
@@ -504,7 +504,7 @@
         <div>
           <div class="prose">
             <p>The Zigbee network used to live on a Raspberry Pi. Now it lives in a VM with the radio on an extension cable, because USB3 ports scream at 2.4 GHz.</p>
-            <p class="muted">A wall panel shows what the house is doing (this site borrows its look), and the companion app (<code>home-dashboard</code>: Go, embedded React, SQLite) keeps the build guides and the parts inventory.</p>
+            <p class="muted">A wall panel shows what the house is doing (this site borrows its look), and the companion app (<code>dashboard</code>: Go, embedded React, SQLite) keeps the build guides and the parts inventory.</p>
           </div>
           <p class="label" style="margin-block:32px 4px">Automations · 4 enabled</p>
           <ul class="autos">
@@ -560,7 +560,7 @@
       </article>
 
       <article class="project" id="finds">
-        <div class="project__head"><h3 class="project__name">2nd-hand-finds</h3><span class="stat-chip">Every 2 h</span></div>
+        <div class="project__head"><h3 class="project__name">finder</h3><span class="stat-chip">Every 2 h</span></div>
         <p class="project__line">A bot that reads Marktplaats so I don’t have to.</p>
         <div class="stats">
           <div><b>283</b><span class="label">Finds recorded</span></div>
@@ -578,7 +578,7 @@
 
     <div class="devices">
       <article class="device-row">
-        <div><h3>Quizmaster</h3><p>A live multiplayer quiz where the questions are generated on the spot.</p></div>
+        <div><h3>Party quiz</h3><p>A live multiplayer quiz where the questions are generated on the spot.</p></div>
         <div class="device-row__body"><p>Party game, made public for the evening through Tailscale Funnel.</p></div>
         <span class="stat-chip stat-chip--idle">On demand</span>
       </article>
@@ -588,12 +588,12 @@
         <span class="stat-chip">Deployed</span>
       </article>
       <article class="device-row">
-        <div><h3>Grimoire</h3><p>An MTG deck-builder I run for myself and my playgroup.</p></div>
+        <div><h3>Tutor</h3><p>An MTG deck-builder I run for myself and my playgroup.</p></div>
         <div class="device-row__body"><p>Fork, self-hosted, single pod + PVC, deployed via the same Image Updater flow.</p></div>
         <span class="stat-chip">Self-hosted</span>
       </article>
       <article class="device-row">
-        <div><h3><span lang="nl">huisjes</span></h3><p>Our search for a first home, run like a software project.</p></div>
+        <div><h3>House search</h3><p>Our search for a first home, run like a software project.</p></div>
         <div class="device-row__body"><p>The git repo is the source of truth: one folder per house, ADRs for decisions, a Funda routine that scores new listings against our criteria and emails a digest. A read-only web app so my (non-technical) partner sees everything without touching git.</p></div>
         <span class="stat-chip stat-chip--idle">Private</span>
       </article>

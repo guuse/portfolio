@@ -100,21 +100,21 @@ are the same data with two layouts.
 - Tags: Proxmox · Kubernetes · Home Assistant · Zigbee
 - Image: *PHOTO: the setup under the TV / the wall panel*
 
-**2. Rules of 99** · `rules-of-99`
+**2. Rules of 99** · `r99`
 - One-liner: *Play Commander (Magic: The Gathering) with friends in the browser.*
 - Story: *Import a deck, share a room code, and play with up to four people. An open-source
   rules engine handles the rules, so nobody has to argue about them. Works on phones too.*
 - Tags: Java · React · TypeScript · WebSockets
 - Image: *SCREENSHOT: a 4-player game*
 
-**3. 2nd-hand finds** · `finds`
+**3. Marketplace finder** · `finds`
 - One-liner: *A tool that keeps an eye on Marktplaats and Vinted for me.*
 - Story: *Every two hours it checks for things I'm looking for, like Magic card collections or
   cheap mini PCs, and uses AI to filter out the noise. The good ones arrive in a short email.*
 - Tags: Python · Claude · Astro
 - Image: *SCREENSHOT: the finds overview*
 
-**4. Quizmaster** · `quizmaster`
+**4. Party quiz** · `quiz`
 - One-liner: *A live party quiz with questions generated on the spot.*
 - Story: *Everyone joins on their phone, pick a theme, and the questions are made up as you
   play. Built for one birthday, used at every party since.* `[CONFIRM the story]`

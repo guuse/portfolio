@@ -285,7 +285,7 @@
                     <li><b>cloudflared</b>→ Cloudflare Tunnel + Access, opt-in per app</li>
                   </ul>
                   <ul class="vm__apps">
-                    <li>rules-of-99</li><li>quizmaster</li><li>grimoire</li><li>scryfall</li><li>2nd-hand-finds</li><li>huisjes</li><li>home-dashboard</li>
+                    <li>r99</li><li>quiz</li><li>tutor</li><li>scryfall</li><li>finder</li><li>house-search</li><li>dashboard</li>
                   </ul>
                 </div>
                 <div class="vm vm--ha">
@@ -316,7 +316,7 @@
                         <li>Headlamp (cluster dashboard)</li>
                         <li>Tailscale operator → Funnel (public, opt-in per app)</li>
                         <li>cloudflared → Cloudflare Tunnel + Access (public, opt-in per app)</li>
-                        <li>Apps: rules-of-99, quizmaster, grimoire, scryfall, 2nd-hand-finds, huisjes, home-dashboard</li>
+                        <li>Apps: r99, quiz, tutor, scryfall, finder, house-search, dashboard</li>
                       </ul>
                     </li>
                     <li>VM haos-01 running Home Assistant OS
@@ -388,7 +388,7 @@
       <div class="grid home">
         <div class="home__text">
           <h3>The human side</h3>
-          <p>The Zigbee network used to live on a Raspberry Pi. Now it lives in a VM with the radio on an extension cable, because USB3 ports scream at 2.4 GHz. A wall panel shows what the house is doing, and the companion app (<code>home-dashboard</code>: Go, embedded React, SQLite) keeps the build guides and the parts inventory.</p>
+          <p>The Zigbee network used to live on a Raspberry Pi. Now it lives in a VM with the radio on an extension cable, because USB3 ports scream at 2.4 GHz. A wall panel shows what the house is doing, and the companion app (<code>dashboard</code>: Go, embedded React, SQLite) keeps the build guides and the parts inventory.</p>
         </div>
         <ul class="autos" aria-label="Automations">
           <li>Hallway lights at 20% after sunset</li>
@@ -462,7 +462,7 @@
     <article class="grid proj proj--finds" aria-labelledby="p2">
       <span class="proj__num" aria-hidden="true">02</span>
       <header class="proj__head">
-        <h3 class="proj__name" id="p2">2nd-hand-finds</h3>
+        <h3 class="proj__name" id="p2">finder</h3>
         <p class="proj__line">A bot that reads Marktplaats so I don’t have to.</p>
       </header>
       <div class="zero">
@@ -491,7 +491,7 @@
     <ol class="index" start="3" aria-label="More side projects">
       <li class="entry">
         <span class="entry__num" aria-hidden="true">03</span>
-        <h3 class="entry__name">Quizmaster</h3>
+        <h3 class="entry__name">Party quiz</h3>
         <p class="entry__line">A live multiplayer quiz where the questions are generated on the spot.</p>
         <div class="entry__more"><p>Party game, made public for the evening through Tailscale Funnel.</p><p><span class="status-word status-word--ok">Deployed</span></p></div>
       </li>
@@ -503,13 +503,13 @@
       </li>
       <li class="entry">
         <span class="entry__num" aria-hidden="true">05</span>
-        <h3 class="entry__name">Grimoire</h3>
+        <h3 class="entry__name">Tutor</h3>
         <p class="entry__line">An MTG deck-builder I run for myself and my playgroup.</p>
         <div class="entry__more"><p>Fork, self-hosted, single pod + PVC, deployed via the same Image Updater flow.</p><p><span class="status-word status-word--ok">Deployed</span></p></div>
       </li>
       <li class="entry">
         <span class="entry__num" aria-hidden="true">06</span>
-        <h3 class="entry__name"><span lang="nl">huisjes</span></h3>
+        <h3 class="entry__name">House search</h3>
         <p class="entry__line">Our search for a first home, run like a software project.</p>
         <div class="entry__more"><p>The git repo is the source of truth: one folder per house, ADRs for decisions, a Funda routine that scores new listings against our criteria and emails a digest.</p><p>A read-only web app so my (non-technical) partner sees everything without touching git.</p></div>
       </li>

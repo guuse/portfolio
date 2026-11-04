@@ -5,7 +5,7 @@ Feedback round 6 from Guus (summarised):
   the homelab** and tell the DevOps side: Proxmox, Tailscale, own domain, TLS, tunnels.
 - The homelab must be **sexy**: a fully automated Kubernetes environment with serious CI/CD.
   Total overkill for a home, and great fun to maintain.
-- The hero shows **personal photos** (not Grimoire/Rules of 99 screenshots).
+- The hero shows **personal photos** (not Tutor/Rules of 99 screenshots).
 - **Projects are static, three of them:** 1. the hosting platform, 2. homelab + Home Assistant,
   3. the MTG suite. The rest goes in a small "Also" list.
 - The **illustrations must be much better**, with animations that explain how things work.

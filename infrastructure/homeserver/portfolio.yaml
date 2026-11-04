@@ -3,7 +3,7 @@
 # portfolio (guuse/portfolio): ekkelenkamp.dev, a static Astro site on an
 # unprivileged nginx. Two stateless pods. App manifests live in the app repo
 # under infrastructure/ (Kustomize, on main); here is the Argo CD Application +
-# the Image Updater CR. Same shape as nl-scryfall-se.yaml.
+# the Image Updater CR.
 #
 # Reachability: PUBLIC at https://ekkelenkamp.dev (www.ekkelenkamp.dev 301s to
 # it) through the Cloudflare Tunnel -> Traefik -> the wildcard TLSStore. The
@@ -12,10 +12,11 @@
 #
 # OUT-OF-BAND, one-time before first sync (guuse/portfolio infrastructure/README.md):
 #   - Make the GHCR package ghcr.io/guuse/portfolio public (the repo is public), so
-#     the kubelet needs no pull secret. argocd/ghcr still lists its tags.
+#     the kubelet needs no pull secret. Image Updater's registry credential still
+#     lists its tags.
 #   - Tunnel public hostnames ekkelenkamp.dev + www.ekkelenkamp.dev ->
 #     https://traefik.kube-system.svc.cluster.local:443 (Origin Server Name = hostname).
-#   - Ensure the shared argocd/git-creds PAT can Contents:write guuse/portfolio.
+#   - Ensure the Argo CD repo credential can Contents:write guuse/portfolio.
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -41,8 +42,8 @@ spec:
 # write it into infrastructure/kustomization.yaml (images:) on main -> Argo CD
 # rolls out. writeBackTarget is relative to the Application's source path, so
 # "kustomization:." means infrastructure/kustomization.yaml. The release
-# workflow in guuse/portfolio ignores infrastructure/**, so this write-back
-# never re-triggers a build.
+# workflow in guuse/portfolio ignores that file, so this write-back never
+# re-triggers a build.
 apiVersion: argocd-image-updater.argoproj.io/v1alpha1
 kind: ImageUpdater
 metadata:

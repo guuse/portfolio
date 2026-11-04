@@ -266,9 +266,9 @@
   .ph--portrait { --tone: var(--tone-portrait); --ratio: 4 / 5; border-radius: var(--radius-l); }
   .ph--portrait .ph__cap { left: var(--space-xs); bottom: var(--space-xs); right: var(--space-xs); font-size: var(--step--2); }
   [data-tone="homelab"], [data-id="homelab"]         { --tone: var(--tone-homelab);  --pc: var(--pa-homelab); }
-  [data-tone="rules-of-99"], [data-id="rules-of-99"] { --tone: var(--tone-rules);    --pc: var(--pa-rules); }
+  [data-tone="r99"], [data-id="r99"] { --tone: var(--tone-rules);    --pc: var(--pa-rules); }
   [data-tone="finds"], [data-id="finds"]             { --tone: var(--tone-finds);    --pc: var(--pa-finds); }
-  [data-tone="quizmaster"], [data-id="quizmaster"]   { --tone: var(--tone-quiz);     --pc: var(--pa-quiz); }
+  [data-tone="quiz"], [data-id="quiz"]   { --tone: var(--tone-quiz);     --pc: var(--pa-quiz); }
   [data-tone="scryfall"], [data-id="scryfall"]       { --tone: var(--tone-scryfall); --pc: var(--pa-scryfall); }
 
   /* ---------- Work ---------- */

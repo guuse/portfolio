@@ -16,7 +16,7 @@
       image: "Photo: the setup under the TV"
     },
     {
-      id: "rules-of-99",
+      id: "r99",
       title: "Rules of 99",
       line: "Play Commander (Magic: The Gathering) with friends in the browser.",
       story: "Import a deck, share a room code, and play with up to four people. An open-source rules engine handles the rules, so nobody has to argue about them. Works on phones too.",
@@ -25,15 +25,15 @@
     },
     {
       id: "finds",
-      title: "2nd-hand finds",
+      title: "Marketplace finder",
       line: "A tool that keeps an eye on Marktplaats and Vinted for me.",
       story: "Every two hours it checks for things I’m looking for, like Magic card collections or cheap mini PCs, and uses AI to filter out the noise. The good ones arrive in a short email.",
       tags: ["Python", "Claude", "Astro"],
       image: "Screenshot: the finds overview"
     },
     {
-      id: "quizmaster",
-      title: "Quizmaster",
+      id: "quiz",
+      title: "Party quiz",
       line: "A live party quiz with questions generated on the spot.",
       story: "Everyone joins on their phone, picks a theme, and the questions are made up as you play. Built for one birthday, used at every party since.",
       tags: [],

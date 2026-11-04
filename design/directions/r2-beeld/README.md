@@ -31,7 +31,7 @@ The direction depends on them. Shot list (placeholders already in the right rati
 - Portrait of Guus, **4:5**, calm light, plenty of background.
 - Homelab: the setup under the TV (wide, landscape, used full-bleed), the wall panel (4:5), the
   Zigbee stick on its cable (1:1), and later the three mini PCs in their rack.
-- Screenshots for Rules of 99, 2nd-hand finds, Quizmaster (ideally the quiz on an actual phone)
+- Screenshots for Rules of 99, Marketplace finder, Party quiz (ideally the quiz on an actual phone)
   and Scryfall. Present screenshots inside a device or on a plain tonal backdrop so they hold up
   at large sizes.
 - Optional: a Commander night with friends (About, 3:2). Drop that image if it doesn't exist.
@@ -63,7 +63,7 @@ show the intended mood: muted slate, moss, sand, rose and sea-grey, never satura
   side. Contrast ratios there are measured live from the computed tokens.
 - Motion: a slow hover zoom on images (1.025), underline draws on links and nav, arrow nudge on
   the link button. All of it is cut by `prefers-reduced-motion` through `base.css`.
-- Open copy items: Quizmaster stack and story, the Scryfall stack, LinkedIn URL, Terraform in the
+- Open copy items: Party quiz stack and story, the Scryfall stack, LinkedIn URL, Terraform in the
   tools line, and "Before Harborn" (left out until confirmed).
 
 ## Round 2b: a bit more playful
@@ -117,7 +117,7 @@ cobalt or amber italic with a hand-drawn line, or ink on a tangerine marker bloc
 4. **Footer status line:** `● all systems normal · last deploy a1c9e2f · 3 Nov 2026`. These are
    illustrative values (see the HTML comment); a build step should fill `data-build="commit|date"`.
 5. **Project page:** a short Argo CD `Application` snippet next to "How it works", plus the diagram.
-   Confirm that the repo path (`guuse/homeserver`, `apps/rules-of-99`) may be shown.
+   Confirm that the repo path (`guuse/homeserver`, `apps/r99`) may be shown.
 
 Fonts: Instrument Serif, Schibsted Grotesk and Geist Mono (the allowed third family, for meta only).
 
@@ -132,7 +132,7 @@ review bar.
   option. Each one is labelled `illustration` and none of them pretends to be a screenshot:
   homelab (git push → Argo CD → k3s with app chips + Home Assistant with a Zigbee mesh, over
   Tailscale; a pulse travels along the deploy line), Rules of 99 (a four-seat table, life totals,
-  room code `K7QX2P`), finds (an email digest, every 2 h 08:00–23:00), Quizmaster (a phone with a
+  room code `K7QX2P`), finds (an email digest, every 2 h 08:00–23:00), Party quiz (a phone with a
   timer ring), Scryfall (plain words → `c:g otag:ramp -t:land usd<1` → 128 cards). The portrait
   and personal photos stay as tasteful photo placeholders.
 - **More substance.** A "recently" line per Work area (kept generic). In About, a *currently*
@@ -234,7 +234,7 @@ and LinkedIn links to the real profile.
   stagger, and always the desktop screenshot.
 - **Featured illustrations** are drawn clear of the overlapping title card. Checked with every
   project featured.
-- **Hero prints** are now the portrait plus Grimoire and Rules of 99 screenshots with captions.
+- **Hero prints** are now the portrait plus Tutor and Rules of 99 screenshots with captions.
   Bouldering and sunset appear only in About.
 - **Highlight** no longer repeats the strip's numbers. It shows "every project gets, on day one"
   (namespace, CI/CD pipeline, monitoring & alerts, TLS, access control) and two small facts:
@@ -307,7 +307,7 @@ detail-*-N, mobile-detail-*, lightbox, reduced-motion, lift, system).
    → running, ways in, inside the box). They advance when a diagram finishes, after at least 6 s,
    with a progress bar. They pause on hover or focus and use ARIA tabs with arrow, Home and End
    keys. They stay static under reduced motion.
-4. **MTG collage:** Grimoire sits bottom-right over the deck strip, with a paper border and a
+4. **MTG collage:** Tutor sits bottom-right over the deck strip, with a paper border and a
    tilt, and lifts on hover.
 5. **Interest cards:** photo chips on Bouldering and Travel replace the "photo up top" hints.
 6. **Numbers** count up once in view (strip, features, case studies), in tabular figures; the
@@ -391,9 +391,9 @@ Source: `design/CONTENT-v7.md` (synthesis of four reviews). §E (anti-"AI vibe")
   - corrected disk and DNS lessons;
   - "card data tracks upstream nightly";
   - the 95%+ coverage is for the skills' helper scripts.
-- **Grimoire is now Tutor.** Screenshot slots are filled by `build-artifact.js` from the first
+- **The old deck library is now Tutor.** Screenshot slots are filled by `build-artifact.js` from the first
   existing file in each candidate list (`SLOTS`), so the new `tutor-*` and `r99-game*` files
-  drop in on the next build. `grimoire-*` is no longer used or copied.
+  drop in on the next build. The old deck-library shots are gone.
 
 ## Round 11: the Rules of 99 home, translated
 - **Home:**

@@ -624,7 +624,7 @@
     .proj--r99 .facts { grid-column: 9 / -1; align-self: start; }
   }
 
-  /* 2nd-hand-finds: the zero */
+  /* finder: the zero */
   .zero { grid-column: 1 / -1; display: grid; grid-template-columns: auto 1fr; align-items: end; gap: var(--space-s); }
   .zero__n { font-family: var(--font-display); font-weight: 900; font-stretch: var(--w-ultra-e); font-size: clamp(11rem, 4rem + 36vw, 36rem); line-height: .72; letter-spacing: -0.04em; color: var(--c-num); margin-block-end: -.02em; margin-inline-start: -.04em; }
   .zero__cap { font-size: var(--step--1); line-height: 1.35; max-width: 17ch; padding-block-end: var(--space-2xs); border-block-end: var(--rule) solid var(--line-strong); }

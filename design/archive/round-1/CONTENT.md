@@ -3,7 +3,7 @@
 Every direction uses **this copy**. Directions may shorten or restructure it, but must not
 invent facts. Items marked `[CONFIRM]` are assumptions Guus needs to check before launch.
 
-Facts are taken from Guus's own repos (homeserver, rules-of-99, 2nd-hand-finds, huisjes and
+Facts are taken from Guus's own repos (the homelab repo and
 the Argo CD application manifests), as of November 2026. **Public-safe:** no IPs, tailnet names,
 LAN addresses, device IDs or internal hostnames.
 
@@ -153,7 +153,7 @@ Old laptop (bare metal, lid shut, battery = UPS)
    │   ├─ Headlamp (cluster dashboard)
    │   ├─ Tailscale operator → Funnel (public, opt-in per app)
    │   ├─ cloudflared → Cloudflare Tunnel + Access (public, opt-in per app)
-   │   └─ apps: rules-of-99 · quizmaster · grimoire · scryfall · 2nd-hand-finds · huisjes · home-dashboard
+   │   └─ apps: r99 · quiz · tutor · scryfall · finder · house-search · dashboard
    └─ VM haos-01 ── Home Assistant OS
        ├─ Zigbee coordinator (USB passthrough, on a USB2 extension cable)
        ├─ NGINX SSL proxy (TLS) → HA Core on plain HTTP (LAN fallback)
@@ -196,7 +196,7 @@ Old laptop (bare metal, lid shut, battery = UPS)
 
 > The Zigbee network used to live on a Raspberry Pi. Now it lives in a VM with the radio on an
 > extension cable, because USB3 ports scream at 2.4 GHz. A wall panel shows what the house is
-> doing, and the companion app (`home-dashboard`: Go, embedded React, SQLite) keeps the build
+> doing, and the companion app (`dashboard`: Go, embedded React, SQLite) keeps the build
 > guides and the parts inventory.
 
 Placeholder automations for the design (replace with real ones):
@@ -225,7 +225,7 @@ Order = priority. Each has: name · one-liner · 2–3 detail bullets · stack �
 - Stack: Java 17 · Maven · React · TypeScript · SQLite · WebSockets
 - Status: live, 2.0 `[CONFIRM public URL]`
 
-### 5.2 2nd-hand-finds
+### 5.2 finder
 *A bot that reads Marktplaats so I don't have to.*
 - Every two hours (08:00–23:00) it searches Marktplaats and Vinted, applies hard filters,
   then has **Claude judge each listing** against a per-category rubric.
@@ -235,7 +235,7 @@ Order = priority. Each has: name · one-liner · 2–3 detail bullets · stack �
   loved / hidden / bought. 280+ finds recorded so far.
 - Stack: Python · Claude · Astro SSR · Resend · k3s
 
-### 5.3 Quizmaster
+### 5.3 Party quiz
 *A live multiplayer quiz where the questions are generated on the spot.*
 - Party game, made public for the evening through Tailscale Funnel.
 - Stack: `[CONFIRM]`
@@ -245,11 +245,11 @@ Order = priority. Each has: name · one-liner · 2–3 detail bullets · stack �
 - Claude turns "cheap green ramp that isn't a land" into Scryfall syntax, verifies the query
   actually returns results, and links you to Scryfall.
 
-### 5.5 Grimoire
+### 5.5 Tutor
 *An MTG deck-builder I run for myself and my playgroup.*
 - Fork, self-hosted, single pod + PVC, deployed via the same Image Updater flow.
 
-### 5.6 huisjes *(optional, personal)*
+### 5.6 House search *(optional, personal)*
 *Our search for a first home, run like a software project.*
 - The git repo is the source of truth: one folder per house, ADRs for decisions, a Funda
   routine that scores new listings against our criteria and emails a digest.
@@ -306,7 +306,7 @@ Footer microcopy options:
   ],
   "argo_apps": {
     "platform": ["argocd", "argocd-image-updater", "cert-manager", "cluster-config", "headlamp", "tailscale-operator", "cloudflared", "root"],
-    "mine": ["rules-of-99", "quizmaster", "grimoire", "nl-scryfall-se", "2nd-hand-finds", "huisjes", "home-dashboard"]
+    "mine": ["r99", "quiz", "tutor", "scryfall", "finder", "house-search", "dashboard"]
   },
   "finds_recorded": { "mtg": 253, "homeserver": 30, "rover_clogs": 0 },
   "finder_schedule": "every 2h, 08:00–23:00",

@@ -366,7 +366,7 @@
                 <li><b>cloudflared</b><span class="why">→ Cloudflare Tunnel + Access (public, opt-in per app)</span></li>
                 <li><b>Apps</b>
                   <ul class="apps" aria-label="Apps">
-                    <li class="mine">rules-of-99</li><li class="mine">quizmaster</li><li class="mine">grimoire</li><li class="mine">scryfall</li><li class="mine">2nd-hand-finds</li><li class="mine">huisjes</li><li class="mine">home-dashboard</li>
+                    <li class="mine">r99</li><li class="mine">quiz</li><li class="mine">tutor</li><li class="mine">scryfall</li><li class="mine">finder</li><li class="mine">house-search</li><li class="mine">dashboard</li>
                   </ul></li>
               </ul>
             </div>
@@ -435,7 +435,7 @@
     <div class="split">
       <div class="split__a stack">
         <p>The Zigbee network used to live on a Raspberry Pi. Now it lives in a VM with the radio on an extension cable, because USB3 ports scream at 2.4 GHz.</p>
-        <p class="muted">A wall panel shows what the house is doing, and the companion app (<code>home-dashboard</code>: Go, embedded React, SQLite) keeps the build guides and the parts inventory.</p>
+        <p class="muted">A wall panel shows what the house is doing, and the companion app (<code>dashboard</code>: Go, embedded React, SQLite) keeps the build guides and the parts inventory.</p>
         <figure class="photo" style="min-height:11rem">
           <span class="tape tape--s tape--ink">Photo</span>
           <figcaption>The Zigbee stick on its USB2 extension cable</figcaption>
@@ -523,7 +523,7 @@
     <article class="module" aria-labelledby="m2hf">
       <div class="module__head"><span class="label label--accent">MOD-2HF</span><span class="label">Every 2 h · 08:00–23:00</span></div>
       <div class="module__body">
-        <h3 id="m2hf">2nd-hand-finds</h3>
+        <h3 id="m2hf">finder</h3>
         <p class="module__line">A bot that reads Marktplaats so I don't have to.</p>
         <div>
           <div class="readout" role="group" aria-label="Finds recorded">
@@ -551,10 +551,10 @@
     <caption class="visually-hidden">Also compatible: four more modules</caption>
     <thead><tr><th scope="col" class="label">Part no.</th><th scope="col" class="label">Module</th><th scope="col" class="label">Description</th><th scope="col" class="label">Status</th></tr></thead>
     <tbody>
-      <tr><td class="pn">MOD-QZM</td><td class="nm">Quizmaster</td><td class="ln">A live multiplayer quiz where the questions are generated on the spot.<small>Party game, made public for the evening through Tailscale Funnel.</small></td><td class="st"><span class="label">Funnel, on party nights</span></td></tr>
+      <tr><td class="pn">MOD-QZM</td><td class="nm">Party quiz</td><td class="ln">A live multiplayer quiz where the questions are generated on the spot.<small>Party game, made public for the evening through Tailscale Funnel.</small></td><td class="st"><span class="label">Funnel, on party nights</span></td></tr>
       <tr><td class="pn">MOD-SCR</td><td class="nm">Scryfall, in plain words</td><td class="ln">Ask for cards like a human. Get a real Scryfall query back.<small>Claude turns “cheap green ramp that isn't a land” into Scryfall syntax, checks the query returns results, and links you there.</small></td><td class="st"><span class="label">Deployed · k3s</span></td></tr>
-      <tr><td class="pn">MOD-GRM</td><td class="nm">Grimoire</td><td class="ln">An MTG deck-builder I run for myself and my playgroup.<small>Fork, self-hosted, single pod + PVC, same Image Updater flow.</small></td><td class="st"><span class="label">Deployed · k3s</span></td></tr>
-      <tr><td class="pn">MOD-HSJ</td><td class="nm"><span lang="nl">huisjes</span></td><td class="ln">Our search for a first home, run like a software project.<small>One folder per house, ADRs for decisions, a Funda routine that scores new listings. A read-only web app so my partner sees everything without touching git.</small></td><td class="st"><span class="label">Personal · k3s</span></td></tr>
+      <tr><td class="pn">MOD-GRM</td><td class="nm">Tutor</td><td class="ln">An MTG deck-builder I run for myself and my playgroup.<small>Fork, self-hosted, single pod + PVC, same Image Updater flow.</small></td><td class="st"><span class="label">Deployed · k3s</span></td></tr>
+      <tr><td class="pn">MOD-HSJ</td><td class="nm">House search</td><td class="ln">Our search for a first home, run like a software project.<small>One folder per house, ADRs for decisions, a Funda routine that scores new listings. A read-only web app so my partner sees everything without touching git.</small></td><td class="st"><span class="label">Personal · k3s</span></td></tr>
     </tbody>
   </table>
   <p class="mt-m"><a class="btn" href="https://github.com/guuse">Source on GitHub <span class="arrow" aria-hidden="true">→</span></a></p>

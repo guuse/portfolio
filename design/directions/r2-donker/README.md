@@ -43,7 +43,7 @@ tabular numerals, which keeps the page away from "techy".
 - **Real photos.** A portrait (4:5), and per project one landscape image (feature 4:3, cards 3:2,
   project hero 21:9). Every placeholder is captioned with what to shoot. Dark, low-key photos or
   screenshots with dark UI suit it best; bright screenshots are fine on the raised surface.
-- Confirm: the email, the LinkedIn URL (currently `#`), the Quizmaster stack (shown as a dashed
+- Confirm: the email, the LinkedIn URL (currently `#`), the Party quiz stack (shown as a dashed
   "Stack to confirm" tag), and the Terraform mention in the tools.
 
 ## How it scales

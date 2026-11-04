@@ -301,9 +301,9 @@
   }
   .ph__cap::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--proj, currentColor); flex: none; }
   [data-tone="homelab"]    { --tone-h: 62; }
-  [data-tone="rules-of-99"]{ --tone-h: 28; }
+  [data-tone="r99"]{ --tone-h: 28; }
   [data-tone="finds"]      { --tone-h: 128; }
-  [data-tone="quizmaster"] { --tone-h: 330; }
+  [data-tone="quiz"] { --tone-h: 330; }
   [data-tone="scryfall"]   { --tone-h: 235; }
   [data-tone="portrait"]   { --tone-h: 50; }
 

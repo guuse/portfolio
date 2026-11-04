@@ -141,7 +141,7 @@ function grid(slot) {
   // 3. the publishable set
   fs.rmSync(out, { recursive: true, force: true });
   fs.mkdirSync(path.join(out, "assets"), { recursive: true });
-  fs.cpSync(path.join(dir, "assets"), path.join(out, "assets"), { recursive: true, filter: (src) => !/grimoire-|finds-|r99-(home|table-setup|replay|card|workbench|game|game-stack|game-mobile|workbench-new)(@2x)?\.webp|r99-home-mobile|tutor-(builder|insights|mobile|mobile-deck)(@2x)?\.webp|scryfall-(result|mobile)\.webp/.test(src) });
+  fs.cpSync(path.join(dir, "assets"), path.join(out, "assets"), { recursive: true, filter: (src) => !/r99-(home|table-setup|replay|card|workbench|game|game-stack|game-mobile|workbench-new)(@2x)?\.webp|r99-home-mobile|tutor-(builder|insights|mobile|mobile-deck)(@2x)?\.webp|scryfall-(result|mobile)\.webp/.test(src) });
   for (const f of ["site.css", "site.js", "diagrams.js", "scenes.js"]) fs.copyFileSync(path.join(dir, f), path.join(out, f));
   for (const f of PAGES) fs.copyFileSync(path.join(dir, f), path.join(out, f));
 

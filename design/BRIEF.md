@@ -97,11 +97,11 @@ setup at a borrel, not like a LinkedIn post.
 | One joke per section, at most | Puns in every heading |
 
 Language: **English** for the site (international audience, `.dev` domain), with Dutch words
-used as flavour where they're naturally Dutch (*borrel*, *huisjes*, *gezellig* at most once).
+used as flavour where they're naturally Dutch (*borrel*, *gezellig* at most once).
 
 ## 5. Constraints
 
-- Static site. Planned build: Astro (Guus uses it already in `huisjes` and `2nd-hand-finds`).
+- Static site. Planned build: Astro (Guus uses it already in other projects).
   The design mocks are plain HTML/CSS so they can be reviewed with zero tooling.
 - **Hosting:** `ekkelenkamp.dev`, HSTS-preloaded, so HTTPS only. See the hosting note in the
   root README: the zone currently has a tailnet-only wildcard.

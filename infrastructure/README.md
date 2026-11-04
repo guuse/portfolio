@@ -141,12 +141,12 @@ None of this is in git. In order:
 1. **First image.** Merge to `main`; `release` pushes `ghcr.io/guuse/portfolio:<sha>`.
 2. **Make the package public.** GitHub → Packages → `portfolio` → Package settings → Change
    visibility → Public. The repo is public and so is everything in the image, and a public
-   package means the pods need no pull secret. (If you'd rather keep it private: create
-   `ghcr-pull` in the `portfolio` namespace the same way the other apps do, and add
-   `imagePullSecrets: [{name: ghcr-pull}]` to the pod spec.) Under Package settings → Manage
+   package means the pods need no pull secret. (If you'd rather keep it private: create a
+   GHCR pull secret in the `portfolio` namespace the same way the other apps do, and add it
+   to the pod spec's `imagePullSecrets`.) Under Package settings → Manage
    Actions access, check that this repo has **write** access.
 3. **Argo CD.** Copy `homeserver/portfolio.yaml` to `argocd/applications/portfolio.yaml` in the
-   homelab repo. Check that the shared `argocd/git-creds` token can write Contents on
+   homelab repo. Check that the Argo CD repo credential can write Contents on
    `guuse/portfolio`, because Image Updater commits the tag here. Until its first write-back,
    the placeholder tag in `kustomization.yaml` leaves the pods in `ImagePullBackOff`. That is
    expected and takes a few minutes at most.

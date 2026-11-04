@@ -314,7 +314,7 @@
                     </ul>
                     <div class="arch__apps">
                       <span class="label">My apps</span>
-                      <ul role="list"><li>rules-of-99</li><li>quizmaster</li><li>grimoire</li><li>scryfall</li><li>2nd-hand-finds</li><li>huisjes</li><li>home-dashboard</li></ul>
+                      <ul role="list"><li>r99</li><li>quiz</li><li>tutor</li><li>scryfall</li><li>finder</li><li>house-search</li><li>dashboard</li></ul>
                     </div>
                   </li>
                   <li class="arch__box arch__box--vm is-ha">
@@ -416,7 +416,7 @@
       </header>
       <div class="col-full lg-1-7 stack">
         <p class="u-lead">The Zigbee network used to live on a Raspberry Pi. Now it lives in a VM with the radio on an extension cable, because USB3 ports scream at 2.4 GHz.</p>
-        <p>A wall panel shows what the house is doing, and the companion app (<code>home-dashboard</code>: Go, embedded React, SQLite) keeps the build guides and the parts inventory.</p>
+        <p>A wall panel shows what the house is doing, and the companion app (<code>dashboard</code>: Go, embedded React, SQLite) keeps the build guides and the parts inventory.</p>
       </div>
       <figure class="col-full lg-8-13 photo" style="rotate:1.5deg">
         <span class="tape tape--tr" aria-hidden="true"></span>
@@ -504,7 +504,7 @@
         <article class="card project project--feat project--tint" aria-labelledby="p-2hf">
           <span class="tape tape--tr tape--alt" aria-hidden="true"></span>
           <div class="project__kicker"><span class="label">Featured · Bot</span><span class="tag-stamp tag-stamp--ok">Runs every 2h</span></div>
-          <h3 class="project__name" id="p-2hf">2nd-hand-finds</h3>
+          <h3 class="project__name" id="p-2hf">finder</h3>
           <p class="project__line">A bot that reads Marktplaats so I don't have to.</p>
           <ul class="bullets">
             <li>Every two hours (08:00–23:00) it searches Marktplaats and Vinted, applies hard filters, then has <strong>Claude judge each listing</strong> against a per-category rubric.</li>
@@ -525,7 +525,7 @@
         <article class="card project project--compact" aria-labelledby="p-quiz">
           <span class="tape tape--tc" aria-hidden="true"></span>
           <div class="project__kicker"><span class="label">Party game</span></div>
-          <h3 class="project__name" id="p-quiz">Quizmaster</h3>
+          <h3 class="project__name" id="p-quiz">Party quiz</h3>
           <p class="project__line">A live multiplayer quiz where the questions are generated on the spot.</p>
           <ul class="bullets"><li>Made public for the evening through Tailscale Funnel, then back to tailnet-only.</li></ul>
           <div class="project__foot"><span class="tag-stamp tag-stamp--warn">Party nights only</span></div>
@@ -543,7 +543,7 @@
         <article class="card project project--compact" aria-labelledby="p-grim">
           <span class="tape tape--tr" aria-hidden="true"></span>
           <div class="project__kicker"><span class="label">MTG · Self-hosted</span></div>
-          <h3 class="project__name" id="p-grim">Grimoire</h3>
+          <h3 class="project__name" id="p-grim">Tutor</h3>
           <p class="project__line">An MTG deck-builder I run for myself and my playgroup.</p>
           <ul class="bullets"><li>Fork, self-hosted, single pod + PVC, deployed via the same Image Updater flow.</li></ul>
           <div class="project__foot"><ul class="tags" role="list"><li>k3s</li><li>Argo CD</li><li>Image Updater</li></ul></div>
@@ -552,7 +552,7 @@
         <article class="card project project--compact" aria-labelledby="p-huis">
           <span class="tape tape--tc tape--alt" aria-hidden="true"></span>
           <div class="project__kicker"><span class="label">Personal</span></div>
-          <h3 class="project__name" id="p-huis" lang="nl">huisjes</h3>
+          <h3 class="project__name" id="p-huis">House search</h3>
           <p class="project__line">Our search for a first home, run like a software project.</p>
           <ul class="bullets">
             <li>The git repo is the source of truth: one folder per house, ADRs for decisions, a Funda routine that scores new listings and emails a digest.</li>

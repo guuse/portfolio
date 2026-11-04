@@ -337,7 +337,7 @@
             <div class="sd-floor">
               <div class="sd-units">
                 <ul class="sd-rooms sd-rooms--apps" aria-label="Apps on k3s-01">
-                  <li>rules-of-99</li><li>quizmaster</li><li>grimoire</li><li>scryfall</li><li>2nd-hand-finds</li><li>huisjes</li><li>home-dashboard</li>
+                  <li>r99</li><li>quiz</li><li>tutor</li><li>scryfall</li><li>finder</li><li>house-search</li><li>dashboard</li>
                 </ul>
                 <ul class="sd-rooms" aria-label="On haos-01"><li>HA Core<small>plain HTTP, the LAN fallback</small></li></ul>
               </div>
@@ -396,8 +396,8 @@
    │   ├─ Headlamp (cluster dashboard)
    │   ├─ Tailscale operator → Funnel (public, opt-in per app)
    │   ├─ cloudflared → Cloudflare Tunnel + Access (public, opt-in per app)
-   │   └─ apps: rules-of-99 · quizmaster · grimoire · scryfall ·
-   │            2nd-hand-finds · huisjes · home-dashboard
+   │   └─ apps: r99 · quiz · tutor · scryfall ·
+   │            finder · house-search · dashboard
    └─ VM haos-01 ── Home Assistant OS
        ├─ Zigbee coordinator (USB passthrough, USB2 extension cable)
        ├─ NGINX SSL proxy (TLS) → HA Core on plain HTTP (LAN fallback)
@@ -447,7 +447,7 @@
     <div class="split">
       <div class="col-6">
         <p class="lead" style="max-width: 40ch">The Zigbee network used to live on a Raspberry Pi. Now it lives in a VM with the radio on an extension cable, because USB3 ports scream at 2.4 GHz.</p>
-        <p class="prose" style="margin-top: var(--space-s)">A wall panel shows what the house is doing, and the companion app (<code>home-dashboard</code>: Go, embedded React, SQLite) keeps the build guides and the parts inventory.</p>
+        <p class="prose" style="margin-top: var(--space-s)">A wall panel shows what the house is doing, and the companion app (<code>dashboard</code>: Go, embedded React, SQLite) keeps the build guides and the parts inventory.</p>
         <div style="margin-top: var(--space-l)">
           <p class="label-caps" style="margin-bottom: var(--space-2xs)"><span lang="nl">Schakelschema</span> · what switches what</p>
           <ul class="auto-list">
@@ -592,7 +592,7 @@
       <article class="project project--featured" aria-labelledby="p-2hf">
         <div class="project__id">
           <p class="box-label"><span><span lang="nl">Doos</span> 2</span><span>do not open: still hunting</span></p>
-          <h3 class="project__name" id="p-2hf">2nd-hand-finds</h3>
+          <h3 class="project__name" id="p-2hf">finder</h3>
           <p class="project__line">A bot that reads <span lang="nl">Marktplaats</span> so I don't have to.</p>
           <div class="finds" role="group" aria-label="Finds recorded so far">
             <div><b>253</b><span>MTG lots</span></div>
@@ -618,7 +618,7 @@
     <ul class="projects-compact">
       <li class="project project--compact">
         <p class="box-label"><span lang="nl">Doos</span> 3</p>
-        <h4>Quizmaster</h4>
+        <h4>Party quiz</h4>
         <p class="project__line">A live multiplayer quiz where the questions are generated on the spot.</p>
         <p>Party game, made public for the evening through Tailscale Funnel.</p>
       </li>
@@ -630,13 +630,13 @@
       </li>
       <li class="project project--compact">
         <p class="box-label"><span lang="nl">Doos</span> 5</p>
-        <h4>Grimoire</h4>
+        <h4>Tutor</h4>
         <p class="project__line">An MTG deck-builder I run for myself and my playgroup.</p>
         <p>Fork, self-hosted, single pod + PVC, deployed via the same Image Updater flow.</p>
       </li>
       <li class="project project--compact">
         <p class="box-label"><span lang="nl">Doos</span> 6</p>
-        <h4 lang="nl">huisjes</h4>
+        <h4>House search</h4>
         <p class="project__line">Our search for a first home, run like a software project.</p>
         <p>One folder per house, ADRs for decisions, a Funda routine that scores new listings. Plus a read-only web app so my partner sees everything without touching git.</p>
       </li>

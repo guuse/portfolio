@@ -8,8 +8,8 @@ model, and no links to private repositories.
 ## Guidance from Guus
 - Show **experience, not employers**. No career timeline with company names. The current role
   ("Tech lead, infra team at Harborn") appears once, as the small role line in the hero.
-- **Only projects with real substance.** 2nd-hand finds and the Funda finder are only shown
-  bundled together as "Scouting agents". Quizmaster is dropped.
+- **Only projects with real substance.** Marketplace finder and the Funda finder are only shown
+  bundled together as "Scouting agents". Party quiz is dropped.
 - The **homelab platform** (Proxmox, k3s, Argo CD on the laptop) gets its own big story, separate
   from **home automation** (Home Assistant, Zigbee, wall panel).
 - Competencies should line up with what infra/DevOps/platform job posts ask for: production
@@ -202,10 +202,10 @@ screenshots where they exist, otherwise one illustration), "how it works" bullet
      replays, and a phone layout. Screens: `r99-home.webp`, `r99-table-setup.webp`,
      `r99-workbench.webp`, `r99-replay.webp`, `r99-card.webp`, `r99-home-mobile.webp`.
      Chips: `java` `react` `typescript` `websockets` `sqlite`
-  2. **Grimoire**: *A deck library and builder, with an MCP server so Claude can search the whole
+  2. **Tutor**: *A deck library and builder, with an MCP server so Claude can search the whole
      card pool.* Card data in SQLite with full-text search; exact colour-identity and legality
      filters; mana curve, colour sources, categories and a bracket estimate. Screens:
-     `grimoire-library.webp`, `grimoire-builder.webp`, `grimoire-rating.webp`, `grimoire-mobile.webp`.
+     `tutor-library.webp`, `tutor-builder.webp`, `tutor-rating.webp`, `tutor-mobile.webp`.
      Chips: `node` `sqlite` `fts5` `mcp`
   3. **Scryfall, in plain words**: *Describe the cards you want; get a working Scryfall query.*
      The Claude Agent SDK writes a query, tests it against Scryfall, and offers stricter and
