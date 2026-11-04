@@ -77,6 +77,9 @@ const CARDS = [
     title: "MTG suite",
     line: "The Magic tools I build for my friends.",
     art: "covers/mtg-hero-wide.webp",
+    // the engine and its label sit at the cover's right edge: anchor the crop there, or the
+    // label is cut off ("the engi")
+    pos: "100% 50%",
   },
   {
     id: "design-system",
