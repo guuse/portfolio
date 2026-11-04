@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { createScheduler, MAX_DT } from "~/lib/motion/scheduler";
 
 /** A fake clock and frame queue. */
@@ -85,5 +85,39 @@ describe("scheduler", () => {
     e.frame(16);
     expect(runs).toBe(1);
     expect(s.running).toBe(false);
+  });
+
+  it("drops a task that throws, reports it, and keeps the loop and the others alive", () => {
+    const e = env();
+    const errors: unknown[] = [];
+    const s = createScheduler({ ...e, report: (err) => errors.push(err) });
+    let calls = 0,
+      frames = 0;
+    s.add(() => {
+      calls++;
+      throw new Error("boom");
+    });
+    s.add(() => ++frames < 3);
+    e.frame(16);
+    e.frame(16);
+    e.frame(16);
+    expect(calls).toBe(1);
+    expect(errors).toHaveLength(1);
+    expect((errors[0] as Error).message).toBe("boom");
+    expect(frames).toBe(3);
+    expect(s.running).toBe(false);
+  });
+
+  it("logs a dropped task to the console by default", () => {
+    const e = env();
+    const spy = vi.spyOn(console, "error").mockImplementation(() => undefined);
+    const s = createScheduler(e);
+    s.add(() => {
+      throw new Error("boom");
+    });
+    e.frame(16);
+    expect(spy).toHaveBeenCalledOnce();
+    expect(s.running).toBe(false);
+    spy.mockRestore();
   });
 });
