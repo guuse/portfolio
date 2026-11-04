@@ -14,3 +14,6 @@ src/assets/
 public/
 .claude/
 src/content/snippets/
+
+# one line on purpose: whitespace before the new-tab arrow would be underlined
+src/components/ui/ExternalLink.astro

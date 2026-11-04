@@ -9,10 +9,10 @@ import type { HTMLAttributes } from "astro/types";
 type Props = HTMLAttributes<"a"> & { href: string };
 const { href, ...rest } = Astro.props;
 // trimmed, and the arrow right against it: whitespace before the arrow would be underlined
+// (the markup is one line on purpose, so this file is in .prettierignore)
 const label = (await Astro.slots.render("default")).trim();
 ---
 
-<!-- prettier-ignore -->
 <a href={href} target="_blank" rel="noopener" {...rest}><Fragment set:html={label} /><svg class="ext" viewBox="0 0 12 12" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" aria-hidden="true"><path d="M3.5 8.5l5-5M4.5 3.5h4v4"></path></svg><span class="visually-hidden"> (opens in a new tab)</span></a>
 
 <style>

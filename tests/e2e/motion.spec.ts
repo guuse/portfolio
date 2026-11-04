@@ -204,15 +204,24 @@ test("resizing across the stage breakpoint keeps the reader on their step", asyn
     [800, 1200],
   ] as const) {
     await page.setViewportSize({ width: from, height: 900 });
-    await page.goto("/projects/homelab/");
-    await page
-      .locator(".scene-step")
-      .nth(2)
-      .evaluate((el) => {
-        const r = el.getBoundingClientRect();
-        scrollTo({ top: scrollY + r.top - innerHeight * 0.4 + r.height * 0.3, behavior: "instant" });
-      });
-    await expect.poll(where).toEqual({ i: 2, f: 0.3 });
+    await page.goto("/projects/homelab/", { waitUntil: "networkidle" });
+    // the runtime (loaded when the page is idle) has laid the scenes out, the fonts are in
+    await expect(page.locator("html")).toHaveClass(/js-scenes/);
+    await page.evaluate(() => document.fonts.ready);
+    // 30% into the third step (again, if something above it still moved)
+    await expect
+      .poll(async () => {
+        await page
+          .locator(".scene-step")
+          .nth(2)
+          .evaluate((el) => {
+            const r = el.getBoundingClientRect();
+            scrollTo({ top: scrollY + r.top - innerHeight * 0.4 + r.height * 0.3, behavior: "instant" });
+          });
+        await page.waitForTimeout(100);
+        return where();
+      })
+      .toEqual({ i: 2, f: 0.3 });
     await page.setViewportSize({ width: to, height: 900 });
     await expect.poll(where).toEqual({ i: 2, f: 0.3 });
   }
