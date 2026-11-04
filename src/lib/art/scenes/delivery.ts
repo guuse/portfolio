@@ -122,6 +122,8 @@ function bucket(cx: number, top: number, w: number, h: number): string {
 
 export function policy(): string {
   const R = D2.routes;
+  // the gate's and the bucket's captions share one baseline
+  const capY = D2.bucket.top + D2.bucket.h + 42;
   let b = path(R.change, "k-route", { "data-k": "route-change" });
   b += path(R.link, "k-route k-route--dash", { "data-k": "route-link" });
   b += g(
@@ -137,14 +139,15 @@ export function policy(): string {
   b += g(
     { "data-k": "gate" },
     gate(D2.gate.x, D2.gate.y0, D2.gate.y1, "bar") +
-      text(D2.gate.x, D2.gate.y1 + 40, "mandatory policy", "lb lb--s", "middle"),
+      text(D2.gate.x, capY, "mandatory policy", "lb lb--s", "middle"),
   );
   b += g(
     { "data-k": "bucket", class: "k-origin-b" },
     bucket(D2.bucket.cx, D2.bucket.top, D2.bucket.w, D2.bucket.h) +
-      text(D2.bucket.cx, D2.bucket.top + D2.bucket.h + 46, "log bucket", "lb", "middle"),
+      text(D2.bucket.cx, capY, "log bucket", "lb", "middle"),
   );
-  b += g({ "data-k": "lbl-rule" }, text(224, 204, "expiry rule", "lb-m lb-m--s", "middle"));
+  // the rule's label, 12px clear of the pull request's right edge (its frame reaches 8px past pr.w)
+  b += g({ "data-k": "lbl-rule" }, text(D2.pr.x + D2.pr.w + 20, 204, "expiry rule", "lb-m lb-m--s", "start"));
   b += '<g class="pk-layer" data-k="pk"></g>';
   b += g({ class: "pk-still" }, packetAt(R.change, D2.stopAt));
   return svg(

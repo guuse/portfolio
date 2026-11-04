@@ -277,7 +277,8 @@ export function ipv6(): string {
     path(S4.toX, "k-route", { "data-k": "route-to-xlat" }) +
     path(S4.fromX, "k-route", { "data-k": "route-from-xlat" }) +
     path(S4.toDB, "k-route", { "data-k": "route-db" }) +
-    path("M446 314H458", "k-route k-route--idle", { "data-k": "route-idle" });
+    // the old IPv4 port's stub: kept for its key (the motion fades it), drawn under the services
+    path("M466 314H478", "k-route k-route--idle", { "data-k": "route-idle" });
   // the cluster: two nodes on a plinth
   b +=
     shadow(96, 300, 132) +
@@ -298,19 +299,21 @@ export function ipv6(): string {
     appliance(254, 88, 92, 46, ["6", "4"]) + text(300, 166, "DNS64 / NAT64", "lb lb--s", "middle"),
   );
   b += g({ "data-k": "legacy" }, tower(452, 64, 72, 96) + text(488, 190, "IPv4-only", "lb lb--s", "middle"));
-  // a private database with two addresses, and the gate in front of the IPv6 one: closed until hypercare fixed it
+  /*
+   * The private services (databases, Redis, asset storage) on their IPv6 address. Internal
+   * traffic to them also went through NAT64, which made it expensive: the barrier in front
+   * marks that cost, and it lifts when hypercare fixed it.
+   */
   b += g(
     { "data-k": "db" },
     database(500, 288, 92, 84) +
-      rect(446, 306, 26, 16, "k-plate", 2) +
-      text(459, 318, "4", "lb-port", "middle") +
       rect(446, 336, 26, 16, "k-plate k-plate--v6", 2) +
       text(459, 348, "6", "lb-port lb-port--v6", "middle") +
-      text(500, 412, "database", "lb lb--s", "middle"),
+      text(500, 412, "private services", "lb lb--s", "middle"),
   );
   b += g(
     { "data-k": "gate" },
-    gate(S4.gateX, 322, 368, "bar") + text(S4.gateX, 292, "hypercare", "lb lb--s", "middle"),
+    gate(S4.gateX, 322, 368, "bar") + text(S4.gateX, 292, "NAT64 cost", "lb lb--s", "middle"),
   );
   b += '<g class="pk-layer" data-k="pk"></g>';
   b += g(
@@ -323,7 +326,7 @@ export function ipv6(): string {
   return svg(
     "ipv6",
     "0 0 600 440",
-    "The IPv6 move: a cluster’s address tag flips from IPv4 to IPv6. Traffic to an IPv4-only service goes through a DNS64/NAT64 translator. Traffic to a private database that answers on both an IPv4 and an IPv6 address waits at a closed gate until hypercare opens it for IPv6.",
+    "The IPv6 move: a cluster’s address tag flips from IPv4 to IPv6. Traffic to an IPv4-only service goes through a DNS64/NAT64 translator. Internal traffic to the private services, such as databases, also goes through NAT64 and piles up at a barrier marked “NAT64 cost”, which lifts once hypercare has fixed it.",
     b,
   );
 }
@@ -373,7 +376,7 @@ export function learned(): string {
   return svg(
     "learned",
     "0 0 600 440",
-    "A single commit goes out to all eight clusters, and they update one after another.",
+    "A single commit goes out to the AWS clusters, and they update one after another.",
     b,
   );
 }
