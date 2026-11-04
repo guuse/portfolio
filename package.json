@@ -15,7 +15,7 @@
     "build": "npm run tokens && astro build",
     "preview": "astro preview",
     "tokens": "node scripts/build-tokens.mjs",
-    "lint": "astro sync && eslint .",
+    "lint": "npm run tokens && astro sync && eslint .",
     "lint:css": "stylelint \"src/**/*.{css,astro}\"",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
