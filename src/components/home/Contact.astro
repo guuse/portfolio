@@ -4,7 +4,7 @@ import Section from "~/components/ui/Section.astro";
 import { emailHtml, site } from "~/lib/site";
 ---
 
-<Section id="contact" title="Contact">
+<Section id="contact" title="Contact" lazy>
   <p class="contact__mail">
     {/* a break, if one is ever needed, goes before the @ and never inside a word */}
     <a id="mail-address" href={`mailto:${site.email}`} set:html={emailHtml} />

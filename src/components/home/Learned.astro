@@ -6,6 +6,6 @@ import Section from "~/components/ui/Section.astro";
 const principles = await list("principles");
 ---
 
-<Section id="learned" title="What I’ve learned">
+<Section id="learned" title="What I’ve learned" lazy>
   <DefList items={principles.map((data) => ({ term: data.title, detail: data.text }))} />
 </Section>

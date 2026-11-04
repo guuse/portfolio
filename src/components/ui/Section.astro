@@ -10,8 +10,10 @@ interface Props {
   variant?: "about" | "closing" | undefined;
   /** Extra classes for the body (e.g. "prose"). */
   bodyClass?: string | undefined;
+  /** Renders only near the window until it's needed (the homepage's lazy parts, index.astro). */
+  lazy?: boolean | undefined;
 }
-const { id, title, variant, bodyClass } = Astro.props;
+const { id, title, variant, bodyClass, lazy } = Astro.props;
 const headingId = id ? `${id}-title` : undefined;
 ---
 
@@ -19,6 +21,7 @@ const headingId = id ? `${id}-title` : undefined;
   class:list={["sec", variant && `sec--${variant}`]}
   id={id}
   aria-labelledby={title ? headingId : undefined}
+  data-lazy={lazy ? "" : undefined}
 >
   {title && <h2 class="sec__h" id={headingId} set:html={title} />}
   <div class:list={["sec__body", bodyClass]}>

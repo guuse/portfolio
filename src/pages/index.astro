@@ -36,19 +36,20 @@ import Skills from "~/components/home/Skills.astro";
      * close to its real one (its content box, measured at 412px and 1440px) until it has rendered once; after
      * that `auto` remembers the real one. Anchors, the nav's scroll-spy and the reveals all
      * read boxes, which these still have. The paint containment that comes with it would
-     * clip focus rings at a section's edge, hence the clip margin.
+     * clip focus rings at a section's edge, hence the clip margin. The parts carry `data-lazy`
+     * (src/scripts/anchors.ts selects on it too).
      */
-    :global(:is(#about, #projects, #experience, #learned, #skills, #contact, .phase > ul)) {
+    :global([data-lazy]) {
       content-visibility: auto;
       overflow-clip-margin: 8px;
     }
 
     /*
      * Rendered for good: everything above a place the page jumps to (a #fragment, coming
-     * back), and what scrolling is about to reach, a screen ahead (src/scripts/anchors.ts,
-     * which has this list too). A jump aimed at placeholders would land off by their error.
+     * back), and what scrolling is about to reach, a screen ahead (src/scripts/anchors.ts).
+     * A jump aimed at placeholders would land off by their error.
      */
-    :global(:is(#about, #projects, #experience, #learned, #skills, #contact, .phase > ul).cv-on) {
+    :global([data-lazy].cv-on) {
       content-visibility: visible;
     }
 
@@ -68,12 +69,12 @@ import Skills from "~/components/home/Skills.astro";
      * Inside Experience, each phase's list renders on its own too: the whole section at once
      * was a long task mid-scroll. (Not the phases themselves: their dots sit outside them.)
      */
-    :global(.phase > ul) {
+    :global(.phase > ul[data-lazy]) {
       contain-intrinsic-block-size: auto 300px;
     }
 
     :global(#learned) {
-      contain-intrinsic-block-size: auto 940px;
+      contain-intrinsic-block-size: auto 380px;
     }
 
     :global(#skills) {
@@ -98,7 +99,7 @@ import Skills from "~/components/home/Skills.astro";
       }
 
       :global(#learned) {
-        contain-intrinsic-block-size: auto 670px;
+        contain-intrinsic-block-size: auto 240px;
       }
 
       :global(#skills) {
@@ -112,7 +113,7 @@ import Skills from "~/components/home/Skills.astro";
 
     /* paper gets the whole page, every section laid out */
     @media print {
-      :global(:is(#about, #projects, #experience, #learned, #skills, #contact, .phase > ul)) {
+      :global([data-lazy]) {
         content-visibility: visible;
       }
     }
