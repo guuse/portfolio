@@ -24,20 +24,35 @@ function safely(name: string, init: () => void): void {
   }
 }
 
+/**
+ * Runs `init` in a task of its own once the page has painted: a frame, then a task after it.
+ * What measures the page (the nav's underline, which sections start below the fold, the
+ * timeline) waits for this, so the module itself never forces a style or layout pass, and
+ * each part's work stays a short task of its own.
+ */
+const afterPaint = (name: string, init: () => void): void => {
+  requestAnimationFrame(() => setTimeout(() => safely(name, init), 0));
+};
+
 // first: the new page's view transition is set up before its first frame
 safely("page transitions", initPageTransitions);
 const scheduler = browserScheduler();
 
+// now: the copy buttons are shown, and a click on an in-page link is smooth from the start
 safely("copy email", initCopyEmail);
 safely("smooth anchors", initSmoothAnchors);
-safely("nav", initNav);
-safely("prints", initPrints);
-safely("lightbox", initLightbox);
-safely("easter eggs", initEasterEggs);
+// a frame later, each in a task of its own: listeners for things a reader does later
+afterPaint("prints", initPrints);
+afterPaint("lightbox", initLightbox);
+afterPaint("easter eggs", initEasterEggs);
 
-if (motionOk() && "IntersectionObserver" in window) {
-  safely("reveal", initReveal);
-  safely("scroll effects", () => initScrollEffects(scheduler));
+const motion = motionOk() && "IntersectionObserver" in window;
+// reveal first: it reads every position before anything else has written
+if (motion) afterPaint("reveal", initReveal);
+afterPaint("nav", initNav);
+
+if (motion) {
+  afterPaint("scroll effects", () => initScrollEffects(scheduler));
   // The drawings' runtime is only fetched on pages that have drawings, and only once the
   // page has loaded and the main thread is idle: the stills are already on screen. The
   // controller and the animators for this page's drawings load in parallel.

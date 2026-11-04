@@ -6,13 +6,104 @@
  * Everything is gated on `.reveal`, which only JavaScript adds, and only to elements that
  * start below the fold; without JS or with reduced motion nothing here applies.
  */
+
 @layer utilities {
+  /*
+   * Each item's place in a reveal set, from its data-i (the CSP allows no style attributes).
+   * In the stylesheet rather than set by script, it costs nothing when the page starts.
+   * data-i="0" is the default; reveal.ts sets anything past 15.
+   */
+  .reveal-set [data-i="1"] {
+    --i: 1;
+  }
+
+  .reveal-set [data-i="2"] {
+    --i: 2;
+  }
+
+  .reveal-set [data-i="3"] {
+    --i: 3;
+  }
+
+  .reveal-set [data-i="4"] {
+    --i: 4;
+  }
+
+  .reveal-set [data-i="5"] {
+    --i: 5;
+  }
+
+  .reveal-set [data-i="6"] {
+    --i: 6;
+  }
+
+  .reveal-set [data-i="7"] {
+    --i: 7;
+  }
+
+  .reveal-set [data-i="8"] {
+    --i: 8;
+  }
+
+  .reveal-set [data-i="9"] {
+    --i: 9;
+  }
+
+  .reveal-set [data-i="10"] {
+    --i: 10;
+  }
+
+  .reveal-set [data-i="11"] {
+    --i: 11;
+  }
+
+  .reveal-set [data-i="12"] {
+    --i: 12;
+  }
+
+  .reveal-set [data-i="13"] {
+    --i: 13;
+  }
+
+  .reveal-set [data-i="14"] {
+    --i: 14;
+  }
+
+  .reveal-set [data-i="15"] {
+    --i: 15;
+  }
+
   .js-reveal .reveal {
     opacity: 0;
     transform: translate3d(0, 14px, 0);
     transition:
-      opacity var(--duration-reveal) var(--ease-out) var(--rd, 0ms),
-      transform var(--duration-reveal) var(--ease-out) var(--rd, 0ms);
+      opacity var(--duration-reveal) var(--ease-out),
+      transform var(--duration-reveal) var(--ease-out);
+  }
+
+  /*
+   * Each tagged element waits a little longer than its previous sibling, up to five steps.
+   * In the stylesheet, as a plain transition-delay: written by script as a custom property,
+   * it restyled everything inside each section the moment the page was tagged.
+   */
+  .js-reveal .reveal:nth-child(2) {
+    transition-delay: 70ms;
+  }
+
+  .js-reveal .reveal:nth-child(3) {
+    transition-delay: 140ms;
+  }
+
+  .js-reveal .reveal:nth-child(4) {
+    transition-delay: 210ms;
+  }
+
+  .js-reveal .reveal:nth-child(5) {
+    transition-delay: 280ms;
+  }
+
+  .js-reveal .reveal:nth-child(n + 6) {
+    transition-delay: 350ms;
   }
 
   .js-reveal .reveal.is-in {

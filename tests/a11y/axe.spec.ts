@@ -10,14 +10,23 @@ for (const width of [390, 1440]) {
     for (const path of [...PAGES, "/404.html"]) {
       test(`${path} has no axe violations`, async ({ page }) => {
         await page.goto(path);
+        // reveal.ts tags what starts below the fold once the page has painted
+        await page.waitForFunction(() => document.documentElement.classList.contains("js-reveal"));
         // reveal everything first, so axe sees the page as a reader does
         for (const el of await page.locator(".reveal").all()) {
           await el.evaluate((node) => node.scrollIntoView({ block: "center", behavior: "instant" }));
           await expect(el).toHaveClass(/\bis-in\b/);
         }
         await page.evaluate(() => scrollTo(0, 0));
+        // what isn't rendered (content-visibility, off screen) doesn't animate: finish it
         await page.evaluate(() =>
-          Promise.all(document.getAnimations().map((a) => a.finished.catch(() => undefined))),
+          Promise.all(
+            document.getAnimations().map((a) => {
+              const el = (a.effect as KeyframeEffect | null)?.target;
+              if (el && !el.checkVisibility({ contentVisibilityAuto: true })) a.finish();
+              return a.finished.catch(() => undefined);
+            }),
+          ),
         );
         const results = await new AxeBuilder({ page }).withTags(TAGS).analyze();
         expect(

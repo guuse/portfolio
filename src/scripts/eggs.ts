@@ -159,7 +159,9 @@ function konami(): void {
 }
 
 export function initEasterEggs(): void {
-  postcard();
+  // nobody needs it soon: it waits for an idle moment (and reads the style once it's clean)
+  if ("requestIdleCallback" in window) requestIdleCallback(postcard, { timeout: 3000 });
+  else setTimeout(postcard, 1000);
   shortcuts();
   konami();
 }

@@ -17,8 +17,9 @@ the same in `astro preview` (where the tests run) and in production.
   headers). The meta's directives are in `astro.config.ts`; the header's are in
   `infrastructure/nginx/security-headers.conf`, and `infrastructure/README.md` explains the split.
 - What that rules out, and how the code works around it:
-  - **No `style=""` attributes**, including in generated SVG: stagger indices are `data-i`
-    and set through the CSSOM; token previews are generated classes.
+  - **No `style=""` attributes**, including in generated SVG: stagger indices are `data-i`,
+    which motion.css maps to `--i` (anything past 15 is set through the CSSOM); token
+    previews are generated classes.
   - **No HTML from strings** in the browser: packets are built with `createElementNS`;
     copies of drawings are cloned nodes.
   - **No inline handlers, `is:inline` scripts, Shiki, or `<ClientRouter />`.**
