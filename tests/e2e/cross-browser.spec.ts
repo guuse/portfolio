@@ -136,3 +136,57 @@ test.describe("scroll scenes, narrow", () => {
     expect(errors).toEqual([]);
   });
 });
+
+/*
+ * The homepage renders its sections only near the window, with placeholder heights that are
+ * right at one width only: a jump to a section (the nav, a #fragment load, coming back from a
+ * case study) must land on its real place anyway, in every engine.
+ */
+test.describe("homepage anchors", () => {
+  /** How far (px) the section's top is from where a #fragment puts it; 0 at the page's end is fine too. */
+  const offBy = (page: Page, id: string) =>
+    page.evaluate((id) => {
+      const el = document.getElementById(id)!;
+      const want =
+        parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) +
+        parseFloat(getComputedStyle(el).scrollMarginTop);
+      const off = el.getBoundingClientRect().top - want;
+      const atEnd = scrollY >= document.documentElement.scrollHeight - innerHeight - 1;
+      return atEnd && off > 0 ? 0 : Math.round(off);
+    }, id);
+  const still = (page: Page) =>
+    expect
+      .poll(
+        async () => {
+          const a = await page.evaluate(() => scrollY);
+          await page.waitForTimeout(250);
+          return (await page.evaluate(() => scrollY)) === a;
+        },
+        { timeout: 6000 },
+      )
+      .toBe(true);
+
+  for (const [w, h] of [
+    [844, 390],
+    [1280, 800],
+  ] as const) {
+    test(`the nav's section links land on their sections at ${w}×${h}`, async ({ page }) => {
+      await page.setViewportSize({ width: w, height: h });
+      for (const [id, name] of [
+        ["experience", "Experience"],
+        ["contact", "Contact"],
+      ] as const) {
+        await page.goto("/");
+        await page.getByRole("navigation", { name: "Main" }).getByRole("link", { name, exact: true }).click();
+        await expect(page).toHaveURL(new RegExp(`#${id}$`));
+        await still(page);
+        expect(Math.abs(await offBy(page, id))).toBeLessThanOrEqual(4);
+        // and from another page, a load with the #fragment
+        await page.goto("/projects/");
+        await page.goto(`/#${id}`);
+        await still(page);
+        expect(Math.abs(await offBy(page, id))).toBeLessThanOrEqual(4);
+      }
+    });
+  }
+});

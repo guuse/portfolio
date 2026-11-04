@@ -5,7 +5,7 @@
 import { initPageTransitions } from "./page-transitions";
 import { drawingIds, loadAnimators } from "~/lib/motion/registry";
 import { browserScheduler } from "~/lib/motion/scheduler";
-import { initSmoothAnchors } from "./anchors";
+import { initAnchors } from "./anchors";
 import { initCopyEmail } from "./copy-email";
 import { initEasterEggs } from "./eggs";
 import { initLightbox } from "./lightbox";
@@ -24,14 +24,33 @@ function safely(name: string, init: () => void): void {
   }
 }
 
+/** Gives the main thread back between two steps: scheduler.yield where there is one. */
+const yieldNow = (): Promise<void> => {
+  const s = (globalThis as { scheduler?: { yield?: () => Promise<void> } }).scheduler;
+  return s?.yield ? s.yield() : new Promise((resolve) => setTimeout(resolve, 0));
+};
+
 /**
- * Runs `init` in a task of its own once the page has painted: a frame, then a task after it.
- * What measures the page (the nav's underline, which sections start below the fold, the
- * timeline) waits for this, so the module itself never forces a style or layout pass, and
- * each part's work stays a short task of its own.
+ * Runs the steps in order once the page has painted (a frame, then a task after it), each in
+ * a task of its own, the main thread given back between them: what measures the page (the
+ * nav's underline, which sections start below the fold, the timeline) waits for this, so the
+ * module itself never forces a style or layout pass and no step adds to another's long task.
  */
-const afterPaint = (name: string, init: () => void): void => {
-  requestAnimationFrame(() => setTimeout(() => safely(name, init), 0));
+type Step = [name: string, init: () => void];
+const afterPaint = (steps: Step[]): void => {
+  const run = async (): Promise<void> => {
+    for (const [name, init] of steps) {
+      safely(name, init);
+      await yieldNow();
+    }
+  };
+  requestAnimationFrame(() => setTimeout(() => void run(), 0));
+};
+
+/** Runs `init` when the main thread is idle: for what nobody needs in the first seconds. */
+const whenIdle = (name: string, init: () => void): void => {
+  if ("requestIdleCallback" in window) requestIdleCallback(() => safely(name, init), { timeout: 2000 });
+  else setTimeout(() => safely(name, init), 300);
 };
 
 // first: the new page's view transition is set up before its first frame
@@ -40,19 +59,20 @@ const scheduler = browserScheduler();
 
 // now: the copy buttons are shown, and a click on an in-page link is smooth from the start
 safely("copy email", initCopyEmail);
-safely("smooth anchors", initSmoothAnchors);
-// a frame later, each in a task of its own: listeners for things a reader does later
-afterPaint("prints", initPrints);
-afterPaint("lightbox", initLightbox);
-afterPaint("easter eggs", initEasterEggs);
+safely("anchors", initAnchors);
 
 const motion = motionOk() && "IntersectionObserver" in window;
-// reveal first: it reads every position before anything else has written
-if (motion) afterPaint("reveal", initReveal);
-afterPaint("nav", initNav);
+// a frame later, one step at a time: reveal first (it reads every position before anything
+// else has written), then the nav, then what moves with the scroll
+const reveal: Step[] = motion ? [["reveal", initReveal]] : [];
+const effects: Step[] = motion ? [["scroll effects", () => initScrollEffects(scheduler)]] : [];
+afterPaint([...reveal, ["nav", initNav], ...effects]);
+// listeners for things a reader does later, each in an idle moment of its own
+whenIdle("prints", initPrints);
+whenIdle("lightbox", initLightbox);
+whenIdle("easter eggs", initEasterEggs);
 
 if (motion) {
-  afterPaint("scroll effects", () => initScrollEffects(scheduler));
   // The drawings' runtime is only fetched on pages that have drawings, and only once the
   // page has loaded, a drawing is near and the main thread is idle: the stills are already
   // on screen. The controller and the animators for this page's drawings load in parallel.

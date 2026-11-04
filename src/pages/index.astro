@@ -43,6 +43,15 @@ import Skills from "~/components/home/Skills.astro";
       overflow-clip-margin: 8px;
     }
 
+    /*
+     * Rendered for good: everything above a place the page jumps to (a #fragment, coming
+     * back), and what scrolling is about to reach, a screen ahead (src/scripts/anchors.ts,
+     * which has this list too). A jump aimed at placeholders would land off by their error.
+     */
+    :global(:is(#about, #projects, #experience, #learned, #skills, #contact, .phase > ul).cv-on) {
+      content-visibility: visible;
+    }
+
     :global(#about) {
       contain-intrinsic-block-size: auto 850px;
     }
