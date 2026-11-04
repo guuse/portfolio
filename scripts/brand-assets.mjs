@@ -13,6 +13,8 @@ import { createRequire } from "node:module";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { chromium } from "@playwright/test";
 import sharp from "sharp";
+// the generated token map (npm run tokens); Node runs the TypeScript as it is
+import { tokens } from "../src/styles/tokens.ts";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
 const pub = (p) => `${root}public/${p}`;
@@ -52,6 +54,8 @@ const CARDS = [
     art: "covers/mtg-wide.webp",
     // the cover's caption sits at its right edge, so anchor the crop there
     pos: "100% 50%",
+    // the screenshots are full of text: none of it under the headline
+    fade: `${NAVY} 0%, ${NAVY} 31%, transparent 58%`,
   },
   {
     id: "hosting-platform",
@@ -76,12 +80,61 @@ const CARDS = [
   },
   {
     id: "design-system",
-    kicker: "ekkelenkamp.dev",
+    kicker: "Behind this site",
     title: "Design system",
     line: "Tokens, type, components, the illustration kit and its motion.",
-    art: "covers/platform-wide.webp",
+    // its own drawing: the palette, the three typefaces and a few parts of the kit
+    html: () => designSystemArt(),
   },
 ];
+
+const hex = (name) => {
+  const t = tokens[name];
+  if (!t?.hex) throw new Error(`brand-assets: no hex for token ${name}`);
+  return t.hex;
+};
+
+/** The design system's card art: swatch ramps from the tokens, a type specimen, kit parts. */
+function designSystemArt() {
+  const ramps = [
+    ["navy-210", "navy-280", "navy-360", "navy-430", "navy-480"],
+    ["cloud-680", "cloud-760", "cloud-800", "cloud-960"],
+    ["amber-500", "amber-660", "amber-840"],
+    ["sky-480", "sky-640", "sky-800"],
+  ];
+  const sw = ramps
+    .map(
+      (ramp, r) =>
+        `<g transform="translate(0 ${r * 84})">` +
+        ramp
+          .map(
+            (n, i) =>
+              `<rect x="${i * 70}" width="54" height="54" rx="8" fill="${hex(n)}" stroke="${hex("navy-360")}"/>` +
+              `<text x="${i * 70 + 27}" y="71" text-anchor="middle" class="lbl">${n.split("-")[1]}</text>`,
+          )
+          .join("") +
+        `<text x="${ramp.length * 70 + 4}" y="33" class="lbl lbl--name">${ramp[0].split("-")[0]}</text></g>`,
+    )
+    .join("");
+  // a packet (the kit's capsule) and a pod, drawn as the kit draws them
+  const packet = (x, y, r) =>
+    `<g transform="translate(${x} ${y}) rotate(${r}) scale(2.2)"><rect x="-8" y="-4.5" width="16" height="9" rx="2" fill="${hex("amber-840")}"/><rect x="3" y="-4.5" width="5" height="9" rx="1.5" fill="${hex("amber-660")}"/><path d="M-4.5 -1.2H0.5M-4.5 1.4H-1" stroke="${hex("navy-280")}" stroke-width="1" stroke-linecap="round"/></g>`;
+  const pod = (x, y, on) =>
+    `<rect x="${x}" y="${y}" width="34" height="34" rx="6" fill="${on ? hex("cloud-760") : hex("navy-280")}" stroke="${hex("navy-480")}"/>` +
+    (on ? `<rect x="${x + 9}" y="${y + 23}" width="16" height="4" rx="2" fill="${hex("navy-360")}"/>` : "");
+  return `<svg class="ds-art" viewBox="0 0 520 560" width="520" height="560">
+<style>.lbl{font:400 13px "OG Mono";fill:${hex("cloud-680")}}.lbl--name{font-size:15px;fill:${hex("cloud-800")}}</style>
+<g transform="translate(10 34)">${sw}</g>
+<g transform="translate(10 378)">
+<text x="0" y="86" style="font:400 112px 'OG Serif';fill:${hex("cloud-960")}">Aa</text>
+<text x="146" y="86" style="font:600 80px 'OG Sans';fill:${hex("cloud-800")}">Aa</text>
+<text x="300" y="84" style="font:400 62px 'OG Mono';fill:${hex("cloud-680")}">{}</text>
+<rect x="0" y="112" width="500" height="1" fill="${hex("navy-360")}"/>
+<g transform="translate(0 132)">${pod(0, 0, true)}${pod(42, 0, true)}${pod(84, 0, true)}${pod(126, 0, false)}</g>
+${packet(250, 149, 0)}${packet(330, 142, -14)}
+<path d="M200 149H232M276 149H306" stroke="${hex("navy-480")}" stroke-width="2" stroke-dasharray="5 7" stroke-linecap="round"/>
+</g></svg>`;
+}
 
 const card = (c) => `<!doctype html><meta charset="utf-8"><style>
 @font-face { font-family: "OG Serif"; src: url(${font("@fontsource/instrument-serif", "instrument-serif-latin-400-normal.woff2")}); }
@@ -89,7 +142,9 @@ const card = (c) => `<!doctype html><meta charset="utf-8"><style>
 * { margin: 0; box-sizing: border-box; }
 body { width: 1200px; height: 630px; overflow: hidden; background: ${NAVY}; color: ${INK}; font-family: "OG Sans"; position: relative; }
 .art { position: absolute; inset: 0 0 0 auto; width: 760px; background: url(${asset(c.art)}) ${c.pos ?? "70% 50%"} / cover; }
-.art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, ${NAVY} 0%, transparent 55%); }
+.art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, ${c.fade ?? `${NAVY} 0%, transparent 55%`}); }
+@font-face { font-family: "OG Mono"; src: url(${font("@fontsource/geist-mono", "geist-mono-latin-400-normal.woff2")}); }
+.ds-art { position: absolute; right: 56px; top: 36px; }
 .print { position: absolute; right: 120px; top: 120px; width: 330px; height: 330px; padding: 10px; background: #f8f6f1; transform: rotate(2deg); box-shadow: 0 14px 40px #0008; }
 .print img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .text { position: absolute; left: 72px; top: 0; bottom: 0; width: 640px; display: flex; flex-direction: column; justify-content: center; gap: 22px; }
@@ -99,7 +154,7 @@ p { color: ${MUTED}; font-size: 28px; line-height: 1.35; max-width: 560px; }
 .url { position: absolute; left: 72px; bottom: 48px; font-size: 22px; color: ${SUBTLE}; }
 .url b { color: ${AMBER}; font-weight: 500; }
 </style>
-${c.print ? `<div class="print"><img src="${asset(c.art)}"></div>` : `<div class="art"></div>`}
+${c.html ? c.html() : c.print ? `<div class="print"><img src="${asset(c.art)}"></div>` : `<div class="art"></div>`}
 <div class="text"><div class="kicker">${c.kicker}</div><h1>${c.title}</h1><p>${c.line.replace("&", "&amp;")}</p></div>
 <div class="url"><b>●</b> ekkelenkamp.dev</div>`;
 
