@@ -20,8 +20,9 @@ the same in `astro preview` (where the tests run) and in production.
     copies of drawings are cloned nodes.
   - **No inline handlers, `is:inline` scripts, Shiki, or `<ClientRouter />`.**
 - Stylesheets are inlined (hashed), and a small Vite plugin starts every stylesheet module
-  with the cascade layer order, so `@layer reset, tokens, base, layout, components,
-utilities` holds whichever module a page happens to load first.
+  with the cascade layer order, so
+  `@layer reset, tokens, base, layout, components, utilities` holds whichever module a page
+  happens to load first.
 
 ## Consequences
 

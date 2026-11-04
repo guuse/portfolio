@@ -3,8 +3,8 @@
  * rate), they fade in when they appear and out at the end of their last segment.
  *
  * Nothing ever asks the DOM where a path goes: each route's `d` is sampled once into a lookup
- * table (track(); the sampler is in ~/lib/art/geometry) when an animator is built or a packet first uses it, and packets
- * are placed by interpolating that table.
+ * table (track(); the sampler is in ~/lib/art/geometry) when an animator is built or a packet
+ * first uses it, and packets are placed by interpolating that table.
  */
 import { PACKET_PARTS } from "~/lib/art/packet";
 import { fade, SVG_NS } from "./dom";

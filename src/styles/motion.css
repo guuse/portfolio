@@ -60,7 +60,8 @@
 /*
  * Page to page: a cross-document view transition (CSS, no router). The page crossfades; the
  * one project the navigation is about carries its drawing over, from card to case-study hero
- * and back (src/scripts/page-transitions.ts picks it). Titles don't morph: they differ too much in size, so they crossfade with the page.
+ * and back (src/scripts/page-transitions.ts picks it). Titles don't morph: they differ too much
+ * in size, so they crossfade with the page.
  * Browsers without cross-document view transitions ignore all of it and simply navigate.
  * The names are classes, not style attributes (the CSP allows none), so each project is
  * listed here.

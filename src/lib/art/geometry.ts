@@ -41,8 +41,8 @@ export interface PathPoint {
 }
 
 /**
- * Pieces per cubic. The still frames were laid out with 24 (their markup matches the mock);
- * the runtime uses 32, finer than a pixel at any size the drawings are shown.
+ * Pieces per cubic. The still frames are laid out with 24, the count their parts were placed
+ * with; the runtime uses 32, finer than a pixel at any size the drawings are shown.
  */
 const STILL_SEGMENTS = 24;
 export const TRACK_SEGMENTS = 32;

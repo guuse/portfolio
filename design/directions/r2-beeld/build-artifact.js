@@ -48,10 +48,10 @@ const SHOT = {
   "tutor-insights": ["Tutor listing staple cards the deck is missing", "Staples the deck is missing."],
   "tutor-mobile": ["Tutor on a phone", "On a phone.", true],
   "tutor-mobile-deck": ["A Tutor deck on a phone", "A deck on a phone.", true],
-  "scryfall-home": ["Scryfall in plain words: a search box with a plain-language request and suggestion chips", "Describe the cards in normal words; the query is written and checked for you."],
-  "scryfall-home-mobile": ["Scryfall in plain words on a phone", "On a phone.", true],
-  "scryfall-result": ["Scryfall in plain words: a request turned into a query, with a breakdown of each part", "A request in plain words, the query it became, and what each part means."],
-  "scryfall-mobile": ["Scryfall in plain words on a phone", "On a phone.", true],
+  "scryfall-home": ["Scryfall, in plain words: a search box with a plain-language request and suggestion chips", "Describe the cards in normal words; the query is written and checked for you."],
+  "scryfall-home-mobile": ["Scryfall, in plain words, on a phone", "On a phone.", true],
+  "scryfall-result": ["Scryfall, in plain words: a request turned into a query, with a breakdown of each part", "A request in plain words, the query it became, and what each part means."],
+  "scryfall-mobile": ["Scryfall, in plain words, on a phone", "On a phone.", true],
   "mtg-skills-banner": ["MTG Skills for Claude Code banner", "The plugin marketplace."]
 };
 const SLOTS = {
@@ -132,11 +132,11 @@ function grid(slot) {
     return res;
   }, THUMBS);
   await browser.close();
-  let cv = read("index.html");
-  cv = cv.replace(/<!-- thumb:([a-z]+) -->[\s\S]*?<!-- \/thumb -->/g, (m, id) => "<!-- thumb:" + id + " -->" + thumbs[id] + "<!-- /thumb -->");
-  cv = cv.replace(/<!-- card:([a-z]+) -->[\s\S]*?<!-- \/card -->/g, (m, id) => "<!-- card:" + id + " -->" + ART.card(id) + "<!-- /card -->");
-  cv = cv.replace(/<!-- shot:thumb -->[\s\S]*?<!-- \/shot -->/g, () => { const id = pick("thumb")[0]; return "<!-- shot:thumb -->" + (id ? img(id, true).replace(/alt="[^"]*"/, 'alt=""') : "") + "<!-- /shot -->"; });
-  write("index.html", cv);
+  let home = read("index.html");
+  home = home.replace(/<!-- thumb:([a-z]+) -->[\s\S]*?<!-- \/thumb -->/g, (m, id) => "<!-- thumb:" + id + " -->" + thumbs[id] + "<!-- /thumb -->");
+  home = home.replace(/<!-- card:([a-z]+) -->[\s\S]*?<!-- \/card -->/g, (m, id) => "<!-- card:" + id + " -->" + ART.card(id) + "<!-- /card -->");
+  home = home.replace(/<!-- shot:thumb -->[\s\S]*?<!-- \/shot -->/g, () => { const id = pick("thumb")[0]; return "<!-- shot:thumb -->" + (id ? img(id, true).replace(/alt="[^"]*"/, 'alt=""') : "") + "<!-- /shot -->"; });
+  write("index.html", home);
 
   // 3. the publishable set
   fs.rmSync(out, { recursive: true, force: true });
@@ -146,8 +146,8 @@ function grid(slot) {
   for (const f of PAGES) fs.copyFileSync(path.join(dir, f), path.join(out, f));
 
   // The homepage as a fragment: the publisher wraps it in a document.
-  const head = cv.slice(cv.indexOf("<title>"), cv.indexOf("</head>")).replace(/<meta name="viewport"[^>]*>\n?/, "");
-  const body = cv.slice(cv.indexOf("<!-- page:start -->") + "<!-- page:start -->".length, cv.indexOf("<!-- page:end -->"));
+  const head = home.slice(home.indexOf("<title>"), home.indexOf("</head>")).replace(/<meta name="viewport"[^>]*>\n?/, "");
+  const body = home.slice(home.indexOf("<!-- page:start -->") + "<!-- page:start -->".length, home.indexOf("<!-- page:end -->"));
   const fragment = head.replace(/^(<title>[^<]*<\/title>)/, '$1\n<meta name="claude:viewport-fit-sides" content="cover">').trim() +
     "\n" + body.trim() + '\n<script src="site.js"></script>\n<script src="scenes.js"></script>\n';
   fs.writeFileSync(path.join(out, "index.html"), fragment);

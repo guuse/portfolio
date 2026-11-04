@@ -4,7 +4,7 @@
 
 ## Context
 
-The site is a CV, a projects page and three case studies. The content changes a few times a
+The site is a homepage, a projects page and three case studies. The content changes a few times a
 year; the drawings and motion are the only interactive parts. It is served from a homelab, so
 whatever runs there should be boring.
 
@@ -12,9 +12,10 @@ whatever runs there should be boring.
 
 - **Astro 7**, `output: "static"`, TypeScript in strict mode. Every page is pre-rendered.
 - **No UI framework.** Interactivity is a handful of vanilla TypeScript modules loaded through
-  Astro's `<script>` (bundled, deferred, hashed into the CSP). The heaviest page ships about
-  19 KB of script, gzipped (the homepage, with all three card drawings); a case study 14–17 KB.
-- **Copy that Guus edits** (experience, interests, skills, projects) lives in content
+  Astro's `<script>` (bundled, deferred, hashed into the CSP). The heaviest pages load about
+  17 KB of script, gzipped (the homepage and the projects page, with the animated card drawings); a
+  case study 13–16 KB. Measured on the November 2026 build, after scrolling each page through.
+- **Copy I edit** (experience, interests, skills, projects) lives in content
   collections as YAML with zod schemas. Case-study narrative stays in the `.astro` page, next
   to the scenes it describes.
 - URLs end in a slash (`trailingSlash: "always"`, `build.format: "directory"`), which matches

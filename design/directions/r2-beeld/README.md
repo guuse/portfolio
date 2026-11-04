@@ -320,11 +320,11 @@ detail-*-N, mobile-detail-*, lightbox, reduced-motion, lift, system).
 10. Re-checked with the hostile reset at 1440, 390 and 320px: no errors, no horizontal scroll,
     no label overflow. Previews: `design/previews/r7-beeld--*.png`.
 
-## Round 8: a calm CV and separate project pages
+## Round 8: a calm homepage and separate project pages
 Source: `design/CONTENT-v7.md` (synthesis of four reviews). §E (anti-"AI vibe") is treated as hard rules.
 
 - **Pages:**
-  - `index.html` is the CV (≈430 words): intro with a straight portrait and contact row,
+  - `index.html` is the homepage (≈430 words): intro with a straight portrait and contact row,
     Experience as phases at one employer, Skills as a typeset list, Selected work (3 rows with
     static thumbnails) plus Also, About with two photos and languages, Contact.
   - `platform.html`, `homelab.html` and `mtg.html` are the case studies. Each follows: context,
@@ -337,7 +337,7 @@ Source: `design/CONTENT-v7.md` (synthesis of four reviews). §E (anti-"AI vibe")
   - mono micro-labels;
   - the status line, the "Now" dot, the ruler and mat;
   - tilted prints and the italic squiggle word;
-  - card grids and chips on the CV;
+  - card grids and chips on the homepage;
   - the three accent colours (diagrams now use the single amber accent; the three ways in
     differ by line style).
 - **Diagram corrections (§D):**
@@ -351,8 +351,8 @@ Source: `design/CONTENT-v7.md` (synthesis of four reviews). §E (anti-"AI vibe")
   - `site.css` is one unlayered stylesheet (replaces `beeld.css`);
   - `site.js` handles the copy button, nav tracking, diagram mount and lightbox;
   - `diagrams.js`;
-  - `build-artifact.js` bakes diagrams into the pages and renders the CV thumbnails once in
-    their final state (needs Playwright). It writes `artifact/` with the CV fragment, the three
+  - `build-artifact.js` bakes diagrams into the pages and renders the homepage thumbnails once in
+    their final state (needs Playwright). It writes `artifact/` with the homepage fragment, the three
     full documents, the shared CSS and JS, and `assets/`.
 - **Iterations:**
   1. Built everything, screenshotted it behind the hostile reset, and grepped for the banned
@@ -364,7 +364,7 @@ Source: `design/CONTENT-v7.md` (synthesis of four reviews). §E (anti-"AI vibe")
      "nearest cluster" wording fixed, new `system.html`.
 
 ## Round 9 (fresh-review fixes)
-- **CV:**
+- **Homepage:**
   - years on every phase, and no "current role" chip;
   - new role line, which breaks onto separate lines on mobile;
   - "Moving" to Pulumi;

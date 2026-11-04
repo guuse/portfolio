@@ -8,4 +8,4 @@ console.error(`
      \\      /     This repo brews websites, not coffee.
       \`----'      Try: npm run dev
 `);
-process.exitCode = 18;
+process.exitCode = 18; // 418 % 400: exit codes stop at 255

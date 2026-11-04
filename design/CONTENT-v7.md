@@ -1,7 +1,7 @@
-# v7: CV homepage + separate project pages (synthesis of four reviews)
+# v7: a calm homepage + separate project pages (synthesis of four reviews)
 
 Guus: *"It still feels like a mess and a dump of info on the homepage. Organise it. The homepage
-should feel like a CV that links to the projects where things are implemented. Get rid of the
+should feel like a homepage that links to the projects where things are implemented. Get rid of the
 AI-created vibe."*
 
 Four independent reviews (visual designer, hiring manager + recruiter, senior SRE peer,
@@ -11,7 +11,7 @@ Their raw reports were working notes and aren't kept; this is what they agreed o
 ---
 
 ## A. Site map
-- `/` (`index.html`): **the CV.** About 3 desktop screens, ≤ 550 words. No diagrams, no
+- `/` (`index.html`): **the homepage.** About 3 desktop screens, ≤ 550 words. No diagrams, no
   animation beyond subtle hover states.
 - `/projects/hosting-platform` (`platform.html`): case study, work.
 - `/projects/homelab` (`homelab.html`): case study, personal.
@@ -19,7 +19,7 @@ Their raw reports were working notes and aren't kept; this is what they agreed o
 - Each project is a **real page with its own URL** (not a modal). In the artifact, publish them
   as separate HTML files next to the homepage.
 
-## B. Homepage (CV), in this order
+## B. Homepage, in this order
 1. **Header:** name (links home) · nav: Experience · Projects · About · Contact.
 2. **Intro** (one screen, left text, one straight portrait on the right; no mat, no ruler, no
    tilted prints, no italic accent word, no squiggle):
@@ -28,7 +28,7 @@ Their raw reports were working notes and aren't kept; this is what they agreed o
    - Two sentences: *I build and run the platforms our client projects run on: Kubernetes,
      GitOps and infrastructure as code on AWS and Azure. Ten years at the same agency, from
      front-end intern to leading the infra team, and I still write code most days.*
-   - Contact row right there: email · LinkedIn · GitHub (· CV PDF later).
+   - Contact row right there: email · LinkedIn · GitHub (· a PDF later).
    - Keep the headline "I like building things that keep running." only if it can sit as a
      small, quiet line; otherwise drop it. No accent styling on it.
 3. **Experience** (the spine; reverse-chronological; one employer, so present it as phases):
@@ -78,7 +78,7 @@ experience bullet). Years appear once (in the intro or the experience heading). 
 laptop appears once (in Selected work).
 
 ## C. Project page template
-Title · one line · role, period, work/personal · back to CV
+Title · one line · role, period, work/personal · back to the homepage
 1. **Context**: the problem, 2–4 sentences.
 2. **Overview diagram** (one, animated, the best one).
 3. **2–4 deep-dive sections**, each: a heading in plain words (no slogans), a short paragraph,
@@ -88,7 +88,7 @@ Title · one line · role, period, work/personal · back to CV
 5. **Trade-offs and what I'd change**: at least one honest one per project.
 6. **Lessons / gotchas**: written as symptom → cause → fix.
 7. **Stack**: one plain line.
-8. Next project · Back to CV.
+8. Next project · Back to the homepage.
 
 ## D. Technical corrections (from the SRE review)
 - Observability: "Alerts on what users feel (symptoms and SLOs), each with a runbook that points

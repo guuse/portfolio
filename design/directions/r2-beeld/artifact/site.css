@@ -1,5 +1,5 @@
 /*
- * r2-beeld · round 8: a calm CV + project pages.
+ * r2-beeld · round 8: a calm homepage + project pages.
  * One stylesheet for every page (Nacht palette only). Unlayered on purpose, so a host's
  * reset can't override text colour or font. Diagrams are styled at the end.
  */
@@ -414,7 +414,7 @@ code, pre { font-family: var(--font-mono); font-variant-ligatures: none; }
 .dg__cap { display: block; margin-top: 10px; padding: 0; border: 0; font-family: var(--font-sans); font-size: var(--t-small); color: var(--ink-subtle); }
 .dg-l { font-weight: 500; }
 
-/* CV */
+/* Homepage */
 .intro__role { display: flex; flex-wrap: wrap; gap: 0 0.4em; }
 @media (max-width: 599px) { .intro__role .sep { display: none; } .intro__role > span { flex-basis: 100%; } }
 @media (max-width: 899px) {

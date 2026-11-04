@@ -1,7 +1,8 @@
 # Architecture decisions
 
 Short records of the choices that shape this repo: what was decided, why, and what it costs.
-New ones get the next number; old ones are superseded, not edited.
+New ones get the next number. A record may be corrected to stay true (a fact, a number, a
+link), but a changed decision gets a new ADR that supersedes the old one.
 
 | ADR                                                      | Decision                                                                      |
 | -------------------------------------------------------- | ----------------------------------------------------------------------------- |

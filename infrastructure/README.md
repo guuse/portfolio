@@ -87,51 +87,28 @@ is missing it.
 
 ### The contract for the app
 
-1. Enable CSP in `astro.config.ts`, exactly:
-
-   ```ts
-   security: {
-     csp: {
-       algorithm: 'SHA-256',
-       directives: [
-         "default-src 'none'",
-         "img-src 'self' data:",
-         "font-src 'self'",
-         "connect-src 'self'",
-         "manifest-src 'self'",
-         "base-uri 'none'",
-         "form-action 'none'",
-         "object-src 'none'",
-         "require-trusted-types-for 'script'",
-         "trusted-types 'none'",
-       ],
-     },
-   },
-   ```
-
-2. **No `style="…"` attributes** in rendered HTML, build-time SVG included. Hashes do not cover
-   attributes, so the browser drops them. The mock's `style="--i:3"` stagger indices become
-   `data-i="3"` and the motion module sets `el.style.setProperty('--i', el.dataset.i)`. CSSOM
-   writes from bundled scripts are allowed. Static values like `style="flex: 10"` become classes.
-   Avoid `define:vars`.
+1. Astro's CSP is on (`security.csp` in `astro.config.ts`, with SHA-256 hashes). The
+   directives live there; the Dockerfile fails the build if a page lacks the meta.
+2. **No `style="…"` attributes** in rendered HTML, build-time SVG included. Hashes don't cover
+   attributes, so the browser drops them. Stagger indices are `data-i="3"`, and the motion
+   module sets `--i` through the CSSOM, which bundled scripts may do. Static values are classes.
+   No `define:vars`.
 3. **No HTML from strings.** Trusted Types is enforced, so `innerHTML`, `outerHTML`,
-   `insertAdjacentHTML`, `document.write` and string `setTimeout` throw. Build nodes with
-   `createElement`/`createElementNS`, clone a `<template>`, or render the SVG at build time.
-   The mock's `scenes.js` uses `innerHTML` for packet glyphs; the port can't.
+   `insertAdjacentHTML`, `document.write` and string `setTimeout` throw. Nodes come from
+   `createElement`/`createElementNS`, a cloned `<template>`, or SVG rendered at build time.
 4. Scripts only through Astro `<script>` (bundled and hashed automatically). No inline
    `on*=` handlers, no `javascript:` URLs, no `is:inline` scripts. JSON-LD
    (`type="application/ld+json"`) is data, not script, and is fine.
-5. Everything same-origin: Fontsource fonts, images from `astro:assets` or `public/`. No CDNs,
-   no Google Fonts, no third-party embeds. `data:` is allowed for images only.
-6. Set `markdown.syntaxHighlight` to `'prism'` or `false`. Shiki writes inline styles, and
-   Astro warns about it at build time.
-7. No `<ClientRouter />`, and no Astro `redirects` (do redirects in `nginx.conf`). No raw
-   `.html` files in `public/`: every page must come from Astro so it carries the meta.
-8. Routes: `trailingSlash: 'always'` and `build.format: 'directory'`, which matches nginx's
+5. Everything is same-origin: Fontsource fonts, images from `astro:assets` or `public/`. No
+   CDNs, no Google Fonts, no third-party embeds. `data:` is allowed for images only.
+6. `markdown.syntaxHighlight` is `'prism'` or `false`: Shiki writes inline styles.
+7. No `<ClientRouter />` and no Astro `redirects` (redirects live in `nginx.conf`). No raw
+   `.html` files in `public/`: every page comes from Astro, so it carries the meta.
+8. Routes use `trailingSlash: 'always'` and `build.format: 'directory'`, which matches nginx's
    `/foo` → `/foo/` redirect. The 404 page is `src/pages/404.astro`.
 9. The image runs `npm ci --ignore-scripts` and then `npm run build` from a clean context with
    no `.git`, `design/`, `docs/`, `tests/` or `*.md` (Markdown under `src/` is kept). The build
-   must not depend on install scripts or on files outside that context.
+   doesn't depend on install scripts or on files outside that context.
 
 A CSP violation shows up as a console error, so the e2e "no console errors" check catches
 regressions under `npm run preview`.
@@ -192,7 +169,7 @@ kubectl -n argocd logs deploy/argocd-image-updater-controller | grep portfolio |
 curl -sI https://ekkelenkamp.dev/                    # 200, CSP/HSTS/…, X-Clacks-Overhead
 curl -sI https://www.ekkelenkamp.dev/projects/       # 301 → https://ekkelenkamp.dev/projects/
 curl -sI https://ekkelenkamp.dev/nope/               # 404, same headers
-curl -sI -H 'Accept-Encoding: gzip' https://ekkelenkamp.dev/_astro/<file>.js   # immutable, gzip/br
+curl -sI -H 'Accept-Encoding: gzip' https://ekkelenkamp.dev/_astro/<file>.js   # immutable, gzip
 curl -s  https://ekkelenkamp.dev/coffee              # you'll see
 
 # What is running, and what it was built from:

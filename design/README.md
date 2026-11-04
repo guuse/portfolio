@@ -11,7 +11,7 @@ built, tested or shipped (the container image excludes `design/`).
    (`system/`). *Beeld voorop* (image first) won.
 3. **Rounds 3 to 17** (`directions/r2-beeld/`): that direction, developed further. The
    [`r2-beeld/README.md`](directions/r2-beeld/README.md) logs what changed in every round and
-   why: the Nacht palette, a calm CV instead of card grids, the case studies, the flat
+   why: the Nacht palette, a calm homepage instead of card grids, the case studies, the flat
    technical illustration kit and, from round 16, the scroll scenes.
 4. Copy decks: `BRIEF.md`, then `CONTENT*.md`. `CONTENT-v7.md` §E holds the writing rules the
    site still follows.

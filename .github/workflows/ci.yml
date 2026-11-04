@@ -5,7 +5,6 @@ on:
   push:
     # main is covered by release.yml, which calls this workflow before it builds.
     branches-ignore: [main]
-  # release.yml calls this before it builds the image
   workflow_call:
 
 permissions:
@@ -16,7 +15,7 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 env:
-  # Astro collects no telemetry in CI, and neither does anything else here.
+  # No Astro telemetry from CI.
   ASTRO_TELEMETRY_DISABLED: "1"
 
 jobs:

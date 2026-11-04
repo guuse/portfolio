@@ -1,7 +1,7 @@
 /**
- * Lighthouse CI: every page (the same list as tests/pages.ts), mobile (the default emulation), against `astro preview`.
- * The budget is the one in the plan: 95+ in every category, LCP under 2 s, CLS under
- * 0.05, TBT under 100 ms, and no more than 40 KB of script per page.
+ * Lighthouse CI: every page in tests/pages.ts, with mobile emulation (the default), against
+ * `astro preview`. The budget: 95+ in every category, LCP under 2 s, CLS under 0.05, TBT
+ * under 100 ms, and no more than 40 KB of script per page.
  */
 const pages = [
   "/",

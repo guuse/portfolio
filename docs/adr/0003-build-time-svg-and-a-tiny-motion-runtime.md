@@ -12,15 +12,16 @@ JavaScript, with reduced motion, and for screen readers.
 ## Decision
 
 - **The kit is TypeScript that runs at build time** (`src/lib/art`). Each scene function
-  returns SVG markup drawn in its final state, which is what everyone sees first. The port
-  produces byte-identical markup to the mock for every scene and card.
+  returns SVG markup drawn in its final state, which is what everyone sees first. It started as
+  a port of the mock's drawings and has moved on since; unit tests check that the output is
+  deterministic and never uses style attributes.
 - **Layout constants live in `*.layout.ts` files** that both the drawings and the motion
   import, so a moved part can't leave its animation behind.
 - **The client runtime only animates** (`src/lib/motion`). It finds parts by `data-k` and
   changes transform and opacity, nothing else. Packets are built with `createElementNS`
   (no HTML strings, ADR 0006). Their routes are sampled from each path's `d` by the same
   parser the still frames use (`src/lib/art/geometry.ts`), never with `getPointAtLength()`,
-  which forces layout and cost long tasks on phones.
+  which forces layout and causes long tasks on phones.
 - **One shared `requestAnimationFrame` loop** (`scheduler.ts`). It sleeps when nothing is on
   screen (IntersectionObserver) or the tab is hidden, and caps the time step after a stall.
   Each animator is created the first time its drawing is seen. The runtime is imported only

@@ -17,7 +17,7 @@ push to main → GitHub Actions: ci.yml, then release.yml
              → image ghcr.io/guuse/portfolio:<full commit SHA> (nginx-unprivileged + dist/)
              → Argo CD Image Updater sees it, commits the new tag to infrastructure/
              → Argo CD syncs the Kustomize app to k3s
-             → Traefik → Cloudflare Tunnel → https://ekkelenkamp.dev
+             → https://ekkelenkamp.dev: Cloudflare Tunnel → Traefik → nginx
 ```
 
 - The image is nginx serving the static build, non-root and read-only.
@@ -30,6 +30,6 @@ push to main → GitHub Actions: ci.yml, then release.yml
 
 ## Consequences
 
-- The site's uptime is the homelab's uptime: one node, a laptop on a UPS-sized battery.
+- The site's uptime is the homelab's uptime: one node, a laptop whose battery is its UPS.
   For a personal site, that's an acceptable trade.
 - Content changes take a full build and a sync, a few minutes from merge to live.
