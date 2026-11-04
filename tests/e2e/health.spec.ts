@@ -29,7 +29,23 @@ for (const path of PAGES) {
       `https://ekkelenkamp.dev${path}`,
     );
     const og = await page.locator('meta[property="og:image"]').getAttribute("content");
-    expect((await request.get(new URL(og!).pathname)).status()).toBe(200);
+    const card = await request.get(new URL(og!).pathname);
+    expect(card.status()).toBe(200);
+    // some platforms drop a social card over 300 KB
+    expect((await card.body()).byteLength).toBeLessThanOrEqual(300 * 1024);
+    const alt = await page.locator('meta[property="og:image:alt"]').getAttribute("content");
+    expect(alt?.length).toBeGreaterThan(20);
+    expect(await page.locator('meta[name="twitter:image:alt"]').getAttribute("content")).toBe(alt);
+    const graph = JSON.parse((await page.locator('script[type="application/ld+json"]').textContent())!) as {
+      "@graph": { "@type": string; itemListElement?: { item: string }[] }[];
+    };
+    const types = graph["@graph"].map((n) => n["@type"]);
+    expect(types).toEqual(expect.arrayContaining(["Person", "WebSite"]));
+    if (path.startsWith("/projects/")) {
+      const trail = graph["@graph"].find((n) => n["@type"] === "BreadcrumbList")!.itemListElement!;
+      expect(trail.at(-1)!.item).toBe(`https://ekkelenkamp.dev${path}`);
+    }
+    expect(types.includes("Article")).toBe(path.startsWith("/projects/") && path !== "/projects/");
     expect(await page.locator('meta[http-equiv="content-security-policy"]').count()).toBe(1);
   });
 

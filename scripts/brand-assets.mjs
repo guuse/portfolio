@@ -12,6 +12,7 @@ import { join } from "node:path";
 import { createRequire } from "node:module";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { chromium } from "@playwright/test";
+import sharp from "sharp";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
 const pub = (p) => `${root}public/${p}`;
@@ -24,6 +25,14 @@ const NAVY = "#0a1328",
   MUTED = "#b7c0d4",
   SUBTLE = "#8d98b0",
   AMBER = "#fbc044";
+
+/**
+ * A social card as a palette PNG (libimagequant at full quality): indistinguishable from the
+ * screenshot, and a third of its size, so every card stays under the 300 KB that some
+ * platforms cap og:image at.
+ */
+const ogPng = (png) =>
+  sharp(png).png({ palette: true, quality: 100, effort: 10, compressionLevel: 9 }).toBuffer();
 
 /** The cards: a kicker, a title, a line, and the art that fills the right-hand side. */
 const CARDS = [
@@ -137,7 +146,7 @@ try {
     await writeFile(join(tmp, "card.html"), card(c));
     await page.goto(pathToFileURL(join(tmp, "card.html")).href, { waitUntil: "load" });
     await page.evaluate(() => document.fonts.ready);
-    await page.screenshot({ path: pub(`og/${c.id}.png`) });
+    await writeFile(pub(`og/${c.id}.png`), await ogPng(await page.screenshot()));
   }
   await rm(tmp, { recursive: true });
   console.info(`wrote ${Object.keys(icons).length} icons and ${CARDS.length} social cards`);

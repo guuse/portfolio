@@ -17,6 +17,28 @@ interface Props {
 const { title, description, og, type = "website", canonical: hasCanonical = true } = Astro.props;
 const canonical = new URL(Astro.url.pathname, site.url).href;
 const image = new URL(`/og/${og}.png`, site.url).href;
+/** What each social card shows (scripts/brand-assets.mjs draws them), for og:image:alt. */
+const cardAlt: Record<string, string> = {
+  home: "“I like building things that keep running.” Guus Ekkelenkamp, Rotterdam, beside his portrait.",
+  projects: "Projects: “A platform at work, two things at home.”, beside screenshots of the MTG apps.",
+  "hosting-platform":
+    "Hosting platform, a case study, beside a drawing of a load balancer and three racks of pods.",
+  homelab:
+    "Homelab, a case study, beside a drawing of a commit on its way from the repo to a pod on the laptop.",
+  "mtg-suite": "MTG suite, a case study, beside a drawing of four players around a game table and the stack.",
+  "design-system":
+    "Design system: tokens, type, components and the illustration kit, beside a drawing of server racks.",
+};
+const imageAlt = cardAlt[og] ?? title;
+
+/** The trail to this page, for a BreadcrumbList (only below the homepage). */
+const path = Astro.url.pathname;
+const crumbs = [
+  { name: "Home", url: `${site.url}/` },
+  ...(path.startsWith("/projects/") ? [{ name: "Projects", url: `${site.url}/projects/` }] : []),
+];
+if (path !== "/" && path !== "/projects/") crumbs.push({ name: title.split(" · ")[0]!, url: canonical });
+else if (path === "/projects/") crumbs[1]!.url = canonical;
 
 const person = {
   "@type": "Person",
@@ -29,19 +51,47 @@ const person = {
   address: { "@type": "PostalAddress", addressLocality: site.city, addressCountry: "NL" },
   sameAs: [site.linkedin, site.github],
 };
+const website = {
+  "@type": "WebSite",
+  "@id": `${site.url}/#website`,
+  url: `${site.url}/`,
+  name: site.name,
+  author: { "@id": person["@id"] },
+  inLanguage: "en",
+};
+const breadcrumbs =
+  hasCanonical && crumbs.length > 1
+    ? {
+        "@type": "BreadcrumbList",
+        "@id": `${canonical}#breadcrumbs`,
+        itemListElement: crumbs.map((c, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          name: c.name,
+          item: c.url,
+        })),
+      }
+    : null;
+// a case study is an article about a project, by its author
+const article =
+  hasCanonical && type === "article"
+    ? {
+        "@type": "Article",
+        "@id": `${canonical}#article`,
+        headline: title.split(" · ")[0],
+        description,
+        url: canonical,
+        image,
+        inLanguage: "en",
+        author: { "@id": person["@id"] },
+        publisher: { "@id": person["@id"] },
+        isPartOf: { "@id": website["@id"] },
+        mainEntityOfPage: canonical,
+      }
+    : null;
 const graph = {
   "@context": "https://schema.org",
-  "@graph": [
-    person,
-    {
-      "@type": "WebSite",
-      "@id": `${site.url}/#website`,
-      url: `${site.url}/`,
-      name: site.name,
-      author: { "@id": person["@id"] },
-      inLanguage: "en",
-    },
-  ],
+  "@graph": [person, website, ...(breadcrumbs ? [breadcrumbs] : []), ...(article ? [article] : [])],
 };
 ---
 
@@ -54,10 +104,12 @@ const graph = {
 <meta property="og:image" content={image} />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content={imageAlt} />
 <meta property="og:locale" content="en_GB" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={image} />
+<meta name="twitter:image:alt" content={imageAlt} />
 <meta name="author" content={site.name} />
 <script type="application/ld+json" set:html={JSON.stringify(graph)} />
