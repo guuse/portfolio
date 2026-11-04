@@ -1,6 +1,6 @@
 # ekkelenkamp.dev
 
-The source of my personal site: a static [Astro](https://astro.build) site with hand-drawn SVG
+The source of my personal site: a static [Astro](https://astro.build) site with code-drawn SVG
 scenes, served from my homelab.
 
 ```
