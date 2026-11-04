@@ -21,8 +21,9 @@ push to main → GitHub Actions: ci.yml, then release.yml
 ```
 
 - The image is nginx serving the static build, non-root and read-only.
-- `release.yml` ignores changes under `infrastructure/`, so Image Updater's own commit does
-  not start another build (the loop from the homelab lessons).
+- `release.yml` ignores the manifests in `infrastructure/`, so Image Updater's own commit to
+  `kustomization.yaml` does not start another build (the loop from the homelab lessons). A
+  change to `infrastructure/nginx/` or the `Dockerfile` does, because it changes the image.
 - The site is public through the Cloudflare Tunnel with no Access in front: the one
   deliberate exception among the homelab's apps.
 - The details and the out-of-band steps are in `infrastructure/README.md`.

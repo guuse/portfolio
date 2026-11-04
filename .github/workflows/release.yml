@@ -7,14 +7,20 @@ name: release
 on:
   push:
     branches: [main]
-    # Loop breaker, not an optimisation: Image Updater writes its tag pin back
-    # into infrastructure/ on main. If that commit built a new image, the
-    # updater would see a new tag and write again, forever. Manifests, the
-    # design archive and docs never change what is in the image.
-    paths-ignore:
-      - "infrastructure/**"
-      - "design/**"
-      - "**/*.md"
+    # Everything builds, then the exclusions below; a later pattern wins over an
+    # earlier one. infrastructure/kustomization.yaml is the loop breaker, not an
+    # optimisation: Image Updater writes its tag pin there on main, and if that
+    # commit built a new image, the updater would see a new tag and write again,
+    # forever. The other manifests, the design archive and docs never change
+    # what is in the image. infrastructure/nginx/ and the Dockerfile do, so
+    # they still build.
+    paths:
+      - "**"
+      - "!infrastructure/*.yaml"
+      - "!infrastructure/homeserver/**"
+      - "!infrastructure/README.md"
+      - "!design/**"
+      - "!**/*.md"
   workflow_dispatch:
 
 permissions: {}

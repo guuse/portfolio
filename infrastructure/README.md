@@ -25,13 +25,13 @@ is no inbound port anywhere.
 
 | File                           | What it is                                                                                       |
 | ------------------------------ | ------------------------------------------------------------------------------------------------ |
-| `kustomization.yaml`           | The app. `images:` is written by Image Updater; don't edit the tag by hand.                      |
+| `kustomization.yaml`           | The app. Image Updater writes `images:` (not by hand); `release.yml` ignores it, so no loop.     |
 | `namespace.yaml`               | `portfolio`, enforcing the `restricted` Pod Security level.                                      |
 | `deployment.yaml`              | 2 replicas, uid 101, read-only root, no capabilities, `/tmp` as the only writable mount.         |
 | `service.yaml`, `ingress.yaml` | Traefik routes `ekkelenkamp.dev` and `www.ekkelenkamp.dev`; the default TLSStore holds the cert. |
 | `pdb.yaml`                     | `minAvailable: 1`: voluntary disruptions take one pod at a time.                                 |
 | `networkpolicy.yaml`           | In from Traefik (and cloudflared) only. Out: nothing.                                            |
-| `nginx/`                       | `nginx.conf` plus includes, copied into the image by the root `Dockerfile`.                      |
+| `nginx/`                       | `nginx.conf` plus includes, copied into the image by the `Dockerfile`; a change here ships.      |
 | `homeserver/portfolio.yaml`    | The Argo CD `Application` and `ImageUpdater` that live in the homelab repo.                      |
 
 ## What nginx does
