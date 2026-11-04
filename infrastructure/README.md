@@ -52,7 +52,9 @@ is no inbound port anywhere.
 - Headers on every response, 404s included: the CSP below, HSTS with `preload`, `nosniff`,
   `X-Frame-Options: DENY`, `Referrer-Policy`, `Permissions-Policy`, COOP and CORP
   `same-origin`, and `X-Clacks-Overhead`.
-- The access log has no IP addresses. There is no analytics, so there is nothing to keep them for.
+- No log has IP addresses. The access log leaves them out, and errors while serving a request
+  aren't logged at all, because nginx always writes the client address into those. There is no
+  analytics, so there is nothing to keep them for.
 
 ## CSP
 
