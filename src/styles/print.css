@@ -110,8 +110,9 @@
       gap: 1.5rem;
     }
 
+    /* the prints are a small aside on paper, so About can follow on the first page */
     .stage__prints {
-      width: 260px;
+      width: 160px;
       justify-self: start;
     }
 
@@ -156,10 +157,10 @@
 
     /*
      * Chromium mishandles break-inside: avoid inside grids: a row pushed to the next page can
-     * print over what follows it. These lists have no gaps, so on paper they are plain blocks
-     * and their rows still don't split.
+     * print over what follows it, or leave a heading alone at the foot of a page. These have
+     * no gaps that matter, so on paper they are plain blocks and their rows still don't split.
      */
-    :is(.phases, .deflist, .hood, .lessons) {
+    :is(.phases, .deflist, .hood, .lessons, .about, .likes) {
       display: block !important;
     }
 
@@ -180,7 +181,19 @@
       break-after: avoid;
     }
 
-    :is(figure, .scene-step, .pcard, .cover, .gotcha, .phase, .deflist > div, .lessons li, pre, .ph-hero) {
+    :is(
+      figure,
+      .scene-step,
+      .pcard,
+      .cover,
+      .gotcha,
+      .phase,
+      .deflist > div,
+      .lessons li,
+      .like,
+      pre,
+      .ph-hero
+    ) {
       break-inside: avoid;
     }
 
