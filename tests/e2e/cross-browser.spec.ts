@@ -10,7 +10,9 @@ import { PAGES } from "../pages";
 function collectErrors(page: Page): string[] {
   const errors: string[] = [];
   page.on("console", (m) => {
-    if (m.type() === "error") errors.push(m.text());
+    // the scheduler and the controller report a failed animator as an error; catch a
+    // softer report of one too
+    if (m.type() === "error" || /threw/i.test(m.text())) errors.push(m.text());
   });
   page.on("pageerror", (e) => errors.push(e.message));
   return errors;
@@ -57,6 +59,57 @@ test.describe("scroll scenes, wide", () => {
           .toBeGreaterThan(0);
       }
       await expect(scenes.locator(".scenes__stage > .scene.is-on")).toHaveCount(1);
+      expect(errors).toEqual([]);
+    });
+  }
+});
+
+/**
+ * A reader's way down a case study: in small wheel steps, stopping on every step for a moment
+ * so each scene plays through its whole range, then on to the bottom.
+ */
+async function readDown(page: Page): Promise<void> {
+  await page.mouse.move(400, 300);
+  const steps = await page.locator(".scene-step").count();
+  for (let i = 0; i < steps; i++) {
+    const step = page.locator(".scene-step").nth(i);
+    // wheel until the step's middle has passed the middle of the window
+    for (let n = 0; n < 60; n++) {
+      const box = await step.boundingBox();
+      const vh = page.viewportSize()!.height;
+      if (!box || box.y + box.height * 0.75 < vh * 0.5) break;
+      await page.mouse.wheel(0, 140);
+      await page.waitForTimeout(60);
+    }
+    await page.waitForTimeout(500);
+  }
+  for (let n = 0; n < 200; n++) {
+    const left = await page.evaluate(() => document.documentElement.scrollHeight - innerHeight - scrollY);
+    if (left < 2) break;
+    await page.mouse.wheel(0, 200);
+    await page.waitForTimeout(50);
+  }
+  await page.waitForTimeout(500);
+}
+
+test.describe("reading a case study through", () => {
+  test.use({ viewport: { width: 1440, height: 900 } });
+  test.describe.configure({ timeout: 90_000 });
+
+  for (const path of CASES) {
+    test(`${path}: every scene plays as it's scrolled past, and nothing throws`, async ({ page }) => {
+      const errors = collectErrors(page);
+      await page.goto(path, { waitUntil: "networkidle" });
+      await expect(page.locator(".scenes").first()).toHaveClass(/is-staged/);
+      await readDown(page);
+      // every drawing on a stage has been moved by its animator (a failed one is put back
+      // to its still, without inline styles)
+      const unmoved = await page.evaluate(() =>
+        [...document.querySelectorAll(".scenes__stage > .scene")]
+          .filter((f) => !f.querySelector('.scene-svg [style*="transform"], .scene-svg [style*="opacity"]'))
+          .map((f) => f.querySelector("svg")?.getAttribute("class")),
+      );
+      expect(unmoved).toEqual([]);
       expect(errors).toEqual([]);
     });
   }

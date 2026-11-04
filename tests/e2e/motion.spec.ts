@@ -91,6 +91,92 @@ test("print shows every part of the page, each figure with its step", async ({ p
   await expect(page.locator(".scenes")).toHaveClass(/is-staged/);
 });
 
+/*
+ * WCAG 2.2.2: once the reader stops scrolling, a scroll scene settles within five seconds (no
+ * packets, LEDs or wobbles), the frame loop goes to sleep, and the next scroll wakes it.
+ */
+for (const viewport of [
+  { width: 1440, height: 900 },
+  { width: 390, height: 844 },
+]) {
+  test.describe(`scroll scenes come to rest, ${viewport.width} px`, () => {
+    test.use({ viewport });
+
+    for (const [path, at] of [
+      ["/projects/hosting-platform/", 0.3],
+      ["/projects/homelab/", 0.25],
+      ["/projects/mtg-suite/", 0.3],
+    ] as const) {
+      test(`${path}: still five seconds after the last scroll, moving again on the next`, async ({
+        page,
+      }) => {
+        await page.addInitScript(() => {
+          const raf = window.requestAnimationFrame.bind(window);
+          const w = window as unknown as { frames: number };
+          w.frames = 0;
+          window.requestAnimationFrame = (cb) => {
+            w.frames++;
+            return raf(cb);
+          };
+        });
+        await page.goto(path, { waitUntil: "networkidle" });
+        await page.mouse.move(200, 300);
+        const end = await page.evaluate((at) => document.documentElement.scrollHeight * at, at);
+        while ((await page.evaluate(() => scrollY)) < end) {
+          await page.mouse.wheel(0, 120);
+          await page.waitForTimeout(40);
+        }
+        // count what changes in the drawings from five seconds after the last scroll on
+        await page.evaluate(() => {
+          const w = window as unknown as { svgWrites: number };
+          w.svgWrites = 0;
+          new MutationObserver((list) => {
+            w.svgWrites += list.filter((r) => r.target instanceof SVGElement).length;
+          }).observe(document.body, { subtree: true, attributes: true, childList: true });
+        });
+        const moving = await page.evaluate(
+          () =>
+            new Promise<number>((done) =>
+              setTimeout(() => done((window as unknown as { svgWrites: number }).svgWrites), 500),
+            ),
+        );
+        expect(moving, "the scene moves while the reader scrolls").toBeGreaterThan(0);
+        await page.waitForTimeout(4500);
+        const still = await page.evaluate(
+          () =>
+            new Promise<{ writes: number; frames: number; loops: number }>((done) => {
+              const w = window as unknown as { svgWrites: number; frames: number };
+              w.svgWrites = 0;
+              w.frames = 0;
+              setTimeout(
+                () =>
+                  done({
+                    writes: w.svgWrites,
+                    frames: w.frames,
+                    // an endless CSS animation in a drawing would move without any writes
+                    loops: document
+                      .getAnimations()
+                      .filter(
+                        (a) =>
+                          a.playState === "running" &&
+                          a.effect?.getTiming().iterations === Infinity &&
+                          (a.effect as KeyframeEffect).target instanceof SVGElement,
+                      ).length,
+                  }),
+                2000,
+              );
+            }),
+        );
+        expect(still).toEqual({ writes: 0, frames: 0, loops: 0 });
+        await page.mouse.wheel(0, 60);
+        await expect
+          .poll(() => page.evaluate(() => (window as unknown as { svgWrites: number }).svgWrites))
+          .toBeGreaterThan(0);
+      });
+    }
+  });
+}
+
 test.describe("reduced motion", () => {
   test.use({ reducedMotion: "reduce" });
 
