@@ -1,5 +1,9 @@
 import { devices, expect, test, type Page } from "@playwright/test";
 
+/** Waits until every running animation and transition on the page has finished. */
+const settled = (page: Page) =>
+  page.evaluate(() => Promise.all(document.getAnimations().map((a) => a.finished.catch(() => undefined))));
+
 /* Phone and tablet profiles, minus the browser they'd pick: the suite runs in Chromium. */
 const device = (name: string) =>
   Object.fromEntries(Object.entries(devices[name]!).filter(([key]) => key !== "defaultBrowserType")) as Omit<
@@ -36,8 +40,8 @@ test.describe("hover", () => {
       const loose = (await rules(page)).filter(
         ({ selector, media }) =>
           // :hover inside :not(...) only excludes; the reduced-motion rules only switch motion off
-          /:hover/.test(selector.replace(/:not\([^)]*\)/g, "")) &&
-          !media.some((m) => /hover:\s*hover/.test(m) || /prefers-reduced-motion/.test(m)),
+          selector.replace(/:not\([^)]*\)/g, "").includes(":hover") &&
+          !media.some((m) => /hover:\s*hover/.test(m) || m.includes("prefers-reduced-motion")),
       );
       expect(loose.map((r) => r.selector)).toEqual([]);
     });
@@ -52,7 +56,7 @@ test.describe("hover", () => {
       await expect(print).toHaveClass(/is-settled/, { timeout: 4000 });
       const before = await print.evaluate((el) => getComputedStyle(el).transform);
       await print.tap();
-      await page.waitForTimeout(700);
+      await settled(page);
       expect(await print.evaluate((el) => getComputedStyle(el).transform)).toBe(before);
     });
   });
@@ -71,7 +75,7 @@ test.describe("lightbox on a phone", () => {
       const img = page.locator(".lightbox__img");
       // the full image replaces the thumbnail once it has decoded
       await expect.poll(() => img.evaluate((el: HTMLImageElement) => el.naturalWidth)).toBeGreaterThan(2000);
-      await page.waitForTimeout(400);
+      await settled(page);
       const big = (await img.boundingBox())!;
       const vw = page.viewportSize()!.width;
       expect(big.width).toBeGreaterThan(small.width);
@@ -91,7 +95,8 @@ test.describe("lightbox on a phone", () => {
       const thumb = page.getByRole("link", { name: /^Enlarge: Home after signing in/ });
       await thumb.scrollIntoViewIfNeeded();
       await thumb.tap();
-      await page.waitForTimeout(600);
+      await expect(page.locator("dialog.lightbox")).toBeVisible();
+      await settled(page);
       const img = (await page.locator(".lightbox__img").boundingBox())!;
       const bar = (await page.locator(".lightbox__bar").boundingBox())!;
       const vh = page.viewportSize()!.height;
@@ -141,6 +146,7 @@ test("the shortcuts can be turned off, and it sticks", async ({ page }) => {
   await expect(sheet).toBeHidden();
   await page.keyboard.press("g");
   await page.keyboard.press("p");
+  // a negative check: give a navigation the time it would take to start, then look
   await page.waitForTimeout(300);
   await expect(page).toHaveURL(/\/$/);
   // Alt + ? still opens the sheet, to turn them back on
@@ -178,17 +184,21 @@ test.describe("live drawings", () => {
     await page.goto("/");
     await page.evaluate(() => document.getElementById("projects")!.scrollIntoView({ behavior: "instant" }));
     expect(await changes(page, 1500)).toBeGreaterThan(0);
-    // the runtime starts once the page is idle; give it that, then five seconds of play
-    await page.waitForTimeout(4800);
-    expect(await changes(page, 1000)).toBe(0);
+    // the runtime starts once the page is idle, then plays about five seconds and rests
+    const start = Date.now();
+    await expect.poll(() => changes(page, 1000), { timeout: 10_000, intervals: [0] }).toBe(0);
+    expect(Date.now() - start).toBeLessThan(8000);
     await page.locator(".cover__link").first().hover();
     expect(await changes(page, 800)).toBeGreaterThan(0);
   });
 
   test("the case-study hero rests too", async ({ page }) => {
     await page.goto("/projects/mtg-suite/");
-    await page.waitForTimeout(6300);
-    expect(await changes(page, 1000)).toBe(0);
+    const start = Date.now();
+    // it moves first (the runtime starts once the page is idle), then rests
+    await expect.poll(() => changes(page, 500), { timeout: 6000, intervals: [0] }).toBeGreaterThan(0);
+    await expect.poll(() => changes(page, 1000), { timeout: 10_000, intervals: [0] }).toBe(0);
+    expect(Date.now() - start).toBeLessThan(9000);
   });
 
   test("the 404 pod gives up after two tries", async ({ page }) => {
