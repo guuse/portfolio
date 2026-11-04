@@ -8,9 +8,5 @@
 - id: ux-testing
   order: 2
   title: ux-testing skill
-  line: A Claude Code skill that clicks through every flow of a web app in a real browser, tries to break it, then fixes what it finds and tests it again.
+  line: A Claude Code skill that tests every flow of a web app in a real browser, fixes the bugs it finds and tests again.
   href: https://github.com/guuse/claude-marketplace
-- id: scouting
-  order: 3
-  title: Scouting agents
-  line: Claude routines that watch Marktplaats, Vinted and Funda for things I’m after and mail me what’s worth a look.

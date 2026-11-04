@@ -5,28 +5,28 @@
   order: 1
   title: Hosting platform
   meta: Work · 2022 to now
-  card: "The platform our client projects run on: AWS first, and the same setup on Azure for clients who are there."
-  line: "The platform our client projects run on: AWS first, and the same setup on Azure for clients who are there."
-  why: Every client project used to get its own hand-built setup, so every upgrade and every incident was a one-off. I started one standard platform that every client runs on, built from the same modules, on AWS or Azure. It’s the multi-year project I’ve learned the most from.
+  card: The Kubernetes platform that runs our client projects on AWS and Azure.
+  line: The Kubernetes platform that runs our client projects on AWS and Azure.
+  why: Every client project used to have its own setup, so every upgrade was a separate job. I started one platform built from the same modules, and it now hosts more than 300 clients with over 800 deployments.
   facts:
     - EKS on a dual-stack VPC, in production across three availability zones
-    - A second region in Tokyo, with CloudFront routing by path
+    - A second region in Tokyo, for lower latency to customers in Asia
     - 8 Kubernetes clusters, the largest with more than 1,500 pods
-    - "Delivered as code: Pulumi for infrastructure, Argo CD for apps"
-  stack: AWS (EKS, Aurora, Redis, OpenSearch, CloudFront), Azure (AKS), Karpenter, cert-manager, Velero, Pulumi, Terraform, Argo CD
+    - Terraform and OpenTofu modules, with new infrastructure moving to Pulumi
+  stack: AWS (EKS, Aurora, Redis, OpenSearch, CloudFront), Azure (AKS), Karpenter, cert-manager, Velero, Terraform, OpenTofu, Pulumi, Argo CD
   published: "2026-11-03"
   updated: "2026-11-04"
 - id: homelab
   order: 2
   title: Homelab
   meta: Personal · 2026
-  card: The patterns I use at work, on one old laptop under the TV.
-  line: The patterns I use at work, on one old laptop under the TV.
-  why: "I like tinkering, and I wanted somewhere to try things before I suggest them at work. So an old laptop runs the same git-driven delivery we use for clients: I push, and a few minutes later the new version is running. It also hosts my side projects, including the MTG tools."
+  card: k3s and Argo CD on an old laptop at home, deployed the way we deploy at work.
+  line: k3s and Argo CD on an old laptop at home, deployed the way we deploy at work.
+  why: I wanted a place to try things before I suggest them at work. It also runs my side projects, including the MTG tools.
   facts:
     - From git push to running with no manual step, through Argo CD Image Updater
     - 15 apps, all managed from one repo
-    - Private over Tailscale by default; public only per app, on purpose
+    - Private over Tailscale; a few apps are public through a Cloudflare Tunnel
     - Proxmox on 16 GB, with Home Assistant in its own VM
   stack: Proxmox, k3s, Argo CD, GitHub Actions, GHCR, Traefik, cert-manager, Tailscale, Cloudflare, Home Assistant
   published: "2026-11-03"
@@ -35,9 +35,9 @@
   order: 3
   title: MTG suite
   meta: Personal · 2026
-  card: The Magic tools I build for my friends.
-  line: The Magic tools I build for my friends, so we can learn the game together and play it from home.
-  why: My friends and I play Commander, and we wanted an easier way to learn it and to play on the evenings we can’t meet up. So I built us a table in the browser, with a place for our decks next to it. The people using it are people I know, which keeps the feedback quick and honest, and that’s the best part.
+  card: A Commander table in the browser and a deck library, for my friends and me.
+  line: Tools my friends and I use to learn Commander, keep our decks and play online when we can’t meet up.
+  why: My friends and I play Commander, so I built us a table in the browser and a deck library to go with it.
   facts:
     - "Rules of 99: Commander in the browser for two to four players"
     - "Tutor: our deck library, with shared playgroup collections"
