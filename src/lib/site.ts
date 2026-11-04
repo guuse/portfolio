@@ -14,6 +14,7 @@ export const site = {
 /**
  * The address as markup with a break opportunity before the @, so that if it ever has to wrap
  * it wraps there and never inside a word. Rendered with set:html (static, at build time).
+ * The <wbr> splits the link's accessible name, so its links take `aria-label={site.email}`.
  */
 export const emailHtml = site.email.replace("@", "<wbr>@");
 

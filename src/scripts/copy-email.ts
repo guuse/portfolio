@@ -19,7 +19,7 @@ const touch = (): boolean => matchMedia("(pointer: coarse)").matches;
 export function initCopyEmail(): void {
   for (const btn of document.querySelectorAll<HTMLButtonElement>("[data-copy-target]")) {
     const target = document.getElementById(btn.dataset["copyTarget"] ?? "");
-    const status = document.getElementById(btn.getAttribute("aria-describedby") ?? "");
+    const status = document.getElementById(btn.dataset["copyStatus"] ?? "");
     if (!target) continue;
     // it ships hidden (CopyButton.astro): a button only once it can do something
     btn.hidden = false;

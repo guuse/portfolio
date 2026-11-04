@@ -2,7 +2,8 @@
 /**
  * Copies the text of another element (`target` is its id). Every label it can show sits in
  * the same grid cell, so the button keeps one width whatever it says; the full sentence goes
- * to screen readers through a polite live region. Behaviour: src/scripts/copy-email.ts.
+ * to screen readers through a polite live region, which alone announces it (the button isn't
+ * described by it as well, or the sentence would be read twice). Behaviour: src/scripts/copy-email.ts.
  * It ships `hidden` and the script reveals it, so without JavaScript there is no button that
  * does nothing; where scripts run, its space is kept from the start, so nothing shifts.
  */
@@ -14,7 +15,7 @@ const { target, label } = Astro.props;
 const status = `${target}-status`;
 ---
 
-<button type="button" class="copy" data-copy-target={target} aria-describedby={status} hidden>
+<button type="button" class="copy" data-copy-target={target} data-copy-status={status} hidden>
   <span class="copy__icons" aria-hidden="true">
     <svg
       class="copy__icon"
