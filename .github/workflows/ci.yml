@@ -43,6 +43,14 @@ jobs:
     name: Build, e2e, a11y and Lighthouse
     runs-on: ubuntu-24.04
     timeout-minutes: 20
+    # Playwright's own image has the three browsers and their system libraries, so no step
+    # downloads them (the runner's apt mirror once took over 8 minutes for those libraries).
+    # Keep its version equal to @playwright/test; the first step below checks that.
+    container:
+      image: mcr.microsoft.com/playwright:v1.64.1-noble@sha256:2f05f8a734509a7b3f26a912639488ee08f58a7b292d14d62271bcff9038768f
+      # Firefox refuses to start when HOME belongs to another user
+      env:
+        HOME: /root
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -53,24 +61,11 @@ jobs:
           cache: npm
       - run: npm ci --ignore-scripts
       - run: npm run build
-      # the browsers are cached per Playwright version; on a hit only the system libraries are
-      # installed. A hung download fails after 8 minutes and is tried once more.
-      - name: Playwright version
-        id: pw
-        run: echo "version=$(node -p "require('@playwright/test/package.json').version")" >> "$GITHUB_OUTPUT"
-      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        id: pw-cache
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ steps.pw.outputs.version }}
-      - name: Install the browsers for Playwright
-        if: steps.pw-cache.outputs.cache-hit != 'true'
-        timeout-minutes: 8
-        run: npx playwright install --with-deps chromium firefox webkit || npx playwright install --with-deps chromium firefox webkit
-      - name: Install the browsers' system libraries
-        if: steps.pw-cache.outputs.cache-hit == 'true'
-        timeout-minutes: 8
-        run: npx playwright install-deps chromium firefox webkit
+      - name: The image has the browsers this @playwright/test expects
+        run: >-
+          node -e "const pw = require('@playwright/test'); const fs = require('fs');
+          for (const b of [pw.chromium, pw.firefox, pw.webkit]) fs.accessSync(b.executablePath())"
+          || { echo "::error::Set the Playwright image in ci.yml to this @playwright/test version"; exit 1; }
       - run: npm run test:e2e
         env:
           CI: "1"
@@ -78,7 +73,7 @@ jobs:
         env:
           CI: "1"
       - name: Lighthouse (budget in lighthouserc.cjs)
-        # on Playwright's Chromium, which the step above installed
+        # on Playwright's Chromium from the image
         run: |
           CHROME_PATH="$(node -p "require('@playwright/test').chromium.executablePath()")"
           export CHROME_PATH
