@@ -17,4 +17,4 @@ resources:
 images:
   - name: ghcr.io/guuse/portfolio
     newName: ghcr.io/guuse/portfolio
-    newTag: 4cce7241559baa056b2a8d4a285903ed065ffcb7
+    newTag: edcb75302d77f0d727722697ebcdf606d2ef161a
